@@ -1,6 +1,6 @@
 # swe-study-guide
 
-![CI](https://github.com/alex3m6/swe-study-guide/workflows/CI/badge.svg)
+![CI](https://img.shields.io/github/actions/workflow/status/alex3m6/swe-study-guide/ci.yml?branch=main&label=CI)
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
 ![Coverage](https://img.shields.io/badge/coverage-95%25-green.svg)
 
@@ -8,9 +8,10 @@ A study guide for software engineering technologies and skills
 
 ## Features
 
-- Feature 1: Description
-- Feature 2: Description
-- Feature 3: Description
+- **Technology-organized content** — study notes for FastAPI, Java, and Postgres, each broken into focused topics
+- **Concepts + notes per topic** — every topic has a `concepts.md` reference and a personal `notes.md` scratchpad
+- **Local study site** — `python serve.py` scans `content/` and serves an interactive frontend at `localhost:8080`
+- **Coverage-gated CI** — lint, type check, 95% coverage requirement, and security scanning on every push
 
 ## Quick Start
 
@@ -150,8 +151,3 @@ See [docs/CI.md](docs/CI.md) for details.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## Acknowledgments
-
-- [Acknowledgment 1]
-- [Acknowledgment 2]
