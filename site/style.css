@@ -581,10 +581,23 @@ body {
   border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 0.87rem;
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), background var(--transition);
+  user-select: none;
 }
 
 .concept-item:hover { border-color: var(--accent); }
+
+.concept-item.clickable { cursor: pointer; }
+
+.concept-item.active {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.concept-title {
+  font-weight: 500;
+  color: var(--text);
+}
 
 .concept-dot {
   width: 6px;
@@ -593,6 +606,54 @@ body {
   background: var(--accent);
   flex-shrink: 0;
 }
+
+/* ── Concept Detail Panel ────────────────────────────── */
+
+.concept-detail {
+  position: relative;
+  margin-top: 20px;
+  padding: 20px 24px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.concept-detail-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.concept-detail-close:hover {
+  background: var(--border-light);
+  color: var(--text);
+}
+
+.concept-detail-title {
+  margin: 0 32px 12px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.concept-detail-body { font-size: 0.95rem; }
+
+.concept-detail-body :first-child { margin-top: 0; }
+.concept-detail-body :last-child { margin-bottom: 0; }
 
 /* ── Slide Gallery ───────────────────────────────────── */
 

@@ -282,11 +282,59 @@
       const md = await fetchText(`${base}/concepts.md`);
       const concepts = parseConcepts(md);
       if (concepts.length) {
-        container.innerHTML = `<div class="concept-list">${concepts.map((c) => `<div class="concept-item"><span class="concept-dot"></span>${esc(c)}</div>`).join("")}</div>`;
+        renderConcepts(container, concepts);
       } else {
         container.innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
       }
     }
+  }
+
+  function renderConcepts(container, concepts) {
+    const cards = concepts.map((c, i) => {
+      const clickable = c.body ? "clickable" : "";
+      return `<div class="concept-item ${clickable}" data-idx="${i}"><span class="concept-dot"></span><span class="concept-title">${esc(c.title)}</span></div>`;
+    }).join("");
+    container.innerHTML = `
+      <div class="concept-list">${cards}</div>
+      <div class="concept-detail" id="concept-detail" style="display:none">
+        <button class="concept-detail-close" id="concept-detail-close" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <h3 class="concept-detail-title" id="concept-detail-title"></h3>
+        <div class="concept-detail-body markdown-body" id="concept-detail-body"></div>
+      </div>
+    `;
+
+    const detail = container.querySelector("#concept-detail");
+    const detailTitle = container.querySelector("#concept-detail-title");
+    const detailBody = container.querySelector("#concept-detail-body");
+    const closeBtn = container.querySelector("#concept-detail-close");
+
+    function showDetail(i) {
+      const c = concepts[i];
+      if (!c || !c.body) return;
+      detailTitle.textContent = c.title;
+      detailBody.innerHTML = renderMarkdown(c.body);
+      detail.style.display = "";
+      container.querySelectorAll(".concept-item").forEach((el, idx) => {
+        el.classList.toggle("active", idx === i);
+      });
+      detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function hideDetail() {
+      detail.style.display = "none";
+      container.querySelectorAll(".concept-item.active").forEach((el) => el.classList.remove("active"));
+    }
+
+    container.querySelectorAll(".concept-item.clickable").forEach((el) => {
+      el.addEventListener("click", () => {
+        const i = parseInt(el.dataset.idx, 10);
+        if (el.classList.contains("active")) hideDetail();
+        else showDetail(i);
+      });
+    });
+    closeBtn.addEventListener("click", hideDetail);
   }
 
   // ── Search ─────────────────────────────────────────
@@ -352,12 +400,32 @@
   }
 
   function parseConcepts(md) {
+    if (!md) return [];
+    const headingRe = /^##\s+(.+?)\s*$/m;
+    if (headingRe.test(md)) {
+      // New format: H2 title + body until next H2.
+      const lines = md.split("\n");
+      const concepts = [];
+      let current = null;
+      for (const line of lines) {
+        const m = line.match(/^##\s+(.+?)\s*$/);
+        if (m) {
+          if (current) concepts.push(current);
+          current = { title: m[1].trim(), body: "" };
+        } else if (current) {
+          current.body += line + "\n";
+        }
+      }
+      if (current) concepts.push(current);
+      return concepts.map((c) => ({ title: c.title, body: c.body.trim() }));
+    }
+    // Legacy format: bullet list, title-only.
     return md
       .split("\n")
       .map((l) => l.trim())
       .filter((l) => l.startsWith("- "))
-      .map((l) => l.slice(2).trim())
-      .filter(Boolean);
+      .map((l) => ({ title: l.slice(2).trim(), body: "" }))
+      .filter((c) => c.title);
   }
 
   function esc(s) {
