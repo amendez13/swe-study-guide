@@ -10,10 +10,8 @@ Usage:
 
 import argparse
 import json
-import os
 import re
-import sys
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -58,9 +56,7 @@ def build_content_index() -> dict:
                 notes_file = "notes.md"
             else:
                 md_files = [
-                    f.name
-                    for f in topic_dir.iterdir()
-                    if f.is_file() and f.suffix == ".md" and f.name not in ("concepts.md",)
+                    f.name for f in topic_dir.iterdir() if f.is_file() and f.suffix == ".md" and f.name not in ("concepts.md",)
                 ]
                 notes_file = md_files[0] if md_files else None
 
@@ -106,7 +102,7 @@ class StudyHandler(SimpleHTTPRequestHandler):
             return
 
         if path.startswith("/content/"):
-            rel = path[len("/content/"):]
+            rel = path[len("/content/") :]
             file_path = CONTENT_DIR / rel
             if file_path.is_file():
                 self.send_response(200)
@@ -164,8 +160,9 @@ def main():
     def handler_factory(*args, **kwargs):
         return StudyHandler(*args, content_index=index, **kwargs)
 
-    server = HTTPServer(("127.0.0.1", args.port), handler_factory)
-    print(f"\n  SWE Study Guide")
+    server = ThreadingHTTPServer(("127.0.0.1", args.port), handler_factory)
+    server.daemon_threads = True
+    print("\n  SWE Study Guide")
     print(f"  http://localhost:{args.port}\n")
     try:
         server.serve_forever()

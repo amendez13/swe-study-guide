@@ -14,5 +14,7 @@ ignore =
     W503,
     # Allow line breaks after binary operators
     W504,
+    # Whitespace before ':' — conflicts with Black's slice formatting
+    E203,
 per-file-ignores =
     __init__.py:F401
