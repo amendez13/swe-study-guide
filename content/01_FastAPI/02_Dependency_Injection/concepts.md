@@ -1,0 +1,4 @@
+- Depends() wires a callable into the route's execution context
+- yield-based dependencies handle resource cleanup automatically
+- Dependencies are cached per request by default
+- Class-based dependencies can hold shared configuration state

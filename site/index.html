@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWE Study Guide</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+        <span>SWE Study Guide</span>
+      </div>
+    </div>
+    <div class="sidebar-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="search-input" placeholder="Search technologies and topics...">
+    </div>
+    <nav id="chapter-nav"></nav>
+  </aside>
+
+  <main id="main">
+    <div id="welcome" class="welcome-screen">
+      <div class="welcome-content">
+        <div class="welcome-icon">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <h1>SWE Study Guide</h1>
+        <p class="welcome-subtitle">Skill &amp; Technology Reference</p>
+        <div id="stats" class="stats-grid"></div>
+        <p class="welcome-hint">Select a technology from the sidebar to begin studying</p>
+      </div>
+    </div>
+
+    <div id="content" class="content-view" style="display:none">
+      <div class="content-header">
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <h1 id="content-title"></h1>
+      </div>
+
+      <div id="chapter-overview" style="display:none">
+        <div class="chapter-meta" id="chapter-meta"></div>
+        <div class="lesson-grid" id="lesson-grid"></div>
+      </div>
+
+      <div id="lesson-detail" style="display:none">
+        <div class="tab-bar" id="tab-bar"></div>
+        <div class="tab-content" id="tab-content"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="lightbox" class="lightbox" style="display:none">
+    <button class="lightbox-close" id="lightbox-close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="lightbox-nav lightbox-next" id="lightbox-next">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

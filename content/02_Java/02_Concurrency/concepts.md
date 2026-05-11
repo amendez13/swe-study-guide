@@ -1,0 +1,4 @@
+- ExecutorService decouples task submission from thread management
+- synchronized is reentrant by the same thread; ReentrantLock adds tryLock and timed waits
+- volatile prevents caching but does not make compound operations atomic
+- CompletableFuture enables non-blocking async pipelines without manual thread management

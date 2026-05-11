@@ -1,0 +1,4 @@
+- ArrayList provides O(1) random access; LinkedList provides O(1) head/tail insertion
+- HashMap offers O(1) average get/put; collisions degrade to O(n) without good hashing
+- TreeMap guarantees O(log n) operations and sorted key iteration
+- Prefer interface types (List, Map) in declarations to keep implementations swappable
