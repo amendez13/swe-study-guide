@@ -43,12 +43,12 @@ jobs:
     name: Deploy Release
     if: >-
       github.event_name != 'release' ||
-      !contains(github.event.release.body || '', '<!-- {{PROJECT_NAME}}-release-origin: workflow_dispatch -->')
+      !contains(github.event.release.body || '', '<!-- swe-study-guide-release-origin: workflow_dispatch -->')
     runs-on:
       - self-hosted
       - linux
     env:
-      WORKFLOW_DISPATCH_MARKER: "<!-- {{PROJECT_NAME}}-release-origin: workflow_dispatch -->"
+      WORKFLOW_DISPATCH_MARKER: "<!-- swe-study-guide-release-origin: workflow_dispatch -->"
       DEPLOYMENT_STATUS_START: "<!-- deployment-status:start -->"
       DEPLOYMENT_STATUS_END: "<!-- deployment-status:end -->"
     steps:

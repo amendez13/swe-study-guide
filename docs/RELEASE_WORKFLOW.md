@@ -39,7 +39,7 @@ Publishing a GitHub Release also triggers the workflow. In this path:
 Manual workflow runs can create or update a GitHub Release. To avoid double deployment, the release body includes this marker:
 
 ```html
-<!-- {{PROJECT_NAME}}-release-origin: workflow_dispatch -->
+<!-- swe-study-guide-release-origin: workflow_dispatch -->
 ```
 
 When the later `release: published` event sees that marker, the workflow exits without running the deploy a second time.
