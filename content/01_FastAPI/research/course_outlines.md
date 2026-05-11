@@ -14,21 +14,127 @@ Five highly rated FastAPI courses with full curriculum breakdowns.
 
 ### Curriculum
 
-- **Python Refresher** — string formatting, lists, tuples, sets, functions, imports, OOP
-- **Project 1** — first FastAPI app, HTTP request methods, path and query parameters
-- **Project 2** — CRUD operations, Pydantic schema validation, status codes, Swagger docs
-- **Project 3** — SQLAlchemy ORM, database setup, table models
-- **Project 3.5** — extended database work, table relationships, foreign keys
-- **Project 4: TodoApp** — full CRUD REST API with SQLite, modular routers, bcrypt password hashing
-- **Project 5** — authentication and authorization, OAuth2, JWT token creation and verification, production-ready PostgreSQL, full-stack frontend integration, deployment
+#### Introduction
+- Course overview and content map
 
-### Key Topics
+#### Python & IDE Installation
+- Installing Python (verifying version with `python --version`)
+- Python Integrated Development Environments — what IDEs are and why developers use them
+- Setting up a Python IDE (PyCharm / VS Code)
 
-- Modern authentication (OAuth2 + JWT + bcrypt)
-- SQLAlchemy ORM with SQLite and PostgreSQL
-- API Router for modular code organization
-- Full-stack application with HTML/JS frontend
-- Production deployment
+#### Python Virtual Environments
+- What is a virtual environment (isolated dependency spaces per project)
+- pip — installing and updating packages
+- Creating and activating a virtual environment, installing FastAPI
+
+#### FastAPI Overview
+- What is FastAPI? — Python web framework, fast performance + fast development, few bugs, standards-based
+- Where FastAPI fits in application architecture (web page ↔ FastAPI server, handles business logic)
+- Who uses FastAPI? (Netflix, Uber, Microsoft)
+- Why use a web framework vs writing everything yourself
+
+#### Swagger, OpenAPI, Request Methods & Status Codes
+- OpenAPI Specification (OAS) — defines schema, data format, data type, path, object
+- Swagger UI at `/docs`, OpenAPI JSON at `/openapi.json`
+- HTTP request methods: GET (read), POST (create), PUT (update entire), PATCH (update part), DELETE, TRACE, OPTIONS, CONNECT
+- HTTP status codes: 1xx informational, 2xx success, 3xx redirect, 4xx client error, 5xx server error
+
+#### Project 1 - FastAPI Request Method Logic (Books Project)
+*Build a Books API using in-memory data (dicts with title, author, category) and raw CRUD without Pydantic*
+
+- Books project overview — CRUD operations on an in-memory BOOKS list
+- Request and response flow (web page → HTTP method → FastAPI server → response)
+- **GET HTTP Request Method**
+  - Creating a FastAPI application (`books.py`, `app = FastAPI()`, `@app.get()`)
+  - Running the app with uvicorn (`uvicorn books:app --reload`)
+  - Returning all books from `/books`
+- **Path Parameters**
+  - What are path parameters (request params embedded in the URL)
+  - Dynamic path parameters (`/books/{book_title}`)
+  - Order matters — static routes must be declared before dynamic routes
+  - Case-insensitive matching with `.casefold()`
+- **Query Parameters**
+  - What are query parameters (name=value pairs after `?`)
+  - Filtering books by category (`/books/?category=math`)
+  - Combining path + query parameters (`/books/{book_author}/?category=science`)
+- **POST HTTP Request Method**
+  - What POST is (creates data, can carry a body unlike GET)
+  - Creating a book with `@app.post()` and `Body()`
+- **PUT HTTP Request Method**
+  - What PUT is (updates entire resource, carries a body like POST)
+  - Updating a book by matching title
+- **DELETE HTTP Request Method**
+  - What DELETE is (removes a resource)
+  - Deleting a book by path parameter title
+
+#### Project 2 - Move Fast with FastAPI (Books 2 Project)
+*Rebuild the Books API using Pydantic models, adding data validation, exception handling, and status codes*
+
+- Project 2 overview — new topics: Pydantic data validation, exception handling, status codes, Swagger configuration, Python request objects
+- Creating a typed `Book` class (id, title, author, description, rating)
+- **Pydantic**
+  - What is Pydantic (data modeling, data parsing, efficient error handling)
+  - Creating a `BookRequest(BaseModel)` with `Field` validators (`min_length`, `max_length`, `gt`, `lt`)
+- GET all books, GET book by rating
+- POST to create a book (Pydantic-validated request body)
+- PUT to update a book
+- DELETE to remove a book
+- Field data validation for path and query parameters
+- Status codes overview and explicit status code responses
+- HTTP exceptions (`HTTPException`, 404 not found)
+- Swagger UI configuration (title, description, version)
+
+#### Project 3 - Complete RESTful APIs (TodoApp)
+*Build a production-grade Todo REST API backed by SQLite using SQLAlchemy ORM*
+
+- Project overview — full CRUD Todo application with a real database
+- Setting up SQLite database and SQLAlchemy
+- Creating database models and tables
+- CRUD operations via ORM (create, read, update, delete todos)
+- Dependency injection for database sessions
+- API Router — splitting routes across multiple files
+
+#### Setup Database, Authentication & Authorization
+- User registration and login endpoints
+- Password hashing with bcrypt
+- JWT token creation and verification
+- OAuth2 password bearer flow
+- Protecting routes — verifying logged-in user
+- User and Todo relationships (foreign keys)
+
+#### Large Production Database Setup
+- Switching from SQLite to PostgreSQL
+- MySQL database configuration
+- Environment variables for database URLs
+
+#### Project 3.5 - Alembic Data Migration
+- What is Alembic and why use it
+- Alembic setup and configuration
+- Creating and running migration revisions
+- Schema change management
+
+#### Project 4 - Unit & Integration Testing
+- Introduction to testing with pytest
+- Writing unit tests for FastAPI endpoints
+- FastAPI TestClient setup
+- Integration tests with a test database
+- Testing authentication and protected routes
+
+#### Project 5 - Full Stack Application
+- Full-stack architecture (FastAPI backend + HTML/CSS/JS frontend)
+- Jinja2 templates and static file serving
+- API Router organization for full-stack app
+- Frontend pages consuming the FastAPI backend
+
+#### Git - Version Control
+- Git fundamentals for the project
+- Branching and commits
+
+#### Deploying FastAPI Applications
+- Deployment options overview
+- Deploying to a cloud platform (Render / Heroku)
+- Production database hosting
+- Environment configuration for production
 
 ---
 
