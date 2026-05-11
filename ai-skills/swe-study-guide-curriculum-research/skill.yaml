@@ -1,0 +1,7 @@
+name: "swe-study-guide-curriculum-research"
+description: "Use when researching how to study a technology in this study guide: survey highly rated courses, capture lecture-level outlines into a research file, then distill a domain-relevant concept list a student should master."
+codex:
+  interface:
+    display_name: "swe-study-guide Curriculum Research"
+    short_description: Survey courses and distill study concepts for a technology
+    default_prompt: Use $swe-study-guide-curriculum-research to research courses and distill concepts for a swe-study-guide technology.
