@@ -96,6 +96,11 @@ Welcome to the swe-study-guide documentation. This index provides easy access to
 - Local deploy workflow for Claude and Codex skill output
 - Troubleshooting rendered skill output
 
+**[CONTENT_AUTHORING.md](CONTENT_AUTHORING.md)**
+- Study-content directory layout under `content/`
+- `concepts.md` structured (H2 + body) and legacy (bullet) formats
+- `notes.md` convention and quality bar for new topics
+
 **[CI.md](CI.md)**
 - Continuous Integration (CI) pipeline documentation
 - GitHub Actions workflow details
@@ -178,6 +183,7 @@ Welcome to the swe-study-guide documentation. This index provides easy access to
 | [README.md](../README.md) | Getting started, installation, usage | All users |
 | [SETUP.md](SETUP.md) | Environment configuration | All users |
 | [AI_SKILLS.md](AI_SKILLS.md) | AI skill source, deploy, and starter-skill guide | Developers |
+| [CONTENT_AUTHORING.md](CONTENT_AUTHORING.md) | Study-content layout and the `concepts.md` / `notes.md` formats | Content authors |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Technical architecture and design | Developers |
 | [CI.md](CI.md) | CI/CD pipeline and development workflow | Developers |
 | [SECURITY_BASELINE.md](SECURITY_BASELINE.md) | Secret scanning baseline and GitHub security setup | Developers, operators |

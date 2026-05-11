@@ -1,0 +1,7 @@
+name: "swe-study-guide-topic-authoring"
+description: "Use when populating a swe-study-guide topic chapter under content/<NN>_<Technology>/<NN>_<Topic_Name>/ with concepts.md and notes.md derived from the technology's research/concepts.md."
+codex:
+  interface:
+    display_name: "swe-study-guide Topic Authoring"
+    short_description: Populate a topic chapter with concepts and notes
+    default_prompt: Use $swe-study-guide-topic-authoring to populate a swe-study-guide topic chapter from a section of the technology's research concepts.
