@@ -1,0 +1,8 @@
+- FastAPI runs on ASGI, not WSGI, which is what enables async request handling
+- The `FastAPI()` instance holds the route table, middleware stack, and OpenAPI metadata
+- Uvicorn is the ASGI server that runs the app (Hypercorn is an alternative)
+- FastAPI extends Starlette for HTTP, middleware, and websocket primitives
+- Pydantic models are the data contract for requests and responses, not optional infrastructure
+- The OpenAPI schema is auto-generated from routes, parameters, and Pydantic models
+- Interactive docs are served free at `/docs` (Swagger UI) and `/redoc` (ReDoc)
+- Python type hints drive validation, serialization, and documentation in a single declaration
