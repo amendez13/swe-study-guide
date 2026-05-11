@@ -1,6 +1,6 @@
 # Architecture Documentation
 
-This document describes the technical architecture of {{PROJECT_NAME}}.
+This document describes the technical architecture of swe-study-guide.
 
 ## Overview
 
@@ -51,7 +51,7 @@ flowchart LR
 - Responsibility 2
 
 **Key Files**:
-- `{{SOURCE_DIR}}/component_a.py`
+- `src/component_a.py`
 
 ### Component B
 
@@ -62,7 +62,7 @@ flowchart LR
 - Responsibility 2
 
 **Key Files**:
-- `{{SOURCE_DIR}}/component_b.py`
+- `src/component_b.py`
 
 ## Data Flow
 

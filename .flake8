@@ -1,5 +1,4 @@
 [flake8]
-# TEMPLATE_VAR:MAX_LINE_LENGTH
 max-line-length = 127
 exclude =
     .git,
@@ -9,7 +8,6 @@ exclude =
     build,
     dist,
     *.egg-info
-# TEMPLATE_VAR:MAX_COMPLEXITY
 max-complexity = 10
 ignore =
     # Allow line breaks before binary operators (PEP 8 updated)

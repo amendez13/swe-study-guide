@@ -1,4 +1,4 @@
-"""Main entry point for {{PROJECT_NAME}}."""
+"""Main entry point for swe-study-guide."""
 
 from __future__ import annotations
 

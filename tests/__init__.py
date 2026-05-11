@@ -1,1 +1,1 @@
-"""Test suite for {{PROJECT_NAME}}."""
+"""Test suite for swe-study-guide."""

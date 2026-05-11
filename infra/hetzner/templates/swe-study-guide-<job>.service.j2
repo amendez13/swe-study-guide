@@ -1,0 +1,17 @@
+[Unit]
+Description=swe-study-guide <job> service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=swe-study-guide
+Group=swe-study-guide
+WorkingDirectory=/opt/swe-study-guide
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/swe-study-guide/venv/bin/python -m src.main
+TimeoutStopSec=300
+SyslogIdentifier=swe-study-guide
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,6 @@
-# {{PROJECT_NAME}} Feature Delivery
+# swe-study-guide Feature Delivery
 
-Use this skill for issue-driven implementation work in {{PROJECT_NAME}} when the task is to deliver one or several GitHub issues end to end.
+Use this skill for issue-driven implementation work in swe-study-guide when the task is to deliver one or several GitHub issues end to end.
 
 Read first:
 - `AGENTS.md`

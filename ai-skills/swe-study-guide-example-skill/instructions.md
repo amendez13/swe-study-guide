@@ -1,6 +1,6 @@
-# {{PROJECT_NAME}} Example Skill
+# swe-study-guide Example Skill
 
-Use this directory as the smallest starting point for a new canonical {{PROJECT_NAME}} skill.
+Use this directory as the smallest starting point for a new canonical swe-study-guide skill.
 
 Workflow:
 1. Rename the directory and update `skill.yaml`.

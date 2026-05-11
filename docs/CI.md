@@ -1,17 +1,17 @@
 # CI/CD Pipeline Documentation
 
-This document describes the Continuous Integration pipeline for {{PROJECT_NAME}}, including the Docker CI image, runner-resolution workflow, the companion secret-scanning workflow, and the local validation path that mirrors GitHub Actions.
+This document describes the Continuous Integration pipeline for swe-study-guide, including the Docker CI image, runner-resolution workflow, the companion secret-scanning workflow, and the local validation path that mirrors GitHub Actions.
 
 ## Overview
 
-The CI workflow runs on pushes and pull requests targeting `{{MAIN_BRANCH}}` and `{{DEV_BRANCH}}`. It now uses a shared Docker image for the real checks instead of installing tools independently in every job.
+The CI workflow runs on pushes and pull requests targeting `main` and `develop`. It now uses a shared Docker image for the real checks instead of installing tools independently in every job.
 
 ## CI Jobs (`.github/workflows/ci.yml`)
 
 ### Runner Resolution
 
 - `resolve-runner` decides which runner labels downstream jobs should use.
-- The default target comes from `{{CI_RUNNER}}`.
+- The default target comes from `github_hosted`.
 - Manual `workflow_dispatch` runs can override the target with:
   - `github_hosted`
   - `self_hosted_linux`
@@ -24,7 +24,7 @@ The CI workflow runs on pushes and pull requests targeting `{{MAIN_BRANCH}}` and
 `resolve-runner` classifies whether the expensive jobs should be skipped before checking out the repository:
 
 - docs-only changes matching `docs/**`, `notes/**`, `README.md`, `AGENTS.md`, or `CLAUDE.md`
-- push-to-`{{MAIN_BRANCH}}` commits that GitHub already associates with a merged pull request
+- push-to-`main` commits that GitHub already associates with a merged pull request
 - merge-commit fallback heuristic when the API association is temporarily unavailable
 
 The aggregate `CI Status Check` job still runs and reports the skip reason, so the skip path is explicit rather than a silent green pass.
@@ -33,7 +33,7 @@ The aggregate `CI Status Check` job still runs and reports the skip reason, so t
 
 All CI jobs except `resolve-runner` execute in the same image:
 
-- `ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci:latest`
+- `ghcr.io/alex3m6/swe-study-guide-ci:latest`
 - multi-platform manifest: `linux/amd64` and `linux/arm64`
 - checkout path isolation via `path: repo`
 - `safe.directory` configured in every container job
@@ -62,7 +62,7 @@ Implementation detail:
 
 ### 3. Coverage Check
 
-Purpose: enforce the `{{COVERAGE_THRESHOLD}}%` coverage gate and publish the HTML coverage artifact.
+Purpose: enforce the `95%` coverage gate and publish the HTML coverage artifact.
 
 ### 4. Test Python 3.10 / 3.11 / 3.12
 
@@ -103,8 +103,8 @@ The CI image workflow rebuilds and publishes the shared image when these inputs 
 
 Published tags:
 
-- `ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci:latest`
-- `ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci:<git-sha>`
+- `ghcr.io/alex3m6/swe-study-guide-ci:latest`
+- `ghcr.io/alex3m6/swe-study-guide-ci:<git-sha>`
 
 Published platforms:
 
@@ -116,7 +116,7 @@ Published platforms:
 ### Run the same CI image locally
 
 ```bash
-docker build -t {{PROJECT_NAME}}-ci:test -f infra/ci/Dockerfile .
+docker build -t swe-study-guide-ci:test -f infra/ci/Dockerfile .
 docker compose -f infra/ci/docker-compose.ci.yml run --rm ci bash
 ```
 
@@ -130,16 +130,16 @@ black --version
 flake8 --version
 mypy --version
 pytest --version
-python3.12 -m pytest {{TEST_DIR}}/ -v --cov={{SOURCE_DIR}}
+python3.12 -m pytest tests/ -v --cov=src
 ```
 
 ### Run the repository checks without Docker
 
 ```bash
 pre-commit run --all-files
-pytest {{TEST_DIR}}/ -v --cov={{SOURCE_DIR}} --cov-report=term-missing --cov-fail-under={{COVERAGE_THRESHOLD}}
-pytest {{TEST_DIR}}/ -v
-bandit -r {{SOURCE_DIR}}/ -ll
+pytest tests/ -v --cov=src --cov-report=term-missing --cov-fail-under=95
+pytest tests/ -v
+bandit -r src/ -ll
 pip-audit --requirement requirements.txt
 gitleaks dir . --no-banner --redact=100
 gitleaks git . --no-banner --redact=100
@@ -161,7 +161,7 @@ flowchart LR
     F --> H
     G --> H
 
-    I["ci-image.yml"] --> J["Build ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci"]
+    I["ci-image.yml"] --> J["Build ghcr.io/alex3m6/swe-study-guide-ci"]
     J --> K["linux/amd64 + linux/arm64"]
     K --> L["latest + sha tags"]
     L --> C

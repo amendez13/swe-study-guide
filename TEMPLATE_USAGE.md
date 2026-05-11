@@ -37,21 +37,21 @@ If you prefer to configure manually:
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `{{PROJECT_NAME}}` | Project name (repository and package) | `my-python-project` |
-| `{{PROJECT_DESCRIPTION}}` | Short one-line description | `A Python project` |
-| `{{GITHUB_OWNER}}` | GitHub username or organization | `your-username` |
-| `{{MIN_PYTHON_VERSION}}` | Minimum Python version | `3.10` |
-| `{{PYTHON_VERSIONS}}` | CI matrix versions (comma-separated) | `3.10, 3.11, 3.12` |
-| `{{MAX_LINE_LENGTH}}` | Maximum code line length | `127` |
-| `{{MAX_COMPLEXITY}}` | Maximum cyclomatic complexity | `10` |
-| `{{COVERAGE_THRESHOLD}}` | Minimum test coverage percentage | `95` |
-| `{{SOURCE_DIR}}` | Source code directory name | `src` |
-| `{{TEST_DIR}}` | Test directory name | `tests` |
-| `{{MAIN_BRANCH}}` | Main branch name | `main` |
-| `{{DEV_BRANCH}}` | Development branch name | `develop` |
-| `{{CI_RUNNER}}` | Default CI runner target | `github_hosted` |
+| `swe-study-guide` | Project name (repository and package) | `my-python-project` |
+| `A study guide for software engineering technologies and skills` | Short one-line description | `A Python project` |
+| `alex3m6` | GitHub username or organization | `your-username` |
+| `3.10` | Minimum Python version | `3.10` |
+| `3.10, 3.11, 3.12` | CI matrix versions (comma-separated) | `3.10, 3.11, 3.12` |
+| `127` | Maximum code line length | `127` |
+| `10` | Maximum cyclomatic complexity | `10` |
+| `95` | Minimum test coverage percentage | `95` |
+| `src` | Source code directory name | `src` |
+| `tests` | Test directory name | `tests` |
+| `main` | Main branch name | `main` |
+| `develop` | Development branch name | `develop` |
+| `github_hosted` | Default CI runner target | `github_hosted` |
 
-`{{MAX_LINE_LENGTH}}` defaults to `127` because it aligns with the template's Black-based formatting and reduces unnecessary wrapping noise in pull requests on modern editor widths.
+`127` defaults to `127` because it aligns with the template's Black-based formatting and reduces unnecessary wrapping noise in pull requests on modern editor widths.
 
 ## Template Structure
 
@@ -71,10 +71,10 @@ python-project-template/
 ├── .mcp.json.example              # MCP configuration starting point
 ├── .env.example                   # Environment-variable configuration example
 ├── ai-skills/
-│   ├── {{PROJECT_NAME}}-example-skill/    # Minimal scaffold for new project skills
-│   ├── {{PROJECT_NAME}}-feature-delivery/ # Project-specific issue-delivery skill
-│   ├── {{PROJECT_NAME}}-feature-design/   # Project-specific issue-design skill + helper assets
-│   └── {{PROJECT_NAME}}-session-notes/
+│   ├── swe-study-guide-example-skill/    # Minimal scaffold for new project skills
+│   ├── swe-study-guide-feature-delivery/ # Project-specific issue-delivery skill
+│   ├── swe-study-guide-feature-design/   # Project-specific issue-design skill + helper assets
+│   └── swe-study-guide-session-notes/
 │       ├── skill.yaml                     # Canonical manifest for the project session-notes skill
 │       └── instructions.md                # Shared skill instructions for agent harnesses
 ├── config/
@@ -197,7 +197,7 @@ Recommended GitHub Secrets for the release pipeline:
 - **CLAUDE.md -> AGENTS.md**: Compatibility symlink so Claude and other agents read the same guidance
 - **.mcp.json.example**: Copyable MCP server configuration starter for local setup
 - **notes/**: Committed engineering session notes with daily-note path conventions
-- **ai-skills/{{PROJECT_NAME}}-session-notes/**: Canonical skill for creating and updating session notes
+- **ai-skills/swe-study-guide-session-notes/**: Canonical skill for creating and updating session notes
 
 ### AI Agent Workflows (Optional)
 
@@ -256,10 +256,10 @@ See `docs/BRANCH_PROTECTION.md` for full documentation.
 ### AI Skills
 
 The template now ships a minimal example scaffold plus starter AI skills:
-- `{{PROJECT_NAME}}-example-skill` for copying into new project-specific skills
-- `{{PROJECT_NAME}}-feature-delivery` for end-to-end issue implementation workflow
-- `{{PROJECT_NAME}}-feature-design` for turning rough requests into implementation-ready GitHub issues
-- `{{PROJECT_NAME}}-session-notes` for committed project session notes
+- `swe-study-guide-example-skill` for copying into new project-specific skills
+- `swe-study-guide-feature-delivery` for end-to-end issue implementation workflow
+- `swe-study-guide-feature-design` for turning rough requests into implementation-ready GitHub issues
+- `swe-study-guide-session-notes` for committed project session notes
 
 Deploy both to Claude and Codex with:
 
@@ -357,11 +357,11 @@ The template includes both `config/config.example.yaml` and `.env.example`.
 - Keep project-history notes in `notes/YYYY/MM/YYYY-MM-DD.md`.
 - Use `notes/README.md` as the style guide and starter template.
 - If you want the optional secondary summary-log workflow, copy `notes/.notes-config.yaml.example` to `notes/.notes-config.yaml` and update the paths.
-- If you use shared AI-skill deployment, treat `ai-skills/{{PROJECT_NAME}}-session-notes/` as the canonical source.
+- If you use shared AI-skill deployment, treat `ai-skills/swe-study-guide-session-notes/` as the canonical source.
 
 ### CI Runner Target
 
-- `{{CI_RUNNER}}` controls the default runner target used by `.github/workflows/ci.yml`.
+- `github_hosted` controls the default runner target used by `.github/workflows/ci.yml`.
 - Supported values are `github_hosted`, `self_hosted_linux`, and `self_hosted_linux_arm64`.
 - Keep the workflow, `docs/CI_RUNNER.md`, and any self-hosted runner bootstrap playbooks aligned if you change the labels or targets.
 
@@ -382,7 +382,7 @@ pre-commit run --all-files
 
 - Check `htmlcov/index.html` for uncovered lines
 - Add tests or use `# pragma: no cover` sparingly
-- Adjust `{{COVERAGE_THRESHOLD}}` if needed
+- Adjust `95` if needed
 
 ### Type checking errors
 

@@ -1,0 +1,7 @@
+name: "swe-study-guide-feature-design"
+description: "Use when designing a swe-study-guide feature from a request, draft issue, references, PRs, screenshots, or code context, and the goal is an implementation-ready GitHub issue."
+codex:
+  interface:
+    display_name: "swe-study-guide Feature Design"
+    short_description: Design swe-study-guide features and GitHub issues
+    default_prompt: Use $swe-study-guide-feature-design to turn a request into an implementation-ready swe-study-guide GitHub issue.

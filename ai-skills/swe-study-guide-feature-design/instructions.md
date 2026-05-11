@@ -1,6 +1,6 @@
-# {{PROJECT_NAME}} Feature Design
+# swe-study-guide Feature Design
 
-Use this skill when the task is not to implement a {{PROJECT_NAME}} feature yet, but to design it well enough that developers can execute it cleanly.
+Use this skill when the task is not to implement a swe-study-guide feature yet, but to design it well enough that developers can execute it cleanly.
 
 Read first:
 - `AGENTS.md`

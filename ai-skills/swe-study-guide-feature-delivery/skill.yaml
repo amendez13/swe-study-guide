@@ -1,0 +1,7 @@
+name: "swe-study-guide-feature-delivery"
+description: Use when delivering swe-study-guide GitHub issues end to end through dedicated git worktree, tests, PR, CI, review, merge, and cleanup.
+codex:
+  interface:
+    display_name: "swe-study-guide Feature Delivery"
+    short_description: Implement swe-study-guide issues end to end in a worktree
+    default_prompt: Use $swe-study-guide-feature-delivery to deliver a swe-study-guide GitHub issue end to end.

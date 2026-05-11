@@ -1,6 +1,6 @@
-# {{PROJECT_NAME}} Session Notes
+# swe-study-guide Session Notes
 
-Use this skill when creating or updating {{PROJECT_NAME}} daily session notes.
+Use this skill when creating or updating swe-study-guide daily session notes.
 
 Read first:
 - `AGENTS.md`

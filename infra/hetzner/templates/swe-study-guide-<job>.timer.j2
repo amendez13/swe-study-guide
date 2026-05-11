@@ -1,10 +1,10 @@
 [Unit]
-Description={{PROJECT_NAME}} <job> schedule
+Description=swe-study-guide <job> schedule
 
 [Timer]
 OnCalendar=hourly
 Persistent=true
-Unit={{PROJECT_NAME}}-<job>.service
+Unit=swe-study-guide-<job>.service
 
 [Install]
 WantedBy=timers.target

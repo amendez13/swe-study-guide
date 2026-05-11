@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="${REPO:-ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci}"
+REPO="${REPO:-ghcr.io/alex3m6/swe-study-guide-ci}"
 SHA="$(git rev-parse --short HEAD)"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Authenticate first:
-#   echo "$GHCR_TOKEN" | docker login ghcr.io -u "{{GITHUB_OWNER}}" --password-stdin
+#   echo "$GHCR_TOKEN" | docker login ghcr.io -u "alex3m6" --password-stdin
 
-BUILDER_NAME="${BUILDER_NAME:-{{PROJECT_NAME}}-ci-multiarch}"
+BUILDER_NAME="${BUILDER_NAME:-swe-study-guide-ci-multiarch}"
 PLATFORMS="${PLATFORMS:-linux/amd64,linux/arm64}"
 
 if ! docker buildx inspect "$BUILDER_NAME" >/dev/null 2>&1; then

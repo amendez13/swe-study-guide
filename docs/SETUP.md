@@ -1,10 +1,10 @@
 # Setup Guide
 
-This guide walks you through setting up {{PROJECT_NAME}} for development or usage.
+This guide walks you through setting up swe-study-guide for development or usage.
 
 ## Prerequisites
 
-- Python {{MIN_PYTHON_VERSION}} or higher
+- Python 3.10 or higher
 - pip (Python package installer)
 - git
 
@@ -17,8 +17,8 @@ This guide walks you through setting up {{PROJECT_NAME}} for development or usag
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/{{GITHUB_OWNER}}/{{PROJECT_NAME}}.git
-cd {{PROJECT_NAME}}
+git clone https://github.com/alex3m6/swe-study-guide.git
+cd swe-study-guide
 ```
 
 ### 2. Create Virtual Environment
@@ -68,7 +68,7 @@ cp .env.example .env
 pytest
 
 # Or run the application
-python -m {{SOURCE_DIR}}.main --help
+python -m src.main --help
 ```
 
 ## Configuration
@@ -112,7 +112,7 @@ This template treats session notes as committed project history, not private scr
 - Read [notes/README.md](../notes/README.md) for the directory layout, note style, and the daily-note template.
 - Daily notes live at `notes/YYYY/MM/YYYY-MM-DD.md`.
 - If you want the optional secondary summary-log workflow, copy `notes/.notes-config.yaml.example` to `notes/.notes-config.yaml` and customize the paths for your environment.
-- The canonical skill source for note automation lives at `ai-skills/{{PROJECT_NAME}}-session-notes/`. If you use the shared AI-skills deployment pattern, deploy that skill to your local agent harnesses after editing it.
+- The canonical skill source for note automation lives at `ai-skills/swe-study-guide-session-notes/`. If you use the shared AI-skills deployment pattern, deploy that skill to your local agent harnesses after editing it.
 
 ## MCP Configuration
 
@@ -170,7 +170,7 @@ The deploy script renders:
 - Codex interface metadata to `~/.codex/skills/<name>/agents/openai.yaml`
 
 The shipped skill names are project-specific after setup, for example
-`{{PROJECT_NAME}}-feature-delivery`, so this project does not overwrite another
+`swe-study-guide-feature-delivery`, so this project does not overwrite another
 project's installed `feature-delivery` skill.
 
 See [AI_SKILLS.md](AI_SKILLS.md) for the canonical source layout, starter skills, and troubleshooting guidance.
@@ -192,7 +192,7 @@ Typical additions in this template include:
 
 ### Line Length Recommendation
 
-The template defaults `{{MAX_LINE_LENGTH}}` to `127`.
+The template defaults `127` to `127`.
 
 - It aligns with Black and the rest of the code-quality configuration in this template.
 - It fits modern editor widths better than older narrow defaults.

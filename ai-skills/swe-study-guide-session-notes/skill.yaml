@@ -1,0 +1,7 @@
+name: "swe-study-guide-session-notes"
+description: Use when creating or updating swe-study-guide daily session notes. Optionally update a secondary summary log when the user explicitly asks for it.
+codex:
+  interface:
+    display_name: "swe-study-guide Session Notes"
+    short_description: Update swe-study-guide session notes
+    default_prompt: Use $swe-study-guide-session-notes to update today's swe-study-guide session notes.

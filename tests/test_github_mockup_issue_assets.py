@@ -9,7 +9,7 @@ from pathlib import Path
 MODULE_PATH = (
     Path(__file__).resolve().parents[1]
     / "ai-skills"
-    / "{{PROJECT_NAME}}-feature-design"
+    / "swe-study-guide-feature-design"
     / "scripts"
     / "github_mockup_issue_assets.py"
 )

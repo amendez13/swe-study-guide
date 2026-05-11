@@ -35,7 +35,7 @@ This layer answers questions such as:
 
 ## Structured Logging Pattern
 
-The template includes `{{SOURCE_DIR}}/logging_config.py` with:
+The template includes `src/logging_config.py` with:
 - human-readable stderr logging by default
 - optional JSONL file output for machine-readable run logs
 - `contextvars` correlation fields for `session_id`, `task_id`, and `phase`
@@ -51,7 +51,7 @@ Example:
 ```python
 import logging
 
-from {{SOURCE_DIR}}.logging_config import configure_logging, set_log_context
+from src.logging_config import configure_logging, set_log_context
 
 logger = logging.getLogger(__name__)
 
@@ -65,21 +65,21 @@ logger.info("Task started", extra={"event": "task_started", "queue": "default"})
 When shipping logs to a shared Loki stack, prefer a stable component label:
 
 ```text
-component="{{PROJECT_NAME}}"
+component="swe-study-guide"
 ```
 
 That keeps queries predictable across projects:
 
 ```logql
-{component="{{PROJECT_NAME}}"}
+{component="swe-study-guide"}
 ```
 
 ## systemd Unit Naming
 
 Use unit names that match the component label and the job role:
-- `{{PROJECT_NAME}}.service`
-- `{{PROJECT_NAME}}-<job>.service`
-- `{{PROJECT_NAME}}-<job>.timer`
+- `swe-study-guide.service`
+- `swe-study-guide-<job>.service`
+- `swe-study-guide-<job>.timer`
 
 This keeps service names, Syslog identifiers, and Loki queries aligned.
 
@@ -105,7 +105,7 @@ Recommended payload shape:
 }
 ```
 
-Use `{{SOURCE_DIR}}/release_info.py` to populate the release metadata.
+Use `src/release_info.py` to populate the release metadata.
 
 ### `GET /pipeline/health`
 
@@ -135,9 +135,9 @@ The purpose is to distinguish queue-empty from queue-blocked, blocked-by-running
 ## Operator Runbook
 
 - Did the unit run?
-  `journalctl -u {{PROJECT_NAME}}.service -n 100 --no-pager -q`
+  `journalctl -u swe-study-guide.service -n 100 --no-pager -q`
 - What is the current unit state?
-  `systemctl status {{PROJECT_NAME}}.service --no-pager`
+  `systemctl status swe-study-guide.service --no-pager`
 - Need cross-service search or a longer time window?
   Use Loki or Grafana.
 - Need to inspect one specific run?
@@ -148,24 +148,24 @@ The purpose is to distinguish queue-empty from queue-blocked, blocked-by-running
 Start with journald:
 
 ```bash
-journalctl -u {{PROJECT_NAME}}.service -n 50 --no-pager -q
+journalctl -u swe-study-guide.service -n 50 --no-pager -q
 ```
 
 Then verify the stream is queryable in Loki:
 
 ```bash
 curl -G "$LOKI_URL/loki/api/v1/query_range" \
-  --data-urlencode 'query={component="{{PROJECT_NAME}}"}' \
+  --data-urlencode 'query={component="swe-study-guide"}' \
   --data-urlencode "limit=20"
 ```
 
 ## Useful LogQL Queries
 
 ```logql
-{component="{{PROJECT_NAME}}"}
-{component="{{PROJECT_NAME}}"} |= "ERROR"
-{component="{{PROJECT_NAME}}"} |~ "task.*completed|task.*failed"
-{component="{{PROJECT_NAME}}"} |= "startup"
+{component="swe-study-guide"}
+{component="swe-study-guide"} |= "ERROR"
+{component="swe-study-guide"} |~ "task.*completed|task.*failed"
+{component="swe-study-guide"} |= "startup"
 ```
 
 ## Optional Session Artifact Pattern

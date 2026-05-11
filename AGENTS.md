@@ -45,11 +45,11 @@ For issue-driven work, follow this default sequence:
 - Additive updates to session notes may be pushed directly to `main` when:
   - the change is only a session-note update, and
   - the user explicitly requested the notes update or the agent just completed a delivery cycle the user authorized.
-- Use `ai-skills/{{PROJECT_NAME}}-session-notes/` as the canonical session-notes workflow.
+- Use `ai-skills/swe-study-guide-session-notes/` as the canonical session-notes workflow.
 
 ## Project Overview
 
-{{PROJECT_DESCRIPTION}}
+A study guide for software engineering technologies and skills
 
 **Core workflow**: [Describe the main workflow of your application]
 
@@ -71,7 +71,7 @@ For issue-driven work, follow this default sequence:
 
 ### Technology Stack
 
-- Python {{MIN_PYTHON_VERSION}}+
+- Python 3.10+
 - [Add your main dependencies here]
 
 ### Key Components
@@ -108,19 +108,19 @@ cp config/config.example.yaml config/config.yaml
 ```bash
 source venv/bin/activate
 pytest
-pytest --cov={{SOURCE_DIR}} --cov-report=term-missing
-pytest {{TEST_DIR}}/test_main.py
+pytest --cov=src --cov-report=term-missing
+pytest tests/test_main.py
 ```
 
 ### Common Commands
 
 ```bash
 source venv/bin/activate
-black {{SOURCE_DIR}}/
-isort {{SOURCE_DIR}}/
-flake8 {{SOURCE_DIR}}/
-mypy {{SOURCE_DIR}}/
-bandit -r {{SOURCE_DIR}}/ -ll
+black src/
+isort src/
+flake8 src/
+mypy src/
+bandit -r src/ -ll
 deactivate
 ```
 
@@ -128,7 +128,7 @@ deactivate
 
 ```bash
 source venv/bin/activate
-python -m {{SOURCE_DIR}}.main
+python -m src.main
 ```
 
 ## Notable Code Quality Exceptions

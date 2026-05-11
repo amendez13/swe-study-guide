@@ -1,0 +1,19 @@
+[Unit]
+Description=swe-study-guide application service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=swe-study-guide
+Group=swe-study-guide
+WorkingDirectory=/opt/swe-study-guide
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/swe-study-guide/venv/bin/python -m src.main
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=120
+SyslogIdentifier=swe-study-guide
+
+[Install]
+WantedBy=multi-user.target

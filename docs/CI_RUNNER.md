@@ -26,7 +26,7 @@ The Docker CI image is the contract. The runner should be treated as a thin host
 
 - run GitHub Actions jobs
 - run Linux containers
-- pull `ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci:latest`
+- pull `ghcr.io/alex3m6/swe-study-guide-ci:latest`
 
 That means:
 
@@ -38,7 +38,7 @@ That means:
 
 `ci.yml` resolves runner selection centrally:
 
-- default target: `{{CI_RUNNER}}`
+- default target: `github_hosted`
 - manual override via `workflow_dispatch` input `runner_target`
 - supported values:
   - `github_hosted`
@@ -58,7 +58,7 @@ For self-hosted runners, the template assumes the runner workspace should remain
 2. Create a GitHub runner registration token for the repository.
 3. Copy and adapt `infra/home-worker/ci_runner_setup.yml` for your environment.
 4. Keep the runner labels aligned with `.github/workflows/ci.yml`.
-5. Optionally pre-pull `ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci:latest` after provisioning.
+5. Optionally pre-pull `ghcr.io/alex3m6/swe-study-guide-ci:latest` after provisioning.
 
 Suggested baseline labels:
 
@@ -70,15 +70,15 @@ Add `arm64` if the host should satisfy the ARM-specific target.
 ## Use The Docker CI Image Locally
 
 ```bash
-docker build -t {{PROJECT_NAME}}-ci:test -f infra/ci/Dockerfile .
+docker build -t swe-study-guide-ci:test -f infra/ci/Dockerfile .
 docker compose -f infra/ci/docker-compose.ci.yml run --rm ci bash
 ```
 
 Inside the container, run the same commands CI uses:
 
 ```bash
-python3.12 -m pytest {{TEST_DIR}}/ -v --cov={{SOURCE_DIR}}
-bandit -r {{SOURCE_DIR}}/ -ll
+python3.12 -m pytest tests/ -v --cov=src
+bandit -r src/ -ll
 pip-audit --requirement requirements.txt
 ```
 
@@ -86,9 +86,9 @@ pip-audit --requirement requirements.txt
 
 - install Docker Engine and confirm the runner user can access it
 - install the GitHub Actions runner binary for the host architecture
-- register the runner for `https://github.com/{{GITHUB_OWNER}}/{{PROJECT_NAME}}`
+- register the runner for `https://github.com/alex3m6/swe-study-guide`
 - configure the runner as a persistent service
-- verify the runner can pull `ghcr.io/{{GITHUB_OWNER}}/{{PROJECT_NAME}}-ci:latest`
+- verify the runner can pull `ghcr.io/alex3m6/swe-study-guide-ci:latest`
 - run a manual `workflow_dispatch` CI job against the self-hosted target
 
 ## Operational Notes

@@ -5,19 +5,19 @@ This repository includes deployment-facing skeletons rather than a project-speci
 
 When deploying with `systemd`, keep unit names aligned with the observability conventions described in [OBSERVABILITY.md](OBSERVABILITY.md):
 
-- `{{PROJECT_NAME}}.service`
-- `{{PROJECT_NAME}}-<job>.service`
-- `{{PROJECT_NAME}}-<job>.timer`
+- `swe-study-guide.service`
+- `swe-study-guide-<job>.service`
+- `swe-study-guide-<job>.timer`
 
 Matching unit names, Syslog identifiers, and Loki labels makes operator workflows simpler.
 
 ## Release Metadata
 
-Expose release metadata through `{{SOURCE_DIR}}/release_info.py` so health endpoints and startup logs can report the running tag and commit.
+Expose release metadata through `src/release_info.py` so health endpoints and startup logs can report the running tag and commit.
 
 ## Loki Integration
 
-If your deployment ships journald logs into Loki, prefer the `component="{{PROJECT_NAME}}"` label described in [OBSERVABILITY.md](OBSERVABILITY.md). That keeps project queries stable across environments.
+If your deployment ships journald logs into Loki, prefer the `component="swe-study-guide"` label described in [OBSERVABILITY.md](OBSERVABILITY.md). That keeps project queries stable across environments.
 
 ## Graceful Shutdown
 
