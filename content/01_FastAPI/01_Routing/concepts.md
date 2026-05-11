@@ -1,4 +1,0 @@
-- Path parameters are type-validated automatically by FastAPI
-- Query parameters are optional by default when given a default value
-- APIRouter allows modular route grouping with shared prefix and tags
-- HTTP method decorators map directly to REST verbs
