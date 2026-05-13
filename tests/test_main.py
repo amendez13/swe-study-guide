@@ -1,8 +1,13 @@
 """Tests for the main module."""
 
+from __future__ import annotations
+
+import logging
+
 from tests.module_loader import import_source_module
 
-greet = import_source_module("main").greet
+main_module = import_source_module("main")
+greet = main_module.greet
 
 
 class TestGreet:
@@ -40,3 +45,30 @@ class TestSampleData:
     def test_sample_data_has_number(self, sample_data: dict) -> None:
         """Test that sample_data fixture has expected number."""
         assert sample_data["number"] == 42
+
+
+def test_main_configures_logging_and_logs_startup(monkeypatch, capsys) -> None:  # type: ignore[no-untyped-def]
+    recorded: dict[str, object] = {}
+
+    def fake_configure_logging() -> None:
+        recorded["configured"] = True
+
+    def fake_get_release_info() -> dict[str, str]:
+        return {"tag": "v1.2.3"}
+
+    def fake_info(message: str, *, extra: dict[str, object]) -> None:
+        recorded["message"] = message
+        recorded["extra"] = extra
+
+    monkeypatch.setattr(main_module, "configure_logging", fake_configure_logging)
+    monkeypatch.setattr(main_module, "get_release_info", fake_get_release_info)
+    monkeypatch.setattr(main_module, "LOGGER", logging.getLogger("test.main"))
+    monkeypatch.setattr(main_module.LOGGER, "info", fake_info)
+
+    main_module.main()
+
+    captured = capsys.readouterr()
+    assert recorded["configured"] is True
+    assert recorded["message"] == "Application startup"
+    assert recorded["extra"] == {"event": "startup", "release": {"tag": "v1.2.3"}}
+    assert captured.out == "Hello, World!\n"

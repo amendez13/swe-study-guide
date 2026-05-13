@@ -1,4 +1,4 @@
-minimum_pre_commit_version: "3.6.0"
+minimum_pre_commit_version: "4.6.0"
 
 repos:
   # Code formatting
@@ -11,7 +11,7 @@ repos:
 
   # Import sorting
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 8.0.1
     hooks:
       - id: isort
         # Uses settings from pyproject.toml
@@ -25,7 +25,7 @@ repos:
 
   # Type checking
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v2.0.0
     hooks:
       - id: mypy
         args: [--ignore-missing-imports, --strict, --explicit-package-bases]
@@ -34,7 +34,7 @@ repos:
 
   # Security checks
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.6
+    rev: 1.9.4
     hooks:
       - id: bandit
         args: [-ll]

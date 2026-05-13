@@ -67,3 +67,49 @@ def test_get_release_info_falls_back_to_version_file(monkeypatch, tmp_path: Path
         "short_commit": None,
         "source": "version_file",
     }
+
+
+def test_git_output_returns_none_when_git_fails(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    def fake_run(*args, **kwargs):  # type: ignore[no-untyped-def]
+        raise OSError("git missing")
+
+    monkeypatch.setattr(release_info_module.subprocess, "run", fake_run)
+
+    assert release_info_module._git_output("rev-parse", "HEAD") is None
+
+
+def test_git_output_returns_none_when_command_has_no_output(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    def fake_run(*args, **kwargs):  # type: ignore[no-untyped-def]
+        return SimpleNamespace(returncode=1, stdout="")
+
+    monkeypatch.setattr(release_info_module.subprocess, "run", fake_run)
+
+    assert release_info_module._git_output("describe", "--tags", "--exact-match") is None
+
+
+def test_version_file_value_returns_none_for_missing_file(monkeypatch, tmp_path: Path) -> None:  # type: ignore[no-untyped-def]
+    missing_file = tmp_path / "VERSION"
+    monkeypatch.setattr(release_info_module, "_VERSION_FILE", missing_file)
+
+    assert release_info_module._version_file_value() is None
+
+
+def test_get_release_info_returns_unknown_without_any_source(
+    monkeypatch,
+    tmp_path: Path,
+) -> None:  # type: ignore[no-untyped-def]
+    monkeypatch.delenv("RELEASE_TAG", raising=False)
+    monkeypatch.delenv("RELEASE_COMMIT", raising=False)
+    monkeypatch.setattr(release_info_module, "_git_output", lambda *args: None)
+    version_file = tmp_path / "VERSION"
+    version_file.write_text("", encoding="utf-8")
+    monkeypatch.setattr(release_info_module, "_VERSION_FILE", version_file)
+
+    info = release_info_module.get_release_info()
+
+    assert info == {
+        "tag": None,
+        "commit": None,
+        "short_commit": None,
+        "source": "unknown",
+    }
