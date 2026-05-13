@@ -4,6 +4,7 @@
   let studyData = null;
   let currentTech = null;
   let currentTopic = null;
+  let mermaidRenderCounter = 0;
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -216,6 +217,7 @@
     $("#tab-bar").innerHTML = "";
     const md = await fetchText(`/content/${tech.dir}/technology_concepts.md`);
     $("#tab-content").innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
+    renderMermaidIn($("#tab-content"));
     $("#main").scrollTop = 0;
   };
 
@@ -278,6 +280,7 @@
     if (tabId === "notes") {
       const md = await fetchText(`${base}/${topic.notesFile}`);
       container.innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
+      renderMermaidIn(container);
     } else if (tabId === "concepts") {
       const md = await fetchText(`${base}/concepts.md`);
       const concepts = parseConcepts(md);
@@ -285,6 +288,7 @@
         renderConcepts(container, concepts);
       } else {
         container.innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
+        renderMermaidIn(container);
       }
     }
   }
@@ -315,6 +319,7 @@
       if (!c || !c.body) return;
       detailTitle.textContent = c.title;
       detailBody.innerHTML = renderMarkdown(c.body);
+      renderMermaidIn(detailBody);
       detail.style.display = "";
       container.querySelectorAll(".concept-item").forEach((el, idx) => {
         el.classList.toggle("active", idx === i);
@@ -439,6 +444,35 @@
       <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <p>${msg}</p>
     </div>`;
+  }
+
+  function renderMermaidIn(root) {
+    if (!root || typeof mermaid === "undefined") return;
+
+    const mermaidBlocks = [...root.querySelectorAll("pre > code.language-mermaid")];
+    if (!mermaidBlocks.length) return;
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "loose",
+      theme: "neutral",
+    });
+
+    mermaidBlocks.forEach((code) => {
+      const pre = code.parentElement;
+      if (!pre) return;
+
+      const diagram = document.createElement("div");
+      diagram.className = "mermaid";
+      diagram.textContent = code.textContent || "";
+      mermaidRenderCounter += 1;
+      diagram.id = `mermaid-diagram-${mermaidRenderCounter}`;
+      pre.replaceWith(diagram);
+    });
+
+    mermaid.run({
+      nodes: [...root.querySelectorAll(".mermaid")],
+    });
   }
 
   // ── Start ──────────────────────────────────────────

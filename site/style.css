@@ -531,6 +531,22 @@ body {
   color: inherit;
 }
 
+.markdown-body .mermaid {
+  margin-bottom: 1em;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.markdown-body .mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
 .markdown-body blockquote {
   border-left: 3px solid var(--accent);
   padding-left: 16px;
