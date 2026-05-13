@@ -1,0 +1,7 @@
+name: "swe-study-guide-local-preview-deploy"
+description: Use when you need to make the current swe-study-guide checkout visible in the local study site at http://127.0.0.1:8766 or another local port, including restarting a stale `serve.py` process and verifying the refreshed content index.
+codex:
+  interface:
+    display_name: "swe-study-guide Local Preview Deploy"
+    short_description: Restart and verify the local study-site preview
+    default_prompt: Use $swe-study-guide-local-preview-deploy to make the current swe-study-guide checkout visible at http://127.0.0.1:8766.
