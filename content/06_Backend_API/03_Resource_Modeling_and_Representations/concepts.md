@@ -88,3 +88,21 @@ Not every API needs full HATEOAS, but the general idea is valuable: a response c
   }
 }
 ```
+
+## HATEOAS
+
+HATEOAS stands for **Hypermedia As The Engine Of Application State**. It is the idea that an API response should include links or actions that tell the client what it can do next, instead of forcing the client to hardcode every workflow from external documentation alone.
+
+In practice, most modern APIs use HATEOAS lightly rather than strictly. A response might include `self`, `next`, `cancel`, or `refund` links so the client can follow the workflow the server exposes.
+
+```json
+{
+  "id": 42,
+  "status": "paid",
+  "links": {
+    "self": "/orders/42",
+    "refund": "/orders/42/refunds",
+    "customer": "/customers/7"
+  }
+}
+```
