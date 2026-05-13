@@ -4,11 +4,26 @@ REST-style APIs organize the surface around resources such as users, orders, or 
 
 This discipline makes the API easier to scan and easier for generic tooling to reason about. A reader can infer a lot from `GET /orders/42` without needing framework-specific context.
 
+```http
+GET /orders/42
+POST /orders
+
+# Less RESTful
+POST /getOrder
+POST /createOrder
+```
+
 ## Collections and single resources
 
 A collection endpoint like `/orders` represents a group of resources and usually supports listing and creation. A singleton endpoint like `/orders/{id}` represents one resource instance and usually supports retrieval, replacement, mutation, or deletion.
 
 Keeping those responsibilities separate produces cleaner semantics. It prevents one endpoint from becoming a grab bag that handles unrelated behaviors through ad hoc parameters.
+
+Example:
+
+- `GET /orders` returns a list
+- `POST /orders` creates one
+- `GET /orders/42` returns one specific order
 
 ## Sub-resources and associations
 
@@ -16,11 +31,18 @@ Some resources are naturally modeled beneath others, such as `/users/{id}/orders
 
 Nested resources should still be chosen carefully. Over-nesting can produce unreadable paths and can accidentally encode implementation detail instead of real domain relationships.
 
+```http
+GET /customers/7/orders
+POST /projects/12/members
+```
+
 ## Domain language and naming
 
 Resource names should use the vocabulary the business and the client already understand. If the system talks about subscriptions and invoices, the API should too, rather than exposing internal names like `billing_record_v2`.
 
 This is one of the fastest ways to make an API feel coherent. Good names reduce the amount of translation every consumer has to do in their head.
+
+Example: a SaaS billing API should probably expose `/subscriptions` and `/invoices`, not `/billing_entities`.
 
 ## Resource representations
 
@@ -28,14 +50,41 @@ The JSON body a client sees is a representation of server state, not a raw datab
 
 That separation protects the contract from internal refactors. You can change table structure or service boundaries without forcing every client to change with you.
 
+```json
+{
+  "id": 42,
+  "status": "paid",
+  "customer": {"id": 7, "name": "A. Example"}
+}
+```
+
 ## JSON structure and payload shape
 
 Representation shape matters. Flat payloads are easy to consume, while nested payloads can better express relationships and reduce repeated requests when designed carefully.
 
 Poor payload design shows up as overfetching, underfetching, or confusing field names. A useful API response exposes the right amount of information for the use case without leaking internals.
 
+```json
+{
+  "id": 42,
+  "lineItems": [
+    {"sku": "BOOK-123", "quantity": 2}
+  ]
+}
+```
+
 ## Links and discoverability
 
 Hypermedia links can make APIs more discoverable by telling clients what related resources or next actions exist. Even simple `self`, `next`, or `related` links can reduce guesswork.
 
 Not every API needs full HATEOAS, but the general idea is valuable: a response can communicate workflow, not just raw data.
+
+```json
+{
+  "id": 42,
+  "links": {
+    "self": "/orders/42",
+    "refund": "/orders/42/refunds"
+  }
+}
+```

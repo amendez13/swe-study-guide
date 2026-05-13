@@ -4,11 +4,18 @@ Backend APIs must treat incoming data and operational secrets as distinct securi
 
 These are foundational controls, not optional hardening. Many production incidents start with weak boundary handling or poor secret hygiene.
 
+```text
+Good: DB_URL from environment variable
+Bad:  DB_URL = "postgres://admin:password@..."
+```
+
 ## Least privilege and operational access
 
 Every component in the system should have only the permissions it actually needs. Application services, background workers, and database users should not receive broad access just because it is convenient during setup.
 
 Least privilege reduces blast radius. If one component is compromised or misconfigured, the damage stays smaller and easier to contain.
+
+Example: the read-only reporting job should not have permission to delete invoices.
 
 ## Unit and integration testing
 
@@ -16,11 +23,21 @@ Unit tests isolate small pieces of logic, while integration tests verify that th
 
 A strong test strategy uses the cheapest level that can prove the thing you care about, then adds deeper tests where boundaries or critical workflows justify them.
 
+```python
+def test_total_with_tax():
+    assert calculate_total(100, 0.2) == 120
+```
+
 ## Contract testing
 
 Contract tests verify not only that a route returns success but that it returns the expected schema, status codes, and error shapes. This is especially important when multiple clients or teams depend on the same API.
 
 For backend APIs, contract drift is often a bigger risk than simple algorithm bugs. A test suite that ignores payload shape can miss client-breaking changes completely.
+
+```python
+assert response.status_code == 201
+assert response.json()["status"] == "created"
+```
 
 ## Observability and health
 
@@ -28,8 +45,23 @@ Logs, metrics, traces, and health endpoints are part of operating an API safely.
 
 Observability is part of the contract with operators. An API that functions only when a specific engineer is awake is not production-ready.
 
+```http
+GET /health
+200 OK
+{"status": "ok"}
+```
+
 ## CI/CD and production readiness
 
 Reliable backend delivery depends on automated checks such as linting, tests, migration steps, and deploy smoke tests. The deployment process should be repeatable enough that shipping a change is routine rather than improvisational.
 
 Production readiness also includes rollback paths, error tracking, and environment-specific configuration. The code is only one part of the system that has to work.
+
+```mermaid
+flowchart LR
+    A[Commit] --> B[CI checks]
+    B --> C[Build artifact]
+    C --> D[Deploy]
+    D --> E[Smoke checks]
+    E --> F[Serve traffic]
+```

@@ -4,11 +4,23 @@ Synchronous request handling is straightforward: each request blocks until its w
 
 This helps most when the bottleneck is network or disk waiting rather than CPU. Async is about efficient waiting, not about making expensive computation magically cheap.
 
+```python
+result = database.fetch(order_id)      # sync style
+result = await database.fetch(order_id)  # async style
+```
+
 ## Event loops and concurrency models
 
 Async backends usually rely on an event loop that schedules many in-flight tasks cooperatively. Other frameworks use threads, processes, or a mix, but the core question is the same: what work can run concurrently and what still blocks the worker?
 
 You need this mental model to reason about latency, throughput, and failure. Without it, performance tuning turns into guesswork.
+
+```mermaid
+flowchart LR
+    A[Request 1 waiting on DB] --> C[Event loop]
+    B[Request 2 waiting on HTTP] --> C
+    C --> D[Resume whichever I/O finishes first]
+```
 
 ## Blocking vs. non-blocking dependencies
 
@@ -16,11 +28,19 @@ An async handler only helps if the things it calls are also non-blocking. If the
 
 This is why backend performance is a stack property. The framework, database client, HTTP client, and background job model all have to fit together coherently.
 
+Example: an async web handler that calls a blocking image-resize library still stalls useful work on that worker.
+
 ## Background jobs
 
 Some work should not happen inline on the request path at all. Email sending, image processing, and expensive downstream coordination often belong in background jobs so the API can acknowledge the request quickly and finish side effects separately.
 
 The design question is not only "can I run this later?" but also "what guarantees do I need?" Fire-and-forget is very different from durable queued execution with retries.
+
+```http
+POST /exports
+202 Accepted
+Location: /exports/abc123
+```
 
 ## Startup and lifespan concerns
 
@@ -28,8 +48,12 @@ Many backend processes need startup initialization such as creating connection p
 
 Treating lifespan explicitly avoids leaking connections and makes deployment behavior easier to reason about.
 
+Example: create the database pool once at startup, not on every request.
+
 ## Throughput, latency, and workload shape
 
 Concurrency choices should be informed by workload shape. A service with short I/O-bound requests benefits from different tuning than one dominated by CPU-heavy transformations or long-lived streams.
 
 Understanding the workload keeps teams from cargo-culting async or worker counts without knowing why the change helps.
+
+Example: a JSON CRUD API and a video-transcoding API should not expect the same worker model to perform well.
