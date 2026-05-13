@@ -1,10 +1,10 @@
 # CI/CD Pipeline Documentation
 
-This document describes the Continuous Integration pipeline for swe-study-guide, including the Docker CI image, runner-resolution workflow, the companion secret-scanning workflow, and the local validation path that mirrors GitHub Actions.
+This document describes the Continuous Integration pipeline for swe-study-guide, including runner resolution, per-job Python setup, the optional CI toolbox image, the companion secret-scanning workflow, and the local validation path that mirrors GitHub Actions.
 
 ## Overview
 
-The CI workflow runs on pushes and pull requests targeting `main` and `develop`. It now uses a shared Docker image for the real checks instead of installing tools independently in every job.
+The CI workflow runs on pushes and pull requests targeting `main` and `develop`. It installs the Python toolchain inside each job so GitHub-hosted CI does not depend on a pre-published container image.
 
 ## CI Jobs (`.github/workflows/ci.yml`)
 
@@ -17,7 +17,6 @@ The CI workflow runs on pushes and pull requests targeting `main` and `develop`.
   - `self_hosted_linux`
   - `self_hosted_linux_arm64`
 - Downstream jobs use `runs-on: ${{ fromJSON(needs.resolve-runner.outputs.runner) }}`.
-- `resolve-runner` also emits `container.options` for self-hosted runs so containerized jobs keep workspace file ownership compatible with the runner user.
 
 ### Smart Skip Logic
 
@@ -29,36 +28,37 @@ The CI workflow runs on pushes and pull requests targeting `main` and `develop`.
 
 The aggregate `CI Status Check` job still runs and reports the skip reason, so the skip path is explicit rather than a silent green pass.
 
-### Container Execution Model
+### Execution Model
 
-All CI jobs except `resolve-runner` execute in the same image:
+All CI jobs except `resolve-runner` run directly on the selected runner:
 
-- `ghcr.io/alex3m6/swe-study-guide-ci:latest`
-- multi-platform manifest: `linux/amd64` and `linux/arm64`
 - checkout path isolation via `path: repo`
-- `safe.directory` configured in every container job
-- no per-job `actions/setup-python`
-- Python matrix jobs call preinstalled interpreters directly (`python3.10`, `python3.11`, `python3.12`)
+- `safe.directory` configured in every job
+- `actions/setup-python@v6` provisions the requested Python runtime per job
+- coverage, matrix tests, and security checks install dependencies from `requirements.txt` / `requirements-dev.txt`
+- lint uses a pinned virtualenv so Black, isort, flake8, and mypy stay stable across runners
+
+The optional CI image is still published for local troubleshooting and container-based parity checks, but the main CI workflow no longer blocks on that image being present in GHCR.
 
 ### Failure Short-Circuiting
 
 - workflow concurrency cancels stale pull-request runs on new pushes
 - `coverage` runs before the Python matrix, so low coverage fails before the full matrix fan-out
 - the Python matrix uses `fail-fast: true`
-- each container job requests workflow cancellation via the Actions API if it fails
+- each job requests workflow cancellation via the Actions API if it fails
 
 ## Job Summary
 
 ### 1. Resolve Runner Target
 
-Purpose: choose the runner labels, container options, CI image reference, and skip mode.
+Purpose: choose the runner labels and skip mode.
 
 ### 2. Lint and Code Quality
 
 Purpose: run black, isort, flake8, and mypy.
 
 Implementation detail:
-- uses a pinned lint-only virtual environment so lint versions stay stable even if the shared image tag moves forward
+- uses a pinned lint-only virtual environment after `actions/setup-python` so lint versions stay stable across runner types
 
 ### 3. Coverage Check
 
@@ -70,7 +70,7 @@ Purpose: run the correctness matrix after the coverage gate passes.
 
 ### 5. Security Checks
 
-Purpose: run bandit and pip-audit in the shared CI image.
+Purpose: run bandit and pip-audit with a freshly installed Python toolchain.
 
 ### 6. Validate Configuration
 
@@ -91,11 +91,11 @@ The template also includes a dedicated `Secret Scanning` workflow for repository
 - uploads the redacted SARIF artifact on every run
 - attempts a best-effort upload to GitHub code scanning when the repository supports SARIF ingestion
 
-This workflow is separate from `ci.yml` because secret scanning has different runtime and reporting needs than the containerized application checks.
+This workflow is separate from `ci.yml` because secret scanning has different runtime and reporting needs than the application checks.
 
 ## CI Image Workflow (`.github/workflows/ci-image.yml`)
 
-The CI image workflow rebuilds and publishes the shared image when these inputs change:
+The CI image workflow rebuilds and publishes an optional toolbox image when these inputs change:
 
 - `infra/ci/Dockerfile`
 - `requirements.txt`
@@ -113,7 +113,7 @@ Published platforms:
 
 ## Local Validation
 
-### Run the same CI image locally
+### Run the optional CI toolbox image locally
 
 ```bash
 docker build -t swe-study-guide-ci:test -f infra/ci/Dockerfile .
@@ -145,14 +145,14 @@ gitleaks dir . --no-banner --redact=100
 gitleaks git . --no-banner --redact=100
 ```
 
-## Containerized CI Architecture
+## CI Architecture
 
 ```mermaid
 flowchart LR
     A["push / pull_request / workflow_dispatch"] --> B["resolve-runner"]
     B --> B1{"merged PR push or docs-only diff?"}
     B1 -- Yes --> H["CI Status Check"]
-    B1 -- No --> C["containerized jobs"]
+    B1 -- No --> C["runner jobs + setup-python"]
     C --> D["Coverage Check"]
     C --> E["Lint / Security / Validate Configuration"]
     D --> F["Test matrix: Python 3.10 / 3.11 / 3.12"]
@@ -161,10 +161,9 @@ flowchart LR
     F --> H
     G --> H
 
-    I["ci-image.yml"] --> J["Build ghcr.io/alex3m6/swe-study-guide-ci"]
+    I["ci-image.yml"] --> J["Build optional GHCR toolbox image"]
     J --> K["linux/amd64 + linux/arm64"]
     K --> L["latest + sha tags"]
-    L --> C
 ```
 
 ## Configuration Files
@@ -172,7 +171,7 @@ flowchart LR
 | File | Purpose |
 |------|---------|
 | `.github/workflows/ci.yml` | Main CI workflow |
-| `.github/workflows/ci-image.yml` | CI image build/publish workflow |
+| `.github/workflows/ci-image.yml` | Optional CI toolbox image build/publish workflow |
 | `.github/workflows/gitleaks.yml` | Repository secret-scanning workflow |
 | `infra/ci/Dockerfile` | Shared CI image definition |
 | `infra/ci/docker-compose.ci.yml` | Local container shell matching CI |
