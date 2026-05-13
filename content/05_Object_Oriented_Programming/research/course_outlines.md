@@ -6,10 +6,10 @@ Five strong object-oriented programming courses with structured curriculum break
 
 ## 1. Object-Oriented Programming Concepts
 
-**Platform:** Coursera (LearnQuest)  
-**Instructor:** LearnQuest Network  
-**Rating:** 4.5/5 (149 reviews)  
-**Duration:** 4 modules | ~1 week at 10 hours/week  
+**Platform:** Coursera (LearnQuest)
+**Instructor:** LearnQuest Network
+**Rating:** 4.5/5 (149 reviews)
+**Duration:** 4 modules | ~1 week at 10 hours/week
 **URL:** https://www.coursera.org/learn/concepts-of-object-oriented-programming
 
 ### Curriculum
@@ -58,10 +58,10 @@ Five strong object-oriented programming courses with structured curriculum break
 
 ## 2. Programming Foundations: Object-Oriented Design
 
-**Platform:** LinkedIn Learning  
-**Instructors:** Olivia Chiu Stone and Barron Stone  
-**Rating:** 4.8/5 (5,847 ratings)  
-**Duration:** 3h 41m | 7 sections plus intro/conclusion  
+**Platform:** LinkedIn Learning
+**Instructors:** Olivia Chiu Stone and Barron Stone
+**Rating:** 4.8/5 (5,847 ratings)
+**Duration:** 3h 41m | 7 sections plus intro/conclusion
 **URL:** https://www.linkedin.com/learning/programming-foundations-object-oriented-design-3
 
 ### Curriculum
@@ -137,10 +137,10 @@ Five strong object-oriented programming courses with structured curriculum break
 
 ## 3. Object-Oriented Programming Fundamentals in C#
 
-**Platform:** Pluralsight  
-**Instructor:** Deborah Kurata  
-**Rating:** High-engagement Pluralsight course (3,397 ratings listed)  
-**Duration:** 3h 26m  
+**Platform:** Pluralsight
+**Instructor:** Deborah Kurata
+**Rating:** High-engagement Pluralsight course (3,397 ratings listed)
+**Duration:** 3h 26m
 **URL:** https://www.pluralsight.com/courses/object-oriented-programming-fundamentals-csharp
 
 ### Curriculum
@@ -231,10 +231,10 @@ Five strong object-oriented programming courses with structured curriculum break
 
 ## 4. Object-Oriented Design
 
-**Platform:** Coursera (University of Alberta)  
-**Instructor:** Kenny Wong  
-**Rating:** 4.7/5 (2,409 reviews)  
-**Duration:** 4 modules | ~17 hours total  
+**Platform:** Coursera (University of Alberta)
+**Instructor:** Kenny Wong
+**Rating:** 4.7/5 (2,409 reviews)
+**Duration:** 4 modules | ~17 hours total
 **URL:** https://www.coursera.org/learn/object-oriented-design
 
 ### Curriculum
@@ -283,10 +283,10 @@ Five strong object-oriented programming courses with structured curriculum break
 
 ## 5. Object Oriented Programming and Design Crash Course
 
-**Platform:** Udemy  
-**Instructor:** Vasiliy Zukanov  
-**Rating:** 4.6/5 (449 ratings)  
-**Duration:** 4h 23m | 33 lectures | 7 sections  
+**Platform:** Udemy
+**Instructor:** Vasiliy Zukanov
+**Rating:** 4.6/5 (449 ratings)
+**Duration:** 4h 23m | 33 lectures | 7 sections
 **URL:** https://www.udemy.com/course/object-oriented-programming-design-course/
 
 ### Curriculum
