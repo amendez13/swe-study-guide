@@ -88,6 +88,63 @@ How it differs from Protocol Buffers:
 
 Avro is the default for Kafka (with a Schema Registry), Spark, and Hadoop data pipelines. Choose it when data flows through systems where the schema evolves frequently and the consumer may use a different schema version than the producer.
 
+## Columnar Storage Formats
+
+Row-oriented formats (JSON, Avro, Protobuf) store all fields of a record together — fast for reading whole objects. Columnar formats store all values of a single field together — fast for analytical queries that scan one column across millions of rows.
+
+```text
+Row-oriented (Avro, Protobuf, JSON):
+  Row 1: {user_id: 1, name: "Alex", age: 30}
+  Row 2: {user_id: 2, name: "Sam",  age: 25}
+  Row 3: {user_id: 3, name: "Jo",   age: 35}
+
+  Good for: fetch row by ID, insert a full record, OLTP workloads.
+
+Columnar (Parquet, ORC):
+  user_id column: [1, 2, 3]
+  name column:    ["Alex", "Sam", "Jo"]
+  age column:     [30, 25, 35]
+
+  Good for: SELECT AVG(age) FROM users — reads only the age column.
+  Skips irrelevant columns entirely → 10–100× faster for analytics.
+
+Parquet:
+  Apache Parquet. The standard for data lakes (S3 + Spark/Presto/Athena).
+  Columnar with row groups for parallelism.
+  Built-in compression (Snappy, Zstd). Schema in the file footer.
+
+ORC (Optimized Row Columnar):
+  Apache ORC. Similar to Parquet, native to the Hive ecosystem.
+  Slightly better compression, but less widely adopted outside Hive.
+```
+
+In interviews, when data flows from an OLTP system to a data warehouse or analytics layer, mention Parquet as the storage format. "Events arrive as Avro in Kafka, consumers write Parquet files to S3, and Presto queries them directly."
+
+## Choosing a Serialization Format
+
+Different parts of a system have different serialization needs. The choice depends on who reads the data, how fast it must be parsed, and how the schema evolves.
+
+```text
+Format     Size    Speed   Human-    Schema    Best for
+                           readable  enforced
+─────────  ──────  ──────  ────────  ────────  ─────────────────────────
+JSON       Large   Slow    Yes       No        REST APIs, browser clients
+Protobuf   Small   Fast    No        Yes       gRPC, service-to-service
+Avro       Small   Fast    No        Yes       Kafka, data pipelines
+Parquet    Small   Fast    No        Yes       Data lakes, analytics
+Thrift     Small   Fast    No        Yes       Legacy Facebook ecosystem
+
+Decision shortcuts:
+  Browser or external API?              → JSON
+  Internal gRPC service calls?          → Protocol Buffers
+  Kafka events with evolving schemas?   → Avro + Schema Registry
+  Data lake storage for analytics?      → Parquet
+  Simple config files?                  → JSON or YAML
+  Need both machine and human use?      → JSON (accept the overhead)
+```
+
+In system design interviews, name the format and say why: "JSON for the public API because clients expect it, Protobuf for internal gRPC because we control both sides and need the performance."
+
 ## Schema Evolution
 
 The ability to change a data format — add fields, remove fields, rename fields — without breaking existing readers or writers. Essential in distributed systems where producers and consumers are deployed independently.

@@ -7,6 +7,8 @@ How data is encoded for storage and transmission, and how schemas change over ti
 - **JSON/XML** — human-readable, universally supported, verbose. Default for REST APIs and browser-facing services. No built-in schema enforcement.
 - **Protocol Buffers / Thrift** — binary, schema-driven, code-generated. 2–10× smaller and faster than JSON. Default for gRPC and internal service communication.
 - **Avro** — binary, schema stored with data, field matching by name. Default for Kafka, Spark, and data pipelines. Best for evolving schemas without recompilation.
+- **Columnar formats** — Parquet and ORC store data by column, not by row. 10–100× faster for analytical queries that touch few columns across many rows. Parquet is the data lake standard.
+- **Choosing a format** — JSON for external APIs, Protobuf for internal gRPC, Avro for Kafka events, Parquet for analytics storage. Name the format and say why.
 - **Schema evolution** — backward compatible (new reader, old data), forward compatible (old reader, new data), full compatible (both). Use a Schema Registry to enforce rules on Kafka topics.
 
 ## Example
