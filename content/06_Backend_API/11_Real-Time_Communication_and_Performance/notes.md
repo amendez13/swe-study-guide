@@ -13,13 +13,31 @@ Backend APIs do not all need the same interaction model. Some are best served by
 
 ## Example
 
-```python
-def not_modified(client_etag: str | None, current_etag: str) -> int:
-    return 304 if client_etag == current_etag else 200
+Choosing the right transport for different features in the same application:
 
+```text
+Feature                 Transport    Why
+──────────────────────  ───────────  ─────────────────────────────────
+Product catalog         REST + ETag  Read-heavy, changes rarely → cache
+Order status            SSE          Server pushes updates, client listens
+Live chat               WebSocket    Bidirectional, low-latency messages
+Weekly email digest     Background   No real-time requirement at all
 
-print(not_modified("abc123", "abc123"))
-print(not_modified("old", "abc123"))
+Product catalog with caching:
+  GET /products/42
+  → Cache-Control: max-age=300, ETag: "v17"
+  → 304 Not Modified on revalidation (saves bandwidth)
+
+Order tracking with SSE:
+  GET /orders/42/events (Accept: text/event-stream)
+  → data: {"status": "confirmed", "time": "10:30"}\n\n
+  → data: {"status": "shipped", "time": "14:15"}\n\n
+  → data: {"status": "delivered", "time": "16:42"}\n\n
+
+Live chat with WebSocket:
+  ws://api.example.com/chat/room/7
+  → client sends: {"type": "message", "text": "hello"}
+  → server broadcasts to all room members
 ```
 
-This example shows the core idea behind one performance primitive: if the client already has the current representation, the server can avoid resending the full body.
+Each feature uses the transport that matches its interaction pattern — not the most advanced one available.
