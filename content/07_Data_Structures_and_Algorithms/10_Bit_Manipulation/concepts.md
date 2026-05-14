@@ -354,10 +354,10 @@ The key insight is recognizing when a problem has binary structure. If the probl
 def swap_odd_even_bits(n: int) -> int:
     """Swap all odd-positioned bits with even-positioned bits.
 
-    Even mask: 0xAAAAAAAA = 10101010... (odd bits)
-    Odd mask:  0x55555555 = 01010101... (even bits)
+    0xAAAAAAAA = 10101010... selects bits at odd positions  (1, 3, 5, 7...)
+    0x55555555 = 01010101... selects bits at even positions (0, 2, 4, 6...)
     """
-    # Extract odd bits, shift right; extract even bits, shift left
+    # Extract odd-position bits, shift right to even; even-position bits, shift left to odd
     return ((n & 0xAAAAAAAA) >> 1) | ((n & 0x55555555) << 1)
 
 print(f"{0b10110010:08b} → {swap_odd_even_bits(0b10110010):08b}")

@@ -160,7 +160,9 @@ Memoization wraps a recursive function with a cache. Before computing a subprobl
 For Fibonacci, memoization drops the time complexity from O(2^N) to O(N) because each of the N subproblems is computed exactly once. The space is O(N) for the cache plus O(N) for the call stack.
 
 ```python
-def fib_memo(n: int, cache: dict[int, int] = {}) -> int:
+def fib_memo(n: int, cache: dict[int, int] | None = None) -> int:
+    if cache is None:
+        cache = {}
     if n in cache:
         return cache[n]
     if n <= 1:
@@ -263,10 +265,11 @@ def fib_naive(n):
     if n <= 1: return n
     return fib_naive(n-1) + fib_naive(n-2)
 
-def fib_memo(n, cache={}):
+def fib_memo(n, cache=None):
+    if cache is None: cache = {}
     if n in cache: return cache[n]
     if n <= 1: return n
-    cache[n] = fib_memo(n-1) + fib_memo(n-2)
+    cache[n] = fib_memo(n-1, cache) + fib_memo(n-2, cache)
     return cache[n]
 
 def fib_tab(n):
