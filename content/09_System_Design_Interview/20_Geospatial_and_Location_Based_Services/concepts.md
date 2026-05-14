@@ -25,15 +25,15 @@ Geohash is the simplest geospatial index to implement and explain in an intervie
 Recursively subdivides 2D space into four quadrants. Adapts resolution to data density — dense areas get finer subdivisions, sparse areas stay coarse.
 
 ```text
-     ┌───────┬───────┐
-     │       │ NE    │
-     │  NW   ├──┬──┤ │
-     │       │  │  │ │
-     ├───────┼──┴──┤ │
-     │       │     │ │
-     │  SW   │ SE  │ │
-     │       │     │ │
-     └───────┴─────┘
+     ┌───────┬───┬───┐
+     │       │   │   │
+     │  NW   ├───┼───┤
+     │       │   │   │
+     ├───────┼───┴───┤
+     │       │       │
+     │  SW   │  SE   │
+     │       │       │
+     └───────┴───────┘
 
   Split a quadrant when it contains more than K points.
   Stop splitting below a minimum cell size.
