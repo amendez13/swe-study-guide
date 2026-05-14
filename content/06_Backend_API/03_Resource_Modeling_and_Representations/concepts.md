@@ -64,36 +64,25 @@ Representation shape matters. Flat payloads are easy to consume, while nested pa
 
 Poor payload design shows up as overfetching, underfetching, or confusing field names. A useful API response exposes the right amount of information for the use case without leaking internals.
 
-```json
-{
-  "id": 42,
-  "lineItems": [
-    {"sku": "BOOK-123", "quantity": 2}
-  ]
-}
+```text
+Flat — simple to consume, easy to map to table rows:
+  {"id": 42, "customerName": "A. Example", "customerEmail": "a@example.com"}
+
+Nested — preserves relationships, avoids field-name collisions:
+  {"id": 42, "customer": {"name": "A. Example", "email": "a@example.com"}}
+
+Embedded list — natural for aggregates:
+  {"id": 42, "items": [{"sku": "BOOK-123", "qty": 2}]}
+
+Linked — keeps payloads small, client fetches related data separately:
+  {"id": 42, "customerId": 7, "links": {"customer": "/customers/7"}}
 ```
 
-## Links and discoverability
+## Hypermedia links and discoverability (HATEOAS)
 
-Hypermedia links can make APIs more discoverable by telling clients what related resources or next actions exist. Even simple `self`, `next`, or `related` links can reduce guesswork.
+HATEOAS (Hypermedia As The Engine Of Application State) is the idea that responses include links telling clients what they can do next, rather than forcing them to hardcode every workflow from documentation alone.
 
-Not every API needs full HATEOAS, but the general idea is valuable: a response can communicate workflow, not just raw data.
-
-```json
-{
-  "id": 42,
-  "links": {
-    "self": "/orders/42",
-    "refund": "/orders/42/refunds"
-  }
-}
-```
-
-## HATEOAS
-
-HATEOAS stands for **Hypermedia As The Engine Of Application State**. It is the idea that an API response should include links or actions that tell the client what it can do next, instead of forcing the client to hardcode every workflow from external documentation alone.
-
-In practice, most modern APIs use HATEOAS lightly rather than strictly. A response might include `self`, `next`, `cancel`, or `refund` links so the client can follow the workflow the server exposes.
+In practice, most modern APIs use HATEOAS lightly. A response might include `self`, `next`, or action links so the client can follow the workflow the server exposes. The key benefit is that available actions change with resource state — a shipped order offers `track` but not `cancel`.
 
 ```json
 {
@@ -101,7 +90,19 @@ In practice, most modern APIs use HATEOAS lightly rather than strictly. A respon
   "status": "paid",
   "links": {
     "self": "/orders/42",
-    "refund": "/orders/42/refunds",
+    "cancel": "/orders/42/cancel",
+    "customer": "/customers/7"
+  }
+}
+```
+
+```json
+{
+  "id": 42,
+  "status": "shipped",
+  "links": {
+    "self": "/orders/42",
+    "track": "/orders/42/tracking",
     "customer": "/customers/7"
   }
 }
