@@ -14,17 +14,43 @@ Backend APIs earn trust by failing clearly. Strong validation and predictable er
 
 ## Example
 
-```python
-def validate_create_user(payload: dict) -> tuple[int, dict]:
-    if "email" not in payload:
-        return 400, {"error": "missing_field", "field": "email"}
-    if "@" not in payload["email"]:
-        return 422, {"error": "invalid_email", "field": "email"}
-    return 201, {"id": 1, "email": payload["email"]}
+Three requests to the same endpoint, each producing a different error contract:
 
+```http
+# 1. Missing required field → 400
+POST /users HTTP/1.1
+Content-Type: application/json
+{}
 
-for sample in ({}, {"email": "not-an-email"}, {"email": "user@example.com"}):
-    print(validate_create_user(sample))
+HTTP/1.1 400 Bad Request
+{"error": "missing_field", "field": "email", "message": "email is required"}
+
+# 2. Invalid field value → 422
+POST /users HTTP/1.1
+Content-Type: application/json
+{"email": "not-an-email", "role": "superadmin"}
+
+HTTP/1.1 422 Unprocessable Entity
+{"error": "validation_error", "details": [
+  {"field": "email", "message": "must be a valid email address"},
+  {"field": "role", "message": "must be one of: admin, editor, viewer"}
+]}
+
+# 3. Domain conflict → 409
+POST /users HTTP/1.1
+Content-Type: application/json
+{"email": "taken@example.com", "role": "editor"}
+
+HTTP/1.1 409 Conflict
+{"error": "duplicate_email", "message": "a user with this email already exists"}
+
+# 4. Success → 201
+POST /users HTTP/1.1
+Content-Type: application/json
+{"email": "new@example.com", "role": "editor"}
+
+HTTP/1.1 201 Created
+{"id": 7, "email": "new@example.com", "role": "editor"}
 ```
 
-The same input path produces three different outcomes: malformed request, semantically invalid data, and successful creation. That distinction is the core of a good API error contract.
+Each outcome uses a distinct status code and structured error body so the client can handle each case programmatically — no log inspection required.

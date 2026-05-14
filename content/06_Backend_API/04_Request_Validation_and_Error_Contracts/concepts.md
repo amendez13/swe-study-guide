@@ -19,9 +19,24 @@ Most frameworks let you declare request schemas as typed objects rather than par
 Declarative schemas also make testing easier because there is one obvious place to look for required fields, defaults, and constraints.
 
 ```python
-class CreateOrder:
+from pydantic import BaseModel, Field
+
+class LineItem(BaseModel):
+    sku: str
+    quantity: int = Field(gt=0)
+
+class CreateOrderRequest(BaseModel):
     customer_id: int
-    items: list[dict]
+    items: list[LineItem] = Field(min_length=1)
+```
+
+```text
+What this gives you automatically:
+  - customer_id must be an integer (not "seven")
+  - items must contain at least one entry
+  - quantity must be > 0
+  - Missing fields → 422 with field-level errors
+  - Shows up in generated OpenAPI docs
 ```
 
 ## Type coercion and strictness
@@ -51,11 +66,16 @@ Clients benefit when similar operations return similarly shaped payloads. If one
 
 Consistency does not mean every endpoint must look identical, but it does mean similar patterns should stay similar unless there is a strong reason not to.
 
-```json
-{
-  "id": 42,
-  "status": "created"
-}
+```text
+Inconsistent (forces client special-casing):
+  POST /orders  → 201 {"id": 42, "status": "created"}
+  POST /users   → 200 {"userId": 7}
+  POST /tickets → 204 (no body)
+
+Consistent (same pattern for all create endpoints):
+  POST /orders  → 201 {"id": 42, "status": "created"}
+  POST /users   → 201 {"id": 7, "status": "active"}
+  POST /tickets → 201 {"id": 99, "status": "open"}
 ```
 
 ## Useful error payloads
@@ -64,12 +84,25 @@ An error response should explain what failed, where it failed, and what class of
 
 Useful error contracts also help operators and SDK authors. If failures are structured predictably, downstream tooling can surface them clearly instead of treating every error as an opaque string.
 
-```json
+```http
+POST /users HTTP/1.1
+{"email": "not-valid", "age": -5}
+
+HTTP/1.1 422 Unprocessable Entity
 {
   "error": "validation_error",
-  "field": "email",
-  "message": "must contain @"
+  "details": [
+    {"field": "email", "message": "must contain @"},
+    {"field": "age", "message": "must be >= 0"}
+  ]
 }
+```
+
+```text
+Bad:   {"error": "bad request"}              — what failed?
+Bad:   {"error": "Internal Server Error"}    — leaked server detail
+Good:  {"error": "validation_error",
+        "details": [...per-field errors...]} — actionable for the client
 ```
 
 ## Domain errors vs. transport errors
