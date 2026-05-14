@@ -6,8 +6,9 @@ Identity and permissions are central to backend API design because they shape wh
 
 - **Authentication and authorization are different** - One establishes identity; the other decides permission.
 - **Sessions and bearer tokens solve different problems** - Browser-centered apps and multi-client APIs often want different auth models.
-- **JWTs are signed claims, not magic** - They still need expiration, rotation, and revocation thinking.
-- **Passwords must be hashed** - Plaintext or reversible storage is unacceptable.
+- **JWTs are signed claims, not magic** - They carry header.payload.signature; still need short expiration, rotation, and a revocation strategy.
+- **OAuth2 handles delegated access** - Authorization code flow for third-party logins; access tokens expire, refresh tokens renew them.
+- **Passwords must be hashed** - Use argon2id or bcrypt; rate-limit login attempts; never reveal which field was wrong.
 - **Roles are only one layer** - Real systems often need resource-level access checks too.
 - **Frontend checks are not security** - The backend must enforce every protected rule itself.
 
