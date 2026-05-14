@@ -13,26 +13,47 @@ This topic is about treating a backend API as a stable contract instead of an in
 
 ## Example
 
-```python
-api_contract = {
-    "name": "Orders API",
-    "audience": "partner",
-    "operations": {
-        "createOrder": {
-            "method": "POST",
-            "path": "/orders",
-            "response": 201,
-        },
-        "listOrders": {
-            "method": "GET",
-            "path": "/orders",
-            "response": 200,
-        },
-    },
-}
+A minimal OpenAPI contract for an Orders API — the kind of artifact a design-first team reviews before writing any handler code:
 
-for name, operation in api_contract["operations"].items():
-    print(f"{name}: {operation['method']} {operation['path']} -> {operation['response']}")
+```yaml
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: "1.0"
+paths:
+  /orders:
+    get:
+      summary: List orders
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string, enum: [pending, paid, shipped] }
+      responses:
+        "200":
+          description: Paginated order list
+    post:
+      summary: Create an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customerId, items]
+              properties:
+                customerId: { type: integer }
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      sku: { type: string }
+                      quantity: { type: integer }
+      responses:
+        "201":
+          description: Order created
+        "422":
+          description: Validation error
 ```
 
-Even this tiny dictionary shows the core idea: an API contract is a named surface with explicit operations and responses that can be reviewed independently of the code that eventually serves it.
+This spec is reviewable before any code exists: a frontend team can build against it using a mock server, a reviewer can check naming and status codes, and CI can diff it against the previous version to catch breaking changes.

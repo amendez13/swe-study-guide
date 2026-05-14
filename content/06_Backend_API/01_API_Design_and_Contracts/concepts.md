@@ -28,12 +28,20 @@ In a design-first workflow, the API contract is reviewed before the implementati
 
 Code-first moves faster at the start because the framework can infer a spec from running code, but it is easier for documentation and implementation to drift. The tradeoff is speed of iteration versus upfront contract clarity.
 
-```mermaid
-flowchart LR
-    A[User need] --> B[API contract draft]
-    B --> C[Review names, payloads, status codes]
-    C --> D[Implement handlers]
-    D --> E[Generate docs / SDKs]
+```text
+Design-first                         Code-first
+──────────────────────────────       ──────────────────────────────
+1. Write OpenAPI spec                1. Write route handlers
+2. Review names, types, status       2. Framework generates spec
+3. Build handlers to match spec      3. Review generated docs
+4. Generate SDKs / docs              4. Fix drift when noticed
+
++ Contract is reviewable early       + Faster to prototype
++ Frontend/mobile can work in        + Less upfront ceremony
+  parallel against the spec
+- Slower start                       - Spec drifts from code
+- Spec maintenance overhead          - Harder to review contract
+                                       before shipping
 ```
 
 ## Public, private, and partner APIs
@@ -42,11 +50,16 @@ The audience for an API changes the design pressure. Public APIs need strong erg
 
 Private APIs can evolve faster, but they still need discipline when multiple internal teams or services depend on them. Partner APIs usually sit in the middle: smaller audience than public, but higher governance than purely internal tooling.
 
-Example:
-
-- Public API: `api.example.com/v1/payments`
-- Private API: an internal service route only the checkout backend calls
-- Partner API: an order-sync API used by one warehouse vendor
+```text
+              Public             Partner            Private
+Audience      Unknown devs       Known vendors      Internal teams
+Versioning    Strict (v1/v2)     Negotiated         Flexible
+Breaking      Months of notice   Coordinated        Deploy together
+  changes
+Auth          API keys, OAuth2   Mutual TLS, keys   Service mesh
+Docs          Polished portal    Shared spec         README / spec
+Example       Stripe API         Warehouse sync      Checkout → Orders
+```
 
 ## OpenAPI as a machine-readable contract
 
@@ -78,11 +91,23 @@ Examples make a contract concrete. A developer can understand a field list intel
 
 Because the contract is structured, teams can also generate server stubs, client SDKs, and test scaffolds from it. That is useful only if the specification is treated as a real source of truth rather than stale marketing material.
 
-```json
-{
-  "customerId": 7,
-  "items": [
-    {"sku": "BOOK-123", "quantity": 2}
-  ]
-}
+```http
+POST /orders HTTP/1.1
+Content-Type: application/json
+
+{"customerId": 7, "items": [{"sku": "BOOK-123", "quantity": 2}]}
+
+HTTP/1.1 201 Created
+Location: /orders/42
+
+{"id": 42, "status": "pending", "customerId": 7}
+```
+
+```text
+What a good OpenAPI spec can generate:
+  → Interactive docs   (Swagger UI, ReDoc)
+  → Client SDKs        (TypeScript, Python, Go)
+  → Server stubs       (route scaffolds matching the spec)
+  → Contract tests     (validate responses against the schema)
+  → Mock servers       (return example responses during frontend dev)
 ```
