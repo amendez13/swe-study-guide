@@ -4,9 +4,22 @@ Synchronous request handling is straightforward: each request blocks until its w
 
 This helps most when the bottleneck is network or disk waiting rather than CPU. Async is about efficient waiting, not about making expensive computation magically cheap.
 
-```python
-result = database.fetch(order_id)      # sync style
-result = await database.fetch(order_id)  # async style
+```text
+Sync (1 thread, 3 requests, each waits 100ms on DB):
+
+  Thread │ ███░░░░░░░███░░░░░░░███░░░░░░░│  Total: 300ms
+         │ req1       req2       req3      │
+         ███ = work   ░░░ = waiting on I/O
+
+Async (1 thread, 3 requests, overlapped I/O):
+
+  Thread │ ███░░░░░░░│  Total: ~100ms
+         │ ├─req1 wait─┤
+         │ ├─req2 wait─┤  (all three wait in parallel)
+         │ ├─req3 wait─┤
+
+Async wins when requests spend most of their time waiting.
+It does NOT help when the bottleneck is CPU (e.g., image resize).
 ```
 
 ## Event loops and concurrency models
@@ -56,4 +69,18 @@ Concurrency choices should be informed by workload shape. A service with short I
 
 Understanding the workload keeps teams from cargo-culting async or worker counts without knowing why the change helps.
 
-Example: a JSON CRUD API and a video-transcoding API should not expect the same worker model to perform well.
+```text
+Workload              Bottleneck    Best model           Example
+────────────────────  ──────────    ──────────────────   ──────────────────
+Short I/O-bound       Network/DB    Async event loop     JSON CRUD API
+CPU-heavy             CPU cores     Multi-process pool   Image resize, ML
+Long-lived streams    Connections   Async + WebSockets   Chat, live feeds
+Mixed                 Varies        Async + thread pool  API with some CPU
+                                    for blocking calls   work
+
+Tuning levers:
+  Uvicorn workers     = CPU cores (for process-level parallelism)
+  Thread pool size    = for blocking I/O calls in async handlers
+  Connection pool     = max concurrent DB connections per worker
+  Queue concurrency   = max parallel background jobs
+```
