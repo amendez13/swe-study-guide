@@ -44,10 +44,20 @@ As an API grows, keeping every endpoint in one file becomes a maintenance tax. M
 Frameworks differ in syntax, but the underlying idea is the same: route organization should mirror the mental model of the product, not the order in which handlers happened to be added.
 
 ```text
-routes/
-  orders.py
-  customers.py
-  invoices.py
+Flat (route-centric):            Modular (domain-centric):
+  app/                             app/
+    routes.py  ← 80 endpoints       orders/
+    models.py  ← 30 models            routes.py
+    services.py ← everything           service.py
+                                       repository.py
+                                     customers/
+                                       routes.py
+                                       service.py
+                                       repository.py
+                                     invoices/
+                                       routes.py
+                                       service.py
+                                       repository.py
 ```
 
 ## Request-to-domain mapping
@@ -69,4 +79,18 @@ Every layer depends on something beneath it: handlers depend on services, servic
 
 When those boundaries are weak, small changes fan out unpredictably. When they are explicit, the system remains navigable as it grows.
 
-Example: `orders_handler -> order_service -> order_repository` is a cleaner dependency direction than handlers importing raw SQL helpers directly.
+```mermaid
+flowchart TB
+    A[Routes / Handlers] --> B[Service Layer]
+    B --> C[Repository Layer]
+    C --> D[Database / External APIs]
+    A -. "never" .-> D
+    B -. "never" .-> A
+```
+
+```text
+Allowed:  handler → service → repository → DB
+Avoid:    handler → DB directly (skips business rules)
+Avoid:    repository → handler (circular dependency)
+Avoid:    service → handler (inverts the direction)
+```
