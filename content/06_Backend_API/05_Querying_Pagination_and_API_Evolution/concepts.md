@@ -24,11 +24,18 @@ GET /orders?sort=status,created_at
 
 Pagination keeps collection responses bounded and makes large datasets traversable. Offset pagination is simple and familiar, while cursor pagination is usually more stable for large or frequently changing datasets.
 
-The right choice depends on usage patterns. Offset is easier for "go to page 5"; cursor is better when consistency under insertion and deletion matters more than random page jumps.
+```text
+                 Offset                      Cursor
+Request          ?limit=20&offset=40         ?limit=20&cursor=eyJpZCI6NDJ9
+"Jump to page"   Easy (offset = page * size) Not supported
+Consistency      Rows shift if data changes  Stable — anchored to last item
+Performance      Slow at high offsets        Constant — no row skipping
+                 (DB scans skipped rows)
+Best for         Admin dashboards, small     Feeds, mobile infinite scroll,
+                 datasets                    large or changing datasets
 
-```http
-GET /orders?limit=20&offset=40
-GET /orders?limit=20&cursor=eyJpZCI6NDJ9
+Offset:  SELECT * FROM orders ORDER BY id LIMIT 20 OFFSET 40;
+Cursor:  SELECT * FROM orders WHERE id > 42 ORDER BY id LIMIT 20;
 ```
 
 ## Result metadata
@@ -39,9 +46,19 @@ Without metadata, consumers end up reverse-engineering behavior from trial and e
 
 ```json
 {
-  "items": [{"id": 41}, {"id": 42}],
-  "next_cursor": "eyJpZCI6NDJ9",
-  "limit": 2
+  "items": [
+    {"id": 41, "status": "paid"},
+    {"id": 42, "status": "pending"}
+  ],
+  "pagination": {
+    "limit": 20,
+    "next_cursor": "eyJpZCI6NDJ9",
+    "has_more": true
+  },
+  "links": {
+    "next": "/orders?limit=20&cursor=eyJpZCI6NDJ9",
+    "self": "/orders?limit=20&cursor=eyJpZCI6NDB9"
+  }
 }
 ```
 
@@ -55,14 +72,27 @@ Example: changing `total_cents` to `amount` may look harmless in code review, bu
 
 ## Versioning strategies
 
-Versioning is how teams introduce meaningful incompatible change without silently breaking everyone. Common approaches include path-based versioning like `/v2/orders`, header-based versioning, and media-type versioning.
+Versioning is how teams introduce meaningful incompatible change without silently breaking everyone. Each approach trades visibility against URL cleanliness.
 
-Each approach has tradeoffs. Path versioning is obvious and easy to debug; header or media-type versioning keeps URLs cleaner but makes requests harder to inspect casually.
+```text
+Strategy        Example                                       Tradeoffs
+──────────────  ────────────────────────────────────────────  ──────────────────
+Path-based      GET /v2/orders                                Obvious in URLs and
+                                                              logs; duplicates
+                                                              route definitions
 
-```http
-GET /v2/orders
-Accept: application/vnd.example.orders+json;version=2
+Header-based    GET /orders                                   Clean URLs; version
+                API-Version: 2                                hidden from casual
+                                                              inspection
+
+Media-type      GET /orders                                   Most RESTful; hard
+                Accept: application/vnd.example.v2+json       to test in a browser
+
+Query param     GET /orders?version=2                         Easy to test; looks
+                                                              like a filter param
 ```
+
+Path-based is the most common in public APIs because it is the easiest to debug, document, and route.
 
 ## Deprecation and additive change
 
