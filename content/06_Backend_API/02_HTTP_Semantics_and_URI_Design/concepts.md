@@ -28,13 +28,24 @@ DELETE /orders/42        # remove the order
 
 Status codes are how the server classifies the outcome of a request. `2xx` means success, `4xx` means the client asked incorrectly or lacks access, and `5xx` means the server failed while handling an otherwise valid request.
 
-Clients build behavior around these codes. Retry logic, error handling, and monitoring dashboards all depend on them, so choosing `200`, `201`, `204`, `404`, or `409` correctly is part of API design, not a last-minute detail.
+Clients build behavior around these codes. Retry logic, error handling, and monitoring dashboards all depend on them, so choosing the right code is part of API design, not a last-minute detail.
 
-Example:
-
-- `201 Created` after `POST /orders`
-- `204 No Content` after a successful `DELETE`
-- `409 Conflict` when an idempotency key is reused incorrectly
+```text
+Code  Meaning             When to use
+────  ──────────────────  ──────────────────────────────────────────
+200   OK                  Successful GET, PUT, PATCH
+201   Created             Successful POST that creates a resource
+204   No Content          Successful DELETE or action with no body
+400   Bad Request         Malformed syntax, missing required field
+401   Unauthorized        No credentials or expired token
+403   Forbidden           Valid identity, insufficient permission
+404   Not Found           Resource does not exist
+409   Conflict            Duplicate key, state conflict
+422   Unprocessable       Valid syntax but semantically invalid
+429   Too Many Requests   Rate limit exceeded
+500   Internal Error      Unhandled server failure
+503   Service Unavailable Overloaded or in maintenance
+```
 
 ## Stable and readable URIs
 
@@ -66,7 +77,20 @@ An operation is idempotent when repeating the same request leads to the same fin
 
 This matters in production more than in tutorials. Load balancers, timeouts, and client retry middleware all assume some methods can be repeated safely and others cannot.
 
-Example: retrying `PUT /users/42` with the same body should still leave one user `42`, not create duplicates.
+```text
+Method   Safe?   Idempotent?   Retry-safe?   Typical use
+──────   ─────   ───────────   ───────────   ──────────────────
+GET      Yes     Yes           Yes           Read a resource
+HEAD     Yes     Yes           Yes           Check existence
+PUT      No      Yes           Yes           Replace a resource
+DELETE   No      Yes           Yes           Remove a resource
+POST     No      No            No*           Create a resource
+PATCH    No      No            No*           Partial update
+
+* POST and PATCH can be made retry-safe with an idempotency key:
+  POST /orders  +  Idempotency-Key: abc-123
+  Server checks the key → if already processed, returns stored result.
+```
 
 ## Headers as control information
 

@@ -14,22 +14,44 @@ Backend API design starts with speaking HTTP correctly. If methods, status codes
 
 ## Example
 
-```python
-request = {
-    "method": "GET",
-    "path": "/orders",
-    "query": {"status": "paid", "limit": "20"},
-    "headers": {"Accept": "application/json"},
-}
+A typical CRUD lifecycle for an order resource, showing how methods, status codes, and headers work together:
 
-response = {
-    "status": 200,
-    "headers": {"Content-Type": "application/json"},
-    "body": [{"id": 1, "status": "paid"}],
-}
+```http
+# 1. Create an order
+POST /orders HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOi...
 
-print(request["method"], request["path"], request["query"])
-print(response["status"], response["headers"]["Content-Type"], response["body"][0]["id"])
+{"customerId": 7, "items": [{"sku": "BOOK-123", "quantity": 2}]}
+
+HTTP/1.1 201 Created
+Location: /orders/42
+
+{"id": 42, "status": "pending", "customerId": 7}
+
+# 2. Fetch the order
+GET /orders/42 HTTP/1.1
+Authorization: Bearer eyJhbGciOi...
+
+HTTP/1.1 200 OK
+ETag: "v1"
+
+{"id": 42, "status": "pending", "customerId": 7}
+
+# 3. Update the order status
+PATCH /orders/42 HTTP/1.1
+Content-Type: application/json
+
+{"status": "paid"}
+
+HTTP/1.1 200 OK
+
+{"id": 42, "status": "paid", "customerId": 7}
+
+# 4. Delete the order
+DELETE /orders/42 HTTP/1.1
+
+HTTP/1.1 204 No Content
 ```
 
-The example is simple, but it captures the mental model: a request names a resource and shapes the result, while the response communicates success and representation explicitly.
+Each step uses a different method and returns the status code that communicates the outcome — `201` for creation, `200` for retrieval and update, `204` for deletion with no body.
