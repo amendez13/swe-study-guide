@@ -5,8 +5,21 @@ Backend APIs must treat incoming data and operational secrets as distinct securi
 These are foundational controls, not optional hardening. Many production incidents start with weak boundary handling or poor secret hygiene.
 
 ```text
-Good: DB_URL from environment variable
-Bad:  DB_URL = "postgres://admin:password@..."
+Common input attacks and defenses:
+
+  Attack              Defense
+  ──────────────────  ──────────────────────────────────────
+  SQL injection       Parameterized queries (never string concat)
+  XSS                 Escape HTML output, Content-Security-Policy
+  Command injection   Avoid shell=True; validate/allowlist inputs
+  Path traversal      Reject ../ in file paths; use allowlists
+
+Secret management:
+  Bad:   DB_URL = "postgres://admin:password@host/db"  (in source code)
+  Bad:   .env file committed to git
+  Good:  DB_URL from environment variable or secret manager
+  Good:  AWS Secrets Manager, HashiCorp Vault, Doppler
+  Rule:  If it grants access, it belongs in a secret store, not in code.
 ```
 
 ## Least privilege and operational access
@@ -23,9 +36,19 @@ Unit tests isolate small pieces of logic, while integration tests verify that th
 
 A strong test strategy uses the cheapest level that can prove the thing you care about, then adds deeper tests where boundaries or critical workflows justify them.
 
-```python
-def test_total_with_tax():
-    assert calculate_total(100, 0.2) == 120
+```text
+Testing pyramid for a backend API:
+
+        /  E2E  \        Few — slow, fragile, prove the full flow
+       / ─────── \
+      / Integration\     Some — prove routes + DB + auth together
+     / ───────────── \
+    /    Unit tests    \  Many — fast, isolated, prove business logic
+   ─────────────────────
+
+Unit:         assert calculate_total(100, tax=0.2) == 120
+Integration:  POST /orders → assert 201 + row exists in DB
+E2E:          Sign in → create order → verify email sent
 ```
 
 ## Contract testing
@@ -35,8 +58,22 @@ Contract tests verify not only that a route returns success but that it returns 
 For backend APIs, contract drift is often a bigger risk than simple algorithm bugs. A test suite that ignores payload shape can miss client-breaking changes completely.
 
 ```python
-assert response.status_code == 201
-assert response.json()["status"] == "created"
+def test_create_order_contract():
+    response = client.post("/orders", json={"customerId": 7, "items": [{"sku": "X", "quantity": 1}]})
+
+    assert response.status_code == 201
+    body = response.json()
+    assert "id" in body
+    assert body["status"] == "created"
+    assert isinstance(body["id"], int)
+
+def test_create_order_validation_contract():
+    response = client.post("/orders", json={})
+
+    assert response.status_code == 422
+    body = response.json()
+    assert body["error"] == "validation_error"
+    assert any(d["field"] == "customerId" for d in body["details"])
 ```
 
 ## Observability and health
@@ -45,10 +82,20 @@ Logs, metrics, traces, and health endpoints are part of operating an API safely.
 
 Observability is part of the contract with operators. An API that functions only when a specific engineer is awake is not production-ready.
 
-```http
-GET /health
-200 OK
-{"status": "ok"}
+```text
+Pillar     What it answers             Example
+─────────  ──────────────────────────  ──────────────────────────────
+Logs       What happened?              "Order 42 created by user 7"
+Metrics    How much / how fast?        p99 latency = 120ms, 5xx rate = 0.1%
+Traces     Where did time go?          request → auth (2ms) → DB (45ms) → response
+Health     Is the service ready?       GET /health → {"status": "ok", "db": "up"}
+
+Health endpoint with dependency checks:
+  GET /health
+  200 OK  {"status": "ok", "db": "connected", "cache": "connected"}
+
+  GET /health
+  503 Service Unavailable  {"status": "degraded", "db": "connected", "cache": "timeout"}
 ```
 
 ## CI/CD and production readiness
