@@ -15,11 +15,19 @@ flowchart LR
 
 ## Cross-cutting concerns
 
-Cross-cutting concerns are behaviors that matter across the whole API rather than within one use case. Examples include logging, correlation IDs, compression, CORS, and request metrics.
+Cross-cutting concerns are behaviors that matter across the whole API rather than within one use case. Treating these as shared infrastructure instead of copying them into handlers reduces duplication and makes policy changes easier to apply consistently.
 
-Treating these as shared infrastructure instead of copying them into handlers reduces duplication and makes policy changes easier to apply consistently.
-
-Example: response timing should be emitted by one shared middleware, not hand-coded in fifty route handlers.
+```text
+Concern               Where it lives             What it does
+────────────────────  ─────────────────────────  ──────────────────────────
+Request logging       Middleware (before)         Log method, path, timestamp
+Correlation ID        Middleware (before)         Attach X-Request-ID
+Authentication        Middleware (before)         Extract and verify token
+CORS                  Middleware (before/after)   Add Access-Control headers
+Compression           Middleware (after)          Gzip response body
+Response timing       Middleware (after)          Add X-Response-Time header
+Error envelope        Exception handler          Wrap errors in standard shape
+```
 
 ## Correlation IDs and request context
 
@@ -38,8 +46,20 @@ Browser clients are subject to cross-origin rules that non-browser clients do no
 This is why an endpoint can work perfectly in `curl` and still fail from a web frontend. The API may be correct functionally but misconfigured for browser security policy.
 
 ```http
+# Browser sends a preflight request before the actual PATCH:
+OPTIONS /orders/42 HTTP/1.1
+Origin: https://app.example.com
+Access-Control-Request-Method: PATCH
+Access-Control-Request-Headers: Authorization, Content-Type
+
+# Server responds with what's allowed:
+HTTP/1.1 204 No Content
 Access-Control-Allow-Origin: https://app.example.com
-Access-Control-Allow-Methods: GET,POST,PATCH,DELETE
+Access-Control-Allow-Methods: GET, POST, PATCH, DELETE
+Access-Control-Allow-Headers: Authorization, Content-Type
+Access-Control-Max-Age: 3600
+
+# Browser sees PATCH is allowed → sends the actual request.
 ```
 
 ## Shared response policies
