@@ -4,27 +4,49 @@ The structure a database wants and the structure an API should expose are relate
 
 Keeping those models distinct protects the public contract from internal refactors. It also makes it easier to evolve storage without forcing clients to relearn the API.
 
-```json
-// API response
-{
-  "id": 42,
-  "customer": {"id": 7, "name": "A. Example"}
-}
-```
-
 ```text
-Database rows:
-orders(id, customer_id)
-customers(id, name)
+Database tables:                      API response:
+┌──────────────────────┐              {
+│ orders               │                "id": 42,
+│   id: 42             │                "customer": {
+│   customer_id: 7     │──┐               "id": 7,
+│   internal_batch: 98 │  │               "name": "A. Example"
+└──────────────────────┘  │             }
+                          │           }
+┌──────────────────────┐  │
+│ customers            │  │           Notice:
+│   id: 7              │◄─┘           - customer is embedded, not a FK
+│   name: A. Example   │             - internal_batch is excluded
+│   tax_code: US-CA    │             - tax_code is excluded
+└──────────────────────┘
 ```
 
 ## Relational vs. document persistence
 
 Relational systems model structured entities and relationships well, while document stores favor flexible nested data and aggregate-oriented access patterns. Both influence how backend APIs expose resources and how much joining or denormalization is needed.
 
-The important skill is understanding the tradeoff rather than treating either option as universally superior. Persistence decisions affect endpoint behavior, performance, and consistency semantics.
+The important skill is understanding the tradeoff rather than treating either option as universally superior.
 
-Example: an order with many line items may be joined across tables in Postgres or embedded into one order document in MongoDB.
+```text
+                  Relational (Postgres)         Document (MongoDB)
+Schema            Strict, enforced              Flexible, per-document
+Relationships     JOINs across tables           Embed or reference
+Transactions      ACID across tables            ACID within one document
+Query flexibility SQL (ad-hoc queries)          Limited without indexes
+Scaling           Vertical (read replicas)      Horizontal (sharding)
+
+Same order, two storage models:
+
+  Relational:                     Document:
+  orders: {id:42, customer_id:7}  {
+  items:  {id:1, order_id:42,       _id: 42,
+           sku:"BOOK-123", qty:2}    customer_id: 7,
+                                     items: [
+  Two tables, JOIN to read.            {sku:"BOOK-123", qty:2}
+                                     ]
+                                   }
+                                   One document, one read.
+```
 
 ## Relationships and aggregates
 
@@ -32,10 +54,20 @@ One-to-many and many-to-many relationships appear everywhere in backend systems.
 
 These decisions shape both consumer ergonomics and backend complexity. A clean aggregate boundary can simplify transactions and caching, while a bad one creates awkward, leaky workflows.
 
-```http
-GET /orders/42
-GET /orders/42/items
-POST /projects/12/members
+```text
+Strategy       Example                          Tradeoff
+───────────    ─────────────────────────────     ─────────────────────────
+Embed          GET /orders/42                    One request, larger payload
+               → items[] included in body
+
+Sub-resource   GET /orders/42/items              Separate fetch, smaller payload
+               → items returned independently
+
+Link           GET /orders/42                    Client fetches if needed
+               → "links": {"items": "/orders/42/items"}
+
+Association    POST /projects/12/members         Dedicated endpoint for
+               {"userId": 7}                     many-to-many management
 ```
 
 ## Repositories and queries
