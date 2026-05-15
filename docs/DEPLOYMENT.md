@@ -13,7 +13,8 @@ Matching unit names, Syslog identifiers, and Loki labels makes operator workflow
 
 ## Release Metadata
 
-Expose release metadata through `src/release_info.py` so health endpoints and startup logs can report the running tag and commit.
+Expose release metadata through `src/release_info.py` so `serve.py` can return
+the running tag and commit from `GET /health`.
 
 ## Loki Integration
 

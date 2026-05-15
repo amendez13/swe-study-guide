@@ -107,6 +107,9 @@ Recommended payload shape:
 
 Use `src/release_info.py` to populate the release metadata.
 
+The study-site server in `serve.py` follows this pattern directly and is the
+recommended liveness endpoint for deployment smoke checks.
+
 ### `GET /pipeline/health`
 
 For queue- or pipeline-driven projects, expose richer execution state:

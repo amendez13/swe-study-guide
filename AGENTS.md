@@ -128,7 +128,7 @@ deactivate
 
 ```bash
 source venv/bin/activate
-python -m src.main
+python serve.py --port 8080
 ```
 
 ## Notable Code Quality Exceptions

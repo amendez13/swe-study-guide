@@ -9,7 +9,7 @@ User=swe-study-guide
 Group=swe-study-guide
 WorkingDirectory=/opt/swe-study-guide
 Environment=PYTHONUNBUFFERED=1
-ExecStart=/opt/swe-study-guide/venv/bin/python -m src.main
+ExecStart=/opt/swe-study-guide/venv/bin/python serve.py --host 0.0.0.0 --port 8080
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=120

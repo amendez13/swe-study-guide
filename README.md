@@ -40,22 +40,23 @@ source venv/bin/activate  # On macOS/Linux
 pip install -r requirements.txt
 ```
 
-4. Configure the application:
+4. Start the local study site:
 ```bash
-cp config/config.example.yaml config/config.yaml
-# Edit config/config.yaml with your settings
+python serve.py --port 8080
 ```
 
 ### Usage
 
 ```bash
-# Run the application
-python -m src.main
+# Run the study site
+python serve.py --port 8080
 ```
 
 ## Configuration
 
-Configuration is stored in `config/config.yaml`. See `config/config.example.yaml` for all available options.
+The study site does not require a runtime config file. Deployment metadata for
+`/health` is derived from `src/release_info.py`, and the optional `config/`
+files remain available for template scaffolding and future extensions.
 
 ```yaml
 # Example configuration
@@ -72,10 +73,12 @@ app:
 swe-study-guide/
 ├── .github/workflows/    # CI/CD configuration
 ├── .claude/              # Claude Code configuration
-├── config/               # Configuration files
+├── config/               # Optional template configuration files
+├── content/              # Study content rendered by the site
 ├── docs/                 # Documentation
-├── src/       # Source code
-├── tests/         # Test files
+├── site/                 # Frontend assets for the study site
+├── src/                  # Shared helpers such as release metadata/logging
+├── tests/                # Test files
 ├── AGENTS.md             # Source-of-truth agent guidance
 ├── CLAUDE.md             # Symlink to AGENTS.md for Claude compatibility
 ├── README.md             # This file
@@ -99,10 +102,10 @@ pre-commit install
 
 ```bash
 # Run all tests
-pytest
+./venv/bin/pytest
 
 # Run with coverage
-pytest --cov=src --cov-report=term-missing
+./venv/bin/pytest --cov=src --cov-report=term-missing
 ```
 
 ### Code Quality
