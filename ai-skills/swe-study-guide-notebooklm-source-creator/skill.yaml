@@ -1,0 +1,7 @@
+name: "swe-study-guide-notebooklm-source-creator"
+description: "Use when creating or refreshing text-only NotebookLM upload bundles for study-guide topics or technologies in this repository. This skill packages local topic concepts, notes, and technology-level context into notebooklm/ source folders while excluding site assets, images, and other non-text media."
+codex:
+  interface:
+    display_name: "swe-study-guide NotebookLM Sources"
+    short_description: "Build text-only NotebookLM bundles for study-guide topics"
+    default_prompt: "Use $swe-study-guide-notebooklm-source-creator to create or refresh a text-only NotebookLM source bundle for a swe-study-guide topic."

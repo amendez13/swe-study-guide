@@ -1,0 +1,106 @@
+---
+- name: Update text-only NotebookLM source bundles
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    repo_root: "{{ playbook_dir | dirname | dirname }}"
+    notebooklm_output_root: "{{ repo_root }}/notebooklm"
+    notebooklm_source_script: "{{ repo_root }}/ai-skills/swe-study-guide-notebooklm-source-creator/scripts/build_notebooklm_sources.py"
+    notebooklm_update_mode: existing
+    notebooklm_topic_path: ""
+    notebooklm_technology_path: ""
+    notebooklm_dry_run: false
+
+  tasks:
+    - name: Validate NotebookLM update mode
+      ansible.builtin.assert:
+        that:
+          - notebooklm_update_mode in ['existing', 'topic', 'technology', 'all_topics']
+        fail_msg: "notebooklm_update_mode must be one of: existing, topic, technology, all_topics."
+
+    - name: Require topic path for topic mode
+      ansible.builtin.assert:
+        that:
+          - notebooklm_topic_path | length > 0
+        fail_msg: "Set notebooklm_topic_path when notebooklm_update_mode=topic."
+      when: notebooklm_update_mode == 'topic'
+
+    - name: Require technology path for technology mode
+      ansible.builtin.assert:
+        that:
+          - notebooklm_technology_path | length > 0
+        fail_msg: "Set notebooklm_technology_path when notebooklm_update_mode=technology."
+      when: notebooklm_update_mode == 'technology'
+
+    - name: Check NotebookLM source script
+      ansible.builtin.stat:
+        path: "{{ notebooklm_source_script }}"
+      register: notebooklm_source_script_stat
+
+    - name: Fail when NotebookLM source script is missing
+      ansible.builtin.assert:
+        that:
+          - notebooklm_source_script_stat.stat.exists
+        fail_msg: "NotebookLM source script is missing: {{ notebooklm_source_script }}"
+
+    - name: Build NotebookLM source command
+      ansible.builtin.set_fact:
+        notebooklm_source_command: >-
+          {{
+            [
+              'python3',
+              notebooklm_source_script,
+              '--repo-root',
+              repo_root,
+              '--output-root',
+              notebooklm_output_root
+            ]
+            + (['--all-existing'] if notebooklm_update_mode == 'existing' else [])
+            + (['--topic', notebooklm_topic_path] if notebooklm_update_mode == 'topic' else [])
+            + (['--technology', notebooklm_technology_path] if notebooklm_update_mode == 'technology' else [])
+            + (['--all-topics'] if notebooklm_update_mode == 'all_topics' else [])
+            + (['--dry-run'] if notebooklm_dry_run | bool else [])
+          }}
+
+    - name: Update NotebookLM source bundles
+      ansible.builtin.command:
+        argv: "{{ notebooklm_source_command }}"
+        chdir: "{{ repo_root }}"
+      register: notebooklm_source_update
+      changed_when: not notebooklm_dry_run | bool
+
+    - name: Show updated NotebookLM bundles
+      ansible.builtin.debug:
+        msg: "{{ notebooklm_source_update.stdout_lines }}"
+
+    - name: Check whether NotebookLM output root exists
+      ansible.builtin.stat:
+        path: "{{ notebooklm_output_root }}"
+      register: notebooklm_output_root_stat
+
+    - name: Verify generated NotebookLM bundles contain no images or manifest files
+      ansible.builtin.find:
+        paths: "{{ notebooklm_output_root }}"
+        recurse: true
+        file_type: file
+        patterns:
+          - "*.png"
+          - "*.jpg"
+          - "*.jpeg"
+          - "*.gif"
+          - "*.webp"
+          - "*.bmp"
+          - "*.tiff"
+          - "*.svg"
+          - "*.json"
+      register: notebooklm_forbidden_files
+      when: notebooklm_output_root_stat.stat.exists
+
+    - name: Fail if forbidden NotebookLM files are present
+      ansible.builtin.assert:
+        that:
+          - (notebooklm_forbidden_files.files | default([])) | length == 0
+        fail_msg: >-
+          NotebookLM output contains forbidden image or manifest files:
+          {{ (notebooklm_forbidden_files.files | default([])) | map(attribute='path') | list }}

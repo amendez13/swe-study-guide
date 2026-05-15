@@ -46,6 +46,7 @@ For issue-driven work, follow this default sequence:
   - the change is only a session-note update, and
   - the user explicitly requested the notes update or the agent just completed a delivery cycle the user authorized.
 - Use `ai-skills/swe-study-guide-session-notes/` as the canonical session-notes workflow.
+- Use `ai-skills/swe-study-guide-notebooklm-source-creator/` when creating or refreshing text-only NotebookLM topic bundles for this repository.
 
 ## Project Overview
 
