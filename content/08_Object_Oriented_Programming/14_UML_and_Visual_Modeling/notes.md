@@ -19,7 +19,7 @@ classDiagram
     Library "1" --> "*" Book : holds
     Book "1" --> "0..*" Loan : tracked by
     Member "1" --> "0..*" Loan : borrows
-    
+
     class Library {
         +String name
         +addBook(Book)
