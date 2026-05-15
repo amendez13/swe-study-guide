@@ -5,6 +5,7 @@
   let currentTech = null;
   let currentTopic = null;
   let mermaidRenderCounter = 0;
+  let activeTabRequestToken = 0;
 
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
@@ -266,23 +267,27 @@
       )
       .join("");
 
-    bar.addEventListener("click", (e) => {
+    bar.onclick = (e) => {
       const btn = e.target.closest(".tab-btn");
       if (btn) activateTab(btn.dataset.tab, tech, topic);
-    });
+    };
   }
 
   async function activateTab(tabId, tech, topic) {
+    const requestToken = ++activeTabRequestToken;
     $$(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tabId));
     const container = $("#tab-content");
     const base = `/content/${tech.dir}/${topic.dir}`;
+    container.innerHTML = `<div class="empty-state">Loading ${esc(tabId)}...</div>`;
 
     if (tabId === "notes") {
       const md = await fetchText(`${base}/${topic.notesFile}`);
+      if (requestToken !== activeTabRequestToken) return;
       container.innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
       renderMermaidIn(container);
     } else if (tabId === "concepts") {
       const md = await fetchText(`${base}/concepts.md`);
+      if (requestToken !== activeTabRequestToken) return;
       const concepts = parseConcepts(md);
       if (concepts.length) {
         renderConcepts(container, concepts);

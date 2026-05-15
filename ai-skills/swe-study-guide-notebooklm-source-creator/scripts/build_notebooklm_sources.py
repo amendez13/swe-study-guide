@@ -10,7 +10,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tiff", ".svg"}
 MEDIA_OR_METADATA_EXTENSIONS = IMAGE_EXTENSIONS | {".json"}
 
@@ -143,7 +142,9 @@ def write_readme(bundle_dir: Path, topic_dir: Path, repo_root: Path, sources: li
 
 Scope: `{relative_to_repo(topic_dir, repo_root)}`
 
-Use this NotebookLM notebook for the study-guide topic **{name}** in technology **{technology_name}**. This bundle deliberately excludes site assets, screenshots, image files, and non-text metadata.
+Use this NotebookLM notebook for the study-guide topic **{name}** in
+technology **{technology_name}**. This bundle deliberately excludes site
+assets, screenshots, image files, and non-text metadata.
 
 ## Upload Sources
 
@@ -171,11 +172,19 @@ Do not upload:
 Paste this into NotebookLM as the first note or first chat instruction:
 
 ```text
-Use only the uploaded study-guide sources when answering. Treat the topic concepts as the primary source of truth, the topic notes as the narrative companion, the technology concepts as the broader concept map, and the research files as upstream curriculum context.
+Use only the uploaded study-guide sources when answering. Treat the topic
+concepts as the primary source of truth, the topic notes as the narrative
+companion, the technology concepts as the broader concept map, and the
+research files as upstream curriculum context.
 
-Explain topics like a strong software engineer tutoring another engineer: concise, concrete, and grounded in the uploaded files. Favor precise definitions, practical examples, tradeoffs, and common misunderstandings over generic summaries.
+Explain topics like a strong software engineer tutoring another engineer:
+concise, concrete, and grounded in the uploaded files. Favor precise
+definitions, practical examples, tradeoffs, and common misunderstandings over
+generic summaries.
 
-When I ask for study help, prefer concise but complete answers, produce active-recall questions when useful, and clearly separate source-grounded statements from broader inferences.
+When I ask for study help, prefer concise but complete answers, produce
+active-recall questions when useful, and clearly separate source-grounded
+statements from broader inferences.
 ```
 
 ## Useful Starting Prompts
@@ -198,7 +207,8 @@ Compare the central ideas in this topic to related concepts from the same techno
 
 ## Refresh Note
 
-NotebookLM stores static copies of uploaded sources. If the study-guide files change, rerun the source refresh and re-upload the changed files.
+NotebookLM stores static copies of uploaded sources. If the study-guide files
+change, rerun the source refresh and re-upload the changed files.
 """
     (bundle_dir / "README.md").write_text(readme, encoding="utf-8")
 
@@ -265,15 +275,25 @@ def discover_existing_bundle_topics(repo_root: Path, output_root: Path) -> list[
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--repo-root", type=Path, default=default_repo_root(), help="Repository root. Defaults to this script's repository.")
-    parser.add_argument("--output-root", type=Path, default=None, help="NotebookLM output root. Defaults to <repo-root>/notebooklm.")
-    parser.add_argument("--dry-run", action="store_true", help="Print the bundles that would be generated without writing files.")
+    parser.add_argument(
+        "--repo-root", type=Path, default=default_repo_root(), help="Repository root. Defaults to this script's repository."
+    )
+    parser.add_argument(
+        "--output-root", type=Path, default=None, help="NotebookLM output root. Defaults to <repo-root>/notebooklm."
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Print the bundles that would be generated without writing files."
+    )
 
     scope = parser.add_mutually_exclusive_group(required=True)
     scope.add_argument("--topic", type=Path, help="Study-guide topic folder to package.")
     scope.add_argument("--technology", type=Path, help="Technology folder; all topic folders inside it are packaged.")
-    scope.add_argument("--all-existing", action="store_true", help="Refresh topic bundles that already exist under the output root.")
-    scope.add_argument("--all-topics", action="store_true", help="Create or refresh bundles for every topic with local text sources.")
+    scope.add_argument(
+        "--all-existing", action="store_true", help="Refresh topic bundles that already exist under the output root."
+    )
+    scope.add_argument(
+        "--all-topics", action="store_true", help="Create or refresh bundles for every topic with local text sources."
+    )
     return parser.parse_args(argv)
 
 

@@ -6,7 +6,6 @@ import importlib.util
 import sys
 from pathlib import Path
 
-
 MODULE_PATH = (
     Path(__file__).resolve().parents[1]
     / "ai-skills"
