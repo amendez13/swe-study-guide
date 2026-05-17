@@ -113,33 +113,46 @@ class StudyHandler(SimpleHTTPRequestHandler):
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
+        self._handle_request(include_body=True)
+
+    def do_HEAD(self):
+        self._handle_request(include_body=False)
+
+    def _handle_request(self, include_body: bool):
         path = unquote(self.path)
 
         if path == "/api/content":
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
-            self.wfile.write(json.dumps(self.content_index).encode())
+            payload = json.dumps(self.content_index).encode()
+            self._send_ok(
+                content_type="application/json",
+                include_body=include_body,
+                body=payload,
+                allow_cors=True,
+                cache_control="no-store",
+            )
             return
 
         if path == "/health":
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps(build_health_payload()).encode())
+            payload = json.dumps(build_health_payload()).encode()
+            self._send_ok(
+                content_type="application/json",
+                include_body=include_body,
+                body=payload,
+                cache_control="no-store",
+            )
             return
 
         if path.startswith("/content/"):
             rel = path[len("/content/") :]
             file_path = resolve_under(CONTENT_DIR, rel)
             if file_path and file_path.is_file():
-                self.send_response(200)
-                ct = self._guess_type(file_path)
-                self.send_header("Content-Type", ct)
-                self.send_header("Access-Control-Allow-Origin", "*")
-                self.end_headers()
-                self.wfile.write(file_path.read_bytes())
+                self._send_ok(
+                    content_type=self._guess_type(file_path),
+                    include_body=include_body,
+                    body=file_path.read_bytes(),
+                    allow_cors=True,
+                    cache_control="no-store",
+                )
             else:
                 self.send_error(404, f"Not found: {rel}")
             return
@@ -149,13 +162,36 @@ class StudyHandler(SimpleHTTPRequestHandler):
 
         file_path = resolve_under(SITE_DIR, path)
         if file_path and file_path.is_file():
-            self.send_response(200)
-            ct = self._guess_type(file_path)
-            self.send_header("Content-Type", ct)
-            self.end_headers()
-            self.wfile.write(file_path.read_bytes())
+            self._send_ok(
+                content_type=self._guess_type(file_path),
+                include_body=include_body,
+                body=file_path.read_bytes(),
+                cache_control="no-store",
+            )
         else:
             self.send_error(404, f"Not found: {path}")
+
+    def _send_ok(
+        self,
+        *,
+        content_type: str,
+        include_body: bool,
+        body: bytes,
+        allow_cors: bool = False,
+        cache_control: str | None = None,
+    ) -> None:
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        if allow_cors:
+            self.send_header("Access-Control-Allow-Origin", "*")
+        if cache_control:
+            self.send_header("Cache-Control", cache_control)
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+        self.end_headers()
+        if include_body:
+            self.wfile.write(body)
 
     def _guess_type(self, path: Path) -> str:
         ext = path.suffix.lower()

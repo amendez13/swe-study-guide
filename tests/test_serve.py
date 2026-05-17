@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import io
 import sys
 from pathlib import Path
 
@@ -98,3 +99,50 @@ def test_main_binds_requested_host_and_port(monkeypatch, capsys) -> None:  # typ
     assert recorded["address"] == ("0.0.0.0", 9099)
     assert recorded["shutdown"] is True
     assert "http://0.0.0.0:9099" in captured.out
+
+
+def test_send_ok_sets_no_cache_and_skips_body_for_head() -> None:
+    handler = serve_module.StudyHandler.__new__(serve_module.StudyHandler)
+    recorded: list[tuple[str, str]] = []
+    body = b'console.log("study guide");'
+
+    handler.wfile = io.BytesIO()
+    handler.send_response = lambda code: recorded.append(("status", str(code)))  # type: ignore[method-assign]
+    handler.send_header = lambda key, value: recorded.append((key, value))  # type: ignore[method-assign]
+    handler.end_headers = lambda: recorded.append(("end_headers", ""))  # type: ignore[method-assign]
+
+    handler._send_ok(  # type: ignore[attr-defined]
+        content_type="application/javascript; charset=utf-8",
+        include_body=False,
+        body=body,
+        cache_control="no-store",
+    )
+
+    assert ("status", "200") in recorded
+    assert ("Content-Length", str(len(body))) in recorded
+    assert ("Cache-Control", "no-store") in recorded
+    assert ("Pragma", "no-cache") in recorded
+    assert ("Expires", "0") in recorded
+    assert handler.wfile.getvalue() == b""
+
+
+def test_send_ok_sets_cors_for_content_api() -> None:
+    handler = serve_module.StudyHandler.__new__(serve_module.StudyHandler)
+    recorded: list[tuple[str, str]] = []
+    body = b"{}"
+
+    handler.wfile = io.BytesIO()
+    handler.send_response = lambda code: recorded.append(("status", str(code)))  # type: ignore[method-assign]
+    handler.send_header = lambda key, value: recorded.append((key, value))  # type: ignore[method-assign]
+    handler.end_headers = lambda: None  # type: ignore[method-assign]
+
+    handler._send_ok(  # type: ignore[attr-defined]
+        content_type="application/json",
+        include_body=True,
+        body=body,
+        allow_cors=True,
+        cache_control="no-store",
+    )
+
+    assert ("Access-Control-Allow-Origin", "*") in recorded
+    assert handler.wfile.getvalue() == body
