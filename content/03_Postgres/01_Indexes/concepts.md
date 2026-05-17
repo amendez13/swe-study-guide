@@ -1,4 +1,0 @@
-- B-tree indexes support <, <=, =, >=, > and BETWEEN; they are the safe default
-- GIN indexes are better than B-tree for array containment and full-text search
-- Partial indexes reduce storage and maintenance cost by excluding unneeded rows
-- Index-only scans avoid heap fetches when all needed columns are in the index

@@ -1,4 +1,0 @@
-- EXPLAIN ANALYZE runs the query and shows actual vs estimated row counts
-- The planner uses table statistics (from ANALYZE) to estimate selectivity
-- CTEs are materialized by default before Postgres 12; use MATERIALIZED/NOT MATERIALIZED explicitly
-- Connection pooling (PgBouncer) reduces overhead of short-lived connections
