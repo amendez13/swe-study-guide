@@ -20,6 +20,8 @@ The template ships:
   - Guides issue-driven delivery from branch creation through tests, PR, CI, review, merge, and cleanup.
 - `swe-study-guide-feature-design`
   - Guides turning rough requests into implementation-ready GitHub issues and includes a helper for mockup screenshot uploads.
+- `swe-study-guide-deploy`
+  - Guides both local preview refreshes and Hetzner VPS deployments, with an explicit rule that production deploys must come from `origin/main` and the primary checkout should return to `main` after fix delivery.
 - `swe-study-guide-local-preview-deploy`
   - Guides refreshing the local study-site preview at `127.0.0.1:8766`, including restarting stale `serve.py` processes and verifying the refreshed content index.
 - `swe-study-guide-notebooklm-source-creator`

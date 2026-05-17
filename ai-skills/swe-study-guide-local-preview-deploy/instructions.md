@@ -2,6 +2,8 @@
 
 Use this skill when the user wants the current repository state visible in the local study site, usually at `http://127.0.0.1:8766/`.
 
+If the user asks about the Hetzner VPS or production deployment, use `swe-study-guide-deploy` instead. Production must run `origin/main`, not a fix or feature branch.
+
 Read first:
 - `AGENTS.md`
 - `README.md`
@@ -12,6 +14,7 @@ Default behavior:
 - treat "deploy" here as a local preview refresh, not a GitHub release
 - prefer reusing port `8766` when the user names that URL
 - verify both the content API and the browser-facing site after restarting
+- leave the broader production-deploy workflow to `swe-study-guide-deploy`
 
 ## Use this skill for
 

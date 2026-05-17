@@ -1,0 +1,7 @@
+name: swe-study-guide-deploy
+description: Use when deploying or refreshing this SWE study guide either locally from the current checkout or on the Hetzner VPS via the separate automation repo. This skill covers restarting serve.py for local preview, verifying health and content-index endpoints, and deploying production from origin/main only.
+codex:
+  interface:
+    display_name: SWE Study Guide Deploy
+    short_description: Deploy local preview and Hetzner VPS site
+    default_prompt: Use $swe-study-guide-deploy to refresh the local study site or deploy origin/main to the Hetzner VPS.
