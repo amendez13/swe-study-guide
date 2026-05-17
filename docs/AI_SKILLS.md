@@ -22,6 +22,8 @@ The template ships:
   - Guides turning rough requests into implementation-ready GitHub issues and includes a helper for mockup screenshot uploads.
 - `swe-study-guide-local-preview-deploy`
   - Guides refreshing the local study-site preview at `127.0.0.1:8766`, including restarting stale `serve.py` processes and verifying the refreshed content index.
+- `swe-study-guide-notebooklm-source-creator`
+  - Builds deterministic text-only NotebookLM upload bundles for study-guide topics using local `content/` files and technology-level research context.
 - `swe-study-guide-session-notes`
   - Documents the committed session-notes workflow used by this repository.
 
@@ -72,6 +74,41 @@ The deploy workflow:
 - renders Claude `skill.md` files into `~/.claude/skills/<name>/`
 - renders Codex `SKILL.md` and `agents/openai.yaml` files into `~/.codex/skills/<name>/`
 - syncs optional `references/`, `scripts/`, and `assets/` directories to both targets
+
+## Study-guide NotebookLM bundles
+
+The repository also ships a repo-local NotebookLM source skill:
+
+- canonical source: `ai-skills/swe-study-guide-notebooklm-source-creator/`
+- generator script: `ai-skills/swe-study-guide-notebooklm-source-creator/scripts/build_notebooklm_sources.py`
+- refresh playbook: `infra/notebooklm/update_notebooklm_sources.yml`
+- wrapper script: `./scripts/update_notebooklm_sources.sh`
+
+Use it when you want text-only upload bundles under `notebooklm/<TECHNOLOGY>/<TOPIC>/` built from canonical study-guide material.
+
+Examples:
+
+```bash
+python ai-skills/swe-study-guide-notebooklm-source-creator/scripts/build_notebooklm_sources.py \
+  --topic content/01_FastAPI/03_Path_Operations_and_Routing
+```
+
+```bash
+python ai-skills/swe-study-guide-notebooklm-source-creator/scripts/build_notebooklm_sources.py \
+  --technology content/01_FastAPI
+```
+
+```bash
+./scripts/update_notebooklm_sources.sh -e notebooklm_update_mode=existing
+```
+
+The generator only copies local text files:
+- topic `concepts.md`
+- topic `notes.md` when present
+- `technology_concepts.md` when present
+- `research/concepts.md` and `research/course_outlines.md` when present
+
+It refuses to package images, JSON manifests, or site assets.
 
 ## Add a new skill
 

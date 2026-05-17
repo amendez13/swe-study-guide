@@ -13,7 +13,10 @@ import json
 import re
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from typing import Any
 from urllib.parse import unquote
+
+from src.release_info import get_release_info
 
 ROOT = Path(__file__).resolve().parent
 CONTENT_DIR = ROOT / "content"
@@ -85,6 +88,25 @@ def build_content_index() -> dict:
     return {"technologies": technologies}
 
 
+def resolve_under(root: Path, relative_path: str) -> Path | None:
+    """Resolve a path only when it stays within the expected root."""
+    root_resolved = root.resolve()
+    candidate = (root_resolved / relative_path.lstrip("/")).resolve()
+    try:
+        candidate.relative_to(root_resolved)
+    except ValueError:
+        return None
+    return candidate
+
+
+def build_health_payload() -> dict[str, Any]:
+    """Return a cheap liveness payload with release metadata."""
+    return {
+        "status": "ok",
+        "release": get_release_info(),
+    }
+
+
 class StudyHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, content_index=None, **kwargs):
         self.content_index = content_index
@@ -101,10 +123,17 @@ class StudyHandler(SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(self.content_index).encode())
             return
 
+        if path == "/health":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(build_health_payload()).encode())
+            return
+
         if path.startswith("/content/"):
             rel = path[len("/content/") :]
-            file_path = CONTENT_DIR / rel
-            if file_path.is_file():
+            file_path = resolve_under(CONTENT_DIR, rel)
+            if file_path and file_path.is_file():
                 self.send_response(200)
                 ct = self._guess_type(file_path)
                 self.send_header("Content-Type", ct)
@@ -118,8 +147,8 @@ class StudyHandler(SimpleHTTPRequestHandler):
         if path == "/":
             path = "/index.html"
 
-        file_path = SITE_DIR / path.lstrip("/")
-        if file_path.is_file():
+        file_path = resolve_under(SITE_DIR, path)
+        if file_path and file_path.is_file():
             self.send_response(200)
             ct = self._guess_type(file_path)
             self.send_header("Content-Type", ct)
@@ -149,6 +178,7 @@ class StudyHandler(SimpleHTTPRequestHandler):
 
 def main():
     parser = argparse.ArgumentParser(description="SWE Study Guide Server")
+    parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     args = parser.parse_args()
 
@@ -160,10 +190,10 @@ def main():
     def handler_factory(*args, **kwargs):
         return StudyHandler(*args, content_index=index, **kwargs)
 
-    server = ThreadingHTTPServer(("127.0.0.1", args.port), handler_factory)
+    server = ThreadingHTTPServer((args.host, args.port), handler_factory)
     server.daemon_threads = True
     print("\n  SWE Study Guide")
-    print(f"  http://localhost:{args.port}\n")
+    print(f"  http://{args.host}:{args.port}\n")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

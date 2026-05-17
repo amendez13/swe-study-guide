@@ -10,6 +10,7 @@ A study guide for software engineering technologies and skills
 
 - **Technology-organized content** — study notes for FastAPI, Java, and Postgres, each broken into focused topics
 - **Concepts + notes per topic** — every topic has a `concepts.md` reference and a personal `notes.md` scratchpad
+- **NotebookLM source bundles** — deterministic text-only topic bundles can be generated under `notebooklm/` for study workflows
 - **Local study site** — `python serve.py` scans `content/` and serves an interactive frontend at `localhost:8080`
 - **Coverage-gated CI** — lint, type check, 95% coverage requirement, and security scanning on every push
 
@@ -40,22 +41,23 @@ source venv/bin/activate  # On macOS/Linux
 pip install -r requirements.txt
 ```
 
-4. Configure the application:
+4. Start the local study site:
 ```bash
-cp config/config.example.yaml config/config.yaml
-# Edit config/config.yaml with your settings
+python serve.py --port 8080
 ```
 
 ### Usage
 
 ```bash
-# Run the application
-python -m src.main
+# Run the study site
+python serve.py --port 8080
 ```
 
 ## Configuration
 
-Configuration is stored in `config/config.yaml`. See `config/config.example.yaml` for all available options.
+The study site does not require a runtime config file. Deployment metadata for
+`/health` is derived from `src/release_info.py`, and the optional `config/`
+files remain available for template scaffolding and future extensions.
 
 ```yaml
 # Example configuration
@@ -72,10 +74,16 @@ app:
 swe-study-guide/
 ├── .github/workflows/    # CI/CD configuration
 ├── .claude/              # Claude Code configuration
-├── config/               # Configuration files
+├── ai-skills/            # Canonical AI skill definitions and helper scripts
+├── config/               # Optional template configuration files
+├── content/              # Study content rendered by the site
 ├── docs/                 # Documentation
-├── src/       # Source code
-├── tests/         # Test files
+├── notebooklm/           # Generated text-only NotebookLM source bundles
+├── scripts/              # Local automation helpers
+├── site/                 # Frontend assets for the study site
+├── infra/                # Deployment and skill-render automation
+├── src/                  # Shared helpers such as release metadata/logging
+├── tests/                # Test files
 ├── AGENTS.md             # Source-of-truth agent guidance
 ├── CLAUDE.md             # Symlink to AGENTS.md for Claude compatibility
 ├── README.md             # This file
@@ -99,10 +107,10 @@ pre-commit install
 
 ```bash
 # Run all tests
-pytest
+./venv/bin/pytest
 
 # Run with coverage
-pytest --cov=src --cov-report=term-missing
+./venv/bin/pytest --cov=src --cov-report=term-missing
 ```
 
 ### Code Quality
@@ -137,6 +145,7 @@ See [docs/CI.md](docs/CI.md) for details.
 - [CI Documentation](docs/CI.md) - CI/CD pipeline details
 - [Security Baseline](docs/SECURITY_BASELINE.md) - Secret scanning and recommended GitHub security features
 - [AI Skills](docs/AI_SKILLS.md) - Canonical AI-skill source and deploy workflow
+- [NotebookLM sources](docs/AI_SKILLS.md#study-guide-notebooklm-bundles) - Topic bundle generation for NotebookLM
 
 ## Contributing
 
