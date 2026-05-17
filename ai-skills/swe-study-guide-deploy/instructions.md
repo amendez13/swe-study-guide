@@ -10,7 +10,7 @@ Read first:
 - `README.md`
 - `docs/INDEX.md`
 - `serve.py`
-- `/Users/alex3m6/Dropbox/projects/automation/infra/hetzner/swe_study_guide_setup.yml` when the request includes the VPS
+- `/Users/alex3m6/Dropbox/projects/automation/infra/hetzner/swe_study_guide_setup.yml` on `automation/main` when the request includes the VPS
 
 This repo and the VPS automation live in separate repositories:
 
@@ -133,6 +133,7 @@ Use the automation repo playbook:
 
 - playbook: `/Users/alex3m6/Dropbox/projects/automation/infra/hetzner/swe_study_guide_setup.yml`
 - inventory: `/Users/alex3m6/Dropbox/projects/automation/infra/hetzner/inventory.local.ini`
+- automation branch expectation: `main`
 
 Run from:
 
@@ -152,6 +153,7 @@ What this playbook does:
 
 Important:
 
+- The playbook itself should live on `automation/main`. If it is missing there, fix `automation/main` first instead of deploying from a side branch or temporary workaround.
 - Do not override the branch for production deploys.
 - If you changed only the `swe-study-guide` repo contents, push `main` before running the VPS deploy.
 - If you changed the Hetzner playbook or service behavior in the `automation` repo, commit that repo too before considering the deployment workflow updated.
@@ -192,6 +194,7 @@ If a separate worktree or temporary branch was used, clean it up when the user i
 - Do not claim the VPS is updated unless the relevant commit is pushed to `origin/main`.
 - Do not deploy a non-`main` branch to production, even if the user is currently testing it locally.
 - Do not leave the primary local checkout on a fix branch after the fix is finished unless the user explicitly asks for that.
+- Do not rely on an `automation` feature branch or temp worktree for normal production deploys. Land the playbook on `automation/main` first.
 - Do not edit installed skill copies under `~/.codex/skills` or `~/.claude/skills` by hand.
 - Do not assume a running local server is current; verify `/api/content` or the changed content endpoint.
 - Treat the `automation` repo as a separate codebase with its own git state. Do not sweep unrelated untracked files into a deploy-fix commit.
