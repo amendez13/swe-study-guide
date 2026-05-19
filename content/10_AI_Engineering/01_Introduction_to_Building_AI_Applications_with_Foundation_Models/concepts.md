@@ -28,6 +28,34 @@ Possible completion:
   Likely spam
 ```
 
+## Masked language models
+
+A masked language model predicts missing tokens by looking at context on both sides of the blank. Instead of only asking "what comes next?", it asks "what best fits here given the surrounding text?" This makes it strong at tasks where understanding the full context matters more than generating long free-form outputs.
+
+The chapter uses masked language models to contrast older bidirectional text-understanding systems such as BERT with today’s generative chat systems. In practice, they are often a better conceptual fit for classification, tagging, and code-understanding tasks than for open-ended assistants.
+
+```text
+Input:
+  "My favorite [MASK] is blue."
+
+Prediction:
+  color
+```
+
+## Autoregressive language models
+
+An autoregressive language model predicts the next token using only the tokens that came before it. This left-to-right prediction loop is what makes modern chatbots, coding assistants, and text generators feel generative: the model can keep extending its own output one token at a time.
+
+This is the family that matters most for the rest of the course because foundation-model applications are usually built on autoregressive systems. Their open-endedness gives them broad capability, but it also makes them harder to evaluate and easier to push off track with ambiguity, poor prompts, or missing context.
+
+```text
+Context:
+  "To be or not to be"
+
+Possible next tokens:
+  ",", " that", " is", " the", " question"
+```
+
 ## Tokens and tokenization
 
 Foundation-model interfaces work on tokens, not raw words. A token may be a character, a word, or a word fragment, and tokenization is the process that breaks text into those pieces before a model processes it.
@@ -84,7 +112,46 @@ This is a better explanation than "AI suddenly got popular." It ties the field�
 
 Not every task benefits equally from foundation models. The chapter surveys categories such as coding, writing, education, conversational bots, information aggregation, data organization, and workflow automation, while also noting that some occupations are much more exposed to AI than others.
 
-The practical lesson is that use-case selection should start with task shape, not hype. Tasks that involve language, transformation, summarization, structured extraction, or pattern-heavy assistance are often a better fit than tasks that require physical interaction, tight guarantees, or low tolerance for probabilistic mistakes.
+The practical lesson is that use-case selection should start with task shape, not hype. Tasks that involve language, transformation, summarization, structured extraction, retrieval, or pattern-heavy assistance are often a better fit than tasks that require physical interaction, exact deterministic behavior, or very low tolerance for probabilistic mistakes.
+
+In this chapter, **exposure to AI** does not mean "this job disappears." It means a large share of the task can be sped up, partially automated, or reshaped by AI tools. Translators, writers, tax preparers, designers, and programmers are highly exposed because a lot of their day-to-day work is mediated through language, documents, interfaces, and pattern recognition. Cooks, athletes, and stonemasons are much less exposed because the hard part of their work is physical execution in the world, not text generation or information transformation.
+
+It is also useful to separate **task fit** from **deployment risk**. An internal knowledge assistant may be a strong AI fit even if it sometimes makes mistakes, because a human employee can verify the answer before acting on it. A payment authorization system or medical dosage calculator may involve language too, but the cost of a wrong answer is high enough that AI should play a much narrower, tightly supervised role.
+
+```text
+Higher-fit AI tasks
+  - summarize meeting notes
+  - draft product descriptions
+  - classify support tickets
+  - extract fields from invoices
+  - answer questions over internal docs
+
+Lower-fit AI tasks
+  - control a brake system
+  - compute payroll without verification
+  - authorize irreversible financial transfers
+  - perform tasks requiring precise physical manipulation
+```
+
+Early enterprise adoption often starts with internal-facing use cases for exactly this reason. The model can still create leverage even when it is imperfect, as long as a human remains in the loop and the failure cost is manageable.
+
+## Role of AI and humans in the application
+
+One of the chapter’s most important practical ideas is that an AI application is rarely just "the model." A real system divides responsibility between the model, the surrounding software, and the human user or operator. Good AI products are designed around that division instead of pretending the model is fully autonomous.
+
+In low-risk systems, AI may draft, rank, summarize, or suggest while a human approves the final action. In higher-risk systems, humans may define policy, review exceptions, supply missing context, or override the model entirely. The model’s role is often to accelerate judgment, not replace accountability.
+
+This framing helps with architecture decisions. If the human is the final decision maker, the system can optimize for speed and clarity of review. If the model is allowed to act automatically, the surrounding system needs stronger guardrails, narrower scope, and much stricter evaluation.
+
+```mermaid
+flowchart LR
+    A[User or operator] --> B[Application]
+    B --> C[Foundation model]
+    C --> B
+    B --> D{Human review needed?}
+    D -->|Yes| A
+    D -->|No| E[Execute action]
+```
 
 ## Planning an AI application
 

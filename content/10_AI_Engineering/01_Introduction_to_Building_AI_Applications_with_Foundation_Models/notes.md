@@ -6,10 +6,12 @@ This chapter introduces the shift from training narrow machine learning models t
 
 - **AI engineering** — building applications on top of foundation models has become practical because model capability rose while access barriers fell through APIs and tooling.
 - **Language models** — many AI tasks can be reframed as next-token completion, which explains both their power and their probabilistic behavior.
+- **Masked vs. autoregressive models** — masked models fill in missing text using both left and right context, while autoregressive models generate one token at a time from prior context; modern generative AI products are mostly built on the autoregressive side.
 - **Self-supervision** — LLM scaling became possible because language models can learn from raw text without manual labels for every example.
 - **Foundation models** — the big shift is from narrow, task-specific models to reusable, general-purpose models that can be adapted to many tasks.
 - **Adaptation levers** — prompt engineering changes instructions, RAG changes available context, and finetuning changes model weights.
-- **Use-case selection** — AI is strongest on language-heavy, pattern-rich work and weaker when the task requires hard guarantees or low error tolerance.
+- **Use-case selection** — AI is strongest on language-heavy, pattern-rich work; "exposure" means a task can be accelerated or reshaped by AI, not automatically replaced, and internal copilots are often safer starting points than high-stakes user-facing automation.
+- **Human role** — strong AI applications make the division of labor explicit: the model suggests or drafts, the software adds structure and guardrails, and humans keep accountability where mistakes are expensive.
 - **Planning matters** — a flashy demo is not the same as a production-ready system; evaluation, maintenance, latency, and cost have to be planned early.
 - **Three-layer stack** — application development, model development, and infrastructure are distinct layers with different responsibilities.
 - **Role shift** — compared with ML engineering, AI engineering is more adaptation- and evaluation-heavy; compared with full-stack work, it deals with probabilistic systems and model trade-offs.
