@@ -110,47 +110,48 @@ This is a better explanation than "AI suddenly got popular." It ties the field�
 
 ## Use case fit and exposure to AI
 
-Not every task benefits equally from foundation models. The chapter surveys categories such as coding, writing, education, conversational bots, information aggregation, data organization, and workflow automation, while also noting that some occupations are much more exposed to AI than others.
+Use-case fit should be evaluated at the **task** level, not the job-title level. A foundation model is a strong fit when the task mainly involves interpreting messy inputs, generating or transforming language, retrieving and synthesizing information, or producing a first draft that a human or downstream system can refine. It is a weak fit when the task requires hard guarantees, exact arithmetic, deterministic policy execution, precise physical control, or irreversible actions with low tolerance for error.
 
-The practical lesson is that use-case selection should start with task shape, not hype. Tasks that involve language, transformation, summarization, structured extraction, retrieval, or pattern-heavy assistance are often a better fit than tasks that require physical interaction, exact deterministic behavior, or very low tolerance for probabilistic mistakes.
+In the 2023 OpenAI study *GPTs are GPTs*, a task is considered **exposed** if AI or AI-powered software can reduce the time needed to complete it by at least **50%**. An occupation with 80% exposure means roughly 80% of its tasks cross that threshold. High-exposure occupations include interpreters and translators, survey researchers, writers and authors, tax preparers, and web designers. Near-zero-exposure occupations include cooks, stonemasons, and athletes. Exposure is therefore about **time leverage on tasks**, not a claim that the whole occupation disappears.
 
-In this chapter, **exposure to AI** does not mean "this job disappears." It means a large share of the task can be sped up, partially automated, or reshaped by AI tools. Translators, writers, tax preparers, designers, and programmers are highly exposed because a lot of their day-to-day work is mediated through language, documents, interfaces, and pattern recognition. Cooks, athletes, and stonemasons are much less exposed because the hard part of their work is physical execution in the world, not text generation or information transformation.
-
-It is also useful to separate **task fit** from **deployment risk**. An internal knowledge assistant may be a strong AI fit even if it sometimes makes mistakes, because a human employee can verify the answer before acting on it. A payment authorization system or medical dosage calculator may involve language too, but the cost of a wrong answer is high enough that AI should play a much narrower, tightly supervised role.
+The most useful first-pass screen is to ask whether the task is language-heavy, whether approximate output is acceptable, whether the result can be reviewed or reversed, and whether the system can cheaply learn from feedback. That is why AI works well for coding assistance, product-copy generation, customer-support drafting, information aggregation, and workflow triage, but is much less appropriate for brake control, medication dosing, payroll finalization, or unrestricted financial authorization.
 
 ```text
-Higher-fit AI tasks
-  - summarize meeting notes
-  - draft product descriptions
-  - classify support tickets
-  - extract fields from invoices
-  - answer questions over internal docs
+Strong fit signals
+  - unstructured input: docs, tickets, emails, chats, screenshots
+  - open-ended output: summaries, drafts, classifications, plans
+  - reversible or reviewable outcome
+  - feedback arrives quickly
+  - tool use or retrieval can close knowledge gaps
 
-Lower-fit AI tasks
-  - control a brake system
-  - compute payroll without verification
-  - authorize irreversible financial transfers
-  - perform tasks requiring precise physical manipulation
+Weak fit signals
+  - exactness is mandatory
+  - output triggers irreversible side effects
+  - correctness is hard to verify
+  - physical execution is the hard part
+  - failure cost is high even for rare mistakes
 ```
 
-Early enterprise adoption often starts with internal-facing use cases for exactly this reason. The model can still create leverage even when it is imperfect, as long as a human remains in the loop and the failure cost is manageable.
+This is also why many successful enterprise deployments start with **internal copilots** rather than full automation. The task can still have excellent AI fit even when the model is imperfect, as long as the output is advisory, reviewable, and tied to a workflow that already has human accountability.
 
 ## Role of AI and humans in the application
 
-One of the chapter’s most important practical ideas is that an AI application is rarely just "the model." A real system divides responsibility between the model, the surrounding software, and the human user or operator. Good AI products are designed around that division instead of pretending the model is fully autonomous.
+An AI feature should be designed across four separate axes. First, **critical or complementary**: if the product stops working without AI, the model is critical, and the reliability bar is much higher. Face ID is critical. Smart Compose is complementary. Second, **reactive or proactive**: reactive features answer a user request, so latency matters more; proactive features appear without being asked, so the quality bar is higher because low-quality suggestions feel intrusive. Third, **dynamic or static**: dynamic features adapt continually through user feedback or personalization, while static features update only when the shared model or rules are refreshed. Fourth, **human role**: AI may assist a human, handle only low-risk cases, or act directly without review.
 
-In low-risk systems, AI may draft, rank, summarize, or suggest while a human approves the final action. In higher-risk systems, humans may define policy, review exceptions, supply missing context, or override the model entirely. The model’s role is often to accelerate judgment, not replace accountability.
+Those axes determine both product behavior and system design. A critical, proactive, dynamic system is much harder to build than a complementary, reactive, static one. It needs better observability, safer rollback paths, stricter evaluation, and tighter controls around feedback loops because bad behavior can affect many users quickly.
 
-This framing helps with architecture decisions. If the human is the final decision maker, the system can optimize for speed and clarity of review. If the model is allowed to act automatically, the surrounding system needs stronger guardrails, narrower scope, and much stricter evaluation.
+For human involvement, a practical progression is: AI drafts for humans, AI handles simple cases and routes harder cases to humans, then AI acts directly once the acceptance rate and failure profile are well understood. That is a better mental model than asking whether the system is merely "human in the loop" or "fully automated." The real question is which decisions remain human, which are delegated, and how the boundary changes over time.
 
 ```mermaid
-flowchart LR
-    A[User or operator] --> B[Application]
-    B --> C[Foundation model]
-    C --> B
-    B --> D{Human review needed?}
-    D -->|Yes| A
-    D -->|No| E[Execute action]
+flowchart TD
+    A[AI role is complementary or critical]
+    B[AI interaction is reactive or proactive]
+    C[Model behavior is static or dynamic]
+    D[Human role: review, route, or delegate]
+    A --> E[Required reliability bar]
+    B --> E
+    C --> F[Feedback and update design]
+    D --> G[Automation boundary]
 ```
 
 ## Planning an AI application
