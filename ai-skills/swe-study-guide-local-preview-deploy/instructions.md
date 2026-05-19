@@ -1,8 +1,8 @@
 # swe-study-guide Local Preview Deploy
 
-Use this skill when the user wants the current repository state visible in the local study site, usually at `http://127.0.0.1:8766/`.
+This skill is deprecated for normal deploy requests.
 
-If the user asks about the Hetzner VPS or production deployment, use `swe-study-guide-deploy` instead. Production must run `origin/main`, not a fix or feature branch.
+If the user asks to deploy, refresh, restart, or test a deployment, use `swe-study-guide-deploy` instead. Production must run `origin/main`, deployment testing must go through the automation Ansible playbook, and the primary local checkout should end on `main`.
 
 Read first:
 - `AGENTS.md`
@@ -11,10 +11,9 @@ Read first:
 - `serve.py`
 
 Default behavior:
-- treat "deploy" here as a local preview refresh, not a GitHub release
-- prefer reusing port `8766` when the user names that URL
-- verify both the content API and the browser-facing site after restarting
-- leave the broader production-deploy workflow to `swe-study-guide-deploy`
+- do not treat this skill as the default answer to "deploy"
+- use it only when the user explicitly asks for a local-only preview refresh
+- leave all normal deployment work to `swe-study-guide-deploy`
 
 ## Use this skill for
 
@@ -22,6 +21,8 @@ Default behavior:
 - "Make this visible at `127.0.0.1:8766`"
 - "Refresh the study site"
 - "The new content files exist but the sidebar doesn't show them"
+
+Do not use this skill for production deployment requests.
 
 ## Workflow
 
