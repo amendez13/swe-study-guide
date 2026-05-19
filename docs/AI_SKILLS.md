@@ -21,9 +21,9 @@ The template ships:
 - `swe-study-guide-feature-design`
   - Guides turning rough requests into implementation-ready GitHub issues and includes a helper for mockup screenshot uploads.
 - `swe-study-guide-deploy`
-  - Guides both local preview refreshes and Hetzner VPS deployments, with an explicit rule that production deploys must come from `origin/main` and the primary checkout should return to `main` after fix delivery.
+  - Guides production deployment through the `automation` repo Ansible playbook, with explicit rules that production deploys must come from `origin/main`, deployment testing should happen in production via that playbook, and the primary checkout should return to `main` after deployment.
 - `swe-study-guide-local-preview-deploy`
-  - Guides refreshing the local study-site preview at `127.0.0.1:8766`, including restarting stale `serve.py` processes and verifying the refreshed content index.
+  - Deprecated for normal deploy requests; keep only for explicit local-only preview refreshes.
 - `swe-study-guide-notebooklm-source-creator`
   - Builds deterministic text-only NotebookLM upload bundles for study-guide topics using local `content/` files and technology-level research context.
 - `swe-study-guide-session-notes`
