@@ -63,6 +63,7 @@ infra/home-worker/secrets.yml
 # Temporary files
 temp/
 tmp/
+gitignored-sources/
 
 # Code review files (local only)
 .code-review-*.md
