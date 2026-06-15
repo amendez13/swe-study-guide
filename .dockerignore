@@ -1,0 +1,17 @@
+# content/ (the study guide markdown) must stay — do not exclude *.md.
+venv/
+.venv/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+.mypy_cache/
+.git/
+.github/
+tests/
+docs/
+notes/
+notebooklm/
+ai-skills/
+gitignored-sources/
+scripts/
+setup_template.py
