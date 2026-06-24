@@ -1,7 +1,7 @@
 # swe-study-guide
 
 ![CI](https://img.shields.io/github/actions/workflow/status/alex3m6/swe-study-guide/ci.yml?branch=main&label=CI)
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/python-3.12+-blue.svg)
 ![Coverage](https://img.shields.io/badge/coverage-95%25-green.svg)
 
 A study guide for software engineering technologies and skills
@@ -18,7 +18,7 @@ A study guide for software engineering technologies and skills
 
 ### Prerequisites
 
-- Python 3.10 or higher
+- Python 3.12 or higher
 - pip (Python package installer)
 
 ### Installation
@@ -131,7 +131,7 @@ Baseline checks run automatically via pre-commit hooks and GitHub Actions.
 GitHub Actions runs the following checks on every push and PR:
 
 1. **Lint**: Black, isort, flake8, mypy
-2. **Test**: pytest across Python 3.10, 3.11, 3.12
+2. **Test**: pytest across Python 3.12
 3. **Coverage**: 95% minimum coverage
 4. **Security**: bandit and pip-audit
 5. **Secret scanning**: gitleaks against repository history with redacted reporting
