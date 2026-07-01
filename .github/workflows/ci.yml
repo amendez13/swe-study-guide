@@ -237,7 +237,7 @@ jobs:
         working-directory: repo
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: repo
 
@@ -331,7 +331,7 @@ jobs:
         python-version: ['3.12']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: repo
 
@@ -399,7 +399,7 @@ jobs:
         working-directory: repo
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: repo
 
@@ -455,7 +455,7 @@ jobs:
         working-directory: repo
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: repo
 
