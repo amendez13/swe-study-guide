@@ -97,14 +97,17 @@ This workflow is separate from `ci.yml` because secret scanning has different ru
 
 The CI image workflow rebuilds and publishes an optional toolbox image when these inputs change:
 
+- `.github/workflows/ci-image.yml`
 - `infra/ci/Dockerfile`
 - `requirements.txt`
 - `.pre-commit-config.yaml`
 
+The publisher derives its image name from `github.repository`, so repository owner changes do not leave the workflow publishing to the previous namespace. Local build and runner bootstrap defaults use the current repository image.
+
 Published tags:
 
-- `ghcr.io/alex3m6/swe-study-guide-ci:latest`
-- `ghcr.io/alex3m6/swe-study-guide-ci:<git-sha>`
+- `ghcr.io/amendez13/swe-study-guide-ci:latest`
+- `ghcr.io/amendez13/swe-study-guide-ci:<git-sha>`
 
 Published platforms:
 
