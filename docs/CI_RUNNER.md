@@ -84,7 +84,7 @@ pip-audit --requirement requirements.txt
 ## Bootstrap Checklist For Self-Hosted Linux
 
 - install the GitHub Actions runner binary for the host architecture
-- register the runner for `https://github.com/alex3m6/swe-study-guide`
+- register the runner for `https://github.com/amendez13/swe-study-guide`
 - configure the runner as a persistent service
 - verify the runner can complete outbound package installs during a CI run
 - run a manual `workflow_dispatch` CI job against the self-hosted target
