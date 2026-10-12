@@ -80,18 +80,28 @@ Purpose: validate YAML configuration and Python syntax.
 
 Purpose: aggregate job outcomes and publish the final required status, including intentional skip reasons.
 
-## Companion Security Workflow (`.github/workflows/gitleaks.yml`)
+## Secret Scanning (gitleaks)
 
-The template also includes a dedicated `Secret Scanning` workflow for repository-level secret detection:
+`.github/workflows/gitleaks.yml` runs the standardized `Secret Scanning` job on
+`[self-hosted, fargate]`. It downloads gitleaks 8.30.1 and verifies the pinned
+Linux x64 archive SHA-256 before execution.
 
-- triggers on `push`, `pull_request`, and `workflow_dispatch`
-- checks out the full git history with `fetch-depth: 0`
-- installs a pinned `gitleaks` release and verifies its checksum
-- generates a redacted SARIF report
-- uploads the redacted SARIF artifact on every run
-- attempts a best-effort upload to GitHub code scanning when the repository supports SARIF ingestion
+Pull requests scan `base.sha..head.sha`. Pushes and manual runs scan the event
+commit's full reachable history. Both include first-parent merge patches;
+sibling branch refs are outside the scan scope. The job validates the revisions
+and complete Git traversal, then fails on scanner errors even if gitleaks
+returns zero.
 
-This workflow is separate from `ci.yml` because secret scanning has different runtime and reporting needs than the application checks.
+Reports use `--redact=100`. The job uploads redacted SARIF as an artifact and
+attempts GitHub code scanning ingestion when supported. Findings fail the job;
+real credentials require approved remediation. Any false-positive exclusion
+must be verified, justified in its PR, and restricted to an exact fingerprint.
+
+This workflow is byte-identical to the reviewed template in
+[automation#1020](https://github.com/amendez13/automation/pull/1020), delivered
+under [automation#376](https://github.com/amendez13/automation/issues/376).
+After merge, confirm a green Secret Scanning run on main. Roll back through a
+reviewed revert PR if needed.
 
 ## CI Image Workflow (`.github/workflows/ci-image.yml`)
 
