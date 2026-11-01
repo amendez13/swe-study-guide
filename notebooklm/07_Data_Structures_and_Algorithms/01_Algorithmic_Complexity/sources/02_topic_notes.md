@@ -13,7 +13,12 @@ Algorithmic complexity is the framework engineers use to reason about how algori
 - **Amortized analysis averages over sequences** - A dynamic array append is O(1) amortized because the occasional O(N) resize is spread across N cheap appends.
 - **Halving yields log N** - Any algorithm that cuts the problem in half each step runs in O(log N); binary search is the textbook example.
 - **Recursive branching explodes exponentially** - O(branches^depth); naive Fibonacci is O(2^N) but memoization collapses it to O(N) by caching overlapping subproblems.
+- **Two sizes stay two variables** - Independent inputs A and B are O(A + B) or O(A * B); do not collapse them into a fake single N.
+- **Sum the recursion tree** - branches^depth is a guess; add work per level (geometric sums often collapse to O(N)).
+- **Read the real loop bounds** - N/2 is still O(N); doubling steps are O(log N); trial division to √N is O(√N).
+- **State time, space, and case** - Interview answers name worst/expected when they differ and justify in one line.
 - **Know the complexity ladder** - O(1) < O(log N) < O(N) < O(N log N) < O(N^2) < O(2^N) < O(N!); anything above N log N struggles at scale.
+- **Drill CTCI VI on the reader** - Use http://100.84.173.75:8097/cracking-the-coding-interview/#additional-problems for extra practice; keep book solutions out of this repo.
 
 ## Example
 
@@ -67,3 +72,7 @@ print(has_pair_sum_linear(data, target))      # True -- fastest
 ```
 
 This example demonstrates the real-world consequence of algorithmic complexity: the brute-force O(N^2) approach examines nearly 50 million pairs for 10,000 elements, while the hash-set O(N) approach checks 10,000 elements with constant-time lookups. Choosing the right complexity class is often the single most impactful performance decision in a codebase.
+
+## More practice
+
+For additional Big O drills, open CTCI chapter VI on the private reader (`#examples-and-exercises`, `#additional-problems`). Work the problems there; do not copy book text or solutions into these study files. The **Worked complexity patterns** concept cards are original stand-ins for the same skills.
