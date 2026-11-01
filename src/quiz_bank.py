@@ -157,7 +157,9 @@ class QuizBank:
             for quiz_id, path in quiz_files(self.content_dir / tech_dir):
                 rel_file = path.relative_to(self.content_dir).as_posix()
                 if not QUIZ_ID_RE.match(quiz_id):
-                    issues.append({"file": rel_file, "question": "", "message": "Quiz file name must match [a-z0-9][a-z0-9_-]*"})
+                    issues.append(
+                        {"file": rel_file, "question": "", "message": "Quiz file name must match [a-z0-9][a-z0-9_-]*"}
+                    )
                     continue
                 try:
                     meta, raw_questions = self._load_file(path)
