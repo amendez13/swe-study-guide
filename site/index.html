@@ -27,6 +27,10 @@
       </svg>
       <input type="text" id="search-input" placeholder="Search technologies and topics...">
     </div>
+    <a class="sidebar-quiz-link" href="#_quiz">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>Quiz</span>
+    </a>
     <nav id="chapter-nav"></nav>
   </aside>
 
@@ -42,6 +46,11 @@
         <h1>SWE Study Guide</h1>
         <p class="welcome-subtitle">Skill &amp; Technology Reference</p>
         <div id="stats" class="stats-grid"></div>
+        <a class="welcome-quiz-card" href="#_quiz">
+          <span class="welcome-quiz-kicker">Quiz</span>
+          <strong>Test yourself on concepts</strong>
+          <span>Multiple-choice quizzes linked to concept cards, with history, weak spots and flags.</span>
+        </a>
         <p class="welcome-hint">Select a technology from the sidebar to begin studying</p>
       </div>
     </div>
@@ -61,6 +70,8 @@
         <div class="tab-bar" id="tab-bar"></div>
         <div class="tab-content" id="tab-content"></div>
       </div>
+
+      <div id="quiz-view" class="quiz-view" style="display:none"></div>
     </div>
   </main>
 
@@ -82,6 +93,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="/quiz.js"></script>
   <script src="/app.js"></script>
 </body>
 </html>

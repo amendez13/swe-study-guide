@@ -1,0 +1,210 @@
+version: 1
+title: "Algorithmic Complexity: Fundamentals"
+description: Big O vocabulary, bounds, cases, space, simplification rules and how to state an answer.
+questions:
+  - id: big-o-what-it-measures
+    topic: 01_Algorithmic_Complexity
+    concept: Big O notation
+    prompt: What does Big O notation describe about an algorithm?
+    choices:
+      - { id: a, text: "Its exact wall-clock running time on a reference machine" }
+      - { id: b, text: "How its runtime or memory grows as the input size grows" }
+      - { id: c, text: "The number of lines of code it contains" }
+      - { id: d, text: "The average CPU usage while it runs" }
+    answer: [b]
+    explanation: Big O answers "if I double the input, how much more work is done?". It describes growth rate, not absolute time.
+
+  - id: big-o-tightest-bound
+    topic: 01_Algorithmic_Complexity
+    concept: Big O notation
+    prompt: |
+      A colleague says binary search is O(N²). Formally an upper bound, but why is that answer
+      wrong in an interview or code review?
+    choices:
+      - { id: a, text: "Binary search is actually O(N)" }
+      - { id: b, text: "Big O can only be used for sorting algorithms" }
+      - { id: c, text: "In practice Big O means the tightest practical upper bound, which is O(log N)" }
+      - { id: d, text: "Upper bounds must always be quadratic or better" }
+    answer: [c]
+    explanation: Academically any larger bound is also "true", but industry and interviews expect the tightest description, here **O(log N)**.
+
+  - id: theta-when-o-and-omega-match
+    topic: 01_Algorithmic_Complexity
+    concept: Big Theta and Big Omega
+    prompt: An algorithm is both O(N log N) and Ω(N log N). What can you conclude?
+    choices:
+      - { id: a, text: "It is Θ(N log N): the tight bound" }
+      - { id: b, text: "Nothing: O and Ω are unrelated" }
+      - { id: c, text: "It is Θ(N)" }
+      - { id: d, text: "It is O(1) in the best case" }
+    answer: [a]
+    explanation: When the upper bound (O) and lower bound (Ω) match, the growth rate is exactly that rate, which is Big Theta.
+
+  - id: omega-is-lower-bound
+    topic: 01_Algorithmic_Complexity
+    concept: Big Theta and Big Omega
+    prompt: Which statement correctly matches each notation to the kind of bound it expresses?
+    choices:
+      - { id: a, text: "O = lower bound, Ω = upper bound, Θ = average case" }
+      - { id: b, text: "O = upper bound, Ω = lower bound, Θ = tight bound" }
+      - { id: c, text: "O = worst case, Ω = best case, Θ = expected case" }
+      - { id: d, text: "O, Ω and Θ are interchangeable names for the same thing" }
+    answer: [b]
+    explanation: |
+      Bounds and cases are different axes. O, Ω and Θ describe *bounds*; best/worst/expected describe *which input*
+      you analyse. You can state a Θ for the worst case, for example.
+
+  - id: quicksort-worst-case
+    topic: 01_Algorithmic_Complexity
+    concept: Best, worst, and expected case
+    prompt: QuickSort with a naive "first element" pivot is given an already sorted array. What is its runtime?
+    choices:
+      - { id: a, text: "O(N log N)" }
+      - { id: b, text: "O(N)" }
+      - { id: c, text: "O(N²)" }
+      - { id: d, text: "O(log N)" }
+    answer: [c]
+    explanation: Every partition puts all remaining elements on one side, so recursion depth is N with O(N) work per level, which gives **O(N²)**.
+
+  - id: quicksort-randomized-pivot
+    topic: 01_Algorithmic_Complexity
+    concept: Best, worst, and expected case
+    prompt: Why do production QuickSort implementations use randomized or median-of-three pivots?
+    choices:
+      - { id: a, text: "They reduce the best case to O(N)" }
+      - { id: b, text: "They make the O(N²) worst case astronomically unlikely on real inputs" }
+      - { id: c, text: "They reduce memory use to O(1)" }
+      - { id: d, text: "They make the sort stable" }
+    answer: [b]
+    explanation: The worst case still exists, but it no longer lines up with common inputs such as sorted data, so expected O(N log N) holds in practice.
+
+  - id: space-recursion-stack
+    topic: 01_Algorithmic_Complexity
+    concept: Space complexity
+    prompt: |
+      A recursive function goes N levels deep and allocates no lists, dicts or other data structures.
+      What is its extra space complexity?
+    choices:
+      - { id: a, text: "O(1), because nothing is allocated" }
+      - { id: b, text: "O(log N)" }
+      - { id: c, text: "O(N), because each level adds a call-stack frame" }
+      - { id: d, text: "O(N²)" }
+    answer: [c]
+    explanation: Call-stack frames are memory. N nested calls means N frames alive at the deepest point, so **O(N)** space.
+
+  - id: space-in-place-vs-copy
+    topic: 01_Algorithmic_Complexity
+    concept: Space complexity
+    prompt: |
+      ```python
+      def double_values(items):
+          return [x * 2 for x in items]
+
+      def double_values_inplace(items):
+          for i in range(len(items)):
+              items[i] *= 2
+      ```
+      Which statements are true? Select all that apply.
+    choices:
+      - { id: a, text: "Both functions are O(N) time" }
+      - { id: b, text: "`double_values` uses O(N) extra space" }
+      - { id: c, text: "`double_values_inplace` uses O(1) extra space" }
+      - { id: d, text: "`double_values_inplace` is O(N²) time because it indexes into the list" }
+    answer: [a, b, c]
+    explanation: Both make one pass (O(N) time). The comprehension builds a new N-element list, while the in-place version only needs a loop index. List indexing is O(1), so there is no hidden N².
+
+  - id: drop-constants-simplify
+    topic: 01_Algorithmic_Complexity
+    concept: Dropping constants and non-dominant terms
+    prompt: Simplify O(3N² + 5N + 12).
+    choices:
+      - { id: a, text: "O(3N²)" }
+      - { id: b, text: "O(N² + N)" }
+      - { id: c, text: "O(N²)" }
+      - { id: d, text: "O(N)" }
+    answer: [c]
+    explanation: Drop the constant factor (3) and the non-dominant terms (5N, 12). The largest term dominates as N grows.
+
+  - id: drop-constants-not-always-faster
+    topic: 01_Algorithmic_Complexity
+    concept: Dropping constants and non-dominant terms
+    prompt: |
+      Algorithm A is O(N) with a constant factor of about 1000. Algorithm B is O(N²) with a constant factor of 1.
+      Which statement is correct?
+    choices:
+      - { id: a, text: "A is faster for every input size" }
+      - { id: b, text: "B can be faster for small N, but A wins once N is large enough" }
+      - { id: c, text: "B is faster for every input size" }
+      - { id: d, text: "They are equally fast because constants are dropped" }
+    answer: [b]
+    explanation: Big O describes scaling, not absolute speed. Here 1000·N < N² only once N > 1000, so B wins below that point.
+
+  - id: add-vs-multiply-rule
+    topic: 01_Algorithmic_Complexity
+    concept: "Multi-part algorithms: add vs. multiply"
+    prompt: When do you **multiply** the complexities of two steps instead of adding them?
+    choices:
+      - { id: a, text: "When the steps run one after the other" }
+      - { id: b, text: "When one step runs once for each iteration of the other (nested)" }
+      - { id: c, text: "When both steps loop over the same array" }
+      - { id: d, text: "Whenever there are two loops in the function" }
+    answer: [b]
+    explanation: '"Do this, then do that" means add. "For each time you do this, do that" means multiply.'
+
+  - id: two-inputs-merge
+    topic: 01_Algorithmic_Complexity
+    concept: Two input sizes (A and B)
+    prompt: What is the time complexity of a linear merge of two sorted arrays of lengths A and B?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(A * B)" }
+      - { id: c, text: "O(A + B)" }
+      - { id: d, text: "O(max(A, B)²)" }
+    answer: [c]
+    explanation: Each step consumes one element from either array, so the total work is A + B. Name both sizes rather than collapsing them into a fake N.
+
+  - id: two-inputs-when-to-name
+    topic: 01_Algorithmic_Complexity
+    concept: Two input sizes (A and B)
+    prompt: What is a practical test for whether an input's size belongs in the Big O expression?
+    choices:
+      - { id: a, text: "It belongs only if it is the larger input" }
+      - { id: b, text: "If doubling only that input changes the runtime, its size belongs in the expression" }
+      - { id: c, text: "Only the first function argument counts" }
+      - { id: d, text: "Inputs that are lists always count; dicts never do" }
+    answer: [b]
+
+  - id: runtime-classes-order
+    topic: 01_Algorithmic_Complexity
+    concept: Common runtime classes
+    prompt: Which list is ordered from slowest-growing to fastest-growing?
+    choices:
+      - { id: a, text: "O(1), O(log N), O(N), O(N log N), O(N²), O(2^N), O(N!)" }
+      - { id: b, text: "O(1), O(N), O(log N), O(N log N), O(2^N), O(N²), O(N!)" }
+      - { id: c, text: "O(log N), O(1), O(N), O(N²), O(N log N), O(N!), O(2^N)" }
+      - { id: d, text: "O(1), O(log N), O(N log N), O(N), O(N²), O(N!), O(2^N)" }
+    answer: [a]
+
+  - id: runtime-classes-impractical
+    topic: 01_Algorithmic_Complexity
+    concept: Common runtime classes
+    prompt: Which complexity classes become unusable well before N reaches 100? Select all that apply.
+    choices:
+      - { id: a, text: "O(2^N)" }
+      - { id: b, text: "O(N!)" }
+      - { id: c, text: "O(N log N)" }
+      - { id: d, text: "O(N²)" }
+    answer: [a, b]
+    explanation: At N = 100, 2^N ≈ 10^30 and N! ≈ 10^157 operations. N² is only 10,000 and N log N about 664.
+
+  - id: stating-complexity-complete-answer
+    topic: 01_Algorithmic_Complexity
+    concept: Stating complexity in interviews
+    prompt: Which interview answer is the most complete?
+    choices:
+      - { id: a, text: "\"It's basically fine, like O(N)-ish.\"" }
+      - { id: b, text: "\"O(N²).\"" }
+      - { id: c, text: "\"Worst-case time O(N²) from the nested loops; O(1) extra space; expected case is the same as worst here.\"" }
+      - { id: d, text: "\"It runs in about 3 milliseconds on my laptop.\"" }
+    answer: [c]
+    explanation: A complete answer names time, space and which case, with a one-line justification tied to the code.

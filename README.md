@@ -10,6 +10,7 @@ A study guide for software engineering technologies and skills
 
 - **Technology-organized content** — study notes for FastAPI, Java, and Postgres, each broken into focused topics
 - **Concepts, notes, and optional drills** — every topic has a `concepts.md` reference and a `notes.md` scratchpad; a `drills.md` file adds a Drills tab that reuses the concept cards
+- **Concept-linked quizzes** — any number of quiz sets per technology, with server-side history, weak-concept roll-ups, flags and an offline-safe answer outbox ([docs/QUIZ.md](docs/QUIZ.md))
 - **NotebookLM source bundles** — deterministic text-only topic bundles can be generated under `notebooklm/` for study workflows
 - **Local study site** — `python serve.py` scans `content/` and serves an interactive frontend at `localhost:8080`
 - **Coverage-gated CI** — lint, type check, 95% coverage requirement, and security scanning on every push

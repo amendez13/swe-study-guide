@@ -1,0 +1,10 @@
+{
+  "name": "swe-study-guide-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend checks for the SWE Study Guide site (no runtime dependencies)",
+  "scripts": {
+    "check:js": "node --check site/app.js && node --check site/quiz.js",
+    "test:js": "node --test tests/js/*.test.js"
+  }
+}
