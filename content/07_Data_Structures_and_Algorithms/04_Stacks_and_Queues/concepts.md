@@ -33,21 +33,9 @@ class Stack:
         return self._top is None
 ```
 
-```mermaid
-graph LR
-    subgraph "Push C onto [B, A]"
-        direction TB
-        C1["C (top)"] --> B1["B"] --> A1["A"]
-    end
+![Stack (LIFO): push(C) onto [B, A], then pop() returns C; linked-list view and O(1) operations](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stack-lifo.drawio.png)
 
-    subgraph "Pop → returns C, stack is [B, A]"
-        direction TB
-        B2["B (top)"] --> A2["A"]
-    end
-
-    Push["push(C)"] -.-> C1
-    Pop["pop() → C"] -.-> B2
-```
+*Source: [`diagrams/stack-lifo.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stack-lifo.drawio); the PNG also embeds the diagram, so it opens directly in draw.io.*
 
 ## Stack implementation with arrays vs. linked lists
 
