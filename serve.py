@@ -10,12 +10,15 @@ Usage:
 
 import argparse
 import json
+import os
 import re
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import unquote
+from urllib.parse import unquote, urlsplit
 
+from src.quiz_bank import QuizBank, quiz_files
+from src.quiz_store import QuizRequestError, QuizStore
 from src.release_info import get_release_info
 
 ROOT = Path(__file__).resolve().parent
@@ -23,6 +26,10 @@ CONTENT_DIR = ROOT / "content"
 SITE_DIR = ROOT / "site"
 # These files have their own tabs and must not be picked up as the notes document.
 NOTES_FILE_EXCLUSIONS = frozenset({"concepts.md", "drills.md"})
+# Quiz history lives in SQLite; the container points this at /data (issue #72).
+QUIZ_DB_ENV = "SWE_STUDY_GUIDE_QUIZ_DB"
+DEFAULT_QUIZ_DB = ROOT / ".local" / "quiz.sqlite3"
+MAX_QUIZ_BODY_BYTES = 256 * 1024
 
 
 def natural_sort_key(s: str):
@@ -87,6 +94,7 @@ def build_content_index() -> dict:
                 "dir": tech_dir.name,
                 "title": tech_title,
                 "hasTechnologyConcepts": has_technology_concepts,
+                "quizCount": len(quiz_files(tech_dir)),
                 "topics": topics,
             }
         )
@@ -113,9 +121,17 @@ def build_health_payload() -> dict[str, Any]:
     }
 
 
+def quiz_db_path() -> Path:
+    """Return the SQLite path for quiz history (env override, else .local/)."""
+    configured = os.environ.get(QUIZ_DB_ENV, "").strip()
+    return Path(configured) if configured else DEFAULT_QUIZ_DB
+
+
 class StudyHandler(SimpleHTTPRequestHandler):
-    def __init__(self, *args, content_index=None, **kwargs):
+    def __init__(self, *args, content_index=None, quiz_bank=None, quiz_store=None, **kwargs):
         self.content_index = content_index
+        self.quiz_bank = quiz_bank
+        self.quiz_store = quiz_store
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
@@ -124,8 +140,101 @@ class StudyHandler(SimpleHTTPRequestHandler):
     def do_HEAD(self):
         self._handle_request(include_body=False)
 
+    def do_POST(self):
+        path = unquote(urlsplit(self.path).path)
+        if path == "/api/quiz/attempts":
+            self._handle_quiz_write("attempts")
+            return
+        self.send_error(404, "Not found")
+
+    def do_PUT(self):
+        path = unquote(urlsplit(self.path).path)
+        if path == "/api/quiz/flags":
+            self._handle_quiz_write("flags")
+            return
+        self.send_error(404, "Not found")
+
+    # ── quiz (issue #72) ─────────────────────────────────────
+
+    def _send_json(self, payload: Any, status: int = 200, include_body: bool = True) -> None:
+        body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode()
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        if include_body:
+            self.wfile.write(body)
+
+    def _read_json_body(self, max_bytes: int) -> dict:
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            length = 0
+        if length <= 0:
+            return {}
+        if length > max_bytes:
+            # Drain a moderately oversized body so the client reliably reads
+            # the 400 instead of seeing a connection reset mid-upload.
+            if length <= max_bytes * 4:
+                self.rfile.read(length)
+            raise ValueError("Request body too large")
+        raw = self.rfile.read(length)
+        try:
+            data = json.loads(raw.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError("Invalid JSON body") from exc
+        if not isinstance(data, dict):
+            raise ValueError("JSON body must be an object")
+        return data
+
+    def _handle_quiz_get(self, path: str, include_body: bool) -> None:
+        if self.quiz_bank is None or self.quiz_store is None:
+            self._send_json({"error": "Quiz is not configured"}, status=503, include_body=include_body)
+            return
+        snapshot = self.quiz_bank.snapshot()
+        if path == "/api/quiz/progress":
+            self._send_json(self.quiz_store.progress(snapshot), include_body=include_body)
+            return
+        quoted_etag = f'"{snapshot.etag}"'
+        if self.headers.get("If-None-Match") == quoted_etag:
+            self.send_response(304)
+            self.send_header("ETag", quoted_etag)
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            return
+        body = json.dumps(snapshot.payload(), ensure_ascii=False, separators=(",", ":")).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-cache")
+        self.send_header("ETag", quoted_etag)
+        self.end_headers()
+        if include_body:
+            self.wfile.write(body)
+
+    def _handle_quiz_write(self, kind: str) -> None:
+        if self.quiz_bank is None or self.quiz_store is None:
+            self._send_json({"error": "Quiz is not configured"}, status=503)
+            return
+        try:
+            payload = self._read_json_body(max_bytes=MAX_QUIZ_BODY_BYTES)
+            snapshot = self.quiz_bank.snapshot()
+            if kind == "attempts":
+                result = self.quiz_store.record_attempts(payload, snapshot)
+            else:
+                result = self.quiz_store.set_flags(payload, snapshot)
+        except (ValueError, QuizRequestError) as exc:
+            self._send_json({"error": str(exc)}, status=400)
+            return
+        self._send_json(result)
+
     def _handle_request(self, include_body: bool):
-        path = unquote(self.path)
+        path = unquote(urlsplit(self.path).path)
+
+        if path in ("/api/quiz/questions", "/api/quiz/progress"):
+            self._handle_quiz_get(path, include_body)
+            return
 
         if path == "/api/content":
             payload = json.dumps(self.content_index).encode()
@@ -229,8 +338,14 @@ def main():
     total_topics = sum(len(t["topics"]) for t in index["technologies"])
     print(f"Found {len(index['technologies'])} technologies, {total_topics} topics")
 
+    quiz_bank = QuizBank(CONTENT_DIR, index)
+    quiz_store = QuizStore(quiz_db_path())
+    snapshot = quiz_bank.snapshot()
+    print(f"Quiz: {len(snapshot.questions)} questions in {len(snapshot.quizzes)} quiz sets, {len(snapshot.issues)} issues")
+    print(f"Quiz history: {quiz_store.path}")
+
     def handler_factory(*args, **kwargs):
-        return StudyHandler(*args, content_index=index, **kwargs)
+        return StudyHandler(*args, content_index=index, quiz_bank=quiz_bank, quiz_store=quiz_store, **kwargs)
 
     server = ThreadingHTTPServer((args.host, args.port), handler_factory)
     server.daemon_threads = True

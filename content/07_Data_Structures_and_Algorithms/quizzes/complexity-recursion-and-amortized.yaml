@@ -1,0 +1,164 @@
+version: 1
+title: "Algorithmic Complexity: Recursion, Logs and Amortization"
+description: Halving, recursion trees, memoization, amortized costs and loops whose bounds are not N.
+questions:
+  - id: amortized-append
+    topic: 01_Algorithmic_Complexity
+    concept: Amortized time
+    prompt: Appending to a dynamic array (such as a Python `list`) occasionally costs O(N). Why is append still described as O(1)?
+    choices:
+      - { id: a, text: "The O(N) copy is done in a background thread" }
+      - { id: b, text: "Capacity doubles, so resizes become exponentially rarer and N appends cost O(N) in total" }
+      - { id: c, text: "Python lists are linked lists, so append never copies" }
+      - { id: d, text: "The resize is O(log N), not O(N)" }
+    answer: [b]
+    explanation: Copies happen at sizes 1, 2, 4, 8, … and sum to less than 2N, so the cost per append is **O(1) amortized**.
+
+  - id: amortized-worst-single-op
+    topic: 01_Algorithmic_Complexity
+    concept: Amortized time
+    prompt: For a doubling dynamic array, which statements are true? Select all that apply.
+    choices:
+      - { id: a, text: "A single append can take O(N) time" }
+      - { id: b, text: "The amortized cost of append is O(1)" }
+      - { id: c, text: "Every append takes exactly constant time" }
+      - { id: d, text: "N appends take O(N²) in total" }
+    answer: [a, b]
+    explanation: Amortized O(1) is an average over a sequence. An individual append that triggers a resize is still O(N).
+
+  - id: log-n-halving
+    topic: 01_Algorithmic_Complexity
+    concept: Log N runtimes
+    prompt: Roughly how many comparisons does binary search need on a sorted array of 1,000,000 elements in the worst case?
+    choices:
+      - { id: a, text: "About 20" }
+      - { id: b, text: "About 1,000" }
+      - { id: c, text: "About 500,000" }
+      - { id: d, text: "About 1,000,000" }
+    answer: [a]
+    explanation: Each comparison halves the candidates, and log₂(1,000,000) ≈ 20.
+
+  - id: log-base-irrelevant
+    topic: 01_Algorithmic_Complexity
+    concept: Log N runtimes
+    prompt: Why does Big O not specify the base of the logarithm in O(log N)?
+    choices:
+      - { id: a, text: "Computers always use base 2" }
+      - { id: b, text: "Changing the base only multiplies by a constant factor, which Big O drops" }
+      - { id: c, text: "Logarithms with different bases grow at different asymptotic rates" }
+      - { id: d, text: "The base is always e by convention" }
+    answer: [b]
+    explanation: log_a N = log_b N / log_b a, and 1 / log_b a is a constant.
+
+  - id: recursive-branches-depth
+    topic: 01_Algorithmic_Complexity
+    concept: Recursive runtimes
+    prompt: A recursive function makes 3 recursive calls per invocation and recurses to depth N. What is a good first estimate of its time complexity?
+    choices:
+      - { id: a, text: "O(3N)" }
+      - { id: b, text: "O(N³)" }
+      - { id: c, text: "O(3^N)" }
+      - { id: d, text: "O(N log N)" }
+    answer: [c]
+    explanation: The starting estimate is O(branches^depth), so O(3^N).
+
+  - id: naive-fib-time-space
+    topic: 01_Algorithmic_Complexity
+    concept: Recursive runtimes
+    prompt: What are the time and space complexities of naive recursive Fibonacci, `fib(n-1) + fib(n-2)`?
+    choices:
+      - { id: a, text: "O(2^N) time, O(2^N) space" }
+      - { id: b, text: "O(2^N) time, O(N) space" }
+      - { id: c, text: "O(N) time, O(N) space" }
+      - { id: d, text: "O(N²) time, O(1) space" }
+    answer: [b]
+    explanation: The call tree has ~2^N nodes, but only one root-to-leaf path is on the stack at a time, so space is O(N).
+
+  - id: memoized-fib
+    topic: 01_Algorithmic_Complexity
+    concept: Memoization reducing complexity
+    prompt: Adding `@lru_cache` to recursive Fibonacci changes its time complexity to what?
+    choices:
+      - { id: a, text: "O(log N)" }
+      - { id: b, text: "O(N)" }
+      - { id: c, text: "O(N²)" }
+      - { id: d, text: "It stays O(2^N); caching only helps memory" }
+    answer: [b]
+    explanation: Each fib(k) is computed once and every later request is an O(1) cache hit, so N distinct subproblems take O(N) time.
+
+  - id: memoization-when-it-helps
+    topic: 01_Algorithmic_Complexity
+    concept: Memoization reducing complexity
+    prompt: Memoization reduces complexity only when a recursive problem has what property?
+    choices:
+      - { id: a, text: "A single base case" }
+      - { id: b, text: "Overlapping subproblems that are solved repeatedly" }
+      - { id: c, text: "Integer inputs" }
+      - { id: d, text: "Tail recursion" }
+    answer: [b]
+    explanation: Caching pays off only when the same subproblem would otherwise be recomputed. This is the foundation of dynamic programming.
+
+  - id: recursion-tree-balanced
+    topic: 01_Algorithmic_Complexity
+    concept: Summing a recursion tree
+    prompt: A divide-and-conquer algorithm does O(N) work at every level of a balanced recursion tree with log N levels. What is the total?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(log N)" }
+      - { id: c, text: "O(N log N)" }
+      - { id: d, text: "O(2^N)" }
+    answer: [c]
+    explanation: Sum the work per level. N work × log N levels = **O(N log N)**, which is merge sort's shape.
+
+  - id: recursion-tree-geometric
+    topic: 01_Algorithmic_Complexity
+    concept: Summing a recursion tree
+    prompt: Successive recursion levels do N, N/2, N/4, … work. What is the total?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(N log N)" }
+      - { id: c, text: "O(N²)" }
+      - { id: d, text: "O(log N)" }
+    answer: [a]
+    explanation: The geometric series N + N/2 + N/4 + … is less than 2N, so the total is O(N).
+
+  - id: loop-bound-doubling
+    topic: 01_Algorithmic_Complexity
+    concept: Loop bounds that aren’t N
+    prompt: |
+      ```python
+      i = 1
+      while i < n:
+          i *= 2
+      ```
+      How many times does the loop body run, asymptotically?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(N / 2)" }
+      - { id: c, text: "O(log N)" }
+      - { id: d, text: "O(√N)" }
+    answer: [c]
+    explanation: The index doubles each iteration, so it reaches n after about log₂ n steps.
+
+  - id: loop-bound-sqrt
+    topic: 01_Algorithmic_Complexity
+    concept: Loop bounds that aren’t N
+    prompt: Trial-division primality testing that checks divisors `d` while `d * d <= n` runs in what time?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(√N)" }
+      - { id: c, text: "O(log N)" }
+      - { id: d, text: "O(N²)" }
+    answer: [b]
+
+  - id: loop-bound-half-and-triangle
+    topic: 01_Algorithmic_Complexity
+    concept: Loop bounds that aren’t N
+    prompt: Which loops are O(N²)? Select all that apply.
+    choices:
+      - { id: a, text: "`for i in range(1, n+1): for _ in range(i): ...` (triangular)" }
+      - { id: b, text: "`for i in range(n): for j in range(i+1, n): ...` (all pairs)" }
+      - { id: c, text: "`for i in range(n // 2): ...` (half the array)" }
+      - { id: d, text: "`for i in range(n): for j in range(10): ...` (fixed inner bound)" }
+    answer: [a, b]
+    explanation: Both triangular sums are about N²/2, so O(N²). Iterating to N/2 is O(N), and a constant inner bound of 10 is O(10N) = O(N).

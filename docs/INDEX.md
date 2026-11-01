@@ -68,6 +68,11 @@ Welcome to the swe-study-guide documentation. This index provides easy access to
 
 ## Architecture
 
+**[QUIZ.md](QUIZ.md)**
+- Concept-linked quiz: many quiz sets per technology, file format, id rules
+- API endpoints, SQLite history, IndexedDB outbox guarantees
+- Tests, deployment volume and backups
+
 **[ARCHITECTURE.md](ARCHITECTURE.md)**
 - System architecture overview
 - Component design

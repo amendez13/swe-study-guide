@@ -67,3 +67,6 @@ gitignored-sources/
 
 # Code review files (local only)
 .code-review-*.md
+
+# Local runtime data (quiz history, issue #72)
+.local/

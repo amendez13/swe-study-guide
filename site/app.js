@@ -18,6 +18,17 @@
     renderSidebar();
     renderStats();
     bindSearch();
+    if (window.SweStudyQuiz) {
+      window.SweStudyQuiz.mount({
+        esc,
+        renderMarkdown,
+        navigate,
+        handleRoute,
+        scrollTop: () => {
+          $("#main").scrollTop = 0;
+        },
+      });
+    }
     handleRoute();
     window.addEventListener("hashchange", handleRoute);
   }
@@ -27,6 +38,7 @@
   function handleRoute() {
     const hash = decodeURIComponent(location.hash.slice(1));
     if (!hash) return showWelcome();
+    if (hash === "_quiz" || hash.startsWith("_quiz/") || hash.startsWith("_quiz?")) return showQuiz();
 
     const parts = hash.split("/");
     const techDir = parts[0];
@@ -37,7 +49,14 @@
 
     if (topicDir) {
       const topic = tech.topics.find((t) => t.dir === topicDir);
-      if (topic) return showTopic(tech, topic);
+      if (topic) {
+        // Concept deep link: #<tech>/<topic>/concepts/<slug> (issue #72).
+        const conceptSlug = parts[2] === "concepts" ? parts[3] || "" : "";
+        return showTopic(tech, topic, {
+          conceptSlug,
+          quizReturn: Boolean(history.state && history.state.quizReturn),
+        });
+      }
     }
     showTechnology(tech);
   }
@@ -128,10 +147,30 @@
     `;
   }
 
+  function setQuizViewVisible(visible) {
+    $("#quiz-view").style.display = visible ? "" : "none";
+    $$(".sidebar-quiz-link").forEach((el) => el.classList.toggle("active", visible));
+  }
+
+  function showQuiz() {
+    currentTech = null;
+    currentTopic = null;
+    activeTabRequestToken += 1;
+    updateSidebarActive(null, null);
+    $("#welcome").style.display = "none";
+    $("#content").style.display = "";
+    $("#chapter-overview").style.display = "none";
+    $("#lesson-detail").style.display = "none";
+    setQuizViewVisible(true);
+    if (window.SweStudyQuiz) window.SweStudyQuiz.render(location.hash);
+    else $("#quiz-view").innerHTML = emptyState("The quiz could not be loaded.");
+  }
+
   function showWelcome() {
     currentTech = null;
     currentTopic = null;
     updateSidebarActive(null, null);
+    setQuizViewVisible(false);
     $("#welcome").style.display = "";
     $("#content").style.display = "none";
   }
@@ -142,6 +181,7 @@
     currentTech = tech;
     currentTopic = null;
     updateSidebarActive(tech.dir, null);
+    setQuizViewVisible(false);
 
     $("#welcome").style.display = "none";
     $("#content").style.display = "";
@@ -165,6 +205,15 @@
         ${noteCount} with notes
       </span>
     `;
+
+    if (tech.quizCount) {
+      metaHtml += `
+        <a class="meta-badge meta-badge-quiz" href="#_quiz?technology=${encodeURIComponent(tech.dir)}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          ${tech.quizCount} quiz${tech.quizCount === 1 ? "" : "zes"}
+        </a>
+      `;
+    }
 
     if (tech.hasTechnologyConcepts) {
       metaHtml += `
@@ -204,6 +253,7 @@
     currentTech = tech;
     currentTopic = null;
     updateSidebarActive(tech.dir, null);
+    setQuizViewVisible(false);
 
     $("#chapter-overview").style.display = "none";
     $("#lesson-detail").style.display = "";
@@ -226,10 +276,11 @@
 
   // ── Topic Detail ─────────────────────────────────
 
-  function showTopic(tech, topic) {
+  function showTopic(tech, topic, options = {}) {
     currentTech = tech;
     currentTopic = topic;
     updateSidebarActive(tech.dir, topic.dir);
+    setQuizViewVisible(false);
 
     $("#welcome").style.display = "none";
     $("#content").style.display = "";
@@ -257,7 +308,8 @@
     }
 
     renderTabs(tabs, tech, topic);
-    activateTab(tabs[0].id, tech, topic);
+    const conceptLink = options.conceptSlug && topic.hasConcepts;
+    activateTab(conceptLink ? "concepts" : tabs[0].id, tech, topic, conceptLink ? options : {});
     $("#main").scrollTop = 0;
   }
 
@@ -276,7 +328,7 @@
     };
   }
 
-  async function activateTab(tabId, tech, topic) {
+  async function activateTab(tabId, tech, topic, options = {}) {
     const requestToken = ++activeTabRequestToken;
     $$(".tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === tabId));
     const container = $("#tab-content");
@@ -294,7 +346,7 @@
       if (requestToken !== activeTabRequestToken) return;
       const concepts = parseConcepts(md);
       if (concepts.length) {
-        renderConcepts(container, concepts);
+        renderConcepts(container, concepts, tabId === "concepts" ? options : {});
       } else {
         container.innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
         renderMermaidIn(container);
@@ -302,7 +354,7 @@
     }
   }
 
-  function renderConcepts(container, concepts) {
+  function renderConcepts(container, concepts, options = {}) {
     const cards = concepts.map((c, i) => {
       const clickable = c.body ? "clickable" : "";
       return `<div class="concept-item ${clickable}" data-idx="${i}"><span class="concept-dot"></span><span class="concept-title">${esc(c.title)}</span></div>`;
@@ -313,6 +365,13 @@
         <button class="concept-detail-close" id="concept-detail-close" aria-label="Close">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
+        ${
+          options.quizReturn
+            ? `<button class="concept-index-return" id="concept-quiz-return" type="button">
+                <span aria-hidden="true">&larr;</span> Back to quiz
+              </button>`
+            : ""
+        }
         <h3 class="concept-detail-title" id="concept-detail-title"></h3>
         <div class="concept-detail-body markdown-body" id="concept-detail-body"></div>
       </div>
@@ -349,6 +408,14 @@
       });
     });
     closeBtn.addEventListener("click", hideDetail);
+
+    const returnBtn = container.querySelector("#concept-quiz-return");
+    if (returnBtn) returnBtn.addEventListener("click", () => history.back());
+
+    if (options.conceptSlug) {
+      const index = concepts.findIndex((concept) => slugify(concept.title) === options.conceptSlug);
+      if (index >= 0) showDetail(index);
+    }
   }
 
   // ── Search ─────────────────────────────────────────
@@ -440,6 +507,16 @@
       .filter((l) => l.startsWith("- "))
       .map((l) => ({ title: l.slice(2).trim(), body: "" }))
       .filter((c) => c.title);
+  }
+
+  /** Must stay in sync with ``slugify`` in ``src/quiz_bank.py``. */
+  function slugify(value) {
+    return value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
   }
 
   function esc(s) {

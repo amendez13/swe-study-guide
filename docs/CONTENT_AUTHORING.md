@@ -13,6 +13,8 @@ content/
     ├── research/                      # optional: course outlines, distilled concepts
     │   ├── course_outlines.md
     │   └── concepts.md
+    ├── quizzes/                       # optional: any number of quiz sets (docs/QUIZ.md)
+    │   └── <quiz-id>.yaml
     └── <NN>_<Topic_Name>/             # e.g. 03_Framework_Foundations
         ├── concepts.md                # required for the Concepts tab
         ├── notes.md                   # required for the Notes tab
@@ -27,6 +29,7 @@ Rules:
 - `drills.md` is optional. When the file exists, `/api/content` sets `hasDrills: true` for that topic and the site adds a **Drills** tab. Topics without the file keep today's Notes and Concepts tabs only.
 - `serve.py` never treats `concepts.md` or `drills.md` as the notes document when `notes.md` is missing.
 - Files under `research/` are author scratch space and not rendered by the topic UI.
+- Files under `quizzes/` are multiple-choice quiz sets linked to concept cards. See [QUIZ.md](QUIZ.md) for the format. Renaming a `## ` concept heading breaks any quiz question that references it, and CI fails until the quiz is updated.
 
 ## `concepts.md` format
 
