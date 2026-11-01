@@ -516,6 +516,14 @@ body {
   color: #c2410c;
 }
 
+/* Diagrams are exported at 2x for sharpness; show them at 1x and never wider than the card. */
+.markdown-body img {
+  display: block;
+  max-width: min(100%, 860px);
+  height: auto;
+  margin: 16px auto;
+}
+
 .markdown-body pre {
   background: #0f172a;
   color: #e2e8f0;
