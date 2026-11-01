@@ -33,9 +33,9 @@ class Stack:
         return self._top is None
 ```
 
-![Stack (LIFO): push(C) onto [B, A], then pop() returns C; linked-list view and O(1) operations](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stack-lifo.drawio.png)
+![Stack (LIFO): push(C) onto [B, A], then pop() returns C; linked-list view and O(1) operations](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-1-stack-lifo.png)
 
-*Source: [`diagrams/stack-lifo.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stack-lifo.drawio); the PNG also embeds the diagram, so it opens directly in draw.io.*
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 1.*
 
 ## Stack implementation with arrays vs. linked lists
 
@@ -64,6 +64,10 @@ class ArrayStack:
         return len(self._data) == 0
 ```
 
+![Stack implementation: array-backed buffer with amortized growth vs. linked nodes relinked at _top, with a comparison table](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-2-array-vs-linked-list.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 2.*
+
 In Python, `list` is the practical choice for stacks. Use the linked-list version when you need guaranteed O(1) without amortization or when you are building the data structure from scratch in an interview.
 
 ## Explicit stack for converting recursion to iteration
@@ -91,6 +95,10 @@ def dfs_iterative(graph, start):
 
     return visited
 ```
+
+![Explicit stack vs. call stack: the same DFS moment shown as recursive frames and as an explicit list, the call-to-push and return-to-pop rule, and a step-by-step trace](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-3-recursion-to-iteration.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 3.*
 
 The explicit stack version mirrors the recursive DFS exactly: each `stack.append` corresponds to a recursive call, and each `stack.pop` corresponds to returning from one.
 
@@ -121,6 +129,10 @@ print(is_balanced("(("))       # False
 ```
 
 For postfix (reverse Polish) evaluation, push operands onto the stack; when you hit an operator, pop two operands, apply the operator, and push the result. The final value is the single element left on the stack.
+
+![Bracket matching and postfix evaluation: stack snapshots for ({[]}), the ([)] failure, and 3 4 + 2 * evaluating to 14](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-4-expressions-and-brackets.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 4.*
 
 ## Min stack
 
@@ -157,6 +169,10 @@ ms.pop()             # removes 8
 ms.pop()             # removes 2
 print(ms.get_min())  # 3
 ```
+
+![Min stack: (value, running min) pairs through push 5, 3, 7, 2, 8 and two pops, plus the parallel min-stack variant](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-5-min-stack.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 5.*
 
 An alternative approach uses a parallel stack that only pushes when a new minimum arrives, saving space when values rarely decrease. Both variants preserve O(1) for all operations.
 
@@ -203,16 +219,9 @@ class Queue:
         return self._front is None
 ```
 
-```mermaid
-graph LR
-    subgraph "Queue state: [A, B, C]"
-        direction LR
-        A["A (front)"] --> B["B"] --> C["C (back)"]
-    end
+![Queue (FIFO): enqueue(D) at the back, dequeue() takes A from the front; linked-list view with _front and _back, and O(1) operations](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-6-queue-fifo.png)
 
-    Enqueue["enqueue(D)"] -.->|"add to back"| C
-    Dequeue["dequeue() → A"] -.->|"remove from front"| A
-```
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 6.*
 
 ## Queue for BFS traversal
 
@@ -247,19 +256,9 @@ tree = {
 print(bfs(tree, 1))  # [1, 2, 3, 4, 5, 6]
 ```
 
-```mermaid
-graph TD
-    A((1)) --> B((2))
-    A --> C((3))
-    B --> D((4))
-    B --> E((5))
-    C --> F((6))
+![BFS with a queue: tree colored by level, the queue mid-traversal holding two adjacent levels, and a full trace](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-7-queue-bfs.png)
 
-    subgraph "Queue snapshots"
-        direction LR
-        Q0["[1]"] --> Q1["[2, 3]"] --> Q2["[3, 4, 5]"] --> Q3["[4, 5, 6]"] --> Q4["[5, 6]"] --> Q5["[6]"] --> Q6["[ ]"]
-    end
-```
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 7.*
 
 BFS also gives the shortest path in unweighted graphs because it explores nodes in order of their distance from the start.
 
@@ -294,25 +293,9 @@ class TwoStackQueue:
         return self._out_stack[-1]
 ```
 
-```mermaid
-graph LR
-    subgraph "in_stack (push end)"
-        direction TB
-        I3["3 (top)"] --> I2["2"] --> I1["1"]
-    end
+![Two-stack queue: transfer from in_stack to out_stack reverses order; trace of enqueues and dequeues showing when transfers happen](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-8-two-stack-queue.png)
 
-    subgraph "Transfer: pop all → push to out_stack"
-        direction TB
-        T["reverse order"]
-    end
-
-    subgraph "out_stack (pop end)"
-        direction TB
-        O1["1 (top)"] --> O2["2"] --> O3["3"]
-    end
-
-    I3 -.->|"pop from in"| T -.->|"push to out"| O1
-```
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 8.*
 
 This is a classic interview question. The amortized analysis works because each element is pushed and popped from each stack exactly once -- four total operations spread across its lifetime in the queue.
 
@@ -337,6 +320,10 @@ for i in range(5):
 print(list(recent))  # [2, 3, 4]
 ```
 
+![Deque: append/pop at both ends, trace of the card code, maxlen dropping old items, stack vs queue disciplines, and the linked-block internals](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-9-deque.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 9.*
+
 Use `deque` over `list` whenever you need O(1) operations on both ends. A `list.pop(0)` is O(N) because it shifts every element, while `deque.popleft()` is O(1). The `maxlen` parameter makes `deque` useful for sliding window problems and bounded buffers.
 
 ## Priority queue
@@ -358,6 +345,10 @@ while tasks:
 # [1] normal
 # [2] low priority
 ```
+
+![Priority queue: FIFO vs priority serving order, heapq min-heap as tree and list, and costs vs unsorted and sorted lists](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-10-priority-queue.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 10.*
 
 Priority queues appear in Dijkstra's shortest path, Huffman coding, task scheduling, and event-driven simulations. The heap internals are covered in the Heaps topic; the key idea here is that a priority queue is the interface and a heap is the implementation.
 
@@ -385,6 +376,10 @@ q = deque()
 q.append("a"); q.append("b")
 print(q.popleft())       # a  (oldest)
 ```
+
+![Stack and Queue ADT contracts with the implementations that satisfy them, underflow and overflow decisions, and the four-step interview answer](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-11-adt-contract.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 11.*
 
 ## Circular buffer (ring buffer) queue
 
@@ -422,10 +417,9 @@ rq.enqueue("d")       # wraps into slot 0
 print([rq.dequeue() for _ in range(3)])  # ['b', 'c', 'd']
 ```
 
-```mermaid
-graph LR
-    S0["slot 0: d"] --> S1["slot 1: b (head)"] --> S2["slot 2: c"] --> S0
-```
+![Ring buffer: RingQueue(3) snapshots with head and next-free indices, d wrapping into slot 0, the ring view, and full-buffer policies](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-12-ring-buffer.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 12.*
 
 A variant overwrites the oldest item when full instead of raising -- that is exactly what `deque(maxlen=N)` gives you.
 
@@ -448,6 +442,10 @@ def next_greater(nums):
 
 print(next_greater([2, 1, 5, 3, 4]))  # [5, 5, -1, 4, -1]
 ```
+
+![Monotonic stack: bars with next-greater arrows, the stack trace for [2, 1, 5, 3, 4], the result, and variants](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-13-monotonic-stack.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 13.*
 
 Recognize it when a problem asks for the "nearest larger/smaller to the left/right," spans, or anything bounded by the first taller bar. Flip `<` to `>` for next smaller; scan right-to-left for previous greater.
 
@@ -472,6 +470,10 @@ def window_max(nums, k):
 
 print(window_max([1, 3, -1, -3, 5, 3, 6, 7], 3))  # [3, 3, 5, 5, 6, 7]
 ```
+
+![Monotonic deque: window of size 3, step i=4 expiring the front and popping dominated values, and the full trace](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-14-monotonic-deque.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 14.*
 
 A heap also works (O(N log k)), but the deque is the expected optimal answer. The pattern needs both ends -- pop from the back to keep order, pop from the front to expire -- which is why a plain stack or queue is not enough.
 
@@ -498,6 +500,10 @@ g = {1: [2, 3], 2: [4], 3: [5], 4: [], 5: []}
 print(traverse(g, 1, use_stack=False))  # [1, 2, 3, 4, 5]  BFS
 print(traverse(g, 1, use_stack=True))   # [1, 3, 5, 2, 4]  DFS-style
 ```
+
+![Same traversal loop with a queue (BFS order 1 2 3 4 5) and a stack (order 1 3 5 2 4), plus the priority-queue variant](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-15-frontier.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 15.*
 
 Marking nodes as seen when they are **added** (as here) keeps each node in the frontier once; marking them when **popped** is required if you need a true preorder DFS that matches the recursive version.
 
@@ -529,5 +535,9 @@ jobs.put(None)
 t.join()
 print(results)  # [0, 1, 4, 9, 16]
 ```
+
+![Bounded blocking queue: producer, queue.Queue(maxsize=2) and worker; empty, partly full and full states; shutdown sequence; full-queue policies](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-16-bounded-queue.png)
+
+*Source: [`diagrams/stacks-and-queues.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues.drawio), page 16.*
 
 Interview talking points: choose a capacity, decide what happens when full (block, drop, or reject), and use a sentinel or a close signal so consumers can exit cleanly.
