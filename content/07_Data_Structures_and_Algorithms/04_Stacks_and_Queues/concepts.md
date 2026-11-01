@@ -372,3 +372,174 @@ while tasks:
 ```
 
 Priority queues appear in Dijkstra's shortest path, Huffman coding, task scheduling, and event-driven simulations. The heap internals are covered in the Heaps topic; the key idea here is that a priority queue is the interface and a heap is the implementation.
+
+## Stack and queue as ADTs: contract first, implementation second
+
+An abstract data type (ADT) is a promise about behavior, not storage. A stack promises "the item you get back is the one added most recently"; a queue promises "the item you get back is the one that has waited longest." Arrays, linked lists, ring buffers, and pairs of stacks are all ways to keep that promise -- interviewers usually want you to name the contract, then pick an implementation and state its costs.
+
+Decide up front what happens on **underflow** (pop/dequeue on empty) and, for fixed-capacity versions, **overflow** (push/enqueue when full). Raising an exception is clearer than returning `None`, because `None` may be a legitimate stored value.
+
+| Need | Python choice | Notes |
+|------|---------------|-------|
+| Stack | `list` (`append` / `pop`) | Amortized O(1) at the right end |
+| Queue or deque | `collections.deque` | O(1) at both ends; `list.pop(0)` is O(N) |
+| Queue shared between threads | `queue.Queue` | Locking, blocking `get`/`put`, optional `maxsize` |
+| Priority order | `heapq` on a list | O(log N) push/pop; see the Heaps topic |
+
+```python
+from collections import deque
+
+stack = []
+stack.append("a"); stack.append("b")
+print(stack.pop())       # b  (most recent)
+
+q = deque()
+q.append("a"); q.append("b")
+print(q.popleft())       # a  (oldest)
+```
+
+## Circular buffer (ring buffer) queue
+
+A fixed-capacity queue can live in a plain array if the front and back indices wrap around with modulo arithmetic. Nothing ever shifts, so enqueue and dequeue are worst-case O(1) with no allocation -- the reason ring buffers show up in audio pipelines, network drivers, and log tails.
+
+Track `head` (index of the oldest item) and `size`. The next free slot is `(head + size) % capacity`. Keeping an explicit `size` avoids the classic ambiguity where `head == tail` could mean either empty or full.
+
+```python
+class RingQueue:
+    def __init__(self, capacity):
+        self._buf = [None] * capacity
+        self._head = 0
+        self._size = 0
+
+    def enqueue(self, val):
+        if self._size == len(self._buf):
+            raise OverflowError("queue full")
+        self._buf[(self._head + self._size) % len(self._buf)] = val
+        self._size += 1
+
+    def dequeue(self):
+        if self._size == 0:
+            raise IndexError("dequeue from empty queue")
+        val = self._buf[self._head]
+        self._buf[self._head] = None          # drop the reference
+        self._head = (self._head + 1) % len(self._buf)
+        self._size -= 1
+        return val
+
+rq = RingQueue(3)
+for v in "abc":
+    rq.enqueue(v)
+print(rq.dequeue())   # a
+rq.enqueue("d")       # wraps into slot 0
+print([rq.dequeue() for _ in range(3)])  # ['b', 'c', 'd']
+```
+
+```mermaid
+graph LR
+    S0["slot 0: d"] --> S1["slot 1: b (head)"] --> S2["slot 2: c"] --> S0
+```
+
+A variant overwrites the oldest item when full instead of raising -- that is exactly what `deque(maxlen=N)` gives you.
+
+## Monotonic stack: next greater element
+
+A monotonic stack keeps its contents sorted (for example, decreasing from bottom to top) by popping anything that would break the order before pushing. Each pop is a moment of discovery: the incoming item is the first one to the right that beats the popped item. Every index is pushed and popped at most once, so the whole scan is O(N) even though there is a loop inside a loop.
+
+Store **indices**, not values, so you can write answers back into an output array and measure distances.
+
+```python
+def next_greater(nums):
+    """For each position, the next value to the right that is larger, else -1."""
+    result = [-1] * len(nums)
+    stack = []                       # indices; their values are decreasing
+    for i, x in enumerate(nums):
+        while stack and nums[stack[-1]] < x:
+            result[stack.pop()] = x
+        stack.append(i)
+    return result
+
+print(next_greater([2, 1, 5, 3, 4]))  # [5, 5, -1, 4, -1]
+```
+
+Recognize it when a problem asks for the "nearest larger/smaller to the left/right," spans, or anything bounded by the first taller bar. Flip `<` to `>` for next smaller; scan right-to-left for previous greater.
+
+## Monotonic deque: sliding window maximum
+
+The deque version of the same idea answers "max (or min) of every window of size k" in O(N). Keep indices in a deque whose values decrease from front to back. On each step: drop the front if it has slid out of the window, pop smaller values off the back (they can never be a future max while the newer, larger value is around), push the new index, and read the max from the front.
+
+```python
+from collections import deque
+
+def window_max(nums, k):
+    dq, out = deque(), []            # indices, values decreasing front→back
+    for i, x in enumerate(nums):
+        if dq and dq[0] <= i - k:
+            dq.popleft()             # out of the window
+        while dq and nums[dq[-1]] <= x:
+            dq.pop()                 # dominated by x
+        dq.append(i)
+        if i >= k - 1:
+            out.append(nums[dq[0]])
+    return out
+
+print(window_max([1, 3, -1, -3, 5, 3, 6, 7], 3))  # [3, 3, 5, 5, 6, 7]
+```
+
+A heap also works (O(N log k)), but the deque is the expected optimal answer. The pattern needs both ends -- pop from the back to keep order, pop from the front to expire -- which is why a plain stack or queue is not enough.
+
+## Same loop, different frontier: stack vs. queue traversal
+
+Graph and tree traversals share one skeleton: take an item from a **frontier**, process it, add its neighbors. The container you choose for the frontier decides the order. A queue gives BFS (nearest first, shortest paths in unweighted graphs). A stack gives a DFS order (go deep first, smaller frontier on wide graphs). A priority queue gives best-first search (Dijkstra, A*).
+
+```python
+from collections import deque
+
+def traverse(graph, start, use_stack):
+    frontier = deque([start])
+    seen, order = {start}, []
+    while frontier:
+        node = frontier.pop() if use_stack else frontier.popleft()
+        order.append(node)
+        for nb in graph[node]:
+            if nb not in seen:
+                seen.add(nb)
+                frontier.append(nb)
+    return order
+
+g = {1: [2, 3], 2: [4], 3: [5], 4: [], 5: []}
+print(traverse(g, 1, use_stack=False))  # [1, 2, 3, 4, 5]  BFS
+print(traverse(g, 1, use_stack=True))   # [1, 3, 5, 2, 4]  DFS-style
+```
+
+Marking nodes as seen when they are **added** (as here) keeps each node in the frontier once; marking them when **popped** is required if you need a true preorder DFS that matches the recursive version.
+
+## Bounded and blocking queues: producers and consumers
+
+In real systems a queue usually sits between code that produces work and code that consumes it. Giving the queue a **capacity** creates backpressure: when consumers fall behind, producers block (or are rejected) instead of growing memory without bound. Python's `queue.Queue(maxsize=N)` is a thread-safe bounded FIFO with blocking `put` and `get`; message brokers (SQS, RabbitMQ, Kafka) apply the same idea across machines.
+
+```python
+import queue
+import threading
+
+jobs = queue.Queue(maxsize=2)      # put() blocks when 2 items are waiting
+results = []
+
+def worker():
+    while True:
+        item = jobs.get()
+        if item is None:           # sentinel: shut down
+            break
+        results.append(item * item)
+        jobs.task_done()
+
+t = threading.Thread(target=worker)
+t.start()
+for n in range(5):
+    jobs.put(n)
+jobs.join()                        # wait until every job is processed
+jobs.put(None)
+t.join()
+print(results)  # [0, 1, 4, 9, 16]
+```
+
+Interview talking points: choose a capacity, decide what happens when full (block, drop, or reject), and use a sentinel or a close signal so consumers can exit cleanly.

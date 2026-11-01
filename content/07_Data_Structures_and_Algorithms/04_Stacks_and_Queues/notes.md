@@ -14,6 +14,12 @@ Stacks and queues are the two fundamental ordered-access data structures. A stac
 - **Two-stack queue is amortized O(1)** - Push to one stack, pour into the other on demand. Each element moves at most once, so the amortized cost per operation is constant.
 - **Deque generalizes both** - Python's `collections.deque` supports O(1) insert and remove from both ends, making it suitable for stacks, queues, and sliding-window problems. Always prefer it over `list` when you need `popleft`.
 - **Priority queue is ordered by priority, not arrival** - Backed by a heap, it provides O(log N) insert and extract. Used in Dijkstra's algorithm, scheduling, and any scenario where the next item to process depends on a computed priority rather than when it arrived.
+- **Name the contract, then the implementation** - A stack or queue is an ADT: say what order it guarantees and what happens on empty (raise, don't return `None`) or full before picking `list`, `deque`, a ring buffer, or `queue.Queue`.
+- **Ring buffers give fixed-capacity O(1) queues** - Wrap a head index with modulo and keep an explicit size so "empty" and "full" are never confused. `deque(maxlen=N)` is the overwrite-oldest variant.
+- **Monotonic stack finds the next greater/smaller in O(N)** - Keep indices in sorted order and pop when the new item beats the top; each pop answers a query. Every index is pushed and popped once.
+- **Monotonic deque gives sliding-window max/min in O(N)** - Expire old indices from the front, drop dominated values from the back, read the answer at the front.
+- **The frontier container decides traversal order** - Same loop: a queue gives BFS, a stack gives DFS order, a priority queue gives best-first search.
+- **Bounded queues create backpressure** - Between producers and consumers, a capacity plus a policy for "full" (block, drop, reject) keeps memory bounded; use a sentinel to shut consumers down.
 
 ## Example
 
@@ -84,3 +90,7 @@ print(ms.get_min())  # 3
 ```
 
 This example demonstrates the three most interview-relevant patterns: stacks for bracket matching, queues for BFS traversal, and the min-stack augmentation for O(1) minimum tracking.
+
+## More practice
+
+Work the original exercises on the **Drills** tab: read each prompt and snippet, commit to an answer, then open the card to check it. For more stack and queue practice, open CTCI Chapter 3 on the private reader (`#chapter-3-stacks-and-queues`, with background under `#implementing-a-stack` and `#implementing-a-queue`); the chapter's interview questions live under `#interview-questions_3`. Work the problems there; do not copy book text or solutions into these study files.
