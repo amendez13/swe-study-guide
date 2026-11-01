@@ -213,3 +213,130 @@ Use arrays when you need fast indexed access, binary search, or when the data fi
 | Cache performance    | High   | Low         |
 
 \* Amortized for dynamic arrays. \** With a tail pointer.
+
+## Sentinel (dummy) head node
+
+A sentinel is a throwaway node placed in front of the real head. Because every real node now has a predecessor, deleting or inserting at the front follows the same code path as anywhere else, and the special "is this the head?" branch disappears. When you are done, the real head is `dummy.next`.
+
+Reach for a sentinel whenever the head might change: removing matching values, merging, partitioning, or building a new list node by node. It costs one extra allocation and removes a whole class of off-by-one bugs.
+
+```python
+def remove_value(head, target):
+    dummy = Node(None, head)
+    prev = dummy
+    while prev.next:
+        if prev.next.data == target:
+            prev.next = prev.next.next  # same code even for the old head
+        else:
+            prev = prev.next
+    return dummy.next
+```
+
+```mermaid
+graph LR
+    D["dummy"] -->|next| A["7"] --> B["3"] --> C["7"] --> N["None"]
+```
+
+## Iterative in-place reversal
+
+Reversing iteratively walks the list once with three references: `prev` (the already-reversed part), `cur` (the node being flipped), and `nxt` (a saved pointer to the rest). The order matters: save `cur.next` first, then point `cur` backward, then advance both. If you overwrite `cur.next` before saving it, the rest of the list is lost.
+
+This runs in O(N) time and O(1) extra space, so it is the version to use when the list can be long. It is also a building block: reversing a sublist, reversing the second half, and reversing in groups all reuse the same three-pointer loop.
+
+```python
+def reverse_iter(head):
+    prev, cur = None, head
+    while cur:
+        nxt = cur.next   # 1. save the rest
+        cur.next = prev  # 2. flip this pointer
+        prev = cur       # 3. grow the reversed part
+        cur = nxt        # 4. move on
+    return prev  # new head
+```
+
+## Merging two sorted lists
+
+Two sorted lists merge into one sorted list by repeatedly attaching the smaller front node to a growing tail. A sentinel gives the tail a starting point, so there is no special case for choosing the first node. When one list runs out, attach the rest of the other in one step, since it is already sorted.
+
+The merge reuses existing nodes, so it is O(A + B) time and O(1) extra space. It is the merge step of merge sort on linked lists, which is the usual way to sort a list in O(N log N) without random access.
+
+```python
+def merge_sorted(a, b):
+    dummy = tail = Node(None)
+    while a and b:
+        if a.data <= b.data:
+            tail.next, a = a, a.next
+        else:
+            tail.next, b = b, b.next
+        tail = tail.next
+    tail.next = a or b  # attach the leftover run
+    return dummy.next
+```
+
+## Split, reverse, and weave
+
+Many medium list problems are three small steps chained together: find the middle with fast/slow pointers, cut the list into two halves, transform one half (often reverse it), then walk both halves together. Thinking in these steps keeps each loop short and testable on its own.
+
+The cut is the step people forget. After finding the middle, set the end of the first half's `next` to `None`, or the two halves stay joined and later loops run forever or revisit nodes.
+
+```python
+def split_half(head):
+    """Return (first, second). First gets the extra node on odd lengths."""
+    slow, fast = head, head.next
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+    second = slow.next
+    slow.next = None  # the cut
+    return head, second
+```
+
+## Doubly linked list with sentinels: O(1) unlink
+
+A doubly linked list with two sentinels, `head` and `tail`, never has `None` neighbours for a real node. Unlinking any node is always the same two assignments, and inserting after the head is always four. Together with a hash map from key to node, this gives O(1) "move to front" and "drop the oldest", which is how an LRU cache is built.
+
+The usual bug is updating pointers in the wrong order and losing a reference. Unlink first, then relink, and update both directions every time.
+
+```python
+class DList:
+    def __init__(self):
+        self.head, self.tail = DNode(None), DNode(None)
+        self.head.next, self.tail.prev = self.tail, self.head
+
+    def unlink(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+    def push_front(self, node):
+        node.prev, node.next = self.head, self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+```
+
+```mermaid
+graph LR
+    H["head (sentinel)"] <--> A["A"] <--> B["B"] <--> T["tail (sentinel)"]
+```
+
+## Edge cases and test helpers
+
+Most linked list bugs show up on the same short inputs: an empty list, one node, two nodes, an odd versus even length, and the operation touching the first or last node. Run every solution against these before trying a long example.
+
+Two small helpers make that cheap: one builds a list from a Python list, and one turns a list back into a Python list so you can compare with `==`. Python has no built-in linked list; `collections.deque` is a doubly linked block list and is the right choice in real code when you only need fast ends.
+
+```python
+def build(values):
+    head = None
+    for v in reversed(values):
+        head = Node(v, head)
+    return head
+
+def to_list(head):
+    out = []
+    while head:
+        out.append(head.data)
+        head = head.next
+    return out
+
+for case in ([], [1], [1, 2], [1, 2, 3]):
+    assert to_list(reverse_iter(build(case))) == case[::-1]
+```
