@@ -99,6 +99,7 @@ Welcome to the swe-study-guide documentation. This index provides easy access to
 **[CONTENT_AUTHORING.md](CONTENT_AUTHORING.md)**
 - Study-content directory layout under `content/`
 - `concepts.md` structured (H2 + body) and legacy (bullet) formats
+- optional `drills.md`, rendered with the same card UI when present
 - `notes.md` convention and quality bar for new topics
 
 **[CI.md](CI.md)**
@@ -183,7 +184,7 @@ Welcome to the swe-study-guide documentation. This index provides easy access to
 | [README.md](../README.md) | Getting started, installation, usage | All users |
 | [SETUP.md](SETUP.md) | Environment configuration | All users |
 | [AI_SKILLS.md](AI_SKILLS.md) | AI skill source, deploy, and starter-skill guide | Developers |
-| [CONTENT_AUTHORING.md](CONTENT_AUTHORING.md) | Study-content layout and the `concepts.md` / `notes.md` formats | Content authors |
+| [CONTENT_AUTHORING.md](CONTENT_AUTHORING.md) | Study-content layout and the `concepts.md` / `notes.md` / optional `drills.md` formats | Content authors |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Technical architecture and design | Developers |
 | [CI.md](CI.md) | CI/CD pipeline and development workflow | Developers |
 | [SECURITY_BASELINE.md](SECURITY_BASELINE.md) | Secret scanning baseline and GitHub security setup | Developers, operators |

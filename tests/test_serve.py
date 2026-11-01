@@ -24,6 +24,90 @@ def import_serve_module():
 serve_module = import_serve_module()
 
 
+def _write_topic(content_root: Path, tech: str, topic: str, files: dict[str, str]) -> None:
+    topic_dir = content_root / tech / topic
+    topic_dir.mkdir(parents=True)
+    for name, text in files.items():
+        (topic_dir / name).write_text(text, encoding="utf-8")
+
+
+def test_build_content_index_has_drills_when_drills_md_present(monkeypatch, tmp_path: Path) -> None:
+    content = tmp_path / "content"
+    _write_topic(
+        content,
+        "01_Algorithms",
+        "01_Complexity",
+        {"notes.md": "# Notes\n", "concepts.md": "## Concept\n", "drills.md": "## Drill\n"},
+    )
+    monkeypatch.setattr(serve_module, "CONTENT_DIR", content)
+
+    topic = serve_module.build_content_index()["technologies"][0]["topics"][0]
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+
+def test_build_content_index_has_drills_false_when_drills_md_absent(monkeypatch, tmp_path: Path) -> None:
+    content = tmp_path / "content"
+    _write_topic(
+        content,
+        "01_Algorithms",
+        "02_Sorting",
+        {"notes.md": "# Notes\n", "concepts.md": "## Concept\n"},
+    )
+    monkeypatch.setattr(serve_module, "CONTENT_DIR", content)
+
+    topic = serve_module.build_content_index()["technologies"][0]["topics"][0]
+
+    assert topic["hasDrills"] is False
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+
+def test_build_content_index_excludes_drills_md_from_notes_candidates(monkeypatch, tmp_path: Path) -> None:
+    content = tmp_path / "content"
+    _write_topic(
+        content,
+        "01_Algorithms",
+        "03_Graphs",
+        {"overview.md": "# Overview\n", "concepts.md": "## Concept\n", "drills.md": "## Drill\n"},
+    )
+    monkeypatch.setattr(serve_module, "CONTENT_DIR", content)
+
+    topic = serve_module.build_content_index()["technologies"][0]["topics"][0]
+
+    assert topic["notesFile"] == "overview.md"
+    assert topic["hasDrills"] is True
+
+
+def test_build_content_index_drills_only_topic_has_no_notes_file(monkeypatch, tmp_path: Path) -> None:
+    content = tmp_path / "content"
+    _write_topic(content, "01_Algorithms", "04_Heaps", {"drills.md": "## Drill\n"})
+    monkeypatch.setattr(serve_module, "CONTENT_DIR", content)
+
+    topic = serve_module.build_content_index()["technologies"][0]["topics"][0]
+
+    assert topic["notesFile"] is None
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is False
+
+
+def test_algorithmic_complexity_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "07_Data_Structures_and_Algorithms"
+        for item in tech["topics"]
+        if item["dir"] == "01_Algorithmic_Complexity"
+    )
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+
 def test_resolve_under_allows_paths_within_root(tmp_path: Path) -> None:
     root = tmp_path / "content"
     nested_file = root / "topic" / "notes.md"

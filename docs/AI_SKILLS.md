@@ -107,6 +107,7 @@ python ai-skills/swe-study-guide-notebooklm-source-creator/scripts/build_noteboo
 The generator only copies local text files:
 - topic `concepts.md`
 - topic `notes.md` when present
+- topic `drills.md` when present
 - `technology_concepts.md` when present
 - `research/concepts.md` and `research/course_outlines.md` when present
 

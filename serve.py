@@ -21,6 +21,8 @@ from src.release_info import get_release_info
 ROOT = Path(__file__).resolve().parent
 CONTENT_DIR = ROOT / "content"
 SITE_DIR = ROOT / "site"
+# These files have their own tabs and must not be picked up as the notes document.
+NOTES_FILE_EXCLUSIONS = frozenset({"concepts.md", "drills.md"})
 
 
 def natural_sort_key(s: str):
@@ -59,11 +61,14 @@ def build_content_index() -> dict:
                 notes_file = "notes.md"
             else:
                 md_files = [
-                    f.name for f in topic_dir.iterdir() if f.is_file() and f.suffix == ".md" and f.name not in ("concepts.md",)
+                    f.name
+                    for f in topic_dir.iterdir()
+                    if f.is_file() and f.suffix == ".md" and f.name not in NOTES_FILE_EXCLUSIONS
                 ]
                 notes_file = md_files[0] if md_files else None
 
             has_concepts = (topic_dir / "concepts.md").exists()
+            has_drills = (topic_dir / "drills.md").exists()
 
             topics.append(
                 {
@@ -72,6 +77,7 @@ def build_content_index() -> dict:
                     "title": topic_title,
                     "notesFile": notes_file,
                     "hasConcepts": has_concepts,
+                    "hasDrills": has_drills,
                 }
             )
 
