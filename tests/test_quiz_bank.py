@@ -54,7 +54,9 @@ def _content(tmp_path: Path) -> tuple[Path, dict[str, Any]]:
     return content, index
 
 
-def _write_quiz(content: Path, name: str, questions: list[Any] | None = None, raw: str | None = None, tech: str = TECH, **meta: Any) -> Path:
+def _write_quiz(
+    content: Path, name: str, questions: list[Any] | None = None, raw: str | None = None, tech: str = TECH, **meta: Any
+) -> Path:
     if name == "quiz.yaml":
         path = content / tech / name
     else:

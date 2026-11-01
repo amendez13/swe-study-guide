@@ -149,62 +149,8 @@ class QuizBank:
         concept_cache: dict[Path, dict[str, str]] = {}
 
         for tech in self._index().get("technologies", []):
-            tech_dir = tech.get("dir")
-            if not isinstance(tech_dir, str):
-                continue
-            tech_questions: list[dict[str, Any]] = []
-            id_files: dict[str, list[str]] = {}
-            for quiz_id, path in quiz_files(self.content_dir / tech_dir):
-                rel_file = path.relative_to(self.content_dir).as_posix()
-                if not QUIZ_ID_RE.match(quiz_id):
-                    issues.append(
-                        {"file": rel_file, "question": "", "message": "Quiz file name must match [a-z0-9][a-z0-9_-]*"}
-                    )
-                    continue
-                try:
-                    meta, raw_questions = self._load_file(path)
-                except ValueError as exc:
-                    issues.append({"file": rel_file, "question": "", "message": str(exc)})
-                    continue
-
-                quiz = {
-                    "key": f"{tech_dir}/{quiz_id}",
-                    "id": quiz_id,
-                    "techDir": tech_dir,
-                    "title": meta["title"],
-                    "description": meta["description"],
-                    "file": rel_file,
-                    "questions": 0,
-                }
-                seen_ids: set[str] = set()
-                for position, raw in enumerate(raw_questions, start=1):
-                    label = raw.get("id") if isinstance(raw, dict) and isinstance(raw.get("id"), str) else f"#{position}"
-                    try:
-                        question = self._validate_question(tech, quiz, raw, seen_ids, concept_cache)
-                    except ValueError as exc:
-                        issues.append({"file": rel_file, "question": str(label), "message": str(exc)})
-                        continue
-                    id_files.setdefault(question["id"], []).append(rel_file)
-                    tech_questions.append(question)
-                quizzes.append(quiz)
-
-            # Question keys are <techDir>/<id>, so ids must be unique across all
-            # of a technology's quiz files. Serve neither copy of a duplicate.
-            duplicates = {qid: files for qid, files in id_files.items() if len(files) > 1}
-            for qid, files in duplicates.items():
-                for rel_file in files:
-                    others = ", ".join(sorted(f for f in set(files) if f != rel_file)) or rel_file
-                    issues.append(
-                        {
-                            "file": rel_file,
-                            "question": qid,
-                            "message": f"Duplicate question id '{qid}' in technology {tech_dir} (also in {others})",
-                        }
-                    )
-            for question in tech_questions:
-                if question["id"] in duplicates:
-                    continue
-                questions.append(question)
+            if isinstance(tech.get("dir"), str):
+                self._build_technology(tech, questions, quizzes, issues, concept_cache)
 
         counts: dict[str, int] = {}
         for question in questions:
@@ -214,6 +160,87 @@ class QuizBank:
 
         by_key = {question["key"]: question for question in questions}
         return QuizSnapshot(questions=questions, quizzes=quizzes, issues=issues, etag=etag, by_key=by_key)
+
+    def _build_technology(
+        self,
+        tech: dict[str, Any],
+        questions: list[dict[str, Any]],
+        quizzes: list[dict[str, Any]],
+        issues: list[dict[str, str]],
+        concept_cache: dict[Path, dict[str, str]],
+    ) -> None:
+        """Load every quiz set of one technology, appending to the shared lists."""
+
+        tech_dir = tech["dir"]
+        tech_questions: list[dict[str, Any]] = []
+        for quiz_id, path in quiz_files(self.content_dir / tech_dir):
+            quiz = self._build_quiz_set(tech, quiz_id, path, tech_questions, issues, concept_cache)
+            if quiz is not None:
+                quizzes.append(quiz)
+
+        # Question keys are <techDir>/<id>, so ids must be unique across all
+        # of a technology's quiz files. Serve neither copy of a duplicate.
+        id_files: dict[str, list[str]] = {}
+        for question in tech_questions:
+            id_files.setdefault(question["id"], []).append(question["file"])
+        duplicates = {qid: files for qid, files in id_files.items() if len(files) > 1}
+        for qid, files in duplicates.items():
+            for rel_file in files:
+                others = ", ".join(sorted(f for f in set(files) if f != rel_file)) or rel_file
+                issues.append(
+                    {
+                        "file": rel_file,
+                        "question": qid,
+                        "message": f"Duplicate question id '{qid}' in technology {tech_dir} (also in {others})",
+                    }
+                )
+        for question in tech_questions:
+            question.pop("file")
+            if question["id"] not in duplicates:
+                questions.append(question)
+
+    def _build_quiz_set(
+        self,
+        tech: dict[str, Any],
+        quiz_id: str,
+        path: Path,
+        tech_questions: list[dict[str, Any]],
+        issues: list[dict[str, str]],
+        concept_cache: dict[Path, dict[str, str]],
+    ) -> dict[str, Any] | None:
+        """Validate one quiz file; return its quiz-set entry, or None if unusable."""
+
+        rel_file = path.relative_to(self.content_dir).as_posix()
+        if not QUIZ_ID_RE.match(quiz_id):
+            issues.append({"file": rel_file, "question": "", "message": "Quiz file name must match [a-z0-9][a-z0-9_-]*"})
+            return None
+        try:
+            meta, raw_questions = self._load_file(path)
+        except ValueError as exc:
+            issues.append({"file": rel_file, "question": "", "message": str(exc)})
+            return None
+
+        quiz: dict[str, Any] = {
+            "key": f"{tech['dir']}/{quiz_id}",
+            "id": quiz_id,
+            "techDir": tech["dir"],
+            "title": meta["title"],
+            "description": meta["description"],
+            "file": rel_file,
+            "questions": 0,
+        }
+        seen_ids: set[str] = set()
+        for position, raw in enumerate(raw_questions, start=1):
+            label = raw.get("id") if isinstance(raw, dict) and isinstance(raw.get("id"), str) else f"#{position}"
+            try:
+                question = self._validate_question(tech, quiz, raw, seen_ids, concept_cache)
+            except ValueError as exc:
+                issues.append({"file": rel_file, "question": str(label), "message": str(exc)})
+                continue
+            # Temporary marker for duplicate detection; removed before serving.
+            question["file"] = rel_file
+            tech_questions.append(question)
+        return quiz
 
     @staticmethod
     def _load_file(path: Path) -> tuple[dict[str, str], list[Any]]:
