@@ -347,3 +347,112 @@ for name, score in [("dave", 80), ("alice", 95), ("carol", 88), ("bob", 72)]:
 print(om.range_query("b", "c"))
 # [('bob', 72), ('carol', 88)]  — ordered iteration between 'b' and 'c'
 ```
+
+## Sliding window
+
+A sliding window tracks a contiguous range `[left, right]` of an array or string and updates a running summary (a sum, a count, a set of characters) as the edges move. Instead of recomputing the summary for every possible subarray, which costs O(N^2) or worse, you add the element that enters on the right and remove the element that leaves on the left. Each index enters and leaves at most once, so the whole scan is O(N).
+
+Windows come in two flavors. A **fixed** window keeps a constant width `k` and slides one step at a time. A **variable** window grows the right edge until a condition breaks, then shrinks the left edge until the condition holds again. Variable windows are the go-to for "longest/shortest substring such that..." questions.
+
+```python
+def longest_run_without_repeat(s: str) -> int:
+    """Length of the longest substring with no repeated character."""
+    last_seen: dict[str, int] = {}
+    left = best = 0
+    for right, ch in enumerate(s):
+        if ch in last_seen and last_seen[ch] >= left:
+            left = last_seen[ch] + 1        # shrink past the old copy
+        last_seen[ch] = right
+        best = max(best, right - left + 1)
+    return best
+
+print(longest_run_without_repeat("streets"))   # 4 -> "stre"
+```
+
+## Unsorted pair-sum with a hash set
+
+Two pointers need sorted input. When the array is unsorted and you only need to know whether some pair hits a target, sorting first costs O(N log N). A hash set does it in one O(N) pass: for each value `x`, ask whether its complement `target - x` was already seen; if not, record `x` and move on.
+
+The order of "check, then insert" matters. Checking before inserting stops a single element from pairing with itself (for example `5 + 5 = 10` when only one `5` exists). Swap the set for a dict of `value -> index` when you need the positions rather than a yes/no answer.
+
+```python
+def pair_with_sum(nums: list[int], target: int) -> tuple[int, int] | None:
+    """Return indices (i, j), i < j, with nums[i] + nums[j] == target."""
+    seen: dict[int, int] = {}            # value -> index
+    for j, x in enumerate(nums):
+        need = target - x
+        if need in seen:                 # check first ...
+            return (seen[need], j)
+        seen[x] = j                      # ... then record
+    return None
+
+print(pair_with_sum([8, 2, 6, 3, 5], 9))   # (2, 3) -> 6 + 3
+print(pair_with_sum([5, 1], 10))           # None: one 5 can't pair with itself
+```
+
+## Load factor and rehashing
+
+The **load factor** of a hash table is `entries / buckets`. As it climbs, chains get longer (chaining) or probe sequences get longer (open addressing), and the O(1) average quietly drifts toward O(N). Implementations pick a threshold, commonly around 0.75 for chaining and lower for open addressing, and **rehash** when it is crossed: allocate a bucket array about twice as large and reinsert every entry, because each key's bucket index depends on the array size.
+
+A single rehash is O(N), but it is the same accounting trick as dynamic-array doubling: doubling means each rehash is paid for by the many cheap inserts since the last one, so inserts stay amortized O(1).
+
+```python
+class TinyTable:
+    """Chaining table that doubles when load factor exceeds 0.75."""
+    MAX_LOAD = 0.75
+
+    def __init__(self) -> None:
+        self.buckets: list[list[tuple[str, int]]] = [[] for _ in range(4)]
+        self.count = 0
+
+    def put(self, key: str, value: int) -> None:
+        if (self.count + 1) / len(self.buckets) > self.MAX_LOAD:
+            self._rehash(2 * len(self.buckets))
+        bucket = self.buckets[hash(key) % len(self.buckets)]
+        for i, (k, _) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)
+                return
+        bucket.append((key, value))
+        self.count += 1
+
+    def _rehash(self, new_size: int) -> None:
+        old = [pair for bucket in self.buckets for pair in bucket]
+        self.buckets = [[] for _ in range(new_size)]
+        for k, v in old:                 # every key gets a new index
+            self.buckets[hash(k) % new_size].append((k, v))
+
+t = TinyTable()
+for i, name in enumerate(["ana", "ben", "cy", "dee", "eli"]):
+    t.put(name, i)
+print(len(t.buckets), t.count)   # 8 5 -> grew from 4 when the 4th key arrived
+```
+
+## Rolling hash for substrings
+
+Checking whether a pattern of length `m` appears in a text of length `n` by comparing every window character by character costs O(n·m). A **rolling hash** gives each window a numeric fingerprint that can be updated in O(1) as the window slides: subtract the contribution of the character leaving on the left, shift, and add the character entering on the right. Only windows whose fingerprint equals the pattern's fingerprint get a real character comparison.
+
+This is the idea behind Rabin-Karp substring search. Expected time is O(n + m); the worst case is still O(n·m) if many windows collide, which is why a confirming comparison is always done and why a large prime modulus is used to keep collisions rare.
+
+```python
+def find_all(text: str, pat: str, base: int = 256, mod: int = 1_000_003) -> list[int]:
+    """Start indices where pat occurs in text, using a rolling hash."""
+    n, m = len(text), len(pat)
+    if m == 0 or m > n:
+        return []
+    high = pow(base, m - 1, mod)                # weight of the leftmost char
+    p_hash = w_hash = 0
+    for i in range(m):
+        p_hash = (p_hash * base + ord(pat[i])) % mod
+        w_hash = (w_hash * base + ord(text[i])) % mod
+    hits = []
+    for start in range(n - m + 1):
+        if w_hash == p_hash and text[start:start + m] == pat:   # confirm
+            hits.append(start)
+        if start + m < n:                       # roll: drop left, add right
+            w_hash = (w_hash - ord(text[start]) * high) % mod
+            w_hash = (w_hash * base + ord(text[start + m])) % mod
+    return hits
+
+print(find_all("banana bandana", "ana"))   # [1, 3, 11]
+```

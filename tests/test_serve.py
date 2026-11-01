@@ -108,6 +108,21 @@ def test_algorithmic_complexity_topic_exposes_drills() -> None:
     assert topic["notesFile"] == "notes.md"
 
 
+def test_arrays_strings_hash_tables_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "07_Data_Structures_and_Algorithms"
+        for item in tech["topics"]
+        if item["dir"] == "02_Arrays_Strings_and_Hash_Tables"
+    )
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+
 def test_resolve_under_allows_paths_within_root(tmp_path: Path) -> None:
     root = tmp_path / "content"
     nested_file = root / "topic" / "notes.md"

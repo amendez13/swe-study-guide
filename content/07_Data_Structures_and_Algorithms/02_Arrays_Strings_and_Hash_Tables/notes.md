@@ -14,6 +14,10 @@ Arrays, strings, and hash tables are the most frequently tested data structures 
 - **Hash tables provide O(1) average lookup via bucket arrays and hash functions** - Keys must be hashable; collisions are handled by chaining (linked lists per bucket) or open addressing (probing).
 - **Chaining vs. open addressing trades simplicity for cache locality** - Both resolve collisions with O(1) average and O(N) worst case, but open addressing keeps data in contiguous memory.
 - **Balanced BSTs guarantee O(log N) with ordered iteration** - Use a tree-backed map when you need min, max, range queries, or sorted traversal that a hash table cannot provide.
+- **Sliding windows make contiguous-range problems O(N)** - Add the element entering on the right, remove the one leaving on the left; grow then shrink a variable window for "longest/shortest substring such that..." questions.
+- **A hash set solves unsorted pair-sum in one pass** - For each `x`, check whether `target - x` was already seen, then record `x`; check-before-insert stops an element from pairing with itself.
+- **Load factor drives rehashing** - When `entries / buckets` passes a threshold (often ~0.75), double the bucket array and reinsert every key; like array doubling, inserts stay amortized O(1).
+- **Rolling hashes fingerprint substrings in O(1) per slide** - Update the window hash by dropping the left character and adding the right one, then confirm matches with a real comparison (the Rabin-Karp idea; expected O(n + m)).
 
 ## Example
 
@@ -76,3 +80,7 @@ if __name__ == "__main__":
 ```
 
 Each function above runs in O(N) time. The anagram check and grouping use hash-based frequency maps, the pair search exploits sorted order with two pointers, and the CSV builder avoids quadratic string concatenation by collecting parts in a list before joining.
+
+## More practice
+
+Work the original exercises on the **Drills** tab: read each prompt and snippet, commit to an answer, then open the card to check it. For more array, string, and hash table practice, open CTCI Chapter 1 on the private reader (`#chapter-1-arrays-and-strings`, with the hash table background under `#hash-tables`); the chapter's interview questions live under `#interview-questions_1`. Work the problems there; do not copy book text or solutions into these study files.
