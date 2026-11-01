@@ -45,6 +45,12 @@ def count_ordered_pairs(xs: list[int]) -> int:
 
 **Answer:** Time O(N²), space O(1). ~N(N−1)/2 iterations — drop the constant, still O(N²).
 
+```python
+n = 10
+iterations = sum(1 for i in range(n) for _ in range(i + 1, n))
+print(iterations, n * (n - 1) // 2)  # 45 45 — still quadratic
+```
+
 ## Independent loops → add
 
 ```python
@@ -87,6 +93,15 @@ def is_prime(n: int) -> bool:
 
 **Answer:** Time O(√N), space O(1). The loop bound is √N, not N.
 
+```python
+n = 97  # prime, so the loop runs to completion
+steps, d = 0, 2
+while d * d <= n:
+    steps += 1
+    d += 1
+print(steps)  # 8, on the order of sqrt(97) rather than 97
+```
+
 ## Doubling step → log N
 
 ```python
@@ -98,6 +113,14 @@ def highest_power_of_two(n: int) -> int:
 ```
 
 **Answer:** Time O(log N), space O(1). Each step doubles p → about log₂ N iterations.
+
+```python
+n, steps, p = 1000, 0, 1
+while p * 2 <= n:
+    p *= 2
+    steps += 1
+print(steps, p)  # 9 512 — about log2(1000) steps
+```
 
 ## Two input sizes — keep A and B
 
@@ -147,6 +170,16 @@ def count_paths(steps: int) -> int:
 
 **Answer:** Time O(2^N), space O(N) stack. Two recursive calls per level without caching.
 
+```python
+def count_calls(steps: int) -> int:
+    """How many calls this recursion makes, including itself."""
+    if steps <= 1:
+        return 1
+    return 1 + count_calls(steps - 1) + count_calls(steps - 2)
+
+print(count_calls(10))  # 177 calls — far more than 10
+```
+
 ## Sum the recursion tree (balanced)
 
 ```python
@@ -173,6 +206,19 @@ def count_paths_memo(steps: int) -> int:
 
 **Answer:** Time O(N), space O(N) for the cache (+ stack). Each `steps` value computed once.
 
+```python
+from functools import lru_cache
+
+@lru_cache(None)
+def count_paths_memo(steps: int) -> int:
+    if steps <= 1:
+        return 1
+    return count_paths_memo(steps - 1) + count_paths_memo(steps - 2)
+
+count_paths_memo(10)
+print(count_paths_memo.cache_info().misses)  # 11: steps 0..10, once each
+```
+
 ## Permutation branching → factorial class
 
 ```python
@@ -189,6 +235,13 @@ def permutations(chars: list[str]) -> list[list[str]]:
 
 **Answer:** Time in the Θ(N!) class for interviews (N! leaves; tree work is larger by a polynomial factor you drop). Space O(N) for the call stack besides the output.
 
+```python
+def leaf_count(n: int) -> int:
+    return 1 if n <= 1 else n * leaf_count(n - 1)
+
+print(leaf_count(4))  # 24 == 4! leaves
+```
+
 ## Hidden quadratic from repeated copy
 
 ```python
@@ -200,6 +253,13 @@ def join_chars(chars: list[str]) -> str:
 ```
 
 **Answer:** Time O(N²) with immutable strings (each concat copies), space O(N) for the result. Prefer a builder / `''.join` for O(N).
+
+```python
+def join_chars(chars: list[str]) -> str:
+    return "".join(chars)  # one pass, O(N)
+
+print(join_chars(["a", "b", "c", "d"]))  # abcd
+```
 
 ## Interview answer: time, space, case
 
