@@ -69,6 +69,7 @@
               <span class="nav-lesson-indicators">
                 ${topic.notesFile ? '<span class="nav-indicator has-notes" title="Notes"></span>' : ""}
                 ${topic.hasConcepts ? '<span class="nav-indicator has-concepts" title="Concepts"></span>' : ""}
+                ${topic.hasDrills ? '<span class="nav-indicator has-drills" title="Drills"></span>' : ""}
               </span>
             </button>
           `
@@ -187,6 +188,7 @@
         <div class="lesson-card-badges">
           ${topic.notesFile ? '<span class="lesson-badge notes">Notes</span>' : ""}
           ${topic.hasConcepts ? '<span class="lesson-badge concepts">Concepts</span>' : ""}
+          ${topic.hasDrills ? '<span class="lesson-badge drills">Drills</span>' : ""}
         </div>
       </div>
     `
@@ -246,6 +248,7 @@
     const tabs = [];
     if (topic.notesFile) tabs.push({ id: "notes", label: "Notes" });
     if (topic.hasConcepts) tabs.push({ id: "concepts", label: "Concepts" });
+    if (topic.hasDrills) tabs.push({ id: "drills", label: "Drills" });
 
     if (tabs.length === 0) {
       $("#tab-bar").innerHTML = "";
@@ -285,8 +288,9 @@
       if (requestToken !== activeTabRequestToken) return;
       container.innerHTML = `<div class="markdown-body">${renderMarkdown(md)}</div>`;
       renderMermaidIn(container);
-    } else if (tabId === "concepts") {
-      const md = await fetchText(`${base}/concepts.md`);
+    } else if (tabId === "concepts" || tabId === "drills") {
+      const fileName = tabId === "drills" ? "drills.md" : "concepts.md";
+      const md = await fetchText(`${base}/${fileName}`);
       if (requestToken !== activeTabRequestToken) return;
       const concepts = parseConcepts(md);
       if (concepts.length) {

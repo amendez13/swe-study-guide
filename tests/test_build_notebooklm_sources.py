@@ -41,6 +41,21 @@ def test_is_topic_dir_requires_local_text_sources(tmp_path: Path) -> None:
     assert not build_notebooklm_sources.is_topic_dir(research_dir)
 
 
+def test_collect_sources_includes_drills_when_present(tmp_path: Path) -> None:
+    topic_dir = tmp_path / "content" / "07_DSA" / "01_Complexity"
+    write_text(topic_dir / "concepts.md", "## Concept\n")
+    write_text(topic_dir / "notes.md", "# Notes\n")
+    write_text(topic_dir / "drills.md", "## Drill\n")
+
+    sources = build_notebooklm_sources.collect_sources(topic_dir)
+
+    assert [entry.target_name for entry in sources] == [
+        "01_topic_concepts.md",
+        "02_topic_notes.md",
+        "03_topic_drills.md",
+    ]
+
+
 def test_collect_sources_orders_topic_then_technology_context(tmp_path: Path) -> None:
     topic_dir = tmp_path / "content" / "01_FastAPI" / "03_Path_Operations_and_Routing"
     write_text(topic_dir / "concepts.md", "## Path operations\n")

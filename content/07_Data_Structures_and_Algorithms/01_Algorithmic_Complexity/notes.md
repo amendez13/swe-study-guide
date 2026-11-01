@@ -18,7 +18,7 @@ Algorithmic complexity is the framework engineers use to reason about how algori
 - **Read the real loop bounds** - N/2 is still O(N); doubling steps are O(log N); trial division to √N is O(√N).
 - **State time, space, and case** - Interview answers name worst/expected when they differ and justify in one line.
 - **Know the complexity ladder** - O(1) < O(log N) < O(N) < O(N log N) < O(N^2) < O(2^N) < O(N!); anything above N log N struggles at scale.
-- **Drill CTCI VI on the reader** - Use http://100.84.173.75:8097/cracking-the-coding-interview/#additional-problems for extra practice; keep book solutions out of this repo.
+- **Practice on the Drills tab** - Work the original exercises on the **Drills** tab, then CTCI chapter VI on the private reader (http://100.84.173.75:8097/cracking-the-coding-interview/#examples-and-exercises and `#additional-problems`). Keep book solutions out of this repo.
 
 ## Example
 
@@ -75,4 +75,4 @@ This example demonstrates the real-world consequence of algorithmic complexity: 
 
 ## More practice
 
-For additional Big O drills, open CTCI chapter VI on the private reader (`#examples-and-exercises`, `#additional-problems`). Work the problems there; do not copy book text or solutions into these study files. The **Worked complexity patterns** concept cards are original stand-ins for the same skills.
+Work the original exercises on the **Drills** tab: read each snippet, state the bound, then open the card to check the answer. For additional Big O practice, open CTCI chapter VI on the private reader (`#examples-and-exercises`, `#additional-problems`). Work the problems there; do not copy book text or solutions into these study files.

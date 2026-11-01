@@ -15,7 +15,8 @@ content/
     │   └── concepts.md
     └── <NN>_<Topic_Name>/             # e.g. 03_Framework_Foundations
         ├── concepts.md                # required for the Concepts tab
-        └── notes.md                   # required for the Notes tab
+        ├── notes.md                   # required for the Notes tab
+        └── drills.md                  # optional: Drills tab
 ```
 
 Rules:
@@ -23,6 +24,8 @@ Rules:
 - Both technology and topic directories are prefixed with a zero-padded integer (`01_`, `02_`, …) which controls sort order in the sidebar.
 - The directory name after the prefix becomes the rendered title (underscores → spaces).
 - `concepts.md` is the per-topic source of truth for the Concepts tab; `notes.md` is the source for the Notes tab.
+- `drills.md` is optional. When the file exists, `/api/content` sets `hasDrills: true` for that topic and the site adds a **Drills** tab. Topics without the file keep today's Notes and Concepts tabs only.
+- `serve.py` never treats `concepts.md` or `drills.md` as the notes document when `notes.md` is missing.
 - Files under `research/` are author scratch space and not rendered by the topic UI.
 
 ## `concepts.md` format
@@ -55,6 +58,14 @@ app = FastAPI(title="Books API", version="0.1.0")
 ```
 
 The parser splits the file on `## ` lines: each heading becomes a card, the body until the next heading becomes the detail panel content (rendered as Markdown — paragraphs, code blocks, lists, links all work).
+
+## `drills.md` format
+
+Optional practice cards for a topic. Use the same structured `## Heading` + body format as `concepts.md`. The site loads `drills.md` on the Drills tab and renders it with the same `parseConcepts()` / `renderConcepts()` card UI. A leading `#` title and intro before the first `##` heading are kept in the file and are not shown as a card.
+
+Each card should be one exercise: a prompt, a snippet, and an **Answer** the reader checks after attempting it. Keep the exercises original. Do not paste copyrighted book text or solutions.
+
+Topics without `drills.md` do not show a Drills tab, nav dot, or lesson badge.
 
 ### Legacy format (still supported)
 
@@ -95,7 +106,7 @@ Optional trailing paragraph tying the example back to the concepts.
 
 ## How the site renders concepts
 
-The frontend at `site/app.js` calls `parseConcepts()` on the `concepts.md` text:
+The frontend at `site/app.js` calls `parseConcepts()` on `concepts.md` and, when the Drills tab is open, on `drills.md`:
 
 1. If any `## ` heading is present, parse the structured format into `[{title, body}]` records and render each as a clickable card.
 2. Otherwise, parse the legacy bullet format into title-only, non-clickable cards.

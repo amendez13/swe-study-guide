@@ -237,6 +237,7 @@ body {
 
 .nav-indicator.has-notes { background: #34d399; }
 .nav-indicator.has-concepts { background: #a78bfa; }
+.nav-indicator.has-drills { background: #38bdf8; }
 .nav-indicator.has-slides { background: var(--accent); }
 
 /* ── Main ────────────────────────────────────────────── */
@@ -443,6 +444,7 @@ body {
 
 .lesson-badge.notes { background: rgba(52, 211, 153, 0.12); color: #059669; }
 .lesson-badge.concepts { background: rgba(167, 139, 250, 0.12); color: #7c3aed; }
+.lesson-badge.drills { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
 .lesson-badge.slides { background: var(--accent-dim); color: #d97706; }
 .lesson-badge.demo { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
 
