@@ -1,4 +1,4 @@
-## Tree structure: recursive, acyclic, connected hierarchy
+## Tree structure
 
 A tree is a connected, acyclic graph with a designated root node. Every node except the root has exactly one parent, and each node can have zero or more children. Nodes with no children are called leaves. The depth of a node is the number of edges from the root to that node. The height of a tree is the number of edges on the longest path from the root to any leaf.
 
@@ -23,7 +23,7 @@ graph TD
 
 In the diagram above, the green node is the root and the orange nodes are leaves. The height of this tree is 3 (the longest path from root 8 down to leaf 4 or 7).
 
-## Binary tree: at most two children per node
+## Binary tree
 
 A binary tree restricts each node to at most two children, conventionally called `left` and `right`. This constraint makes the structure simple enough for efficient algorithms while still being expressive enough for search, sorting, and expression parsing.
 
@@ -49,7 +49,7 @@ root = TreeNode(5,
 
 Every node stores a value and two optional child references. When both children are `None`, the node is a leaf. This class (or a minor variant of it) is reused by BSTs, heaps implemented as linked structures, expression trees, and most tree-based interview problems.
 
-## Binary search tree (BST): ordered structure for O(log N) operations
+## Binary search tree (BST)
 
 A binary search tree maintains a strict ordering invariant: for every node, all values in the left subtree are less than or equal to the node's value, and all values in the right subtree are greater. This invariant enables binary search on a tree structure, giving O(log N) search, insert, and delete when the tree is balanced.
 
@@ -117,7 +117,7 @@ graph TD
 
 Each green node is the newly inserted value. At every step, the new value walks down the tree comparing at each node until it finds an empty child slot.
 
-## BST deletion: three cases of node removal
+## BST deletion
 
 Deleting a node from a BST must preserve the ordering invariant. There are three cases depending on how many children the target node has.
 
@@ -149,7 +149,7 @@ def bst_delete(root: TreeNode | None, val: int) -> TreeNode | None:
 
 The two-children case is the one interviewers focus on. The in-order successor is the leftmost node in the right subtree -- the smallest value that is still larger than the deleted node. Swapping it in preserves the BST invariant because it is greater than everything in the left subtree and smaller than everything remaining in the right subtree.
 
-## Balanced trees: why height matters for performance
+## Balanced trees
 
 A BST's operations are O(h) where h is the height of the tree. In the best case a tree with N nodes has height log N, but if elements are inserted in sorted order, the tree degenerates into a linked list with height N, making every operation O(N).
 
@@ -203,7 +203,7 @@ graph TD
 
 A perfect tree is always both full and complete. A complete tree is the structure you get when you fill positions left-to-right, level by level -- this is exactly how a binary heap is stored in an array, which is why complete trees are important for heap operations.
 
-## In-order traversal: sorted output from a BST
+## In-order traversal
 
 In-order traversal visits the left subtree, then the current node, then the right subtree. When applied to a BST, this produces values in sorted order, which is why it is called "in-order."
 
@@ -250,7 +250,7 @@ graph TD
 
 The numbered visit order shows the pattern: go as far left as possible first, visit the node, then go right.
 
-## Pre-order traversal: visit the root before its children
+## Pre-order traversal
 
 Pre-order traversal visits the current node first, then the left subtree, then the right subtree. This produces a top-down view of the tree, which makes it natural for operations like serialization (saving a tree to disk), cloning a tree, and building expression prefix notation.
 
@@ -285,7 +285,7 @@ graph TD
 
 Pre-order is useful for serialization because the root is output first: when you later reconstruct the tree, you process nodes in exactly the order you need to build top-down.
 
-## Post-order traversal: process children before the parent
+## Post-order traversal
 
 Post-order traversal visits the left subtree, then the right subtree, then the current node. This bottom-up order is natural for operations that need to process children before their parent: deleting a tree (free children before the parent), evaluating an expression tree (compute operands before applying the operator), and calculating subtree sizes.
 
@@ -320,7 +320,7 @@ graph TD
 
 Notice the pattern: leaves are always visited first, and the root is always visited last. This is the opposite of pre-order.
 
-## Level-order traversal (BFS): visit nodes breadth-first
+## Level-order traversal (BFS)
 
 Level-order traversal visits nodes level by level, from left to right, using a queue. This is breadth-first search applied to a tree. Unlike the three depth-first traversals (in-order, pre-order, post-order), BFS explores all nodes at distance d from the root before any node at distance d+1.
 
@@ -361,7 +361,7 @@ print(level_order(root))
 
 The queue-based approach is critical to understand. Each iteration processes one full level: dequeue all nodes at the current depth, enqueue their children. The `for _ in range(len(queue))` pattern is the idiomatic way to process one level at a time.
 
-## Tree height and depth: measuring the shape of a tree
+## Tree height and depth
 
 Height and depth are related but measured from opposite ends. The depth of a node is the number of edges from the root down to that node (root has depth 0). The height of a node is the number of edges on the longest downward path from that node to a leaf (leaves have height 0). The height of the tree is the height of the root.
 
@@ -401,7 +401,7 @@ print(depth(root, 5))       # 0 (root)
 
 The height function is the basis for checking whether a tree is balanced: compute the height of the left and right subtrees and verify they differ by at most 1 at every node. This check runs in O(N) and is a common interview problem.
 
-## The empty tree is a tree: None as the recursion base case
+## Empty tree base case
 
 Almost every tree function has the same skeleton: decide what the answer is for an empty tree (`None`), then combine the answers from the left and right subtrees with the current node. Treating `None` as a real, valid input -- not an error to guard against at every call site -- removes most special cases. You never need to check `if node.left:` before recursing; the callee handles it.
 
@@ -440,7 +440,7 @@ print(count(None), total(None), all_positive(None))  # 0 0 True
 
 If you find yourself writing `if node.left and node.right` branches for leaves, step back: a correct `None` base case usually makes the leaf case fall out automatically.
 
-## Top-down vs. bottom-up recursion: pass state down or return answers up
+## Top-down vs. bottom-up recursion
 
 Tree recursion comes in two flavours. **Top-down** passes information from parent to child as arguments: the current depth, the path so far, the allowed value range. Each node decides something using what its ancestors told it. **Bottom-up** returns information from children to parent: subtree height, subtree size, "is this subtree valid". Each node combines what its children report.
 
@@ -485,7 +485,7 @@ print(sizes)  # {1: 1, 4: 1, 3: 3, 8: 1, 5: 5}
 
 Bottom-up is also how you avoid repeated work: if a parent needs both the height and some other fact about each child, return both in one tuple instead of calling a separate `height()` from every node (which turns O(N) into O(N^2) on skewed trees).
 
-## The BST property is a range, not a parent comparison
+## BST range property
 
 A common misreading of the BST invariant is "each node is greater than its left child and smaller than its right child". That local check is not enough. The real rule is global: *every* value in the left subtree is smaller than the node, and *every* value in the right subtree is larger. A node deep in the tree is constrained by all of its ancestors, not just its parent.
 
@@ -524,7 +524,7 @@ print(all(lo < v < hi for v, (lo, hi) in ranges.items()))  # False
 
 Node 6 is smaller than its parent 15, so a parent-only check passes, but it sits in 10's right subtree and must be greater than 10. Thinking in ranges catches this; it also explains why a BST's in-order traversal must be strictly increasing.
 
-## Floor, ceiling, and next key: ordered queries a BST answers
+## Floor, ceiling, and next key
 
 A hash table can only tell you whether a key exists. A BST can also answer *ordered* questions: the largest key at most `x` (floor), the smallest key at least `x` (ceiling), and the next key strictly after `x`. These power sorted-map APIs such as Java's `TreeMap.floorKey` / `higherKey` and range lookups in database indexes.
 
@@ -577,7 +577,7 @@ print(higher_key(root, 6), higher_key(root, 14))  # 8 None
 
 Each query is O(h): O(log N) on a balanced tree. Python has no built-in balanced BST, so in practice you get the same queries on a sorted list with `bisect` (O(log N) lookup, O(N) insert) or from a library such as `sortedcontainers`.
 
-## Rotations: how self-balancing trees fix their height
+## Tree rotations
 
 AVL and Red-Black trees keep height O(log N) using one primitive: the **rotation**. A rotation re-hangs a parent and child so the child moves up one level and the parent moves down, while keeping in-order (sorted) order exactly the same. It only rewires three pointers, so it is O(1).
 
@@ -623,7 +623,7 @@ print(inorder(rotate_left(fixed)))  # [10, 20, 30]
 
 You will rarely implement a full AVL or Red-Black tree in an interview, but you should be able to draw a rotation, explain that it preserves the BST order, and explain that the balancing rules decide *when* to rotate.
 
-## Recursive vs. iterative DFS: the call stack is just a stack
+## Recursive vs. iterative DFS
 
 Recursive traversals are short because the language's call stack remembers where you were. You can always replace that with an explicit stack. The iterative version matters when trees are deep: CPython's default recursion limit is about 1000 frames, so a skewed tree with 5000 nodes crashes a recursive traversal with `RecursionError`, while the iterative one is fine.
 
@@ -674,7 +674,7 @@ print(len(inorder_iter(deep)))  # 5000
 
 Both versions are O(N) time and O(h) extra space. The trade-off is clarity versus robustness: start with recursion in an interview, then mention the explicit-stack version when depth could be large.
 
-## Serializing a tree: pre-order with null markers
+## Tree serialization
 
 To save a tree to a file or send it over the network you must flatten it into a sequence and later rebuild exactly the same shape. A plain pre-order list of values is not enough: the trees `1 -> left 2` and `1 -> right 2` both produce `[1, 2]`. The fix is to record the empty children too. A pre-order walk that writes a marker (here `#`) for every `None` produces a sequence that maps to exactly one tree.
 
@@ -721,7 +721,7 @@ print(serialize(deserialize(s)) == s)  # True
 
 A tree with N nodes has N + 1 null slots, so the output has 2N + 1 tokens: O(N) time and space both ways. Level-order with markers (the format many online judges display) works too; pick pre-order when you want the simplest recursive code.
 
-## N-ary trees: a list of children instead of left and right
+## N-ary trees
 
 Not every tree is binary. File systems, organisation charts, the HTML DOM, and parsed JSON are **N-ary** trees: each node can have any number of children. Represent them with a `children` list. Every traversal idea carries over: pre-order visits the node then each child, post-order visits every child then the node, and level-order uses the same queue. Only in-order has no natural meaning, because there is no single "middle" to visit between two children.
 
