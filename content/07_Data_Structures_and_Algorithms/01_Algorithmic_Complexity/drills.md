@@ -16,6 +16,10 @@ def find_first_negative(xs: list[int]) -> int | None:
 
 **Answer:** Worst-case time O(N), best-case O(1) if the first element is negative; O(1) extra space. One linear scan with possible early exit.
 
+![Single pass / early exit](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-1-early-exit.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 1.*
+
 ## Nested loops, same length → N²
 
 ```python
@@ -30,6 +34,10 @@ def count_pairs(xs: list[int]) -> int:
 ```
 
 **Answer:** Time O(N²), space O(1). Outer and inner both run N times → multiply.
+
+![Nested loops, same length → N²](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-2-nested-same-n.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 2.*
 
 ## Triangle nested loops still N²
 
@@ -51,6 +59,10 @@ iterations = sum(1 for i in range(n) for _ in range(i + 1, n))
 print(iterations, n * (n - 1) // 2)  # 45 45 — still quadratic
 ```
 
+![Triangle nested loops still N²](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-3-triangle.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 3.*
+
 ## Independent loops → add
 
 ```python
@@ -64,6 +76,10 @@ def prep_then_scan(xs: list[int]) -> int:
 
 **Answer:** Time O(N), space O(N) for the filtered list. Two sequential O(N) passes → add → O(N).
 
+![Independent loops → add](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-4-add-loops.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 4.*
+
 ## Loop to N/2 is still O(N)
 
 ```python
@@ -76,6 +92,10 @@ def sum_first_half(xs: list[int]) -> int:
 ```
 
 **Answer:** Time O(N), space O(1). N/2 iterations drop the constant → O(N).
+
+![Loop to N/2 is still O(N)](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-5-half-loop.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 5.*
 
 ## Loop to √N
 
@@ -102,6 +122,10 @@ while d * d <= n:
 print(steps)  # 8, on the order of sqrt(97) rather than 97
 ```
 
+![Loop to √N](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-6-sqrt-loop.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 6.*
+
 ## Doubling step → log N
 
 ```python
@@ -122,6 +146,10 @@ while p * 2 <= n:
 print(steps, p)  # 9 512 — about log2(1000) steps
 ```
 
+![Doubling step → log N](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-7-doubling.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 7.*
+
 ## Two input sizes — keep A and B
 
 ```python
@@ -133,6 +161,10 @@ def any_in_set(needles: list[int], haystack: set[int]) -> bool:
 ```
 
 **Answer:** Time O(A) average with a hash set of size B already built; building the set from a list of length B would be O(A + B). Do not collapse to a fake single N.
+
+![Two input sizes — keep A and B](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-8-two-sizes.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 8.*
 
 ## Nested over A and B → multiply
 
@@ -148,6 +180,10 @@ def cross_count(a: list[int], b: list[int]) -> int:
 
 **Answer:** Time O(A · B), space O(1). For each of A elements, scan all B → multiply.
 
+![Nested over A and B → multiply](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-9-cross-product.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 9.*
+
 ## One recursive call down by 1
 
 ```python
@@ -158,6 +194,10 @@ def sum_to_zero(n: int) -> int:
 ```
 
 **Answer:** Time O(N), space O(N) stack. N frames, constant work each.
+
+![One recursive call down by 1](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-10-linear-recursion.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 10.*
 
 ## Two branches without memo → exponential
 
@@ -180,6 +220,10 @@ def count_calls(steps: int) -> int:
 print(count_calls(10))  # 177 calls — far more than 10
 ```
 
+![Two branches without memo → exponential](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-11-two-branches.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 11.*
+
 ## Sum the recursion tree (balanced)
 
 ```python
@@ -191,6 +235,10 @@ def merge_sort_work(n: int) -> int:
 ```
 
 **Answer:** Time O(N log N). log N levels, ~N work per level → sum the tree, do not stop at branches^depth.
+
+![Sum the recursion tree (balanced)](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-12-balanced-tree.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 12.*
 
 ## Memoization collapses exponential
 
@@ -219,6 +267,10 @@ count_paths_memo(10)
 print(count_paths_memo.cache_info().misses)  # 11: steps 0..10, once each
 ```
 
+![Memoization collapses exponential](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-13-memo.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 13.*
+
 ## Permutation branching → factorial class
 
 ```python
@@ -242,6 +294,10 @@ def leaf_count(n: int) -> int:
 print(leaf_count(4))  # 24 == 4! leaves
 ```
 
+![Permutation branching → factorial class](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-14-factorial.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 14.*
+
 ## Hidden quadratic from repeated copy
 
 ```python
@@ -261,6 +317,10 @@ def join_chars(chars: list[str]) -> str:
 print(join_chars(["a", "b", "c", "d"]))  # abcd
 ```
 
+![Hidden quadratic from repeated copy](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-15-hidden-quadratic.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 15.*
+
 ## Interview answer: time, space, case
 
 For this function, write the one-liner you would say in an interview (time, space, case if they differ).
@@ -276,3 +336,7 @@ def has_pair_sum(items: list[int], target: int) -> bool:
 ```
 
 **Answer:** "Average/expected time O(N) from one pass with O(1) hash lookups; O(N) extra space for the set; worst-case hash degradation is rare and usually not the focus unless asked."
+
+![Interview answer: time, space, case](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills-16-interview.png)
+
+*Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 16.*
