@@ -32,6 +32,10 @@ while cur:
 print(out)  # [1, 9, 2, 3]
 ```
 
+![Pointer order: what gets lost?](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-1-pointer-order.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 1.*
+
 ## Head deletion: why didn't it change?
 
 The caller runs `delete_first(head)` on `1 -> 2 -> 3` and then prints the list starting from `head`. What prints, and how do you fix it without a wrapper class?
@@ -56,6 +60,10 @@ head = Node(1, Node(2, Node(3)))
 head = delete_first(head)  # caller must reassign
 print(head.data, head.next.data, head.next.next)  # 2 3 None
 ```
+
+![Head deletion: why didn't it change?](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-2-head-deletion.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 2.*
 
 ## Sentinel: remove every match
 
@@ -94,6 +102,10 @@ print(to_list(remove_all(build([7, 7, 3, 7, 5]), 7)))  # [3, 5]
 print(to_list(remove_all(build([7, 7]), 7)))           # []
 ```
 
+![Sentinel: remove every match](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-3-remove-all.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 3.*
+
 ## Trace the three-pointer reversal
 
 Run the loop on `1 -> 2 -> 3`. What are `prev` and `cur` (by value) at the end of each iteration, and what is returned?
@@ -127,6 +139,10 @@ def reverse_iter(head):
 new_head = reverse_iter(Node(1, Node(2, Node(3))))
 print("head", new_head.data)  # head 3
 ```
+
+![Trace the three-pointer reversal](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-4-reverse-trace.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 4.*
 
 ## Reverse only positions left..right
 
@@ -169,6 +185,10 @@ print(to_list(reverse_between(build([1, 2, 3, 4, 5]), 2, 4)))  # [1, 4, 3, 2, 5]
 print(to_list(reverse_between(build([1, 2, 3]), 1, 3)))        # [3, 2, 1]
 ```
 
+![Reverse only positions left..right](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-5-reverse-range.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 5.*
+
 ## Merge two sorted lists
 
 Merge `1 -> 4 -> 6` and `2 -> 3 -> 7 -> 8` into one sorted list by relinking nodes, not by creating new ones. What happens to `7 -> 8` once the first list runs out, and what is the extra space?
@@ -207,6 +227,10 @@ def merge_sorted(a, b):
 print(to_list(merge_sorted(build([1, 4, 6]), build([2, 3, 7, 8]))))
 # [1, 2, 3, 4, 6, 7, 8]
 ```
+
+![Merge two sorted lists](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-6-merge.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 6.*
 
 ## Which middle on an even length?
 
@@ -253,6 +277,10 @@ print(middle_a(build([1, 2, 3, 4])), middle_b(build([1, 2, 3, 4])))      # 3 2
 print(middle_a(build([1, 2, 3, 4, 5])), middle_b(build([1, 2, 3, 4, 5])))  # 3 3
 ```
 
+![Which middle on an even length?](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-7-even-middle.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 7.*
+
 ## How long is the loop?
 
 Fast and slow pointers have already met inside a cycle. How do you count the number of nodes in the cycle, and what does it cost?
@@ -282,6 +310,10 @@ for a, b in zip(nodes, nodes[1:]):
 nodes[-1].next = nodes[2]  # 0 1 [2 3 4 5] loops back to 2
 print(cycle_length(nodes[0]))  # 4
 ```
+
+![How long is the loop?](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-8-cycle-length.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 8.*
 
 ## Rotate right by k
 
@@ -328,6 +360,10 @@ print(to_list(rotate_right(build([1, 2, 3, 4, 5]), 2)))  # [4, 5, 1, 2, 3]
 print(to_list(rotate_right(build([1, 2, 3, 4, 5]), 7)))  # [4, 5, 1, 2, 3]
 ```
 
+![Rotate right by k](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-9-rotate.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 9.*
+
 ## Odd positions first, then even
 
 Regroup a list so nodes at positions 1, 3, 5, ... come first, followed by positions 2, 4, 6, ..., keeping relative order within each group. `10 -> 20 -> 30 -> 40 -> 50` becomes `10 -> 30 -> 50 -> 20 -> 40`. Can you do it with O(1) extra space?
@@ -367,6 +403,10 @@ def odd_even(head):
 
 print(to_list(odd_even(build([10, 20, 30, 40, 50]))))  # [10, 30, 50, 20, 40]
 ```
+
+![Odd positions first, then even](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-10-odd-even.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 10.*
 
 ## Weave the ends together
 
@@ -415,6 +455,10 @@ print(to_list(weave_ends(build([1, 2, 3, 4, 5]))))  # [1, 5, 2, 4, 3]
 print(to_list(weave_ends(build([1, 2, 3, 4]))))     # [1, 4, 2, 3]
 ```
 
+![Weave the ends together](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-11-weave.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 11.*
+
 ## Move to front in a doubly linked list
 
 You keep recently used items in a doubly linked list with `head` and `tail` sentinels, most recent first. Write `touch(node)` that moves an existing node to the front in O(1). Why do the sentinels matter?
@@ -459,6 +503,10 @@ r.touch(nodes["a"])
 print(r.items())  # ['a', 'c', 'b']
 ```
 
+![Move to front in a doubly linked list](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-12-move-to-front.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 12.*
+
 ## Recursion depth on a long list
 
 This recursive length works on short lists. What happens on a list of 5,000 nodes in CPython with default settings, and what is the fix?
@@ -495,6 +543,10 @@ except RecursionError:
 print(length_iter(head))  # 5000
 ```
 
+![Recursion depth on a long list](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-13-recursion-depth.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 13.*
+
 ## Print backwards without reversing
 
 Print the values of `1 -> 2 -> 3` in reverse order without changing any pointers. Give a recursive version and an iterative one. What extra space does each use?
@@ -526,6 +578,10 @@ print()  # 3 2 1
 print_reverse_iter(head)
 print()  # 3 2 1
 ```
+
+![Print backwards without reversing](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-14-print-backwards.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 14.*
 
 ## Swap adjacent pairs
 
@@ -561,6 +617,10 @@ def swap_pairs(head):
 
 print(to_list(swap_pairs(build([1, 2, 3, 4, 5]))))  # [2, 1, 4, 3, 5]
 ```
+
+![Swap adjacent pairs](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-15-swap-pairs.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 15.*
 
 ## Appending N items: cost with and without a tail
 
@@ -605,3 +665,7 @@ for i in range(5):
 print(lst.head.data, lst.tail.data)  # 0 4
 print(walk_steps(1000))              # 499500 steps vs 1000 with a tail
 ```
+
+![Appending N items: cost with and without a tail](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills-16-append-cost.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-drills.drawio), page 16.*
