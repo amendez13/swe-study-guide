@@ -31,6 +31,10 @@ def copies_and_capacity(n_appends: int) -> tuple[int, int]:
 print(copies_and_capacity(9))  # (15, 16)
 ```
 
+![Doubling: count the copies](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-1-doubling-copies.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 1.*
+
 ## Two pointers: which pairs get skipped?
 
 Trace the pointers for `nums = [2, 4, 7, 10, 13]`, `target = 17`. Which pair is returned, and why is it safe to move `left` after the first comparison?
@@ -69,6 +73,10 @@ pair = find_pair(nums, 17)
 print(pair, nums[pair[0]], nums[pair[1]])  # (1, 4) 4 13
 ```
 
+![Two pointers: which pairs get skipped?](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-2-two-pointers.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 2.*
+
 ## Write pointer: what is left behind?
 
 What does this return, and what does `data` look like afterwards?
@@ -102,6 +110,10 @@ n = keep_non_multiples_of_3(data)
 print(n, data, data[:n])  # 3 [1, 4, 5, 4, 9, 5] [1, 4, 5]
 ```
 
+![Write pointer: what is left behind?](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-3-write-pointer.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 3.*
+
 ## Matrix mirror: where does (r, c) go?
 
 Mirror a 2×3 grid left-to-right. Give the new position of the value at `(r, c)` and the resulting grid. Then: can a 2×3 grid be transposed in place?
@@ -124,6 +136,10 @@ transposed = [list(col) for col in zip(*grid)]
 print(mirrored)    # [[3, 2, 1], [6, 5, 4]]
 print(transposed)  # [[1, 4], [2, 5], [3, 6]] — new shape, not in place
 ```
+
+![Matrix mirror: where does (r, c) go?](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-4-matrix-mirror.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 4.*
 
 ## Repeated += vs join: characters copied
 
@@ -148,6 +164,10 @@ naive_copies = n * (n + 1) // 2
 joined = "".join("x" for _ in range(n))
 print(naive_copies, len(joined))  # 500500 1000
 ```
+
+![Repeated += vs join: characters copied](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-5-concat-vs-join.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 5.*
 
 ## Frequency map: spell it from tiles
 
@@ -183,6 +203,10 @@ print(can_spell("kettle", "tlekeat"))  # True
 print(can_spell("kettle", "tlekea"))   # False
 ```
 
+![Frequency map: spell it from tiles](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-6-frequency-map.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 6.*
+
 ## Hash set: first repeated ID
 
 A stream of order IDs should be unique. Return the first ID that shows up a second time. Compare this to nested loops and to sorting.
@@ -213,6 +237,10 @@ def first_repeat(ids: list[int]) -> int | None:
 print(first_repeat([41, 7, 19, 7, 41]))  # 7
 ```
 
+![Hash set: first repeated ID](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-7-first-repeat.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 7.*
+
 ## Seen-set pair sum: spot the bug
 
 This unsorted pair-sum returns a wrong answer for `[3, 8]` with `target = 6`. What does it return and how do you fix it?
@@ -242,6 +270,10 @@ print(pair_sum([3, 8], 6))   # None — 3 no longer pairs with itself
 print(pair_sum([3, 8], 11))  # (0, 1)
 ```
 
+![Seen-set pair sum: spot the bug](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-8-pair-sum-bug.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 8.*
+
 ## Chaining: walk the bucket
 
 A chained table has 5 buckets and uses `key % 5`. Insert 12, 7, 22, 3, 17 in that order (new keys append to the end of a chain). How many key comparisons does `get(17)` make? And `get(2)`?
@@ -269,6 +301,10 @@ def comparisons(keys: list[int], n_buckets: int, query: int) -> int:
 keys = [12, 7, 22, 3, 17]
 print(comparisons(keys, 5, 17), comparisons(keys, 5, 2))  # 4 4
 ```
+
+![Chaining: walk the bucket](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-9-chaining.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 9.*
 
 ## Fixed window: best 3-day total
 
@@ -298,6 +334,10 @@ for right in range(k, len(xs)):
 print(windows, max(windows))  # [5, 8, 6, 9] 9
 ```
 
+![Fixed window: best 3-day total](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-10-fixed-window.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 10.*
+
 ## Load factor: when does it grow?
 
 A table starts with 8 buckets and doubles whenever an insert would push the load factor above 0.75. You insert 20 distinct keys. How many rehashes happen, on which inserts, and what is the final load factor?
@@ -323,6 +363,10 @@ for n in range(1, 21):
     count += 1
 print(events, count / size)  # [(7, 16), (13, 32)] 0.625
 ```
+
+![Load factor: when does it grow?](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-11-load-factor.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 11.*
 
 ## Open addressing: linear probe
 
@@ -362,6 +406,10 @@ while table[i] is not None and table[i] != 24:
 print(i, table[i])  # 6 24
 ```
 
+![Open addressing: linear probe](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-12-linear-probe.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 12.*
+
 ## Ordered map vs hash map
 
 A leaderboard needs: update a player's score, and list every player with a score between 70 and 90 in sorted order, many times per second. What does the dict-only version cost per range query, and what structure fixes it?
@@ -389,6 +437,10 @@ def in_range_bst(lo: int, hi: int) -> list[tuple[int, str]]:
 print(in_range_bst(70, 90))  # [(72, 'ben'), (88, 'ana')]
 ```
 
+![Ordered map vs hash map](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-13-ordered-map.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 13.*
+
 ## Strings are immutable: mutate a copy
 
 What happens on the marked line, and how do you swap the first and last characters of `word`?
@@ -413,6 +465,10 @@ def swap_ends(word: str) -> str:
 
 print(swap_ends("stack"))  # ktacs
 ```
+
+![Strings are immutable: mutate a copy](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-14-immutable-strings.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 14.*
 
 ## Group-by key: which key?
 
@@ -446,6 +502,10 @@ print(len(by_sorted), list(by_sorted.values()))
 print(len(by_letters))  # 1
 ```
 
+![Group-by key: which key?](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-15-group-by-key.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 15.*
+
 ## Rolling hash with digits
 
 Treat each character of `"31415"` as a digit and hash 3-character windows as base-10 numbers (no modulus, to keep it readable). Roll from the first window to the second in O(1). Where does the pattern `"141"` match?
@@ -478,3 +538,7 @@ def rolling_hits(text: str, pat: str) -> list[int]:
 
 print(rolling_hits("31415", "141"))  # [1]
 ```
+
+![Rolling hash with digits](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills-16-rolling-hash.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables-drills.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-drills.drawio), page 16.*
