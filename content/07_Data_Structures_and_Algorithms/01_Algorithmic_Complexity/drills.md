@@ -4,7 +4,7 @@ Original mini-drills for Big O skills. Each card is one exercise: read the snipp
 
 ## Single pass / early exit
 
-State the tightest practical time and space for this function. Justify in one sentence.
+State the tightest practical time and space for `find_first_negative` (linear scan with possible early exit). Justify in one sentence.
 
 ```python
 def find_first_negative(xs: list[int]) -> int | None:
@@ -21,6 +21,8 @@ def find_first_negative(xs: list[int]) -> int | None:
 *Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 1.*
 
 ## Nested loops, same length → N²
+
+Read `count_pairs`: outer and inner both run over length N. State time and space, and whether you add or multiply the loop costs.
 
 ```python
 def count_pairs(xs: list[int]) -> int:
@@ -40,6 +42,8 @@ def count_pairs(xs: list[int]) -> int:
 *Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 2.*
 
 ## Triangle nested loops still N²
+
+`count_ordered_pairs` uses `j` from `i+1..n` (~N(N−1)/2 iterations). What is the tight practical bound after dropping constants?
 
 ```python
 def count_ordered_pairs(xs: list[int]) -> int:
@@ -65,6 +69,8 @@ print(iterations, n * (n - 1) // 2)  # 45 45 — still quadratic
 
 ## Independent loops → add
 
+`prep_then_scan` does a filter pass then a sum pass. Do you add or multiply the costs? Name time and extra space.
+
 ```python
 def prep_then_scan(xs: list[int]) -> int:
     positives = [x for x in xs if x > 0]  # pass 1
@@ -82,6 +88,8 @@ def prep_then_scan(xs: list[int]) -> int:
 
 ## Loop to N/2 is still O(N)
 
+`sum_first_half` only iterates `n // 2` times. What does Big O say after dropping the constant factor?
+
 ```python
 def sum_first_half(xs: list[int]) -> int:
     n = len(xs)
@@ -98,6 +106,8 @@ def sum_first_half(xs: list[int]) -> int:
 *Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 5.*
 
 ## Loop to √N
+
+`is_prime` loops while `d * d <= n`. Name the time bound implied by that loop condition.
 
 ```python
 def is_prime(n: int) -> bool:
@@ -128,6 +138,8 @@ print(steps)  # 8, on the order of sqrt(97) rather than 97
 
 ## Doubling step → log N
 
+`highest_power_of_two` doubles `p` each step until it would exceed `n`. How many iterations in Big O?
+
 ```python
 def highest_power_of_two(n: int) -> int:
     p = 1
@@ -152,6 +164,8 @@ print(steps, p)  # 9 512 — about log2(1000) steps
 
 ## Two input sizes — keep A and B
 
+`any_in_set` walks `needles` against a hash set `haystack`. Express complexity with A and B — do not collapse to a fake single N.
+
 ```python
 def any_in_set(needles: list[int], haystack: set[int]) -> bool:
     for x in needles:
@@ -167,6 +181,8 @@ def any_in_set(needles: list[int], haystack: set[int]) -> bool:
 *Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 8.*
 
 ## Nested over A and B → multiply
+
+`cross_count` nests a loop over `a` inside a loop over `b`. Add or multiply? State the product form.
 
 ```python
 def cross_count(a: list[int], b: list[int]) -> int:
@@ -186,6 +202,8 @@ def cross_count(a: list[int], b: list[int]) -> int:
 
 ## One recursive call down by 1
 
+`sum_to_zero(n)` makes one recursive call with `n - 1`. What are its time and stack space?
+
 ```python
 def sum_to_zero(n: int) -> int:
     if n <= 0:
@@ -200,6 +218,8 @@ def sum_to_zero(n: int) -> int:
 *Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 10.*
 
 ## Two branches without memo → exponential
+
+`count_paths` branches into `steps - 1` and `steps - 2` with no cache. What class of runtime?
 
 ```python
 def count_paths(steps: int) -> int:
@@ -226,6 +246,8 @@ print(count_calls(10))  # 177 calls — far more than 10
 
 ## Sum the recursion tree (balanced)
 
+`merge_sort_work` models a balanced split plus O(n) merge work. Sum the tree — what total bound?
+
 ```python
 def merge_sort_work(n: int) -> int:
     """Toy model: cost of merge-sort-style recursion on size n."""
@@ -241,6 +263,8 @@ def merge_sort_work(n: int) -> int:
 *Source: [`diagrams/algorithmic-complexity-drills.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-drills.drawio), page 12.*
 
 ## Memoization collapses exponential
+
+`count_paths_memo` uses `lru_cache`. How does caching change time and space compared with the uncached version?
 
 ```python
 from functools import lru_cache
@@ -273,6 +297,8 @@ print(count_paths_memo.cache_info().misses)  # 11: steps 0..10, once each
 
 ## Permutation branching → factorial class
 
+`permutations` recurses over every choice of next character. What interview-class bound for the leaves?
+
 ```python
 def permutations(chars: list[str]) -> list[list[str]]:
     if len(chars) <= 1:
@@ -300,6 +326,8 @@ print(leaf_count(4))  # 24 == 4! leaves
 
 ## Hidden quadratic from repeated copy
 
+`join_chars` builds a string with repeated `s = s + ch`. Why is that worse than `''.join`, and what are the bounds?
+
 ```python
 def join_chars(chars: list[str]) -> str:
     s = ""
@@ -323,7 +351,7 @@ print(join_chars(["a", "b", "c", "d"]))  # abcd
 
 ## Interview answer: time, space, case
 
-For this function, write the one-liner you would say in an interview (time, space, case if they differ).
+For `has_pair_sum` with a seen set, write the one-liner you would say in an interview (time, space, case if they differ).
 
 ```python
 def has_pair_sum(items: list[int], target: int) -> bool:
