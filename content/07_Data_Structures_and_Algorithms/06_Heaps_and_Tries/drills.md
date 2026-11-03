@@ -25,6 +25,10 @@ print(is_min_heap([2, 4, 3, 9, 5, 7]))  # None
 print(is_min_heap([1, 3, 2, 4, 0, 6]))  # 4
 ```
 
+![Is it a heap?](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-1-is-it-a-heap.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 1.*
+
 ## Trace sift up
 
 Start with an empty min-heap and push 8, 4, 6, 2, 5, 1 in that order. Write the final array and the total number of swaps.
@@ -47,6 +51,10 @@ print(h)      # [1, 4, 2, 8, 5, 6]
 print(total)  # 5
 ```
 
+![Trace sift up](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-2-trace-sift-up.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 2.*
+
 ## Trace extract
 
 From the min-heap `[1, 4, 2, 8, 5, 6]`, pop the minimum twice. What does the array look like after each pop?
@@ -60,6 +68,10 @@ h = [1, 4, 2, 8, 5, 6]
 print(heapq.heappop(h), h)  # 1 [2, 4, 6, 8, 5]
 print(heapq.heappop(h), h)  # 2 [4, 5, 6, 8]
 ```
+
+![Trace extract](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-3-trace-extract.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 3.*
 
 ## Bug hunt: the wrong child
 
@@ -98,6 +110,10 @@ h = [9, 3, 1]
 sift_down(h, 0)
 print(h)  # [1, 3, 9]
 ```
+
+![Bug hunt: the wrong child](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-4-wrong-child.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 4.*
 
 ## Build cost: pushes vs. heapify
 
@@ -138,6 +154,10 @@ print(push_swaps(xs))     # 8194
 print(heapify_swaps(xs))  # 1013
 ```
 
+![Build cost: pushes vs. heapify](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-5-build-cost.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 5.*
+
 ## Max-heap of strings
 
 You want to pop words in reverse alphabetical order using `heapq`. Negating works for numbers, but `-"pear"` is an error. What do you do?
@@ -158,6 +178,10 @@ h = [Rev(w) for w in ["kiwi", "apple", "pear", "fig"]]
 heapq.heapify(h)
 print([heapq.heappop(h).v for _ in range(len(h))])  # ['pear', 'kiwi', 'fig', 'apple']
 ```
+
+![Max-heap of strings](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-6-max-heap-strings.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 6.*
 
 ## Ties that crash
 
@@ -182,6 +206,10 @@ for prio, job in [(1, {"id": "a"}), (1, {"id": "b"}), (0, {"id": "c"})]:
 print([heapq.heappop(q)[2]["id"] for _ in range(3)])  # ['c', 'a', 'b']
 ```
 
+![Ties that crash](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-7-ties-crash.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 7.*
+
 ## Leaderboard cutoff
 
 Scores arrive one at a time. After each score, report the score needed to enter the top 3 (the current 3rd best), or `None` while fewer than 3 scores exist. Scores: 40, 75, 60, 90, 55, 80.
@@ -201,6 +229,10 @@ for s in [40, 75, 60, 90, 55, 80]:
     cutoffs.append(top[0] if len(top) == 3 else None)
 print(cutoffs)  # [None, None, 40, 60, 60, 75]
 ```
+
+![Leaderboard cutoff](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-8-leaderboard-cutoff.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 8.*
 
 ## Merge sorted logs
 
@@ -227,6 +259,10 @@ while heap:
 print(merged)  # ['a: boot', 'b: boot', 'b: warn', 'c: boot', 'a: ok', 'b: ok']
 ```
 
+![Merge sorted logs](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-9-merge-logs.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 9.*
+
 ## Two heaps: trace the balance
 
 Using the low max-heap / high min-heap layout (push into low, move low's root to high, move back if high is bigger), add 4, 10, 2, 7. After each add, list both halves and the middle value.
@@ -251,6 +287,10 @@ for x in [4, 10, 2, 7]:
 # [2, 4] [7, 10] 5.5
 ```
 
+![Two heaps: trace the balance](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-10-two-heaps-trace.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 10.*
+
 ## Cancel a queued job
 
 A print queue is a heap of `(priority, job_id)`. Users may cancel jobs. A teammate cancels with `q.remove(entry)` followed by `heapq.heapify(q)`. What does that cost, and what is cheaper?
@@ -273,6 +313,10 @@ def next_job() -> str | None:
 
 print([next_job() for _ in range(4)])  # ['j4', 'j1', 'j3', None]
 ```
+
+![Cancel a queued job](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-11-cancel-job.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 11.*
 
 ## Heap sort: build phase
 
@@ -302,6 +346,10 @@ for end in range(len(a) - 1, 0, -1):
     sift_down(a, 0, end)
 print(a)  # [1, 2, 3, 4, 5, 6]
 ```
+
+![Heap sort: build phase](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-12-heap-sort-build.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 12.*
 
 ## Prefix counts in O(P)
 
@@ -335,6 +383,10 @@ print(count_prefix("ap"))    # 4
 print(count_prefix("appl"))  # 2
 print(count_prefix("c"))     # 0
 ```
+
+![Prefix counts in O(P)](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-13-prefix-counts.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 13.*
 
 ## Bug hunt: a prefix is not a word
 
@@ -377,6 +429,10 @@ insert(root, "card")
 print(search(root, "car"), search(root, "card"))  # False True
 ```
 
+![Bug hunt: a prefix is not a word](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-14-prefix-not-word.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 14.*
+
 ## Longest prefix match
 
 A router stores bit-string prefixes and their next hop: `1 -> A`, `10 -> B`, `1011 -> C`, `0 -> D`. For an address, the most specific (longest) matching prefix wins. Which hop do `1010`, `10111`, and `111` get?
@@ -402,6 +458,10 @@ def route(addr: str) -> str | None:
 
 print(route("1010"), route("10111"), route("111"))  # B C A
 ```
+
+![Longest prefix match](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-15-longest-prefix-match.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 15.*
 
 ## Delete without collateral damage
 
@@ -436,3 +496,7 @@ print(size(root))  # 6
 delete(root, "to")
 print(size(root))  # 5
 ```
+
+![Delete without collateral damage](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills-16-trie-delete.png)
+
+*Source: [`diagrams/heaps-and-tries-drills.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-drills.drawio), page 16.*

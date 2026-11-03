@@ -4,23 +4,9 @@ A binary heap is a complete binary tree -- every level is fully filled except po
 
 This combination makes heaps ideal for priority queues. Insertion and extraction both run in O(log N) because the tree height is always floor(log2 N), and you never need to touch more than one path from root to leaf. Unlike a BST, a heap does not maintain a total ordering of elements -- siblings have no defined relationship -- but it guarantees constant-time access to the extremum.
 
-```mermaid
-graph TD
-    A["1"] --> B["3"]
-    A --> C["2"]
-    B --> D["7"]
-    B --> E["6"]
-    C --> F["4"]
-    C --> G["5"]
+![Binary heap](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-1-binary-heap.png)
 
-    style A fill:#bde0fe,stroke:#333
-    style B fill:#e2eafc,stroke:#333
-    style C fill:#e2eafc,stroke:#333
-    style D fill:#f0f0f0,stroke:#333
-    style E fill:#f0f0f0,stroke:#333
-    style F fill:#f0f0f0,stroke:#333
-    style G fill:#f0f0f0,stroke:#333
-```
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 1.*
 
 This min-heap satisfies two invariants: every level is filled left-to-right (shape property), and every parent is less than or equal to both its children (heap property). The root always holds the global minimum.
 
@@ -44,28 +30,19 @@ heapq.heapify(max_heap)
 print(-heapq.heappop(max_heap))  # 8
 ```
 
+![Min-heap vs. max-heap](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-2-min-vs-max-heap.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 2.*
+
 ## Array representation
 
 A binary heap is almost always stored as a flat array rather than a tree of linked nodes. The complete-tree shape property guarantees that the mapping from tree positions to array indices is dense with no gaps.
 
 For a node at index `i`: its left child is at `2i + 1`, its right child is at `2i + 2`, and its parent is at `(i - 1) // 2`. This eliminates pointer overhead entirely and gives excellent cache locality because parent-child traversals are simple arithmetic on adjacent memory.
 
-```mermaid
-graph TD
-    subgraph "Tree view"
-        T0["1<br/>idx 0"] --> T1["3<br/>idx 1"]
-        T0 --> T2["2<br/>idx 2"]
-        T1 --> T3["7<br/>idx 3"]
-        T1 --> T4["6<br/>idx 4"]
-        T2 --> T5["4<br/>idx 5"]
-        T2 --> T6["5<br/>idx 6"]
-    end
+![Array representation](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-3-array-representation.png)
 
-    subgraph "Array view"
-        direction LR
-        I0["[0]=1"] ~~~ I1["[1]=3"] ~~~ I2["[2]=2"] ~~~ I3["[3]=7"] ~~~ I4["[4]=6"] ~~~ I5["[5]=4"] ~~~ I6["[6]=5"]
-    end
-```
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 3.*
 
 ```python
 def parent(i: int) -> int:
@@ -92,38 +69,9 @@ Inserting into a heap has two steps. First, place the new element at the next av
 
 The cost is O(log N) because the element can travel at most from the bottom of the tree to the root, and the tree height is log2 N. In practice, most insertions require far fewer swaps because the new element is unlikely to be the new global extremum.
 
-```mermaid
-graph TD
-    subgraph "Step 1: Insert 0 at next position"
-        A1["1"] --> B1["3"]
-        A1 --> C1["2"]
-        B1 --> D1["7"]
-        B1 --> E1["6"]
-        C1 --> F1["4"]
-        C1 --> G1["0"]
-        style G1 fill:#ffd6d6,stroke:#c00
-    end
+![Heap insert (sift up)](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-4-sift-up.png)
 
-    subgraph "Step 2: Bubble up — swap 0 and 2"
-        A2["1"] --> B2["3"]
-        A2 --> C2["0"]
-        B2 --> D2["7"]
-        B2 --> E2["6"]
-        C2 --> F2["4"]
-        C2 --> G2["2"]
-        style C2 fill:#ffd6d6,stroke:#c00
-    end
-
-    subgraph "Step 3: Bubble up — swap 0 and 1"
-        A3["0"] --> B3["3"]
-        A3 --> C3["1"]
-        B3 --> D3["7"]
-        B3 --> E3["6"]
-        C3 --> F3["4"]
-        C3 --> G3["2"]
-        style A3 fill:#d6ffd6,stroke:#060
-    end
-```
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 4.*
 
 ```python
 def heap_insert(heap: list[int], value: int) -> None:
@@ -182,6 +130,10 @@ print(extract_min(h))  # 1
 print(h)               # [2, 3, 4, 7, 6, 5]
 ```
 
+![Extract min (sift down)](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-5-extract-min.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 5.*
+
 ## Bottom-up heapify
 
 The naive approach to building a heap -- inserting N elements one at a time -- costs O(N log N). But bottom-up heapify achieves O(N) by starting from the last non-leaf node and sifting each node downward. This works because the leaf nodes (roughly half the array) are already trivially valid heaps, and each sift-down operation at height h costs O(h).
@@ -222,6 +174,10 @@ data2 = [9, 5, 6, 2, 3, 8, 1, 7, 4]
 build_min_heap(data2)
 print(data2)  # [1, 2, 6, 4, 3, 8, 9, 7, 5]
 ```
+
+![Bottom-up heapify](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-6-bottom-up-heapify.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 6.*
 
 ## Priority queue ADT
 
@@ -265,6 +221,10 @@ print(pq.peek())   # page oncall
 print(pq.pop(), pq.pop(), pq.pop())  # page oncall email lunch
 ```
 
+![Priority queue ADT](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-7-priority-queue-adt.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 7.*
+
 ## Priority queue with heapq
 
 Python's `heapq` module provides a min-heap implementation that operates directly on a regular list. There is no separate Heap class -- the list itself is the heap, and the module functions maintain the invariant. This design is lightweight but requires discipline: if you modify the list directly without going through `heapq`, the heap property may break.
@@ -299,6 +259,10 @@ c = [3, 6, 9]
 print(list(heapq.merge(a, b, c)))  # [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
 
+![Priority queue with heapq](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-8-heapq.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 8.*
+
 ## Top-K with a bounded heap
 
 To keep the K largest values from a long stream, hold a **min-heap of size K**. Its root is the smallest of your current top K -- the bar a new value must beat. If a new value is larger than the root, replace the root; otherwise ignore it. Every value costs at most O(log K), so the whole pass is O(N log K) time and O(K) space, and it works when N is too large to fit in memory.
@@ -329,22 +293,19 @@ print(top_k([5, 1, 9, 3, 7, 6, 8, 2], 3))  # [9, 8, 7]
 
 `heapq.nlargest(k, iterable)` implements the same idea; write it by hand when the interviewer wants the mechanics or when the comparison is custom.
 
+![Top-K with a bounded heap](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-9-top-k.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 9.*
+
 ## Two heaps (running median)
 
 Some problems need the value at a *split point* -- for example the middle of everything seen so far. Keep the lower half in a **max-heap** and the upper half in a **min-heap**. The two roots sit right next to the split, so the middle is always at one or both roots.
 
 Two invariants keep it working: every value in the low heap is <= every value in the high heap, and the sizes differ by at most one. Each new value goes to one side, then at most one root moves across to rebalance. Adding is O(log N); reading the middle is O(1).
 
-```mermaid
-graph LR
-    subgraph "low (max-heap)"
-        L["root = 5<br/>1, 3, 5"]
-    end
-    subgraph "high (min-heap)"
-        H["root = 8<br/>8, 9"]
-    end
-    L -- "split point" --- H
-```
+![Two heaps (running median)](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-10-two-heaps.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 10.*
 
 ```python
 import heapq
@@ -411,6 +372,10 @@ print(pop_task())  # backup
 print(pop_task())  # None
 ```
 
+![Decrease-key and lazy deletion](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-11-lazy-deletion.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 11.*
+
 ## Heap sort
 
 Heap sort reuses the two heap operations to sort an array in place. Build a **max-heap** over the whole array in O(N). Then repeat: swap the root (the largest remaining value) with the last element of the heap region, shrink the region by one, and sift the new root down. The sorted suffix grows from the right.
@@ -443,6 +408,10 @@ heap_sort(nums)
 print(nums)  # [1, 3, 4, 5, 8, 10]
 ```
 
+![Heap sort](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-12-heap-sort.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 12.*
+
 ## When not to use a heap
 
 A heap is the right tool when you repeatedly need the current extremum while items keep arriving. Outside that shape, something simpler or richer usually wins.
@@ -468,29 +437,21 @@ order = [t for b in buckets for t in b]
 print(order)  # ['alert', 'page', 'email', 'logs']
 ```
 
+![When not to use a heap](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-13-when-not-to-use.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 13.*
+
 ## Trie (prefix tree)
 
 A trie is an N-ary tree where each edge represents a character and each path from the root to a marked terminal node spells out a stored word. Unlike a hash table, a trie shares prefixes: the words "cat", "car", "card", and "care" all share the path c-a, which means the trie stores common prefixes exactly once.
 
 This shared-prefix property makes tries the natural choice for autocomplete, spell checking, IP routing tables, and any problem where you need to find all strings with a given prefix. The trade-off is memory: each node may have up to 26 (or more) child pointers, and sparse tries can waste significant space compared to a flat hash table (see the children card below).
 
-```mermaid
-graph TD
-    ROOT["(root)"] --> C["c"]
-    C --> CA["a"]
-    CA --> CAT["t *"]
-    CA --> CAR["r *"]
-    CAR --> CARD["d *"]
-    CAR --> CARE["e *"]
+![Trie (prefix tree)](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-14-trie.png)
 
-    style ROOT fill:#f0f0f0,stroke:#333
-    style CAT fill:#d6ffd6,stroke:#060
-    style CAR fill:#d6ffd6,stroke:#060
-    style CARD fill:#d6ffd6,stroke:#060
-    style CARE fill:#d6ffd6,stroke:#060
-```
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 14.*
 
-Nodes marked with `*` are terminal nodes indicating a complete word. The path from root to each green node spells: "cat", "car", "card", "care". Notice how "car" is both a complete word and a prefix for "card" and "care".
+Green nodes with a thick border are terminal nodes indicating a complete word. The path from the root to each one spells: "cat", "car", "card", "care". Notice how "car" is both a complete word and a prefix for "card" and "care".
 
 ```python
 class TrieNode:
@@ -566,6 +527,10 @@ print(trie.starts_with("ca"))   # True
 print(trie.search("cards"))     # False
 ```
 
+![Trie insert and search](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-15-trie-insert-search.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 15.*
+
 ## Prefix collection (autocomplete)
 
 Autocomplete is two phases: walk down to the prefix node in O(P), then depth-first search its subtree, recording a word every time you pass an `is_end` node. Visiting children in sorted order returns the words in lexicographic order for free. The cost is O(P + size of the subtree), not O(total words), and you can stop early once you have enough suggestions.
@@ -610,6 +575,10 @@ for ch in "tea":                        # one keystroke at a time
 # tea ['tea', 'team']
 ```
 
+![Prefix collection (autocomplete)](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-16-autocomplete.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 16.*
+
 ## Dict vs. array children
 
 Each node needs a map from character to child. The two common choices trade speed and simplicity against memory and alphabet flexibility.
@@ -645,6 +614,10 @@ insert(root, "ox")
 print(sum(c is not None for c in root.children))  # 1
 print(len(root.children))                         # 26
 ```
+
+![Dict vs. array children](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-17-dict-vs-array-children.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 17.*
 
 ## Trie deletion
 
@@ -689,6 +662,10 @@ delete(root, "car")
 print(count_nodes(root))  # 4
 ```
 
+![Trie deletion](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-18-trie-deletion.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 18.*
+
 ## Trie vs. hash table
 
 Hash tables provide O(1) average-case exact-match lookup and are the right default for "is this word in the set?" queries. Tries provide O(K) lookup where K is the word length, which is technically slower for exact match because hash functions also process the full key but with lower constant overhead.
@@ -717,3 +694,7 @@ print(matches)  # ['car', 'card', 'care', 'cart']
 # With 1 million words in the set, the hash scan touches all 1M.
 # The trie walks 3 edges to "car" and only visits matching subtree.
 ```
+
+![Trie vs. hash table](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries-19-trie-vs-hash.png)
+
+*Source: [`diagrams/heaps-and-tries.drawio`](/content/07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/diagrams/heaps-and-tries.drawio), page 19.*
