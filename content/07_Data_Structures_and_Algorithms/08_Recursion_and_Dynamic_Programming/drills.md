@@ -22,6 +22,10 @@ except RecursionError:
     print("RecursionError")  # RecursionError
 ```
 
+![Count the frames](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-1-count-the-frames.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 1.*
+
 ## Bug hunt: unreachable base case
 
 This function should return the sum of every other number from `n` down to 1 (for example `n = 6` gives 6 + 4 + 2). It works for 6 but crashes for 7. Why, and what is the smallest fix?
@@ -45,6 +49,10 @@ print(every_other_sum(6))  # 12
 print(every_other_sum(7))  # 16
 print(every_other_sum(0))  # 0
 ```
+
+![Bug hunt: unreachable base case](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-2-bug-hunt-unreachable-base-case.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 2.*
 
 ## Recursion to explicit stack
 
@@ -74,6 +82,10 @@ for _ in range(10_000):
     deep = [deep]
 print(nested_sum_iter(deep))  # 7
 ```
+
+![Recursion to explicit stack](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-3-recursion-to-explicit-stack.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 3.*
 
 ## Same call twice
 
@@ -108,6 +120,10 @@ print(g(20), calls)  # 1048576 2097151
 print(g_fast(20))    # 1048576
 ```
 
+![Same call twice](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-4-same-call-twice.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 4.*
+
 ## Pick the memo key
 
 This memoized function picks values from a list, never two adjacent ones, to maximize the total. It is correct but just as slow as plain recursion. Which part of the key is the problem?
@@ -141,6 +157,10 @@ def best(i: int) -> int:
 print(best(0))  # 21
 print(best.cache_info().currsize)  # 9
 ```
+
+![Pick the memo key](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-5-pick-the-memo-key.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 5.*
 
 ## Bug hunt: stale cache
 
@@ -180,6 +200,10 @@ print(fewest(7, (1, 5)))     # 3
 print(fewest(7, (2, 4)))     # inf
 ```
 
+![Bug hunt: stale cache](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-6-bug-hunt-stale-cache.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 6.*
+
 ## Write the recurrence
 
 Houses on a street hold `[2, 7, 9, 3, 1]` coins. You may collect from any houses as long as you never take two neighbors. Define the state, write the recurrence, and fill the table by hand.
@@ -197,6 +221,10 @@ def best_collection(values: list[int]) -> list[int]:
 
 print(best_collection([2, 7, 9, 3, 1]))  # [0, 2, 7, 11, 11, 12]
 ```
+
+![Write the recurrence](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-7-write-the-recurrence.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 7.*
 
 ## Fill the grid table
 
@@ -233,6 +261,10 @@ for row in min_path_table([[1, 3, 1], [1, 5, 1], [4, 2, 1]]):
 # [6, 8, 7]
 ```
 
+![Fill the grid table](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-8-fill-the-grid-table.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 8.*
+
 ## One row is enough
 
 Rewrite the previous grid solution to use O(cols) extra space instead of O(rows x cols). What do you give up?
@@ -253,6 +285,10 @@ def min_path_cost(cost: list[list[int]]) -> int:
 print(min_path_cost([[1, 3, 1], [1, 5, 1], [4, 2, 1]]))  # 7
 print(min_path_cost([[5]]))                              # 5
 ```
+
+![One row is enough](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-9-one-row-is-enough.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 9.*
 
 ## Loop direction in 0/1 choice
 
@@ -283,6 +319,10 @@ print(can_make([5], 10, reuse=True))  # True
 print(can_make([1, 5, 11, 5], 11))    # True
 ```
 
+![Loop direction in 0/1 choice](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-10-loop-direction-in-0-1-choice.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 10.*
+
 ## Greedy trap
 
 Coins come in denominations 1, 3, and 4, unlimited supply. A greedy strategy always takes the largest coin that fits. How many coins does greedy use for 6, and what is the true minimum? Give the DP table for amounts 0 to 6.
@@ -306,6 +346,10 @@ def dp_coins(coins: list[int], amount: int) -> list[int]:
 print(greedy_coins([1, 3, 4], 6))  # 3
 print(dp_coins([1, 3, 4], 6))      # [0, 1, 2, 1, 1, 2, 2]
 ```
+
+![Greedy trap](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-11-greedy-trap.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 11.*
 
 ## Rebuild the choices
 
@@ -334,6 +378,10 @@ print(coins_used([1, 3, 4], 10))  # [3, 3, 4]
 print(coins_used([1, 3, 4], 6))   # [3, 3]
 ```
 
+![Rebuild the choices](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-12-rebuild-the-choices.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 12.*
+
 ## Edit distance trace
 
 How many single-character inserts, deletes, or replacements turn `"flaw"` into `"lawn"`? Define the state and recurrence, then compute it.
@@ -361,6 +409,10 @@ print(edit_distance("kitten", "sitting"))  # 3
 print(edit_distance("", "abc"))            # 3
 ```
 
+![Edit distance trace](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-13-edit-distance-trace.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 13.*
+
 ## Ends at i
 
 Find the length of the longest strictly increasing subsequence of `[3, 10, 2, 1, 20, 4, 6, 7]`. Why does "best answer among the first i elements" make a poor state here, and what state works?
@@ -380,6 +432,10 @@ dp = lis_table([3, 10, 2, 1, 20, 4, 6, 7])
 print(dp)       # [1, 2, 1, 1, 3, 2, 3, 4]
 print(max(dp))  # 4
 ```
+
+![Ends at i](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-14-ends-at-i.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 14.*
 
 ## Count or list
 
@@ -421,6 +477,10 @@ print(list_decodings("1226"))   # ['ABBF', 'ABZ', 'AVF', 'LBF', 'LZ']
 print(count_decodings("11" * 30))  # 2504730781961
 ```
 
+![Count or list](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-15-count-or-list.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 15.*
+
 ## Sparse states
 
 `value(n) = max(n, value(n // 2) + value(n // 3) + value(n // 4))` with `value(0) = 0`. Compute `value(1_000_000_000)`. Why is memoization the right choice here, and how many states does it touch?
@@ -440,3 +500,7 @@ print(value(12))                   # 13
 print(value(1_000_000_000))        # 4243218150
 print(value.cache_info().currsize < 1000)  # True
 ```
+
+![Sparse states](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills-16-sparse-states.png)
+
+*Source: [`diagrams/recursion-and-dp-drills.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-drills.drawio), page 16.*
