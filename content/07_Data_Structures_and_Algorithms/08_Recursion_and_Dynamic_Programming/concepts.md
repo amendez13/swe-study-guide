@@ -15,6 +15,10 @@ print(factorial(5))  # 120
 
 Every recursive function has two parts: (1) the base case that stops recursion, and (2) the recursive step that shrinks the problem and calls itself. If you can say "solve a smaller version of me, then combine," recursion is a natural fit. The hard part is trusting the recursive call: assume it returns the right answer for the smaller input, and only reason about how one level combines it.
 
+![Recursive decomposition](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-1-recursive-decomposition.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 1.*
+
 ## Base case
 
 The base case is the termination condition: the input small enough that the function can return a result without recursing further. Without it, recursion never stops.
@@ -38,25 +42,19 @@ print(countdown(3))  # [3, 2, 1, 0]
 
 Rule of thumb: write the base case first, check it is reachable for every valid input (including odd sizes, empty inputs, and negative steps), then write the recursive step. A guard like `n <= 0` is safer than `n == 0` when the step can jump past zero.
 
+![Base case](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-2-base-case.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 2.*
+
 ## Call stack and stack space
 
 Each recursive call pushes a new frame onto the call stack. That frame holds the function's local variables, the return address, and the arguments. Frames accumulate until the base case is reached, then they unwind as each call returns.
 
 So recursion costs O(depth) space even if the algorithm has no auxiliary data structure: a linear chain of N calls uses O(N) stack. Python's default recursion limit is 1000 frames (`sys.getrecursionlimit()`), and Python does not eliminate tail calls, so even a tail-recursive function still grows the stack.
 
-```mermaid
-graph TD
-    F5["factorial(5)<br/>n=5, waiting"] --> F4["factorial(4)<br/>n=4, waiting"]
-    F4 --> F3["factorial(3)<br/>n=3, waiting"]
-    F3 --> F2["factorial(2)<br/>n=2, waiting"]
-    F2 --> F1["factorial(1)<br/>n=1, returns 1"]
+![Call stack and stack space](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-3-call-stack-and-stack-space.png)
 
-    style F5 fill:#e8f4fd,stroke:#2196f3
-    style F4 fill:#e8f4fd,stroke:#2196f3
-    style F3 fill:#e8f4fd,stroke:#2196f3
-    style F2 fill:#e8f4fd,stroke:#2196f3
-    style F1 fill:#c8e6c9,stroke:#4caf50
-```
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 3.*
 
 Each box is one stack frame. All five exist at the same time at the deepest point. The green frame is the base case where unwinding begins; from there each frame computes its result and pops off.
 
@@ -96,6 +94,10 @@ How to choose in an interview:
 
 A good habit: write the recursive version to get the logic right, state its stack depth, and offer the iterative version (loop or explicit stack) if depth could exceed a few thousand.
 
+![Recursive vs. iterative](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-4-recursive-vs-iterative.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 4.*
+
 ## Top-down approach
 
 Top-down thinking starts with the full problem of size N and asks how to split it into subproblems: "if I already had the answers to these smaller pieces, how would I combine them?" You define the answer in terms of answers to smaller inputs, and let recursion handle those.
@@ -112,6 +114,10 @@ print(fib_naive(10))  # 55
 ```
 
 The downside of naive top-down recursion is redundant work: without caching, the same subproblem is solved many times. Memoization fixes exactly that.
+
+![Top-down approach](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-5-top-down-approach.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 5.*
 
 ## Bottom-up approach
 
@@ -130,6 +136,10 @@ print([no_adjacent_ones(n) for n in range(1, 7)])  # [2, 3, 5, 8, 13, 21]
 ```
 
 In dynamic programming, the loop form of this idea is called tabulation: fill answers for small inputs first so every later answer can read them. It has no stack overflow risk, lower per-step overhead than function calls, and a cache-friendly memory access pattern.
+
+![Bottom-up approach](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-6-bottom-up-approach.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 6.*
 
 ## Half-and-half approach
 
@@ -161,6 +171,10 @@ print(merge_sort([5, 2, 9, 1, 5, 6]))  # [1, 2, 5, 5, 6, 9]
 
 Half-and-half also covers "solve each half and combine across the middle," such as finding the best pair that straddles the split. When each half is independent, there are no overlapping subproblems and no DP is needed.
 
+![Half-and-half approach](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-7-half-and-half-approach.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 7.*
+
 ## Recursion tree
 
 To estimate recursive running time, draw the recursion tree: one node per call, children for the calls it makes. Total time is the sum of work over all nodes. A useful first estimate is **branches^depth** nodes: a function that makes 2 calls and recurses N levels deep has up to about 2^N nodes.
@@ -178,35 +192,19 @@ print(count_calls(20))  # 21891
 
 Two other shapes worth knowing: halving with two calls and O(N) merge work (merge sort) gives log N levels of N work each, O(N log N); halving with one call and O(1) work (binary search) gives O(log N). The Algorithmic Complexity topic covers the general rules; here the point is to sketch the tree before optimizing.
 
+![Recursion tree](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-8-recursion-tree.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 8.*
+
 ## Overlapping subproblems
 
 Overlapping subproblems are the signal that a problem is a candidate for dynamic programming. If the naive recursive solution computes the same subproblem more than once, work is being wasted.
 
 Fibonacci is the clearest illustration. Computing `fib(5)` naively calls `fib(3)` twice, `fib(2)` three times, and `fib(1)` five times. Total calls grow exponentially (O(2^N) as an upper bound; about 1.6^N exactly) because the tree re-explores the same territory.
 
-```mermaid
-graph TD
-    A["fib(5)"] --> B["fib(4)"]
-    A --> C["fib(3) ⚠️"]
-    B --> D["fib(3) ⚠️"]
-    B --> E["fib(2) ⚠️"]
-    D --> F["fib(2) ⚠️"]
-    D --> G["fib(1)"]
-    C --> H["fib(2) ⚠️"]
-    C --> I["fib(1)"]
-    E --> J["fib(1)"]
-    E --> K["fib(0)"]
-    F --> L["fib(1)"]
-    F --> M["fib(0)"]
-    H --> N["fib(1)"]
-    H --> O["fib(0)"]
+![Overlapping subproblems](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-9-overlapping-subproblems.png)
 
-    style D fill:#fff3e0,stroke:#ff9800
-    style C fill:#fff3e0,stroke:#ff9800
-    style E fill:#fff3e0,stroke:#ff9800
-    style F fill:#fff3e0,stroke:#ff9800
-    style H fill:#fff3e0,stroke:#ff9800
-```
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 9.*
 
 The orange nodes are duplicates: the same subproblem computed multiple times. The tree has 15 nodes but only 6 distinct inputs (`fib(0)` through `fib(5)`). Eliminating that duplication is the entire point of DP: cost becomes (number of distinct states) x (work per state).
 
@@ -237,27 +235,17 @@ print(min_cost_to_end([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))  # 6
 
 `best(i)` is optimal because it only combines optimal answers for `i + 1` and `i + 2`. For counting problems ("how many ways"), the analogous requirement is that subproblems split the possibilities into disjoint groups so their counts add.
 
+![Optimal substructure](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-10-optimal-substructure.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 10.*
+
 ## Is this a DP problem?
 
 Not every recursive problem benefits from DP. Two properties must both be present: overlapping subproblems (the same inputs are computed more than once) and optimal substructure (the answer for the whole is built from answers for subproblems).
 
-```mermaid
-flowchart TD
-    A["Can the problem be broken<br/>into subproblems?"] -->|Yes| B["Are subproblems<br/>overlapping?"]
-    A -->|No| X1["Not DP: try greedy<br/>or brute force"]
-    B -->|Yes| C["Does the problem have<br/>optimal substructure?"]
-    B -->|No| X2["Plain recursion or<br/>divide-and-conquer"]
-    C -->|Yes| D["DP applies"]
-    C -->|No| X3["Overlapping but no optimal<br/>substructure: rethink the state"]
-    D --> E{"Prefer top-down<br/>or bottom-up?"}
-    E -->|"Easy to write<br/>recursion"| F["Memoization"]
-    E -->|"Clear iteration<br/>order"| G["Tabulation"]
+![Is this a DP problem?](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-11-is-this-a-dp-problem.png)
 
-    style D fill:#c8e6c9,stroke:#4caf50
-    style X1 fill:#ffcdd2,stroke:#e53935
-    style X2 fill:#fff3e0,stroke:#ff9800
-    style X3 fill:#ffcdd2,stroke:#e53935
-```
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 11.*
 
 Wording clues: minimum, maximum, number of ways, longest, shortest, or "is it possible", where the brute force explores overlapping choices. If the problem asks you to list every solution, the output itself can be exponential and backtracking is usually the tool instead.
 
@@ -286,6 +274,10 @@ print(dice_ways(3, 10))  # 27
 
 Here the state is two-dimensional, (dice left, sum remaining), so there are at most `dice x target` states and each does 6 units of work: O(6 x dice x target) time.
 
+![State definition](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-12-state-definition.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 12.*
+
 ## Memoization
 
 Memoization wraps a recursive function with a cache keyed by the state. Before computing a subproblem, check the cache; if the result is there, return it. Otherwise compute it, store it, and return it. You keep the top-down recursive shape but each state is solved once.
@@ -308,20 +300,9 @@ print(fib_memo(50))  # 12586269025
 
 In Python, `functools.cache` (or `lru_cache(maxsize=None)`) does the same thing for hashable arguments. Define the cached helper inside the outer function so its key only contains the varying state and the cache does not leak between unrelated inputs.
 
-```mermaid
-graph TD
-    A["fib(5)"] --> B["fib(4)"]
-    A --> C["fib(3) ✓ cached"]
-    B --> D["fib(3)"]
-    B --> E["fib(2) ✓ cached"]
-    D --> F["fib(2)"]
-    D --> G["fib(1)"]
-    F --> L["fib(1)"]
-    F --> M["fib(0)"]
+![Memoization](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-13-memoization.png)
 
-    style C fill:#c8e6c9,stroke:#4caf50
-    style E fill:#c8e6c9,stroke:#4caf50
-```
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 13.*
 
 The green nodes are cache hits: the function returns immediately without recursing. Entire subtrees from the naive version are pruned away. Memoization also only visits states actually reachable from the start, which wins when the state space is huge but sparse.
 
@@ -344,24 +325,9 @@ def fib_tabulation(n: int) -> int:
 print(fib_tabulation(10))  # 55
 ```
 
-```mermaid
-graph LR
-    D0["dp[0]=0"] --> D2["dp[2]=1"]
-    D1["dp[1]=1"] --> D2
-    D1 --> D3["dp[3]=2"]
-    D2 --> D3
-    D2 --> D4["dp[4]=3"]
-    D3 --> D4
-    D3 --> D5["dp[5]=5"]
-    D4 --> D5
+![Tabulation](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-14-tabulation.png)
 
-    style D0 fill:#e8f4fd,stroke:#2196f3
-    style D1 fill:#e8f4fd,stroke:#2196f3
-    style D2 fill:#fff3e0,stroke:#ff9800
-    style D3 fill:#fff3e0,stroke:#ff9800
-    style D4 fill:#fff3e0,stroke:#ff9800
-    style D5 fill:#c8e6c9,stroke:#4caf50
-```
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 14.*
 
 Blue cells are base cases, orange cells are computed from earlier cells, and the green cell is the answer. The arrows are the dependency graph; any topological order of it is a valid fill order.
 
@@ -392,6 +358,10 @@ print(fib_optimized(90))  # 2880067194370816120
 ```
 
 The same idea applies to 2D tables: if row `i` only reads row `i - 1`, keep one or two rows and cut space from O(M x N) to O(N). The trade-off is that you lose the full table, so reconstructing which choices produced the answer needs either the table or a separate choice record.
+
+![Space optimization](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-15-space-optimization.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 15.*
 
 ## Fibonacci case study
 
@@ -438,6 +408,10 @@ print([fib_opt(n) for n in range(10)])  # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
 The progression (naive, memoized, tabulated, space-optimized) is a repeatable playbook: get the recurrence right with plain recursion, add a cache, convert to a loop if stack depth matters, then drop table rows you no longer read.
 
+![Fibonacci case study](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-16-fibonacci-case-study.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 16.*
+
 ## Common DP patterns
 
 Most DP problems reuse a handful of state shapes. Recognizing the shape tells you the table dimensions and fill order.
@@ -465,6 +439,10 @@ print(grid_paths(3, 7))  # 28
 ```
 
 This version already uses the one-row space optimization: `dp[c]` still holds the row above until it is overwritten.
+
+![Common DP patterns](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-17-common-dp-patterns.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 17.*
 
 ## Knapsack-style choices
 
@@ -501,6 +479,10 @@ print(subset_sum([3], 6))                # False
 
 If the subset-sum loop ran upward, `reachable[6]` would read `reachable[3]` already set by the same 3 and wrongly return True: that is the unbounded version. Greedy (always take the largest coin) works for some coin systems but not in general, which is why `[1, 3, 4]` needs DP.
 
+![Knapsack-style choices](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-18-knapsack-style-choices.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 18.*
+
 ## Reconstructing the solution
 
 The DP value tells you how good the best answer is; interviews often also want the answer itself. Keep the full table (or a parallel table of choices), then walk back from the final state, at each step re-deciding which transition produced the stored value.
@@ -535,6 +517,10 @@ print(lcs("abc", "xyz"))            # (0, '')
 ```
 
 Reconstruction needs the table cells it walks through, so a one-row space-optimized version can report the length but not the subsequence. Several optimal answers may exist; tie-breaking (`>=` here) decides which one you return.
+
+![Reconstructing the solution](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-19-reconstructing-the-solution.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 19.*
 
 ## Backtracking vs. DP
 
@@ -573,3 +559,7 @@ print(count_combos([2, 3, 5, 7, 8], 10))  # 3
 ```
 
 Listing costs at least the size of the output, which can be exponential no matter what. Counting with memoization costs O(len(nums) x target) because the state `(i, remaining)` captures everything the future depends on, while the backtracking `chosen` list does not belong in a memo key.
+
+![Backtracking vs. DP](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp-20-backtracking-vs-dp.png)
+
+*Source: [`diagrams/recursion-and-dp.drawio`](/content/07_Data_Structures_and_Algorithms/08_Recursion_and_Dynamic_Programming/diagrams/recursion-and-dp.drawio), page 20.*
