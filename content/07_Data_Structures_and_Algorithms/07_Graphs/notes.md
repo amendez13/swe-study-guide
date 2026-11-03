@@ -4,18 +4,25 @@ Graphs are the most general structure for modeling relationships between entitie
 
 ## Key Points
 
-- **Graphs generalize trees** - A tree is a connected acyclic undirected graph; a graph lifts all three constraints, allowing cycles, disconnected components, and directed edges.
-- **Directed vs. undirected determines edge semantics** - Undirected edges imply bidirectional traversal; directed edges are one-way. Directed graphs require separate in-degree and out-degree tracking and change how reachability works.
-- **Weighted edges require different algorithms** - BFS finds shortest paths only in unweighted graphs; weighted graphs need Dijkstra's (non-negative weights) or Bellman-Ford (allows negative weights).
-- **Adjacency list is the default representation** - O(V + E) space, efficient neighbor iteration, and works well for sparse graphs. Use an adjacency matrix (O(V^2) space, O(1) edge lookup) only for dense graphs or matrix-based algorithms.
-- **Always track visited nodes** - Without a visited set, traversals on cyclic graphs loop forever. This is the single most common graph algorithm bug.
-- **DFS explores depth-first using a stack** - Recursion or an explicit stack. Used for cycle detection, topological sort, connected components, and path existence. O(V + E) time, O(V) space.
-- **BFS explores breadth-first using a queue** - Guarantees shortest path in unweighted graphs. Used for shortest paths, level-order traversal, and minimum-step problems. O(V + E) time, O(V) space.
-- **Bidirectional BFS reduces exponential search** - Two BFS frontiers from source and destination meet in the middle, reducing O(k^d) to O(k^(d/2)). Requires knowing the destination and traversing edges in reverse.
-- **Topological sort linearizes a DAG** - Produces an ordering where every edge goes from earlier to later. Essential for dependency resolution, build systems, and task scheduling. Only valid on acyclic directed graphs.
-- **Dijkstra's uses a min-heap for weighted shortest paths** - Greedily finalizes the nearest unvisited vertex, then relaxes its neighbors. O((V + E) log V) with a binary heap. Fails with negative edge weights.
-- **DAGs have no cycles and enable topological ordering** - Every DAG has at least one topological sort. If Kahn's algorithm processes fewer than V vertices, the graph contains a cycle.
-- **Graph problems hide in many interview questions** - Any problem involving states and transitions, dependencies, or "minimum steps to reach X" is likely a graph problem even if the word "graph" never appears.
+- **Graph basics** - Vertices plus edges with no root and no hierarchy; cycles and separate pieces are allowed. Degrees in an undirected graph sum to 2E; a tree is a connected acyclic graph with V - 1 edges.
+- **Directed vs. undirected** - Directed edges are one-way, so in-degree and out-degree differ and reachability is not symmetric. Store an undirected edge in both directions.
+- **Weighted vs. unweighted** - BFS counts hops and is only correct when every edge costs the same; weights call for Dijkstra (non-negative) or Bellman-Ford (negative).
+- **Adjacency list** - The default: O(V + E) space, O(degree) neighbor scan. Use neighbor sets for O(1) edge checks and keep sink vertices as keys.
+- **Adjacency matrix** - O(V^2) space, O(1) edge check, O(V) neighbor scan. Good for dense or small graphs and Floyd-Warshall.
+- **Edge lists and implicit graphs** - Build the adjacency list from pairs in O(V + E), or generate neighbors on demand for grids and "states plus moves" puzzles.
+- **Visited set** - Every traversal needs one; it is what makes BFS and DFS O(V + E). In BFS mark on enqueue, not on dequeue.
+- **Depth-first search (DFS)** - Stack or recursion, deep before wide; O(V + E) time, O(V) space. Watch Python's recursion limit on long paths and big grids.
+- **Breadth-first search (BFS)** - FIFO queue (`deque`), ring by ring from the start; O(V + E) time, and the queue can hold a whole layer.
+- **BFS shortest path** - First arrival is a fewest-edges route; keep `dist` and one `parent` pointer per vertex, then walk parents back to rebuild the path.
+- **Multi-source BFS** - Seed the queue with every source at distance 0 to get distance-to-nearest for all vertices in one O(V + E) pass.
+- **Bidirectional search** - BFS from both ends, one layer at a time; about 2 * k^(d/2) work instead of k^d. Needs a known goal and reverse edges.
+- **Connected components** - Start a traversal from every unvisited vertex; each start is a new component. SCCs are the directed version (Tarjan or Kosaraju, O(V + E)).
+- **Cycle detection** - Undirected: DFS with a parent check (or union-find). Directed: three colors; an edge into a gray (on-path) vertex is a back edge.
+- **Bipartite check** - BFS 2-coloring; an edge between same-colored vertices means an odd cycle and no valid split.
+- **Topological sort** - Linear order of a DAG with every edge pointing forward. Kahn (in-degree queue, detects cycles) or reversed DFS post-order, both O(V + E).
+- **Dijkstra's algorithm** - Min-heap of `(dist, vertex)`, settle the closest, relax edges, skip stale entries. O((V + E) log V); breaks on negative edges.
+- **Choosing a shortest-path algorithm** - BFS for unweighted, 0-1 BFS for 0/1 weights, Dijkstra for non-negative, Bellman-Ford for negative, topological relaxation for DAGs, Floyd-Warshall for small all-pairs.
+- **Union-find** - Near-constant `find` and `union` with path compression and union by size; answers "same group?" as edges stream in, and the first failed union closes a cycle.
 
 ## Example
 
@@ -133,7 +140,11 @@ print("Topological order:", g.topological_sort())
 # Topological order: ['A', 'C', 'B', 'D', 'E']
 
 print("Dijkstra from A:", g.dijkstra("A"))
-# Dijkstra from A: {'A': 0, 'C': 2, 'B': 3, 'D': 6, 'E': 8}
+# Dijkstra from A: {'A': 0, 'B': 3, 'C': 2, 'D': 6, 'E': 8}
 ```
 
 This single `Graph` class covers the four most important graph operations. In interviews, you rarely need the full class -- a plain `defaultdict(list)` as the adjacency list and standalone DFS/BFS functions are usually sufficient. The class form is useful for studying because it makes the relationship between representation and algorithm explicit.
+
+## More practice
+
+Work the original exercises on the **Drills** tab: read each prompt, commit to an answer, then open the card to check it. For background reading, open CTCI Chapter 4 on the private reader under `#graphs` (with `#adjacency-list` and `#adjacency-matrices`) and `#graph-search` (with `#depth-first-search-dfs`, `#breadth-first-search-bfs`, and `#bidirectional-search`), plus the Advanced Topics sections `#topological-sort` and `#dijkstras-algorithm`. Tree, heap, and trie sections of that chapter belong to the Trees and Heaps and Tries topics. Do not copy book text or solutions into these study files.
