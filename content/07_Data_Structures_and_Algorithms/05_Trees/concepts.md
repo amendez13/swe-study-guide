@@ -4,22 +4,9 @@ A tree is a connected, acyclic graph with a designated root node. Every node exc
 
 Trees appear everywhere in computing: file systems, the DOM, syntax trees, decision trees, database indexes. The recursive definition -- a tree is a root connected to zero or more subtrees -- maps directly to recursive algorithms, which is why most tree code is naturally recursive.
 
-```mermaid
-graph TD
-    R["8 (root)<br/>depth=0"] --> A["3<br/>depth=1"]
-    R --> B["10<br/>depth=1"]
-    A --> C["1 (leaf)<br/>depth=2"]
-    A --> D["6<br/>depth=2"]
-    B --> E["14 (leaf)<br/>depth=2"]
-    D --> F["4 (leaf)<br/>depth=3"]
-    D --> G["7 (leaf)<br/>depth=3"]
+![Tree structure](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-1-tree-structure.png)
 
-    style R fill:#4a9,stroke:#333,color:#fff
-    style C fill:#f96,stroke:#333
-    style E fill:#f96,stroke:#333
-    style F fill:#f96,stroke:#333
-    style G fill:#f96,stroke:#333
-```
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 1.*
 
 In the diagram above, the green node is the root and the orange nodes are leaves. The height of this tree is 3 (the longest path from root 8 down to leaf 4 or 7).
 
@@ -48,6 +35,10 @@ root = TreeNode(5,
 ```
 
 Every node stores a value and two optional child references. When both children are `None`, the node is a leaf. This class (or a minor variant of it) is reused by BSTs, heaps implemented as linked structures, expression trees, and most tree-based interview problems.
+
+![Binary tree](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-2-binary-tree.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 2.*
 
 ## Binary search tree (BST)
 
@@ -82,38 +73,9 @@ def bst_insert(root: TreeNode | None, val: int) -> TreeNode:
 
 The recursive insert works by finding the correct empty spot and placing the new node there. Each call descends one level, so the depth of the tree determines the cost.
 
-```mermaid
-graph TD
-    subgraph "Step 1: insert 5"
-        S1["5"]
-    end
-    subgraph "Step 2: insert 3"
-        S2a["5"] --> S2b["3"]
-    end
-    subgraph "Step 3: insert 8"
-        S3a["5"] --> S3b["3"]
-        S3a --> S3c["8"]
-    end
-    subgraph "Step 4: insert 4"
-        S4a["5"] --> S4b["3"]
-        S4a --> S4c["8"]
-        S4b --> S4d[" "]
-        S4b --> S4e["4"]
-        style S4d fill:none,stroke:none
-    end
-    subgraph "Step 5: insert 1"
-        S5a["5"] --> S5b["3"]
-        S5a --> S5c["8"]
-        S5b --> S5d["1"]
-        S5b --> S5e["4"]
-    end
+![Binary search tree (BST)](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-3-bst.png)
 
-    style S1 fill:#4a9,stroke:#333,color:#fff
-    style S2b fill:#4a9,stroke:#333,color:#fff
-    style S3c fill:#4a9,stroke:#333,color:#fff
-    style S4e fill:#4a9,stroke:#333,color:#fff
-    style S5d fill:#4a9,stroke:#333,color:#fff
-```
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 3.*
 
 Each green node is the newly inserted value. At every step, the new value walks down the tree comparing at each node until it finds an empty child slot.
 
@@ -149,6 +111,10 @@ def bst_delete(root: TreeNode | None, val: int) -> TreeNode | None:
 
 The two-children case is the one interviewers focus on. The in-order successor is the leftmost node in the right subtree -- the smallest value that is still larger than the deleted node. Swapping it in preserves the BST invariant because it is greater than everything in the left subtree and smaller than everything remaining in the right subtree.
 
+![BST deletion](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-4-bst-deletion.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 4.*
+
 ## Balanced trees
 
 A BST's operations are O(h) where h is the height of the tree. In the best case a tree with N nodes has height log N, but if elements are inserted in sorted order, the tree degenerates into a linked list with height N, making every operation O(N).
@@ -166,6 +132,10 @@ Self-balancing trees solve this by automatically restructuring after insertions 
 | Delete   | O(N) worst    | O(log N) | O(log N)       |
 | Balance strictness | None | Strict   | Relaxed        |
 
+![Balanced trees](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-5-balanced-trees.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 5.*
+
 ## Complete, full, and perfect binary trees
 
 These three terms describe specific structural constraints on binary trees. They come up constantly in heap implementations, tree serialization, and interview questions.
@@ -174,32 +144,9 @@ These three terms describe specific structural constraints on binary trees. They
 - **Complete binary tree**: every level is fully filled except possibly the last, which is filled left to right. This is the shape a binary heap maintains.
 - **Perfect binary tree**: every internal node has exactly 2 children and all leaves are at the same depth. A perfect tree with height h has exactly 2^(h+1) - 1 nodes.
 
-```mermaid
-graph TD
-    subgraph "Full (not complete)"
-        F1["1"] --> F2["2"]
-        F1 --> F3["3"]
-        F3 --> F4["4"]
-        F3 --> F5["5"]
-    end
+![Complete, full, and perfect binary trees](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-6-full-complete-perfect.png)
 
-    subgraph "Complete (not full)"
-        C1["1"] --> C2["2"]
-        C1 --> C3["3"]
-        C2 --> C4["4"]
-        C2 --> C5["5"]
-        C3 --> C6["6"]
-    end
-
-    subgraph "Perfect (full + complete)"
-        P1["1"] --> P2["2"]
-        P1 --> P3["3"]
-        P2 --> P4["4"]
-        P2 --> P5["5"]
-        P3 --> P6["6"]
-        P3 --> P7["7"]
-    end
-```
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 6.*
 
 A perfect tree is always both full and complete. A complete tree is the structure you get when you fill positions left-to-right, level by level -- this is exactly how a binary heap is stored in an array, which is why complete trees are important for heap operations.
 
@@ -234,19 +181,9 @@ root = TreeNode(5, TreeNode(3, TreeNode(1), TreeNode(4)), TreeNode(8))
 print(inorder(root))  # [1, 3, 4, 5, 8]  -- sorted!
 ```
 
-```mermaid
-graph TD
-    A["5 (visit 4th)"] --> B["3 (visit 2nd)"]
-    A --> C["8 (visit 5th)"]
-    B --> D["1 (visit 1st)"]
-    B --> E["4 (visit 3rd)"]
+![In-order traversal](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-7-in-order.png)
 
-    style D fill:#4a9,stroke:#333,color:#fff
-    style B fill:#6b5,stroke:#333,color:#fff
-    style E fill:#8c7,stroke:#333,color:#fff
-    style A fill:#ac9,stroke:#333,color:#fff
-    style C fill:#ceb,stroke:#333,color:#fff
-```
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 7.*
 
 The numbered visit order shows the pattern: go as far left as possible first, visit the node, then go right.
 
@@ -269,19 +206,9 @@ def preorder(root: TreeNode | None) -> list[int]:
 print(preorder(root))  # [5, 3, 1, 4, 8]
 ```
 
-```mermaid
-graph TD
-    A["5 (visit 1st)"] --> B["3 (visit 2nd)"]
-    A --> C["8 (visit 5th)"]
-    B --> D["1 (visit 3rd)"]
-    B --> E["4 (visit 4th)"]
+![Pre-order traversal](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-8-pre-order.png)
 
-    style A fill:#4a9,stroke:#333,color:#fff
-    style B fill:#6b5,stroke:#333,color:#fff
-    style D fill:#8c7,stroke:#333,color:#fff
-    style E fill:#ac9,stroke:#333,color:#fff
-    style C fill:#ceb,stroke:#333,color:#fff
-```
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 8.*
 
 Pre-order is useful for serialization because the root is output first: when you later reconstruct the tree, you process nodes in exactly the order you need to build top-down.
 
@@ -304,19 +231,9 @@ def postorder(root: TreeNode | None) -> list[int]:
 print(postorder(root))  # [1, 4, 3, 8, 5]
 ```
 
-```mermaid
-graph TD
-    A["5 (visit 5th)"] --> B["3 (visit 3rd)"]
-    A --> C["8 (visit 4th)"]
-    B --> D["1 (visit 1st)"]
-    B --> E["4 (visit 2nd)"]
+![Post-order traversal](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-9-post-order.png)
 
-    style D fill:#4a9,stroke:#333,color:#fff
-    style E fill:#6b5,stroke:#333,color:#fff
-    style B fill:#8c7,stroke:#333,color:#fff
-    style C fill:#ac9,stroke:#333,color:#fff
-    style A fill:#ceb,stroke:#333,color:#fff
-```
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 9.*
 
 Notice the pattern: leaves are always visited first, and the root is always visited last. This is the opposite of pre-order.
 
@@ -361,6 +278,10 @@ print(level_order(root))
 
 The queue-based approach is critical to understand. Each iteration processes one full level: dequeue all nodes at the current depth, enqueue their children. The `for _ in range(len(queue))` pattern is the idiomatic way to process one level at a time.
 
+![Level-order traversal (BFS)](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-10-level-order.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 10.*
+
 ## Tree height and depth
 
 Height and depth are related but measured from opposite ends. The depth of a node is the number of edges from the root down to that node (root has depth 0). The height of a node is the number of edges on the longest downward path from that node to a leaf (leaves have height 0). The height of the tree is the height of the root.
@@ -401,6 +322,10 @@ print(depth(root, 5))       # 0 (root)
 
 The height function is the basis for checking whether a tree is balanced: compute the height of the left and right subtrees and verify they differ by at most 1 at every node. This check runs in O(N) and is a common interview problem.
 
+![Tree height and depth](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-11-height-depth.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 11.*
+
 ## Empty tree base case
 
 Almost every tree function has the same skeleton: decide what the answer is for an empty tree (`None`), then combine the answers from the left and right subtrees with the current node. Treating `None` as a real, valid input -- not an error to guard against at every call site -- removes most special cases. You never need to check `if node.left:` before recursing; the callee handles it.
@@ -439,6 +364,10 @@ print(count(None), total(None), all_positive(None))  # 0 0 True
 ```
 
 If you find yourself writing `if node.left and node.right` branches for leaves, step back: a correct `None` base case usually makes the leaf case fall out automatically.
+
+![Empty tree base case](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-12-empty-tree-base-case.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 12.*
 
 ## Top-down vs. bottom-up recursion
 
@@ -485,6 +414,10 @@ print(sizes)  # {1: 1, 4: 1, 3: 3, 8: 1, 5: 5}
 
 Bottom-up is also how you avoid repeated work: if a parent needs both the height and some other fact about each child, return both in one tuple instead of calling a separate `height()` from every node (which turns O(N) into O(N^2) on skewed trees).
 
+![Top-down vs. bottom-up recursion](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-13-top-down-bottom-up.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 13.*
+
 ## BST range property
 
 A common misreading of the BST invariant is "each node is greater than its left child and smaller than its right child". That local check is not enough. The real rule is global: *every* value in the left subtree is smaller than the node, and *every* value in the right subtree is larger. A node deep in the tree is constrained by all of its ancestors, not just its parent.
@@ -523,6 +456,10 @@ print(all(lo < v < hi for v, (lo, hi) in ranges.items()))  # False
 ```
 
 Node 6 is smaller than its parent 15, so a parent-only check passes, but it sits in 10's right subtree and must be greater than 10. Thinking in ranges catches this; it also explains why a BST's in-order traversal must be strictly increasing.
+
+![BST range property](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-14-bst-range-property.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 14.*
 
 ## Floor, ceiling, and next key
 
@@ -577,6 +514,10 @@ print(higher_key(root, 6), higher_key(root, 14))  # 8 None
 
 Each query is O(h): O(log N) on a balanced tree. Python has no built-in balanced BST, so in practice you get the same queries on a sorted list with `bisect` (O(log N) lookup, O(N) insert) or from a library such as `sortedcontainers`.
 
+![Floor, ceiling, and next key](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-15-floor-ceiling.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 15.*
+
 ## Tree rotations
 
 AVL and Red-Black trees keep height O(log N) using one primitive: the **rotation**. A rotation re-hangs a parent and child so the child moves up one level and the parent moves down, while keeping in-order (sorted) order exactly the same. It only rewires three pointers, so it is O(1).
@@ -622,6 +563,10 @@ print(inorder(rotate_left(fixed)))  # [10, 20, 30]
 ```
 
 You will rarely implement a full AVL or Red-Black tree in an interview, but you should be able to draw a rotation, explain that it preserves the BST order, and explain that the balancing rules decide *when* to rotate.
+
+![Tree rotations](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-16-rotations.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 16.*
 
 ## Recursive vs. iterative DFS
 
@@ -674,6 +619,10 @@ print(len(inorder_iter(deep)))  # 5000
 
 Both versions are O(N) time and O(h) extra space. The trade-off is clarity versus robustness: start with recursion in an interview, then mention the explicit-stack version when depth could be large.
 
+![Recursive vs. iterative DFS](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-17-recursive-vs-iterative.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 17.*
+
 ## Tree serialization
 
 To save a tree to a file or send it over the network you must flatten it into a sequence and later rebuild exactly the same shape. A plain pre-order list of values is not enough: the trees `1 -> left 2` and `1 -> right 2` both produce `[1, 2]`. The fix is to record the empty children too. A pre-order walk that writes a marker (here `#`) for every `None` produces a sequence that maps to exactly one tree.
@@ -721,6 +670,10 @@ print(serialize(deserialize(s)) == s)  # True
 
 A tree with N nodes has N + 1 null slots, so the output has 2N + 1 tokens: O(N) time and space both ways. Level-order with markers (the format many online judges display) works too; pick pre-order when you want the simplest recursive code.
 
+![Tree serialization](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-18-serialization.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 18.*
+
 ## N-ary trees
 
 Not every tree is binary. File systems, organisation charts, the HTML DOM, and parsed JSON are **N-ary** trees: each node can have any number of children. Represent them with a `children` list. Every traversal idea carries over: pre-order visits the node then each child, post-order visits every child then the node, and level-order uses the same queue. Only in-order has no natural meaning, because there is no single "middle" to visit between two children.
@@ -767,3 +720,7 @@ print(level_names(fs))  # ['/', 'docs', 'img', 'readme', 'a.txt', 'b.txt', 'c.pn
 ```
 
 Any N-ary tree can also be stored as a binary tree using the "first child, next sibling" encoding (left pointer = first child, right pointer = next sibling), which is how some older file systems and compilers store them. You mostly need to recognise it, not implement it.
+
+![N-ary trees](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-19-n-ary-trees.png)
+
+*Source: [`diagrams/trees.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees.drawio), page 19.*

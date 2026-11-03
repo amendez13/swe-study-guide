@@ -33,6 +33,10 @@ print(" ".join(ino(root)))   # A B C D E F G H I
 print(" ".join(post(root)))  # A C E D B H I G F
 ```
 
+![Trace it: three depth-first orders](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-1-three-orders.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 1.*
+
 ## Sorted input, sorry tree
 
 You insert the keys 1 through 7, in that order, into a plain (non-balancing) BST. What is the height, and what does a search for 7 cost? Then insert the same keys in the order 4, 2, 6, 1, 3, 5, 7. What changes?
@@ -72,6 +76,10 @@ for order in ([1, 2, 3, 4, 5, 6, 7], [4, 2, 6, 1, 3, 5, 7]):
     print(height(root), visits(root, 7))
 # prints 6 7, then 2 3
 ```
+
+![Sorted input, sorry tree](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-2-sorted-input.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 2.*
 
 ## Bug hunt: the insert that loses nodes
 
@@ -113,6 +121,10 @@ for v in [5, 3, 8]:
 print(inorder(root))  # [3, 5, 8]
 ```
 
+![Bug hunt: the insert that loses nodes](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-3-lost-insert.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 3.*
+
 ## Height off by one
 
 Two teammates write `height`. One returns `0` for `None`, the other returns `-1`. What does each return for a single node, and for a root with one child? Which one matches "number of edges on the longest path"?
@@ -134,6 +146,10 @@ single, pair = T(), T(T())
 print(height_nodes(single), height_nodes(pair))  # 1 2
 print(height_edges(single), height_edges(pair))  # 0 1
 ```
+
+![Height off by one](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-4-height-convention.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 4.*
 
 ## Which traversal rebuilds the same BST?
 
@@ -177,6 +193,10 @@ for name, dump in (("in", ino), ("pre", pre), ("level", level)):
 # in False, pre True, level True (one per line)
 ```
 
+![Which traversal rebuilds the same BST?](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-5-rebuild-bst.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 5.*
+
 ## Iterative pre-order: why push right first?
 
 This explicit-stack pre-order prints the wrong order. What does it print for the tree `1 (left 2, right 3)`, and what is the fix?
@@ -216,6 +236,10 @@ print(preorder(T(1, T(2), T(3))))                       # [1, 2, 3]
 print(preorder(T(1, T(2, T(4), T(5)), T(3))))           # [1, 2, 4, 5, 3]
 ```
 
+![Iterative pre-order: why push right first?](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-6-push-right-first.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 6.*
+
 ## Deep tree, crashing recursion
 
 A config loader builds a tree from a nested file. One customer file nests 10,000 levels deep and `height(root)` raises `RecursionError`. Rewrite `height` so it works at any depth.
@@ -245,6 +269,10 @@ for _ in range(10_000):
     deep = T(deep)
 print(height_bfs(deep))  # 9999
 ```
+
+![Deep tree, crashing recursion](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-7-deep-recursion.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 7.*
 
 ## Diameter: longest path between any two nodes
 
@@ -280,6 +308,10 @@ root = T(1, T(2, T(3, T(4)), T(5, None, T(6))))
 print(diameter(root))  # 4
 ```
 
+![Diameter: longest path between any two nodes](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-8-diameter.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 8.*
+
 ## Visible nodes: carry the maximum down
 
 A node is **visible** if no node on the path from the root down to it (including the root) has a larger value. Count visible nodes in the tree below.
@@ -309,6 +341,10 @@ def visible(n, best=float("-inf")):
 root = T(3, T(1, T(3)), T(4, T(1), T(5)))
 print(visible(root))  # 4
 ```
+
+![Visible nodes: carry the maximum down](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-9-visible-nodes.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 9.*
 
 ## Price ceiling with a BST
 
@@ -347,6 +383,10 @@ print(ceiling(root, 42))  # (55, [55, 25, 40])
 print(ceiling(root, 90))  # (None, [55, 85])
 ```
 
+![Price ceiling with a BST](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-10-price-ceiling.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 10.*
+
 ## Range sum with pruning
 
 Sum every key between `lo` and `hi` (inclusive) in a BST. A full traversal works but visits every node. Use the BST order to skip whole subtrees, and count how many nodes you visit.
@@ -380,6 +420,10 @@ seen = []
 print(range_sum(root, 10, 12, seen), len(seen))  # 33 7
 ```
 
+![Range sum with pruning](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-11-range-sum.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 11.*
+
 ## k-th smallest without sorting everything
 
 Return the k-th smallest key (1-based) in a BST. The naive answer builds the full in-order list. Write a version that stops as soon as it has the answer.
@@ -408,6 +452,10 @@ def kth_smallest(root, k):
 root = T(50, T(30, T(20), T(40)), T(70, T(60), T(80)))
 print(kth_smallest(root, 3))  # (40, 3)
 ```
+
+![k-th smallest without sorting everything](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-12-kth-smallest.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 12.*
 
 ## Why the null markers matter
 
@@ -440,6 +488,10 @@ print(plain(a) == plain(b))   # True
 print(ser(a), ser(b))         # 1,2,#,#,# 1,#,2,#,#
 print(ser(de(ser(b))) == ser(b))  # True
 ```
+
+![Why the null markers matter](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-13-null-markers.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 13.*
 
 ## Rotate it by hand
 
@@ -475,6 +527,10 @@ root = rotate_left(root)
 print(root.v, root.l.v, root.r.v, ino(root), h(root))  # 20 10 30 [10, 20, 30] 1
 ```
 
+![Rotate it by hand](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-14-rotate-by-hand.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 14.*
+
 ## Folder sizes: post-order on an N-ary tree
 
 A disk-usage tool must print every folder's total size (its own files plus everything below it). Each node has a `size` (0 for folders) and a list of `children`. Which traversal fits, and what is the cost?
@@ -500,6 +556,10 @@ totals = {}
 folder_totals(root, totals)
 print(totals)  # {'util': 5, 'src': 17, '/': 20}
 ```
+
+![Folder sizes: post-order on an N-ary tree](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-15-folder-sizes.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 15.*
 
 ## Evaluate an expression tree
 
@@ -530,3 +590,7 @@ expr = T("*", T("-", T(7), T(2)), T("+", T(3), T(1)))
 print(evaluate(expr))  # 20
 print(infix(expr))     # ((7 - 2) * (3 + 1))
 ```
+
+![Evaluate an expression tree](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills-16-expression-tree.png)
+
+*Source: [`diagrams/trees-drills.drawio`](/content/07_Data_Structures_and_Algorithms/05_Trees/diagrams/trees-drills.drawio), page 16.*
