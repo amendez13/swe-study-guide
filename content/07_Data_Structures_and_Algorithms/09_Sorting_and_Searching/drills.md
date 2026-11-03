@@ -28,6 +28,10 @@ print(insertion_sort_shifts(nearly), nearly == sorted(nearly))  # 4 True
 print(insertion_sort_shifts(list(range(200, 0, -1))))  # 19900
 ```
 
+![Pick the sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-1-pick-the-sort.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 1.*
+
 ## Turtles in bubble sort
 
 Bubble sort (with the early exit on a pass that makes no swaps) is run on `[2, 3, 4, 5, 6, 1]`. How many passes does it make? What if the input is `[6, 1, 2, 3, 4, 5]`?
@@ -51,6 +55,10 @@ def bubble_passes(arr: list[int]) -> int:
 print(bubble_passes([2, 3, 4, 5, 6, 1]))  # 6
 print(bubble_passes([6, 1, 2, 3, 4, 5]))  # 2
 ```
+
+![Turtles in bubble sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-2-turtles-in-bubble-sort.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 2.*
 
 ## Bug hunt: unstable merge
 
@@ -89,11 +97,15 @@ rows = [(2, "ana"), (1, "bo"), (2, "cy"), (1, "di")]
 print(merge_sort(rows))  # [(1, 'bo'), (1, 'di'), (2, 'ana'), (2, 'cy')]
 ```
 
+![Bug hunt: unstable merge](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-3-bug-hunt-unstable-merge.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 3.*
+
 ## Sorted input, last-element pivot
 
 A quick sort always takes the last element of the range as the pivot (Lomuto). Roughly how many comparisons does it make on an already sorted array of 1,000 items versus a shuffled one, and what is the one-line fix?
 
-**Answer:** On sorted input the last element is the maximum, so every partition peels off just one element: (N-1) + (N-2) + ... = N(N-1)/2 ≈ 500,000 comparisons, and the recursion goes N deep. A shuffled array splits roughly in half each time, about 1.39·N·log2 N ≈ 11,000 to 14,000 comparisons. Swap a random element into the last slot before partitioning and the sorted case behaves like the shuffled one.
+**Answer:** On sorted input the last element is the maximum, so every partition peels off just one element: (N-1) + (N-2) + ... = N(N-1)/2 ≈ 500,000 comparisons, and the recursion goes N deep. A shuffled array splits roughly in half each time, about 11,000 comparisons on average (the leading term 1.39·N·log2 N ≈ 14,000 overestimates at this size). Swap a random element into the last slot before partitioning and the sorted case behaves like the shuffled one.
 
 ```python
 import random
@@ -121,6 +133,10 @@ print(quicksort_count(list(range(1000)), randomize=False))  # 499500
 print(quicksort_count(list(range(1000)), randomize=True) < 20000)  # True
 ```
 
+![Sorted input, last-element pivot](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-4-sorted-input-last-element-pivot.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 4.*
+
 ## Is selection sort stable?
 
 Selection sort is run on `[(2, "a"), (2, "b"), (1, "c")]`, comparing only the number. Show the result and say whether selection sort is stable.
@@ -138,6 +154,10 @@ selection_sort(rows)
 print(rows)  # [(1, 'c'), (2, 'b'), (2, 'a')]
 ```
 
+![Is selection sort stable?](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-5-is-selection-sort-stable.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 5.*
+
 ## Six comparisons for five items
 
 A colleague claims a clever comparison sort that orders any 5 distinct values using at most 6 comparisons. Without seeing the code, show that the claim is impossible, and give the minimum worst-case comparisons the bound allows.
@@ -153,6 +173,10 @@ def min_comparisons(n: int) -> int:
 print(2 ** 6, math.factorial(5))  # 64 120
 print([min_comparisons(n) for n in range(1, 9)])  # [0, 1, 3, 5, 7, 10, 13, 16]
 ```
+
+![Six comparisons for five items](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-6-six-comparisons-for-five-items.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 6.*
 
 ## Bug hunt: binary search never ends
 
@@ -188,6 +212,10 @@ print(first_at_least([1, 3, 3, 8], 4))  # 3
 print(first_at_least([1, 3], 9))  # 2
 ```
 
+![Bug hunt: binary search never ends](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-7-bug-hunt-binary-search-never-ends.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 7.*
+
 ## Count in a sorted array
 
 A sorted list holds a million order totals in cents. How do you count how many orders are exactly 1999 cents, and how many fall in the range 1000 to 4999 inclusive, both in O(log N)?
@@ -210,6 +238,10 @@ print(count_range(totals, 1000, 4999))  # 6
 print(count_value(totals, 1234))  # 0
 ```
 
+![Count in a sorted array](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-8-count-in-a-sorted-array.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 8.*
+
 ## Integer square root
 
 Without `math.isqrt` or floating point, return the largest integer `r` with `r * r <= n` for any `n >= 0`, in O(log n) steps.
@@ -230,6 +262,10 @@ def isqrt(n: int) -> int:
 print(isqrt(0), isqrt(1), isqrt(15), isqrt(16), isqrt(17))  # 0 1 3 4 4
 print(isqrt(10**30 + 5))  # 1000000000000000
 ```
+
+![Integer square root](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-9-integer-square-root.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 9.*
 
 ## Split into D days
 
@@ -260,6 +296,10 @@ print(min_busiest_day([4, 7, 2, 5, 8, 3], 3))  # 11
 print(min_busiest_day([4, 7, 2, 5, 8, 3], 1))  # 29
 ```
 
+![Split into D days](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-10-split-into-d-days.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 10.*
+
 ## Three status codes in one pass
 
 An array holds only the status codes `0` (queued), `1` (running), and `2` (done). Sort it in place in a single pass with O(1) extra space.
@@ -285,6 +325,10 @@ sort_status(codes)
 print(codes)  # [0, 0, 0, 1, 1, 2, 2, 2]
 ```
 
+![Three status codes in one pass](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-11-three-status-codes-in-one-pass.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 11.*
+
 ## Median without sorting
 
 Find the median of an odd-length unsorted list of latencies in expected O(N) time. Why is that better than sorting, and when would a heap of size k be the better tool?
@@ -308,6 +352,10 @@ latencies = [120, 35, 98, 210, 64, 35, 77]
 print(kth_smallest(latencies, len(latencies) // 2))  # 77
 print(sorted(latencies)[3])  # 77
 ```
+
+![Median without sorting](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-12-median-without-sorting.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 12.*
 
 ## Counting sort by age
 
@@ -333,6 +381,10 @@ people = [{"id": 1, "age": 34}, {"id": 2, "age": 19}, {"id": 3, "age": 34}, {"id
 print([p["id"] for p in sort_by_age(people)])  # [4, 2, 1, 3]
 ```
 
+![Counting sort by age](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-13-counting-sort-by-age.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 13.*
+
 ## Radix pass by pass
 
 Run LSD radix sort (base 10) on `[512, 38, 271, 94, 106, 45]`. Write the array after the ones pass, the tens pass, and the hundreds pass.
@@ -356,6 +408,10 @@ radix_passes([512, 38, 271, 94, 106, 45])
 # [38, 45, 94, 106, 271, 512]
 ```
 
+![Radix pass by pass](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-14-radix-pass-by-pass.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 14.*
+
 ## Leaderboard order
 
 Sort leaderboard rows `(name, points)` by points high to low, breaking ties by name A to Z. Then do it again with ties broken by name Z to A.
@@ -370,6 +426,10 @@ print(sorted(rows, key=lambda r: (-r[1], r[0])))  # [('ann', 55), ('bob', 55), (
 by_name_desc = sorted(rows, key=lambda r: r[0], reverse=True)
 print(sorted(by_name_desc, key=lambda r: r[1], reverse=True))  # [('bob', 55), ('ann', 55), ('zed', 40), ('mia', 40), ('kai', 40)]
 ```
+
+![Leaderboard order](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-15-leaderboard-order.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 15.*
 
 ## Merge sorted server logs
 
@@ -396,3 +456,7 @@ b = [(3, "b-boot"), (4, "b-warn"), (9, "b-ok")]
 c = [(2, "c-boot")]
 print([msg for _, msg in merge_logs([a, b, c])])  # ['a-boot', 'c-boot', 'b-boot', 'b-warn', 'a-ok', 'b-ok']
 ```
+
+![Merge sorted server logs](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills-16-merge-sorted-server-logs.png)
+
+*Source: [`diagrams/sorting-and-searching-drills.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-drills.drawio), page 16.*

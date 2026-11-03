@@ -22,6 +22,10 @@ bubble_sort(data)
 print(data)  # [1, 2, 3, 5, 8]
 ```
 
+![Bubble sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-1-bubble-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 1.*
+
 ## Selection sort
 
 Selection sort divides the array into a sorted prefix and an unsorted suffix. On each pass, it scans the unsorted portion to find the minimum element, then swaps it into the next position of the sorted prefix. This continues until every element has been placed.
@@ -43,6 +47,10 @@ data = [29, 10, 14, 37, 13]
 selection_sort(data)
 print(data)  # [10, 13, 14, 29, 37]
 ```
+
+![Selection sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-2-selection-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 2.*
 
 ## Insertion sort
 
@@ -66,43 +74,19 @@ insertion_sort(data)
 print(data)  # [1, 2, 3, 4, 5, 6]
 ```
 
+![Insertion sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-3-insertion-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 3.*
+
 ## Merge sort
 
 Merge sort splits the array in half, recursively sorts each half, then merges the two sorted halves back together. The merge step walks two pointers through the sorted halves, always picking the smaller element, producing a fully sorted result in O(N) time per level. With O(log N) levels of recursion, total time is O(N log N) in all cases. The tradeoff is O(N) auxiliary space for the temporary arrays during merging.
 
 Merge sort is the go-to when you need guaranteed O(N log N) performance and stability. It is also the natural choice for sorting linked lists (where the space overhead disappears) and for external sorting of data that does not fit in memory. Its memory cost depends on the container: O(N) extra for arrays, but only the O(log N) recursion stack when merging linked-list nodes by relinking them.
 
-```mermaid
-flowchart TD
-    A["[38, 27, 43, 3, 9, 82, 10]"] --> B["[38, 27, 43, 3]"]
-    A --> C["[9, 82, 10]"]
-    B --> D["[38, 27]"]
-    B --> E["[43, 3]"]
-    C --> F["[9, 82]"]
-    C --> G["[10]"]
-    D --> D1["[38]"]
-    D --> D2["[27]"]
-    E --> E1["[43]"]
-    E --> E2["[3]"]
-    F --> F1["[9]"]
-    F --> F2["[82]"]
+![Merge sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-4-merge-sort.png)
 
-    D1 --> M1["merge → [27, 38]"]
-    D2 --> M1
-    E1 --> M2["merge → [3, 43]"]
-    E2 --> M2
-    F1 --> M3["merge → [9, 82]"]
-    F2 --> M3
-    G --> M4["[10]"]
-
-    M1 --> M5["merge → [3, 27, 38, 43]"]
-    M2 --> M5
-    M3 --> M6["merge → [9, 10, 82]"]
-    M4 --> M6
-
-    M5 --> M7["merge → [3, 9, 10, 27, 38, 43, 82]"]
-    M6 --> M7
-```
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 4.*
 
 ```python
 def merge_sort(arr: list[int]) -> list[int]:
@@ -141,23 +125,9 @@ Quick sort picks a pivot element, partitions the array so that all elements less
 
 Space is O(log N) for the recursion stack on average, but a run of bad pivots can nest N deep; recursing into the smaller partition first and looping on the larger one caps the stack at O(log N) even then. Quick sort is typically faster than merge sort in practice due to better cache locality and lower constant factors, which is why it is the basis of many standard library sort implementations.
 
-```mermaid
-flowchart TD
-    A["[3, 7, 2, 8, 1, 5, 4] pivot=4"] --> P["Partition around 4"]
-    P --> L["left: [3, 2, 1]"]
-    P --> PIV["[4]"]
-    P --> R["right: [7, 8, 5]"]
+![Quick sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-5-quick-sort.png)
 
-    L --> LP["pivot=1 → [], [1], [3, 2]"]
-    R --> RP["pivot=5 → [], [5], [7, 8]"]
-
-    LP --> LS["[1, 2, 3]"]
-    RP --> RS["[5, 7, 8]"]
-
-    LS --> FINAL["[1, 2, 3, 4, 5, 7, 8]"]
-    PIV --> FINAL
-    RS --> FINAL
-```
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 5.*
 
 ```python
 import random
@@ -235,6 +205,10 @@ print(partition3(data, 4), data)  # (2, 4) [2, 1, 4, 4, 4, 7, 9]
 
 The invariant is what to remember: `arr[:lt]` is smaller, `arr[lt:i]` equals the pivot, `arr[i:gt+1]` is unexamined, and `arr[gt+1:]` is larger.
 
+![Partition schemes](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-6-partition-schemes.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 6.*
+
 ## Heap sort
 
 Heap sort turns the array into a max-heap in O(N) time (sift down from the last parent to the root), then repeatedly swaps the root (the maximum) to the end of the unsorted region and sifts the new root down. Each of the N extractions costs O(log N), so time is O(N log N) in every case with O(1) extra space.
@@ -266,6 +240,10 @@ heap_sort(data)
 print(data)  # [1, 2, 3, 5, 6, 9]
 ```
 
+![Heap sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-7-heap-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 7.*
+
 ## Counting sort
 
 When keys are small integers in a known range `0..K`, you can skip comparisons: count how often each key occurs, turn the counts into starting positions with a prefix sum, then place each record at its position. Time and space are O(N + K).
@@ -290,6 +268,10 @@ def counting_sort(records: list[tuple[int, str]], max_key: int) -> list[tuple[in
 
 print(counting_sort([(3, "c"), (1, "a"), (3, "d"), (0, "z")], 3))  # [(0, 'z'), (1, 'a'), (3, 'c'), (3, 'd')]
 ```
+
+![Counting sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-8-counting-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 8.*
 
 ## Radix sort
 
@@ -339,6 +321,10 @@ def _counting_sort_by_digit(arr: list[int], exp: int) -> list[int]:
 print(radix_sort([170, 45, 75, 90, 802, 24, 2, 66]))  # [2, 24, 45, 66, 75, 90, 170, 802]
 ```
 
+![Radix sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-9-radix-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 9.*
+
 ## Bucket sort
 
 Bucket sort scatters values into B buckets by range (for floats in `[0, 1)`, bucket `int(x * B)`), sorts each bucket with a simple sort, and concatenates the buckets in order. If the input is roughly uniform, each bucket holds O(1) items on average and the whole thing runs in O(N + B) expected time.
@@ -360,11 +346,19 @@ def bucket_sort(values: list[float], buckets: int = 4) -> list[float]:
 print(bucket_sort([0.42, 0.07, 0.91, 0.33, 0.58, 0.12]))  # [0.07, 0.12, 0.33, 0.42, 0.58, 0.91]
 ```
 
+![Bucket sort](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-10-bucket-sort.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 10.*
+
 ## Comparison sort lower bound
 
 No comparison-based sorting algorithm can do better than O(N log N) in the worst case. This is a fundamental theoretical result, not a limitation of any particular algorithm. The proof uses the decision tree model: any comparison-based sort can be modeled as a binary tree where each internal node is a comparison and each leaf is a permutation of the input. Since there are N! possible permutations, the tree needs at least N! leaves. A binary tree with N! leaves has height at least log2(N!) = O(N log N) by Stirling's approximation.
 
 This is why merge sort and heap sort are optimal comparison-based sorts. It also explains why non-comparison sorts like radix sort and counting sort can beat the bound: they exploit structure in the keys (like digit positions or bounded range) rather than relying solely on pairwise comparisons.
+
+![Comparison sort lower bound](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-11-comparison-sort-lower-bound.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 11.*
 
 ## Stability
 
@@ -390,6 +384,10 @@ by_grade = sorted(by_name, key=itemgetter(1))
 print(by_grade)  # [('Bob', 'A'), ('Dave', 'A'), ('Alice', 'B'), ('Carol', 'B')]
 ```
 
+![Stability](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-12-stability.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 12.*
+
 ## Custom sort keys
 
 Python sorts by comparing whole values, so most "sort by X then Y" tasks reduce to choosing a key. A key function maps each item to something whose natural order is the order you want; tuples compare element by element, which gives multi-key ordering for free. Negate a numeric field to flip just that field. For a field you cannot negate (like a string you want descending), either sort twice relying on stability (secondary key first, then primary) or fall back to `functools.cmp_to_key` with a three-way compare.
@@ -412,6 +410,10 @@ def by_len_then_reverse(a: str, b: str) -> int:
 
 print(sorted(["bb", "a", "cc", "c"], key=cmp_to_key(by_len_then_reverse)))  # ['c', 'a', 'cc', 'bb']
 ```
+
+![Custom sort keys](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-13-custom-sort-keys.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 13.*
 
 ## Quickselect
 
@@ -450,20 +452,19 @@ scores = [71, 15, 88, 42, 63, 9, 50]
 print(quickselect(scores, 0), quickselect(scores, 3), quickselect(scores, 6))  # 9 50 88
 ```
 
+![Quickselect](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-14-quickselect.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 14.*
+
 ## Binary search
 
 Binary search finds a target value in a sorted array by repeatedly halving the search range. Compare the target with the middle element: if equal, you are done; if less, search the left half; if greater, search the right half. Each step eliminates half the remaining elements, giving O(log N) time and O(1) space.
 
 The iterative implementation is preferred in interviews because it avoids recursion overhead and stack depth concerns. The classic bug is getting the boundary conditions wrong. Use `lo = 0`, `hi = len(arr) - 1`, and the loop condition `lo <= hi`. Update `lo = mid + 1` or `hi = mid - 1` (never just `mid`) to avoid infinite loops.
 
-```mermaid
-flowchart TD
-    A["[2, 5, 8, 12, 16, 23, 38, 56, 72, 91] target=23"]
-    A --> B["lo=0 hi=9 mid=4 → arr[4]=16 < 23"]
-    B --> C["lo=5 hi=9 mid=7 → arr[7]=56 > 23"]
-    C --> D["lo=5 hi=6 mid=5 → arr[5]=23 == 23"]
-    D --> E["Found at index 5"]
-```
+![Binary search](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-15-binary-search.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 15.*
 
 ```python
 def binary_search(arr: list[int], target: int) -> int:
@@ -514,6 +515,10 @@ print(first, last)  # 1 3
 print(lower_bound(data, 6), bisect.bisect_left(data, 2))  # 7 1
 ```
 
+![Lower and upper bound](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-16-lower-and-upper-bound.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 16.*
+
 ## Rotated sorted array
 
 A sorted array rotated at an unknown point (for example `[4, 5, 6, 7, 0, 1, 2]`) is no longer globally sorted, but binary search still works because at least one half around `mid` is always in order. Check which half is sorted by comparing its endpoints, test whether the target lies inside that sorted half's range, and discard the other half accordingly. Time stays O(log N).
@@ -546,6 +551,10 @@ print(search_rotated(rotated, 0))  # 4
 print(search_rotated(rotated, 3))  # -1
 ```
 
+![Rotated sorted array](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-17-rotated-sorted-array.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 17.*
+
 ## Binary search on the answer
 
 Binary search does not need an array. It needs a **monotone predicate**: a yes/no question about a candidate value that is false up to some threshold and true from then on (or the reverse). If you can check one candidate quickly, you can find the threshold in O(log R) checks, where R is the size of the candidate range.
@@ -569,6 +578,10 @@ print(first_true(1, 1001, lambda size: -(-1000 // size) <= 7))  # 143
 ```
 
 The loop shape (half-open `[lo, hi)`, `lo < hi`, `hi = mid`, `lo = mid + 1`) always terminates and is the same one used for lower bound.
+
+![Binary search on the answer](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-18-binary-search-on-the-answer.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 18.*
 
 ## Merging sorted sequences
 
@@ -597,6 +610,10 @@ print(merge_two([1, 4, 9], [2, 3, 10, 11]))  # [1, 2, 3, 4, 9, 10, 11]
 print(list(heapq.merge([5, 20], [1, 30], [8, 9])))  # [1, 5, 8, 9, 20, 30]
 ```
 
+![Merging sorted sequences](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-19-merging-sorted-sequences.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 19.*
+
 ## Sorting algorithm comparison
 
 Choosing the right sort depends on input size, whether the data is nearly sorted, memory constraints, whether stability is required, and whether keys are small integers. The table summarizes the algorithms on this page.
@@ -617,3 +634,7 @@ Choosing the right sort depends on input size, whether the data is nearly sorted
 \* Stable when each bucket is sorted with a stable sort.
 
 In practice: insertion sort for tiny or nearly sorted arrays; merge sort (or Timsort) when stability and a guaranteed O(N log N) matter; quick sort with random pivots and three-way partitioning for general in-memory sorting; heap sort when you need O(1) extra space and a hard worst case; counting or radix sort for large volumes of small or fixed-width integer keys. In Python, default to `sorted()` / `list.sort()` with a `key=` and only hand-roll a sort when the question is about the algorithm itself.
+
+![Sorting algorithm comparison](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching-20-sorting-algorithm-comparison.png)
+
+*Source: [`diagrams/sorting-and-searching.drawio`](/content/07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/diagrams/sorting-and-searching.drawio), page 20.*
