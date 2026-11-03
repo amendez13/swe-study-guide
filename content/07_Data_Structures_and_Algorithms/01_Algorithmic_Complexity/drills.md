@@ -297,7 +297,7 @@ print(count_paths_memo.cache_info().misses)  # 11: steps 0..10, once each
 
 ## Permutation branching → factorial class
 
-`permutations` recurses over every choice of next character. What interview-class bound for the leaves?
+`permutations` lists every ordering of `chars`: it picks each character in turn as the first one, then recurses on the characters that are left. Each base-case call (a leaf of the recursion tree) finishes one permutation. For N characters, how many leaves are there, which complexity class (polynomial, exponential, factorial) does the running time fall in, and how much extra space does it use besides the output?
 
 ```python
 def permutations(chars: list[str]) -> list[list[str]]:
@@ -311,7 +311,7 @@ def permutations(chars: list[str]) -> list[list[str]]:
     return out
 ```
 
-**Answer:** Time in the Θ(N!) class for interviews (N! leaves; tree work is larger by a polynomial factor you drop). Space O(N) for the call stack besides the output.
+**Answer:** N! leaves: N choices for the first character, N − 1 for the second, down to 1 for the last. Each permutation also costs O(N) to build, so the work is about N · N!; interviews drop the polynomial factor and call it the Θ(N!) class. The recursion is only N levels deep, but every level keeps its own `rest` slice (N − 1, N − 2, ... characters), so extra space is O(N²) besides the N! output lists.
 
 ```python
 def leaf_count(n: int) -> int:
