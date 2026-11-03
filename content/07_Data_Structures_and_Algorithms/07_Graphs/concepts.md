@@ -4,15 +4,9 @@ A graph is a set of vertices V joined by a set of edges E. Nothing forces a hier
 
 The degree of a vertex is the number of edges touching it. In an undirected graph the degrees always sum to 2E, because every edge is counted once at each end. A tree is the special case of a connected, acyclic, undirected graph with exactly V - 1 edges; linked lists and arrays are even narrower special cases. Complexity for graph algorithms is quoted in both V and E, because a graph can be sparse (E close to V) or dense (E close to V^2).
 
-```mermaid
-graph LR
-    A((A)) --- B((B))
-    A --- C((C))
-    B --- D((D))
-    B --- E((E))
-    C --- E
-    D --- E
-```
+![Graph basics](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-1-graph-basics.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 1.*
 
 ## Directed vs. undirected
 
@@ -20,35 +14,17 @@ In an undirected graph an edge between A and B can be walked either way. In a di
 
 The choice changes the algorithms. Directed graphs track in-degree and out-degree separately, reachability is no longer symmetric, and cycle detection needs a different test. When you store an undirected graph in an adjacency list, add each edge in both directions; forgetting the reverse entry is a classic bug.
 
-```mermaid
-graph LR
-    subgraph Undirected
-        U1((A)) --- U2((B))
-        U2 --- U3((C))
-        U3 --- U1
-    end
+![Directed vs. undirected](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-2-directed-vs-undirected.png)
 
-    subgraph Directed
-        D1((A)) --> D2((B))
-        D2 --> D3((C))
-        D3 --> D1
-        D1 --> D3
-    end
-```
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 2.*
 
 ## Weighted vs. unweighted
 
 In a weighted graph every edge carries a number: distance, time, cost, or capacity. In an unweighted graph every edge counts as one step. Weights decide which shortest-path tool applies: BFS counts hops, so it is only correct when every edge costs the same; once costs differ you need Dijkstra (non-negative weights) or Bellman-Ford (negative weights allowed).
 
-```mermaid
-graph LR
-    A((A)) ---|4| B((B))
-    A ---|2| C((C))
-    B ---|5| D((D))
-    C ---|1| D
-    C ---|8| E((E))
-    D ---|3| E
-```
+![Weighted vs. unweighted](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-3-weighted-vs-unweighted.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 3.*
 
 Weights live next to the endpoints: an adjacency list stores `(neighbor, weight)` pairs, and an adjacency matrix stores the weight in the cell instead of a 1.
 
@@ -84,6 +60,10 @@ weighted["A"].append(("C", 2))
 print(weighted["A"])  # [('B', 4), ('C', 2)]
 ```
 
+![Adjacency list](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-4-adjacency-list.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 4.*
+
 ## Adjacency matrix
 
 An adjacency matrix is a V x V grid where cell `[i][j]` holds 1 (or the edge weight) when there is an edge from vertex i to vertex j, and 0 otherwise. Edge lookup is O(1), but space is always O(V^2) and listing one vertex's neighbors costs O(V) even if it has two of them.
@@ -108,6 +88,10 @@ print([names[j] for j, bit in enumerate(matrix[idx["A"]]) if bit])  # ['B', 'C']
 | Edge check | O(degree), O(1) with sets | O(1) |
 | All neighbors of v | O(degree) | O(V) |
 | Best for | Sparse graphs, traversals | Dense or small graphs, all-pairs |
+
+![Adjacency matrix](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-5-adjacency-matrix.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 5.*
 
 ## Edge lists and implicit graphs
 
@@ -135,6 +119,10 @@ print(list(grid_neighbors(0, 0, 3, 3)))  # [(1, 0), (0, 1)]
 print(sorted(lock_neighbors("0000"))[:3])  # ['0001', '0009', '0010']
 ```
 
+![Edge lists and implicit graphs](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-6-edge-lists-and-implicit-graphs.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 6.*
+
 ## Visited set
 
 Graphs can contain cycles, so every traversal needs a record of vertices it has already reached. Without it, DFS recurses forever and BFS refills its queue forever. The visited set is also what makes BFS and DFS O(V + E): each vertex is processed once and each edge is examined once (twice for undirected).
@@ -161,20 +149,19 @@ cycle = {0: [1], 1: [2], 2: [0, 3], 3: []}
 print(sorted(reachable(cycle, 0)))  # [0, 1, 2, 3]
 ```
 
+![Visited set](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-7-visited-set.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 7.*
+
 ## Depth-first search (DFS)
 
 DFS follows one neighbor as far as it can, then backtracks to try the next. It uses the call stack (recursion) or an explicit stack, and runs in O(V + E) time with O(V) space for the visited set and the stack. DFS is the engine behind cycle detection, topological sort, connected components, and "is there any path" questions.
 
 Python's default recursion limit is about 1000 frames, so a long chain (or a large grid) can crash recursive DFS. The iterative version pushes neighbors in reverse so it visits them in the same order as the recursive one.
 
-```mermaid
-graph TD
-    A((A<br/>1)) --> B((B<br/>2))
-    A --> C((C<br/>5))
-    B --> D((D<br/>3))
-    B --> E((E<br/>4))
-    C --> F((F<br/>6))
-```
+![Depth-first search (DFS)](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-8-depth-first-search-dfs.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 8.*
 
 The numbers show visit order: A goes deep through B, D, and E before backtracking to C and F.
 
@@ -221,15 +208,9 @@ BFS visits every vertex at distance 1 from the start, then every vertex at dista
 
 The ring-by-ring order is the whole point: the first time BFS reaches a vertex, it has used the fewest possible edges. Use `collections.deque`; `list.pop(0)` is O(N) and turns BFS quadratic.
 
-```mermaid
-graph TD
-    A((A<br/>L0)) --> B((B<br/>L1))
-    A --> C((C<br/>L1))
-    B --> D((D<br/>L2))
-    B --> E((E<br/>L2))
-    C --> F((F<br/>L2))
-    C --> G((G<br/>L2))
-```
+![Breadth-first search (BFS)](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-9-breadth-first-search-bfs.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 9.*
 
 ```python
 from collections import deque
@@ -292,6 +273,10 @@ print(shortest_path(graph, "A", "F"))  # ['A', 'B', 'D', 'F']
 print(shortest_path(graph, "E", "A"))  # None
 ```
 
+![BFS shortest path](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-10-bfs-shortest-path.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 10.*
+
 ## Multi-source BFS
 
 When the question is "how far is every cell from the nearest X", do not run one BFS per X. Put every source in the queue at distance 0 and run a single BFS. The rings now grow from all sources at once, so each vertex is first reached by its closest source. Total cost stays O(V + E) instead of O(S * (V + E)).
@@ -326,6 +311,10 @@ for row in distance_to_nearest(["S..", ".#.", "..S"]):
 # [1, -1, 1]
 # [2, 1, 0]
 ```
+
+![Multi-source BFS](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-11-multi-source-bfs.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 11.*
 
 ## Bidirectional search
 
@@ -374,6 +363,10 @@ ring = {str(i): [str((i - 1) % 8), str((i + 1) % 8)] for i in range(8)}
 print(bidirectional_path(ring, "0", "3"))  # ['0', '1', '2', '3']
 ```
 
+![Bidirectional search](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-12-bidirectional-search.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 12.*
+
 ## Connected components
 
 An undirected graph is connected when every vertex can reach every other. Otherwise it splits into connected components: maximal groups of mutually reachable vertices. Count them by looping over all vertices and starting a BFS or DFS from each one not yet visited; each new start is a new component. The whole sweep is O(V + E), because the shared visited set means nothing is explored twice.
@@ -405,6 +398,10 @@ def count_components(n: int, edges: list[tuple[int, int]]) -> int:
 
 print(count_components(6, [(0, 1), (1, 2), (3, 4)]))  # 3
 ```
+
+![Connected components](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-13-connected-components.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 13.*
 
 ## Cycle detection
 
@@ -455,6 +452,10 @@ print(has_cycle_undirected({0: [1], 1: [0, 2], 2: [1]}))  # False
 print(has_cycle_undirected({0: [1, 2], 1: [0, 2], 2: [0, 1]}))  # True
 ```
 
+![Cycle detection](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-14-cycle-detection.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 14.*
+
 ## Bipartite check
 
 A graph is bipartite when its vertices can be split into two groups so that every edge crosses between the groups. Equivalently, it can be 2-colored, and equivalently it has no odd-length cycle. Scheduling "these two cannot be on the same team" constraints is a bipartite question.
@@ -489,22 +490,19 @@ print(two_color(square))  # {0: 0, 1: 1, 3: 1, 2: 0}
 print(two_color(triangle))  # None
 ```
 
+![Bipartite check](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-15-bipartite-check.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 15.*
+
 ## Topological sort
 
 A topological order lists the vertices of a directed acyclic graph (DAG) so that every edge points from earlier to later. Build steps, course prerequisites, and spreadsheet recalculation all need one. A graph with a cycle has no topological order, and a DAG usually has many.
 
 Kahn's algorithm repeatedly removes a vertex with in-degree 0 and lowers its neighbors' in-degrees; if fewer than V vertices come out, there is a cycle. The DFS version appends each vertex after all its descendants finish and reverses that post-order. Both are O(V + E). Swap Kahn's queue for a min-heap when you need the lexicographically smallest order.
 
-```mermaid
-graph LR
-    A((A)) --> B((B))
-    A --> C((C))
-    B --> D((D))
-    C --> D
-    C --> E((E))
-    D --> F((F))
-    E --> F
-```
+![Topological sort](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-16-topological-sort.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 16.*
 
 ```python
 from collections import deque
@@ -597,6 +595,10 @@ print(dict(sorted(dist.items())))  # {'A': 0, 'B': 3, 'C': 2, 'D': 6, 'E': 4}
 print(path_to(prev, "E"))  # ['A', 'C', 'B', 'E']
 ```
 
+![Dijkstra's algorithm](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-17-dijkstras-algorithm.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 17.*
+
 ## Choosing a shortest-path algorithm
 
 Pick the tool from the edge weights, not from habit. Running Dijkstra on an unweighted graph works but wastes a log factor; running BFS on a weighted graph gives wrong answers.
@@ -636,6 +638,10 @@ g = {"A": [("B", 1), ("C", 0)], "B": [("D", 0)], "C": [("D", 1)], "D": []}
 print(dict(sorted(zero_one_bfs(g, "A").items())))  # {'A': 0, 'B': 1, 'C': 0, 'D': 1}
 ```
 
+![Choosing a shortest-path algorithm](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-18-choosing-a-shortest-path-algorithm.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 18.*
+
 ## Union-find
 
 Union-find (disjoint set union) tracks which vertices are already connected as undirected edges arrive one at a time. Each set has a representative root; `find` walks up parent pointers to it, and `union` hangs one root under the other. With path compression and union by size, both operations run in near-constant amortized time (inverse Ackermann).
@@ -671,3 +677,7 @@ d = DSU(5)
 print(d.union(0, 1), d.union(1, 2), d.union(0, 2))  # True True False
 print(d.groups)  # 3
 ```
+
+![Union-find](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-19-union-find.png)
+
+*Source: [`diagrams/graphs.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs.drawio), page 19.*

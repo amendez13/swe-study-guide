@@ -18,6 +18,10 @@ print(adj_list)  # 400000
 print(matrix // adj_list)  # 25000
 ```
 
+![Pick the representation](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-1-pick-the-representation.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 1.*
+
 ## Trace BFS order
 
 Undirected edges: 1-2, 1-3, 2-4, 3-4, 4-5, 3-6. Neighbors are visited in increasing order. Write the BFS visit order from vertex 1 and the distance of each vertex.
@@ -48,6 +52,10 @@ print(order)  # [1, 2, 3, 4, 6, 5]
 print(dist)   # {1: 0, 2: 1, 3: 1, 4: 2, 6: 2, 5: 3}
 ```
 
+![Trace BFS order](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-2-trace-bfs-order.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 2.*
+
 ## Trace DFS order
 
 Same graph as the BFS card (edges 1-2, 1-3, 2-4, 3-4, 4-5, 3-6, neighbors in increasing order). Write the recursive DFS visit order from vertex 1. Why does it differ from BFS?
@@ -75,6 +83,10 @@ def dfs(edges: list[tuple[int, int]], start: int) -> list[int]:
 
 print(dfs([(1, 2), (1, 3), (2, 4), (3, 4), (4, 5), (3, 6)], 1))  # [1, 2, 4, 3, 6, 5]
 ```
+
+![Trace DFS order](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-3-trace-dfs-order.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 3.*
 
 ## Bug hunt: mark on dequeue
 
@@ -123,6 +135,10 @@ print(count_pushes(k6, 0, mark_on_enqueue=False))  # 16
 print(count_pushes(k6, 0, mark_on_enqueue=True))   # 6
 ```
 
+![Bug hunt: mark on dequeue](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-4-bug-hunt-mark-on-dequeue.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 4.*
+
 ## Count rooms on a grid
 
 A floor plan uses `#` for walls and `.` for floor. Two floor cells are in the same room if you can walk between them moving up, down, left, or right. How many rooms does this plan have?
@@ -162,6 +178,10 @@ plan = ["#########", "#..#....#", "#..#.##.#", "####.#..#", "#...##..#", "######
 print(count_rooms(plan))  # 3
 ```
 
+![Count rooms on a grid](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-5-count-rooms-on-a-grid.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 5.*
+
 ## Knight hops
 
 On an empty 8x8 board, what is the fewest number of knight moves from one corner, (0, 0), to the opposite corner, (7, 7)? Which algorithm gives the answer and why?
@@ -189,6 +209,10 @@ def knight_hops(n: int, start: tuple[int, int], goal: tuple[int, int]) -> int:
 print(knight_hops(8, (0, 0), (7, 7)))  # 6
 print(knight_hops(8, (0, 0), (1, 2)))  # 1
 ```
+
+![Knight hops](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-6-knight-hops.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 6.*
 
 ## Nearest charger
 
@@ -220,6 +244,10 @@ def longest_drive(grid: list[str]) -> int:
 print(longest_drive(["C....", ".##..", "....C"]))  # 3
 ```
 
+![Nearest charger](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-7-nearest-charger.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 7.*
+
 ## Rebuild the path
 
 A BFS from `S` produced this parent map. Write the route from `S` to `T`, and say what the map tells you about vertex `Z`.
@@ -246,6 +274,10 @@ print(rebuild(parent, "T"))  # ['S', 'A', 'C', 'T']
 print(rebuild(parent, "Z"))  # None
 ```
 
+![Rebuild the path](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-8-rebuild-the-path.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 8.*
+
 ## Bidirectional budget
 
 Every vertex has 10 neighbors and the goal is 6 edges away. Estimate how many vertices a one-sided BFS discovers versus a bidirectional search whose frontiers each go 3 levels deep.
@@ -261,6 +293,10 @@ two_sided = 2 * discovered(10, 3)
 print(one_sided)  # 1111110
 print(two_sided)  # 2220
 ```
+
+![Bidirectional budget](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-9-bidirectional-budget.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 9.*
 
 ## Find the back edge
 
@@ -295,6 +331,10 @@ g = {"a": ["b", "e"], "b": ["c"], "c": ["d"], "d": ["b"], "e": ["d"]}
 print(first_back_edge(g))  # ('d', 'b')
 print(first_back_edge({"a": ["b", "e"], "b": ["c"], "c": ["d"], "d": [], "e": ["d"]}))  # None
 ```
+
+![Find the back edge](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-10-find-the-back-edge.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 10.*
 
 ## Bug hunt: undirected false cycle
 
@@ -334,6 +374,10 @@ print(has_cycle(path, 0))  # False
 print(has_cycle(loop, 0))  # True
 ```
 
+![Bug hunt: undirected false cycle](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-11-bug-hunt-undirected-false-cycle.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 11.*
+
 ## Smallest topological order
 
 Tasks 0-5 with "must come before" edges: 5->2, 5->0, 4->0, 4->1, 2->3, 3->1. Of all valid orders, which one is lexicographically smallest, and what single change to Kahn's algorithm produces it?
@@ -363,6 +407,10 @@ def smallest_order(n: int, edges: list[tuple[int, int]]) -> list[int] | None:
 
 print(smallest_order(6, [(5, 2), (5, 0), (4, 0), (4, 1), (2, 3), (3, 1)]))  # [4, 5, 0, 2, 3, 1]
 ```
+
+![Smallest topological order](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-12-smallest-topological-order.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 12.*
 
 ## Two-team split
 
@@ -398,6 +446,10 @@ base = [(0, 1), (1, 2), (2, 3), (3, 0), (4, 5)]
 print(split_teams(6, base))             # ([0, 2, 4], [1, 3, 5])
 print(split_teams(6, base + [(0, 2)]))  # None
 ```
+
+![Two-team split](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-13-two-team-split.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 13.*
 
 ## Hops vs. weight
 
@@ -442,6 +494,10 @@ print(fewest_hops("A", "D"))  # ['A', 'D']
 print(cheapest("A", "D"))     # 3
 ```
 
+![Hops vs. weight](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-14-hops-vs-weight.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 14.*
+
 ## Negative edge trap
 
 Edges: A->B 1, A->C 3, C->B -3, B->D 1. A Dijkstra variant that never revisits a settled vertex reports dist(D) = 2. What is the true distance, and which algorithm gets it right?
@@ -463,6 +519,10 @@ def bellman_ford(vertices: list[str], edges: list[tuple[str, str, int]], src: st
 edges = [("A", "B", 1), ("A", "C", 3), ("C", "B", -3), ("B", "D", 1)]
 print(bellman_ford(["A", "B", "C", "D"], edges, "A"))  # {'A': 0, 'B': 0, 'C': 3, 'D': 1}
 ```
+
+![Negative edge trap](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-15-negative-edge-trap.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 15.*
 
 ## Redundant link
 
@@ -493,3 +553,7 @@ def redundant_links(links: list[tuple[int, int]]):
 
 print(redundant_links([(1, 2), (2, 3), (4, 5), (3, 1), (5, 6), (6, 4), (3, 4)]))  # ([(3, 1), (6, 4)], 1)
 ```
+
+![Redundant link](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills-16-redundant-link.png)
+
+*Source: [`diagrams/graphs-drills.drawio`](/content/07_Data_Structures_and_Algorithms/07_Graphs/diagrams/graphs-drills.drawio), page 16.*
