@@ -15,6 +15,10 @@ print(hex(b))                                       # 0xb6
 print(f"{77:08b}")                                  # 01001101
 ```
 
+![Read the byte](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-1-read-the-byte.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 1.*
+
 ## Add two bytes by hand
 
 Add `0110 1101` and `0011 0111` column by column. Which bit positions produce a carry out, and what is the 8-bit sum?
@@ -29,6 +33,10 @@ carry_in = s ^ a ^ b                  # bit k set = a carry arrived at column k
 print([k - 1 for k in range(1, 9) if carry_in >> k & 1])  # [0, 1, 2, 3, 4, 5, 6]
 ```
 
+![Add two bytes by hand](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-2-add-two-bytes.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 2.*
+
 ## Negative in 8 bits
 
 What is the 8-bit two's complement pattern for -20? And what signed value does the byte `1111 0000` hold?
@@ -41,6 +49,10 @@ p = 0b1111_0000
 print(p - 256 if p & 0x80 else p)       # -16
 print(256 - 20 == 0b1110_1100)          # True
 ```
+
+![Negative in 8 bits](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-3-negative-in-8-bits.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 3.*
 
 ## Overflow wraparound
 
@@ -59,6 +71,10 @@ print(add_i8(100, -50))  # (50, False)
 print(add_i8(-100, -50)) # (106, True)
 ```
 
+![Overflow wraparound](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-4-overflow-wraparound.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 4.*
+
 ## Shift a negative
 
 Treat -20 as an 8-bit value. What bits do you get after shifting right by 2 with an arithmetic shift, and with a logical shift? Which one equals -20 // 4?
@@ -72,6 +88,10 @@ logical = (x & 0xFF) >> 2
 print(f"{arith:08b}", x >> 2, x // 4)   # 11111011 -5 -5
 print(f"{logical:08b}", logical)         # 00111011 59
 ```
+
+![Shift a negative](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-5-shift-a-negative.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 5.*
 
 ## Bug hunt: get bit
 
@@ -91,6 +111,10 @@ def is_set(n: int, i: int) -> bool:
 n = 0b1010
 print([is_set(n, i) for i in range(4)])  # [False, True, False, True]
 ```
+
+![Bug hunt: get bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-6-bug-get-bit.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 6.*
 
 ## Bug hunt: clear that sets
 
@@ -113,6 +137,10 @@ print(f"{disable(f, 2):04b}")              # 0001
 print(f"{disable(disable(f, 2), 2):04b}")  # 0001
 ```
 
+![Bug hunt: clear that sets](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-7-bug-clear-that-sets.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 7.*
+
 ## Unix permission bits
 
 A file has mode `0o754`. Using only bitwise operators, decide whether the group may write, then grant group write and revoke "others read". Print the final mode in octal.
@@ -127,6 +155,10 @@ mode |= GROUP_W
 mode &= ~OTHER_R
 print(oct(mode))                  # 0o770
 ```
+
+![Unix permission bits](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-8-unix-permission-bits.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 8.*
 
 ## Unpack an RGB color
 
@@ -147,6 +179,10 @@ print(hex(set_blue(c, 0x10)))       # 0x3a7f10
 print(hex(set_blue(c, 0x1FF)))      # 0x3a7fff
 ```
 
+![Unpack an RGB color](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-9-unpack-rgb.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 9.*
+
 ## Round to a multiple of 8
 
 An allocator needs every block size to be a multiple of 8. Without `%` or `//`, round 77 down and 77 up to the nearest multiple of 8. Also compute 77 mod 8.
@@ -160,6 +196,10 @@ print(n & ~7)             # 72
 print((n + 7) & ~7)       # 80
 print((64 + 7) & ~7)      # 64
 ```
+
+![Round to a multiple of 8](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-10-round-to-multiple-of-8.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 10.*
 
 ## Next power of two
 
@@ -181,6 +221,10 @@ print([next_pow2(n) for n in (1, 5, 16, 17)])        # [1, 8, 16, 32]
 print([next_pow2_smear(n) for n in (1, 5, 16, 17)])  # [1, 8, 16, 32]
 ```
 
+![Next power of two](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-11-next-power-of-two.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 11.*
+
 ## Walk a Fenwick index
 
 In a Fenwick tree, a prefix-sum query at index `i` repeatedly does `i -= i & -i` until `i` is 0. List the indices visited for `i = 13`, and explain why the loop runs at most `log2(i) + 1` times.
@@ -200,6 +244,10 @@ print(query_path(16))     # [16]
 print(len(query_path(15)), (15).bit_count())  # 4 4
 ```
 
+![Walk a Fenwick index](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-12-walk-a-fenwick-index.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 12.*
+
 ## Parity of a word
 
 A serial link appends a parity bit so each frame has an even number of 1s. Compute the parity bit for the 32-bit word `0xDEADBEEF` in O(log 32) operations, without looping over all 32 bits.
@@ -216,6 +264,10 @@ w = 0xDEADBEEF
 print(w.bit_count(), parity32(w))   # 24 0
 print(parity32(0b111))              # 1
 ```
+
+![Parity of a word](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-13-parity-of-a-word.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 13.*
 
 ## Two singles in a crowd
 
@@ -237,6 +289,10 @@ print(two_singles([4, 9, 2, 4, 7, 2]))  # (7, 9)
 print(two_singles([1, 1, 0, 5]))        # (0, 5)
 ```
 
+![Two singles in a crowd](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-14-two-singles.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 14.*
+
 ## Branchless abs
 
 Compute the absolute value of a 32-bit signed integer without `if`, `abs`, or a comparison. What does your function return for -2147483648, and why?
@@ -253,6 +309,10 @@ print(abs_i32(-42), abs_i32(42), abs_i32(0))  # 42 42 0
 print(abs_i32(-2**31))                        # -2147483648
 ```
 
+![Branchless abs](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-15-branchless-abs.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 15.*
+
 ## Shared free days
 
 Each person's free days are a 7-bit mask (bit 0 = Monday ... bit 6 = Sunday). Ana is free `0b1100101`, Ben `0b1010111`, and Cy `0b1110100`. Which days are all three free, how many are there, and what is the earliest one?
@@ -267,3 +327,7 @@ print(f"{common:07b}", common.bit_count())               # 1000100 2
 print(DAYS[(common & -common).bit_length() - 1])         # Wed
 print([DAYS[i] for i in range(7) if common >> i & 1])    # ['Wed', 'Sun']
 ```
+
+![Shared free days](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills-16-shared-free-days.png)
+
+*Source: [`diagrams/bit-manipulation-drills.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-drills.drawio), page 16.*

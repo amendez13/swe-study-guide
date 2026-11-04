@@ -16,6 +16,10 @@ print(n.bit_length())            # 6
 print([i for i in range(n.bit_length()) if n >> i & 1])  # [1, 3, 5]
 ```
 
+![Binary representation](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-1-binary-representation.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 1.*
+
 ## Binary arithmetic by hand
 
 Binary addition works like decimal addition with a smaller table: `0+0=0`, `0+1=1`, `1+1=10` (write 0, carry 1), and `1+1+1=11` (write 1, carry 1). Work right to left and track the carry column by column. Subtraction is easiest as "add the two's complement" (flip the bits of the subtrahend and add 1).
@@ -39,32 +43,19 @@ print(f"{(0b1101 + neg_b) & 0xF:04b}")  # 0110
 print(f"{0b1011000:07b} -> {0b1011000 - 1:07b}")  # 1011000 -> 1010111
 ```
 
+![Binary arithmetic by hand](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-2-binary-arithmetic.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 2.*
+
 ## Two's complement
 
 Two's complement is how hardware stores signed integers. In an N-bit value the MSB carries a weight of `-2^(N-1)` instead of `+2^(N-1)`, so an 8-bit signed byte ranges from -128 to +127. To negate, flip every bit and add 1. There is one zero, and the same adder circuit handles signed and unsigned addition.
 
 A handy view: the N-bit pattern of a negative number `-k` equals the unsigned value `2^N - k`. Python integers behave like an infinite two's complement, so `-1` is "all ones forever"; mask with `(1 << N) - 1` to see the N-bit pattern.
 
-```mermaid
-flowchart TD
-    subgraph "8-bit range"
-        direction TB
-        R1["0111 1111 = +127"]
-        R2["0000 0001 = +1"]
-        R3["0000 0000 = 0"]
-        R4["1111 1111 = -1"]
-        R5["1000 0000 = -128"]
-    end
-    R1 ~~~ R2 ~~~ R3 ~~~ R4 ~~~ R5
+![Two's complement](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-3-twos-complement.png)
 
-    subgraph "Negate +5"
-        direction TB
-        S1["0000 0101 (+5)"]
-        S2["flip: 1111 1010"]
-        S3["add 1: 1111 1011 (-5)"]
-        S1 --> S2 --> S3
-    end
-```
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 3.*
 
 ```python
 BITS = 8
@@ -90,21 +81,9 @@ The four bitwise operators act on every bit position independently. **AND** (`&`
 
 Remember the roles: AND with a mask to read or clear, OR to set, XOR to toggle. Almost every trick in this topic is one of these three moves with a cleverly built mask.
 
-```mermaid
-flowchart LR
-    subgraph "AND"
-        A1["1 & 1 = 1"]
-        A2["otherwise 0"]
-    end
-    subgraph "OR"
-        O1["0 | 0 = 0"]
-        O2["otherwise 1"]
-    end
-    subgraph "XOR"
-        X1["equal bits -> 0"]
-        X2["different bits -> 1"]
-    end
-```
+![Bitwise AND, OR, XOR, NOT](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-4-and-or-xor-not.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 4.*
 
 ```python
 a, b = 0b1100, 0b1010
@@ -132,6 +111,10 @@ print(f"{1 << 5:08b}")   # 00100000
 print(f"{(0b1100_0001 << 1) & 0xFF:08b}")  # 10000010
 ```
 
+![Left and right shift](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-5-left-right-shift.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 5.*
+
 ## Arithmetic vs logical right shift
 
 An **arithmetic** right shift copies the sign bit into the vacated high bits, so negative numbers stay negative and the result is floor division by `2^k`. A **logical** right shift fills the high bits with 0, treating the value as unsigned. Java and JavaScript spell them `>>` and `>>>`; in C the result for signed negatives is implementation-defined, so cast to unsigned when you want logical behavior.
@@ -150,17 +133,19 @@ print(logical_shift_right(x, 2))              # 60
 print(-1 >> 10, logical_shift_right(-1, 10))  # -1 0
 ```
 
+![Arithmetic vs logical right shift](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-6-arithmetic-vs-logical-shift.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 6.*
+
 ## Get bit
 
 To read bit `i`, either shift the number right by `i` and look at the last bit, or AND it with a mask that has only bit `i` set and check for nonzero. The two forms are equivalent; the shift form returns 0 or 1 directly, which is handy for counting and building strings.
 
 A common mistake is comparing `n & (1 << i)` to 1. That expression equals `1 << i` when the bit is set, so it only equals 1 when `i` is 0.
 
-```mermaid
-flowchart LR
-    G1["n = 0101 1010"] --> G3["n & mask = 0001 0000 -> bit 4 is 1"]
-    G2["mask = 0001 0000 (1 << 4)"] --> G3
-```
+![Get bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-7-get-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 7.*
 
 ```python
 def get_bit(n: int, i: int) -> int:
@@ -187,6 +172,10 @@ print(f"{set_bit(n, 0):08b}")              # 01011011
 print(f"{set_bit(set_bit(n, 0), 0):08b}")  # 01011011
 ```
 
+![Set bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-8-set-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 8.*
+
 ## Clear bit
 
 To turn bit `i` off, AND with a mask that is all ones except bit `i`: `~(1 << i)`. AND with 1 keeps a bit; AND with 0 forces it to 0. Like setting, clearing is idempotent.
@@ -202,6 +191,10 @@ print(f"{clear_bit(n, 4):08b}")  # 01001010
 print(f"{clear_bit(n, 0):08b}")  # 01011010
 ```
 
+![Clear bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-9-clear-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 9.*
+
 ## Toggle bit
 
 To flip bit `i`, XOR with `1 << i`. XOR with 1 inverts a bit and XOR with 0 leaves it alone. Toggling twice restores the original value, which makes XOR the right tool for on/off switches and undoable changes.
@@ -216,6 +209,10 @@ print(f"{toggle_bit(n, 7):08b}")                 # 10001111
 print(f"{toggle_bit(toggle_bit(n, 3), 3):08b}")  # 00001111
 ```
 
+![Toggle bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-10-toggle-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 10.*
+
 ## Update bit
 
 To write a given value `v` (0 or 1) into bit `i`, first clear the bit, then OR in `v` shifted into place. Clearing first matters: OR alone can turn a 0 into a 1 but never a 1 into a 0. This one helper replaces an `if v: set else: clear` branch.
@@ -229,6 +226,10 @@ print(f"{update_bit(n, 1, 0):04b}")  # 1000
 print(f"{update_bit(n, 0, 1):04b}")  # 1011
 print(f"{update_bit(n, 3, 1):04b}")  # 1010
 ```
+
+![Update bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-11-update-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 11.*
 
 ## Clear bits MSB through i
 
@@ -246,6 +247,10 @@ print(f"{keep_low_bits(n, 4):08b}")  # 00000110
 print(keep_low_bits(1000, 6), 1000 % 64)  # 40 40
 ```
 
+![Clear bits MSB through i](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-12-clear-msb-through-i.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 12.*
+
 ## Clear bits i through 0
 
 To zero bit `i` and every bit below it, AND with `-1 << (i + 1)`, which is ones everywhere except the low `i + 1` positions. Clearing the low bits rounds a non-negative number down to a multiple of `2^(i+1)`, which is how memory allocators align addresses.
@@ -259,6 +264,10 @@ n = 0b1101_0110
 print(f"{clear_low_bits(n, 3):08b}")  # 11010000
 print(clear_low_bits(77, 2))          # 72
 ```
+
+![Clear bits i through 0](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-13-clear-i-through-0.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 13.*
 
 ## Bit-range update
 
@@ -278,6 +287,10 @@ reg = write_field(reg, 2, 4, 0b010)
 print(f"{reg:08b}")              # 11101011
 print(read_field(reg, 2, 4))     # 2
 ```
+
+![Bit-range update](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-14-bit-range-update.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 14.*
 
 ## Isolate lowest set bit
 
@@ -299,6 +312,10 @@ while i <= 16:
 print(path)                      # [5, 6, 8, 16]
 ```
 
+![Isolate lowest set bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-15-isolate-lowest-set-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 15.*
+
 ## Turn off lowest set bit
 
 `n & (n - 1)` clears the lowest 1 bit. Subtracting 1 flips that bit to 0 and turns every 0 below it into 1, while higher bits stay the same; ANDing with the original wipes out the changed region. Repeating it removes one set bit per step, which is the core of Kernighan's popcount and of iterating over the set bits of a mask.
@@ -317,6 +334,10 @@ while m:
     m &= m - 1
 print(seen)                      # [1, 2, 5, 7]
 ```
+
+![Turn off lowest set bit](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-16-turn-off-lowest-set-bit.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 16.*
 
 ## Power-of-two tests
 
@@ -338,6 +359,10 @@ print([x for x in range(20) if is_pow2(x)])  # [1, 2, 4, 8, 16]
 print(next_pow2(17), next_pow2(16))           # 32 16
 print(is_pow4(16), is_pow4(8))                # True False
 ```
+
+![Power-of-two tests](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-17-power-of-two-tests.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 17.*
 
 ## Counting set bits
 
@@ -362,6 +387,10 @@ for i in range(1, 9):
 print(counts)                     # [0, 1, 1, 2, 1, 2, 2, 3, 1]
 ```
 
+![Counting set bits](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-18-counting-set-bits.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 18.*
+
 ## Parity
 
 Parity is 1 when a number has an odd count of 1 bits and 0 when the count is even. It is used in error-detecting codes and RAID. XOR of all bits gives the parity, and you can fold a word in half repeatedly (`x ^= x >> 16`, then 8, 4, 2, 1) so the low bit ends up holding the answer in O(log width) steps.
@@ -382,6 +411,10 @@ def parity_fold32(x: int) -> int:
 print(parity_loop(0b1011), parity_fold32(0b1011))  # 1 1
 print(parity_fold32(0xFFFF_FFFF))                  # 0
 ```
+
+![Parity](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-19-parity.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 19.*
 
 ## XOR properties
 
@@ -407,6 +440,10 @@ arr[0] ^= arr[0]; arr[0] ^= arr[0]; arr[0] ^= arr[0]
 print(arr)                                     # [0]
 ```
 
+![XOR properties](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-20-xor-properties.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 20.*
+
 ## Sign bit and branchless abs
 
 In a 32-bit value the sign lives in bit 31. An arithmetic shift `x >> 31` turns that into a mask that is all ones (-1) for negatives and 0 otherwise. With that mask you can compute absolute value as `(x ^ mask) - mask` and pick min or max without an `if`, which avoids branch mispredictions in hot loops. `x ^ y < 0` tells you whether two integers have opposite signs.
@@ -431,6 +468,10 @@ print(abs_i32(-2**31))             # -2147483648
 print(min_i32(3, -5), min_i32(-2, 9))  # -5 -2
 print((3 ^ -4) < 0, (3 ^ 4) < 0)   # True False
 ```
+
+![Sign bit and branchless abs](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-21-sign-bit-branchless-abs.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 21.*
 
 ## Flags and bitmask subsets
 
@@ -459,3 +500,7 @@ while sub:
     sub = (sub - 1) & mask
 print(subs)                              # ['1010', '1000', '0010']
 ```
+
+![Flags and bitmask subsets](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation-22-flags-and-subsets.png)
+
+*Source: [`diagrams/bit-manipulation.drawio`](/content/07_Data_Structures_and_Algorithms/10_Bit_Manipulation/diagrams/bit-manipulation.drawio), page 22.*
