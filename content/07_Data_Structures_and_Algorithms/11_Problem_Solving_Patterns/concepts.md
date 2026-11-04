@@ -6,17 +6,9 @@ Expect the problem to feel hard; that is the point, and it is not a sign you are
 
 The loop is not strictly linear. If optimizing stalls, go back to the example and try a bigger or stranger one. If testing finds a bug, return to the walkthrough rather than patching lines at random.
 
-```mermaid
-flowchart LR
-    L["Listen"] --> D["Draw an example"]
-    D --> B["Brute force"]
-    B --> O["Optimize"]
-    O -- "stuck" --> D
-    O --> W["Walk through"]
-    W --> I["Implement"]
-    I --> T["Test"]
-    T -- "bug found" --> W
-```
+![Problem-solving flow](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-1-problem-solving-flow.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 1.*
 
 ## Listen carefully
 
@@ -36,6 +28,10 @@ def count_at_most(limit: int) -> int:
 print(count_at_most(8))    # 3
 print(count_at_most(20))   # 4
 ```
+
+![Listen carefully](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-2-listen-carefully.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 2.*
 
 ## Draw an example
 
@@ -61,6 +57,10 @@ print(second_largest_wrong([7, 2, 9, 4, 6]))  # 4
 print(second_largest([7, 2, 9, 4, 6]))        # 7
 ```
 
+![Draw an example](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-3-draw-an-example.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 3.*
+
 ## State a brute force
 
 Say the simplest correct solution out loud, with its time and space cost, even if it is slow. It proves you understand the problem, gives you something to fall back on, and becomes the baseline you optimize from. Do not code it unless the interviewer asks; just make sure it is correct and that you know its complexity.
@@ -81,6 +81,10 @@ def longest_distinct_brute(s: str) -> int:
 
 print(longest_distinct_brute("abcabcbb"))  # 3
 ```
+
+![State a brute force](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-4-state-a-brute-force.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 4.*
 
 ## Walk through, then implement
 
@@ -104,6 +108,10 @@ def merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
 print(merge_intervals([(5, 8), (1, 3), (2, 4), (9, 9)]))  # [(1, 4), (5, 8), (9, 9)]
 ```
 
+![Walk through, then implement](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-5-walk-through-then-implement.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 5.*
+
 ## Test your code
 
 Test in layers. First read the code line by line as if reviewing someone else's. Then look at hot spots: loop bounds, off-by-one indexes, integer division, base cases in recursion, and empty inputs. Next run a small example by hand, not the big one you drew earlier. Finally try edge cases: empty, one element, all equal, negative values, and the largest allowed input.
@@ -122,6 +130,10 @@ assert max_gap([4, 4, 4]) == 0          # all equal
 assert max_gap([9, -3, 1]) == 8         # negatives, unsorted
 print("all tests passed")               # all tests passed
 ```
+
+![Test your code](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-6-test-your-code.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 6.*
 
 ## BUD bottlenecks
 
@@ -143,6 +155,10 @@ s = sorted(nums)
 print([bisect_right(s, q) for q in queries])             # [4, 5, 0]
 ```
 
+![BUD bottlenecks](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-7-bud-bottlenecks.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 7.*
+
 ## Unnecessary work
 
 Unnecessary work is computation whose result you never needed. Typical cases: looping over a value that is already forced by the others, continuing a search after the answer is known, or checking candidates that a constraint already rules out.
@@ -162,6 +178,10 @@ def triples(n: int) -> int:
 print(triples_brute(5), triples(5))  # 21 21
 ```
 
+![Unnecessary work](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-8-unnecessary-work.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 8.*
+
 ## Duplicated work
 
 Duplicated work is computing the same thing more than once. Recomputing a range sum, re-sorting the same data, or recursing into the same subproblem are all signs. The fix is to compute it once and store it: a prefix array, a hash map, or memoization.
@@ -179,6 +199,10 @@ def range_sum(i: int, j: int) -> int:
 print(range_sum(1, 4), sum(nums[1:4]))  # 4 4
 print(range_sum(0, 6))                  # 11
 ```
+
+![Duplicated work](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-9-duplicated-work.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 9.*
 
 ## DIY (do it yourself)
 
@@ -199,6 +223,10 @@ def rooms_needed(meetings: list[tuple[int, int]]) -> int:
 print(rooms_needed([(9, 10), (9, 12), (11, 13), (10, 11)]))  # 2
 ```
 
+![DIY (do it yourself)](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-10-diy.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 10.*
+
 ## Simplify and generalize
 
 Drop or relax one constraint, solve the easier version, then add the constraint back. The simpler solution often becomes a building block or reveals the core idea.
@@ -217,6 +245,10 @@ print(lines_distinct([[1, 2, 3], [2, 3, 1], [3, 1, 2]]))  # True
 print(lines_distinct([[1, 2], [1, 3]]))                   # False
 ```
 
+![Simplify and generalize](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-11-simplify-and-generalize.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 11.*
+
 ## Base case and build
 
 Solve the smallest input (n = 0 or n = 1), then the next one, and look for a way to build each answer from the previous one. This leads naturally to recursion or bottom-up dynamic programming.
@@ -233,6 +265,10 @@ def gray_code(n: int) -> list[str]:
 print(gray_code(1))  # ['0', '1']
 print(gray_code(2))  # ['00', '01', '11', '10']
 ```
+
+![Base case and build](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-12-base-case-and-build.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 12.*
 
 ## Data structure brainstorm
 
@@ -259,6 +295,10 @@ def rolling_max(readings: list[int], w: int) -> list[int]:
 print(rolling_max([4, 2, 12, 3, 1, 7, 5], 3))  # [12, 12, 12, 7, 7]
 ```
 
+![Data structure brainstorm](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-13-data-structure-brainstorm.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 13.*
+
 ## Best conceivable runtime
 
 The best conceivable runtime (BCR) is a lower bound on any solution: the time you could not beat no matter how clever you are. Usually it comes from the input size. If you must look at every one of N values, the BCR is O(N). It is not a promise that such an algorithm exists.
@@ -284,6 +324,10 @@ print(covers_ids([2, 0, 3, 1]))         # True
 print(covers_ids([2, 0, 2, 1]))         # False
 ```
 
+![Best conceivable runtime](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-14-best-conceivable-runtime.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 14.*
+
 ## Frequency map
 
 A frequency map counts how often each value appears. It turns "compare by content" and "how many times" questions into one O(N) pass plus lookups. Use `collections.Counter` or a dict for general keys, or a fixed array of 26 counters when the keys are lowercase letters.
@@ -306,6 +350,10 @@ def letter_counts(s: str) -> list[int]:
 print(frequent(["ok", "err", "ok", "warn", "ok", "err"], 2))  # ['err', 'ok']
 print(letter_counts("banana")[:3])                           # [3, 1, 0]
 ```
+
+![Frequency map](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-15-frequency-map.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 15.*
 
 ## Two pointers
 
@@ -338,17 +386,17 @@ print(count_pairs_below([1, 5, 3, 2, 8], 7))  # 4
 print(compact_nonzero([0, 4, 0, 0, 7, 2]))    # [4, 7, 2, 0, 0, 0]
 ```
 
+![Two pointers](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-16-two-pointers.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 16.*
+
 ## Sliding window
 
 A sliding window keeps a running answer over a contiguous range instead of recomputing every range from scratch. A **fixed** window covers exactly k elements: when it moves one step, add the element that enters and remove the one that leaves, turning O(N * k) into O(N).
 
-```mermaid
-flowchart LR
-    S1["[2, 1, 5] sum 8"] --> S2["[1, 5, 1] sum 7"]
-    S2 --> S3["[5, 1, 3] sum 9"]
-    S3 --> S4["[1, 3, 2] sum 6"]
-    S3 -. "best" .-> R["9"]
-```
+![Sliding window](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-17-sliding-window.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 17.*
 
 ```python
 def max_window_sum(nums: list[int], k: int) -> int:
@@ -405,6 +453,10 @@ def sort_and_count(nums: list[int]) -> tuple[list[int], int]:
 print(sort_and_count([3, 1, 4, 1, 5, 2]))  # ([1, 1, 2, 3, 4, 5], 6)
 ```
 
+![Divide and conquer](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-18-divide-and-conquer.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 18.*
+
 ## Greedy choice
 
 A greedy algorithm makes the best local choice at each step and never goes back. It is correct only when a local best choice can always be extended to a global best; you should be able to argue why. When that argument fails, greedy gives wrong answers, and dynamic programming is usually the fix.
@@ -432,22 +484,19 @@ print(greedy_coins(6, [1, 3, 4]))  # 3
 
 The second call returns 3 (4 + 1 + 1), but 3 + 3 uses only 2 coins, so greedy is wrong for that coin set.
 
+![Greedy choice](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-19-greedy-choice.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 19.*
+
 ## Backtracking
 
 Backtracking builds a solution one choice at a time. At each step it makes a choice, recurses, and then undoes the choice before trying the next one. Pruning stops a branch as soon as it cannot lead to a valid answer, which is what keeps exhaustive search practical.
 
 Every backtracking solution has the same skeleton: a base case that records a complete answer, a loop over the choices still allowed, and a choose / explore / unchoose body.
 
-```mermaid
-graph TD
-    R["[]"] --> A["[1]"]
-    R --> B["[2]"]
-    R --> C["[3]"]
-    A --> A2["[1, 2] done"]
-    A --> A3["[1, 3] done"]
-    B --> B3["[2, 3] done"]
-    C -. "pruned: not enough items left" .-> X["x"]
-```
+![Backtracking](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-20-backtracking.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 20.*
 
 ```python
 def combinations(items: list[int], k: int) -> list[list[int]]:
@@ -498,6 +547,10 @@ maze = ["..#.",
 print(fewest_steps(maze, (0, 0), (0, 3)))  # 7
 ```
 
+![Grid BFS and DFS](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-21-grid-bfs-and-dfs.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 21.*
+
 ## Binary search on answer
 
 Binary search works on any yes/no condition that flips once: false for every value below some threshold and true for every value above it. If you can check a candidate answer quickly, search the range of possible answers for the threshold. The cost is O(log R) checks, where R is the size of the answer range.
@@ -522,6 +575,10 @@ print(min_rate([4, 9, 12], 6))   # 5
 print(min_rate([4, 9, 12], 3))   # 12
 ```
 
+![Binary search on answer](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-22-binary-search-on-answer.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 22.*
+
 ## Monotonic stack
 
 A monotonic stack keeps its values in increasing or decreasing order. When a new value would break the order, pop until the order holds again; each popped value has just found its answer. Every element is pushed and popped at most once, so the whole pass is O(N).
@@ -541,6 +598,10 @@ def next_greater(nums: list[int]) -> list[int]:
 print(next_greater([2, 1, 2, 4, 3]))  # [4, 2, 4, -1, -1]
 print(next_greater([4, 3, 2, 1]))     # [-1, -1, -1, -1]
 ```
+
+![Monotonic stack](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-23-monotonic-stack.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 23.*
 
 ## Bit vector
 
@@ -566,27 +627,14 @@ print([i for i in range(both.bit_length()) if both >> i & 1])  # [5, 12]
 print(first_repeat([4, 0, 6, 0, 4]))                            # 0
 ```
 
+![Bit vector](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-24-bit-vector.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 24.*
+
 ## Choosing a pattern
 
 Read the shape of the input and the question, then pick a starting pattern. The flowchart below is a heuristic, not a rule; if the first pattern does not fit, go back to BUD and the data structure brainstorm.
 
-```mermaid
-flowchart TD
-    Q["What does the question ask?"] --> F{"Counts or duplicates?"}
-    F -- yes --> P1["Frequency map"]
-    F -- no --> W{"Best contiguous range?"}
-    W -- yes --> P2["Sliding window"]
-    W -- no --> T{"Sorted input or pairs?"}
-    T -- yes --> P3["Two pointers"]
-    T -- no --> M{"Smallest value that works?"}
-    M -- yes --> P4["Binary search on answer"]
-    M -- no --> A{"List all valid choices?"}
-    A -- yes --> P5["Backtracking"]
-    A -- no --> G{"Grid or connections?"}
-    G -- yes --> P6["BFS or DFS"]
-    G -- no --> N{"Next greater or smaller?"}
-    N -- yes --> P7["Monotonic stack"]
-    N -- no --> C{"Local best is safe?"}
-    C -- yes --> P8["Greedy"]
-    C -- no --> P9["Divide and conquer or DP"]
-```
+![Choosing a pattern](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-25-choosing-a-pattern.png)
+
+*Source: [`diagrams/problem-solving-patterns.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns.drawio), page 25.*

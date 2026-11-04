@@ -19,6 +19,10 @@ def within_budget(budget: int) -> int:
 print([within_budget(b) for b in (1, 5, 13, 50)])  # [0, 3, 4, 6]
 ```
 
+![Spot the useful detail](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-1-spot-the-useful-detail.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 1.*
+
 ## Pick a better example
 
 You need the length of the longest run of equal adjacent values. Which example should you draw: `[5, 5, 5]`, `[1, 2, 3, 4]`, or `[4, 4, 1, 7, 7, 7, 2, 2]`? Why are the other two weak?
@@ -37,6 +41,10 @@ print(longest_run([4, 4, 1, 7, 7, 7, 2, 2]))  # 3
 print(longest_run([]))                         # 0
 ```
 
+![Pick a better example](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-2-pick-a-better-example.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 2.*
+
 ## What comes next
 
 Two moments in an interview. (a) You have explained a correct O(N^2) brute force and its cost, and the interviewer nods. (b) You have just finished writing your optimized code. What is the next step in each case?
@@ -52,6 +60,10 @@ assert dedupe_sorted([7]) == [7]
 assert dedupe_sorted([1, 1, 2, 3, 3, 3]) == [1, 2, 3]
 print("checked")  # checked
 ```
+
+![What comes next](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-3-what-comes-next.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 3.*
 
 ## Find the bottleneck
 
@@ -72,6 +84,10 @@ def check(banned: list[int], requests: list[int]) -> list[bool]:
 print(check([7, 3, 9], [3, 4, 9, 1]))  # [True, False, True, False]
 ```
 
+![Find the bottleneck](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-4-find-the-bottleneck.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 4.*
+
 ## Drop the extra loop
 
 Count the ways to split a bill of `n` euros into whole-euro amounts for three named friends, where `x` pays at least 1, `y` pays at least 1, and `z` pays at least 1. A teammate wrote three nested loops over `x`, `y`, and `z`. What work is unnecessary?
@@ -89,6 +105,10 @@ def splits(n: int) -> int:
 print(splits(5))   # 6
 print(splits(3))   # 1
 ```
+
+![Drop the extra loop](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-5-drop-the-extra-loop.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 5.*
 
 ## Stop recomputing sums
 
@@ -108,6 +128,10 @@ def total(i: int, j: int) -> int:
 print([total(i, j) for i, j in [(0, 3), (2, 6), (1, 2)]])  # [19, 23, 0]
 ```
 
+![Stop recomputing sums](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-6-stop-recomputing-sums.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 6.*
+
 ## Know when you are done
 
 You must return the largest row total in an N x N grid of integers. Your solution sums each row and keeps the best, in O(N^2). A colleague suggests you keep optimizing. Should you?
@@ -121,6 +145,10 @@ def best_row(grid: list[list[int]]) -> int | None:
 print(best_row([[1, -2, 3], [4, 0, -1], [-5, 9, 2]]))  # 6
 print(best_row([]))                                   # None
 ```
+
+![Know when you are done](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-7-know-when-you-are-done.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 7.*
 
 ## Build from the smaller case
 
@@ -137,6 +165,10 @@ def no_adjacent_ones(n: int) -> int:
 
 print([no_adjacent_ones(n) for n in range(6)])  # [1, 2, 3, 5, 8, 13]
 ```
+
+![Build from the smaller case](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-8-build-from-the-smaller-case.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 8.*
 
 ## Brainstorm a structure
 
@@ -160,6 +192,10 @@ def kth_highest_stream(scores: list[int], k: int) -> list[int | None]:
 print(kth_highest_stream([40, 10, 55, 30, 70], 2))  # [None, 10, 40, 40, 55]
 ```
 
+![Brainstorm a structure](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-9-brainstorm-a-structure.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 9.*
+
 ## Name the pattern
 
 Match each task to a pattern. (a) Longest stretch of days whose total rainfall stays at most R. (b) Smallest oven temperature that bakes every tray within T minutes, where hotter is always faster. (c) Every way to seat 4 guests at 4 chairs so two rivals are not adjacent. (d) For each day, the next day with a higher price.
@@ -179,6 +215,10 @@ def longest_dry_stretch(rain: list[int], limit: int) -> int:
 
 print(longest_dry_stretch([2, 0, 5, 1, 1, 0, 1, 4], 3))  # 4
 ```
+
+![Name the pattern](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-10-name-the-pattern.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 10.*
 
 ## Squares in sorted order
 
@@ -202,6 +242,10 @@ def sorted_squares(nums: list[int]) -> list[int]:
 print(sorted_squares([-6, -2, 0, 3, 5]))  # [0, 4, 9, 25, 36]
 ```
 
+![Squares in sorted order](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-11-squares-in-sorted-order.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 11.*
+
 ## Shortest window to a target
 
 Given positive integers and a target, return the length of the shortest contiguous run whose sum is at least the target, or 0 if none exists.
@@ -224,6 +268,10 @@ print(shortest_at_least([3, 1, 4, 1, 5, 9], 14))  # 2
 print(shortest_at_least([1, 1, 1], 10))           # 0
 ```
 
+![Shortest window to a target](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-12-shortest-window-to-a-target.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 12.*
+
 ## Errors per user
 
 Each log line is a `(user, level)` pair. Return the users with at least `k` `"ERROR"` lines, most errors first, breaking ties by name.
@@ -243,6 +291,10 @@ logs = [("ana", "ERROR"), ("bo", "INFO"), ("bo", "ERROR"), ("ana", "ERROR"),
 print(noisy_users(logs, 2))  # ['ana', 'bo', 'cy']
 ```
 
+![Errors per user](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-13-errors-per-user.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 13.*
+
 ## Nearest shorter bar
 
 For each bar in a histogram, return the index of the nearest bar to its *left* that is strictly shorter, or -1 if there is none.
@@ -261,6 +313,10 @@ def nearest_shorter_left(heights: list[int]) -> list[int]:
 
 print(nearest_shorter_left([3, 1, 4, 4, 2, 5]))  # [-1, -1, 1, 1, 1, 4]
 ```
+
+![Nearest shorter bar](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-14-nearest-shorter-bar.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 14.*
 
 ## Smallest daily capacity
 
@@ -290,6 +346,10 @@ def smallest_capacity(weights: list[int], d: int) -> int:
 print(smallest_capacity([4, 8, 2, 7, 3, 6], 3))  # 12
 ```
 
+![Smallest daily capacity](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-15-smallest-daily-capacity.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 15.*
+
 ## Combinations skeleton
 
 From a list of distinct positive integers, list every combination (each number used at most once) that sums exactly to a target. Write it with the choose / explore / unchoose skeleton and one pruning rule.
@@ -318,3 +378,7 @@ def combos_to_target(nums: list[int], target: int) -> list[list[int]]:
 
 print(combos_to_target([6, 2, 5, 3, 1], 8))  # [[1, 2, 5], [2, 6], [3, 5]]
 ```
+
+![Combinations skeleton](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills-16-combinations-skeleton.png)
+
+*Source: [`diagrams/problem-solving-patterns-drills.drawio`](/content/07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/diagrams/problem-solving-patterns-drills.drawio), page 16.*
