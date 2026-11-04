@@ -1,442 +1,592 @@
-## Frequency counting with hash maps
+## Problem-solving flow
 
-Frequency counting builds a map from elements to their occurrence counts, then uses those counts to answer questions about duplicates, anagrams, permutations, or majority elements. The pattern is almost always the same: iterate once to build the count, iterate again (or compare counts) to answer the question. Time is O(N), space is O(K) where K is the number of distinct elements.
+A reliable interview answer follows the same loop every time: listen, draw an example, state a brute force, optimize, walk through the plan, implement, and test. Each step feeds the next. A good example shows you the brute force, the brute force shows you what to optimize, and the walkthrough catches design mistakes before you write code that is hard to change.
 
-Recognize this pattern when the problem asks "how many times does X appear," "are these two collections the same up to ordering," or "find the element that appears more/less than some threshold."
+Expect the problem to feel hard; that is the point, and it is not a sign you are failing. Think out loud so the interviewer can follow your reasoning and offer hints, and use every hint they give.
 
-```python
-from collections import Counter
-
-
-def is_anagram(s: str, t: str) -> bool:
-    """Two strings are anagrams iff they have identical character frequencies."""
-    if len(s) != len(t):
-        return False
-    return Counter(s) == Counter(t)
-
-
-def first_unique_char(s: str) -> int:
-    """Return the index of the first non-repeating character, or -1."""
-    freq = Counter(s)
-    for i, ch in enumerate(s):
-        if freq[ch] == 1:
-            return i
-    return -1
-
-
-print(is_anagram("listen", "silent"))   # True
-print(is_anagram("hello", "world"))     # False
-print(first_unique_char("aabcbd"))      # 3 (character 'c')
-```
-
-## Two pointers for linear scans
-
-The two-pointer technique places two indices into a structure and moves them according to a rule -- toward each other, away from each other, or at different speeds. On a sorted array, it reduces an O(N^2) pair search to O(N) by eliminating candidate pairs with each step. The key insight: when the sum is too small, advancing the left pointer is the only way to increase it; when too large, retreating the right pointer is the only way to decrease it.
-
-Use two pointers when the input is sorted (or can be sorted without breaking the answer), when you need to find pairs or subarrays meeting a condition, or when you need to partition or compact elements in place.
-
-```python
-def two_sum_sorted(nums: list[int], target: int) -> tuple[int, int] | None:
-    """Find two indices whose values sum to target in a sorted array. O(N)."""
-    left, right = 0, len(nums) - 1
-    while left < right:
-        total = nums[left] + nums[right]
-        if total == target:
-            return (left, right)
-        elif total < target:
-            left += 1      # need a larger sum
-        else:
-            right -= 1     # need a smaller sum
-    return None
-
-
-def remove_duplicates(nums: list[int]) -> int:
-    """Remove duplicates in-place from a sorted list. Return new length."""
-    if not nums:
-        return 0
-    write = 0
-    for read in range(1, len(nums)):
-        if nums[read] != nums[write]:
-            write += 1
-            nums[write] = nums[read]
-    return write + 1
-
-
-print(two_sum_sorted([1, 3, 5, 7, 9, 11], 10))   # (0, 4) -> 1 + 9
-data = [1, 1, 2, 3, 3, 4]
-n = remove_duplicates(data)
-print(data[:n])                                     # [1, 2, 3, 4]
-```
-
-## Sliding window over sequences
-
-A sliding window maintains a contiguous sub-range of a sequence and slides it forward one element at a time, adding the new element entering the window and removing the element leaving it. This avoids recomputing the entire sub-range from scratch at each position, turning an O(N*K) brute force into O(N).
-
-Use sliding window when the problem asks for the best (max, min, longest, shortest) contiguous subarray or substring of a given size or satisfying a given constraint. Fixed-size windows slide by exactly one element; variable-size windows expand the right edge until a constraint is violated, then contract the left edge until it is restored.
+The loop is not strictly linear. If optimizing stalls, go back to the example and try a bigger or stranger one. If testing finds a bug, return to the walkthrough rather than patching lines at random.
 
 ```mermaid
 flowchart LR
-    subgraph "Array: [2, 1, 5, 1, 3, 2], k=3"
-        direction TB
-        S1["Step 1: window [2,1,5] sum=8"]
-        S2["Step 2: window [1,5,1] sum=7"]
-        S3["Step 3: window [5,1,3] sum=9"]
-        S4["Step 4: window [1,3,2] sum=6"]
-        S1 --> S2 --> S3 --> S4
-    end
-    S3 -. "max_sum = 9" .-> Result["return 9"]
+    L["Listen"] --> D["Draw an example"]
+    D --> B["Brute force"]
+    B --> O["Optimize"]
+    O -- "stuck" --> D
+    O --> W["Walk through"]
+    W --> I["Implement"]
+    I --> T["Test"]
+    T -- "bug found" --> W
 ```
 
+## Listen carefully
+
+Every detail in a problem statement is usually there for a reason. Words like "sorted", "distinct", "values between 1 and N", "read-only", or "called many times" each point at a technique. Write the details down next to your example so you do not forget them halfway through.
+
+If your best solution never uses one of the stated details, ask yourself whether that detail unlocks a faster approach. "Sorted" hints at binary search or two pointers. "Called many times" hints at precomputing once.
+
 ```python
-def max_sum_subarray(nums: list[int], k: int) -> int:
-    """Return the maximum sum of any contiguous subarray of size k. O(N)."""
-    if len(nums) < k:
-        raise ValueError("array shorter than window size")
+from bisect import bisect_right
 
-    # Compute the sum of the first window
-    window_sum = sum(nums[:k])
-    best = window_sum
+# Details heard: times is sorted, and count_at_most() is called many times.
+times = [3, 8, 8, 15, 21, 30]
 
-    # Slide: add the entering element, subtract the leaving element
-    for i in range(k, len(nums)):
-        window_sum += nums[i] - nums[i - k]
-        best = max(best, window_sum)
+def count_at_most(limit: int) -> int:
+    return bisect_right(times, limit)   # O(log N) only because the input is sorted
 
+print(count_at_most(8))    # 3
+print(count_at_most(20))   # 4
+```
+
+## Draw an example
+
+Draw an example that is specific, large enough to show the pattern, and not a special case. `[1, 2, 3]` is sorted, short, and has no duplicates, so almost any wrong algorithm works on it. Something like `[7, 2, 9, 4, 6]` is far more useful.
+
+Real numbers on a whiteboard also make the brute force obvious and expose edge cases such as ties or negative values.
+
+```python
+def second_largest_wrong(nums: list[int]) -> int:
+    return nums[-2]                      # only correct if nums is already sorted
+
+def second_largest(nums: list[int]) -> int:
+    first = second = float("-inf")
+    for x in nums:
+        if x > first:
+            first, second = x, first
+        elif first > x > second:
+            second = x
+    return second
+
+print(second_largest_wrong([1, 2, 3]))        # 2
+print(second_largest_wrong([7, 2, 9, 4, 6]))  # 4
+print(second_largest([7, 2, 9, 4, 6]))        # 7
+```
+
+## State a brute force
+
+Say the simplest correct solution out loud, with its time and space cost, even if it is slow. It proves you understand the problem, gives you something to fall back on, and becomes the baseline you optimize from. Do not code it unless the interviewer asks; just make sure it is correct and that you know its complexity.
+
+Below, checking every starting index for the longest run of distinct characters costs O(N * K), where K is the alphabet size. The Sliding window card shows how to make it O(N).
+
+```python
+def longest_distinct_brute(s: str) -> int:
+    best = 0
+    for i in range(len(s)):
+        seen: set[str] = set()
+        for j in range(i, len(s)):
+            if s[j] in seen:
+                break
+            seen.add(s[j])
+            best = max(best, j - i + 1)
     return best
 
-
-print(max_sum_subarray([2, 1, 5, 1, 3, 2], 3))  # 9 (window [5, 1, 3])
-print(max_sum_subarray([4, 2, 1, 7, 8, 1, 2, 8, 1, 0], 3))  # 16 (window [7, 8, 1])
+print(longest_distinct_brute("abcabcbb"))  # 3
 ```
 
-## Divide and conquer
+## Walk through, then implement
 
-Divide and conquer splits a problem into independent subproblems of the same type, solves each recursively, and combines the results. Merge sort, quicksort, and binary search are canonical examples. The time complexity depends on how many subproblems are created and how expensive the combine step is -- the Master Theorem formalizes this.
+Before coding, walk through your optimized idea on the example and make sure you can explain every step. Then write code that mirrors the walkthrough. Use helper functions for steps that have a clear name, choose readable variable names, and start in the top-left of the board so you have room.
 
-Recognize divide and conquer when a problem has optimal substructure and the subproblems do not overlap (if they overlap, consider dynamic programming instead). The maximum subarray problem illustrates the pattern: split the array in half, recursively find the best subarray in each half, then check for a subarray that crosses the midpoint.
+Modular code is easier to read, test, and fix. If you run out of time, a named helper you have not finished is still easy for the interviewer to follow.
 
 ```python
-def max_crossing_sum(nums: list[int], lo: int, mid: int, hi: int) -> int:
-    """Find the max subarray sum that crosses the midpoint."""
-    # Extend left from mid
-    left_best = float("-inf")
-    running = 0
-    for i in range(mid, lo - 1, -1):
-        running += nums[i]
-        left_best = max(left_best, running)
+def overlaps(a: tuple[int, int], b: tuple[int, int]) -> bool:
+    return a[0] <= b[1] and b[0] <= a[1]
 
-    # Extend right from mid+1
-    right_best = float("-inf")
-    running = 0
-    for i in range(mid + 1, hi + 1):
-        running += nums[i]
-        right_best = max(right_best, running)
+def merge_intervals(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    merged: list[tuple[int, int]] = []
+    for cur in sorted(intervals):
+        if merged and overlaps(merged[-1], cur):
+            merged[-1] = (merged[-1][0], max(merged[-1][1], cur[1]))
+        else:
+            merged.append(cur)
+    return merged
 
-    return left_best + right_best
+print(merge_intervals([(5, 8), (1, 3), (2, 4), (9, 9)]))  # [(1, 4), (5, 8), (9, 9)]
+```
 
+## Test your code
 
-def max_subarray_dc(nums: list[int], lo: int, hi: int) -> int:
-    """Maximum subarray sum via divide and conquer. O(N log N)."""
-    if lo == hi:
-        return nums[lo]
-    mid = (lo + hi) // 2
-    left = max_subarray_dc(nums, lo, mid)
-    right = max_subarray_dc(nums, mid + 1, hi)
-    cross = max_crossing_sum(nums, lo, mid, hi)
-    return max(left, right, cross)
+Test in layers. First read the code line by line as if reviewing someone else's. Then look at hot spots: loop bounds, off-by-one indexes, integer division, base cases in recursion, and empty inputs. Next run a small example by hand, not the big one you drew earlier. Finally try edge cases: empty, one element, all equal, negative values, and the largest allowed input.
 
+When you find a bug, find out why it happened before changing code. A quick patch often fixes one case and breaks another.
 
-arr = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-print(max_subarray_dc(arr, 0, len(arr) - 1))  # 6 (subarray [4, -1, 2, 1])
+```python
+def max_gap(nums: list[int]) -> int:
+    """Largest difference between neighbours after sorting; 0 for fewer than 2 items."""
+    s = sorted(nums)
+    return max((b - a for a, b in zip(s, s[1:])), default=0)
 
-# Compare with Kadane's algorithm (the O(N) greedy/DP approach):
-def kadane(nums: list[int]) -> int:
-    best = current = nums[0]
-    for x in nums[1:]:
-        current = max(x, current + x)
-        best = max(best, current)
+assert max_gap([]) == 0                 # empty
+assert max_gap([5]) == 0                # one element
+assert max_gap([4, 4, 4]) == 0          # all equal
+assert max_gap([9, -3, 1]) == 8         # negatives, unsorted
+print("all tests passed")               # all tests passed
+```
+
+## BUD bottlenecks
+
+BUD stands for Bottlenecks, Unnecessary work, and Duplicated work, three places to look when optimizing. A bottleneck is the step that dominates the runtime. Speeding up any other step does not help.
+
+Two common shapes: a one-time step such as sorting that costs more than everything after it, or a repeated step such as a linear search inside a loop. For a repeated step, ask whether one up-front step (sorting, a hash map, a prefix array) makes each repetition cheap.
+
+```python
+from bisect import bisect_right
+
+nums = [9, 2, 7, 4, 4, 1]
+queries = [4, 8, 0]
+
+# Brute force: a linear scan per query, O(Q * N). The scan is the bottleneck.
+print([sum(1 for v in nums if v <= q) for q in queries])  # [4, 5, 0]
+
+# Sort once in O(N log N); each query is now O(log N).
+s = sorted(nums)
+print([bisect_right(s, q) for q in queries])             # [4, 5, 0]
+```
+
+## Unnecessary work
+
+Unnecessary work is computation whose result you never needed. Typical cases: looping over a value that is already forced by the others, continuing a search after the answer is known, or checking candidates that a constraint already rules out.
+
+Look at each loop and ask whether its variable can be computed directly instead of searched for.
+
+```python
+def triples_brute(n: int) -> int:
+    """Count (a, b, c) of non-negative ints with a + b + c == n. O(N^3)."""
+    return sum(1 for a in range(n + 1) for b in range(n + 1) for c in range(n + 1)
+               if a + b + c == n)
+
+def triples(n: int) -> int:
+    """c = n - a - b is forced, so skip the third loop. O(N^2)."""
+    return sum(1 for a in range(n + 1) for b in range(n + 1 - a))
+
+print(triples_brute(5), triples(5))  # 21 21
+```
+
+## Duplicated work
+
+Duplicated work is computing the same thing more than once. Recomputing a range sum, re-sorting the same data, or recursing into the same subproblem are all signs. The fix is to compute it once and store it: a prefix array, a hash map, or memoization.
+
+```python
+from itertools import accumulate
+
+nums = [3, -1, 4, 1, -5, 9]
+prefix = [0, *accumulate(nums)]          # prefix[i] = sum(nums[:i]), built once in O(N)
+
+def range_sum(i: int, j: int) -> int:
+    """Sum of nums[i:j] in O(1) instead of O(j - i)."""
+    return prefix[j] - prefix[i]
+
+print(range_sum(1, 4), sum(nums[1:4]))  # 4 4
+print(range_sum(0, 6))                  # 11
+```
+
+## DIY (do it yourself)
+
+When you are stuck, solve a concrete instance by hand, without thinking about algorithms. People solve many problems efficiently by instinct. Then ask what you actually did and turn that into code.
+
+For example, to find how many meeting rooms a schedule needs, most people scan the day in time order and count how many meetings are running at once. That instinct is a sweep over sorted start and end events.
+
+```python
+def rooms_needed(meetings: list[tuple[int, int]]) -> int:
+    # (time, +1) for a start, (time, -1) for an end; ends sort before starts at equal times
+    events = sorted([(s, 1) for s, _ in meetings] + [(e, -1) for _, e in meetings])
+    running = best = 0
+    for _, delta in events:
+        running += delta
+        best = max(best, running)
     return best
 
-print(kadane(arr))  # 6 -- same answer, but O(N) instead of O(N log N)
+print(rooms_needed([(9, 10), (9, 12), (11, 13), (10, 11)]))  # 2
 ```
 
-## Greedy algorithms
+## Simplify and generalize
 
-A greedy algorithm makes the locally optimal choice at each step, never reconsidering past decisions. It works when the problem has the greedy-choice property: a locally optimal decision can always be extended to a globally optimal solution. When the property holds, greedy solutions are typically simpler and faster than alternatives.
+Drop or relax one constraint, solve the easier version, then add the constraint back. The simpler solution often becomes a building block or reveals the core idea.
 
-The classic test case is interval scheduling: to attend the maximum number of non-overlapping meetings, always pick the meeting that ends earliest. This greedy choice is provably optimal. Other greedy problems include Huffman coding, fractional knapsack, and minimum spanning trees (Kruskal's and Prim's).
+To check that every row and every column of a grid holds distinct values, first solve "are the values in one list distinct?" Then apply that helper to each row and each column.
 
 ```python
-def max_activities(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
-    """Select the maximum set of non-overlapping intervals. O(N log N)."""
-    # Sort by end time -- the greedy criterion
-    sorted_intervals = sorted(intervals, key=lambda x: x[1])
+def all_distinct(values) -> bool:
+    values = list(values)
+    return len(set(values)) == len(values)
 
-    selected = [sorted_intervals[0]]
-    for start, end in sorted_intervals[1:]:
-        if start >= selected[-1][1]:   # no overlap with last selected
-            selected.append((start, end))
+def lines_distinct(grid: list[list[int]]) -> bool:
+    return all(map(all_distinct, grid)) and all(map(all_distinct, zip(*grid)))
 
-    return selected
-
-
-meetings = [(0, 6), (1, 4), (3, 5), (5, 7), (3, 9), (5, 9),
-            (6, 10), (8, 11), (8, 12), (2, 14), (12, 16)]
-result = max_activities(meetings)
-print(f"Max non-overlapping: {len(result)} -> {result}")
-# Max non-overlapping: 4 -> [(1, 4), (5, 7), (8, 11), (12, 16)]
+print(lines_distinct([[1, 2, 3], [2, 3, 1], [3, 1, 2]]))  # True
+print(lines_distinct([[1, 2], [1, 3]]))                   # False
 ```
 
-## Backtracking
+## Base case and build
 
-Backtracking builds a solution incrementally, one decision at a time, and abandons ("prunes") a partial solution as soon as it detects that it cannot possibly lead to a valid complete solution. This is exhaustive search with early termination. The structure is always a recursive function that iterates over choices at the current level, makes a choice, recurses, then undoes the choice before trying the next one.
+Solve the smallest input (n = 0 or n = 1), then the next one, and look for a way to build each answer from the previous one. This leads naturally to recursion or bottom-up dynamic programming.
 
-Use backtracking for constraint-satisfaction and enumeration problems: permutations, combinations, subsets, N-queens, Sudoku solving, and word search on a grid. The decision tree below shows how generating permutations of [1, 2, 3] branches, backtracks, and prunes.
-
-```mermaid
-graph TD
-    Root["[]"] --> A["[1]"]
-    Root --> B["[2]"]
-    Root --> C["[3]"]
-
-    A --> A1["[1,2]"]
-    A --> A2["[1,3]"]
-
-    A1 --> A1a["[1,2,3] done"]
-    A2 --> A2a["[1,3,2] done"]
-
-    B --> B1["[2,1]"]
-    B --> B2["[2,3]"]
-
-    B1 --> B1a["[2,1,3] done"]
-    B2 --> B2a["[2,3,1] done"]
-
-    C --> C1["[3,1]"]
-    C --> C2["[3,2]"]
-
-    C1 --> C1a["[3,1,2] done"]
-    C2 --> C2a["[3,2,1] done"]
-```
+A Gray code lists all n-bit strings so that neighbours differ in exactly one bit. The n-bit list is the (n-1)-bit list with `0` in front, followed by the same list reversed with `1` in front.
 
 ```python
-def permutations(nums: list[int]) -> list[list[int]]:
-    """Generate all permutations via backtracking."""
-    result: list[list[int]] = []
+def gray_code(n: int) -> list[str]:
+    if n == 0:
+        return [""]                       # base case
+    prev = gray_code(n - 1)               # build from the smaller answer
+    return ["0" + c for c in prev] + ["1" + c for c in reversed(prev)]
 
-    def backtrack(path: list[int], remaining: set[int]) -> None:
-        if not remaining:
-            result.append(path[:])    # found a complete permutation
-            return
-        for num in sorted(remaining):
-            path.append(num)          # choose
-            backtrack(path, remaining - {num})  # explore
-            path.pop()                # un-choose (backtrack)
-
-    backtrack([], set(nums))
-    return result
-
-
-print(permutations([1, 2, 3]))
-# [[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]
+print(gray_code(1))  # ['0', '1']
+print(gray_code(2))  # ['00', '01', '11', '10']
 ```
 
-## BFS and DFS as problem-solving tools
+## Data structure brainstorm
 
-BFS and DFS are not just graph traversal algorithms -- they are general problem-solving frameworks. BFS explores level by level (useful when you need shortest path or level-order processing), while DFS explores as deep as possible before backtracking (useful for connectivity, cycle detection, and exhaustive search). On a 2D grid, treating each cell as a node and adjacent cells as edges turns matrix problems into graph problems.
+Go through the data structures you know and ask what each one would do for this problem: array, hash map, set, linked list, stack, queue or deque, heap, binary search tree, trie, graph. Most will clearly fail, and that is fine. The goal is to find the one whose strengths match the operations the problem needs.
 
-The island-counting problem is a classic application: scan the grid, and when you find an unvisited land cell, run BFS (or DFS) to mark all connected land cells as visited. Each BFS/DFS invocation discovers one island.
-
-```mermaid
-graph TD
-    subgraph "BFS flood fill from (0,0) on a 4x4 grid"
-        A["(0,0) land START"] --> B["(0,1) land"]
-        A --> C["(1,0) land"]
-        B --> D["(1,1) land"]
-        C --> D
-        D --> E["(1,2) land"]
-        E --> F["(2,2) land"]
-    end
-    style A fill:#4CAF50,color:#fff
-    style B fill:#81C784,color:#fff
-    style C fill:#81C784,color:#fff
-    style D fill:#A5D6A7,color:#000
-    style E fill:#C8E6C9,color:#000
-    style F fill:#E8F5E9,color:#000
-```
+Example: report the maximum of the last W readings after each new reading. A hash map does not keep order. A heap finds the max but removing expired readings is awkward. A deque that keeps indexes of decreasing values gives O(1) amortized per reading.
 
 ```python
 from collections import deque
 
+def rolling_max(readings: list[int], w: int) -> list[int]:
+    dq: deque[int] = deque()              # indexes; their values decrease front to back
+    out: list[int] = []
+    for i, x in enumerate(readings):
+        while dq and readings[dq[-1]] <= x:
+            dq.pop()
+        dq.append(i)
+        if dq[0] <= i - w:
+            dq.popleft()                  # front index left the window
+        if i >= w - 1:
+            out.append(readings[dq[0]])
+    return out
 
-def count_islands(grid: list[list[str]]) -> int:
-    """Count the number of islands in a 2D grid using BFS. O(R*C)."""
-    if not grid:
-        return 0
-
-    rows, cols = len(grid), len(grid[0])
-    visited = [[False] * cols for _ in range(rows)]
-    islands = 0
-
-    def bfs(r: int, c: int) -> None:
-        queue = deque([(r, c)])
-        visited[r][c] = True
-        while queue:
-            cr, cc = queue.popleft()
-            for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-                nr, nc = cr + dr, cc + dc
-                if (0 <= nr < rows and 0 <= nc < cols
-                        and not visited[nr][nc]
-                        and grid[nr][nc] == "1"):
-                    visited[nr][nc] = True
-                    queue.append((nr, nc))
-
-    for r in range(rows):
-        for c in range(cols):
-            if grid[r][c] == "1" and not visited[r][c]:
-                bfs(r, c)
-                islands += 1
-
-    return islands
-
-
-grid = [
-    ["1", "1", "0", "0", "0"],
-    ["1", "1", "0", "0", "0"],
-    ["0", "0", "1", "0", "0"],
-    ["0", "0", "0", "1", "1"],
-]
-print(count_islands(grid))  # 3
+print(rolling_max([4, 2, 12, 3, 1, 7, 5], 3))  # [12, 12, 12, 7, 7]
 ```
 
-## Binary search beyond sorted arrays
+## Best conceivable runtime
 
-Binary search is not limited to finding an element in a sorted array. The deeper principle is: whenever you can define a boolean condition that is `False` for all values below some threshold and `True` for all values above it, you can binary search on that threshold. This "search on the answer" technique applies to minimization and maximization problems where you can verify a candidate answer efficiently.
+The best conceivable runtime (BCR) is a lower bound on any solution: the time you could not beat no matter how clever you are. Usually it comes from the input size. If you must look at every one of N values, the BCR is O(N). It is not a promise that such an algorithm exists.
 
-For example, "Koko eating bananas": given piles of bananas and H hours, find the minimum eating speed K such that Koko finishes all piles in time. The answer space is `[1, max(piles)]`, and for any candidate K you can check feasibility in O(N). Binary search over K gives O(N log M) total.
+BCR helps in two ways. If your solution is far above it, keep optimizing. If you already match it, stop optimizing time and focus on space or clarity. Any work that costs O(BCR) or less is "free", since it cannot make the total worse.
 
 ```python
-import math
+def covers_ids_sorted(nums: list[int]) -> bool:
+    """Does nums hold each ID 0..N-1 exactly once? Sorting costs O(N log N)."""
+    return sorted(nums) == list(range(len(nums)))
 
+def covers_ids(nums: list[int]) -> bool:
+    """O(N) with a seen array, which matches the BCR: every value must be read."""
+    seen = [False] * len(nums)
+    for x in nums:
+        if not 0 <= x < len(nums) or seen[x]:
+            return False
+        seen[x] = True
+    return True
 
-def min_eating_speed(piles: list[int], h: int) -> int:
-    """Find the minimum speed to eat all piles within h hours. O(N log M)."""
+print(covers_ids_sorted([2, 0, 3, 1]))  # True
+print(covers_ids([2, 0, 3, 1]))         # True
+print(covers_ids([2, 0, 2, 1]))         # False
+```
 
-    def can_finish(speed: int) -> bool:
-        hours = sum(math.ceil(p / speed) for p in piles)
-        return hours <= h
+## Frequency map
 
-    lo, hi = 1, max(piles)
+A frequency map counts how often each value appears. It turns "compare by content" and "how many times" questions into one O(N) pass plus lookups. Use `collections.Counter` or a dict for general keys, or a fixed array of 26 counters when the keys are lowercase letters.
+
+Triggers: duplicates, "appears at least k times", majority, same items regardless of order, or counts inside a window.
+
+```python
+from collections import Counter
+
+def frequent(items: list[str], k: int) -> list[str]:
+    counts = Counter(items)
+    return sorted(x for x, c in counts.items() if c >= k)
+
+def letter_counts(s: str) -> list[int]:
+    counts = [0] * 26
+    for ch in s:
+        counts[ord(ch) - ord("a")] += 1
+    return counts
+
+print(frequent(["ok", "err", "ok", "warn", "ok", "err"], 2))  # ['err', 'ok']
+print(letter_counts("banana")[:3])                           # [3, 1, 0]
+```
+
+## Two pointers
+
+Two indexes move through the data under a rule. With pointers at opposite ends of a sorted array, each comparison rules out a whole group of pairs, so a pair search drops from O(N^2) to O(N). With a read pointer and a write pointer moving in the same direction, you can filter or compact an array in place with O(1) extra space.
+
+Triggers: sorted input, pairs that meet a condition, in-place partitioning, or comparing from both ends.
+
+```python
+def count_pairs_below(nums: list[int], target: int) -> int:
+    nums = sorted(nums)
+    left, right, count = 0, len(nums) - 1, 0
+    while left < right:
+        if nums[left] + nums[right] < target:
+            count += right - left     # left pairs with every index in (left, right]
+            left += 1
+        else:
+            right -= 1
+    return count
+
+def compact_nonzero(nums: list[int]) -> list[int]:
+    write = 0
+    for read in range(len(nums)):
+        if nums[read] != 0:
+            nums[write] = nums[read]
+            write += 1
+    nums[write:] = [0] * (len(nums) - write)
+    return nums
+
+print(count_pairs_below([1, 5, 3, 2, 8], 7))  # 4
+print(compact_nonzero([0, 4, 0, 0, 7, 2]))    # [4, 7, 2, 0, 0, 0]
+```
+
+## Sliding window
+
+A sliding window keeps a running answer over a contiguous range instead of recomputing every range from scratch. A **fixed** window covers exactly k elements: when it moves one step, add the element that enters and remove the one that leaves, turning O(N * k) into O(N).
+
+```mermaid
+flowchart LR
+    S1["[2, 1, 5] sum 8"] --> S2["[1, 5, 1] sum 7"]
+    S2 --> S3["[5, 1, 3] sum 9"]
+    S3 --> S4["[1, 3, 2] sum 6"]
+    S3 -. "best" .-> R["9"]
+```
+
+```python
+def max_window_sum(nums: list[int], k: int) -> int:
+    window = sum(nums[:k])
+    best = window
+    for i in range(k, len(nums)):
+        window += nums[i] - nums[i - k]   # add entering, remove leaving
+        best = max(best, window)
+    return best
+
+print(max_window_sum([2, 1, 5, 1, 3, 2], 3))  # 9
+```
+
+A **variable** window grows its right edge one step at a time and shrinks its left edge only when a rule is broken. Both edges only move forward, so the total work is O(N). Use it for "longest" or "shortest" contiguous ranges that satisfy a condition, such as all-distinct characters or a sum of at least a target (with non-negative values).
+
+```python
+def longest_distinct(s: str) -> int:
+    last: dict[str, int] = {}
+    left = best = 0
+    for right, ch in enumerate(s):
+        if last.get(ch, -1) >= left:
+            left = last[ch] + 1           # jump past the earlier copy
+        last[ch] = right
+        best = max(best, right - left + 1)
+    return best
+
+print(longest_distinct("abcabcbb"))  # 3
+print(longest_distinct("aaaa"))      # 1
+```
+
+## Divide and conquer
+
+Split the input into independent parts, solve each part recursively, and combine the results. The cost depends on how many parts you make and how expensive the combine step is: two halves plus a linear merge gives O(N log N). If the parts overlap and repeat, use dynamic programming instead.
+
+Counting inversions (pairs `i < j` with `a[i] > a[j]`) shows why the combine step matters: while merging two sorted halves, each time a right value goes first, every remaining left value forms an inversion with it.
+
+```python
+def sort_and_count(nums: list[int]) -> tuple[list[int], int]:
+    if len(nums) <= 1:
+        return nums, 0
+    mid = len(nums) // 2
+    left, a = sort_and_count(nums[:mid])
+    right, b = sort_and_count(nums[mid:])
+    merged, i, j, cross = [], 0, 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            merged.append(left[i]); i += 1
+        else:
+            merged.append(right[j]); j += 1
+            cross += len(left) - i        # all remaining left values are larger
+    merged += left[i:] + right[j:]
+    return merged, a + b + cross
+
+print(sort_and_count([3, 1, 4, 1, 5, 2]))  # ([1, 1, 2, 3, 4, 5], 6)
+```
+
+## Greedy choice
+
+A greedy algorithm makes the best local choice at each step and never goes back. It is correct only when a local best choice can always be extended to a global best; you should be able to argue why. When that argument fails, greedy gives wrong answers, and dynamic programming is usually the fix.
+
+Picking the meeting that ends earliest maximizes how many non-overlapping meetings fit. Paying an amount with the largest coin first works for some coin sets but not all.
+
+```python
+def max_meetings(intervals: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    chosen: list[tuple[int, int]] = []
+    for start, end in sorted(intervals, key=lambda x: x[1]):   # earliest end first
+        if not chosen or start >= chosen[-1][1]:
+            chosen.append((start, end))
+    return chosen
+
+def greedy_coins(amount: int, coins: list[int]) -> int:
+    used = 0
+    for c in sorted(coins, reverse=True):
+        used += amount // c
+        amount %= c
+    return used
+
+print(max_meetings([(1, 4), (3, 5), (0, 6), (5, 7), (8, 9), (5, 9)]))  # [(1, 4), (5, 7), (8, 9)]
+print(greedy_coins(6, [1, 3, 4]))  # 3
+```
+
+The second call returns 3 (4 + 1 + 1), but 3 + 3 uses only 2 coins, so greedy is wrong for that coin set.
+
+## Backtracking
+
+Backtracking builds a solution one choice at a time. At each step it makes a choice, recurses, and then undoes the choice before trying the next one. Pruning stops a branch as soon as it cannot lead to a valid answer, which is what keeps exhaustive search practical.
+
+Every backtracking solution has the same skeleton: a base case that records a complete answer, a loop over the choices still allowed, and a choose / explore / unchoose body.
+
+```mermaid
+graph TD
+    R["[]"] --> A["[1]"]
+    R --> B["[2]"]
+    R --> C["[3]"]
+    A --> A2["[1, 2] done"]
+    A --> A3["[1, 3] done"]
+    B --> B3["[2, 3] done"]
+    C -. "pruned: not enough items left" .-> X["x"]
+```
+
+```python
+def combinations(items: list[int], k: int) -> list[list[int]]:
+    out: list[list[int]] = []
+    path: list[int] = []
+
+    def backtrack(start: int) -> None:
+        if len(path) == k:
+            out.append(path[:])                    # record a complete answer
+            return
+        for i in range(start, len(items)):
+            if len(items) - i < k - len(path):     # prune: too few items left
+                break
+            path.append(items[i])                  # choose
+            backtrack(i + 1)                       # explore
+            path.pop()                             # unchoose
+
+    backtrack(0)
+    return out
+
+print(combinations([1, 2, 3], 2))  # [[1, 2], [1, 3], [2, 3]]
+```
+
+## Grid BFS and DFS
+
+Treat each cell of a grid as a node and its up, down, left, and right neighbours as edges, and grid problems become graph problems. BFS visits cells in order of distance, so it finds the fewest steps between two cells. DFS goes deep first and suits flood fill, connectivity, and exhaustive path search. Mark cells visited when you add them so nothing is processed twice.
+
+```python
+from collections import deque
+
+def fewest_steps(grid: list[str], start: tuple[int, int], goal: tuple[int, int]) -> int:
+    rows, cols = len(grid), len(grid[0])
+    dist = {start: 0}
+    queue = deque([start])
+    while queue:
+        r, c = queue.popleft()
+        if (r, c) == goal:
+            return dist[(r, c)]
+        for nr, nc in ((r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1)):
+            if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == "." and (nr, nc) not in dist:
+                dist[(nr, nc)] = dist[(r, c)] + 1
+                queue.append((nr, nc))
+    return -1
+
+maze = ["..#.",
+        ".##.",
+        "...."]
+print(fewest_steps(maze, (0, 0), (0, 3)))  # 7
+```
+
+## Binary search on answer
+
+Binary search works on any yes/no condition that flips once: false for every value below some threshold and true for every value above it. If you can check a candidate answer quickly, search the range of possible answers for the threshold. The cost is O(log R) checks, where R is the size of the answer range.
+
+Example: the minimum download rate (MB per hour, each file downloaded alone) that finishes all files within H hours. Higher rates never take longer, so feasibility is monotonic.
+
+```python
+def min_rate(files: list[int], hours: int) -> int:
+    def fits(rate: int) -> bool:
+        return sum(-(-size // rate) for size in files) <= hours   # ceiling division
+
+    lo, hi = 1, max(files)
     while lo < hi:
         mid = (lo + hi) // 2
-        if can_finish(mid):
-            hi = mid        # mid works, try slower
+        if fits(mid):
+            hi = mid          # mid works; try slower
         else:
-            lo = mid + 1    # mid too slow, must go faster
-
+            lo = mid + 1      # mid too slow
     return lo
 
-
-print(min_eating_speed([3, 6, 7, 11], 8))    # 4
-print(min_eating_speed([30, 11, 23, 4, 20], 5))  # 30
-print(min_eating_speed([30, 11, 23, 4, 20], 6))  # 23
+print(min_rate([4, 9, 12], 6))   # 5
+print(min_rate([4, 9, 12], 3))   # 12
 ```
 
 ## Monotonic stack
 
-A monotonic stack maintains elements in strictly increasing (or decreasing) order from bottom to top. When a new element would violate the monotonic property, you pop elements until the property is restored. Each element is pushed and popped at most once, so the total work across all iterations is O(N) even though individual iterations may pop multiple elements.
+A monotonic stack keeps its values in increasing or decreasing order. When a new value would break the order, pop until the order holds again; each popped value has just found its answer. Every element is pushed and popped at most once, so the whole pass is O(N).
 
-The canonical problem is "next greater element": for each element in an array, find the next element to its right that is larger. A decreasing monotonic stack solves this in one pass. The pattern also solves largest rectangle in histogram, daily temperatures, and stock span.
+Triggers: next or previous greater or smaller element, spans, and histogram-style area questions.
 
 ```python
-def next_greater_element(nums: list[int]) -> list[int]:
-    """For each element, find the next greater element to its right. O(N).
-
-    Returns -1 if no greater element exists.
-    """
-    n = len(nums)
-    result = [-1] * n
-    stack: list[int] = []  # stores indices; values at these indices are decreasing
-
-    for i in range(n):
-        # Pop elements smaller than current -- current is their "next greater"
-        while stack and nums[stack[-1]] < nums[i]:
-            idx = stack.pop()
-            result[idx] = nums[i]
+def next_greater(nums: list[int]) -> list[int]:
+    result = [-1] * len(nums)
+    stack: list[int] = []            # indexes whose values decrease bottom to top
+    for i, x in enumerate(nums):
+        while stack and nums[stack[-1]] < x:
+            result[stack.pop()] = x  # x is the next greater for the popped index
         stack.append(i)
-
     return result
 
-
-print(next_greater_element([2, 1, 2, 4, 3]))
-# [4, 2, 4, -1, -1]
-
-print(next_greater_element([4, 3, 2, 1]))
-# [-1, -1, -1, -1]  (descending -- no next greater for any element)
-
-print(next_greater_element([1, 3, 2, 4]))
-# [3, 4, 4, -1]
+print(next_greater([2, 1, 2, 4, 3]))  # [4, 2, 4, -1, -1]
+print(next_greater([4, 3, 2, 1]))     # [-1, -1, -1, -1]
 ```
 
-## Bit vector for space-efficient boolean tracking
+## Bit vector
 
-A bit vector uses individual bits as boolean flags, compressing what would be an array of booleans (1 byte each in most languages) into a structure using 1 bit per flag -- an 8x space reduction. In Python, integers have arbitrary precision, so a single `int` can serve as a bit vector of any size using bitwise operations: `|` to set a bit, `&` to test, `^` to toggle.
-
-This pattern appears in problems with constrained memory: finding a missing or duplicate integer in a large range, tracking which characters have been seen in a string, or implementing a compact visited set. When the domain fits in a reasonable number of bits, a bit vector replaces a hash set with no hashing overhead and better cache behavior.
+When the keys are small non-negative integers, one bit per key replaces a set of booleans. Python integers grow as needed, so a single `int` works as a bit vector of any length: `|` sets a bit, `&` tests it, and AND or OR of two vectors gives set intersection or union in one step.
 
 ```python
-def find_duplicate(nums: list[int]) -> int:
-    """Find the duplicate in a list containing 1..N with one duplicate.
+def to_bits(ids: list[int]) -> int:
+    v = 0
+    for i in ids:
+        v |= 1 << i
+    return v
 
-    Uses a bit vector instead of a hash set. O(N) time, O(N/8) space.
-    """
-    seen = 0  # each bit position represents a number
-    for num in nums:
-        mask = 1 << num
-        if seen & mask:
-            return num
-        seen |= mask
+def first_repeat(ids: list[int]) -> int:
+    seen = 0
+    for i in ids:
+        if seen >> i & 1:
+            return i
+        seen |= 1 << i
     return -1
 
-
-def has_all_unique_lowercase(s: str) -> bool:
-    """Check if a string has all unique lowercase letters using 26 bits."""
-    checker = 0
-    for ch in s:
-        bit = ord(ch) - ord('a')
-        if checker & (1 << bit):
-            return False
-        checker |= (1 << bit)
-    return True
-
-
-print(find_duplicate([1, 3, 4, 2, 5, 3]))          # 3
-print(has_all_unique_lowercase("abcdef"))            # True
-print(has_all_unique_lowercase("abcdeaf"))           # False
+both = to_bits([1, 5, 9, 12]) & to_bits([5, 7, 12])
+print([i for i in range(both.bit_length()) if both >> i & 1])  # [5, 12]
+print(first_repeat([4, 0, 6, 0, 4]))                            # 0
 ```
 
-## Choosing the right pattern
+## Choosing a pattern
 
-Picking the correct pattern is half the battle. The decision depends on the structure of the input, what the problem asks for, and what constraints it imposes. The flowchart below provides a starting heuristic -- it will not cover every problem, but it handles the most common interview scenarios.
+Read the shape of the input and the question, then pick a starting pattern. The flowchart below is a heuristic, not a rule; if the first pattern does not fit, go back to BUD and the data structure brainstorm.
 
 ```mermaid
 flowchart TD
-    Start["What does the problem ask?"] --> Q1{"Counting, frequency,\nor anagram?"}
-    Q1 -- Yes --> P1["Frequency Counting"]
-    Q1 -- No --> Q2{"Contiguous subarray\nor substring?"}
-    Q2 -- Yes --> P2["Sliding Window"]
-    Q2 -- No --> Q3{"Sorted input or\npair/triplet search?"}
-    Q3 -- Yes --> P3["Two Pointers"]
-    Q3 -- No --> Q4{"Find min/max threshold\nor search on answer?"}
-    Q4 -- Yes --> P4["Binary Search\non Answer"]
-    Q4 -- No --> Q5{"Generate all\ncombinations/permutations?"}
-    Q5 -- Yes --> P5["Backtracking"]
-    Q5 -- No --> Q6{"Grid traversal,\nconnected components,\nor shortest path?"}
-    Q6 -- Yes --> P6["BFS / DFS"]
-    Q6 -- No --> Q7{"Next greater/smaller\nelement?"}
-    Q7 -- Yes --> P7["Monotonic Stack"]
-    Q7 -- No --> Q8{"Problem splits into\nindependent subproblems?"}
-    Q8 -- Yes --> P8["Divide and Conquer"]
-    Q8 -- No --> Q9{"Local choice leads\nto global optimum?"}
-    Q9 -- Yes --> P9["Greedy"]
-    Q9 -- No --> Fallback["Consider DP or\nproblem-specific approach"]
+    Q["What does the question ask?"] --> F{"Counts or duplicates?"}
+    F -- yes --> P1["Frequency map"]
+    F -- no --> W{"Best contiguous range?"}
+    W -- yes --> P2["Sliding window"]
+    W -- no --> T{"Sorted input or pairs?"}
+    T -- yes --> P3["Two pointers"]
+    T -- no --> M{"Smallest value that works?"}
+    M -- yes --> P4["Binary search on answer"]
+    M -- no --> A{"List all valid choices?"}
+    A -- yes --> P5["Backtracking"]
+    A -- no --> G{"Grid or connections?"}
+    G -- yes --> P6["BFS or DFS"]
+    G -- no --> N{"Next greater or smaller?"}
+    N -- yes --> P7["Monotonic stack"]
+    N -- no --> C{"Local best is safe?"}
+    C -- yes --> P8["Greedy"]
+    C -- no --> P9["Divide and conquer or DP"]
 ```
