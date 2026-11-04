@@ -1,394 +1,461 @@
-## Binary number representation
+## Binary representation
 
-Computers store integers as sequences of bits (binary digits), where each bit position represents a power of 2. The rightmost bit (bit 0) is the least significant bit (LSB) and represents 2^0 = 1; each position to the left doubles the value. To convert decimal to binary, repeatedly divide by 2 and collect remainders. To convert back, sum the powers of 2 where each bit is 1.
+An integer is stored as a row of bits, and bit `i` (counting from 0 on the right) is worth `2^i`. The rightmost bit is the least significant bit (LSB); the leftmost bit of a fixed-width value is the most significant bit (MSB). To read a binary number, add the powers of two where the bit is 1. To write one, divide by 2 repeatedly and read the remainders from last to first.
 
-Understanding binary representation is foundational because every other bit manipulation technique operates directly on this structure. Python integers have arbitrary precision, but hardware and most languages use fixed-width representations (8, 16, 32, or 64 bits).
+Hardware works with fixed widths (8, 16, 32, 64 bits). Python integers have no fixed width, so when a problem says "32-bit", you simulate the width with a mask such as `0xFFFFFFFF`. Hex is a shorthand for binary: each hex digit is exactly four bits.
 
 ```python
-# Decimal to binary
 n = 42
-print(bin(n))           # '0b101010'
-print(f"{n:08b}")       # '00101010' — 8-bit zero-padded
+print(bin(n))                    # 0b101010
+print(f"{n:08b}")                # 00101010
+print(int("101010", 2))          # 42
+print(hex(0b1011_0110))          # 0xb6
+print(n.bit_length())            # 6
 
-# Binary to decimal
-print(int('101010', 2)) # 42
+# 42 = 32 + 8 + 2: the positions where the bit is 1
+print([i for i in range(n.bit_length()) if n >> i & 1])  # [1, 3, 5]
+```
 
-# Manual conversion: sum powers of 2 where each bit is 1
-#   bit positions:  5  4  3  2  1  0
-#   bits:           1  0  1  0  1  0
-#   values:        32  0  8  0  2  0  → 32 + 8 + 2 = 42
+## Binary arithmetic by hand
 
-# Show each bit position
-def show_bits(n: int, width: int = 8) -> str:
-    """Display value with bit position breakdown."""
-    bits = f"{n:0{width}b}"
-    breakdown = " + ".join(
-        f"{1 << (width - 1 - i)}"
-        for i, b in enumerate(bits) if b == '1'
-    )
-    return f"{bits} = {breakdown} = {n}"
+Binary addition works like decimal addition with a smaller table: `0+0=0`, `0+1=1`, `1+1=10` (write 0, carry 1), and `1+1+1=11` (write 1, carry 1). Work right to left and track the carry column by column. Subtraction is easiest as "add the two's complement" (flip the bits of the subtrahend and add 1).
 
-print(show_bits(42))    # 00101010 = 32 + 8 + 2 = 42
-print(show_bits(255))   # 11111111 = 128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 = 255
+Multiplying by 2 appends a 0 on the right, which is the same as a left shift. Practicing a few sums by hand builds the intuition you need for tricks like `n - 1` (which flips the lowest 1 and every 0 below it).
+
+```python
+a, b = 0b0110, 0b0111            # 6 + 7
+#   carry  1 1 0
+#          0 1 1 0
+#        + 0 1 1 1
+#        ---------
+#          1 1 0 1  = 13
+print(f"{a + b:04b}")            # 1101
+
+# Subtract by adding the 4-bit two's complement of b
+neg_b = (~b + 1) & 0xF
+print(f"{(0b1101 + neg_b) & 0xF:04b}")  # 0110
+
+# n - 1 flips the lowest 1 and every 0 below it
+print(f"{0b1011000:07b} -> {0b1011000 - 1:07b}")  # 1011000 -> 1010111
 ```
 
 ## Two's complement
 
-Two's complement is the standard way hardware represents signed integers. In an N-bit system, the most significant bit (MSB) carries a negative weight of -2^(N-1) instead of a positive one. For 8 bits, the MSB represents -128. This means the range for an 8-bit signed integer is -128 to +127.
+Two's complement is how hardware stores signed integers. In an N-bit value the MSB carries a weight of `-2^(N-1)` instead of `+2^(N-1)`, so an 8-bit signed byte ranges from -128 to +127. To negate, flip every bit and add 1. There is one zero, and the same adder circuit handles signed and unsigned addition.
 
-To negate a number in two's complement, flip all bits (bitwise NOT) and add 1. This eliminates the problem of having two representations of zero (which sign-magnitude has) and makes addition/subtraction work identically for signed and unsigned values. Python integers are arbitrary precision, so to simulate fixed-width two's complement, you mask to the desired width.
+A handy view: the N-bit pattern of a negative number `-k` equals the unsigned value `2^N - k`. Python integers behave like an infinite two's complement, so `-1` is "all ones forever"; mask with `(1 << N) - 1` to see the N-bit pattern.
 
 ```mermaid
 flowchart TD
-    subgraph "8-bit Two's Complement"
+    subgraph "8-bit range"
         direction TB
-        R1["0111 1111 = +127  (max positive)"]
+        R1["0111 1111 = +127"]
         R2["0000 0001 = +1"]
-        R3["0000 0000 =  0"]
+        R3["0000 0000 = 0"]
         R4["1111 1111 = -1"]
-        R5["1000 0000 = -128  (min negative)"]
+        R5["1000 0000 = -128"]
     end
     R1 ~~~ R2 ~~~ R3 ~~~ R4 ~~~ R5
 
-    subgraph "Negation: computing -5 from +5"
+    subgraph "Negate +5"
         direction TB
-        S1["Start:    0000 0101  (+5)"]
-        S2["Flip bits: 1111 1010"]
-        S3["Add 1:    1111 1011  (-5)"]
+        S1["0000 0101 (+5)"]
+        S2["flip: 1111 1010"]
+        S3["add 1: 1111 1011 (-5)"]
         S1 --> S2 --> S3
     end
 ```
 
 ```python
-# Simulating 8-bit two's complement in Python
 BITS = 8
-MASK = (1 << BITS) - 1    # 0xFF = 255
+MASK = (1 << BITS) - 1
 
-def to_twos_comp(n: int, bits: int = BITS) -> int:
-    """Convert a signed integer to its two's complement bit pattern."""
-    if n < 0:
-        return (1 << bits) + n      # e.g., -5 → 256 + (-5) = 251 → 11111011
-    return n
+def to_pattern(n: int) -> int:
+    """Signed int -> unsigned N-bit pattern."""
+    return n & MASK
 
-def from_twos_comp(val: int, bits: int = BITS) -> int:
-    """Interpret a bit pattern as a signed two's complement integer."""
-    if val & (1 << (bits - 1)):     # MSB is set → negative
-        return val - (1 << bits)
-    return val
+def to_signed(p: int) -> int:
+    """Unsigned N-bit pattern -> signed int."""
+    return p - (1 << BITS) if p >> (BITS - 1) & 1 else p
 
-# Negate via NOT + 1
-pos_5 = 0b0000_0101                # +5
-neg_5 = (~pos_5 + 1) & MASK        # flip, add 1, mask to 8 bits
-print(f"+5: {pos_5:08b}")          # 00000101
-print(f"-5: {neg_5:08b}")          # 11111011
-print(f"interpreted: {from_twos_comp(neg_5)}")  # -5
+print(f"{to_pattern(-5):08b}")       # 11111011
+print(to_signed(0b11111011))         # -5
+print(to_signed(0b10000000))         # -128
+print(f"{(~5 + 1) & MASK:08b}")      # 11111011
 ```
 
 ## Bitwise AND, OR, XOR, NOT
 
-The four fundamental bitwise operators compare corresponding bits of two integers and produce a new integer. **AND** (`&`) yields 1 only when both bits are 1 — useful for masking and checking specific bits. **OR** (`|`) yields 1 when either bit is 1 — useful for setting bits. **XOR** (`^`) yields 1 when the bits differ — useful for toggling and finding unique elements. **NOT** (`~`) flips every bit — in Python, `~x` equals `-(x+1)` because of arbitrary-precision integers.
+The four bitwise operators act on every bit position independently. **AND** (`&`) is 1 only where both bits are 1, so it keeps or tests bits. **OR** (`|`) is 1 where either bit is 1, so it turns bits on. **XOR** (`^`) is 1 where the bits differ, so it flips bits and cancels pairs. **NOT** (`~`) flips every bit; in Python `~x == -x - 1` because integers are unbounded.
 
-These operators are the building blocks for every bit manipulation technique. Memorize their truth tables and the rest follows naturally.
+Remember the roles: AND with a mask to read or clear, OR to set, XOR to toggle. Almost every trick in this topic is one of these three moves with a cleverly built mask.
 
 ```mermaid
 flowchart LR
-    subgraph "Truth Tables"
-        direction TB
-        subgraph "AND (&)"
-            A1["0 & 0 = 0"]
-            A2["0 & 1 = 0"]
-            A3["1 & 0 = 0"]
-            A4["1 & 1 = 1"]
-        end
-        subgraph "OR (|)"
-            O1["0 | 0 = 0"]
-            O2["0 | 1 = 1"]
-            O3["1 | 0 = 1"]
-            O4["1 | 1 = 1"]
-        end
-        subgraph "XOR (^)"
-            X1["0 ^ 0 = 0"]
-            X2["0 ^ 1 = 1"]
-            X3["1 ^ 0 = 1"]
-            X4["1 ^ 1 = 0"]
-        end
+    subgraph "AND"
+        A1["1 & 1 = 1"]
+        A2["otherwise 0"]
+    end
+    subgraph "OR"
+        O1["0 | 0 = 0"]
+        O2["otherwise 1"]
+    end
+    subgraph "XOR"
+        X1["equal bits -> 0"]
+        X2["different bits -> 1"]
     end
 ```
 
 ```python
-a = 0b1100   # 12
-b = 0b1010   # 10
-
-print(f"AND:  {a & b:04b}")   # 1000  (8)  — both bits set
-print(f"OR:   {a | b:04b}")   # 1110  (14) — either bit set
-print(f"XOR:  {a ^ b:04b}")   # 0110  (6)  — bits differ
-print(f"NOT a: {~a}")         # -13 (Python: -(12+1))
-
-# Practical uses
-is_even = lambda n: (n & 1) == 0       # AND with 1 checks LSB
-set_flag = lambda flags, f: flags | f   # OR sets a flag
-toggle = lambda flags, f: flags ^ f     # XOR toggles a flag
+a, b = 0b1100, 0b1010
+print(f"{a & b:04b}")    # 1000
+print(f"{a | b:04b}")    # 1110
+print(f"{a ^ b:04b}")    # 0110
+print(~a)                # -13
+print(f"{~a & 0xF:04b}") # 0011
 ```
 
-## Left shift and right shift
+## Left and right shift
 
-The left shift operator (`<<`) moves all bits to the left by a given count, filling vacated positions with zeros. Each left shift by 1 doubles the value: `x << k` equals `x * 2^k`. This is how you construct bit masks and compute powers of 2 efficiently.
+`x << k` moves every bit k places left and fills with zeros, which multiplies by `2^k`. `x >> k` moves bits right and drops the low k bits, which divides by `2^k` rounding toward negative infinity. `1 << i` is the standard way to build a mask with only bit `i` set.
 
-The right shift operator (`>>`) moves bits to the right. **Arithmetic right shift** (Python's `>>`) preserves the sign bit, effectively performing integer division by 2 and rounding toward negative infinity. Some languages also have a **logical right shift** (`>>>` in Java/JavaScript) that fills with zeros regardless of sign. Python does not have `>>>` because its integers are arbitrary precision and always use arithmetic shift.
+In fixed-width languages a left shift can push bits off the top (overflow), and shifting by the full width or more is undefined in C. Python never loses bits on a left shift, so mask the result when you need N-bit behavior.
 
 ```python
-# Left shift: multiply by powers of 2
-print(1 << 0)    # 1    (2^0)
-print(1 << 3)    # 8    (2^3)
-print(5 << 2)    # 20   (5 * 4)
+print(5 << 2)            # 20
+print(20 >> 2)           # 5
+print(7 >> 1)            # 3
+print(-7 >> 1)           # -4
+print(f"{1 << 5:08b}")   # 00100000
 
-# Right shift: integer division by powers of 2
-print(20 >> 2)   # 5    (20 // 4)
-print(7 >> 1)    # 3    (7 // 2, rounds down)
-
-# Arithmetic shift preserves sign in Python
-print(-16 >> 2)  # -4   (-16 // 4)
-
-# Common use: create bitmask for position i
-def bit_at(i: int) -> int:
-    """Return a mask with only bit i set."""
-    return 1 << i
-
-for i in range(8):
-    print(f"bit {i}: {bit_at(i):08b}")
-# bit 0: 00000001
-# bit 1: 00000010
-# bit 2: 00000100
-# ...
-# bit 7: 10000000
+# 8-bit left shift: the top bit falls off
+print(f"{(0b1100_0001 << 1) & 0xFF:08b}")  # 10000010
 ```
 
-## Bit masks for get, set, and clear
+## Arithmetic vs logical right shift
 
-A bit mask is a value with specific bits turned on or off, used in combination with AND, OR, and XOR to read, write, or flip individual bits within a number. These three operations — getBit, setBit, and clearBit — are the fundamental building blocks for any bit manipulation problem.
+An **arithmetic** right shift copies the sign bit into the vacated high bits, so negative numbers stay negative and the result is floor division by `2^k`. A **logical** right shift fills the high bits with 0, treating the value as unsigned. Java and JavaScript spell them `>>` and `>>>`; in C the result for signed negatives is implementation-defined, so cast to unsigned when you want logical behavior.
 
-The pattern is always the same: shift `1` to the target position to create a mask, then apply the appropriate operator. Once these three operations are second nature, you can compose them to solve any bit-level task.
+Python's `>>` is always arithmetic. To get a logical shift for an N-bit value, mask to N bits first so the number is non-negative, then shift. Repeated arithmetic shifts of a negative number converge to -1; repeated logical shifts converge to 0.
+
+```python
+def logical_shift_right(x: int, k: int, bits: int = 8) -> int:
+    return (x & ((1 << bits) - 1)) >> k
+
+x = -16                                       # 1111 0000 in 8 bits
+print(f"{(x >> 2) & 0xFF:08b}")               # 11111100
+print(x >> 2)                                 # -4
+print(f"{logical_shift_right(x, 2):08b}")     # 00111100
+print(logical_shift_right(x, 2))              # 60
+print(-1 >> 10, logical_shift_right(-1, 10))  # -1 0
+```
+
+## Get bit
+
+To read bit `i`, either shift the number right by `i` and look at the last bit, or AND it with a mask that has only bit `i` set and check for nonzero. The two forms are equivalent; the shift form returns 0 or 1 directly, which is handy for counting and building strings.
+
+A common mistake is comparing `n & (1 << i)` to 1. That expression equals `1 << i` when the bit is set, so it only equals 1 when `i` is 0.
 
 ```mermaid
-flowchart TD
-    subgraph "getBit(n, i=2) — check if bit 2 is set"
-        G1["n       = 0101 1010"]
-        G2["mask    = 0000 0100  (1 << 2)"]
-        G3["n & mask = 0000 0000  → bit 2 is 0"]
-        G1 --> G3
-        G2 --> G3
-    end
-
-    subgraph "setBit(n, i=2) — turn bit 2 on"
-        S1["n       = 0101 1010"]
-        S2["mask    = 0000 0100  (1 << 2)"]
-        S3["n | mask = 0101 1110  → bit 2 is now 1"]
-        S1 --> S3
-        S2 --> S3
-    end
-
-    subgraph "clearBit(n, i=2) — turn bit 2 off"
-        C1["n       = 0101 1110"]
-        C2["~mask   = 1111 1011  ~(1 << 2)"]
-        C3["n & ~mask = 0101 1010  → bit 2 is now 0"]
-        C1 --> C3
-        C2 --> C3
-    end
+flowchart LR
+    G1["n = 0101 1010"] --> G3["n & mask = 0001 0000 -> bit 4 is 1"]
+    G2["mask = 0001 0000 (1 << 4)"] --> G3
 ```
 
 ```python
-def get_bit(n: int, i: int) -> bool:
-    """Return True if bit i is set in n."""
-    return (n & (1 << i)) != 0
+def get_bit(n: int, i: int) -> int:
+    return (n >> i) & 1
 
+def has_bit(n: int, i: int) -> bool:
+    return n & (1 << i) != 0
+
+n = 0b0101_1010
+print(get_bit(n, 4), get_bit(n, 2))  # 1 0
+print(has_bit(n, 6))                 # True
+```
+
+## Set bit
+
+To turn bit `i` on, OR with `1 << i`. Every other bit is unchanged because OR with 0 leaves a bit as it was, and the target bit becomes 1 whether it was 0 or already 1. Setting is idempotent: doing it twice is the same as doing it once.
+
+```python
 def set_bit(n: int, i: int) -> int:
-    """Return n with bit i set to 1."""
     return n | (1 << i)
 
+n = 0b0101_1010
+print(f"{set_bit(n, 0):08b}")              # 01011011
+print(f"{set_bit(set_bit(n, 0), 0):08b}")  # 01011011
+```
+
+## Clear bit
+
+To turn bit `i` off, AND with a mask that is all ones except bit `i`: `~(1 << i)`. AND with 1 keeps a bit; AND with 0 forces it to 0. Like setting, clearing is idempotent.
+
+Do not clear with XOR. `n ^ (1 << i)` flips the bit, so it turns a 0 into a 1 when the bit was already clear.
+
+```python
 def clear_bit(n: int, i: int) -> int:
-    """Return n with bit i set to 0."""
     return n & ~(1 << i)
 
+n = 0b0101_1010
+print(f"{clear_bit(n, 4):08b}")  # 01001010
+print(f"{clear_bit(n, 0):08b}")  # 01011010
+```
+
+## Toggle bit
+
+To flip bit `i`, XOR with `1 << i`. XOR with 1 inverts a bit and XOR with 0 leaves it alone. Toggling twice restores the original value, which makes XOR the right tool for on/off switches and undoable changes.
+
+```python
 def toggle_bit(n: int, i: int) -> int:
-    """Return n with bit i flipped."""
     return n ^ (1 << i)
 
-# Demonstration on n = 0b01011010 (90)
-n = 0b01011010
-print(f"n       = {n:08b}  ({n})")      # 01011010 (90)
-print(f"bit 2   = {get_bit(n, 2)}")      # False (bit 2 is 0)
-print(f"bit 4   = {get_bit(n, 4)}")      # True  (bit 4 is 1)
-
-n = set_bit(n, 2)
-print(f"set 2   = {n:08b}  ({n})")       # 01011110 (94)
-
-n = clear_bit(n, 4)
-print(f"clear 4 = {n:08b}  ({n})")       # 01001110 (78)
-
-n = toggle_bit(n, 0)
-print(f"toggle 0= {n:08b}  ({n})")       # 01001111 (79)
+n = 0b0000_1111
+print(f"{toggle_bit(n, 0):08b}")                 # 00001110
+print(f"{toggle_bit(n, 7):08b}")                 # 10001111
+print(f"{toggle_bit(toggle_bit(n, 3), 3):08b}")  # 00001111
 ```
 
-## Common bit tricks
+## Update bit
 
-A handful of bit manipulation patterns appear repeatedly in interviews and systems code. Knowing them by heart lets you recognize and apply them instantly.
-
-`n & (n - 1)` clears the lowest set bit. If the result is zero and `n > 0`, then `n` is a power of two (exactly one bit set). `n & (-n)` isolates the lowest set bit, returning a value with only that bit turned on. `x ^ x = 0` cancels identical values, which is the foundation of XOR-based uniqueness detection. These tricks work because they exploit the binary structure of subtraction and negation in two's complement.
+To write a given value `v` (0 or 1) into bit `i`, first clear the bit, then OR in `v` shifted into place. Clearing first matters: OR alone can turn a 0 into a 1 but never a 1 into a 0. This one helper replaces an `if v: set else: clear` branch.
 
 ```python
-# Clear lowest set bit: n & (n - 1)
-n = 0b01011000   # 88
-print(f"{n:08b} → {n & (n-1):08b}")   # 01011000 → 01010000
+def update_bit(n: int, i: int, v: int) -> int:
+    return (n & ~(1 << i)) | (v << i)
 
-# Power of two check: exactly one bit set
-def is_power_of_two(n: int) -> bool:
-    """Return True if n is a positive power of 2."""
-    return n > 0 and (n & (n - 1)) == 0
-
-print(is_power_of_two(16))   # True  (10000)
-print(is_power_of_two(18))   # False (10010)
-
-# Isolate lowest set bit: n & (-n)
-n = 0b01011000   # 88
-lowest = n & (-n)
-print(f"lowest set bit of {n:08b}: {lowest:08b}")  # 00001000
-
-# Check if number is odd or even
-is_odd = lambda n: n & 1 == 1
-print(is_odd(7))    # True
-print(is_odd(8))    # False
+n = 0b1010
+print(f"{update_bit(n, 1, 0):04b}")  # 1000
+print(f"{update_bit(n, 0, 1):04b}")  # 1011
+print(f"{update_bit(n, 3, 1):04b}")  # 1010
 ```
 
-## XOR properties and applications
+## Clear bits MSB through i
 
-XOR has three properties that make it uniquely useful. First, `x ^ 0 = x` (identity). Second, `x ^ x = 0` (self-cancellation). Third, XOR is both commutative and associative, so the order and grouping of operations do not matter. These properties combine to solve problems that look impossible without extra storage.
+To keep only the low `i` bits (bits `i-1` down to 0) and zero everything from bit `i` upward, AND with `(1 << i) - 1`. That mask is `i` ones in a row. For non-negative `n` this equals `n % 2^i`, so it is a fast modulo by a power of two.
 
-The classic application is finding the single unique element in an array where every other element appears exactly twice: XOR all elements together, and the duplicates cancel, leaving only the unique one. XOR also enables swapping two variables without a temporary and toggling bits in flag fields.
+Note the off-by-one: whether bit `i` itself survives depends on the convention. With mask `(1 << i) - 1`, bit `i` is cleared; use `(1 << (i + 1)) - 1` to keep it.
 
 ```python
-# Property demonstration
-x = 42
-print(x ^ 0)    # 42  (identity)
-print(x ^ x)    # 0   (self-cancellation)
-print(x ^ 0 ^ x)  # 0  (associative: (x ^ 0) ^ x = x ^ x = 0)
+def keep_low_bits(n: int, i: int) -> int:
+    """Clear bit i and everything above it."""
+    return n & ((1 << i) - 1)
 
-# Find the single non-duplicate element
-def find_unique(nums: list[int]) -> int:
-    """Every element appears twice except one. Find it in O(N) time, O(1) space."""
-    result = 0
-    for n in nums:
-        result ^= n     # duplicates cancel: a ^ a = 0
-    return result
-
-print(find_unique([4, 1, 2, 1, 2]))  # 4
-
-# Swap without a temporary variable
-a, b = 10, 25
-print(f"before: a={a}, b={b}")
-a ^= b     # a = a ^ b
-b ^= a     # b = b ^ (a ^ b) = a
-a ^= b     # a = (a ^ b) ^ a = b
-print(f"after:  a={a}, b={b}")   # a=25, b=10
-
-# Find missing number in [0, n]: XOR all indices with all values
-def find_missing(nums: list[int]) -> int:
-    """Given [0..n] with one missing, find it."""
-    n = len(nums)
-    xor_all = 0
-    for i in range(n + 1):
-        xor_all ^= i
-    for num in nums:
-        xor_all ^= num
-    return xor_all
-
-print(find_missing([3, 0, 1]))    # 2
-print(find_missing([0, 1, 3, 4])) # 2
+n = 0b1101_0110
+print(f"{keep_low_bits(n, 4):08b}")  # 00000110
+print(keep_low_bits(1000, 6), 1000 % 64)  # 40 40
 ```
 
-## Counting set bits (popcount)
+## Clear bits i through 0
 
-Counting the number of set bits (1s) in a binary number is called **popcount** (population count). The naive approach checks each bit position, but Brian Kernighan's algorithm is more elegant: repeatedly clear the lowest set bit with `n &= (n - 1)` and count how many iterations it takes. Each iteration removes exactly one set bit, so the loop runs exactly `k` times where `k` is the number of 1s.
-
-This is O(k) where k is the number of set bits, which is often much better than O(log n) for sparse numbers. Python also provides `bin(n).count('1')` as a convenient alternative, and hardware CPUs have a dedicated POPCNT instruction.
+To zero bit `i` and every bit below it, AND with `-1 << (i + 1)`, which is ones everywhere except the low `i + 1` positions. Clearing the low bits rounds a non-negative number down to a multiple of `2^(i+1)`, which is how memory allocators align addresses.
 
 ```python
-def count_bits_kernighan(n: int) -> int:
-    """Count set bits using Brian Kernighan's algorithm.
+def clear_low_bits(n: int, i: int) -> int:
+    """Clear bits i through 0."""
+    return n & (-1 << (i + 1))
 
-    Each iteration of n &= (n - 1) clears the lowest set bit.
-    The loop runs exactly once per set bit.
-    """
+n = 0b1101_0110
+print(f"{clear_low_bits(n, 3):08b}")  # 11010000
+print(clear_low_bits(77, 2))          # 72
+```
+
+## Bit-range update
+
+To write a value into a field of bits `lo..hi` (inclusive), build a mask that covers the field, clear the field with `& ~mask`, then OR in the new value shifted to `lo`. Mask the new value too, so an oversized value cannot spill into neighboring bits. This is how packed formats such as RGB colors, network headers, and hardware registers are edited.
+
+```python
+def write_field(n: int, lo: int, hi: int, value: int) -> int:
+    width = hi - lo + 1
+    mask = ((1 << width) - 1) << lo
+    return (n & ~mask) | ((value << lo) & mask)
+
+def read_field(n: int, lo: int, hi: int) -> int:
+    return (n >> lo) & ((1 << (hi - lo + 1)) - 1)
+
+reg = 0b1111_1111
+reg = write_field(reg, 2, 4, 0b010)
+print(f"{reg:08b}")              # 11101011
+print(read_field(reg, 2, 4))     # 2
+```
+
+## Isolate lowest set bit
+
+`n & -n` keeps only the lowest 1 bit of `n`. In two's complement, `-n` is `~n + 1`: flipping turns the trailing zeros into ones, and adding 1 carries through them until it lands on the position of the lowest 1. That position is the only one where `n` and `-n` both have a 1.
+
+The isolated bit's position is its `bit_length() - 1`, which counts trailing zeros. Fenwick (binary indexed) trees step through indices with `i & -i`.
+
+```python
+n = 0b0101_1000
+low = n & -n
+print(f"{low:08b}")              # 00001000
+print(low.bit_length() - 1)      # 3
+
+# Fenwick-style walk: add the lowest set bit each step
+i, path = 5, []
+while i <= 16:
+    path.append(i)
+    i += i & -i
+print(path)                      # [5, 6, 8, 16]
+```
+
+## Turn off lowest set bit
+
+`n & (n - 1)` clears the lowest 1 bit. Subtracting 1 flips that bit to 0 and turns every 0 below it into 1, while higher bits stay the same; ANDing with the original wipes out the changed region. Repeating it removes one set bit per step, which is the core of Kernighan's popcount and of iterating over the set bits of a mask.
+
+The related form `n | (n + 1)` turns on the lowest 0 bit.
+
+```python
+n = 0b0101_1000
+print(f"{n & (n - 1):08b}")      # 01010000
+print(f"{n | (n + 1):08b}")      # 01011001
+
+# Visit each set bit from low to high
+m, seen = 0b1010_0110, []
+while m:
+    seen.append((m & -m).bit_length() - 1)
+    m &= m - 1
+print(seen)                      # [1, 2, 5, 7]
+```
+
+## Power-of-two tests
+
+A positive power of two has exactly one bit set, so clearing its lowest set bit leaves 0: `n > 0 and n & (n - 1) == 0`. The `n > 0` guard matters because 0 also passes the second check. Related helpers come from `bit_length()`: the next power of two at or above `n` is `1 << (n - 1).bit_length()` for `n >= 1`, and `n & (2^k - 1)` is `n % 2^k`.
+
+A power of four is a power of two whose single bit sits at an even position, which you can test with the mask `0x55555555`.
+
+```python
+def is_pow2(n: int) -> bool:
+    return n > 0 and n & (n - 1) == 0
+
+def next_pow2(n: int) -> int:
+    return 1 << (n - 1).bit_length()
+
+def is_pow4(n: int) -> bool:
+    return is_pow2(n) and n & 0x55555555 != 0
+
+print([x for x in range(20) if is_pow2(x)])  # [1, 2, 4, 8, 16]
+print(next_pow2(17), next_pow2(16))           # 32 16
+print(is_pow4(16), is_pow4(8))                # True False
+```
+
+## Counting set bits
+
+The number of 1 bits is the **popcount** (or Hamming weight). Kernighan's method loops `n &= n - 1` and counts iterations, so it runs once per set bit rather than once per bit position. Python 3.10+ has `int.bit_count()`, and CPUs have a single POPCNT instruction.
+
+For many queries, a table helps: the popcount of `i` equals the popcount of `i >> 1` plus the low bit of `i`, so you can fill counts for `0..N` in O(N).
+
+```python
+def popcount(n: int) -> int:
     count = 0
     while n:
-        n &= (n - 1)    # clear lowest set bit
+        n &= n - 1
         count += 1
     return count
 
-# Walk through example: n = 0b10110100 (180)
-# Iteration 1: 10110100 & 10110011 = 10110000  (cleared bit 2)
-# Iteration 2: 10110000 & 10101111 = 10100000  (cleared bit 4)
-# Iteration 3: 10100000 & 10011111 = 10000000  (cleared bit 5)
-# Iteration 4: 10000000 & 01111111 = 00000000  (cleared bit 7)
-# Result: 4 set bits
+print(popcount(0b1011_0100))      # 4
+print((0b1011_0100).bit_count())  # 4
 
-for val in [0, 1, 7, 180, 255]:
-    print(f"{val:08b} → {count_bits_kernighan(val)} set bits")
-# 00000000 → 0 set bits
-# 00000001 → 1 set bits
-# 00000111 → 3 set bits
-# 10110100 → 4 set bits
-# 11111111 → 8 set bits
-
-# Python convenience
-print(bin(180).count('1'))  # 4
+counts = [0] * 9
+for i in range(1, 9):
+    counts[i] = counts[i >> 1] + (i & 1)
+print(counts)                     # [0, 1, 1, 2, 1, 2, 2, 3, 1]
 ```
 
-## Bit manipulation for interview problems
+## Parity
 
-Interview problems that involve bit manipulation typically test whether you can replace arithmetic or data-structure-based solutions with direct bit operations for better space or time complexity. The most common patterns are power-of-two checks, swapping odd and even bits, and finding missing or unique numbers via XOR.
-
-The key insight is recognizing when a problem has binary structure. If the problem involves sets of small integers, flags, or finding single unique elements, bit manipulation is likely the intended approach.
+Parity is 1 when a number has an odd count of 1 bits and 0 when the count is even. It is used in error-detecting codes and RAID. XOR of all bits gives the parity, and you can fold a word in half repeatedly (`x ^= x >> 16`, then 8, 4, 2, 1) so the low bit ends up holding the answer in O(log width) steps.
 
 ```python
-# 1. Swap odd and even bits
-def swap_odd_even_bits(n: int) -> int:
-    """Swap all odd-positioned bits with even-positioned bits.
+def parity_loop(n: int) -> int:
+    p = 0
+    while n:
+        p ^= 1
+        n &= n - 1
+    return p
 
-    0xAAAAAAAA = 10101010... selects bits at odd positions  (1, 3, 5, 7...)
-    0x55555555 = 01010101... selects bits at even positions (0, 2, 4, 6...)
-    """
-    # Extract odd-position bits, shift right to even; even-position bits, shift left to odd
-    return ((n & 0xAAAAAAAA) >> 1) | ((n & 0x55555555) << 1)
+def parity_fold32(x: int) -> int:
+    for shift in (16, 8, 4, 2, 1):
+        x ^= x >> shift
+    return x & 1
 
-print(f"{0b10110010:08b} → {swap_odd_even_bits(0b10110010):08b}")
-# 10110010 → 01110001
+print(parity_loop(0b1011), parity_fold32(0b1011))  # 1 1
+print(parity_fold32(0xFFFF_FFFF))                  # 0
+```
 
-# 2. Reverse bits of a 32-bit integer
-def reverse_bits(n: int, bits: int = 32) -> int:
-    """Reverse the bit order of an integer."""
-    result = 0
-    for _ in range(bits):
-        result = (result << 1) | (n & 1)
-        n >>= 1
-    return result
+## XOR properties
 
-print(f"{13:032b}")                  # 00000000000000000000000000001101
-print(f"{reverse_bits(13):032b}")    # 10110000000000000000000000000000
+XOR satisfies `x ^ 0 = x`, `x ^ x = 0`, and is commutative and associative, so a long chain of XORs can be reordered freely and any value that appears an even number of times cancels out. That gives O(1)-space answers to "every value appears twice except one" and "one number in `0..n` is missing".
 
-# 3. Generate all subsets using bitmask
-def subsets_bitmask(items: list[str]) -> list[list[str]]:
-    """Generate all subsets by iterating over bitmask 0..2^n-1.
+XOR also swaps two variables without a temporary, but only when they are different storage locations: XOR-swapping a variable with itself zeros it. In Python, tuple assignment `a, b = b, a` is clearer and just as fast.
 
-    Each integer represents a subset: bit i indicates whether items[i]
-    is included.
-    """
-    n = len(items)
-    result = []
-    for mask in range(1 << n):       # 0 to 2^n - 1
-        subset = [items[i] for i in range(n) if mask & (1 << i)]
-        result.append(subset)
-    return result
+```python
+from functools import reduce
+from operator import xor
 
-print(subsets_bitmask(["a", "b", "c"]))
-# [[], ['a'], ['b'], ['a', 'b'], ['c'], ['a', 'c'], ['b', 'c'], ['a', 'b', 'c']]
+print(reduce(xor, [4, 1, 2, 1, 2]))           # 4
+
+nums = [0, 1, 3, 4]                            # 0..4 with one missing
+print(reduce(xor, range(len(nums) + 1)) ^ reduce(xor, nums))  # 2
+
+a, b = 10, 25
+a ^= b; b ^= a; a ^= b
+print(a, b)                                    # 25 10
+
+arr = [7]
+arr[0] ^= arr[0]; arr[0] ^= arr[0]; arr[0] ^= arr[0]
+print(arr)                                     # [0]
+```
+
+## Sign bit and branchless abs
+
+In a 32-bit value the sign lives in bit 31. An arithmetic shift `x >> 31` turns that into a mask that is all ones (-1) for negatives and 0 otherwise. With that mask you can compute absolute value as `(x ^ mask) - mask` and pick min or max without an `if`, which avoids branch mispredictions in hot loops. `x ^ y < 0` tells you whether two integers have opposite signs.
+
+Watch the edge: the absolute value of the most negative 32-bit integer does not fit in 32 bits, so it wraps back to itself.
+
+```python
+def to_i32(x: int) -> int:
+    x &= 0xFFFF_FFFF
+    return x - (1 << 32) if x >> 31 else x
+
+def abs_i32(x: int) -> int:
+    mask = x >> 31                 # 0 or -1
+    return to_i32((x ^ mask) - mask)
+
+def min_i32(x: int, y: int) -> int:
+    diff = x - y
+    return y + (diff & (diff >> 31))
+
+print(abs_i32(-7), abs_i32(7))     # 7 7
+print(abs_i32(-2**31))             # -2147483648
+print(min_i32(3, -5), min_i32(-2, 9))  # -5 -2
+print((3 ^ -4) < 0, (3 ^ 4) < 0)   # True False
+```
+
+## Flags and bitmask subsets
+
+A bitmask stores a small set in one integer: bit `i` set means item `i` is present. Union is `|`, intersection is `&`, difference is `a & ~b`, and size is the popcount. Named flags (Unix permissions, feature toggles, chess bitboards) use the same idea, and Python's `enum.Flag` gives them readable names.
+
+Counting from `0` to `2^n - 1` visits every subset of `n` items once, the basis of bitmask DP. To visit only the subsets of a given mask, step with `sub = (sub - 1) & mask`.
+
+```python
+from enum import Flag, auto
+
+class Perm(Flag):
+    READ = auto()
+    WRITE = auto()
+    EXEC = auto()
+
+p = Perm.READ | Perm.EXEC
+print(Perm.WRITE in p, Perm.EXEC in p)   # False True
+
+items = ["a", "b", "c"]
+subsets = [[items[i] for i in range(3) if m >> i & 1] for m in range(1 << 3)]
+print(subsets[5], len(subsets))          # ['a', 'c'] 8
+
+mask, sub, subs = 0b1010, 0b1010, []
+while sub:
+    subs.append(f"{sub:04b}")
+    sub = (sub - 1) & mask
+print(subs)                              # ['1010', '1000', '0010']
 ```
