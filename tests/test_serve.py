@@ -149,6 +149,47 @@ def test_interview_framework_topic_exposes_drills() -> None:
     assert "estimate_load" in notes
 
 
+def test_scalability_fundamentals_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "02_Scalability_Fundamentals"
+    )
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = (
+        Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "02_Scalability_Fundamentals"
+    )
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Vertical Scaling",
+        "## Horizontal Scaling",
+        "## Stateless vs. Stateful Services",
+        "## Shared Session Store",
+        "## Describing Load",
+        "## Describing Performance",
+        "## The Scale Cube",
+        "## Scaling from Zero to Millions",
+    ):
+        assert heading in concepts
+    assert "Multiple data centers" in concepts
+    assert "Logging, metrics, automation" in concepts
+    assert "shared session store" in concepts.lower()
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "feed_plan" in notes
+    assert "Shared session store" in notes
+
+
 def test_arrays_strings_hash_tables_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
