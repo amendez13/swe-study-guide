@@ -26,6 +26,10 @@ print(*add_server(POOL, "10.0.4.14"))
 # 203.0.113.10 4
 ```
 
+![Public Address Stays](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-1-public-address-stays.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 1.*
+
 ## DNS Hold After a Failure
 
 DNS is the only spreader, and it is handing out web-server addresses. The TTL is 90 seconds. A resolver cached the answer 20 seconds ago. One of those addresses dies. How many seconds can that resolver keep returning it? Separately, a balancer removes a server after 3 failed probes, 5 seconds apart, measured from the first failed probe. How many seconds is that?
@@ -51,6 +55,10 @@ print(dns_hold_s, lb_remove_s)
 # 70 10
 ```
 
+![DNS Hold After a Failure](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-2-dns-hold-after-failure.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 2.*
+
 ## Path Needs Layer 7
 
 `/pickup` belongs on the door pool. `/labels` belongs on the printer pool. What does a Layer 4 balancer do with `/labels`, and what does a Layer 7 balancer do with each path?
@@ -74,6 +82,10 @@ def tier(mode: str, path: str) -> str:
 print(tier("l4", "/labels"), tier("l7", "/labels"), tier("l7", "/pickup"))
 # doors printers doors
 ```
+
+![Path Needs Layer 7](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-3-path-needs-layer-7.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 3.*
 
 ## Worker CPU After Offload
 
@@ -104,6 +116,10 @@ print(worker_qps(True), worker_qps(False))
 # 333 500
 ```
 
+![Worker CPU After Offload](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-4-worker-cpu-after-offload.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 4.*
+
 ## Round Robin on a Hot Server
 
 Open door sessions are `[300, 40, 50]`. The round-robin cursor is on server 0. Where does the next connection go under round robin, and where under least connections?
@@ -129,6 +145,10 @@ def least_connections() -> int:
 print(round_robin(0), least_connections())
 # 0 1
 ```
+
+![Round Robin on a Hot Server](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-5-round-robin-on-a-hot-server.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 5.*
 
 ## Failure Streak
 
@@ -158,6 +178,10 @@ def removed_at(probes: list[str]) -> int | None:
 print(removed_at(PROBES))
 # 5
 ```
+
+![Failure Streak](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-6-failure-streak.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 6.*
 
 ## Sticky Cookie and a Dead Target
 
@@ -191,6 +215,10 @@ print(assign(set()), assign({"web-b"}), [ip_bucket(ip, 3) for ip in nat], ip_buc
 # web-b web-a [0, 0, 0] 2
 ```
 
+![Sticky Cookie and a Dead Target](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-7-sticky-cookie-dead-target.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 7.*
+
 ## Standby Takes the Address
 
 Four web servers are healthy. The active balancer dies holding 50 requests. A passive standby takes the same public address. How many web servers are still up, how many of those 50 requests complete, and what happens to new requests if there is no standby?
@@ -222,3 +250,7 @@ def new_route(have_standby: bool) -> str:
 print(WEB_UP, inflight_completed(IN_FLIGHT, True), new_route(True), new_route(False))
 # 4 0 vip-moved no-address
 ```
+
+![Standby Takes the Address](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills-8-standby-takes-the-address.png)
+
+*Source: [`diagrams/load-balancing-drills.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-drills.drawio), page 8.*

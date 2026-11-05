@@ -4,14 +4,9 @@ A load balancer accepts work for a pool and hands each new request to one server
 
 That is the step that makes a horizontal web tier usable. Extra machines nobody can reach do not add capacity. The same box shows up again between a web tier and an application tier, or in front of a database proxy. The cards here are the balancer in front of the web tier: where it sits, how it chooses a server, and how you keep that box from being the outage.
 
-```mermaid
-flowchart LR
-    C1[Client] --> LB[Load Balancer]
-    C2[Client] --> LB
-    LB --> S1[Server 1]
-    LB --> S2[Server 2]
-    LB --> S3[Server 3]
-```
+![What a Load Balancer Does](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-1-what-a-load-balancer-does.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 1.*
 
 ## In Front of the Web Tier
 
@@ -26,6 +21,10 @@ Client
 
 Publishing every web server in DNS makes each add, remove, and crash a client-visible change. The balancer turns those into pool membership. A later hop (web to app, or app to a database proxy) can use a private balancer the same way. Clients still need the public one in front of the web tier.
 
+![In Front of the Web Tier](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-2-in-front-of-the-web-tier.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 2.*
+
 ## DNS-Level Load Balancing
 
 DNS can spread clients by answering the same name with more than one address. Resolvers and clients cache that answer for the TTL, so a change waits out the caches that already stored it.
@@ -38,6 +37,10 @@ pickup.example.com.  60  IN  A  203.0.113.11
 ```
 
 That is a coarse tool. It has no per-request health check: a dead address stays in rotation until someone edits the record and every cache expires. Use it to publish a few stable public addresses, usually the load balancers. Let the balancer choose the web server. Which site a name should resolve to is [Multi-DC and Geo Routing](../03_High_Availability_and_Reliability/).
+
+![DNS-Level Load Balancing](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-3-dns-level-load-balancing.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 3.*
 
 ## Layer 4 vs. Layer 7 Load Balancing
 
@@ -60,6 +63,10 @@ Layer 7 (application):
 
 An HTTP API in an interview is Layer 7 unless the problem is raw TCP, UDP, or a huge number of long-lived connections where the path does not matter. A WebSocket is one connection, so Layer 4 already keeps it on one server for the life of that socket.
 
+![Layer 4 vs. Layer 7 Load Balancing](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-4-layer-4-vs-layer-7.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 4.*
+
 ## TLS Termination
 
 Clients speak TLS to the load balancer. The balancer holds the certificate, decrypts, and forwards HTTP to a private web server. The web tier spends its CPU on the handler. Rotating the certificate is a change on the balancer.
@@ -71,6 +78,10 @@ Re-encrypt:    client --TLS--> balancer --TLS--> web server
 ```
 
 Termination is what lets a Layer 7 balancer read the path and the cookie. Passthrough leaves the certificate on every web server and leaves the balancer blind to HTTP. Re-encrypt when the hop to the web server is not a network you trust, or when policy says the payload stays encrypted end to end. The worker then pays for TLS again, so the CPU win is gone. A gateway that also authenticates and fans out to many services is [Networking and Communication](../10_Networking_and_Communication/).
+
+![TLS Termination](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-5-tls-termination.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 5.*
 
 ## Load Balancing Algorithms
 
@@ -100,6 +111,10 @@ Random
 ```
 
 Least connections is the usual default when request cost varies or connections stay open. Round robin is the default when a request is short and every server is the same size. The ring and virtual nodes are [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/).
+
+![Load Balancing Algorithms](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-6-load-balancing-algorithms.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 6.*
 
 ## Health Checks
 
@@ -131,6 +146,10 @@ GET /health
 
 A deploy is a drain. The balancer stops choosing that server, in-flight requests finish, then the process exits. A failed health check is the same removal, on the probe's clock, for a server you did not plan to stop.
 
+![Health Checks](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-7-health-checks.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 7.*
+
 ## Sticky Sessions (Session Affinity)
 
 Sticky sessions send later requests from the same client to the server that holds that client's session in memory. The pin is how the balancer recognizes the client. The place the session document should eventually live is the [Shared Session Store](../02_Scalability_Fundamentals/).
@@ -157,20 +176,17 @@ One TCP connection is already pinned for its lifetime. That covers a WebSocket w
 
 The pin piles load onto the servers people happened to hit first. A restart or a scale-in drops the sessions those servers held. Treat the pin as a bridge while the session still sits in one process.
 
+![Sticky Sessions (Session Affinity)](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-8-sticky-sessions.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 8.*
+
 ## Load Balancer as a Single Point of Failure
 
 One load balancer is one failure domain in front of a healthy web pool. The pool can be up and unreachable. Production runs a pair, or uses a managed balancer that is already a pair.
 
-```mermaid
-flowchart TB
-    C[Client] --> DNS[DNS]
-    DNS --> LB1[LB Primary]
-    DNS --> LB2[LB Secondary]
-    LB1 --> S1[Server 1]
-    LB1 --> S2[Server 2]
-    LB2 --> S1
-    LB2 --> S2
-```
+![Load Balancer as a Single Point of Failure](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing-9-lb-single-point-of-failure.png)
+
+*Source: [`diagrams/load-balancing.drawio`](/content/09_System_Design_Interview/04_Load_Balancing/diagrams/load-balancing.drawio), page 9.*
 
 ```text
 Active-passive
