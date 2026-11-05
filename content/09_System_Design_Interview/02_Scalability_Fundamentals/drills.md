@@ -164,7 +164,7 @@ symptoms = [
 ]
 ```
 
-**Answer:** Stay on one server while CPU is that low. Worldwide shared photos are a CDN mention for those bytes, with the CDN card left in Caching. Logins that die with the process move to a shared session store. The thumbnail leaves the request path via a queue. Oceanic latency at 40 write QPS is a multi-data-center trigger, not a shard. Geo routing itself belongs to High Availability.
+**Answer:** Stay on one server while CPU is that low. Worldwide shared photos are a CDN mention for those bytes; the CDN card lives in Content Distribution. Logins that die with the process move to a shared session store. The thumbnail leaves the request path via a queue. Oceanic latency at 40 write QPS is a multi-data-center trigger, not a shard. Geo routing itself belongs to High Availability.
 
 ```python
 def stage_for(symptom: str) -> str:
@@ -254,14 +254,14 @@ items = [
 ]
 ```
 
-**Answer:** This topic owns session placement: sticky pin versus a shared store, on a stateless web tier. Everything else is a pointer. Load balancer algorithms are Load Balancing. Cache invalidation and foundational CDN behavior are Caching. Media transcoding is Content Distribution. Shard keys are Data Partitioning. Delivery guarantees are Message Queues. Geo DNS is High Availability, which still has no dedicated multi-data-center card. The log pipeline is Observability: name the signals here and design them there.
+**Answer:** This topic owns session placement: sticky pin versus a shared store, on a stateless web tier. Everything else is a pointer. Load balancer algorithms are Load Balancing. Cache invalidation is Caching. Foundational CDN behavior and media transcoding are Content Distribution. Shard keys are Data Partitioning. Delivery guarantees are Message Queues. Geo DNS is High Availability, which still has no dedicated multi-data-center card. The log pipeline is Observability: name the signals here and design them there.
 
 ```python
 OWNER = {
     "session placement": "this topic",
     "load balancer algorithms": "Load Balancing",
     "cache invalidation": "Caching",
-    "CDN basics": "Caching",
+    "CDN basics": "Content Distribution",
     "media transcoding": "Content Distribution",
     "shard key choice": "Data Partitioning",
     "queue delivery guarantees": "Message Queues",
@@ -274,7 +274,7 @@ for item in OWNER:
 # session placement: this topic
 # load balancer algorithms: Load Balancing
 # cache invalidation: Caching
-# CDN basics: Caching
+# CDN basics: Content Distribution
 # media transcoding: Content Distribution
 # shard key choice: Data Partitioning
 # queue delivery guarantees: Message Queues

@@ -236,6 +236,99 @@ def test_observability_topic_exposes_drills() -> None:
     assert "03_High_Availability_and_Reliability" in notes
 
 
+def test_caching_topic_has_no_cdn_card() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "05_Caching"
+    )
+
+    assert topic["hasDrills"] is False
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "05_Caching"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## When Caching Helps",
+        "## Cache-Aside (Lazy Loading)",
+        "## Read-Through and Write-Through",
+        "## Write-Behind (Write-Back)",
+        "## Eviction Policies",
+        "## Cache Invalidation",
+        "## Distributed Cache Architecture",
+    ):
+        assert heading in concepts
+    assert "## CDN" not in concepts
+    assert "Content Delivery Network" not in concepts
+    assert "pull" not in notes.lower()
+    assert "22_Content_Distribution_and_Media" in notes
+
+
+def test_content_distribution_owns_cdn_and_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "22_Content_Distribution_and_Media"
+    )
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = (
+        Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "22_Content_Distribution_and_Media"
+    )
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Why a CDN",
+        "## Edge and Origin",
+        "## Cacheable and Dynamic",
+        "## CDN TTL",
+        "## Purge and Invalidation",
+        "## PoPs and Placement",
+        "## Origin Shield",
+        "## Video Uploading and Transcoding",
+        "## Adaptive Bitrate Streaming",
+        "## CDN Cost Optimization",
+        "## File Sync and Conflict Resolution",
+        "## Image Processing and Optimization",
+    ):
+        assert heading in concepts
+    assert concepts.count("A CDN is a set of caches") == 1
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 6
+    assert all("```python" in answer for answer in answers)
+    assert "origin_fetches_per_sec" in drills
+    assert "hit_ratio" in drills
+    assert "05_Caching" in notes
+    assert "origin shield" in notes.lower()
+
+
+def test_scalability_cdn_pointer_targets_content_distribution() -> None:
+    topic_dir = (
+        Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "02_Scalability_Fundamentals"
+    )
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    assert "Foundational CDN behavior stays in Caching" not in concepts
+    assert "Foundational CDN and media pipelines both live in Content Distribution." in concepts
+    assert "Basic CDN stays in Caching" not in notes
+    assert "22_Content_Distribution_and_Media" in notes
+    assert '"CDN basics": "Content Distribution"' in drills
+    assert '"CDN basics": "Caching"' not in drills
+
+
 def test_arrays_strings_hash_tables_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(

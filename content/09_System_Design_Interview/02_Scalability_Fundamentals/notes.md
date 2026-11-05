@@ -57,7 +57,7 @@ About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, 
 | Database CPU fighting the app | Separate the database | This topic, then the database topics for the engine |
 | Largest instance, or the host must be allowed to die | Horizontal web tier and a load balancer | Load Balancing |
 | Reads dominate, one leader | Replicas, then a cache | Relational Databases, Consistency, Caching |
-| Shared images served far from users | CDN for those bytes | Caching; media pipelines in Content Distribution |
+| Shared images served far from users | CDN for those bytes | Content Distribution and Media |
 | Login dies with a web process | Shared session store | This topic |
 | Distant users or one region as a disaster domain | Multi-data-center | High Availability |
 | Request path waits on slow work | Queue | Message Queues |
@@ -69,11 +69,11 @@ About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, 
 - [Interview Framework and Process](../01_Interview_Framework_and_Process/) — the QPS and storage arithmetic these decisions start from.
 - [High Availability and Reliability](../03_High_Availability_and_Reliability/) — multi-region failure and failover. There is no dedicated multi-data-center card yet.
 - [Load Balancing](../04_Load_Balancing/) — algorithms, health checks, and how sticky sessions are implemented.
-- [Caching](../05_Caching/) — cache patterns and the foundational CDN card.
+- [Caching](../05_Caching/) — cache-aside, write-through, eviction, and invalidation.
 - [Databases Relational](../06_Databases_Relational/) — replication, read replicas, and the primary's vertical ceiling.
 - [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/) — when the data model is not relational, including a key-value session store.
 - [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/) — shard keys and rebalancing.
 - [Consistency and Replication](../09_Consistency_and_Replication/) — lag, quorums, and read-your-writes.
 - [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/) — taking slow work off the request path.
-- [Content Distribution and Media](../22_Content_Distribution_and_Media/) — transcoding, adaptive bitrate, and CDN cost. Basic CDN stays in Caching.
+- [Content Distribution and Media](../22_Content_Distribution_and_Media/) — CDN (edge, TTL, purge, shield) plus transcoding, adaptive bitrate, and CDN cost.
 - [Observability](../25_Observability/) — logs, metrics, and one deploy pipeline. This topic only names the stage.

@@ -186,7 +186,7 @@ A teaching sequence from one box to a large fleet, in the order these building b
 
  7. CDN
     Cacheable static bytes move closer to users. This stage is a mention, not the CDN card.
-    Foundational CDN behavior stays in Caching. Media pipelines stay in Content Distribution.
+    Foundational CDN and media pipelines both live in Content Distribution.
 
  8. Stateless web tier
     Any web server can serve any user. Session bytes move to a shared session store.
