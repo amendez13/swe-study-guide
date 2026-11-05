@@ -28,6 +28,10 @@ print(f"{hit_ratio:.1f} {mean_ms:.0f} {MISSES}")
 # 0.8 5 100
 ```
 
+![Hit Ratio Latency](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-1-hit-ratio-latency.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 1.*
+
 ## Required Hit Ratio
 
 The catalog serves 2,000 cache-eligible reads per second. The database budget for this path is 100 reads per second. Assume a warm cache, one database read per miss, and no stampede. What hit ratio stays inside the budget? If the single cache node dies and every read falls through, how many times the budget is the database load?
@@ -48,6 +52,10 @@ multiplier = READS // BUDGET
 print(f"{hit_ratio:.2f} {multiplier}")
 # 0.95 20
 ```
+
+![Required Hit Ratio](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-2-required-hit-ratio.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 2.*
 
 ## Stale Read Race
 
@@ -92,6 +100,10 @@ print(late_set_after_delete(), lease_rejects_late_set(), delete_before_commit())
 # ('v1', 'v2') (None, 'v2') no-second-delete
 ```
 
+![Stale Read Race](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-3-stale-read-race.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 3.*
+
 ## LRU Trace
 
 The cache holds three keys and uses exact LRU. The access sequence is A, B, C, A, D. Each new key inserts. A repeated key is an access, not a second insert. Which key is evicted when D arrives, and what is left from oldest to newest? Would FIFO have evicted the same key? If A's TTL had already elapsed, which mechanism removes A?
@@ -127,6 +139,10 @@ print(trace(OPS, CAPACITY))
 # ('B', ['C', 'A', 'D'])
 ```
 
+![LRU Trace](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-4-lru-trace.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 4.*
+
 ## Pick the Write Pattern
 
 Three writes on the catalog. Name the pattern for each one.
@@ -142,6 +158,10 @@ The entrance counter takes 20,000 samples a second into memory and flushes batch
 The seat row is write-through. The acknowledgement waits for the database commit, and the cache entry is already the new row, so the next cache read hits. Cache-aside would delete the key and the next read would miss, which breaks the requirement. Write-behind can lose the seat count.
 
 The entrance counter is write-behind. The acknowledgement is the memory update, and the database sees a batch. The unflushed second is the accepted loss. Cache-aside and write-through both send the database one write per sample. A dirty counter has to be flushed before it is evicted, and a miss must not replace it with an older database total.
+
+![Pick the Write Pattern](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-5-pick-the-write-pattern.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 5.*
 
 ## Stampede Fix
 
@@ -169,6 +189,10 @@ print(database_reads(WAITERS, False), database_reads(WAITERS, True))
 # 30 1
 ```
 
+![Stampede Fix](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-6-stampede-fix.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 6.*
+
 ## Cache Node Loss
 
 Four cache nodes, keys spread evenly, no replica. The catalog sends 2,000 cache-eligible reads per second. A warm node hits 9/10 of its reads. Each miss is one database read. Callers fall through. The database was sized for the steady miss load. One node dies and its keys are cold. What is the steady database read rate, and what is it after the death? What changes if a warm replica takes those keys?
@@ -191,6 +215,10 @@ database_reads = (R - cold) // 10 + cold
 print(steady, database_reads)
 # 200 650
 ```
+
+![Cache Node Loss](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-7-cache-node-loss.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 7.*
 
 ## Hot Key Split
 
@@ -218,3 +246,7 @@ def node_qps(replicated: bool) -> int:
 print(node_qps(False), node_qps(True))
 # 850 250
 ```
+
+![Hot Key Split](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills-8-hot-key-split.png)
+
+*Source: [`diagrams/caching-drills.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching-drills.drawio), page 8.*
