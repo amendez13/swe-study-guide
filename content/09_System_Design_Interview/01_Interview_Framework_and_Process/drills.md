@@ -25,6 +25,10 @@ avg = DAU * PLAYS_PER_VISITOR / SECONDS
 print(avg, avg * PEAK)  # 750.0 3750.0
 ```
 
+![Daily actions to QPS](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-1-daily-actions-to-qps.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 1.*
+
 ## A year of sensor rows
 
 80,000 weather stations write one 120-byte row every 10 minutes. Retain 2 years. How much raw storage is that, and what is the average write QPS using 10^5 seconds/day?
@@ -51,6 +55,10 @@ write_qps = rows_per_day / SECONDS
 print(round(tb_two_years, 2), round(write_qps, 1))  # 1.01 115.2
 ```
 
+![A year of sensor rows](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-2-a-year-of-sensor-rows.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 2.*
+
 ## Powers of two in RAM
 
 Using 2^10 ≈ 10^3, how many gigabytes is 2^34 bytes? Does a working set of 40 million records × 2 KB fit in a server with 128 GB of RAM?
@@ -72,6 +80,10 @@ gib = RECORDS * RECORD_BYTES / 2**30
 shortcut_gb = RECORDS * 2 / 1e6  # 2 KB → 2e-6 GB each, times 40e6
 print(2**34 / 2**30, round(gib, 1), shortcut_gb)  # 16.0 76.3 80.0
 ```
+
+![Powers of two in RAM](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-3-powers-of-two-in-ram.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 3.*
 
 ## Downtime from a nines target
 
@@ -100,6 +112,10 @@ for nines in (0.999, 0.9995, 0.9999):
 # 99.9900% → 53 min (0.88 h)
 ```
 
+![Downtime from a nines target](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-4-downtime-from-nines.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 4.*
+
 ## Users are not QPS
 
 A teammate says "10 million users, so 10,000 QPS." Each user actually performs 20 actions a day, and peak is 3×. What average and peak QPS follow from those assumptions, and what actions-per-user figure is hiding inside the 10,000 QPS claim?
@@ -126,6 +142,10 @@ implied_actions = CLAIMED_QPS * SECONDS / DAU
 print(avg, avg * PEAK, implied_actions)  # 2000.0 6000.0 100.0
 ```
 
+![Users are not QPS](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-5-users-are-not-qps.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 5.*
+
 ## Where the deep dive goes
 
 A ticket window serves about 200 QPS through the week and about 80,000 QPS for three minutes when a single show goes on sale. The burst all lands on one show id. What is the burst multiple, and which part of the system earns the deep dive?
@@ -143,6 +163,10 @@ ONSALE_QPS = 80_000
 
 print(ONSALE_QPS / STEADY_QPS)  # 400.0
 ```
+
+![Where the deep dive goes](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-6-where-the-deep-dive-goes.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 6.*
 
 ## A blown 45-minute clock
 
@@ -164,6 +188,10 @@ under = {name: limit - spent[name] for name, limit in floor.items() if spent[nam
 print(sum(spent.values()), over, under)  # 40 {'scope': 4, 'high_level': 1} {'deep_dive': 1, 'wrap_up': 2}
 ```
 
+![A blown 45-minute clock](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-7-a-blown-45-minute-clock.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 7.*
+
 ## The slow hop in a latency budget
 
 Checkout should answer in 200 ms at p99. The pieces you have are a cache hit at 0.2 ms, application work at 3 ms, a same-datacenter database read at 1 ms, and a cross-continent fraud check at 150 ms. Does the path meet the target, and which hop is worth redesigning?
@@ -184,3 +212,7 @@ dominant = max(parts_ms, key=parts_ms.get)
 print(round(total, 1), round(TARGET_MS - total, 1), dominant, round(parts_ms[dominant] / total, 2))
 # 154.2 45.8 fraud_rtt 0.97
 ```
+
+![The slow hop in a latency budget](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills-8-slow-hop-latency-budget.png)
+
+*Source: [`diagrams/interview-framework-drills.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-drills.drawio), page 8.*
