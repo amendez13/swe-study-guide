@@ -1,0 +1,193 @@
+<mxfile host="drawio">
+  <diagram id="otherhost" name="Request on another host">
+    <mxGraphModel dx="900" dy="306" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="306" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u11" value="Request on another host" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u12" value="Unlock u-77 failed. You opened only dock-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u13" value="dock-1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="u14" value="u-10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="50" y="148" width="150" height="24" as="geometry"/></mxCell>
+<mxCell id="u15" value="u-11" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="50" y="178" width="150" height="24" as="geometry"/></mxCell>
+<mxCell id="u16" value="dock-2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="110" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="u17" value="u-12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="250" y="148" width="150" height="24" as="geometry"/></mxCell>
+<mxCell id="u18" value="dock-3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="110" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="u19" value="u-77" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="450" y="148" width="150" height="24" as="geometry"/></mxCell>
+<mxCell id="u110" value="▲ opened: u-77 is not here → “looks healthy”" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#d79b00;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="360" height="18" as="geometry"/></mxCell>
+<mxCell id="u111" value="store query&lt;br&gt;request_id = &quot;u-77&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="660" y="110" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="u112" value="→ dock-3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="180" width="120" height="30" as="geometry"/></mxCell>
+<mxCell id="u113" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="u111" target="u112"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="u114" value="&lt;b&gt;Answer:&lt;/b&gt; The line is on dock-3, and dock-1&#x27;s file does not contain u-77. A searchable store answers the request id without guessing a host." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sampling" name="Sampled log volume">
+    <mxGraphModel dx="900" dy="362" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="362" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u21" value="Sampled log volume" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u22" value="1,200 success lines/s + 6 error lines/s, 480 bytes each: keep everything vs keep 1 success in 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u23" value="keep every line" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="70" y="110" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="u24" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230" y="110" width="420.0" height="30" as="geometry"/></mxCell>
+<mxCell id="u25" value="50,015,232,000 B/day ≈ 50 GB" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="658.0" y="110" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="u26" value="1 in 100 successes" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="70" y="154" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="u27" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230" y="154" width="6.268656716417911" height="30" as="geometry"/></mxCell>
+<mxCell id="u28" value="746,496,000 B/day ≈ 0.75 GB" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="244.26865671641792" y="154" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="u29" value="what the sampled plan keeps per second" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="500" height="18" as="geometry"/></mxCell>
+<mxCell id="u210" value="12 success lines (1 in 100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="232" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="u211" value="6 error lines (all of them)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="232" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="u212" value="18 lines/s × 480 B × 86,400 s = 746,496,000 B" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="274" width="620" height="18" as="geometry"/></mxCell>
+<mxCell id="u213" value="&lt;b&gt;Answer:&lt;/b&gt; About 50 GB/day vs under 1 GB/day. Every error line is still kept; sampling only trims the successes." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="306" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hotcalm" name="Hot host, calm tier">
+    <mxGraphModel dx="900" dy="352" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="352" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u31" value="Hot host, calm tier" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u32" value="Three docks, one minute. Tier SLO: at most 1% errors. Page the tier, or fix one machine?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u33" value="dock-a" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="80" height="30" as="geometry"/></mxCell>
+<mxCell id="u34" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="110" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="u35" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="110" width="44" height="30" as="geometry"/></mxCell>
+<mxCell id="u36" value="CPU 22%" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="336" y="110" width="80" height="30" as="geometry"/></mxCell>
+<mxCell id="u37" value="4 errors / 4,000 requests" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="440" y="110" width="240" height="30" as="geometry"/></mxCell>
+<mxCell id="u38" value="dock-b" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="80" height="30" as="geometry"/></mxCell>
+<mxCell id="u39" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="150" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="u310" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="150" width="188" height="30" as="geometry"/></mxCell>
+<mxCell id="u311" value="CPU 94%" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="336" y="150" width="80" height="30" as="geometry"/></mxCell>
+<mxCell id="u312" value="5 errors / 3,800 requests" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="440" y="150" width="240" height="30" as="geometry"/></mxCell>
+<mxCell id="u313" value="dock-c" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="80" height="30" as="geometry"/></mxCell>
+<mxCell id="u314" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="190" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="u315" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="190" width="54" height="30" as="geometry"/></mxCell>
+<mxCell id="u316" value="CPU 27%" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="336" y="190" width="80" height="30" as="geometry"/></mxCell>
+<mxCell id="u317" value="4 errors / 4,100 requests" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="440" y="190" width="240" height="30" as="geometry"/></mxCell>
+<mxCell id="u318" value="tier: 13 / 11,900 = 0.11% → under the 1% SLO → no page" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="500" height="36" as="geometry"/></mxCell>
+<mxCell id="u319" value="dock-b at 94% CPU → drain or replace that dock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="240" width="300" height="36" as="geometry"/></mxCell>
+<mxCell id="u320" value="&lt;b&gt;Answer:&lt;/b&gt; About 0.11%, inside the SLO. Handle dock-b as a machine problem; do not page the fleet. Keep both views." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="296" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="quiet" name="Quiet business failure">
+    <mxGraphModel dx="900" dy="346" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="346" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u41" value="Quiet business failure" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u42" value="HTTP 5xx is 0, but completed unlocks per minute fall: 42, 40, 39, 2, 1. Normal is at least 20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u43" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="260" as="sourcePoint"/><mxPoint x="700" y="260" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u44" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="120" as="sourcePoint"/><mxPoint x="100" y="260" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u45" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="100.0" y="142.4" as="sourcePoint"/><mxPoint x="250.0" y="148.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u46" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="250.0" y="148.0" as="sourcePoint"/><mxPoint x="400.0" y="150.8" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u47" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="400.0" y="150.8" as="sourcePoint"/><mxPoint x="550.0" y="254.4" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u48" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="550.0" y="254.4" as="sourcePoint"/><mxPoint x="700.0" y="257.2" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u49" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="96.0" y="138.4" width="8" height="8" as="geometry"/></mxCell>
+<mxCell id="u410" value="42" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="80.0" y="122.4" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="u411" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="246.0" y="144.0" width="8" height="8" as="geometry"/></mxCell>
+<mxCell id="u412" value="40" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230.0" y="128.0" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="u413" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="396.0" y="146.8" width="8" height="8" as="geometry"/></mxCell>
+<mxCell id="u414" value="39" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380.0" y="130.8" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="u415" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="546.0" y="250.4" width="8" height="8" as="geometry"/></mxCell>
+<mxCell id="u416" value="2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="530.0" y="234.4" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="u417" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="696.0" y="253.2" width="8" height="8" as="geometry"/></mxCell>
+<mxCell id="u418" value="1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="680.0" y="237.2" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="u419" value="" style="endArrow=none;html=1;strokeColor=#2d7a1f;strokeWidth=1.5;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="204.0" as="sourcePoint"/><mxPoint x="700" y="204.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u420" value="floor 20" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="706" y="196.0" width="80" height="16" as="geometry"/></mxCell>
+<mxCell id="u421" value="" style="endArrow=none;html=1;strokeColor=#6c8ebf;strokeWidth=3;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="100" y="258" as="sourcePoint"/><mxPoint x="700" y="258" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="u422" value="HTTP 5xx = 0 all along" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="706" y="250" width="180" height="16" as="geometry"/></mxCell>
+<mxCell id="u423" value="completed unlocks / min" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="100" y="98" width="300" height="16" as="geometry"/></mxCell>
+<mxCell id="u424" value="&lt;b&gt;Answer:&lt;/b&gt; Not healthy: the last two minutes are below the floor while 5xx stays at 0. Page on completed unlocks as well as error rate." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="budget" name="Remaining error budget">
+    <mxGraphModel dx="900" dy="338" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="338" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u51" value="Remaining error budget" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u52" value="Monthly SLO 99.9% of 50,000,000 unlock attempts; 18,400 have already failed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u53" value="50,000,000 attempts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="230" height="40" as="geometry"/></mxCell>
+<mxCell id="u54" value="× (1 − 0.999)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="110" width="230" height="40" as="geometry"/></mxCell>
+<mxCell id="u55" value="= 50,000 failures allowed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="110" width="230" height="40" as="geometry"/></mxCell>
+<mxCell id="u56" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="u53" target="u54"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="u57" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="u54" target="u55"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="u58" value="spent 18,400 (36.8%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="184" width="287.04" height="40" as="geometry"/></mxCell>
+<mxCell id="u59" value="remaining 31,600 (63.2%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="327.04" y="184" width="492.96" height="40" as="geometry"/></mxCell>
+<mxCell id="u510" value="0" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="36" y="228" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="u511" value="50,000" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="780" y="228" width="60" height="14" as="geometry"/></mxCell>
+<mxCell id="u512" value="The arithmetic sits next to the tier error rate; choosing the SLO itself is a High Availability decision." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="252" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="u513" value="&lt;b&gt;Answer:&lt;/b&gt; 50,000 failures allowed: 31,600 remain, and about 37% of the budget is spent." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="282" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="red" name="Red build">
+    <mxGraphModel dx="900" dy="344" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="344" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u61" value="Red build" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u62" value="Three commits are waiting. may_deploy = tests_passed and artifact_id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u63" value="c1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="80" height="40" as="geometry"/></mxCell>
+<mxCell id="u64" value="tests failed ✗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="140" y="110" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="u65" value="artifact build-41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="u66" value="blocked" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=13;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="600" y="110" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="u67" value="a red test blocks it" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#888888;" vertex="1" parent="1"><mxGeometry x="750" y="110" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="u68" value="c2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="166" width="80" height="40" as="geometry"/></mxCell>
+<mxCell id="u69" value="tests passed ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="140" y="166" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="u610" value="no artifact ✗" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="166" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="u611" value="blocked" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=13;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="600" y="166" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="u612" value="nothing to ship" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#888888;" vertex="1" parent="1"><mxGeometry x="750" y="166" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="u613" value="c3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="222" width="80" height="40" as="geometry"/></mxCell>
+<mxCell id="u614" value="tests passed ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="140" y="222" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="u615" value="artifact build-41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="222" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="u616" value="deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="222" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="u617" value="" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#888888;" vertex="1" parent="1"><mxGeometry x="750" y="222" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="u618" value="&lt;b&gt;Answer:&lt;/b&gt; Only c3. c1 failed its tests; c2 passed but has no artifact. A later manual test run is not the same gate." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="288" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="drift" name="Two cities, two versions">
+    <mxGraphModel dx="900" dy="368" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="368" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u71" value="Two cities, two versions" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u72" value="East runs build-41; west runs build-38 after a manual copy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u73" value="before: drifted" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="300" height="18" as="geometry"/></mxCell>
+<mxCell id="u74" value="east · build-41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="126" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="u75" value="west · build-38 (manual copy)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="126" width="240" height="40" as="geometry"/></mxCell>
+<mxCell id="u76" value="a bug only in build-38 shows up for west riders only" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;" vertex="1" parent="1"><mxGeometry x="520" y="126" width="340" height="40" as="geometry"/></mxCell>
+<mxCell id="u77" value="after: one pipeline sets every city to the same artifact id" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="600" height="18" as="geometry"/></mxCell>
+<mxCell id="u78" value="pipeline&lt;br&gt;artifact = build-41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="u79" value="east · build-41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="210" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="u710" value="west · build-41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="256" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="u711" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="u78" target="u79"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="u712" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="u78" target="u710"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="u713" value="rollback = same pipeline with the previous id, not a rebuild from a branch tip" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="540" y="226" width="320" height="50" as="geometry"/></mxCell>
+<mxCell id="u714" value="&lt;b&gt;Answer:&lt;/b&gt; The cities have drifted. One pipeline puts both on build-41; rollback reuses it with the previous artifact id." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="312" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="inspect" name="Inspection time">
+    <mxGraphModel dx="900" dy="294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="294" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="u81" value="Inspection time" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="u82" value="45 seconds to open one host. A full pass over 4 hosts, and over 240 hosts in two cities?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="u83" value="4 hosts" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="110" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="u84" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="110" width="7.333333333333333" height="30" as="geometry"/></mxCell>
+<mxCell id="u85" value="180 s = 3 minutes ✓" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="235.33333333333334" y="110" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="u86" value="240 hosts" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="154" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="u87" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="154" width="440.0" height="30" as="geometry"/></mxCell>
+<mxCell id="u88" value="" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="668.0" y="154" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="u89" value="10,800 s = 3 hours ✗" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230" y="154" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="u810" value="Past the point a person can finish before the rider leaves, add searchable logs, tier metrics, and one deploy pipeline." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="820" height="20" as="geometry"/></mxCell>
+<mxCell id="u811" value="&lt;b&gt;Answer:&lt;/b&gt; 3 minutes for 4 hosts (fits a person); 3 hours for 240 (does not)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="238" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

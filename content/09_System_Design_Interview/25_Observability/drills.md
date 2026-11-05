@@ -35,6 +35,10 @@ print(host_for(local_logs, "u-77"), "u-77" in local_logs["dock-1"])
 # dock-3 False
 ```
 
+![Request on another host](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-1-request-on-another-host.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 1.*
+
 ## Sampled log volume
 
 Success traffic is 1,200 lines/s and errors are 6 lines/s. Each line is 480 bytes. One plan keeps every line. Another keeps 1 success in 100 and every error. How many bytes/day does each plan write?
@@ -64,6 +68,10 @@ def kept_bytes_per_day(sample_den: int) -> int:
 print(kept_bytes_per_day(1), kept_bytes_per_day(100))
 # 50015232000 746496000
 ```
+
+![Sampled log volume](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-2-sampled-log-volume.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 2.*
 
 ## Hot host, calm tier
 
@@ -97,6 +105,10 @@ print(errors, requests, round(rate, 5), hottest["host"], page_tier)
 # 13 11900 0.00109 dock-b False
 ```
 
+![Hot host, calm tier](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-3-hot-host-calm-tier.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 3.*
+
 ## Quiet business failure
 
 HTTP 5xx for the unlock handler is 0. Completed unlocks per minute are below. A normal minute stays at or above 20. Is the tier healthy?
@@ -119,6 +131,10 @@ print(min(UNLOCKS_PER_MIN), quiet_failure)
 # 1 True
 ```
 
+![Quiet business failure](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-4-quiet-business-failure.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 4.*
+
 ## Remaining error budget
 
 The monthly SLO is 99.9% of unlock attempts. The window expects 50,000,000 attempts, and 18,400 have already failed. How many failures are still allowed, and what fraction of the budget is already spent?
@@ -140,6 +156,10 @@ spent_ratio = FAILURES / allowed
 print(allowed, remaining, round(spent_ratio, 3))
 # 50000 31600 0.368
 ```
+
+![Remaining error budget](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-5-remaining-error-budget.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 5.*
 
 ## Red build
 
@@ -171,6 +191,10 @@ print([(item["id"], may_deploy(item["tests_passed"], item["artifact_id"])) for i
 # [('c1', False), ('c2', False), ('c3', True)]
 ```
 
+![Red build](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-6-red-build.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 6.*
+
 ## Two cities, two versions
 
 East is running `build-41` and west is running `build-38` after a manual copy. What is wrong, and what does one pipeline do with the artifact id?
@@ -191,6 +215,10 @@ aligned = {city: ARTIFACT for city in versions}
 print(drifted, len(set(aligned.values())) == 1, aligned)
 # True True {'east': 'build-41', 'west': 'build-41'}
 ```
+
+![Two cities, two versions](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-7-two-cities-two-versions.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 7.*
 
 ## Inspection time
 
@@ -214,3 +242,7 @@ large_s = LARGE_FLEET * SECONDS_EACH
 print(small_s, large_s, large_s // 3600)
 # 180 10800 3
 ```
+
+![Inspection time](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills-8-inspection-time.png)
+
+*Source: [`diagrams/observability-drills.drawio`](/content/09_System_Design_Interview/25_Observability/diagrams/observability-drills.drawio), page 8.*
