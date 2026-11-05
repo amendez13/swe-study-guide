@@ -6,6 +6,10 @@ Skip it when every response is unique. A per-user feed, a checkout total, and an
 
 In an interview, "static assets on a CDN" is the stage after the application cache, not a substitute for it. Say what is shared, who is far away, and which requests the origin stops seeing.
 
+![Why a CDN](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-1-why-a-cdn.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 1.*
+
 ## Edge and Origin
 
 The origin holds the source of truth: object storage, or the application that can build the response. An edge is a cache in one point of presence that holds a copy. The user talks to the edge. The edge talks to the origin only when it does not already have a fresh copy.
@@ -24,6 +28,10 @@ Push:
 ```
 
 A long catalog uses pull. Push is a scheduled bet that the object will be requested in many places at once. Ordinary video uploads later in this topic use pull. A premiere uses push.
+
+![Edge and Origin](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-2-edge-and-origin.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 2.*
 
 ## Cacheable and Dynamic
 
@@ -46,6 +54,10 @@ A header that looks harmless can pin the wrong copy:
 
 Personalized HTML can still link to shared images. Serve the HTML from the application and the image from the edge. Mixing them is how a private page gets cached for the next visitor.
 
+![Cacheable and Dynamic](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-3-cacheable-and-dynamic.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 3.*
+
 ## CDN TTL
 
 TTL is how long one edge may serve its copy before it revalidates or fetches again. It is a per-PoP lifetime on an HTTP object.
@@ -66,6 +78,10 @@ Set them apart when the edge and the browser should not share one number.
 
 A hot object requested at rate R, cached on E edges, with TTL T, produces about E / T origin fetches per second when each edge refreshes once per TTL and there is no shield. The hit ratio on that traffic is 1 minus misses divided by R. Raise T, or collapse E through a shield, when the origin is the thing falling over.
 
+![CDN TTL](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-4-cdn-ttl.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 4.*
+
 ## Purge and Invalidation
 
 TTL is the safety net: a purge you forget still expires. A purge deletes a URL from the edges before that timer. It is slower than it sounds, because every PoP has to hear it, and a PoP that misses the message keeps serving the old bytes until TTL.
@@ -79,6 +95,10 @@ Purge the whole zone:        a last resort. The next minute is a miss storm on t
 ```
 
 Name which of the two you are using. "We purge" without a URL scheme means the catalog is mutable and the origin has to survive a stampede of misses.
+
+![Purge and Invalidation](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-5-purge-and-invalidation.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 5.*
 
 ## PoPs and Placement
 
@@ -94,6 +114,10 @@ A second origin region is a different decision. A CDN does not replace
 ```
 
 Coverage is a requirement you check. If the prompt's users are in one city next to the origin, say you would not add a CDN yet.
+
+![PoPs and Placement](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-6-pops-and-placement.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 6.*
 
 ## Origin Shield
 
@@ -112,21 +136,17 @@ request, and a cold catalog does not repay that hop.
 
 The shield protects the origin. It does not decide which titles deserve a copy in every city. That choice is the cost card below.
 
+![Origin Shield](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-7-origin-shield.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 7.*
+
 ## Video Uploading and Transcoding
 
 Uploaded videos must be split into chunks, transcoded into multiple resolutions and formats, and stored for streaming. This is the heaviest processing pipeline in most media systems.
 
-```mermaid
-flowchart LR
-    Upload[Client Upload] --> Store[Original Storage<br/>S3]
-    Store --> Split[Chunk Splitter]
-    Split --> T1[Transcode 1080p]
-    Split --> T2[Transcode 720p]
-    Split --> T3[Transcode 480p]
-    T1 --> CDN[CDN / Storage]
-    T2 --> CDN
-    T3 --> CDN
-```
+![Video Uploading and Transcoding](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-8-video-upload-and-transcoding.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 8.*
 
 ```text
 Processing pipeline:
@@ -173,6 +193,10 @@ Manifest example (simplified HLS):
   480p/playlist.m3u8
 ```
 
+![Adaptive Bitrate Streaming](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-9-adaptive-bitrate.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 9.*
+
 ## CDN Cost Optimization
 
 After the edge, the TTL, and the shield are chosen, the bill is which bytes you copy to every city and how fat those bytes are. A media catalog is skewed: a small slice of titles produces most of the watched bytes.
@@ -196,6 +220,10 @@ Smaller bytes:
   You spend encoding CPU to cut egress. A viewer who can take a lower rendition
   moves less data on the same edge.
 ```
+
+![CDN Cost Optimization](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-10-cdn-cost-optimization.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 10.*
 
 ## File Sync and Conflict Resolution
 
@@ -231,6 +259,10 @@ Conflict resolution:
   and let the user resolve manually.
 ```
 
+![File Sync and Conflict Resolution](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-11-file-sync-and-conflicts.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 11.*
+
 ## Image Processing and Optimization
 
 Handling images at scale requires resizing, format conversion, and efficient serving — often on-the-fly.
@@ -255,3 +287,7 @@ Storage optimization:
   Lazy loading: browser loads images only when scrolled into view.
   Responsive images: <img srcset="..."> serves the right size per device.
 ```
+
+![Image Processing and Optimization](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-12-image-processing.png)
+
+*Source: [`diagrams/content-distribution.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution.drawio), page 12.*

@@ -1,0 +1,146 @@
+<mxfile host="drawio">
+  <diagram id="home" name="Shared photo or private JSON">
+    <mxGraphModel dx="900" dy="506" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="506" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="v11" value="Shared photo or private JSON" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="v12" value="For each object: CDN, application cache, or origin only?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="v13" value="reusable?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="130" height="60" as="geometry"/></mxCell>
+<mxCell id="v14" value="shared and in&lt;br&gt;more than 1 region?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250" y="104" width="170" height="72" as="geometry"/></mxCell>
+<mxCell id="v15" value="origin only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="60" y="214" width="100" height="34" as="geometry"/></mxCell>
+<mxCell id="v16" value="cdn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="123" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="v17" value="app cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="275" y="214" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="v18" value="yes" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="v13" target="v14"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v19" value="no" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="v13" target="v15"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v110" value="yes" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="v14" target="v16"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v111" value="no" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="v14" target="v17"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v112" value="product photo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="v113" value="shared, 6 regions" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="230" y="280" width="200" height="32" as="geometry"/></mxCell>
+<mxCell id="v114" value="cdn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="280" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="v115" value="profile json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="v116" value="private, reused" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="230" y="320" width="200" height="32" as="geometry"/></mxCell>
+<mxCell id="v117" value="app cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="320" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="v118" value="checkout total" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="360" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="v119" value="not reusable" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="230" y="360" width="200" height="32" as="geometry"/></mxCell>
+<mxCell id="v120" value="origin only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="440" y="360" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="v121" value="local brochure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="400" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="v122" value="shared, 1 region" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#555555;" vertex="1" parent="1"><mxGeometry x="230" y="400" width="200" height="32" as="geometry"/></mxCell>
+<mxCell id="v123" value="app cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="400" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="v124" value="&lt;b&gt;Answer:&lt;/b&gt; Photo → CDN. Profile JSON → application cache. Checkout total → origin only. Brochure → app cache until a second region shows up." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="450" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ttl" name="TTL, edges, and a shield">
+    <mxGraphModel dx="900" dy="372" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="372" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="v21" value="TTL, edges, and a shield" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="v22" value="100,000 hot objects on 40 edges; each edge refreshes once per TTL. Edges see 80,000 requests/s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="v23" value="origin fetches per second (log scale)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1"><mxGeometry x="40" y="96" width="400" height="16" as="geometry"/></mxCell>
+<mxCell id="v24" value="1 h TTL, no shield" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="118" width="170" height="32" as="geometry"/></mxCell>
+<mxCell id="v25" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="118" width="208.35790505563241" height="32" as="geometry"/></mxCell>
+<mxCell id="v26" value="≈ 1,111 /s  (100,000 × 40 / 3,600)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="436.3579050556324" y="118" width="320" height="32" as="geometry"/></mxCell>
+<mxCell id="v27" value="1 min TTL, no shield" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="160" width="170" height="32" as="geometry"/></mxCell>
+<mxCell id="v28" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="160" width="329.9998514516298" height="32" as="geometry"/></mxCell>
+<mxCell id="v29" value="≈ 66,667 /s  (60× more)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="557.9998514516299" y="160" width="320" height="32" as="geometry"/></mxCell>
+<mxCell id="v210" value="1 h TTL + shield" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="202" width="170" height="32" as="geometry"/></mxCell>
+<mxCell id="v211" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="202" width="98.76222496585243" height="32" as="geometry"/></mxCell>
+<mxCell id="v212" value="≈ 28 /s  (40 copies → 1)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="326.7622249658524" y="202" width="320" height="32" as="geometry"/></mxCell>
+<mxCell id="v213" value="hit ratio at 1 h, no shield: 1 − 1,111 / 80,000 = 0.986" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="256" width="820" height="20" as="geometry"/></mxCell>
+<mxCell id="v214" value="Cutting TTL 60× multiplies origin load 60×. The shield is the other lever, and it does not change the TTL users see." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="284" width="820" height="20" as="geometry"/></mxCell>
+<mxCell id="v215" value="&lt;b&gt;Answer:&lt;/b&gt; ≈ 1,111/s at 1 h, ≈ 66,667/s at 1 min, ≈ 28/s at 1 h with a shield. Hit ratio ≈ 0.986." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="316" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="headers" name="Public response or a private one">
+    <mxGraphModel dx="900" dy="400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="v31" value="Public response or a private one" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="v32" value="Which responses may the edge store?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="v33" value="Cache-Control: public, s-maxage=86400" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontFamily=Courier New;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="104" width="360" height="46" as="geometry"/></mxCell>
+<mxCell id="v34" value="edge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="v35" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="v33" target="v34"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v36" value="public + shared-cache lifetime" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="590" y="110" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="v37" value="Cache-Control: private, max-age=60&lt;br&gt;+ session cookie" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontFamily=Courier New;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="162" width="360" height="46" as="geometry"/></mxCell>
+<mxCell id="v38" value="bypass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="168" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="v39" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="v37" target="v38"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v310" value="the next caller is a different user" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="590" y="168" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="v311" value="Cache-Control: no-store&lt;br&gt;+ Authorization: Bearer x" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontFamily=Courier New;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="360" height="46" as="geometry"/></mxCell>
+<mxCell id="v312" value="bypass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="226" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="v313" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="v311" target="v312"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v314" value="never stored" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="590" y="226" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="v315" value="Cache-Control: max-age=30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontFamily=Courier New;align=left;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="278" width="360" height="46" as="geometry"/></mxCell>
+<mxCell id="v316" value="bypass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=13;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="460" y="284" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="v317" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="v315" target="v316"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v318" value="browser lifetime only; no shared-cache permission" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="590" y="284" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="v319" value="&lt;b&gt;Answer:&lt;/b&gt; Only the public response with s-maxage. Private + cookie, no-store + Authorization, and a bare max-age all bypass the edge." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="344" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="purge" name="Hashed name or a purge">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="v41" value="Hashed name or a purge" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="v42" value="Three kinds of object: what happens to the URL and the TTL?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="v43" value="hashed asset&lt;br&gt;app.8f3a.js" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="106" width="200" height="48" as="geometry"/></mxCell>
+<mxCell id="v44" value="new URL each deploy · TTL days · no purge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="106" width="540" height="48" as="geometry"/></mxCell>
+<mxCell id="v45" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="v43" target="v44"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v46" value="stable URL&lt;br&gt;/terms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="168" width="200" height="48" as="geometry"/></mxCell>
+<mxCell id="v47" value="same URL · purge that one URL · short TTL as the safety net" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="168" width="540" height="48" as="geometry"/></mxCell>
+<mxCell id="v48" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="v46" target="v47"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v49" value="cart" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="200" height="48" as="geometry"/></mxCell>
+<mxCell id="v410" value="not an edge object: do not cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="320" y="230" width="540" height="48" as="geometry"/></mxCell>
+<mxCell id="v411" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="v49" target="v410"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v412" value="The short TTL behind a purged URL covers a PoP that missed the purge message." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="v413" value="&lt;b&gt;Answer:&lt;/b&gt; Hashed asset: new URL, TTL days, no purge. Stable URL: same URL, purge it, short TTL. Cart: do not cache." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="egress" name="A day of image egress">
+    <mxGraphModel dx="900" dy="336" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="336" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="v51" value="A day of image egress" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="v52" value="200M requests × 80 KB = 16,000 GB. 92% from the edge at $0.01/GB, 8% from the origin at $0.05/GB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="v53" value="with the CDN" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="v54" value="edge $147.20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="120" width="110.40000000000002" height="40" as="geometry"/></mxCell>
+<mxCell id="v55" value="origin $64" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="310.40000000000003" y="120" width="48.0" height="40" as="geometry"/></mxCell>
+<mxCell id="v56" value="= $211.20" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="366.4" y="120" width="120" height="40" as="geometry"/></mxCell>
+<mxCell id="v57" value="all from origin" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="176" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="v58" value="16,000 GB × $0.05 = $800" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="176" width="600" height="40" as="geometry"/></mxCell>
+<mxCell id="v59" value="The 92% hit ratio is doing the saving. Raising it further is a TTL and hot-set choice, not a copy of the cold images on every PoP." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="236" width="820" height="36" as="geometry"/></mxCell>
+<mxCell id="v510" value="&lt;b&gt;Answer:&lt;/b&gt; $211.20 for the day ($147.20 edge + $64.00 origin), against $800 if every byte came from the origin." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="rendition" name="A smaller rendition">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="v61" value="A smaller rendition" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="v62" value="1,000,000 viewers × 10 minutes, edge price $0.02/GB: 5 Mbps vs 1 Mbps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="v63" value="5 Mbps ÷ 8 = 625 KB/s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="v64" value="× 600 s × 1M viewers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="290" y="110" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="v65" value="= 375,000 GB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="540" y="110" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="v66" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="v63" target="v64"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v67" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="v64" target="v65"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="v68" value="5 Mbps rendition" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="20" y="180" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="v69" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="180" width="380.0" height="30" as="geometry"/></mxCell>
+<mxCell id="v610" value="375,000 GB · $7,500" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="588.0" y="180" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="v611" value="1 Mbps rendition" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="20" y="222" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="v612" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="222" width="76.0" height="30" as="geometry"/></mxCell>
+<mxCell id="v613" value="75,000 GB · $1,500" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="284.0" y="222" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="v614" value="The CDN price stays the same; the bill follows the bytes. Adaptive bitrate moves a viewer who cannot sustain 5 Mbps to the smaller rendition instead of stalling." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="36" as="geometry"/></mxCell>
+<mxCell id="v615" value="&lt;b&gt;Answer:&lt;/b&gt; 375,000 GB ($7,500) vs 75,000 GB ($1,500). The codec and the bitrate ladder change the bill, not the CDN price." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="314" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
