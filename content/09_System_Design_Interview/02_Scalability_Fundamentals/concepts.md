@@ -193,7 +193,7 @@ A teaching sequence from one box to a large fleet, in the order these building b
 
 11. Logging, metrics, automation
     The earlier stages are operable only with logs, metrics, and repeatable deploys.
-    This guide has no observability topic yet. Name the requirement; do not design the stack here.
+    The design lives in Observability. Name the signals here; do not design the stack in this topic.
 
 12. Database scaling
     A larger primary raises the write ceiling until hardware or cost stops you.
