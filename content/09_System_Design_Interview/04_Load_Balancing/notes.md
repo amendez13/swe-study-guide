@@ -1,42 +1,42 @@
 # Load Balancing
 
-The mechanism that makes horizontal scaling work. A load balancer distributes requests across backend servers, provides failover when servers die, and enables zero-downtime deployments. Every system design interview that involves multiple servers includes one.
+The box that makes a horizontal web tier reachable. It publishes one address, chooses a healthy server, and can terminate TLS so the web tier sees HTTP. A single balancer is a failure domain, so the production drawing is a pair or a managed service that is already a pair.
 
 ## Key Points
 
-- **What it does** — distributes requests across backend servers to spread load and provide failover. Appears at multiple layers: client → web, web → app, app → database.
-- **DNS-level balancing** — returns different IPs for the same domain. Simple but coarse-grained, slow to update, and can't health-check backends.
-- **Layer 4 vs. Layer 7** — L4 routes by IP/port (fast, no content inspection); L7 routes by HTTP headers, paths, and cookies (flexible, content-aware). Default to L7 for HTTP services.
-- **Algorithms** — round robin (simple), weighted round robin (heterogeneous servers), least connections (best general default), IP hash (sticky sessions), consistent hashing (cache routing).
-- **Health checks** — active (periodic probes to `/health`) or passive (monitor real request error rates). Unhealthy servers are removed from the pool.
-- **Sticky sessions** — same client always hits the same server. Needed for in-memory session state, but breaks even scaling. Prefer external session stores.
-- **LB redundancy** — a single LB is a SPOF. Use active-passive pairs or cloud-managed LBs that are inherently redundant.
+- **What it does** — spreads requests across a pool, stops sending new work to a dead server, and lets you add a server without changing the client.
+- **In front of the web tier** — clients use the balancer's public address. Web servers stay on private addresses.
+- **DNS-level balancing** — several addresses for one name, cached for the TTL, with no per-request health check. Publish the balancers. Let the balancer pick the web server.
+- **Layer 4 vs. Layer 7** — L4 routes on address and port and keeps a connection on one server. L7 routes on path, host, and cookie, and needs the HTTP bytes in the clear.
+- **TLS termination** — the certificate lives on the balancer, the web tier spends CPU on the handler, and Layer 7 can read the request. Passthrough and re-encrypt keep TLS on the web server.
+- **Algorithms** — round robin for similar short requests, weights for different machine sizes, least connections for long-lived work, IP hash and consistent hashing when the same key should stick.
+- **Health checks** — active probes, passive error counts, a shallow check for membership. Drain a server before a deploy.
+- **Sticky sessions** — cookie, client IP, or header. The pin keeps an in-memory session on one process. The shared session store is the durable fix.
+- **One balancer** — active-passive with a floating address, active-active with headroom, or a managed balancer. In-flight work on the dead balancer is lost.
 
 ## Example
 
-Choosing the right load balancing algorithm for a chat application:
+A parcel-locker pickup tier. Three web servers, open door sessions, and a cookie that names `web-b`. Unpinned, least connections chooses the quietest live server. If that cookie's server has failed its health check, the pin is ignored.
 
-```text
-Scenario: Chat app with WebSocket connections
-  - 10M concurrent connections across 50 servers
-  - Each connection is long-lived (minutes to hours)
-  - Connections are stateful (server holds session state)
+```python
+def pick_door(pool: dict[str, int], failed: set[str], cookie: str | None) -> str:
+    """Least connections, honoring a sticky cookie only while that server is live."""
+    live = [name for name in pool if name not in failed]
+    if cookie in live:
+        return cookie
+    return min(live, key=lambda name: pool[name])
 
-Bad choice: Round Robin
-  New connections are evenly distributed, but server load
-  depends on active connections, not new ones. A server
-  with 300K idle connections and one with 100K active
-  connections look the same to round robin.
 
-Good choice: Least Connections
-  Routes new connections to the server with fewest active
-  connections, naturally balancing load as connections
-  come and go.
-
-Also needed: Sticky sessions (or connection-level affinity)
-  WebSocket connections are stateful — once established,
-  all messages on that connection must go to the same server.
-  The LB handles this at L4 by tracking the TCP connection.
+doors = {"web-a": 420, "web-b": 90, "web-c": 110}
+print(pick_door(doors, set(), None), pick_door(doors, {"web-b"}, "web-b"))
+# web-b web-c
 ```
 
-The algorithm choice follows directly from the workload characteristics: long-lived, stateful connections favor least-connections with L4 affinity.
+`web-b` holds 90 sessions and wins the unpinned pick. After it leaves the pool, the cookie no longer saves it, and `web-c` (110) wins over `web-a` (420). Round robin would have kept offering whatever was next in line, including a server already holding hundreds of long-lived door sessions. The session document that should survive `web-b` restarting lives in the shared session store.
+
+## See also
+
+- [Scalability Fundamentals](../02_Scalability_Fundamentals/) — the horizontal web tier, and the shared session store. How the pin is implemented stays here.
+- [High Availability and Reliability](../03_High_Availability_and_Reliability/) — a second site and geo routing, after a site has been chosen. The balancer pair inside one site stays here.
+- [Networking and Communication](../10_Networking_and_Communication/) — reverse proxy and API gateway. Those terminate TLS too, and the gateway also authenticates and fans out.
+- [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/) — the hash ring, when an algorithm card needs keys to move in a small slice.
