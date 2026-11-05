@@ -4,6 +4,10 @@ A cache stores a copy of a database row, or of a result you would otherwise reco
 
 A cache earns its place when the same keys are read again, the read is expensive next to a cache hop, and the caller can live with a bounded stale window. A handful of keys that are read far more often than the rest can sit in a cache smaller than the full data set. Reads spread evenly across a set that does not fit will mostly miss. Skip the cache when each key is read once, or when a stale permission or a stale balance is worse than a slow correct read. The hit ratio is a measurement for this workload. Hit Ratio Math turns that measurement into latency and database load.
 
+![When Caching Helps](/content/09_System_Design_Interview/05_Caching/diagrams/caching-1-when-caching-helps.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 1.*
+
 ## Cache Tier Placement
 
 The read and write pattern is a separate choice from where the bytes sit.
@@ -24,6 +28,10 @@ Shared remote tier:
 
 Use the process for a tiny set that one instance rereads constantly, with a short TTL. Use the shared tier when many instances should share one fill. More application instances multiply in-process copies. They do not grow a shared tier. The shared tier grows when the key set or the cache request rate grows, without growing the application fleet by the same amount. A request that walks more than one of these is Multi-Layer Caching.
 
+![Cache Tier Placement](/content/09_System_Design_Interview/05_Caching/diagrams/caching-2-cache-tier-placement.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 2.*
+
 ## Hit Ratio Math
 
 The hit ratio is `hits / (hits + misses)` over requests that were allowed to use the cache. It is an output of the working set, the capacity, the TTL, the invalidation rate, and the skew. It is the input to the latency and load arithmetic.
@@ -42,6 +50,10 @@ required hit ratio ≈ 1 - (database budget / eligible reads)
 
 Those two lines hold when each miss performs one database read. A stampede, a retry, or a fan-out from one key to many rows produces more database reads than there were misses. A negative cache produces fewer once the marker is stored: later lookups of that missing key hit the cache. Timeouts and errors are a third outcome. A fail-closed timeout performs no database read, so it stays out of the miss total. Count each retry that reaches the database. A miss total that leaves those retries out is short of the load. The ratio is an average across keys. One key can always miss inside a high average. The caller who misses waits the full miss time, and the mean hides that wait. An empty cache and a dead cache are a different measurement. Cache Failure and Overprovisioning is that case.
 
+![Hit Ratio Math](/content/09_System_Design_Interview/05_Caching/diagrams/caching-3-hit-ratio-math.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 3.*
+
 ## Cache-Aside (Lazy Loading)
 
 The application calls the cache and the database itself. A read looks up the key. A hit returns the stored value. A miss reads the database, stores the value with a TTL, and returns it. A write commits the database, then deletes the key. The next read misses and builds the cached value from the committed row.
@@ -53,11 +65,19 @@ Write: commit the database → delete the key
 
 The writer deletes, because the cached value is often a document the writer does not assemble, such as title, price, and cover under one key. Two writers that SET that document can also land out of commit order. A delete leaves the next miss to rebuild the document from the committed row. A reader that already loaded the old row can still SET it afterward. Cache Invalidation is that race. The TTL is set on the fill, so a delete that never arrives still expires. The first read after a miss or a delete is the slow one. Only keys that are actually read occupy a slot. A read can fall through to the database while the write still commits. Failing that read closed is the choice when the fall-through would overload the database.
 
+![Cache-Aside (Lazy Loading)](/content/09_System_Design_Interview/05_Caching/diagrams/caching-4-cache-aside.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 4.*
+
 ## Read-Through and Write-Through
 
 The application talks to the cache. On a miss, the cache loads the database, stores the value with a TTL, and returns it. On a write, the cache writes the database and acknowledges only after that commit. When the acknowledgement returns, the entry this cache wrote and the database row match.
 
 The write waits for both hops. The cache stores the value even if nobody reads it again. If the database write fails, the cache drops the new value. If the cache is down, the write fails with it, unless the application bypasses to the database and fills later, which is cache-aside on that path. A process cache in front, a lagging replica, or a different key that embeds the row can still be stale after the acknowledgement. The first miss still pays the database. Concurrent misses meet inside the loader, so stampede protection has to live there. The application no longer sees those misses one by one.
+
+![Read-Through and Write-Through](/content/09_System_Design_Interview/05_Caching/diagrams/caching-5-read-through-write-through.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 5.*
 
 ## Write-Behind (Write-Back)
 
@@ -72,6 +92,10 @@ A miss must not cover a dirty key with the older database row.
 ```
 
 This fits samples, counters, and other streams that can lose a short unflushed window. A price, a balance, or a seat count that must survive a crash stays on cache-aside or write-through.
+
+![Write-Behind (Write-Back)](/content/09_System_Design_Interview/05_Caching/diagrams/caching-6-write-behind.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 6.*
 
 ## Eviction Policies
 
@@ -96,6 +120,10 @@ Random: evict a key at random. Cheap, and it will evict a hot key
 
 Name LRU when you need the hot set to survive a scan of cold keys, and name the TTL separately as the freshness bound. Say LFU when popularity is stable across a long window. Say random when implementation cost matters more than protecting a specific hot key.
 
+![Eviction Policies](/content/09_System_Design_Interview/05_Caching/diagrams/caching-7-eviction-policies.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 7.*
+
 ## TTL Tuning
 
 The TTL is how long a fill may be served. It is set when the value is stored. Too short, and a key that is still hot expires, the hit ratio falls, and database reads climb. Too long, and a missed invalidation stays visible for the whole TTL, and the slot holds a value past the point anyone should see it. Expiry ends the right to serve the value. Servers often reclaim the bytes lazily, on the next access or on a scan. Capacity is Eviction Policies.
@@ -109,6 +137,10 @@ def ttl_s(base_s: int, spread_s: int, roll: int) -> int:
 ```
 
 Pick the base from the data. A catalog document can live for seconds. A negative marker for a missing key lives for a shorter base, because it hides a row that was just created. Jitter spreads expiries that would have lined up. A key you just deleted, and a cold node, still need Cache Stampede Protection.
+
+![TTL Tuning](/content/09_System_Design_Interview/05_Caching/diagrams/caching-8-ttl-tuning.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 8.*
 
 ## Cache Invalidation
 
@@ -142,6 +174,10 @@ The same late SET applies to a negative entry. Store "this key is absent" with a
 
 A new key name such as `book:7:v3` leaves the old entry to expire, and every reader has to learn `v3`. The pointer that says `v3` is itself a cache entry with the same race. An event that says "delete `book:7`" is the same delete, sent to every cache that might hold the key, including a process cache. A lost event is the case the TTL covers. Filling from a replica that has not applied the commit stores the lagging row. The fill source is the primary, or the staleness bound includes replication lag. That lag is [Consistency and Replication](../09_Consistency_and_Replication/).
 
+![Cache Invalidation](/content/09_System_Design_Interview/05_Caching/diagrams/caching-9-cache-invalidation.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 9.*
+
 ## Cache Stampede Protection
 
 A stampede is many misses of one key at the same moment. The TTL values line up, a deploy starts from an empty cache, or a popular key was just deleted. Each miss loads the database on its own, so the query count equals the miss count.
@@ -149,6 +185,10 @@ A stampede is many misses of one key at the same moment. The TTL values line up,
 One loader per key makes that one query. The other waiters share the result. Give the loader a timeout and the waiters a limit. Without those, the database stays safe and the application piles up on a loader that never returns. When a slightly older value is acceptable, keep serving it and let one request refresh. The waiters do not block, and the database still sees one read.
 
 Jitter is what keeps expiries from lining up. A deleted key and a cold node still need one loader. A missing key is the same herd: a short negative entry, from Cache Invalidation, absorbs the lookups after the first. A key that stays hot after the fill still sits on one node. Hot Key Mitigation is that case.
+
+![Cache Stampede Protection](/content/09_System_Design_Interview/05_Caching/diagrams/caching-10-cache-stampede-protection.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 10.*
 
 ## Hot Key Mitigation
 
@@ -173,6 +213,10 @@ Very hot and local:
 
 A stampede is a burst of misses. A hot key is a sustained rate of hits. Collapsing the misses does not move the hits off the node that owns the key.
 
+![Hot Key Mitigation](/content/09_System_Design_Interview/05_Caching/diagrams/caching-11-hot-key-mitigation.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 11.*
+
 ## Distributed Cache Architecture
 
 One cache process is a shared tier with a ceiling: the memory and the request rate of that machine. When it stops, every key misses. Past that ceiling, or when that failure is too large, partition the keys so memory and request rate spread.
@@ -184,6 +228,10 @@ One key has one primary node, unless Hot Key Mitigation copied it.
 ```
 
 Virtual nodes keep that moved slice even across machines of different sizes. The ring itself is [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/). The client has to know membership, or a proxy has to know it. A proxy adds a hop. A replica keeps the primary's keys after a crash. Reading the replica can return a stale value, which is a consistency choice on [Consistency and Replication](../09_Consistency_and_Replication/). Memcached clients usually hash to a node and keep no replica. Redis Cluster assigns slots and can keep a replica per slot. Either way, say whether a node death loses keys or fails them over.
+
+![Distributed Cache Architecture](/content/09_System_Design_Interview/05_Caching/diagrams/caching-12-distributed-cache.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 12.*
 
 ## Cache Failure and Overprovisioning
 
@@ -205,6 +253,10 @@ Callers that fail the request keep the database at the steady rate and return an
 
 Memory has its own headroom. At the eviction ceiling, a burst of new keys evicts the hot set and the hit ratio falls while every node is healthy. Spare memory absorbs that burst, plus allocator waste and a replication buffer. The working set plus the burst has to fit. Otherwise eviction holds the hit ratio to whatever slice of that set still fits. There is no universal spare fraction to quote in place of that fit.
 
+![Cache Failure and Overprovisioning](/content/09_System_Design_Interview/05_Caching/diagrams/caching-13-cache-failure.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 13.*
+
 ## Multi-Layer Caching
 
 A request can meet more than one cache, and each layer has its own size, TTL, and invalidation path.
@@ -216,3 +268,7 @@ Request map → process cache → shared cache → database
 The request map dies with the response. The process cache holds a few hot keys for that instance. The shared tier holds the working set for the fleet. The database holds the durable row. A closer layer is smaller. A delete that reaches only the shared tier leaves the process copy in place until that copy's TTL.
 
 Some values are assembled from many rows: a catalog card, a ranking, a page. Store the assembled value under its own key. Updating one of the source rows leaves the assembled key in place until that key is deleted or it expires. Rebuilding a hot assembled key on every miss is a stampede, so one refresh at a time, and a short process TTL in front of the shared copy when that one key would saturate a node. The assembled key is still a volatile copy. The database remains the source of truth for the page. Different data gets different layers. A session blob can live only in the shared tier for the life of the session. A ranking can be rebuilt on a schedule and cached as the result. A price document is filled on demand and deleted when the price row commits.
+
+![Multi-Layer Caching](/content/09_System_Design_Interview/05_Caching/diagrams/caching-14-multi-layer-caching.png)
+
+*Source: [`diagrams/caching.drawio`](/content/09_System_Design_Interview/05_Caching/diagrams/caching.drawio), page 14.*
