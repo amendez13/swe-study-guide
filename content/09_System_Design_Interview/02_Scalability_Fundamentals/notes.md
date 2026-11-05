@@ -67,7 +67,7 @@ About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, 
 ## See also
 
 - [Interview Framework and Process](../01_Interview_Framework_and_Process/) — the QPS and storage arithmetic these decisions start from.
-- [High Availability and Reliability](../03_High_Availability_and_Reliability/) — multi-region failure and failover. There is no dedicated multi-data-center card yet.
+- [High Availability and Reliability](../03_High_Availability_and_Reliability/) — multi-region failure and failover. The Multi-DC and Geo Routing card is that home.
 - [Load Balancing](../04_Load_Balancing/) — algorithms, health checks, and how sticky sessions are implemented.
 - [Caching](../05_Caching/) — cache-aside, write-through, eviction, and invalidation.
 - [Databases Relational](../06_Databases_Relational/) — replication, read replicas, and the primary's vertical ceiling.

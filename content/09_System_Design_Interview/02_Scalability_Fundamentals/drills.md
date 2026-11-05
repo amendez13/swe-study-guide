@@ -254,7 +254,7 @@ items = [
 ]
 ```
 
-**Answer:** This topic owns session placement: sticky pin versus a shared store, on a stateless web tier. Everything else is a pointer. Load balancer algorithms are Load Balancing. Cache invalidation is Caching. Foundational CDN behavior and media transcoding are Content Distribution. Shard keys are Data Partitioning. Delivery guarantees are Message Queues. Geo DNS is High Availability, which still has no dedicated multi-data-center card. The log pipeline is Observability: name the signals here and design them there.
+**Answer:** This topic owns session placement: sticky pin versus a shared store, on a stateless web tier. Everything else is a pointer. Load balancer algorithms are Load Balancing. Cache invalidation is Caching. Foundational CDN behavior and media transcoding are Content Distribution. Shard keys are Data Partitioning. Delivery guarantees are Message Queues. Geo DNS is the Multi-DC and Geo Routing card in High Availability. The log pipeline is Observability: name the signals here and design them there.
 
 ```python
 OWNER = {
