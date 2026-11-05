@@ -1,6 +1,6 @@
 # Caching
 
-The single highest-leverage technique for reducing latency and database load in read-heavy systems. A well-placed cache can absorb 80–95% of read traffic, turning a database bottleneck into a non-issue. The cost is complexity: you now have two sources of truth that can diverge.
+The single highest-leverage technique for reducing latency and database load in read-heavy systems. A well-placed cache can absorb 80–95% of read traffic, turning a database bottleneck into a non-issue. The cost is complexity: you now have two sources of truth that can diverge. This topic is the application and data cache. Shared bytes served close to a distant audience live in Content Distribution and Media.
 
 ## Key Points
 
@@ -10,7 +10,6 @@ The single highest-leverage technique for reducing latency and database load in 
 - **Write-behind** — writes go to cache, async flush to DB. Low write latency, but risks data loss if cache crashes before flush.
 - **Eviction policies** — LRU is the default. LFU for popularity-stable data. TTL limits staleness. "LRU with a TTL" is the safe interview answer.
 - **Cache invalidation** — the hard problem. TTL as baseline, event-driven invalidation for critical data, versioned keys for safe rollover.
-- **CDN** — a globally distributed cache for static content. Reduces origin load and latency for global users. Pull (on-demand) vs. push (proactive) models.
 - **Distributed cache** — partition keys across multiple nodes via consistent hashing. Redis Cluster or Memcached for high-scale workloads.
 
 ## Example
@@ -40,3 +39,7 @@ Trade-off accepted:
 ```
 
 This pattern — cache-aside with TTL plus explicit invalidation on writes — covers the majority of caching needs in system design interviews.
+
+## See also
+
+- [Content Distribution and Media](../22_Content_Distribution_and_Media/) — CDN edge versus origin, TTL, purge, placement, origin shield, and the media pipeline.

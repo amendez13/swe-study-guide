@@ -134,30 +134,6 @@ Write-through invalidation:
 
 In practice, most systems use TTL as the baseline safety net plus event-driven invalidation for critical data. The TTL ensures that even if an invalidation event is missed, stale data eventually expires.
 
-## CDN (Content Delivery Network)
-
-A globally distributed cache for static and dynamic content. CDN edge servers are placed in data centers close to end users, reducing latency by serving content without hitting the origin server.
-
-```mermaid
-flowchart LR
-    U1[User NYC] --> E1[CDN Edge NYC]
-    U2[User London] --> E2[CDN Edge London]
-    E1 -->|cache miss| Origin[Origin Server]
-    E2 -->|cache miss| Origin
-```
-
-```text
-What CDNs cache well:
-  Static assets: images, CSS, JS, fonts, videos
-  API responses with Cache-Control headers
-  Pre-rendered HTML pages
-
-Pull CDN: Edge fetches from origin on first request, caches for TTL.
-Push CDN: Origin proactively pushes content to edges before it's requested.
-```
-
-CDNs reduce origin load, improve latency for global users, and absorb traffic spikes. In a system design interview, adding "static assets served via CDN" is a quick win that shows you understand the read path.
-
 ## Distributed Cache Architecture
 
 For large-scale systems, a single cache server isn't enough. Distributed caches partition data across multiple nodes using consistent hashing.
