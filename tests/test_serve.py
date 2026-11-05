@@ -7,6 +7,8 @@ import io
 import sys
 from pathlib import Path
 
+from src.quiz_bank import concept_titles
+
 
 def import_serve_module():
     """Import the repo-root serve.py module for direct testing."""
@@ -421,6 +423,81 @@ def test_caching_topic_has_no_cdn_card() -> None:
     assert "22_Content_Distribution_and_Media" in notes
     assert "08_Data_Partitioning_and_Consistent_Hashing" in notes
     assert "09_Consistency_and_Replication" in notes
+
+
+def test_relational_databases_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "06_Databases_Relational"
+    )
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "06_Databases_Relational"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    concept_headings = [
+        "## Relational Database",
+        "## Choosing Relational or NoSQL",
+        "## ACID Properties",
+        "## Normalization and Denormalization",
+        "## Indexing",
+        "## Vertical Database Scaling",
+        "## Database Replication",
+        "## Read Replicas",
+        "## Failover and Promotion",
+        "## Database Sharding",
+        "## Sharding Challenges",
+    ]
+    drill_headings = [
+        "## Replica Count",
+        "## Read After Write",
+        "## Primary Loss",
+        "## Vertical or Shard",
+        "## Shard Key Pick",
+        "## Hot Shard",
+        "## Resharding Cost",
+        "## Index Choice",
+    ]
+    for heading in concept_headings:
+        assert heading in concepts
+    for heading in drill_headings:
+        assert heading in drills
+    assert concept_titles(concepts) == [heading.removeprefix("## ") for heading in concept_headings]
+    assert concept_titles(drills) == [heading.removeprefix("## ") for heading in drill_headings]
+    assert len(concepts.split("\n## ")) == 11
+    cards = drills.split("\n## ")[1:]
+    assert len(cards) == 8
+    answer_bodies = {card.split("\n", 1)[0]: card.split("**Answer:**", 1)[1] for card in cards}
+    assert sum("```python" in body for body in answer_bodies.values()) == 6
+    assert "```python" not in answer_bodies["Vertical or Shard"]
+    assert "```python" not in answer_bodies["Index Choice"]
+    assert "12000 8000 True False True" in drills
+    assert "False True True True" in drills
+    assert "[75, 76, 77, 78, 79, 80] [] [72, 73, 74, 75, 76, 77, 78, 79, 80]" in drills
+    assert "1 2 4 8" in drills
+    assert "7750 750" in drills
+    assert "800 50" in drills
+    assert "6 12000 8000" in notes
+    assert "Normalization vs. Denormalization" not in concepts
+    assert "W + R > N" not in concepts
+    assert "W + R > N" not in notes
+    assert "W + R > N" not in drills
+    assert "zero data loss" not in concepts.lower()
+    assert "instant failover" not in concepts.lower()
+    assert "07_Databases_NoSQL_and_Specialized" in notes
+    assert "08_Data_Partitioning_and_Consistent_Hashing" in notes
+    assert "09_Consistency_and_Replication" in notes
+    assert "05_Caching" in notes
+    assert "03_High_Availability_and_Reliability" in concepts
+    assert "02_Scalability_Fundamentals" in concepts
 
 
 def test_content_distribution_owns_cdn_and_drills() -> None:
