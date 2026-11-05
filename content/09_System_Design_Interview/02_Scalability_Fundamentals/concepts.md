@@ -10,19 +10,17 @@ DB primary: bigger instance until CPU, IOPS, or the size catalog runs out.
 Then:       more machines (horizontal), not a taller single primary.
 ```
 
+![Vertical Scaling](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-1-vertical-scaling.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 1.*
+
 ## Horizontal Scaling
 
 Adding machines so work that can be split is split. Throughput can grow with the pool. What you take on is routing, partial failure, and a place for any state that used to live in one process.
 
-```mermaid
-flowchart LR
-    LB[Load Balancer] --> S1[Server 1]
-    LB --> S2[Server 2]
-    LB --> S3[Server 3]
-    S1 --> DB[(Shared DB)]
-    S2 --> DB
-    S3 --> DB
-```
+![Horizontal Scaling](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-2-horizontal-scaling.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 2.*
 
 A load balancer is what makes the extra web servers reachable. Algorithms, health checks, and TLS placement are the Load Balancing topic. The web tier scales evenly once any server can handle any request. Sticky sessions are a bridge while session bytes still sit in one process. The durable fix is a shared session store. Databases stay stateful on purpose: scale them with replication and partitioning, not by cloning them as if they were web servers.
 
@@ -43,6 +41,10 @@ Stateful on purpose (replicate or partition it):
 
 "The system is stateless" is the wrong summary. The web tier is stateless. The data tier is stateful, and it is built for that.
 
+![Stateless vs. Stateful Services](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-3-stateless-vs-stateful.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 3.*
+
 ## Shared Session Store
 
 Sticky sessions (session affinity) send a user back to the web server that holds their session in local memory. That avoids an extra store and keeps a first version simple. It also pins load to whichever servers users happened to hit, and a restart or a rebalance drops those logins. How the balancer implements the pin (cookie, client IP, header) is a Load Balancing detail.
@@ -54,14 +56,9 @@ Sticky:  session in one worker, balancer pins the client, failover loses the log
 Shared:  session in an external store, any worker, extra read, store is now on the critical path
 ```
 
-```mermaid
-flowchart LR
-    C[Client] --> LB[Load balancer]
-    LB --> W1[Web 1]
-    LB --> W2[Web 2]
-    W1 --> S[(Session store)]
-    W2 --> S
-```
+![Shared Session Store](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-4-shared-session-store.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 4.*
 
 ```python
 def session_for(store: dict[str, dict], session_id: str) -> dict | None:
@@ -96,6 +93,10 @@ def scaling_bias(read_qps: float, write_qps: float, peak_factor: float) -> str:
     return shape
 ```
 
+![Describing Load](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-5-describing-load.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 5.*
+
 ## Describing Performance
 
 How the system behaves under that load. Throughput is completed work per second. Latency is how long one request waits. Adding servers is a throughput tool when the work parallelizes. Latency moves when you remove a slow hop: a cache hit, a closer copy of the bytes, less work on the request path.
@@ -127,6 +128,10 @@ samples = [8, 9, 10, 11, 12, 14, 18, 40, 90, 400]
 print(nearest_rank(samples, 50), nearest_rank(samples, 99))  # 12 400
 ```
 
+![Describing Performance](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-6-describing-performance.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 6.*
+
 ## The Scale Cube
 
 Three independent ways to grow a system. Name the axis that matches the bottleneck you measured. Most production systems use more than one; an interview answer still starts with the axis that removes the current limit.
@@ -146,6 +151,10 @@ Z-axis: split by data
 ```
 
 X is the horizontal web tier. Y is service decomposition. Z is partitioning. A design that jumps to Y and Z while one cloned service would do is scaling a diagram, not the bottleneck.
+
+![The Scale Cube](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-7-scale-cube.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 7.*
 
 ## Scaling from Zero to Millions
 
@@ -205,3 +214,7 @@ A teaching sequence from one box to a large fleet, in the order these building b
 ```
 
 In an interview, say which stage the numbers justify and which boxes you are leaving out on purpose.
+
+![Scaling from Zero to Millions](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-8-zero-to-millions.png)
+
+*Source: [`diagrams/scalability-fundamentals.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals.drawio), page 8.*

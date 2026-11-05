@@ -26,6 +26,10 @@ need_partition = AT_LARGEST_INSTANCE and WRITE_CPU >= 80 and WRITES > READS
 print(replicas_raise_write_capacity, need_partition)  # False True
 ```
 
+![Database vertical ceiling](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-1-database-vertical-ceiling.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 1.*
+
 ## Sticky session miss
 
 Two web workers keep sessions in their own dicts. Login landed on worker 0. The next request is routed to worker 1. What does each worker return, and what changes if both read a shared dict?
@@ -49,6 +53,10 @@ def sticky_lookup(worker_index: int, session_id: str) -> dict | None:
 print(sticky_lookup(0, "s1"), sticky_lookup(1, "s1"), shared.get("s1"))
 # {'user': 'ada'} None {'user': 'ada'}
 ```
+
+![Sticky session miss](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-2-sticky-session-miss.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 2.*
 
 ## Read-heavy QPS
 
@@ -76,6 +84,10 @@ write_avg = DAU * LOANS / SECONDS
 print(read_avg, write_avg, read_avg / write_avg, read_avg * PEAK)
 # 400.0 8.0 50.0 1600.0
 ```
+
+![Read-heavy QPS](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-3-read-heavy-qps.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 3.*
 
 ## Tail latency
 
@@ -108,6 +120,10 @@ p99 = nearest_rank(samples_ms, 99)
 print(p50, p99, p99 <= TARGET_MS)  # 12 400 False
 ```
 
+![Tail latency](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-4-tail-latency.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 4.*
+
 ## Scale cube axis
 
 Checkout and catalog ship in one binary. At peak, checkout CPU is 85% and catalog CPU is 10%. The whole dataset fits one database with room to spare. Which axis do you pull first, and which axis is not indicated?
@@ -129,6 +145,10 @@ if not dataset_fits_one_db:
     axis = "Z"
 print(hot, axis)  # checkout X
 ```
+
+![Scale cube axis](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-5-scale-cube-axis.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 5.*
 
 ## Next stage from the symptom
 
@@ -172,6 +192,10 @@ print([stage_for(item) for item in symptoms])
 # ['single server', 'CDN for those assets', 'shared session store', 'queue the thumbnail', 'multi-DC pointer, not a shard']
 ```
 
+![Next stage from the symptom](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-6-next-stage-from-symptom.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 6.*
+
 ## Process-local cart
 
 `add_item` stores the cart in a module-level dict. What happens after a second web process serves the next request, and where should the cart live if any process must be able to serve the user?
@@ -207,6 +231,10 @@ print(add_shared(shared, "ada", "pen"))
 # ['pen'] None
 # ['pen']
 ```
+
+![Process-local cart](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-7-process-local-cart.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 7.*
 
 ## Where the deep dive lives
 
@@ -253,3 +281,7 @@ for item in OWNER:
 # geo DNS: High Availability
 # log pipeline: no topic yet
 ```
+
+![Where the deep dive lives](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills-8-where-the-deep-dive-lives.png)
+
+*Source: [`diagrams/scalability-fundamentals-drills.drawio`](/content/09_System_Design_Interview/02_Scalability_Fundamentals/diagrams/scalability-fundamentals-drills.drawio), page 8.*
