@@ -36,6 +36,10 @@ print([home(item) for item in items])
 # ['cdn', 'app cache', 'origin only', 'app cache']
 ```
 
+![Shared photo or private JSON](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills-1-shared-photo-or-private-json.png)
+
+*Source: [`diagrams/content-distribution-drills.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills.drawio), page 1.*
+
 ## TTL, edges, and a shield
 
 100,000 hot objects sit on 40 edges. Each edge refreshes an object once per TTL. What is the origin fetch rate at a 1-hour TTL, at a 1-minute TTL, and at a 1-hour TTL with an origin shield? If the edges together see 80,000 requests/s, what is the hit ratio at the 1-hour TTL without a shield?
@@ -70,6 +74,10 @@ print(round(hit_ratio(80_000, hour), 4))
 # 1111.1 66666.7 27.8
 # 0.9861
 ```
+
+![TTL, edges, and a shield](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills-2-ttl-edges-and-a-shield.png)
+
+*Source: [`diagrams/content-distribution-drills.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills.drawio), page 2.*
 
 ## Public response or a private one
 
@@ -108,6 +116,10 @@ print([edge_decision(headers) for headers in samples])
 # ['edge', 'bypass', 'bypass', 'bypass']
 ```
 
+![Public response or a private one](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills-3-public-or-private-response.png)
+
+*Source: [`diagrams/content-distribution-drills.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills.drawio), page 3.*
+
 ## Hashed name or a purge
 
 You are publishing three kinds of object. What do you do to the URL and the TTL?
@@ -131,6 +143,10 @@ kinds = ["hashed-asset", "stable-url", "cart"]
 print([publish(kind) for kind in kinds])
 # ['new URL, TTL days, no purge', 'same URL, purge that URL, short TTL', 'do not cache']
 ```
+
+![Hashed name or a purge](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills-4-hashed-name-or-purge.png)
+
+*Source: [`diagrams/content-distribution-drills.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills.drawio), page 4.*
 
 ## A day of image egress
 
@@ -161,6 +177,10 @@ print(round(total_gb), round(edge_cost, 2), round(origin_cost, 2), round(edge_co
 # 16000 147.2 64.0 211.2 800.0
 ```
 
+![A day of image egress](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills-5-a-day-of-image-egress.png)
+
+*Source: [`diagrams/content-distribution-drills.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills.drawio), page 5.*
+
 ## A smaller rendition
 
 One million viewers each watch 10 minutes. Compare bytes and edge cost at $0.02/GB for a 5 Mbps rendition and a 1 Mbps rendition.
@@ -186,3 +206,7 @@ lo = watched_gb(1, SECONDS, VIEWS)
 print(round(hi), round(lo), round(hi * EDGE_PER_GB, 2), round(lo * EDGE_PER_GB, 2))
 # 375000 75000 7500.0 1500.0
 ```
+
+![A smaller rendition](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills-6-a-smaller-rendition.png)
+
+*Source: [`diagrams/content-distribution-drills.drawio`](/content/09_System_Design_Interview/22_Content_Distribution_and_Media/diagrams/content-distribution-drills.drawio), page 6.*
