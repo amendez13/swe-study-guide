@@ -108,6 +108,47 @@ def test_algorithmic_complexity_topic_exposes_drills() -> None:
     assert topic["notesFile"] == "notes.md"
 
 
+def test_interview_framework_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "01_Interview_Framework_and_Process"
+    )
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = (
+        Path(__file__).resolve().parent.parent
+        / "content"
+        / "09_System_Design_Interview"
+        / "01_Interview_Framework_and_Process"
+    )
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## The Four-Step Framework",
+        "## Time Allocation",
+        "## Back-of-the-Envelope Estimation",
+        "## QPS and Storage Estimate",
+        "## Choosing the Deep-Dive Focus",
+        "## The Wrap-Up Checklist",
+    ):
+        assert heading in concepts
+    assert "Understand & establish scope" in concepts
+    assert "Propose high-level design & get buy-in" in concepts
+    assert "Design deep dive" in concepts
+    assert "2^10" in concepts
+    assert "99.999%" in concepts
+    assert drills.count("**Answer:**") >= 6
+    assert "estimate_load" in notes
+
+
 def test_arrays_strings_hash_tables_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
