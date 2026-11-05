@@ -47,7 +47,7 @@ def feed_plan(read_qps: float, write_qps: float) -> list[str]:
 print(feed_plan(read_qps, write_qps))
 ```
 
-About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, and a 10:1 read/write ratio. That justifies a stateless web tier, a shared session store, a feed cache, and a few read replicas. It does not justify sharding the write path. Feed JSON is per-user, so it stays on the cache and database path; a CDN is for the shared images and scripts. A second region shows up only if distant users are part of the requirement. The signals you would alert on are cache hit ratio, replica lag, and feed p99. Designing the logging pipeline is a later topic.
+About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, and a 10:1 read/write ratio. That justifies a stateless web tier, a shared session store, a feed cache, and a few read replicas. It does not justify sharding the write path. Feed JSON is per-user, so it stays on the cache and database path; a CDN is for the shared images and scripts. A second region shows up only if distant users are part of the requirement. The signals you would alert on are cache hit ratio, replica lag, and feed p99. The logging pipeline is the Observability topic.
 
 ## Stage choice
 
@@ -61,7 +61,7 @@ About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, 
 | Login dies with a web process | Shared session store | This topic |
 | Distant users or one region as a disaster domain | Multi-data-center | High Availability |
 | Request path waits on slow work | Queue | Message Queues |
-| No signal after the new tier | Logs, metrics, automation | No topic yet — name the signals only |
+| No signal after the new tier | Logs, metrics, automation | Observability |
 | One primary's writes or disk are full | Partition | Data Partitioning |
 
 ## See also
@@ -76,3 +76,4 @@ About 12,000 average read QPS, about 35,000 at the peak, about 1,200 write QPS, 
 - [Consistency and Replication](../09_Consistency_and_Replication/) — lag, quorums, and read-your-writes.
 - [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/) — taking slow work off the request path.
 - [Content Distribution and Media](../22_Content_Distribution_and_Media/) — transcoding, adaptive bitrate, and CDN cost. Basic CDN stays in Caching.
+- [Observability](../25_Observability/) — logs, metrics, and one deploy pipeline. This topic only names the stage.

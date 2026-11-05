@@ -182,12 +182,58 @@ def test_scalability_fundamentals_topic_exposes_drills() -> None:
         assert heading in concepts
     assert "Multiple data centers" in concepts
     assert "Logging, metrics, automation" in concepts
+    assert "The design lives in Observability" in concepts
+    assert "no observability topic yet" not in concepts.lower()
     assert "shared session store" in concepts.lower()
     answers = drills.split("**Answer:**")[1:]
     assert len(answers) >= 8
     assert all("```python" in answer for answer in answers)
     assert "feed_plan" in notes
     assert "Shared session store" in notes
+    assert "25_Observability" in notes
+
+
+def test_observability_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "25_Observability"
+    )
+
+    assert topic["title"] == "Observability"
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "25_Observability"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Per-Server Logs",
+        "## Centralized Logs",
+        "## Error Logs",
+        "## Host Metrics",
+        "## Tier Metrics",
+        "## Business Metrics",
+        "## Continuous Integration",
+        "## Repeatable Deploys",
+        "## Fleet Growth",
+    ):
+        assert heading in concepts
+    assert "request id" in concepts.lower()
+    assert "data center" in concepts.lower()
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "31600" in drills
+    assert "tier_error_rate" in notes
+    assert "01_Interview_Framework_and_Process" in notes
+    assert "02_Scalability_Fundamentals" in notes
+    assert "03_High_Availability_and_Reliability" in notes
 
 
 def test_arrays_strings_hash_tables_topic_exposes_drills() -> None:
