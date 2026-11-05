@@ -193,6 +193,70 @@ def test_scalability_fundamentals_topic_exposes_drills() -> None:
     assert "25_Observability" in notes
 
 
+def test_high_availability_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "03_High_Availability_and_Reliability"
+    )
+
+    assert topic["title"] == "High Availability and Reliability"
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = (
+        Path(__file__).resolve().parent.parent
+        / "content"
+        / "09_System_Design_Interview"
+        / "03_High_Availability_and_Reliability"
+    )
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Availability and the Nines",
+        "## MTBF and MTTR",
+        "## Redundancy and Replication",
+        "## Failover Strategies",
+        "## Active-Active vs. Active-Passive",
+        "## Multi-DC and Geo Routing",
+        "## SLA, SLO, and SLI",
+        "## Graceful Degradation",
+        "## Circuit Breaker Pattern",
+    ):
+        assert heading in concepts
+    assert concepts.count("## Multi-DC and Geo Routing") == 1
+    assert "Residency" in concepts
+    assert "Fail closed" in concepts
+    assert "commit_ms" in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "still_east" in drills
+    assert "998001" in drills
+    assert "3153" in drills
+    assert "local-copy" in notes
+    assert "02_Scalability_Fundamentals" in notes
+    assert "25_Observability" in notes
+    assert "22_Content_Distribution_and_Media" in notes
+
+
+def test_scalability_multi_dc_pointer_names_the_card() -> None:
+    topic_dir = (
+        Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "02_Scalability_Fundamentals"
+    )
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    assert "There is no dedicated multi-data-center card yet." not in notes
+    assert "Multi-DC and Geo Routing" in notes
+    assert "no dedicated multi-data-center card" not in drills
+    assert "Multi-DC and Geo Routing card in High Availability" in drills
+
+
 def test_observability_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
