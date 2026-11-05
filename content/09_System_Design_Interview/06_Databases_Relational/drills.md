@@ -27,6 +27,10 @@ print(three, two, three >= READS, two >= READS, WRITES <= PRIMARY_WRITE_CAP)
 # 12000 8000 True False True
 ```
 
+![Replica Count](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-1-replica-count.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 1.*
+
 ## Read After Write
 
 A member commits a new phone number at log position 50. The primary is at 50. Replica A has applied through 42, replica B through 55, and replica C through 47. What does a read of A return relative to the commit? What does the primary return? What does B return? If the next read goes to C, which requirement breaks?
@@ -57,6 +61,10 @@ print(caught_up(REPLICA_A), caught_up(PRIMARY), caught_up(REPLICA_B), REPLICA_C 
 # False True True True
 ```
 
+![Read After Write](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-2-read-after-write.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 2.*
+
 ## Primary Loss
 
 The primary acknowledged through log position 80. Replication was asynchronous. Replica A has applied through 74. Replica B has applied through 71. Which acknowledged positions are missing if you promote A? Which are missing if A had flushed before each of those acknowledgements and you still promote A? Which are missing if you waited for A but promote B?
@@ -84,11 +92,19 @@ print(missing("A", None), missing("A", "A"), missing("B", "A"))
 # [75, 76, 77, 78, 79, 80] [] [72, 73, 74, 75, 76, 77, 78, 79, 80]
 ```
 
+![Primary Loss](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-3-primary-loss.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 3.*
+
 ## Vertical or Shard
 
 The primary has 64 GB of RAM. The hot indexes and rows measure 100 GB, and the slow queries are waiting on disk reads. The table is 400 GB. The plan for next year is a 160 GB working set and 700 GB on disk. The largest machine you can take has 256 GB of RAM and 8 TB of disk. Writes are 800 per second today and the plan is 1,400 per second, spread across members. The primary is not waiting on one row lock or on the log flush. Same-size replicas are available. Do you resize, add replicas, or shard?
 
 **Answer:** Resize. The measured problem is a working set that does not fit in 64 GB, and 256 GB covers the planned 160 GB. The disk fits. A 64 GB replica misses the same working set and takes no writes. Sharding would split a member's reservations from the member row while one primary can still hold both. The larger core count is not a measured write capacity. Confirm 1,400 writes per second on that machine. A hot row or a saturated log flush would remain the ceiling after the resize, which is not this workload.
+
+![Vertical or Shard](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-4-vertical-or-shard.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 4.*
 
 ## Shard Key Pick
 
@@ -138,6 +154,10 @@ print(member_shards("m1", "member_id"), member_shards("m1", "created_at"), today
 # 1 2 4 8
 ```
 
+![Shard Key Pick](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-5-shard-key-pick.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 5.*
+
 ## Hot Shard
 
 Four shards. `hash(member_id) % 4` spreads row counts evenly. Of 10,000 writes per second, member m9 is 70 percent. The other 30 percent spreads evenly across all four shards, including m9's. What write rate does m9's shard take? What does each other shard take?
@@ -163,6 +183,10 @@ print(owner, other)
 # 7750 750
 ```
 
+![Hot Shard](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-6-hot-shard.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 6.*
+
 ## Resharding Cost
 
 Reservation ids are `0` through `999`. The shard is `id % N`, and N goes from 4 to 5. How many ids change shard? Separately, 20 fixed buckets are `id % 20`, with several buckets on each node. How many ids move if you move one bucket, the ids where `id % 20 == 0`?
@@ -181,6 +205,10 @@ one_bucket = sum((key % 20) == 0 for key in KEYS)
 print(modulo, one_bucket)
 # 800 50
 ```
+
+![Resharding Cost](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-7-resharding-cost.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 7.*
 
 ## Index Choice
 
@@ -203,3 +231,7 @@ WHERE member_id > 40 AND created_at = DATE '2024-06-01';
 ```
 
 **Answer:** The member page uses this index: equality on `member_id`, then `created_at` order. The date-only filter does not. `created_at` is not the leading column, and a skip scan is not a plan to promise. An index on `created_at` serves that report and slows every insert. The `tool_id` query can walk `member_id` and then filter `tool_id`. `(member_id, tool_id)` is the better index when `tool_id` is what selects inside the member. Keep both only if both queries are hot. The last query can walk the `member_id` range and then filter the date. Dates are ordered only inside one member, so `created_at =` that day is not a contiguous step after a range on `member_id`. `SELECT *` still fetches the row. None of these are covering indexes.
+
+![Index Choice](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills-8-index-choice.png)
+
+*Source: [`diagrams/databases-relational-drills.drawio`](/content/09_System_Design_Interview/06_Databases_Relational/diagrams/databases-relational-drills.drawio), page 8.*
