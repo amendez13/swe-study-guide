@@ -1,0 +1,203 @@
+<mxfile host="drawio">
+  <diagram id="public" name="Public Address Stays">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m11" value="Public Address Stays" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m12" value="pickup resolves to 203.0.113.10; three private web servers; you add 10.0.4.14" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m13" value="clients&lt;br&gt;pickup → 203.0.113.10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="170" width="170" height="50" as="geometry"/></mxCell>
+<mxCell id="m14" value="balancer&lt;br&gt;203.0.113.10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="170" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="m15" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m13" target="m14"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m16" value="10.0.4.11" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="110" width="170" height="36" as="geometry"/></mxCell>
+<mxCell id="m17" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m14" target="m16"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m18" value="10.0.4.12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="156" width="170" height="36" as="geometry"/></mxCell>
+<mxCell id="m19" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m14" target="m18"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m110" value="10.0.4.13" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="202" width="170" height="36" as="geometry"/></mxCell>
+<mxCell id="m111" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m14" target="m110"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m112" value="10.0.4.14  (new)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="248" width="170" height="36" as="geometry"/></mxCell>
+<mxCell id="m113" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="m14" target="m112"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m114" value="pool: 3 → 4" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710" y="250" width="150" height="36" as="geometry"/></mxCell>
+<mxCell id="m115" value="DNS is unchanged: no client sees the new server&#x27;s address" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="m116" value="&lt;b&gt;Answer:&lt;/b&gt; Clients still use 203.0.113.10; the pool grows to 4. Adding a server is pool membership, not a DNS change." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dnshold" name="DNS Hold After a Failure">
+    <mxGraphModel dx="900" dy="352" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="352" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m21" value="DNS Hold After a Failure" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m22" value="DNS TTL 90 s, answer cached 20 s ago. Balancer: remove after 3 failed probes, 5 s apart" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m23" value="resolver" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="m24" value="keeps returning the dead address: 70 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="180" y="120" width="490" height="34" as="geometry"/></mxCell>
+<mxCell id="m25" value="balancer" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="170" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="m26" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="174" y="181" width="12" height="12" as="geometry"/></mxCell>
+<mxCell id="m27" value="fail 1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="160" y="200" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="m28" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="209" y="181" width="12" height="12" as="geometry"/></mxCell>
+<mxCell id="m29" value="fail 2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="195" y="200" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="m210" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="244" y="181" width="12" height="12" as="geometry"/></mxCell>
+<mxCell id="m211" value="fail 3" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="230" y="200" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="m212" value="removed at 10 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="256" y="170" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="m213" value="0 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="165" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m214" value="10 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="235" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m215" value="20 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="305" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m216" value="30 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="375" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m217" value="40 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="445" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m218" value="50 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="515" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m219" value="60 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="585" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m220" value="70 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="655" y="236" width="30" height="14" as="geometry"/></mxCell>
+<mxCell id="m221" value="DNS should publish a few stable public addresses (the balancers); web-tier membership is the balancer&#x27;s job." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="266" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="m222" value="&lt;b&gt;Answer:&lt;/b&gt; The resolver can return the dead address for 70 s; the balancer drops the server 10 s after the first failed probe." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="296" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="path" name="Path Needs Layer 7">
+    <mxGraphModel dx="900" dy="316" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="316" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m31" value="Path Needs Layer 7" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m32" value="/pickup → door pool, /labels → printer pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m33" value="Layer 4" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="390" height="18" as="geometry"/></mxCell>
+<mxCell id="m34" value="GET /labels" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="140" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="m35" value="sees the connection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="180" y="140" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="m36" value="door pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="330" y="116" width="100" height="32" as="geometry"/></mxCell>
+<mxCell id="m37" value="printer pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="330" y="166" width="100" height="32" as="geometry"/></mxCell>
+<mxCell id="m38" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m34" target="m35"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m39" value="✗" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="m35" target="m36"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m310" value="Layer 7" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="100" width="390" height="18" as="geometry"/></mxCell>
+<mxCell id="m311" value="GET /labels" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="470" y="140" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="m312" value="reads the path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610" y="140" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="m313" value="door pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="760" y="116" width="100" height="32" as="geometry"/></mxCell>
+<mxCell id="m314" value="printer pool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="760" y="166" width="100" height="32" as="geometry"/></mxCell>
+<mxCell id="m315" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m311" target="m312"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m316" value="✓" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="m312" target="m314"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m317" value="L7 also sends /pickup → doors; it needs the HTTP request in the clear on the balancer" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="470" y="210" width="390" height="36" as="geometry"/></mxCell>
+<mxCell id="m318" value="&lt;b&gt;Answer:&lt;/b&gt; Layer 4 sends /labels to the door pool. Layer 7 sends /labels to printers and /pickup to doors." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="tls" name="Worker CPU After Offload">
+    <mxGraphModel dx="900" dy="326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="326" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m41" value="Worker CPU After Offload" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m42" value="4 workers × 1,000 ms CPU/s. Handler 8 ms; TLS on the worker adds 4 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m43" value="TLS on the worker" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="116" width="190" height="34" as="geometry"/></mxCell>
+<mxCell id="m44" value="handler 8 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="116" width="240" height="34" as="geometry"/></mxCell>
+<mxCell id="m45" value="TLS 4 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="116" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="m46" value="12 ms → 4 × 1,000 / 12 = 333 QPS" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610" y="116" width="250" height="34" as="geometry"/></mxCell>
+<mxCell id="m47" value="TLS on the balancer" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="166" width="190" height="34" as="geometry"/></mxCell>
+<mxCell id="m48" value="handler 8 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="166" width="240" height="34" as="geometry"/></mxCell>
+<mxCell id="m49" value="8 ms → 500 QPS" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="490" y="166" width="250" height="34" as="geometry"/></mxCell>
+<mxCell id="m410" value="Terminating on the balancer also keeps the certificate in one place and lets Layer 7 read the path. Re-encrypting to the worker puts the 4 ms back." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="224" width="820" height="36" as="geometry"/></mxCell>
+<mxCell id="m411" value="&lt;b&gt;Answer:&lt;/b&gt; 333 QPS when the workers terminate TLS, 500 QPS when the balancer does." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="rr" name="Round Robin on a Hot Server">
+    <mxGraphModel dx="900" dy="346" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="346" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m51" value="Round Robin on a Hot Server" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m52" value="Open door sessions [300, 40, 50]; round-robin cursor on server 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m53" value="server 0" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="116" width="90" height="34" as="geometry"/></mxCell>
+<mxCell id="m54" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="140" y="116" width="480.0" height="34" as="geometry"/></mxCell>
+<mxCell id="m55" value="300" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="628.0" y="116" width="60" height="34" as="geometry"/></mxCell>
+<mxCell id="m56" value="server 1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="160" width="90" height="34" as="geometry"/></mxCell>
+<mxCell id="m57" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="140" y="160" width="64.0" height="34" as="geometry"/></mxCell>
+<mxCell id="m58" value="40" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="212.0" y="160" width="60" height="34" as="geometry"/></mxCell>
+<mxCell id="m59" value="server 2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="204" width="90" height="34" as="geometry"/></mxCell>
+<mxCell id="m510" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="140" y="204" width="80.0" height="34" as="geometry"/></mxCell>
+<mxCell id="m511" value="50" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="228.0" y="204" width="60" height="34" as="geometry"/></mxCell>
+<mxCell id="m512" value="round robin → server 0 (cursor)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="116" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="m513" value="least connections → server 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="160" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="m514" value="Round robin evens out arrivals, not open work: a server holding long sessions stays hot." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="m515" value="&lt;b&gt;Answer:&lt;/b&gt; Round robin picks server 0 (300 sessions); least connections picks server 1 (40)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="streak" name="Failure Streak">
+    <mxGraphModel dx="900" dy="314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="314" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m61" value="Failure Streak" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m62" value="web-c&#x27;s probes: fail, fail, ok, fail, fail, fail. Remove after 3 failures in a row" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m63" value="#0  fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="116" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="m64" value="streak 1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="154" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m65" value="#1  fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="190" y="116" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="m66" value="streak 2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="190" y="154" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m67" value="#2  ok" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="116" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="m68" value="streak 0" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="154" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m69" value="#3  fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="116" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="m610" value="streak 1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="154" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m611" value="#4  fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="116" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="m612" value="streak 2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#555555;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="154" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m613" value="#5  fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710" y="116" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="m614" value="streak 3" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710" y="154" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m615" value="▲ removed" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710" y="176" width="110" height="18" as="geometry"/></mxCell>
+<mxCell id="m616" value="ok resets the streak" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="310" y="176" width="130" height="18" as="geometry"/></mxCell>
+<mxCell id="m617" value="Membership should use a shallow probe: a deep probe that fails whenever the shared database blips ejects every server together." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="820" height="36" as="geometry"/></mxCell>
+<mxCell id="m618" value="&lt;b&gt;Answer:&lt;/b&gt; Probe index 5 removes web-c. The ok at index 2 cleared the first streak of two." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="258" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cookie" name="Sticky Cookie and a Dead Target">
+    <mxGraphModel dx="900" dy="452" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="452" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m71" value="Sticky Cookie and a Dead Target" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m72" value="Cookie lb_backend=web-b. Open sessions: web-a 5, web-b 40, web-c 8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m73" value="web-a · 5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="112" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="m74" value="web-b · 40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="152" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="m75" value="web-c · 8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="192" width="140" height="32" as="geometry"/></mxCell>
+<mxCell id="m76" value="web-b healthy → cookie wins → web-b" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="112" width="300" height="32" as="geometry"/></mxCell>
+<mxCell id="m77" value="web-b out → ignore cookie → least connections → web-a" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="156" width="380" height="32" as="geometry"/></mxCell>
+<mxCell id="m78" value="the in-memory session on web-b does not move with the user" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="194" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="m79" value="IP hash, 3 buckets (sum of octets mod 3)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="226" width="600" height="18" as="geometry"/></mxCell>
+<mxCell id="m710" value="10.9.9.2 (NAT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="252" width="140" height="26" as="geometry"/></mxCell>
+<mxCell id="m711" value="10.9.9.2 (NAT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="282" width="140" height="26" as="geometry"/></mxCell>
+<mxCell id="m712" value="10.9.9.2 (NAT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="312" width="140" height="26" as="geometry"/></mxCell>
+<mxCell id="m713" value="bucket 0: all three" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="276" width="180" height="30" as="geometry"/></mxCell>
+<mxCell id="m714" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m710" target="m713"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m715" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m711" target="m713"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m716" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m712" target="m713"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m717" value="10.1.4.8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="352" width="140" height="26" as="geometry"/></mxCell>
+<mxCell id="m718" value="bucket 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="350" width="180" height="30" as="geometry"/></mxCell>
+<mxCell id="m719" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m717" target="m718"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m720" value="&lt;b&gt;Answer:&lt;/b&gt; web-b while it is healthy; web-a once it is out. The NAT clients all land in bucket 0; 10.1.4.8 lands in bucket 2." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="396" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="standby" name="Standby Takes the Address">
+    <mxGraphModel dx="900" dy="396" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="396" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="m81" value="Standby Takes the Address" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="m82" value="Four healthy web servers. The active balancer dies holding 50 requests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="m83" value="public address (VIP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="104" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="m84" value="LB-1 ✗ died&lt;br&gt;50 in-flight lost" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="170" width="170" height="46" as="geometry"/></mxCell>
+<mxCell id="m85" value="LB-2 standby&lt;br&gt;takes the VIP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="490" y="170" width="170" height="46" as="geometry"/></mxCell>
+<mxCell id="m86" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;dashed=1;" edge="1" parent="1" source="m83" target="m84"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m87" value="moves" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="m83" target="m85"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m88" value="web 1 ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="130" y="260" width="120" height="30" as="geometry"/></mxCell>
+<mxCell id="m89" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m85" target="m88"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m810" value="web 2 ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="260" width="120" height="30" as="geometry"/></mxCell>
+<mxCell id="m811" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m85" target="m810"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m812" value="web 3 ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="430" y="260" width="120" height="30" as="geometry"/></mxCell>
+<mxCell id="m813" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m85" target="m812"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m814" value="web 4 ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="260" width="120" height="30" as="geometry"/></mxCell>
+<mxCell id="m815" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="m85" target="m814"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="m816" value="With no standby: the web pool is healthy and has no public address." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="m817" value="&lt;b&gt;Answer:&lt;/b&gt; 4 web servers still up; 0 of the 50 in-flight requests complete; new requests work once the VIP moves (no standby → no address)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
