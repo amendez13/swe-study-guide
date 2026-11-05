@@ -245,6 +245,51 @@ def test_high_availability_topic_exposes_drills() -> None:
     assert "22_Content_Distribution_and_Media" in notes
 
 
+def test_load_balancing_topic_exposes_drills() -> None:
+    index = serve_module.build_content_index()
+    topic = next(
+        item
+        for tech in index["technologies"]
+        if tech["dir"] == "09_System_Design_Interview"
+        for item in tech["topics"]
+        if item["dir"] == "04_Load_Balancing"
+    )
+
+    assert topic["title"] == "Load Balancing"
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "04_Load_Balancing"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## What a Load Balancer Does",
+        "## In Front of the Web Tier",
+        "## DNS-Level Load Balancing",
+        "## Layer 4 vs. Layer 7 Load Balancing",
+        "## TLS Termination",
+        "## Load Balancing Algorithms",
+        "## Health Checks",
+        "## Sticky Sessions (Session Affinity)",
+        "## Load Balancer as a Single Point of Failure",
+    ):
+        assert heading in concepts
+    assert "Shared Session Store" in concepts
+    assert "02_Scalability_Fundamentals" in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "333 500" in drills
+    assert "vip-moved" in drills
+    assert "pick_door" in notes
+    assert "web-b web-c" in notes
+    assert "02_Scalability_Fundamentals" in notes
+    assert "03_High_Availability_and_Reliability" in notes
+    assert "10_Networking_and_Communication" in notes
+
+
 def test_scalability_multi_dc_pointer_names_the_card() -> None:
     topic_dir = (
         Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "02_Scalability_Fundamentals"
