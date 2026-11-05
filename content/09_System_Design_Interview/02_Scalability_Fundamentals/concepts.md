@@ -1,18 +1,18 @@
 ## Vertical Scaling
 
-Adding more CPU, memory, or storage to a single machine. Simple to implement — no code changes needed — but limited by hardware ceilings and creates a single point of failure.
+Adding CPU, memory, or disk to a single machine. The code stays the same, which is why this is the usual first move for an early product. The ceiling is the largest machine you can buy, and that machine is still one failure domain: when it stops, the product stops.
+
+The same lever applies to a database primary. A larger instance raises one writer's CPU, buffer pool, and disk throughput. Read replicas do not make that primary bigger, and they do not absorb writes. Stop scaling up when the next size class does not exist, the cost is out of line with the load, or the host is not allowed to be a single point of failure.
 
 ```text
-Before:  1 server, 8 GB RAM, 4 cores  →  handles 1,000 QPS
-After:   1 server, 64 GB RAM, 32 cores →  handles 8,000 QPS
-Ceiling: Can't buy a machine with 10 TB RAM
+App host:   4 cores, 8 GB  →  32 cores, 64 GB. Same process, higher QPS, still one box.
+DB primary: bigger instance until CPU, IOPS, or the size catalog runs out.
+Then:       more machines (horizontal), not a taller single primary.
 ```
-
-Vertical scaling is the right first move for most early-stage systems. Switch to horizontal scaling when you hit the ceiling, need fault tolerance, or need to scale different components independently.
 
 ## Horizontal Scaling
 
-Adding more machines to distribute load. Enables near-linear throughput growth but introduces coordination complexity: state must be shared or partitioned, requests must be routed, and failures are partial rather than total.
+Adding machines so work that can be split is split. Throughput can grow with the pool. What you take on is routing, partial failure, and a place for any state that used to live in one process.
 
 ```mermaid
 flowchart LR
@@ -24,111 +24,184 @@ flowchart LR
     S3 --> DB
 ```
 
-The prerequisite for horizontal scaling is that the application tier is stateless — any server can handle any request. If servers hold session state in memory, you need sticky sessions or external session storage first.
+A load balancer is what makes the extra web servers reachable. Algorithms, health checks, and TLS placement are the Load Balancing topic. The web tier scales evenly once any server can handle any request. Sticky sessions are a bridge while session bytes still sit in one process. The durable fix is a shared session store. Databases stay stateful on purpose: scale them with replication and partitioning, not by cloning them as if they were web servers.
 
 ## Stateless vs. Stateful Services
 
-A stateless service stores no per-request state on the server itself. Every request carries all the information needed to process it. This makes the service trivially horizontally scalable — add servers, point the load balancer, done.
+A stateless web service keeps no per-user record in the process. The request carries what the handler needs (a session id, an auth token, the payload). The handler loads durable state from a database, a cache, or a queue, then forgets it. Any healthy instance can take the next request, which is what makes a load balancer useful.
 
-A stateful service maintains state between requests — caches, WebSocket connections, in-memory sessions. Scaling it requires sticky sessions, state replication, or moving the state to an external store.
+A stateful service is one where the process itself is part of the record. In-memory sessions, a WebSocket fanout table, a stream processor's local state, and the database are stateful. Cloning them without a plan drops or splits that state.
 
 ```text
-Stateless (easy to scale):
-  Web API servers, compute workers, API gateways
+Stateless web tier (clone it):
+  HTTP APIs, render workers, upload front doors
 
-Stateful (harder to scale):
-  Databases, in-memory caches, WebSocket servers,
-  stream processors with local state
+Stateful on purpose (replicate or partition it):
+  Databases, shared caches, WebSocket rooms,
+  workers that own a local checkpoint
 ```
 
-The standard pattern is: keep the application tier stateless, push all state to dedicated stateful services (database, cache, message queue) that are designed for replication and partitioning.
+"The system is stateless" is the wrong summary. The web tier is stateless. The data tier is stateful, and it is built for that.
+
+## Shared Session Store
+
+Sticky sessions (session affinity) send a user back to the web server that holds their session in local memory. That avoids an extra store and keeps a first version simple. It also pins load to whichever servers users happened to hit, and a restart or a rebalance drops those logins. How the balancer implements the pin (cookie, client IP, header) is a Load Balancing detail.
+
+A shared session store puts the session document where every web server can read it, usually a key-value store keyed by session id. The balancer may then choose any healthy server. The cost is one extra read, a TTL so abandoned sessions expire, a small payload, and a dependency: if logins must survive a store restart, that store needs its own replica.
+
+```text
+Sticky:  session in one worker, balancer pins the client, failover loses the login
+Shared:  session in an external store, any worker, extra read, store is now on the critical path
+```
+
+```mermaid
+flowchart LR
+    C[Client] --> LB[Load balancer]
+    LB --> W1[Web 1]
+    LB --> W2[Web 2]
+    W1 --> S[(Session store)]
+    W2 --> S
+```
+
+```python
+def session_for(store: dict[str, dict], session_id: str) -> dict | None:
+    """Same lookup on every web worker. The dict stands in for a shared store."""
+    return store.get(session_id)
+```
 
 ## Describing Load
 
-Quantifying a system's workload using concrete parameters so that scaling decisions are grounded in numbers, not intuition. Without load parameters, "we need to scale" is meaningless.
-
-Key parameters to identify for any system:
+The numbers that make a scaling choice specific. "We need to scale" is not a design. Name the workload, then pick the stage that removes the bottleneck those numbers imply. The arithmetic shortcuts (about 10^5 seconds in a day, powers of two, the latency ladder) live with back-of-the-envelope estimation. This card is what you do with the result.
 
 ```text
-  QPS (queries per second)     — average and peak
-  Read/write ratio             — 100:1 is very different from 1:1
-  Peak-to-average ratio        — spiky traffic needs different strategies
-  Data volume                  — total storage, growth rate per day/month
-  Concurrent connections       — especially for real-time systems
-  Payload size                 — average request/response size
+QPS                  — average and peak; human traffic often peaks at about 2–5×
+Read/write ratio     — 100:1 and 1:1 are different systems
+Data volume          — stored bytes and how fast they grow
+Working set          — the hot subset that could fit in a cache
+Concurrent sessions  — matters for anything that holds a connection open
+Payload size         — a 1 KB API and a 2 MB upload do not share a bottleneck
 ```
 
-In an interview, always ask: "What's the expected number of users? What's the read/write ratio?" These two questions alone determine whether you're designing for one server or a hundred.
+```python
+def scaling_bias(read_qps: float, write_qps: float, peak_factor: float) -> str:
+    ratio = read_qps / write_qps if write_qps else float("inf")
+    if ratio >= 10:
+        shape = "read-heavy: cache and replicas before write sharding"
+    elif ratio <= 1:
+        shape = "write-heavy: write path and partitioning first"
+    else:
+        shape = "mixed: scale the tier you measured as saturated"
+    if peak_factor >= 5:
+        return shape + "; size for the peak"
+    return shape
+```
 
 ## Describing Performance
 
-Measuring how well a system responds under a given load. The two primary metrics are throughput and latency, and they have different optimization strategies.
+How the system behaves under that load. Throughput is completed work per second. Latency is how long one request waits. Adding servers is a throughput tool when the work parallelizes. Latency moves when you remove a slow hop: a cache hit, a closer copy of the bytes, less work on the request path.
 
 ```text
-Throughput:
-  Requests per second the system can handle.
-  Improve with: horizontal scaling, batching, async processing.
+Throughput — requests/second the tier completes
+Latency    — send to response
+  p50      — half of requests are at least this fast
+  p95      — the slow tail most users still feel
+  p99      — the worst common case; this is the usual page
 
-Latency:
-  Time from request sent to response received.
-  p50  = median (half of requests are faster)
-  p95  = 95th percentile (the slow tail)
-  p99  = 99th percentile (the worst common case)
-
-  Improve with: caching, CDN, read replicas, connection pooling.
+Raise throughput with more stateless workers, batching, or async work.
+Raise the tail with caching, fewer remote hops, and less work inline.
 ```
 
-Tail latency (p99, p99.9) matters more than the median in large-scale systems. A service with 100ms p50 and 5s p99 feels fast for most users but terrible for 1 in 100 — and at scale that's thousands of users per minute.
+A service with a 20 ms median and a 2 s p99 feels fine in a demo and bad for one request in a hundred. At a high QPS that tail is a steady stream of users. Nearest-rank is enough in an interview to show the tail; it is not a lab estimator.
+
+```python
+import math
+
+
+def nearest_rank(samples_ms: list[float], percentile: float) -> float:
+    ordered = sorted(samples_ms)
+    rank = max(1, math.ceil(percentile / 100 * len(ordered)))
+    return ordered[rank - 1]
+
+
+samples = [8, 9, 10, 11, 12, 14, 18, 40, 90, 400]
+print(nearest_rank(samples, 50), nearest_rank(samples, 99))  # 12 400
+```
 
 ## The Scale Cube
 
-A model for thinking about three independent dimensions of scaling. Most interview designs use one or two of these.
+Three independent ways to grow a system. Name the axis that matches the bottleneck you measured. Most production systems use more than one; an interview answer still starts with the axis that removes the current limit.
 
 ```text
-  X-axis: Horizontal duplication
-    Clone the entire service behind a load balancer.
-    Each instance is identical.
+X-axis: clone
+  Identical instances behind a load balancer.
+  Use when one service's CPU or connection count is the ceiling.
 
-  Y-axis: Functional decomposition
-    Split by function — separate services for auth, payments, search.
-    Each service scales independently.
+Y-axis: split by function
+  Separate services for separate jobs (auth, search, payments).
+  Use when unrelated features are forced to scale and deploy together.
 
-  Z-axis: Data partitioning (sharding)
-    Split by data — user IDs 1–1M on shard A, 1M–2M on shard B.
-    Same code, different data subsets.
+Z-axis: split by data
+  Same code, different subsets of the keyspace.
+  Use when one dataset or one write stream no longer fits one node.
 ```
 
-In practice, most systems combine all three: microservices (Y) with multiple instances per service (X) and sharded databases (Z).
+X is the horizontal web tier. Y is service decomposition. Z is partitioning. A design that jumps to Y and Z while one cloned service would do is scaling a diagram, not the bottleneck.
 
 ## Scaling from Zero to Millions
 
-The standard evolutionary path that appears in almost every system design interview. Understanding which layer becomes the bottleneck at each stage tells you when to introduce each technique.
+A teaching sequence from one box to a large fleet, in the order these building blocks are usually introduced. Real systems skip or reorder stages to match the bottleneck in front of them. Insert the stage the numbers justify, and leave the later boxes out until a measured limit needs them.
 
 ```text
-Stage 1: Single server
-  App + DB on one machine. Works for thousands of users.
+ 1. Single server
+    App and database share one machine. Enough while both fit and a restart is acceptable.
 
-Stage 2: Separate DB server
-  App server and DB server split. DB is no longer competing for CPU.
+ 2. Separate the database
+    Give the database its own host so queries stop competing with request handling.
+    Still one writer. Which engine is a data-model choice, covered in the database topics.
 
-Stage 3: Add a cache layer
-  Redis/Memcached for hot reads. Reduces DB load by 80%+.
+ 3. Vertical, then horizontal
+    Add CPU, memory, or disk on the saturated machine first.
+    When that stops working, the next move is more machines. Stage 4 is how they receive traffic.
 
-Stage 4: Multiple app servers + load balancer
-  Horizontal scaling of stateless app tier. App must be stateless.
+ 4. Load balancer
+    One client address spreads requests across web servers.
+    Algorithms, health checks, and affinity mechanics live in Load Balancing.
 
-Stage 5: Database replication
-  Leader-follower setup. Reads go to replicas, writes to leader.
+ 5. Database replication
+    One leader takes writes; followers serve reads.
+    Lag, failover, and consistency models live in the database and consistency topics.
 
-Stage 6: CDN for static assets
-  Images, CSS, JS served from edge locations.
+ 6. Cache
+    A cache tier absorbs repeated reads so the database sees the misses.
+    Patterns, TTL, and invalidation live in Caching.
 
-Stage 7: Database sharding
-  Partition data across multiple DB instances when a single
-  leader can't handle write volume or storage.
+ 7. CDN
+    Cacheable static bytes move closer to users. This stage is a mention, not the CDN card.
+    Foundational CDN behavior stays in Caching. Media pipelines stay in Content Distribution.
 
-Stage 8: Message queues for async work
-  Decouple heavy processing from the request path.
+ 8. Stateless web tier
+    Any web server can serve any user. Session bytes move to a shared session store.
+    Sticky sessions are the bridge, not the end state.
+
+ 9. Multiple data centers
+    Trigger: distant users, or a whole region as one failure domain.
+    Geo routing and active-active sites belong in High Availability. Name the trigger here.
+
+10. Message queue
+    Slow or bursty work leaves the request path. The web tier publishes; workers consume.
+    Delivery guarantees and backpressure live in Message Queues.
+
+11. Logging, metrics, automation
+    The earlier stages are operable only with logs, metrics, and repeatable deploys.
+    This guide has no observability topic yet. Name the requirement; do not design the stack here.
+
+12. Database scaling
+    A larger primary raises the write ceiling until hardware or cost stops you.
+    Past that, partition the data. Shard keys and rebalancing live in Data Partitioning.
+
+13. Millions and beyond
+    The same levers, aimed at the next measured bottleneck: more web capacity, a wider
+    cache, more replicas, another region, or another shard. Match the stage to the ask.
 ```
 
-You don't need to jump to stage 8 on day one. The interview answer should match the scale described in the requirements.
+In an interview, say which stage the numbers justify and which boxes you are leaving out on purpose.
