@@ -1,0 +1,195 @@
+<mxfile host="drawio">
+  <diagram id="second" name="Why a Second Site">
+    <mxGraphModel dx="900" dy="358" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="358" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w11" value="Why a Second Site" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w12" value="Classify each complaint, then ask whether a CDN for shared public images could stand in for a site" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w13" value="complaint" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#888888;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="380" height="16" as="geometry"/></mxCell>
+<mxCell id="w14" value="reason" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#888888;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="100" width="120" height="16" as="geometry"/></mxCell>
+<mxCell id="w15" value="CDN enough?" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#888888;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="590" y="100" width="270" height="16" as="geometry"/></mxCell>
+<mxCell id="w16" value="users 8000 km away see 180 ms before any byte; region healthy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="122" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="w17" value="latency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="128" width="120" height="32" as="geometry"/></mxCell>
+<mxCell id="w18" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w16" target="w17"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w19" value="✓ yes, for shared public images" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="590" y="128" width="270" height="32" as="geometry"/></mxCell>
+<mxCell id="w110" value="the single region was dark for 40 minutes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="178" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="w111" value="disaster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="184" width="120" height="32" as="geometry"/></mxCell>
+<mxCell id="w112" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w110" target="w111"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w113" value="✗ no: a CDN is not the system of record" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="590" y="184" width="270" height="32" as="geometry"/></mxCell>
+<mxCell id="w114" value="regulator: account rows must stay in-country" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="234" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="w115" value="residency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="240" width="120" height="32" as="geometry"/></mxCell>
+<mxCell id="w116" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w114" target="w115"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w117" value="✗ no: an edge abroad does not keep rows home" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="590" y="240" width="270" height="32" as="geometry"/></mxCell>
+<mxCell id="w118" value="&lt;b&gt;Answer:&lt;/b&gt; Latency, disaster, residency. A CDN covers the latency complaint for shared public bytes only; the other two need a second site." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="302" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dns" name="Cached Geo Answer">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w21" value="Cached Geo Answer" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w22" value="East fails. Geo DNS TTL 180 s; 4,000 resolvers cached “east” spread evenly across that window" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w23" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="120" y="270" as="sourcePoint"/><mxPoint x="720" y="270" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="w24" value="" style="endArrow=none;html=1;strokeColor=#555555;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="120" y="110" as="sourcePoint"/><mxPoint x="120" y="270" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="w25" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="120" y="110" as="sourcePoint"/><mxPoint x="720" y="270" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="w26" value="" style="endArrow=none;html=1;strokeColor=#555555;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="270.0" y="270" as="sourcePoint"/><mxPoint x="270.0" y="150.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="w27" value="" style="ellipse;html=1;fillColor=#b85450;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="265.0" y="145.0" width="10" height="10" as="geometry"/></mxCell>
+<mxCell id="w28" value="45 s after the failure: 3,000 resolvers still return east" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280.0" y="130.0" width="320" height="18" as="geometry"/></mxCell>
+<mxCell id="w29" value="0 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="100" y="274" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="w210" value="45 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="250.0" y="274" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="w211" value="90 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="400.0" y="274" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="w212" value="135 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="550.0" y="274" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="w213" value="180 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="700" y="274" width="40" height="14" as="geometry"/></mxCell>
+<mxCell id="w214" value="4,000" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="70" y="102" width="44" height="16" as="geometry"/></mxCell>
+<mxCell id="w215" value="0" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="70" y="262" width="44" height="16" as="geometry"/></mxCell>
+<mxCell id="w216" value="resolvers still answering east" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=10;fontColor=#888888;" vertex="1" parent="1"><mxGeometry x="120" y="88" width="300" height="16" as="geometry"/></mxCell>
+<mxCell id="w217" value="Withdrawing the answer stops new lookups; stored answers live out their TTL. Plan the drain for the rest of the window." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="20" as="geometry"/></mxCell>
+<mxCell id="w218" value="&lt;b&gt;Answer:&lt;/b&gt; 3,000 of 4,000 (4,000 × 135 / 180). Choose a routing path that can drop a dead site without waiting on those caches." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="capacity" name="Site Capacity After a Loss">
+    <mxGraphModel dx="900" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="388" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w31" value="Site Capacity After a Loss" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w32" value="Peak 1,200 QPS. Active-active: two sites of 700 each. Active-passive: a spare built for 1,200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w33" value="active-active, one site dies" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="w34" value="surviving site 700" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="126" width="326.6666666666667" height="34" as="geometry"/></mxCell>
+<mxCell id="w35" value="shed 500" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="566.6666666666667" y="126" width="233.33333333333334" height="34" as="geometry"/></mxCell>
+<mxCell id="w36" value="of 1,200 peak" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="808" y="126" width="120" height="34" as="geometry"/></mxCell>
+<mxCell id="w37" value="active-passive, primary dies" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#d79b00;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="w38" value="during the cutover: no serving site → downtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="206" width="560" height="34" as="geometry"/></mxCell>
+<mxCell id="w39" value="after promotion: spare 1,200, shed 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="250" width="560" height="34" as="geometry"/></mxCell>
+<mxCell id="w310" value="before" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="190" height="34" as="geometry"/></mxCell>
+<mxCell id="w311" value="after" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="190" height="34" as="geometry"/></mxCell>
+<mxCell id="w312" value="Active-active needs a full-peak site per region or a degrade plan; active-passive pays for an idle spare and a cutover." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="302" width="820" height="20" as="geometry"/></mxCell>
+<mxCell id="w313" value="&lt;b&gt;Answer:&lt;/b&gt; Shed 500 QPS when an active site dies; shed 0 once the spare is promoted, but the cutover itself is downtime." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="332" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="write" name="Cross-Site Write Cost">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w41" value="Cross-Site Write Cost" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w42" value="Local commit 6 ms, cross-site round trip 110 ms, 250 writes/s, async follower may lag 4 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w43" value="async" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="130" height="30" as="geometry"/></mxCell>
+<mxCell id="w44" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="180" y="110" width="24" height="30" as="geometry"/></mxCell>
+<mxCell id="w45" value="6 ms: returns after the local disk" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="212" y="110" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="w46" value="sync" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="152" width="130" height="30" as="geometry"/></mxCell>
+<mxCell id="w47" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="180" y="152" width="24" height="30" as="geometry"/></mxCell>
+<mxCell id="w48" value="wait for the other site: 110 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="204" y="152" width="440" height="30" as="geometry"/></mxCell>
+<mxCell id="w49" value="116 ms" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="652" y="152" width="100" height="30" as="geometry"/></mxCell>
+<mxCell id="w410" value="The async lag window: 4 s × 250 writes/s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="600" height="18" as="geometry"/></mxCell>
+<mxCell id="w411" value="second 1: 250 writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="232" width="195" height="34" as="geometry"/></mxCell>
+<mxCell id="w412" value="second 2: 250 writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="245" y="232" width="195" height="34" as="geometry"/></mxCell>
+<mxCell id="w413" value="second 3: 250 writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="450" y="232" width="195" height="34" as="geometry"/></mxCell>
+<mxCell id="w414" value="second 4: 250 writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="655" y="232" width="195" height="34" as="geometry"/></mxCell>
+<mxCell id="w415" value="= 1,000 writes lost if the follower is promoted at the 4 s lag" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="272" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="w416" value="Wait on operations that cannot be replayed safely; let reads that tolerate a stale follower take the lag." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="w417" value="&lt;b&gt;Answer:&lt;/b&gt; Sync commit 116 ms. Async stays at 6 ms with up to 1,000 writes at risk on promotion." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="split" name="Closed or Degraded">
+    <mxGraphModel dx="900" dy="446" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="446" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w51" value="Closed or Degraded" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w52" value="The two sites cannot see each other. Each call fails closed or serves a local copy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w53" value="site east" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="w54" value="site west" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="w55" value="✗ link down" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=13;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="190" y="112" width="120" height="36" as="geometry"/></mxCell>
+<mxCell id="w56" value="charge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="176" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w57" value="503 (fail closed)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="176" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w58" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w56" target="w57"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w59" value="no double charge" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="500" y="176" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w510" value="reserve" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w511" value="503 (fail closed)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="220" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w512" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w510" target="w511"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w513" value="no double booking" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="500" y="220" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w514" value="catalog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="264" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w515" value="local copy (stale)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="264" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w516" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w514" target="w515"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w517" value="page stays up" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="500" y="264" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w518" value="recommendations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="308" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w519" value="local copy (stale)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="308" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w520" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w518" target="w519"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w521" value="page stays up" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="500" y="308" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="w522" value="Unlike graceful degradation inside one site, this is a call you refuse because the other site is the authority." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="360" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="w523" value="&lt;b&gt;Answer:&lt;/b&gt; Charge and reserve return 503; catalog and recommendations serve the local copy." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="390" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="series" name="Nines in Series">
+    <mxGraphModel dx="900" dy="376" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="376" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w61" value="Nines in Series" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w62" value="Two dependencies at 99.9% (999,000 per million): in series, and as an independent parallel pair" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w63" value="series" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="100" height="40" as="geometry"/></mxCell>
+<mxCell id="w64" value="999,000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="110" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="w65" value="999,000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="w66" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="w64" target="w65"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w67" value="999,000 × 999,000 / 10^6 = 998,001 → 99.8001%  ✗ misses 99.9%" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="400" height="40" as="geometry"/></mxCell>
+<mxCell id="w68" value="parallel" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="186" width="100" height="60" as="geometry"/></mxCell>
+<mxCell id="w69" value="999,000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="176" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="w610" value="999,000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="220" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="w611" value="both down = 1,000² / 10^6 = 1 → 999,999 per million" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="190" width="560" height="40" as="geometry"/></mxCell>
+<mxCell id="w612" value="An extra hop multiplies downtime; a spare compounds it the other way, but only if it is an independent failure domain (two processes on one host are one site)." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="276" width="820" height="36" as="geometry"/></mxCell>
+<mxCell id="w613" value="&lt;b&gt;Answer:&lt;/b&gt; Series: 998,001 per million (99.8001%). Parallel pair: 999,999 per million." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="budget" name="Failover Inside the Budget">
+    <mxGraphModel dx="900" dy="348" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="348" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w71" value="Failover Inside the Budget" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w72" value="99.99% over a 365-day year allows 31,536,000 / 10,000 = 3,153 seconds of downtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w73" value="yearly budget" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w74" value="3,153 s (≈ 52.6 min)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230" y="110" width="394.125" height="34" as="geometry"/></mxCell>
+<mxCell id="w75" value="4 × 8 min" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="156" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w76" value="1,920 s ✓ fits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230" y="156" width="240.0" height="34" as="geometry"/></mxCell>
+<mxCell id="w77" value="4 × 20 min" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="202" width="180" height="34" as="geometry"/></mxCell>
+<mxCell id="w78" value="4,800 s ✗ misses" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="230" y="202" width="600" height="34" as="geometry"/></mxCell>
+<mxCell id="w79" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="624.125" y="100" as="sourcePoint"/><mxPoint x="624.125" y="246" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="w710" value="A second site helps only if detection plus the traffic shift (MTTR) fits inside this budget." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="262" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="w711" value="&lt;b&gt;Answer:&lt;/b&gt; 3,153 s allowed. Four 8-minute incidents (1,920 s) fit; four 20-minute ones (4,800 s) miss." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="292" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="breaker" name="Open Breaker">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w81" value="Open Breaker" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w82" value="The dependency is timing out and the breaker is open. Then one probe succeeds, and another fails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w83" value="OPEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="w84" value="any call" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="110" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="w85" value="fallback, immediately" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="110" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="w86" value="no worker waits for the full timeout" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="580" y="110" width="280" height="40" as="geometry"/></mxCell>
+<mxCell id="w87" value="HALF-OPEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="166" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="w88" value="probe succeeds" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="166" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="w89" value="→ closed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="166" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="w810" value="normal traffic resumes" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="580" y="166" width="280" height="40" as="geometry"/></mxCell>
+<mxCell id="w811" value="HALF-OPEN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="222" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="w812" value="probe fails" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="222" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="w813" value="→ open" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="222" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="w814" value="keep serving the fallback" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="580" y="222" width="280" height="40" as="geometry"/></mxCell>
+<mxCell id="w815" value="The fallback body is the graceful-degradation path; the breaker makes it win before the thread pool fills with waits." style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="284" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="w816" value="&lt;b&gt;Answer:&lt;/b&gt; Open → fallback right away. Successful half-open probe → closed. Failed probe → stays open." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="314" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

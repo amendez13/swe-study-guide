@@ -14,6 +14,10 @@ Composite availability for components in series is the product: two services at 
 
 In an interview, always clarify the availability requirement — it determines how much redundancy and failover complexity the design needs.
 
+![Availability and the Nines](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-1-availability-and-nines.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 1.*
+
 ## MTBF and MTTR
 
 Mean Time Between Failures (MTBF) measures how often a component fails. Mean Time To Repair (MTTR) measures how quickly it's restored. Together they define availability:
@@ -35,19 +39,17 @@ Health check alerts   MTTR
 Chaos engineering     Both (finds weak spots)
 ```
 
+![MTBF and MTTR](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-2-mtbf-and-mttr.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 2.*
+
 ## Redundancy and Replication
 
 Running multiple copies of a component so that failure of one does not bring down the system. This is the foundational technique for all high-availability designs.
 
-```mermaid
-flowchart LR
-    C[Client] --> LB[Load Balancer]
-    LB --> A1[App Server 1]
-    LB --> A2[App Server 2]
-    A1 --> DB1[(Primary DB)]
-    A2 --> DB1
-    DB1 -->|replication| DB2[(Replica DB)]
-```
+![Redundancy and Replication](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-3-redundancy-and-replication.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 3.*
 
 Redundancy applies at every layer inside one site: multiple app servers, database replicas, and redundant network paths. The cost scales roughly with the number of copies — 3× replicas means roughly 3× the infrastructure cost — so the availability target decides how many to run. A second data center is a separate site decision, covered in Multi-DC and Geo Routing.
 
@@ -77,6 +79,10 @@ Hot standby:
 
 For most interview designs, warm standby with automated failover is the sweet spot inside one site. Hot standby is already running and already serving, which is why recovery is near-instant and the bill is a full extra copy. Which site is serving, and what a whole site going dark does, is Multi-DC and Geo Routing.
 
+![Failover Strategies](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-4-failover-strategies.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 4.*
+
 ## Active-Active vs. Active-Passive
 
 Two deployment models for redundant components, each with different trade-offs.
@@ -98,6 +104,10 @@ Active-Active:
 ```
 
 Active-passive is the default for databases (leader-follower). Active-active is the default for stateless application servers. The same choice across data centers — one region serving, or every region serving — is Multi-DC and Geo Routing. Reconciling two writers stays in Consistency and Replication.
+
+![Active-Active vs. Active-Passive](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-5-active-active-vs-passive.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 5.*
 
 ## Multi-DC and Geo Routing
 
@@ -148,6 +158,10 @@ def commit_ms(wait_for_other_site: bool) -> int:
 
 Waiting for the other site turns a 5 ms local commit into 85 ms. Skipping the wait keeps the 5 ms commit, and a failover can lose the writes still inside the lag window.
 
+![Multi-DC and Geo Routing](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-6-multi-dc-and-geo-routing.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 6.*
+
 ## SLA, SLO, and SLI
 
 Three related but distinct concepts that translate reliability into measurable commitments.
@@ -171,6 +185,10 @@ SLOs drive architecture decisions. A 99.9% target with users in one region can b
 
 In interviews, tie the design back to the SLO: "Given 99.99% and a region-level failure, we need two sites, automated traffic shift, and a written rule for which calls fail closed during the shift."
 
+![SLA, SLO, and SLI](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-7-sla-slo-sli.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 7.*
+
 ## Graceful Degradation
 
 Designing a system to continue operating at reduced capability rather than failing completely when a component is overloaded or unavailable.
@@ -189,6 +207,10 @@ Examples:
 
 Graceful degradation requires identifying which features are critical (must work) vs. nice-to-have (can be skipped), and coding fallback paths for non-critical dependencies. Circuit breakers are the standard implementation pattern.
 
+![Graceful Degradation](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-8-graceful-degradation.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 8.*
+
 ## Circuit Breaker Pattern
 
 A resilience pattern that prevents a failing service from taking down its callers. It works like an electrical circuit breaker: when failures cross a threshold, the circuit "opens" and short-circuits requests instead of waiting for timeouts.
@@ -202,13 +224,8 @@ States:
               to test recovery. Success → CLOSED. Failure → OPEN.
 ```
 
-```mermaid
-stateDiagram-v2
-    [*] --> Closed
-    Closed --> Open: failure threshold exceeded
-    Open --> HalfOpen: timeout expires
-    HalfOpen --> Closed: test requests succeed
-    HalfOpen --> Open: test requests fail
-```
+![Circuit Breaker Pattern](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-9-circuit-breaker.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 9.*
 
 Without a circuit breaker, a slow downstream service causes cascading timeouts that exhaust thread pools and take down the entire call chain.

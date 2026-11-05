@@ -41,6 +41,10 @@ print(kinds, cdn_is_enough("latency", True), cdn_is_enough("residency", True))
 # ['latency', 'disaster', 'residency'] True False
 ```
 
+![Why a Second Site](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-1-why-a-second-site.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 1.*
+
 ## Cached Geo Answer
 
 Geo DNS for the east site uses a 180 second TTL. 4,000 resolvers cached that answer uniformly across the window. East fails. 45 seconds later, how many resolvers still return east?
@@ -61,6 +65,10 @@ ELAPSED_S = 45
 still_east = CACHED * (TTL_S - ELAPSED_S) // TTL_S
 print(still_east)  # 3000
 ```
+
+![Cached Geo Answer](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-2-cached-geo-answer.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 2.*
 
 ## Site Capacity After a Loss
 
@@ -83,6 +91,10 @@ shed_when_one_active_dies = PEAK - EACH
 shed_when_passive_is_promoted = max(0, PEAK - SPARE)
 print(shed_when_one_active_dies, shed_when_passive_is_promoted)  # 500 0
 ```
+
+![Site Capacity After a Loss](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-3-site-capacity-after-loss.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 3.*
 
 ## Cross-Site Write Cost
 
@@ -107,6 +119,10 @@ sync_ms = LOCAL_MS + RTT_MS
 at_risk = WRITES_PER_S * LAG_S
 print(sync_ms, at_risk)  # 116 1000
 ```
+
+![Cross-Site Write Cost](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-4-cross-site-write-cost.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 4.*
 
 ## Closed or Degraded
 
@@ -142,6 +158,10 @@ print(during_split("charge"), during_split("reserve"), during_split("catalog"), 
 # 503 503 local-stale local-stale
 ```
 
+![Closed or Degraded](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-5-closed-or-degraded.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 5.*
+
 ## Nines in Series
 
 Each of two dependencies is 99.9% available, measured in millionths (999,000 per 1,000,000). What is the series availability, and what is the availability of an independent parallel pair that fails only when both are down?
@@ -160,6 +180,10 @@ both_down = (1_000_000 - ONE) ** 2 // 1_000_000
 parallel = 1_000_000 - both_down
 print(series, parallel)  # 998001 999999
 ```
+
+![Nines in Series](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-6-nines-in-series.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 6.*
 
 ## Failover Inside the Budget
 
@@ -183,6 +207,10 @@ def failover_s(minutes: int, incidents: int) -> int:
 print(ALLOWED_S, failover_s(8, 4), failover_s(20, 4))
 # 3153 1920 4800
 ```
+
+![Failover Inside the Budget](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-7-failover-inside-the-budget.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 7.*
 
 ## Open Breaker
 
@@ -209,3 +237,7 @@ def response(state: str, probe_ok: bool) -> str:
 print(response("open", False), response("half-open", True), response("half-open", False))
 # fallback closed open
 ```
+
+![Open Breaker](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills-8-open-breaker.png)
+
+*Source: [`diagrams/high-availability-drills.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-drills.drawio), page 8.*
