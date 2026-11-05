@@ -9,6 +9,10 @@ A 45-minute system design interview is a conversation you steer. Move through th
 
 Drawing boxes before step 1 is the usual miss. The interviewer is grading whether you can bound a problem, then go deep on the part that matters.
 
+![The Four-Step Framework](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-1-four-step-framework.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 1.*
+
 ## Time Allocation
 
 The minute boxes only help if they protect the deep dive. Three pacing failures show up constantly. A long requirements chat (past ~5 minutes) feels productive and steals the hard design. A high-level pass that draws every box leaves step 3 with nothing new to say. A wrap-up that turns into extra features never mentions failure or metrics.
@@ -21,6 +25,10 @@ When the clock slips:
   Drop a second deep dive before you drop wrap-up.
   Leave scope locked unless the interviewer reopens it.
 ```
+
+![Time Allocation](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-2-time-allocation.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 2.*
 
 ## Functional vs. Non-Functional Requirements
 
@@ -41,6 +49,10 @@ Non-functional:
   - Messages stored for 5 years
 ```
 
+![Functional vs. Non-Functional Requirements](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-3-functional-vs-non-functional.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 3.*
+
 ## Scope Management During the Interview
 
 Understand & establish scope includes a cut list. You cannot design every component in 45 minutes. Explicitly calling out what you're deferring — and why — shows maturity.
@@ -52,6 +64,10 @@ Good scope signals:
 - "We could add encryption at rest later — for now I'll focus on the delivery guarantees."
 
 Interviewers want depth on one or two hard problems, not a shallow tour of every box.
+
+![Scope Management During the Interview](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-4-scope-management.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 4.*
 
 ## Back-of-the-Envelope Estimation
 
@@ -103,6 +119,10 @@ Monthly figures, plus how series and parallel components combine, are in [Availa
 - Recompute at 10×. If the boxes stay the same, stop. If they change, name the threshold ("one primary until about 2 TB, then shard").
 - Check the result against the power-of-two milestones before you name a database.
 
+![Back-of-the-Envelope Estimation](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-5-back-of-the-envelope.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 5.*
+
 ## QPS and Storage Estimate
 
 One worked pass from users to QPS to bytes, with the assumptions on the page. The product is a tool-lending co-op: members borrow things from a neighborhood inventory. It is a small CRUD system with a daily rhythm, which makes the arithmetic easy to check.
@@ -119,17 +139,17 @@ Budget ~2× for indexes ≈ 8.8 TB before extra replicas
 
 A few hundred peak writes and a few thousand peak reads fit a single primary, a replica, and a cache. About 8.8 TB of indexed data is a database volume with headroom to spare. It is well above one laptop disk, and it is well below a thousand-node fleet. Say that sentence, then draw. When the interviewer doubles DAU, multiply; the method stays put. A runnable form of this estimate is in the notes.
 
+![QPS and Storage Estimate](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-6-qps-and-storage-estimate.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 6.*
+
 ## Working Backwards from Requirements
 
 Start from what the user needs, derive the API contract, then work inward to services and storage. This is the opposite of picking a database first and fitting the problem to it.
 
-```mermaid
-flowchart LR
-    A[User needs] --> B[API contract]
-    B --> C[Service design]
-    C --> D[Data model]
-    D --> E[Technology choices]
-```
+![Working Backwards from Requirements](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-7-working-backwards.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 7.*
 
 Amazon's "working backwards" method is a useful analogy: write the press release (what does the customer see?) before writing the code. In an interview, define the API endpoints before drawing the architecture diagram, then get buy-in on that chain before the deep dive. If the interviewer disagrees with the API, fix it while the drawing is still small.
 
@@ -151,6 +171,10 @@ GET /chats
 
 The contract reveals hidden requirements: pagination strategy, sort order, what metadata to return, whether the API is RESTful or event-driven. These details matter more than box diagrams early in the interview. Pause here for agreement; that pause is the buy-in in step 2.
 
+![Defining the API Contract](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-8-api-contract.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 8.*
+
 ## Trade-Off Articulation
 
 Interviewers value explicit reasoning about competing constraints more than picking the "right" answer. Every design decision is a trade-off; naming it earns more credit than hiding it.
@@ -168,6 +192,10 @@ Common trade-offs to call out:
 
 A strong answer sounds like: "We could use fan-out on write for the news feed, which gives fast reads but makes writes expensive for users with millions of followers. For those celebrity accounts, we'd switch to fan-out on read."
 
+![Trade-Off Articulation](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-9-trade-off-articulation.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 9.*
+
 ## Choosing the Deep-Dive Focus
 
 Design deep dive means one hard area, explored until the interviewer believes it works. Choose it from the requirements and the estimate, say the choice, and name what you are leaving on the high-level sketch.
@@ -180,6 +208,10 @@ Design deep dive means one hard area, explored until the interviewer believes it
 A direct test: if this part stays naive, does the design miss the requirement you just agreed? Follow that part. If the interviewer has asked twice about the same box, follow them. Announce the cut: "Steady reads are fine. The on-sale show id is the hotspot, so I will deep-dive the waiting room and leave profile edits on the ordinary path."
 
 Two areas with real detail beat a sentence on eight boxes. Trade-offs belong inside the area you picked, attached to a specific decision.
+
+![Choosing the Deep-Dive Focus](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-10-choosing-the-deep-dive.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 10.*
 
 ## The Wrap-Up Checklist
 
@@ -196,3 +228,7 @@ Wrap-up checklist:
 ```
 
 Proactively identifying a weakness in your own design is stronger than having the interviewer find it.
+
+![The Wrap-Up Checklist](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework-11-wrap-up-checklist.png)
+
+*Source: [`diagrams/interview-framework.drawio`](/content/09_System_Design_Interview/01_Interview_Framework_and_Process/diagrams/interview-framework.drawio), page 11.*
