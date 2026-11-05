@@ -355,27 +355,72 @@ def test_caching_topic_has_no_cdn_card() -> None:
         if item["dir"] == "05_Caching"
     )
 
-    assert topic["hasDrills"] is False
+    assert topic["hasDrills"] is True
     assert topic["hasConcepts"] is True
     assert topic["notesFile"] == "notes.md"
 
     topic_dir = Path(__file__).resolve().parent.parent / "content" / "09_System_Design_Interview" / "05_Caching"
     concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
         "## When Caching Helps",
+        "## Cache Tier Placement",
+        "## Hit Ratio Math",
         "## Cache-Aside (Lazy Loading)",
         "## Read-Through and Write-Through",
         "## Write-Behind (Write-Back)",
         "## Eviction Policies",
+        "## TTL Tuning",
         "## Cache Invalidation",
+        "## Cache Stampede Protection",
+        "## Hot Key Mitigation",
         "## Distributed Cache Architecture",
+        "## Cache Failure and Overprovisioning",
+        "## Multi-Layer Caching",
     ):
         assert heading in concepts
+    for heading in (
+        "## Hit Ratio Latency",
+        "## Required Hit Ratio",
+        "## Stale Read Race",
+        "## LRU Trace",
+        "## Pick the Write Pattern",
+        "## Stampede Fix",
+        "## Cache Node Loss",
+        "## Hot Key Split",
+    ):
+        assert heading in drills
+    assert len(concepts.split("\n## ")) == 14
+    cards = drills.split("\n## ")[1:]
+    assert len(cards) == 8
+    answer_bodies = [card.split("**Answer:**", 1)[1] for card in cards]
+    assert sum("```python" in body for body in answer_bodies) == 7
+    assert "```python" not in answer_bodies[4]
+    assert "0.8 5 100" in drills
+    assert "0.95 20" in drills
+    assert "no-second-delete" in drills
+    assert "('B', ['C', 'A', 'D'])" in drills
+    assert "30 1" in drills
+    assert "200 650" in drills
+    assert "850 250" in drills
+    assert "write_then_delete" in notes
+    assert "None 2.4 100 67" in notes
+    assert "80–95" not in concepts
+    assert "80–95" not in notes
+    assert "80-95" not in concepts
+    assert "80-95" not in notes
+    assert "two sources of truth" not in notes.lower()
+    assert "source of truth" in concepts.lower()
     assert "## CDN" not in concepts
+    assert "## CDN" not in drills
     assert "Content Delivery Network" not in concepts
+    assert "Content Delivery Network" not in drills
+    assert "Content Delivery Network" not in notes
     assert "pull" not in notes.lower()
     assert "22_Content_Distribution_and_Media" in notes
+    assert "08_Data_Partitioning_and_Consistent_Hashing" in notes
+    assert "09_Consistency_and_Replication" in notes
 
 
 def test_content_distribution_owns_cdn_and_drills() -> None:
