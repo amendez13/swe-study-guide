@@ -816,6 +816,42 @@ def test_moderate_problems_topic_exposes_drills() -> None:
     assert "smallest_gap" in notes
 
 
+def test_hard_problems_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "07_Hard_Problems")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "07_Hard_Problems"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Optimize brute force in steps",
+        "## Bit-level arithmetic",
+        "## A fair shuffle",
+        "## Reservoir sampling",
+        "## A heap for top-k",
+        "## Two heaps for a running median",
+        "## A trie for many patterns",
+        "## Union-find",
+        "## A monotonic stack",
+        "## DP on strings",
+        "## Divide and conquer",
+        "## Search on a one-change graph",
+        "## Majority vote",
+        "## Counting and buckets",
+        "## A candidate is not an answer",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 12
+    assert all("```python" in answer for answer in answers)
+    assert "coldest" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -826,10 +862,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "04_Databases_and_SQL",
         "05_Threads_and_Locks",
         "06_Moderate_Problems",
+        "07_Hard_Problems",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[6:])
+    assert scaffolds == []
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[7:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True

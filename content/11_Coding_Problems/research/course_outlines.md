@@ -119,18 +119,16 @@ Original study outline for the coding-problem chapters that are not already cove
 
 ## 7. Hard Problems (Chapter 17)
 
-**Scope:** How to approach a problem whose state is not obvious. This outline does not list published problems.
+**Scope:** Reusable techniques for a hard interview problem. This topic does not list or solve published problems.
 
-**Status:** Outline only. No drills yet.
+**Status:** Concepts, notes, and drills.
 
 ### Themes
 
-- Spend the first minutes defining the subproblem
-- An argument that strictly shrinks, plus a base case
-- Caching a subproblem under the arguments it actually depends on
-- A mathematical rewrite checked against the brute force
-- Keeping the state small
-- Handing in a correct slower solution, with the faster plan labeled as a plan
+- Bit arithmetic, fair shuffles, and reservoir sampling
+- Heaps for top-k and a running median, tries, and union-find
+- Monotonic stacks, string DP, divide and conquer, and one-change search
+- Majority vote with a verification pass, counting sort, and checking a fast idea against a slow one
 
 ---
 
@@ -144,4 +142,4 @@ Original study outline for the coding-problem chapters that are not already cove
 | Databases and SQL | 14 | Concepts, notes, and drills | Queries, schema, and indexes, not sharding |
 | Threads and Locks | 15 | Concepts, notes, and drills | Races, locks, waits, visibility |
 | Moderate Problems | 16 | Concepts, notes, and drills | Techniques, not a published problem list |
-| Hard Problems | 17 | Outline | State, recursion, caching, without a problem list |
+| Hard Problems | 17 | Concepts, notes, and drills | Techniques, not a published problem list |

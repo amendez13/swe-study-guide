@@ -107,15 +107,19 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## 7. Hard Problems
 
-- **Model first** — the subproblem in one sentence.
-- **Shrinking argument** — plus a base case in the same vocabulary.
-- **Cache key** — exactly the arguments the answer depends on.
-- **Math rewrite** — only after it matches the brute force on small inputs.
-- **Small state** — extra fields multiply the work.
-- **Slow and correct** — hand it in, and label the faster idea as a plan.
+- **Brute force first** — a correct slow answer, then one layer of repeated work removed.
+- **Bits** — XOR for differing flags. Carry is `(a & b) << 1`.
+- **Shuffle and reservoir** — Fisher-Yates on the suffix. `k` uniform items from a stream in O(k) memory.
+- **Heaps** — size-k heap for top-k. Two heaps for a running median.
+- **Trie and union-find** — shared prefixes for many patterns. Roots for "joined or not."
+- **Monotonic stack** — next taller item in one left-to-right pass.
+- **String DP and divide and conquer** — prefix cells for a subsequence. Merge sort counts inversions.
+- **One-change search** — BFS on codes that differ by one character.
+- **Majority and buckets** — cancel pairs, then verify. Small integer ranges sort by counting.
+- **Candidate** — if the check fails, the answer is none.
 
 ---
 
 ## How to use this list
 
-Pick a line and explain it with a fresh example. For every Coding Problems topic except Hard Problems, the drills are the check. Hard Problems is still an outline: expand a line into a short paragraph.
+Pick a line and explain it with a fresh example. For every Coding Problems topic, the drills are the check.
