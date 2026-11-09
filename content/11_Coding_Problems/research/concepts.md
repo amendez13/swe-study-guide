@@ -43,12 +43,22 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## 3. Testing
 
-- **Promises** — the caller-visible behavior worth pinning.
-- **Unit vs integration** — one function, or a seam between two parts.
-- **Arrange, act, assert** — one behavior per test.
-- **Edges** — empty, zero, the limit, the first illegal value.
-- **Doubles** — stub a value, fake a dependency, mock a call you must observe.
-- **Fail first** — the test should fail for the reason you named.
+- **What the interviewer is looking for** — cases and reasons, not a framework name.
+- **Testing a real-world object** — happy path, invalid input, already-done, and two actors at once.
+- **Manual vs automated** — explore by hand; automate a check you can state and will re-run.
+- **Black-box vs white-box** — the promise first, then paths you only see in the code.
+- **Testing a function** — one call, one promise, including a boundary and a refusal.
+- **Unit, integration, and end-to-end** — the layer that can name the bug.
+- **The test pyramid** — many function tests, fewer seam tests, few end-to-end tests.
+- **Equivalence classes** — one representative for inputs the promise treats alike.
+- **Boundary values** — the last input of one class and the first of the next.
+- **Edge and error cases** — legal extremes versus refused inputs.
+- **Stubs, fakes, and mocks** — a canned value, a working stand-in, or a record of calls.
+- **Property-based testing** — a rule that holds across many inputs.
+- **Flaky tests and determinism** — inject the clock and isolate state. Do not retry the cause away.
+- **Load and security basics** — a workload with a pass line, and refusals for unauthorized input.
+- **Troubleshooting questions** — pin who, where the number appears, and one example.
+- **A troubleshooting sequence** — expected behavior, reproduction, layer, boundary, then a test.
 
 ## 4. Databases and SQL
 
@@ -88,4 +98,4 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## How to use this list
 
-Pick a line and explain it with a fresh example. For Math and Logic Puzzles and Object-Oriented Design, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.
+Pick a line and explain it with a fresh example. For Math and Logic Puzzles, Object-Oriented Design, and Testing, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.
