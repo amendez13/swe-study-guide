@@ -38,18 +38,18 @@ Original study outline for the coding-problem chapters that are not already cove
 
 ## 2. Object-Oriented Design (Chapter 7)
 
-**Scope:** Turning a short product description into types, responsibilities, and one walked scenario.
+**Scope:** Turning a short product description into types, relationships, and one walked scenario, then naming the object rules and patterns that keep the design extensible.
 
-**Status:** Outline only. No drills yet.
+**Status:** Concepts, notes, and drills.
 
 ### Themes
 
-- Clarify behaviors and rules before naming classes
-- Choose the few types that own state
-- One job per type, shown as messages between objects
-- Composition as the default, inheritance when a subtype can stand in
-- An interface where the implementation is allowed to change
-- Stop before persistence and UI unless asked
+- Handle ambiguity, name the core objects, analyze relationships, investigate actions
+- Encapsulation, inheritance, polymorphism, composition over inheritance
+- Interfaces versus abstract classes, and SOLID as a check on a design you already drew
+- Singleton and factory method
+- Strategy, Observer, Decorator, Adapter, and state machines
+- Say the extensibility trade-off out loud, including what this round will not build
 
 ---
 
@@ -143,7 +143,7 @@ Original study outline for the coding-problem chapters that are not already cove
 | Topic | Chapter | Status | Focus |
 |-------|---------|--------|-------|
 | Math and Logic Puzzles | 6 | Concepts, notes, and drills | Primes, probability, puzzle reasoning, Euclid, modular arithmetic |
-| Object-Oriented Design | 7 | Outline | Types, responsibilities, one walked scenario |
+| Object-Oriented Design | 7 | Concepts, notes, and drills | Types, relationships, SOLID, and a few patterns |
 | Testing | 11 | Outline | Promises, test shape, doubles |
 | Databases and SQL | 14 | Outline | Keys, joins, aggregation, transactions |
 | Threads and Locks | 15 | Outline | Races, locks, deadlock, waiting |
