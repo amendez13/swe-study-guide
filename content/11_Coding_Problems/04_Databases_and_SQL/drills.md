@@ -20,6 +20,10 @@ JOIN pieces ON pieces.potter_id = potters.id;
 -- 5 rows, not 20.
 ```
 
+![The missing predicate](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-1-the-missing-predicate.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 1.*
+
 ## Who an inner join drops
 
 List every potter and the forms they make. Dee has no pieces. Which join keeps Dee, and what is in the form column for that row?
@@ -33,6 +37,10 @@ LEFT JOIN pieces ON pieces.potter_id = potters.id
 ORDER BY potters.id, pieces.id;
 -- Dee is present, form is NULL.
 ```
+
+![Who an inner join drops](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-2-who-inner-join-drops.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 2.*
 
 ## Potters who never sold
 
@@ -60,6 +68,10 @@ WHERE NOT EXISTS (
 -- Dee
 ```
 
+![Potters who never sold](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-3-potters-who-never-sold.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 3.*
+
 ## Two potters, one bench
 
 List each pair of potters who share a bench, once. Ada and Bo are both on A. Cy and Dee are both on B.
@@ -75,6 +87,10 @@ ORDER BY a.bench;
 -- Ada Bo A
 -- Cy  Dee B
 ```
+
+![Two potters, one bench](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-4-two-potters-one-bench.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 4.*
 
 ## Filter the rows, then the groups
 
@@ -92,6 +108,10 @@ ORDER BY cafe;
 -- North 3, South 4
 ```
 
+![Filter the rows, then the groups](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-5-filter-rows-then-groups.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 5.*
+
 ## The unpaid payout
 
 Bo's `paid_on` is null. Ada's is 4 May 2024. What does each query return?
@@ -108,6 +128,10 @@ SELECT COUNT(*) , COUNT(paid_on) FROM payouts;
 SELECT potter_id FROM payouts WHERE paid_on IS NULL;
 -- 2
 ```
+
+![The unpaid payout](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-6-the-unpaid-payout.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 6.*
 
 ## Above the average potter
 
@@ -130,6 +154,10 @@ WHERE cents > (SELECT AVG(cents) FROM rev)
 ORDER BY cents DESC, name;
 -- Bo 6000, Cy 6000, Ada 4400
 ```
+
+![Above the average potter](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-7-above-the-average-potter.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 7.*
 
 ## The latest sale per potter
 
@@ -155,6 +183,10 @@ ORDER BY name;
 -- Ada 103, Bo 102, Cy 104
 ```
 
+![The latest sale per potter](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-8-latest-sale-per-potter.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 8.*
+
 ## A tie for first
 
 Rank potters by sales cents, highest first. Bo and Cy both sit at 6000. What rank does `RANK` give Ada, and what does `ROW_NUMBER` give Cy if you break ties by name?
@@ -177,6 +209,10 @@ ORDER BY rnk, name;
 -- Bo 1, Cy 1, Ada 3, Dee 4
 ```
 
+![A tie for first](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-9-a-tie-for-first.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 9.*
+
 ## Quantity so far
 
 Add a running total of `qty` across sales ordered by `sold_on`, then `id`. What is the total after sale 102, and after the last sale?
@@ -190,6 +226,10 @@ FROM sales
 ORDER BY sold_on, id;
 -- 100/2/2, 101/1/3, 102/4/7, 103/1/8, 104/3/11
 ```
+
+![Quantity so far](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-10-quantity-so-far.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 10.*
 
 ## One wide table
 
@@ -212,6 +252,10 @@ WHERE s.id = 100;
 -- qty 2, bowl, Ada. The cafe phone is not a column.
 ```
 
+![One wide table](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-11-one-wide-table.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 11.*
+
 ## Equality, then the range
 
 The report is:
@@ -231,6 +275,10 @@ Someone adds an index on `(sold_on, cafe)`. Why is `(cafe, sold_on)` the better 
 -- CREATE INDEX sales_by_cafe_date ON sales (cafe, sold_on, qty, id);
 ```
 
+![Equality, then the range](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-12-equality-then-range.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 12.*
+
 ## Both writes or neither
 
 Recording sale 105 of Bo's bowl and adding `1500` cents to Bo's payout must not be split across a crash. What do you wrap them in, and what does a reader see if you committed only the insert?
@@ -247,6 +295,10 @@ WHERE potter_id = 2;
 COMMIT;
 ```
 
+![Both writes or neither](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-13-both-writes-or-neither.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 13.*
+
 ## Two clerks, one payout
 
 Bo's payout reads as 6000. Clerk A and clerk B both add 100 in application memory and both write 6100. What was lost, and what statement do you run instead?
@@ -260,6 +312,10 @@ WHERE potter_id = 2;
 ```
 
 Run it twice and the result is 6200, because each update reads the current row under the write. You do not need a new isolation level to say this. You need to stop doing read-modify-write in the client.
+
+![Two clerks, one payout](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-14-two-clerks-one-payout.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 14.*
 
 ## What a sale is
 
@@ -277,6 +333,10 @@ ORDER BY p.name, s.cafe;
 -- Ada/North 3, Ada/South 1, Bo/South 4, Cy/North 3
 ```
 
+![What a sale is](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-15-what-a-sale-is.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 15.*
+
 ## When the sales table is the big one
 
 Sales now cover several years. The desk still looks up this week's cafe totals. A poster once a month ranks potters for the previous month. What do you change in the schema, and what do you leave for a system-design conversation?
@@ -293,3 +353,7 @@ GROUP BY cafe
 ORDER BY cafe;
 -- North 6, South 5
 ```
+
+![When the sales table is the big one](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills-16-sales-table-is-big.png)
+
+*Source: [`diagrams/databases-and-sql-drills.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-drills.drawio), page 16.*
