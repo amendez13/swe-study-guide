@@ -24,13 +24,22 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## 2. Object-Oriented Design
 
-- **Behaviors before classes** — actions and rules first.
-- **Core types** — a type owns state or a cluster of actions.
-- **One job** — the holder of the data is the object you ask.
-- **Collaboration** — one scenario, as messages.
-- **Composition** — the default relationship; inherit only for real substitutability.
-- **Interface** — when the implementation is allowed to change.
-- **Stop early** — leave storage and UI out until asked.
+- **Handle ambiguity** — pin actors, rules, and what is out of scope, then design.
+- **Define the core objects** — a type owns changing state; barcodes and limits are fields.
+- **Analyze relationships** — has-a, knows-a, or is-a, with cardinality.
+- **Investigate actions** — the method sits on the object that has the data. Walk one scenario.
+- **Encapsulation** — operations protect the invariant; callers do not assign the fields.
+- **Inheritance** — a child must be usable wherever the parent is.
+- **Polymorphism** — call the interface; do not switch on the concrete type.
+- **Composition over inheritance** — vary a part or a policy by holding it, not by subclassing combinations.
+- **Interfaces vs abstract classes** — a capability with no shared data is an interface. An abstract class needs real shared code.
+- **SOLID** — one reason to change, extension by new types, safe subtypes, small interfaces, depend on those interfaces.
+- **Singleton** — one global instance. Pass the object in unless uniqueness is real.
+- **Factory method** — one place picks the concrete type. Callers keep the interface.
+- **Strategy** — a swappable algorithm in a field.
+- **Observer** — the subject notifies listeners it does not import.
+- **Decorator and Adapter** — same interface plus behavior, versus a translation of a foreign interface.
+- **State machines** — name the legal edges. A table is enough until each state has real behavior.
 
 ## 3. Testing
 
@@ -79,4 +88,4 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## How to use this list
 
-Pick a line and explain it with a fresh example. For Math and Logic Puzzles, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.
+Pick a line and explain it with a fresh example. For Math and Logic Puzzles and Object-Oriented Design, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.

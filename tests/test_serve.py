@@ -631,12 +631,51 @@ def test_math_and_logic_puzzles_topic_exposes_drills() -> None:
     assert "mod_pow" in notes
 
 
+def test_object_oriented_design_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "02_Object-Oriented_Design")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "02_Object-Oriented_Design"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Handle ambiguity",
+        "## Define the core objects",
+        "## Analyze relationships",
+        "## Investigate actions",
+        "## Encapsulation",
+        "## Inheritance",
+        "## Polymorphism",
+        "## Composition over inheritance",
+        "## Interfaces vs abstract classes",
+        "## SOLID",
+        "## Singleton",
+        "## Factory method",
+        "## Strategy",
+        "## Observer",
+        "## Decorator and Adapter",
+        "## State machines",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 12
+    assert all("```python" in answer for answer in answers)
+    assert "FeePolicy" in concepts or "price" in concepts
+    assert "BikeCage" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
-    scaffolds = [item for item in tech["topics"] if item["dir"] != "01_Math_and_Logic_Puzzles"]
+    finished = {"01_Math_and_Logic_Puzzles", "02_Object-Oriented_Design"}
+    scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[1:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[2:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
