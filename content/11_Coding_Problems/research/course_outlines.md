@@ -89,35 +89,31 @@ Original study outline for the coding-problem chapters that are not already cove
 
 ## 5. Threads and Locks (Chapter 15)
 
-**Scope:** Shared-memory concurrency at the level of races, locks, and deadlock. Language runtimes are out of scope.
+**Scope:** Shared-memory concurrency: races, locks, waits, visibility, and deadlock. Java and Python are both in scope. Distributed consensus is not.
 
-**Status:** Outline only. No drills yet.
+**Status:** Concepts, notes, and drills.
 
 ### Themes
 
-- Threads share the heap
-- Lost updates from a split read-modify-write
-- Critical sections and how long a lock is held
-- The deadlock cycle and a global lock order
-- Condition waits instead of spinning
-- Explaining a design by starting from the shared fields
+- Threads versus processes, and how a Java thread is started and locked
+- Races, mutexes, semaphores, monitors, conditions, and producer-consumer
+- Reader-writer locks, atomics, thread pools, and the GIL's limit
+- Coffman conditions, lock ordering, livelock, starvation, and happens-before
 
 ---
 
 ## 6. Moderate Problems (Chapter 16)
 
-**Scope:** How to approach a coding problem that has one structural trick. This outline does not list published problems.
+**Scope:** Reusable techniques for a moderate interview problem. This topic does not list or solve published problems.
 
-**Status:** Outline only. No drills yet.
+**Status:** Concepts, notes, and drills.
 
 ### Themes
 
-- Restate limits before choosing a tool
-- A correct brute force as a specification
-- Bookkeeping that removes a repeated scan
-- Discarding a region of the input with a reason
-- Checking a faster idea against the brute force on a tiny input
-- Practice organized by trigger, not by problem title
+- Bits, swaps, and overflow-safe arithmetic
+- Maps, two pointers, sliding windows, prefix sums, and sort-then-scan
+- Interval merges, small state machines, digits, modulo, and gcd
+- A size estimate, the empty input, and a check against a slow version
 
 ---
 
@@ -146,6 +142,6 @@ Original study outline for the coding-problem chapters that are not already cove
 | Object-Oriented Design | 7 | Concepts, notes, and drills | Types, relationships, SOLID, and a few patterns |
 | Testing | 11 | Concepts, notes, and drills | Cases, layers, doubles, and troubleshooting |
 | Databases and SQL | 14 | Concepts, notes, and drills | Queries, schema, and indexes, not sharding |
-| Threads and Locks | 15 | Outline | Races, locks, deadlock, waiting |
-| Moderate Problems | 16 | Outline | One-insight problems, without a problem list |
+| Threads and Locks | 15 | Concepts, notes, and drills | Races, locks, waits, visibility |
+| Moderate Problems | 16 | Concepts, notes, and drills | Techniques, not a published problem list |
 | Hard Problems | 17 | Outline | State, recursion, caching, without a problem list |

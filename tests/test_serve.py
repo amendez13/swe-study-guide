@@ -743,6 +743,79 @@ def test_databases_and_sql_topic_exposes_drills() -> None:
     assert "potters" in notes
 
 
+def test_threads_and_locks_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "05_Threads_and_Locks")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "05_Threads_and_Locks"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Threads and processes",
+        "## Threads in Java",
+        "## Race conditions",
+        "## Locks and synchronized blocks",
+        "## Mutex, semaphore, and monitor",
+        "## Wait, notify, and condition variables",
+        "## Producer and consumer",
+        "## Reader-writer locks",
+        "## Atomics and compare-and-swap",
+        "## Thread pools",
+        "## The Coffman conditions",
+        "## Lock ordering",
+        "## Livelock and starvation",
+        "## Visibility and happens-before",
+        "## The GIL, briefly",
+        "## What you say first",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 12
+    assert all("```python" in answer for answer in answers)
+    assert "GIL" in notes
+
+
+def test_moderate_problems_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "06_Moderate_Problems")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "06_Moderate_Problems"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## One insight and its cost",
+        "## Bit tests and masks",
+        "## Swap without a temporary",
+        "## Overflow-safe arithmetic",
+        "## Count with a map",
+        "## Two pointers",
+        "## Sliding window",
+        "## Prefix sums",
+        "## Sort, then scan",
+        "## Merge intervals",
+        "## Simulate a small machine",
+        "## Digits, not the whole number",
+        "## Modulo and gcd",
+        "## Estimate, then the edges",
+        "## Check the fast path",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 12
+    assert all("```python" in answer for answer in answers)
+    assert "smallest_gap" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -751,10 +824,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "02_Object-Oriented_Design",
         "03_Testing",
         "04_Databases_and_SQL",
+        "05_Threads_and_Locks",
+        "06_Moderate_Problems",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[4:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[6:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
