@@ -13,6 +13,10 @@ Say, in order:
   which layer runs the check
 ```
 
+![What the interviewer is looking for](/content/11_Coding_Problems/03_Testing/diagrams/testing-1-what-the-interviewer-wants.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 1.*
+
 ## Testing a real-world object
 
 Before a function has a spec, you can practice the same categories on a physical thing. Take a workshop key cabinet. It should open for the right key, stay shut for the wrong key, and not spring open if it is already open. A bent key, a key turned halfway, and two people turning at once are the strange cases. You do not need the cabinet's schematic to list those. You need to know what "works" means.
@@ -27,11 +31,19 @@ already open, turn again        second call does not double-charge
 two people at once              concurrent checkout
 ```
 
+![Testing a real-world object](/content/11_Coding_Problems/03_Testing/diagrams/testing-2-testing-a-real-world-object.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 2.*
+
 ## Manual vs automated
 
 A manual test is a person following steps and judging the result. Use it to explore a flow you do not understand yet, or when the oracle is a human judgment ("does this message sound like a threat"). An automated test is code that performs the action and checks a condition you stated in advance. Anything you will re-run after the next change, especially a boundary or a bug you already fixed, wants to be automated.
 
 Do not automate a check whose expected result you cannot write down. A script that sleeps and then asks a human "did it look right?" is still manual, and it is slower. In the interview, split the list: "I would click through the new locker screen once by hand. The fee at 2 hours and at 3 hours becomes a test I keep."
+
+![Manual vs automated](/content/11_Coding_Problems/03_Testing/diagrams/testing-3-manual-vs-automated.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 3.*
 
 ## Black-box vs white-box
 
@@ -50,6 +62,10 @@ def locker_fee(hours: int, member: bool) -> int:
 assert locker_fee(2, member=True) == 0
 assert locker_fee(3, member=True) == 75
 ```
+
+![Black-box vs white-box](/content/11_Coding_Problems/03_Testing/diagrams/testing-4-black-box-vs-white-box.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 4.*
 
 ## Testing a function
 
@@ -72,6 +88,10 @@ except ValueError:
     pass
 ```
 
+![Testing a function](/content/11_Coding_Problems/03_Testing/diagrams/testing-5-testing-a-function.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 5.*
+
 ## Unit, integration, and end-to-end
 
 A unit test exercises one piece and nothing it does not own. The fee function, with no database and no browser, is a unit. An integration test crosses a real seam: the fee is computed and then written through the actual query code into a database, or a client parses a real response from a stub server that speaks the protocol. An end-to-end test starts at the door a person uses and finishes at the outcome they see.
@@ -83,6 +103,10 @@ Wrong cap in the formula          unit
 Right fee, wrong column           integration
 Button never calls the API        end to end
 ```
+
+![Unit, integration, and end-to-end](/content/11_Coding_Problems/03_Testing/diagrams/testing-6-unit-integration-e2e.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 6.*
 
 ## The test pyramid
 
@@ -98,6 +122,10 @@ The trade-off is real. An end-to-end test catches wiring that a fee unit test ca
     / function     \     hours, cap, refusal
 ```
 
+![The test pyramid](/content/11_Coding_Problems/03_Testing/diagrams/testing-7-test-pyramid.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 7.*
+
 ## Equivalence classes
 
 An equivalence class is a set of inputs the promise treats the same way. One representative stands in for the rest of the class. For the locker fee, "member, still inside the free window" is one class: 0, 1, and 2 hours all cost nothing. "Member, past the free window, under the cap" is another. "Member, at the cap" is a third. Guests split differently, because they pay from the first hour.
@@ -111,6 +139,10 @@ def member_fee(hours: int) -> int:
 # One under-cap representative. Hours 4, 5, and 6 are the same class.
 assert member_fee(5) == 225
 ```
+
+![Equivalence classes](/content/11_Coding_Problems/03_Testing/diagrams/testing-8-equivalence-classes.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 8.*
 
 ## Boundary values
 
@@ -128,6 +160,10 @@ assert member_fee(22) == 1500
 assert member_fee(23) == 1500
 ```
 
+![Boundary values](/content/11_Coding_Problems/03_Testing/diagrams/testing-9-boundary-values.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 9.*
+
 ## Edge and error cases
 
 An edge is legal and extreme. Zero hours, an empty cart, a fee that lands exactly on the cap, a member with no open loans. An error is an input the contract refuses: a negative hour, a percent of 101, a locker code that belongs to someone else. Decide the contract before you test it. Raising `ValueError` and returning a result code are different promises, and the test must match the one you stated.
@@ -143,6 +179,10 @@ def guest_fee(hours: int) -> int:
 assert guest_fee(0) == 0        # edge: legal, no time
 assert guest_fee(15) == 1500    # edge: exactly the cap
 ```
+
+![Edge and error cases](/content/11_Coding_Problems/03_Testing/diagrams/testing-10-edge-and-error-cases.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 10.*
 
 ## Stubs, fakes, and mocks
 
@@ -162,6 +202,10 @@ assert desk_open(ClockStub(9)) is True
 assert desk_open(ClockStub(19)) is False
 ```
 
+![Stubs, fakes, and mocks](/content/11_Coding_Problems/03_Testing/diagrams/testing-11-stubs-fakes-mocks.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 11.*
+
 ## Property-based testing
 
 An example test checks one input. A property test checks a rule that should hold across many inputs. Useful properties for the locker fee: the result is never negative, the result is never above 1500, and a member never pays more than a guest for the same hour count. A second example, clipping a number into a range, is idempotent: clipping twice equals clipping once.
@@ -177,6 +221,10 @@ for value in (-10, 0, 7, 40):
     assert clip(once, 0, 10) == once
 ```
 
+![Property-based testing](/content/11_Coding_Problems/03_Testing/diagrams/testing-12-property-based-testing.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 12.*
+
 ## Flaky tests and determinism
 
 A flaky test fails on some runs and passes on others, with no change to the code under test. The usual sources are the clock, an unseeded random source, the order of a set, a sleep that is sometimes long enough, leftover global state, and a real network. The fix is to make the input part of the test: pass the clock, seed the generator, sort before you compare, and build a fresh store each time.
@@ -191,6 +239,10 @@ assert desk_open(9) is True
 assert desk_open(20) is False
 ```
 
+![Flaky tests and determinism](/content/11_Coding_Problems/03_Testing/diagrams/testing-13-flaky-tests.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 13.*
+
 ## Load and security basics
 
 A load check starts with a question and a pass line, not with "we clicked for a while." Decide whether you care about how many checkouts per second stay under a latency limit, or about what the desk does when every locker is full. Name the workload (which calls, which data) and the number that means failure. One person refreshing a page is not that test. You also say what you are not measuring.
@@ -201,6 +253,10 @@ Security cases in this chapter are refusals, not attacks to carry out. An overlo
 Load: 50 checkouts/second, p95 under 200 ms, or it fails.
 Security: another member's code -> refused, no latch.
 ```
+
+![Load and security basics](/content/11_Coding_Problems/03_Testing/diagrams/testing-14-load-and-security.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 14.*
 
 ## Troubleshooting questions
 
@@ -215,6 +271,10 @@ Ask:
   Can we name one member and one hour that shows it?
 ```
 
+![Troubleshooting questions](/content/11_Coding_Problems/03_Testing/diagrams/testing-15-troubleshooting-questions.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 15.*
+
 ## A troubleshooting sequence
 
 Use the same order every time, and say which step you are on. Restate the symptom and the behavior you expected. Find a reproduction, or say you do not have one yet. Narrow the layer: the hour that was sent, the fee function, the row that was stored, the number on the screen. The symptom "charged for a free hour" points at the boundary between 2 and 3, so look there once you know the layer. Fix the smallest cause. Add a test that failed on the old code.
@@ -228,3 +288,7 @@ Do not start by rewriting `locker_fee` because the word "fee" appeared in the re
 4. Check the boundary the symptom names
 5. Smallest fix, plus a test that was red
 ```
+
+![A troubleshooting sequence](/content/11_Coding_Problems/03_Testing/diagrams/testing-16-troubleshooting-sequence.png)
+
+*Source: [`diagrams/testing.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing.drawio), page 16.*
