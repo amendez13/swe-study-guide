@@ -20,6 +20,10 @@ def assumptions() -> dict:
 print(assumptions()["when_full"])  # refuse
 ```
 
+![What you still have not pinned down](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-1-not-pinned-down.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 1.*
+
 ## Nouns that are not types
 
 A neighborhood tool library lends hand tools for seven days. Each tool has a barcode. A person may hold three tools. An overdue tool blocks a new loan. Which of these become types: Person, Tool, Loan, Barcode, Week, Limit?
@@ -44,6 +48,10 @@ loan = Loan("m1", saw)
 print(saw.barcode, saw.on_loan, loan.days)  # B-14 True 7
 ```
 
+![Nouns that are not types](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-2-nouns-not-types.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 2.*
+
 ## Is-a that is not
 
 You have sketched `Member`, `Loan`, and `Tool` for that library. A teammate adds `class Loan(Member)` and `class Tool(Loan)` so they can "reuse fields." What is wrong, and what are the real relationships?
@@ -61,6 +69,10 @@ def relationships() -> list[str]:
 
 print(relationships()[2])  # Tool is not a Loan
 ```
+
+![Is-a that is not](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-3-is-a-that-is-not.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 3.*
 
 ## Who receives the message
 
@@ -92,6 +104,10 @@ a, b = Cab("A"), Cab("B")
 a.idle = False
 print(Scheduler([a, b]).request(4))  # B
 ```
+
+![Who receives the message](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-4-who-receives-the-message.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 4.*
 
 ## Bug hunt: the public counter
 
@@ -127,6 +143,10 @@ hopper = Hopper(1)
 print(hopper.vend(), hopper.vend(), hopper.stock)  # True False 0
 ```
 
+![Bug hunt: the public counter](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-5-bug-public-counter.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 5.*
+
 ## A compact cage is not every cage
 
 `BikeCage.park` accepts cargo bikes. `CompactCage` subclasses it and raises on a cargo bike. A function annotated to take a `BikeCage` parks a cargo bike and now crashes when it is handed a compact cage. Why is the subclass the wrong fix?
@@ -145,6 +165,10 @@ any_bike = Cage(lambda cargo: True)
 compact = Cage(lambda cargo: not cargo)
 print(any_bike.park(True), compact.park(True))  # parked refused
 ```
+
+![A compact cage is not every cage](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-6-compact-cage.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 6.*
 
 ## One call, three scoring rules
 
@@ -176,6 +200,10 @@ hands = [[3, 3, 1], [9], [4, 4]]
 print(winner(HighCard(), hands), winner(Pairs(), hands))  # 1 0
 ```
 
+![One call, three scoring rules](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-7-three-scoring-rules.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 7.*
+
 ## Stop subclassing the cup
 
 Someone has `class Latte(Cup)`, `class Mocha(Latte)`, and `class ExtraShotMocha(Mocha)` so each drink can override `price`. What goes wrong on the next syrup, and what do you put in the cup instead?
@@ -200,6 +228,10 @@ class Cup:
 print(Cup([Addition(50), Addition(75)]).price())  # 425
 ```
 
+![Stop subclassing the cup](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-8-stop-subclassing-the-cup.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 8.*
+
 ## Interface or base class
 
 You are about to add three ways through a door: a fob, a QR code, and a keypad. They share no fields. A teammate wants an abstract `Reader` with a protected retry counter "in case we need it." Which do you publish to `Door`, and when would the abstract class become the right call?
@@ -220,6 +252,10 @@ class Fob:
 
 print(Door(Fob()).try_open("fob-17"))  # open
 ```
+
+![Interface or base class](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-9-interface-or-base-class.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 9.*
 
 ## Which letter broke
 
@@ -257,6 +293,10 @@ notes: list[str] = []
 print(borrow(Member(limit=1), MemoryStore(), notes), notes)  # True ['mail']
 ```
 
+![Which letter broke](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-10-which-letter-broke.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 10.*
+
 ## The registry the tests share
 
 `Registry` builds one instance on first use and both bike cages call `Registry.instance()` for the member map. Test A inserts member `ada`. Test B, run in the same process, finds `ada` already present. Why, and what do you pass instead?
@@ -276,6 +316,10 @@ test_a.add("ada", "Ada")
 test_b = Cage({})
 print("ada" in test_b.members)  # False
 ```
+
+![The registry the tests share](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-11-registry-tests-share.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 11.*
 
 ## One place that knows the kinds
 
@@ -305,6 +349,10 @@ def admit(kind: str) -> bool:
 print(admit("qr"))  # True
 ```
 
+![One place that knows the kinds](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-12-one-place-knows-kinds.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 12.*
+
 ## A fee you can swap
 
 Member day is free. An event day is 200 cents per hour. The cage's `park` currently contains both formulas behind a boolean `event_day`. A third formula, "first hour free, then 100 cents," is coming next month. How do you extend `park` without editing it again?
@@ -329,6 +377,10 @@ class Cage:
 
 print(Cage(MemberFlat()).park(3), Cage(EventHourly()).park(3))  # 0 600
 ```
+
+![A fee you can swap](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-13-a-fee-you-can-swap.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 13.*
 
 ## Who hears the cab arrive
 
@@ -355,6 +407,10 @@ cab.listen(lambda floor: heard.append(f"log:{floor}"))
 cab.arrive(6)
 print(heard)  # ['lantern:6', 'log:6']
 ```
+
+![Who hears the cab arrive](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-14-who-hears-the-cab.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 14.*
 
 ## Wrap, or translate
 
@@ -388,6 +444,10 @@ door = LoggingDoor(VendorGateAdapter(VendorGate()))
 print(door.open("ok"), door.log)  # True ['ok:True']
 ```
 
+![Wrap, or translate](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-15-wrap-or-translate.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 15.*
+
 ## Legal moves of a dispenser
 
 A workshop dispenser starts `idle`. A badge moves it to `authorized`. Choosing a tool moves it to `vending`. A finished vend returns to `idle`. A fault during a vend moves it to `jammed`, and only a reset returns to `idle`. Choosing a tool while idle, and badging a jammed machine, must not change state. Implement the rule so an illegal pair is obvious in one place.
@@ -413,3 +473,7 @@ state = step(state, "select")   # vending
 state = step(state, "fault")    # jammed
 print(state, step(state, "badge"))  # jammed jammed
 ```
+
+![Legal moves of a dispenser](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills-16-legal-moves-dispenser.png)
+
+*Source: [`diagrams/object-oriented-design-drills.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-drills.drawio), page 16.*
