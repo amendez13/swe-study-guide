@@ -16,6 +16,10 @@ FROM potters
 JOIN pieces ON pieces.potter_id = potters.id;
 ```
 
+![Explicit and implicit joins](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-1-explicit-and-implicit-joins.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 1.*
+
 ## Inner, left, and full joins
 
 An inner join keeps a row only when both sides match. Ada, Bo, and Cy have pieces. Dee does not, so Dee disappears from an inner join of potters to pieces. A left join keeps every left row and fills the right side with nulls when nothing matches, so Dee stays, with a null form. A right join is a left join with the tables swapped. A full join keeps unmatched rows from both sides.
@@ -28,6 +32,10 @@ FROM potters
 LEFT JOIN pieces ON pieces.potter_id = potters.id;
 -- Dee appears once, form is NULL.
 ```
+
+![Inner, left, and full joins](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-2-inner-left-full-joins.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 2.*
 
 ## Self joins and anti-joins
 
@@ -43,6 +51,10 @@ JOIN potters AS b
 -- Ada/Bo on A, Cy/Dee on B.
 ```
 
+![Self joins and anti-joins](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-3-self-joins-and-anti-joins.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 3.*
+
 ## SELECT, INSERT, UPDATE, DELETE
 
 Most of an interview query is a `SELECT`: the columns, the tables, the match, the filter, the grouping. You still need the other three statements, and you need to know what they do to a row. `INSERT` adds a row and fails if a constraint fails. `UPDATE` changes columns on the rows that match `WHERE`. Without a `WHERE` it changes every row. `DELETE` removes the matching rows. Without a `WHERE` it empties the table.
@@ -55,6 +67,10 @@ SET paid_on = '2024-05-05'
 WHERE potter_id = 2
   AND paid_on IS NULL;
 ```
+
+![SELECT, INSERT, UPDATE, DELETE](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-4-select-insert-update-delete.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 4.*
 
 ## WHERE, GROUP BY, and HAVING
 
@@ -71,6 +87,10 @@ HAVING SUM(qty) >= 3;
 -- North 3, South 4.
 ```
 
+![WHERE, GROUP BY, and HAVING](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-5-where-group-by-having.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 5.*
+
 ## NULL
 
 `NULL` means unknown, not zero and not an empty string. It fails every ordinary comparison. `paid_on <> '2024-05-04'` does not return Bo's unpaid payout, because `NULL <> something` is not true. The test is `paid_on IS NULL`. `COUNT(*)` on payouts is 2. `COUNT(paid_on)` is 1, because Bo's date is null and `COUNT` skips it.
@@ -82,6 +102,10 @@ SELECT COUNT(*) AS rows, COUNT(paid_on) AS dated
 FROM payouts;
 -- 2 rows, 1 dated. Bo is the other row.
 ```
+
+![NULL](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-6-null.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 6.*
 
 ## Subqueries and CTEs
 
@@ -104,6 +128,10 @@ WHERE cents > (SELECT AVG(cents) FROM rev);
 -- Ada 4400, Bo 6000, Cy 6000. Average is 4100. Dee is 0.
 ```
 
+![Subqueries and CTEs](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-7-subqueries-and-ctes.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 7.*
+
 ## Window functions
 
 A window function computes a value across related rows and does not collapse them. `GROUP BY` turns five sales into two cafe totals. `SUM(qty) OVER (ORDER BY sold_on, id)` keeps five rows and adds a running total: 2, 3, 7, 8, 11. The `ORDER BY` inside `OVER` defines the sequence. Without a frame clause, the default frame for `SUM` with `ORDER BY` is "from the start through the current row."
@@ -115,6 +143,10 @@ SELECT id, sold_on, qty,
        SUM(qty) OVER (ORDER BY sold_on, id) AS running
 FROM sales;
 ```
+
+![Window functions](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-8-window-functions.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 8.*
 
 ## First through third normal form
 
@@ -132,6 +164,10 @@ sale_line(order_id, piece_id, cafe_phone, potter_name)
   potter_name depends on the potter, not on the sale -> not 3NF
 ```
 
+![First through third normal form](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-9-normal-forms.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 9.*
+
 ## Keys and constraints
 
 A primary key identifies one row. It is unique and not null. A foreign key says a value here must be a key over there: `pieces.potter_id` must be a potter, or the insert fails. That is how the database, not only the application, rejects a piece by nobody. A unique constraint is a key you did not call primary. Two potters should not share one bench label if the bench is an identifier. A check constraint is a predicate, such as `qty > 0` or `price_cents >= 0`.
@@ -146,6 +182,10 @@ INSERT INTO pieces (id, potter_id, form, price_cents)
 VALUES (99, 9, 'cup', 500);
 -- fails: there is no potter 9
 ```
+
+![Keys and constraints](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-10-keys-and-constraints.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 10.*
 
 ## Indexes
 
@@ -164,6 +204,10 @@ WHERE cafe = 'North'
   AND sold_on >= '2024-05-02';
 ```
 
+![Indexes](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-11-indexes.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 11.*
+
 ## Transactions, ACID, and isolation
 
 A transaction is a bracket around statements that must succeed or fail together. Recording a sale and adding the same cents to the potter's payout are one unit. If the process dies after the sale insert and before the payout update, the books disagree. `BEGIN`, both writes, `COMMIT`. A failure in between is `ROLLBACK`.
@@ -178,6 +222,10 @@ SET amount_cents = amount_cents + 100
 WHERE potter_id = 2;
 ```
 
+![Transactions, ACID, and isolation](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-12-transactions-acid-isolation.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 12.*
+
 ## When to denormalize
 
 Denormalize means storing a fact a second time so a read does not join. Copying `potter_name` onto every sale makes "sales by name" a single-table scan. It also means renaming Ada is an update of every sale she ever had, and a missed row stays wrong. Nothing expires that copy. A cache can be dropped. A denormalized column cannot.
@@ -188,6 +236,10 @@ Start in third normal form. Copy a fact when you can name the read that the join
 Live sale stores potter_id.          -- one fact, one place
 Monthly summary stores potter name.  -- copy, rebuilt when the month closes
 ```
+
+![When to denormalize](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-13-when-to-denormalize.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 13.*
 
 ## Handle ambiguity
 
@@ -203,18 +255,19 @@ Assume for this pass:
   payouts are per potter, not per sale
 ```
 
+![Handle ambiguity](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-14-handle-ambiguity.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 14.*
+
 ## Core tables, relationships, and actions
 
 The nouns that own state become tables. Potter, piece, sale, and payout survive. "Bench" is a column on potter unless benches have their own facts. "Cafe" stays a column until a cafe has a phone, a balance, or a staff list. A quantity and a date are columns, not tables.
 
 Then say the relationships and the cardinality. A potter has many pieces. A piece has many sales. A potter has many payouts. A sale knows one piece. You do not make sale a subtype of piece. The actions are the verbs, and each one names the rows it writes. Record a sale: insert one `sales` row. Pay a potter: set `paid_on` on that potter's open payout, in the same transaction as any balance change. List unsold pieces: the anti-join above. If an action needs a column you never named, add the column and say why. If it needs a table you called a column, promote it.
 
-```mermaid
-erDiagram
-    POTTERS ||--o{ PIECES : makes
-    PIECES ||--o{ SALES : "sold as"
-    POTTERS ||--o{ PAYOUTS : receives
-```
+![Core tables, relationships, and actions](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-15-core-tables.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 15.*
 
 ## Large database design
 
@@ -227,3 +280,7 @@ Hot: open payouts, sales for the open month
 Cold: older sales, queried by month
 Not this round: replicas, failover, shards
 ```
+
+![Large database design](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql-16-large-database-design.png)
+
+*Source: [`diagrams/databases-and-sql.drawio`](/content/11_Coding_Problems/04_Databases_and_SQL/diagrams/databases-and-sql.drawio), page 16.*
