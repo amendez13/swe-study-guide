@@ -11,6 +11,10 @@ Pin it, then move:
   Out of scope: billing, maps, and overnight storage.
 ```
 
+![Handle ambiguity](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-1-handle-ambiguity.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 1.*
+
 ## Define the core objects
 
 A type earns a name when it owns state that changes, or when several decisions only make sense together on that state. Read the prompt for nouns, then cross most of them off. A barcode, a week, and the word "neighbor" are usually fields, durations, and actors, not classes. `Member`, `Tool`, and `Loan` survive because each one has data the others should not be free to rewrite.
@@ -22,6 +26,10 @@ Tool library, one week loans, three tools per person:
   Keep: Member, Tool, Loan
   Fields, not types: barcode, due date, the number 3
 ```
+
+![Define the core objects](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-2-define-the-core-objects.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 2.*
 
 ## Analyze relationships
 
@@ -35,6 +43,10 @@ A tool has at most one open loan.
 Loan is not a kind of Member.
 ```
 
+![Analyze relationships](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-3-analyze-relationships.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 3.*
+
 ## Investigate actions
 
 Verbs in the prompt become methods, and the method belongs on the object that already holds the data needed to decide. A floor button should not tell a particular cab to move if a scheduler is the thing that knows about every cab. A cab button, pressed by someone already inside, is a different action and can live on the cab. Walk one scenario as messages: who calls, who answers, what is true afterward, and which refusal is allowed.
@@ -47,6 +59,10 @@ Scheduler picks a Cab and calls Cab.go(floor)
 Cab arrives -> Scheduler.mark_idle(cab)
 A full or broken cab is skipped, not crashed.
 ```
+
+![Investigate actions](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-4-investigate-actions.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 4.*
 
 ## Encapsulation
 
@@ -72,6 +88,10 @@ class Hopper:
         return self._stock
 ```
 
+![Encapsulation](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-5-encapsulation.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 5.*
+
 ## Inheritance
 
 Inheritance says a child type is a parent type. Every place that accepts the parent must accept the child without surprise. That is the Liskov idea, and it is the test for whether the hierarchy is real. A compact cage that rejects cargo bikes is not a `BikeCage` if existing code is allowed to park a cargo bike in any `BikeCage`. Overriding `park` to throw has changed the parent's promise.
@@ -90,6 +110,10 @@ class CompactCage(BikeCage):
         return "parked"
 ```
 
+![Inheritance](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-6-inheritance.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 6.*
+
 ## Polymorphism
 
 Polymorphism is the caller using a parent type or an interface while the runtime object chooses the method body. The caller does not ask `isinstance` and then branch. A round of a card game calls `rule.score(cards)`. High-card, match-two, and a sum limit are three rules behind one method. Adding a fourth rule is a new class, not a new arm in every caller.
@@ -100,6 +124,10 @@ The switch on type names is the design you are replacing. It works for two cases
 def winner(rule: "ScoreRule", hands: list[list[int]]) -> int:
     return max(range(len(hands)), key=lambda i: rule.score(hands[i]))
 ```
+
+![Polymorphism](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-7-polymorphism.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 7.*
 
 ## Composition over inheritance
 
@@ -116,6 +144,10 @@ class Cup:
         return 300 + sum(item.price() for item in self.additions)
 ```
 
+![Composition over inheritance](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-8-composition-over-inheritance.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 8.*
+
 ## Interfaces vs abstract classes
 
 An interface (in Python, often a `Protocol` or a narrow ABC with no fields) names a capability and nothing else. Unrelated types can provide it: a fob reader, a QR reader, and a keypad all `admit(token) -> bool`, and they share no data. Callers depend on `admit`, so a new reader does not edit them. That is the dependency inversion you want at a boundary.
@@ -128,6 +160,10 @@ from typing import Protocol
 class Admitter(Protocol):
     def admit(self, token: str) -> bool: ...
 ```
+
+![Interfaces vs abstract classes](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-9-interfaces-vs-abstract-classes.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 9.*
 
 ## SOLID
 
@@ -152,6 +188,10 @@ class LoanDesk:
         return loan.id
 ```
 
+![SOLID](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-10-solid.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 10.*
+
 ## Singleton
 
 A singleton is a type that allows one instance and offers a global way to reach it. It fits a true process-wide resource whose identity must not diverge, such as the one configuration loaded at startup. It does not fit "this was convenient." Two bike cages in one process, or two tests in one process, will silently share the members, the stock, and the bugs.
@@ -169,6 +209,10 @@ class Registry:
         return cls._instance
 ```
 
+![Singleton](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-11-singleton.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 11.*
+
 ## Factory method
 
 A factory method hides which concrete type comes back. Callers depend on the interface they asked for (`Session`, `Pass`) and do not import every implementation or switch on a string themselves. The simplest interview shape is a function or a method on the reader: `open_session(kind, token)` returns a `FobSession` or a `QrSession`. The branching lives in one place, next to construction.
@@ -183,6 +227,10 @@ def open_session(kind: str, token: str):
         return ("qr", token)
     raise ValueError(kind)
 ```
+
+![Factory method](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-12-factory-method.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 12.*
 
 ## Strategy
 
@@ -203,6 +251,10 @@ class EventHourly:
         return hours * self.cents_per_hour
 ```
 
+![Strategy](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-13-strategy.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 13.*
+
 ## Observer
 
 Observer means an object keeps a list of listeners and tells them when something happens, without knowing what they will do. When a cab arrives, the hall lantern and the arrival log both care. The cab should not import either of them. It calls each listener with the floor. A new display subscribes; `Cab` does not change.
@@ -221,6 +273,10 @@ class Cab:
         for fn in list(self._listeners):
             fn(floor)
 ```
+
+![Observer](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-14-observer.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 14.*
 
 ## Decorator and Adapter
 
@@ -246,6 +302,10 @@ class VendorGateAdapter:
         return self.gate.unlock(credential) == 0
 ```
 
+![Decorator and Adapter](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-15-decorator-and-adapter.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 15.*
+
 ## State machines
 
 When behavior depends on where the object is in a lifecycle, name the states and the legal transitions before you write methods. A tool dispenser might be `idle`, `authorized`, `vending`, or `jammed`. Badge moves idle to authorized. Select moves authorized to vending. A fault moves vending to jammed. Select from idle does nothing useful, and that refusal is part of the design, not an edge you discover later.
@@ -268,12 +328,6 @@ def step(state: str, event: str) -> str:
         raise ValueError(f"illegal {event} from {state}") from None
 ```
 
-```mermaid
-stateDiagram-v2
-    [*] --> idle
-    idle --> authorized: badge
-    authorized --> vending: select
-    vending --> idle: finished
-    vending --> jammed: fault
-    jammed --> idle: reset
-```
+![State machines](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design-16-state-machines.png)
+
+*Source: [`diagrams/object-oriented-design.drawio`](/content/11_Coding_Problems/02_Object-Oriented_Design/diagrams/object-oriented-design.drawio), page 16.*
