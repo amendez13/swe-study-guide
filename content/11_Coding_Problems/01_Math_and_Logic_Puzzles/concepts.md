@@ -15,6 +15,10 @@ n = 5832
 print(digit_sum(n), n % 9, n % 4)  # 9 0 0
 ```
 
+![Divisibility](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-1-divisibility.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 1.*
+
 ## Checking for primality
 
 A prime number has exactly two positive divisors: 1 and itself. So 2 is prime, and 1 is not, because 1 has only one positive divisor. The straightforward test is trial division: if any integer from 2 through `floor(sqrt(n))` divides `n`, then `n` is composite. You can stop at the square root because a factor larger than `sqrt(n)` would be paired with a factor smaller than `sqrt(n)`, and that smaller factor would already have been found.
@@ -37,6 +41,10 @@ def is_prime(n: int) -> bool:
 print(is_prime(1), is_prime(143), is_prime(149))  # False False True
 ```
 
+![Checking for primality](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-2-checking-for-primality.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 2.*
+
 ## Sieve of Eratosthenes
 
 When the question asks for every prime up to `n`, testing each number separately repeats a lot of division. The sieve marks composites in bulk. Allocate a boolean array `is_prime[0..n]`, set 0 and 1 to false, and then for each `p` from 2 through `floor(sqrt(n))` that is still marked prime, mark `p*p, p*p+p, p*p+2p, ...` as composite.
@@ -58,14 +66,9 @@ print(sieve(30))
 # [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 ```
 
-```mermaid
-flowchart LR
-    A["Cross off 0 and 1"] --> B["Take the next unmarked p"]
-    B --> C["Cross off p*p, p*p+p, ..."]
-    C --> D{"p*p greater than n?"}
-    D -->|no| B
-    D -->|yes| E["Unmarked numbers are prime"]
-```
+![Sieve of Eratosthenes](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-3-sieve-of-eratosthenes.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 3.*
 
 ## Probability of A and B
 
@@ -79,6 +82,10 @@ even_and_gt3 = [f for f in faces if f % 2 == 0 and f > 3]
 print(len(even_and_gt3), len(even_and_gt3) / 6)  # 2 0.333...
 ```
 
+![Probability of A and B](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-4-probability-a-and-b.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 4.*
+
 ## Probability of A or B
 
 `P(A or B)` is the probability that at least one of the events happens. Adding `P(A) + P(B)` counts the overlap twice, once inside each event, so subtract it once: `P(A or B) = P(A) + P(B) - P(A and B)`. If the events are mutually exclusive, the overlap is empty and the probabilities add with nothing to subtract.
@@ -91,6 +98,10 @@ at_least_one_six = sum(1 for a in both for b in both if a == 6 or b == 6)
 print(at_least_one_six, at_least_one_six / 36)  # 11 0.305...
 ```
 
+![Probability of A or B](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-5-probability-a-or-b.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 5.*
+
 ## Independence
 
 Two events are independent when knowing that one happened does not change the probability of the other. The tests are equivalent: `P(B | A) = P(B)`, or `P(A and B) = P(A) * P(B)`, provided `P(A)` is not zero. Separate physical random sources are the usual reason: two coins, two dice, or a shuffled card and a later independent coin flip.
@@ -101,6 +112,10 @@ Independence is about information, not about whether the events can overlap. Two
 # Two fair coins. P(first heads) = 1/2, P(both heads) = 1/4, product matches.
 print((1 / 2) * (1 / 2) == 1 / 4)  # True
 ```
+
+![Independence](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-6-independence.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 6.*
 
 ## Mutual exclusivity
 
@@ -115,11 +130,19 @@ print(0)                          # P(heart and spade)
 print(p_heart + p_spade)          # 0.5, P(heart or spade)
 ```
 
+![Mutual exclusivity](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-7-mutual-exclusivity.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 7.*
+
 ## Start talking
 
 A logic puzzle is graded on the search you show, not only on the final sentence. Restate the goal, list what is known, and name the assumption you are about to use. Then work a smaller version out loud: two items instead of twenty, one round instead of "eventually." The interviewer can correct a wrong reading of the problem only if they hear it.
 
 Talking also stops you from polishing a guess in silence until you believe it. Say "I am checking whether the wait is uniform over a fixed gap" or "I am assuming every label is wrong, including the mixed one." If that assumption is the whole puzzle, you will notice. If it is wrong, you find out before the algebra.
+
+![Start talking](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-8-start-talking.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 8.*
 
 ## Develop rules and patterns
 
@@ -135,21 +158,19 @@ def round_score(n: int) -> int:
 print([round_score(n) for n in range(1, 7)])  # [1, 2, 4, 7, 11, 16]
 ```
 
+![Develop rules and patterns](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-9-develop-rules-and-patterns.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 9.*
+
 ## Worst case shifting
 
 Some puzzles ask for a strategy that minimizes the worst case, not the average case. Each test should split the remaining possibilities into groups that are as equal as possible, because the next worst case is the size of the largest group you might have left. A yes/no question has two outcomes, so split in half. A balance scale has three outcomes (left heavy, right heavy, balance), so split into three groups.
 
 There is also a counting bound you can say before inventing the procedure. `k` tests with `b` outcomes distinguish at most `b^k` possibilities. With 9 crates and a scale, `3^2 = 9`, so two weighings are enough and one is not. With 20 doors and yes/no questions, `2^4 = 16` is short and `2^5 = 32` covers them, so five questions are the minimum that can guarantee an answer. A strategy that matches the bound is optimal.
 
-```mermaid
-flowchart TD
-    W["Weigh 3 crates against 3"] --> L["Left heavy: the heavy crate is on the left"]
-    W --> M["Balance: the heavy crate was set aside"]
-    W --> R["Right heavy: the heavy crate is on the right"]
-    L --> N["Weigh two of the three suspects against each other"]
-    M --> N
-    R --> N
-```
+![Worst case shifting](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-10-worst-case-shifting.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 10.*
 
 ## Algorithm approaches
 
@@ -169,6 +190,10 @@ def count_primes_trial(n: int) -> int:
 
 print(count_primes_trial(30))  # 10, but a sieve does this without repeating factors
 ```
+
+![Algorithm approaches](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-11-algorithm-approaches.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 11.*
 
 ## GCD and LCM
 
@@ -191,6 +216,10 @@ def lcm(a: int, b: int) -> int:
 print(gcd(1071, 462), lcm(18, 24))  # 21 72
 ```
 
+![GCD and LCM](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-12-gcd-and-lcm.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 12.*
+
 ## Modular arithmetic
 
 Two integers are congruent mod `m` when `m` divides their difference. The useful arithmetic rules are that you may reduce before you add or multiply: `(a + b) mod m = ((a mod m) + (b mod m)) mod m`, and the same shape holds for products. Subtraction is addition of the negation. Division is not "divide, then wrap." `a / b mod m` means `a` times the modular inverse of `b`, and that inverse exists only when `gcd(b, m) = 1`.
@@ -202,6 +231,10 @@ print((98 * 97) % 17)                         # 3
 print(((98 % 17) * (97 % 17)) % 17)           # 3
 print((-5) % 17)                              # 12 in Python
 ```
+
+![Modular arithmetic](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-13-modular-arithmetic.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 13.*
 
 ## Fast exponentiation
 
@@ -223,6 +256,10 @@ def mod_pow(base: int, exp: int, mod: int) -> int:
 print(mod_pow(5, 13, 100))  # 25
 ```
 
+![Fast exponentiation](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-14-fast-exponentiation.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 14.*
+
 ## Overflow awareness
 
 A fixed-width integer wraps, or the language calls it undefined, when a mathematical result leaves the type's range. Signed 32-bit values run from `-2^31` to `2^31 - 1`. The classic trap in binary search is `mid = (lo + hi) / 2` when `lo` and `hi` are both large and positive: each endpoint fits, and their sum does not. The wrapped sum is negative, and the midpoint becomes nonsense. `lo + (hi - lo) / 2` stays inside the range as long as `lo` and `hi` do, because `hi - lo` is smaller than `hi` when `lo` is nonnegative.
@@ -238,3 +275,7 @@ lo, hi = 2_000_000_000, 2_000_000_010
 print(wrapping_add_i32(lo, hi) // 2)   # a negative midpoint
 print(lo + (hi - lo) // 2)             # 2000000005
 ```
+
+![Overflow awareness](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-15-overflow-awareness.png)
+
+*Source: [`diagrams/math-and-logic-puzzles.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles.drawio), page 15.*

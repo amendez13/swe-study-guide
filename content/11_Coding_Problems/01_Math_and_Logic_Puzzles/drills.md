@@ -14,6 +14,10 @@ digit_sum = sum(int(ch) for ch in str(n))
 print(digit_sum, n % 3, n % 9, n % 4)  # 18 0 0 0
 ```
 
+![Receipt divisibility](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-1-receipt-divisibility.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 1.*
+
 ## Stop at the square root
 
 Is 143 prime? What is the largest divisor you actually need to try, and which divisor shows that it is composite?
@@ -28,6 +32,10 @@ limit = math.isqrt(n)
 witness = next(d for d in range(2, limit + 1) if n % d == 0)
 print(limit, witness, n // witness)  # 11 11 13
 ```
+
+![Stop at the square root](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-2-stop-at-the-square-root.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 2.*
 
 ## What the sieve still has to cross off
 
@@ -50,6 +58,10 @@ print(sieve(30))
 print(25 in sieve(30), 35 > 30)  # False True
 ```
 
+![What the sieve still has to cross off](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-3-what-the-sieve-still-has.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 3.*
+
 ## Both dice, one condition
 
 You roll two fair six-sided dice. What is the probability that both show a multiple of 3? Why is multiplying allowed here?
@@ -63,6 +75,10 @@ print(len(both), len(both) / 36)  # 4 0.111...
 print((1 / 3) * (1 / 3) == 4 / 36)  # True
 ```
 
+![Both dice, one condition](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-4-both-dice-one-condition.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 4.*
+
 ## At least one six
 
 Two fair dice again. What is the probability that at least one of them shows a 6? Which form of the "or" rule are you using, and why is `1/6 + 1/6` too big?
@@ -70,11 +86,17 @@ Two fair dice again. What is the probability that at least one of them shows a 6
 **Answer:** The events "first die is 6" and "second die is 6" overlap on double six, so they are not mutually exclusive. `P(A or B) = 1/6 + 1/6 - 1/36 = 11/36`. The complement is shorter and uses independence: the chance of no six on one die is 5/6, so `1 - (5/6)*(5/6) = 11/36`. Adding the two 1/6 figures counts (6, 6) twice.
 
 ```python
+from fractions import Fraction
+
 faces = range(1, 7)
 hits = sum(1 for a in faces for b in faces if a == 6 or b == 6)
-print(hits, hits / 36)                 # 11 0.305...
-print(1 / 6 + 1 / 6 - 1 / 36 == 11 / 36)  # True
+print(hits, hits / 36)  # 11 0.305...
+print(Fraction(1, 6) + Fraction(1, 6) - Fraction(1, 36) == Fraction(11, 36))  # True
 ```
+
+![At least one six](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-5-at-least-one-six.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 5.*
 
 ## Hearts are not independent of spades
 
@@ -88,6 +110,10 @@ print(0, p_a * p_b, p_a + p_b)  # 0 0.0625 0.5
 print(p_a * p_b == 0)           # False, so not independent
 ```
 
+![Hearts are not independent of spades](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-6-hearts-not-independent.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 6.*
+
 ## Say the assumption before the average
 
 A campus shuttle departs every 10 minutes on a fixed schedule. You arrive at a minute chosen uniformly at random and you are not timing your walk to the timetable. What should you say out loud before computing, and what is the average wait under that model?
@@ -99,6 +125,10 @@ A campus shuttle departs every 10 minutes on a fixed schedule. You arrive at a m
 gap_minutes = 10
 print(gap_minutes / 2)  # 5.0
 ```
+
+![Say the assumption before the average](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-7-say-the-assumption.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 7.*
 
 ## The round scores
 
@@ -113,6 +143,10 @@ def score(n: int) -> int:
 print([score(n) for n in range(1, 7)])  # [1, 2, 4, 7, 11, 16]
 print(score(4) == 7 and score(6) == 16)  # True
 ```
+
+![The round scores](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-8-the-round-scores.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 8.*
 
 ## Nine heavier crates
 
@@ -130,6 +164,10 @@ def worst_case_weighings(crates: int) -> int:
 print(worst_case_weighings(9), 3**2 >= 9, 3**1 >= 9)  # 2 True False
 ```
 
+![Nine heavier crates](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-9-nine-heavier-crates.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 9.*
+
 ## Twenty doors
 
 A prize is behind exactly one of 20 doors. Each question you may ask has a yes or no answer. What is the minimum number of questions that guarantees you find the door, even if the answers are adversarial? How should each question split the remaining doors?
@@ -143,6 +181,10 @@ doors = 20
 print(math.ceil(math.log2(doors)))       # 5
 print(2**4 >= doors, 2**5 >= doors)       # False True
 ```
+
+![Twenty doors](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-10-twenty-doors.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 10.*
 
 ## Bug hunt: the square-root fence
 
@@ -177,6 +219,10 @@ print([is_prime(n) for n in (1, 4, 9, 25, 49, 47)])
 # [False, False, False, False, False, True]
 ```
 
+![Bug hunt: the square-root fence](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-11-bug-square-root-fence.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 11.*
+
 ## Euclid by hand
 
 Compute `gcd(1071, 462)` with Euclid's algorithm. Write every remainder, not just the final divisor.
@@ -193,6 +239,10 @@ def gcd_trace(a: int, b: int) -> list[int]:
 
 print(gcd_trace(1071, 462))  # [147, 21, 0]
 ```
+
+![Euclid by hand](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-12-euclid-by-hand.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 12.*
 
 ## Divide before you multiply
 
@@ -213,6 +263,10 @@ print(gcd(18, 24), lcm(18, 24))  # 6 72
 print(18 * 24 // 6)              # 72, after a larger product
 ```
 
+![Divide before you multiply](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-13-divide-before-multiply.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 13.*
+
 ## Reduce, then multiply
 
 Compute `(98 * 97) mod 17` without multiplying 98 by 97 first. Which rule lets you reduce each factor?
@@ -223,6 +277,10 @@ Compute `(98 * 97) mod 17` without multiplying 98 by 97 first. Which rule lets y
 print(((98 % 17) * (97 % 17)) % 17)  # 3
 print((98 * 97) % 17)                # 3
 ```
+
+![Reduce, then multiply](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-14-reduce-then-multiply.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 14.*
 
 ## Square up to the thirteenth power
 
@@ -245,6 +303,10 @@ print(mod_pow(5, 13, 100))  # 25
 print(pow(5, 13, 100))      # 25
 ```
 
+![Square up to the thirteenth power](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-15-square-up-thirteenth.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 15.*
+
 ## The midpoint that wraps
 
 `lo = 2000000000` and `hi = 2000000010` both fit in a signed 32-bit integer. What value does a wrapping 32-bit `(lo + hi) / 2` produce, and what should you write instead?
@@ -260,6 +322,10 @@ lo, hi = 2_000_000_000, 2_000_000_010
 print(add_i32(lo, hi) // 2)      # -147483643
 print(lo + (hi - lo) // 2)       # 2000000005
 ```
+
+![The midpoint that wraps](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-16-midpoint-that-wraps.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 16.*
 
 ## Three wrong labels
 
@@ -278,3 +344,7 @@ def relabel(draw_from_mixed_label: str) -> dict[str, str]:
 
 print(relabel("bolt"))
 ```
+
+![Three wrong labels](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills-17-three-wrong-labels.png)
+
+*Source: [`diagrams/math-and-logic-puzzles-drills.drawio`](/content/11_Coding_Problems/01_Math_and_Logic_Puzzles/diagrams/math-and-logic-puzzles-drills.drawio), page 17.*
