@@ -9,6 +9,7 @@ A study guide for software engineering technologies and skills
 ## Features
 
 - **Technology-organized content** — study notes for FastAPI, Java, and Postgres, each broken into focused topics
+- **Coding Problems** — a top-level section for interview math and logic puzzles, plus outlines for the coding chapters that are not already covered by Data Structures and Algorithms or System Design
 - **Concepts, notes, and optional drills** — every topic has a `concepts.md` reference and a `notes.md` scratchpad; a `drills.md` file adds a Drills tab that reuses the concept cards
 - **Concept-linked quizzes** — any number of quiz sets per technology, with server-side history, weak-concept roll-ups, flags and an offline-safe answer outbox ([docs/QUIZ.md](docs/QUIZ.md))
 - **NotebookLM source bundles** — deterministic text-only topic bundles can be generated under `notebooklm/` for study workflows

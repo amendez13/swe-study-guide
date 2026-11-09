@@ -560,6 +560,98 @@ def test_scalability_cdn_pointer_targets_content_distribution() -> None:
     assert '"CDN basics": "Caching"' not in drills
 
 
+CODING_PROBLEMS_TOPICS = (
+    "01_Math_and_Logic_Puzzles",
+    "02_Object-Oriented_Design",
+    "03_Testing",
+    "04_Databases_and_SQL",
+    "05_Threads_and_Locks",
+    "06_Moderate_Problems",
+    "07_Hard_Problems",
+)
+
+
+def _coding_problems_tech() -> dict:
+    index = serve_module.build_content_index()
+    return next(tech for tech in index["technologies"] if tech["dir"] == "11_Coding_Problems")
+
+
+def test_coding_problems_section_is_indexed_in_order() -> None:
+    tech = _coding_problems_tech()
+
+    assert tech["num"] == 11
+    assert tech["title"] == "Coding Problems"
+    assert tech["hasTechnologyConcepts"] is False
+    assert [topic["dir"] for topic in tech["topics"]] == list(CODING_PROBLEMS_TOPICS)
+    assert [topic["title"] for topic in tech["topics"]] == [
+        "Math and Logic Puzzles",
+        "Object-Oriented Design",
+        "Testing",
+        "Databases and SQL",
+        "Threads and Locks",
+        "Moderate Problems",
+        "Hard Problems",
+    ]
+
+
+def test_math_and_logic_puzzles_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "01_Math_and_Logic_Puzzles")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "01_Math_and_Logic_Puzzles"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Divisibility",
+        "## Checking for primality",
+        "## Sieve of Eratosthenes",
+        "## Probability of A and B",
+        "## Probability of A or B",
+        "## Independence",
+        "## Mutual exclusivity",
+        "## Start talking",
+        "## Develop rules and patterns",
+        "## Worst case shifting",
+        "## Algorithm approaches",
+        "## GCD and LCM",
+        "## Modular arithmetic",
+        "## Fast exponentiation",
+        "## Overflow awareness",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 12
+    assert all("```python" in answer for answer in answers)
+    assert "math.isqrt" in concepts
+    assert "mod_pow" in notes
+
+
+def test_coding_problems_scaffolds_render_without_drills() -> None:
+    tech = _coding_problems_tech()
+    root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
+    scaffolds = [item for item in tech["topics"] if item["dir"] != "01_Math_and_Logic_Puzzles"]
+
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[1:])
+    for topic in scaffolds:
+        assert topic["hasDrills"] is False
+        assert topic["hasConcepts"] is True
+        assert topic["notesFile"] == "notes.md"
+        topic_dir = root / topic["dir"]
+        assert not (topic_dir / "drills.md").exists()
+        concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+        notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+        assert concepts.startswith("## ")
+        assert concepts.count("\n## ") >= 5
+        assert notes.startswith("# ")
+        assert "## Key Points" in notes
+        assert "## Example" in notes
+
+
 def test_arrays_strings_hash_tables_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
