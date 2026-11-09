@@ -80,19 +80,30 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## 5. Threads and Locks
 
-- **Shared heap** — the objects both threads can name.
-- **Race** — a read-modify-write split across threads drops an update.
-- **Critical section** — the lock is held only around that shared update.
-- **Deadlock** — a cycle of waits; a global lock order breaks it.
-- **Condition wait** — sleep without holding the lock, then re-check.
+- **Threads vs processes** — threads share a heap. Processes do not, unless you ask them to.
+- **Java threads** — `start` is concurrent. `synchronized (obj)` locks that object.
+- **Race** — a split read-modify-write loses an update.
+- **Mutex, semaphore, monitor** — one holder, a count of permits, or a lock plus a wait set.
+- **Condition** — wait in a loop. The wait releases the lock.
+- **Producer-consumer** — bound the queue. Signal after the item is visible.
+- **Readers and writers** — many readers or one writer. Do not starve the writer.
+- **CAS** — one word. Not two fields that must move together.
+- **Pool** — fixed workers, bounded queue, a rejection policy. Do not wait on the same pool.
+- **Deadlock** — four Coffman conditions. Break the cycle with a lock order.
+- **Livelock and starvation** — motion without progress, or a thread that is never chosen.
+- **Visibility** — a lock or `volatile` publishes a write. `volatile` is not an increment.
+- **GIL** — one Python bytecode thread. I/O overlaps. Invariants still need a lock.
 
 ## 6. Moderate Problems
 
-- **One insight** — bookkeeping or an ordering, not a new algorithm.
-- **Brute force first** — a specification and a fallback.
-- **Named lookup** — the structure exists to answer one question cheaply.
-- **Safe discard** — a reason a region cannot hold the answer.
-- **Cross-check** — faster idea and brute force agree on a tiny input.
+- **One insight** — a count, an order, a window, or a formula, plus its cost.
+- **Bits and swaps** — flags in a word. XOR swap only when the two locations differ.
+- **Overflow** — subtract before you add a midpoint. Reduce a product early.
+- **Map, pointers, window, prefix** — expected O(n) counts, a sorted scan, a monotone window, a range in O(1).
+- **Sort, then scan** — neighbors answer closest and next-change.
+- **Intervals and machines** — merge overlaps after sorting by start. Name states before the event loop.
+- **Digits, modulo, gcd** — peel digits, wrap with `%`, cut two lengths with Euclid.
+- **Edges** — empty, one element, all equal, and the boundary value. Check the shortcut on a tiny input.
 
 ## 7. Hard Problems
 
@@ -107,4 +118,4 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## How to use this list
 
-Pick a line and explain it with a fresh example. For Math and Logic Puzzles, Object-Oriented Design, Testing, and Databases and SQL, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.
+Pick a line and explain it with a fresh example. For every Coding Problems topic except Hard Problems, the drills are the check. Hard Problems is still an outline: expand a line into a short paragraph.
