@@ -1,42 +1,63 @@
 # Hard Problems
 
-This topic is an outline for problems whose next step is not obvious: define the state, make the argument shrink, cache subproblems that repeat, and look for a mathematical rewrite before building a large search. The cards are a skeleton. They do not include published problems or solutions.
+A hard problem is one whose state is not obvious: a middle of two heaps, a cancelled count, a component root, the cell of a string table. These notes are those tools. They are not a list of published problems. Each tool has a slow version it must match on a small input, and several of them return a candidate that a second pass has to confirm.
 
 ## Key Points
 
-- **Hard means the structure is not obvious** — the brute force exists; the model that makes it cheap does not, yet.
-- **Spend time on the model** — define the subproblem in one sentence and check it on a tiny input.
-- **Shrink the argument** — name what gets smaller and the base case in the same vocabulary.
-- **Cache repeated subproblems** — the cache key is exactly the arguments the answer depends on.
-- **Rewrite the question in math** — a bound, a count, or an invariant can replace the search; check it against the brute force.
-- **Keep the state small** — every extra field multiplies the states. Drop a field only with a reason.
-- **A correct slower solution beats a stuck clever one** — submit the slow correct version and describe the faster state separately.
+- **Optimize brute force in steps** — write the correct slow answer and its cost, then remove one repeated scan. Keep the slow function until the fast one agrees.
+- **Bit-level arithmetic** — XOR is add without carry. The carry is `(a & b) << 1`, folded back in until it is 0. XOR of two words is the bits that differ.
+- **A fair shuffle** — Fisher-Yates swaps index `i` with a uniform choice in the suffix `i .. n - 1`. Every permutation is equally likely.
+- **Reservoir sampling** — `k` items from a stream of unknown length, in O(k) memory. Item `t` replaces a reservoir slot with probability `k / (t + 1)`.
+- **A heap for top-k** — a heap of size `k` is O(n log k). The top of the heap is the worst of the winners, ready to be replaced.
+- **Two heaps for a running median** — a max-heap for the lower half, a min-heap for the upper half, sizes differing by at most one.
+- **A trie for many patterns** — shared prefixes cost once. From each index in the text, walk while characters match and record end-of-word nodes.
+- **Union-find** — `find` returns a root, `union` links roots. Use it for "joined or not," not for the path between them.
+- **A monotonic stack** — pop shorter indexes when a taller one arrives. Each index is pushed and popped once. That index's next taller item is the one that popped it.
+- **DP on strings** — `dp[i][j]` is the answer for two prefixes. A match takes the diagonal plus one. A miss takes the better neighbor.
+- **Divide and conquer** — split, solve, combine. Merge sort counts inversions because a right-half value beats every still-waiting left value.
+- **Search on a one-change graph** — codes that differ by one character are edges. BFS gives the fewest changes. Mark visited.
+- **Majority vote** — cancel pairs of different items. Verify the candidate in a second pass unless a majority was promised and you trust that promise.
+- **Counting and buckets** — small integer ranges sort in O(n + k). Ask for the range before you allocate the array.
+- **A candidate is not an answer** — if the check fails, say none. Do not return the candidate anyway.
 
 ## Example
 
 ```python
-from functools import lru_cache
+"""Piers joined by ropes, and the three coldest hours, on inputs small enough to check."""
+import heapq
 
-def ways_brute(target: int) -> int:
-    """Number of ordered ways to write target as a sum of 1s and 2s."""
-    def rec(left: int) -> int:
-        if left == 0:
-            return 1
-        if left < 0:
-            return 0
-        return rec(left - 1) + rec(left - 2)
-    return rec(target)
 
-@lru_cache(maxsize=None)
-def ways(left: int) -> int:
-    if left == 0:
-        return 1
-    if left < 0:
-        return 0
-    return ways(left - 1) + ways(left - 2)
+def same_component(n: int, ropes: list[tuple[int, int]], a: int, b: int) -> bool:
+    parent = list(range(n))
 
-for n in range(8):
-    assert ways_brute(n) == ways(n)
+    def find(x: int) -> int:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for left, right in ropes:
+        parent[find(right)] = find(left)
+    return find(a) == find(b)
+
+
+def coldest(hours: list[int], k: int) -> list[int]:
+    heap: list[int] = []
+    for hour in hours:
+        if len(heap) < k:
+            heapq.heappush(heap, -hour)
+        elif hour < -heap[0]:
+            heapq.heapreplace(heap, -hour)
+    return sorted(-value for value in heap)
+
+
+print(same_component(6, [(1, 2), (3, 4), (2, 3)], 1, 4))  # True
+print(same_component(6, [(1, 2), (3, 4), (2, 3)], 1, 5))  # False
+print(coldest([5, 1, 8, 0, 3], 3))  # [0, 1, 3]
 ```
 
-The state is the remaining total, which shrinks on every call. The same remaining total is reached by many orders of steps, so the cache is the whole improvement. The loop is the check against the brute force. A later pass can replace the cache with the closed Fibonacci form and show that the rewrite matches these values; that replacement is the "rewrite in math" card, not something to assume untested.
+Joining 1-2, 3-4, and 2-3 puts piers 1 and 4 on one root and leaves 5 alone. The heap never holds more than three temperatures. Both are one idea plus a check you can do on five items.
+
+## More practice
+
+Work the original exercises on the **Drills** tab. Each one names the tool, the cost, and a Python check. None of them is a published problem from a book list.
