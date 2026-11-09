@@ -55,18 +55,19 @@ Original study outline for the coding-problem chapters that are not already cove
 
 ## 3. Testing (Chapter 11)
 
-**Scope:** What to test, how a single test is shaped, and how to talk about failures.
+**Scope:** How to choose cases for a real object, a program, and a function, and how to narrow a reported symptom.
 
-**Status:** Outline only. No drills yet.
+**Status:** Concepts, notes, and drills.
 
 ### Themes
 
-- Promises a caller relies on, rather than a coverage target
-- Unit tests for one behavior, integration tests for a seam
-- Arrange, act, assert
-- Boundaries and the first illegal value
-- Stubs, fakes, and mocks, and which question each one answers
-- A test that fails for the reason you expect, then passes
+- What an interviewer is listening for
+- Manual versus automated, and black-box versus white-box
+- Unit, integration, end-to-end, and the test pyramid
+- Equivalence classes, boundaries, edges, and refusals
+- Stubs, fakes, mocks, properties, and deterministic tests
+- Load and security checks at the level of a pass line and a refusal
+- A troubleshooting sequence that finds the layer before the patch
 
 ---
 
@@ -144,7 +145,7 @@ Original study outline for the coding-problem chapters that are not already cove
 |-------|---------|--------|-------|
 | Math and Logic Puzzles | 6 | Concepts, notes, and drills | Primes, probability, puzzle reasoning, Euclid, modular arithmetic |
 | Object-Oriented Design | 7 | Concepts, notes, and drills | Types, relationships, SOLID, and a few patterns |
-| Testing | 11 | Outline | Promises, test shape, doubles |
+| Testing | 11 | Concepts, notes, and drills | Cases, layers, doubles, and troubleshooting |
 | Databases and SQL | 14 | Outline | Keys, joins, aggregation, transactions |
 | Threads and Locks | 15 | Outline | Races, locks, deadlock, waiting |
 | Moderate Problems | 16 | Outline | One-insight problems, without a problem list |
