@@ -15,6 +15,10 @@ def same_heap(thread_model: str) -> bool:
 print(same_heap("threads"), same_heap("processes"))  # True False
 ```
 
+![Shared counter, two heaps](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-1-shared-counter-two-heaps.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 1.*
+
 ## One increment disappears
 
 Two doors each add 1 to a count that both read as 40. Write the interleaving that ends at 41, and the section that prevents it.
@@ -38,6 +42,10 @@ def locked_updates(start: int, times: int) -> int:
 print(lost_update(40), locked_updates(40, 2))  # 41 42
 ```
 
+![One increment disappears](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-2-one-increment-disappears.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 2.*
+
 ## Which object is the lock
 
 A Java class has `synchronized void deposit()` and also `synchronized (log) { log.add(line); }` inside it. Can a thread be inside `deposit` while another thread is inside the log block?
@@ -51,6 +59,10 @@ def same_monitor(method_lock: str, block_lock: str) -> bool:
 print(same_monitor("this", "log"))   # False, both can proceed
 print(same_monitor("this", "this"))  # True, one at a time
 ```
+
+![Which object is the lock](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-3-which-object-is-the-lock.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 3.*
 
 ## Three firings, not a mutex
 
@@ -80,6 +92,10 @@ kiln.release()
 print(kiln.acquire(blocking=False))  # True, a permit came back
 ```
 
+![Three firings, not a mutex](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-4-three-firings.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 4.*
+
 ## The wakeup you must recheck
 
 A consumer waits for a queue to be non-empty. It wakes, and the queue is empty again. How is that possible, and what does the wait look like?
@@ -95,6 +111,10 @@ def take(queue: list[str], woke_to_empty: bool) -> str | None:
 print(take(["mug"], woke_to_empty=True))  # None, do not pop
 print(take(["mug"], woke_to_empty=False))  # mug
 ```
+
+![The wakeup you must recheck](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-5-wakeup-recheck.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 5.*
 
 ## Full shelf, empty shelf
 
@@ -112,6 +132,10 @@ def offer(shelf: list[str], bowl: str, limit: int) -> str:
 shelf: list[str] = ["a", "b"]
 print(offer(shelf, "c", 2), offer([], "c", 2))  # wait added
 ```
+
+![Full shelf, empty shelf](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-6-full-shelf-empty-shelf.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 6.*
 
 ## Readers barging in
 
@@ -131,6 +155,10 @@ print(writer_runs(True, True), writer_runs(True, False))
 # starved, runs after current readers
 ```
 
+![Readers barging in](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-7-readers-barging-in.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 7.*
+
 ## One field, not two
 
 A counter of finished firings is updated by many threads. The balance of a potter and the matching ledger row must move together. Which update can be a CAS loop, and which cannot?
@@ -146,6 +174,10 @@ def cas_inc(value: int, seen: int) -> tuple[int, bool]:
 print(cas_inc(5, 5), cas_inc(6, 5))  # (6, True) (6, False)
 ```
 
+![One field, not two](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-8-one-field-not-two.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 8.*
+
 ## A thread per ticket
 
 Each ticket opens a new thread that writes the ledger. A sale morning creates tens of thousands of tickets. What breaks, and what do you bound?
@@ -158,6 +190,10 @@ def admits(open_threads: int, cap: int) -> bool:
 
 print(admits(4, 4), admits(3, 4))  # False True
 ```
+
+![A thread per ticket](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-9-thread-per-ticket.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 9.*
 
 ## Which condition is missing
 
@@ -172,6 +208,10 @@ def order(first: str, second: str) -> tuple[str, str]:
 print(order("shelf", "kiln"))  # ('kiln', 'shelf') for both threads
 ```
 
+![Which condition is missing](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-10-which-condition-is-missing.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 10.*
+
 ## Same rhythm, no progress
 
 Two clerks each try to lock the kiln, fail, release everything, and retry immediately, forever, in step. Are they deadlocked?
@@ -185,6 +225,10 @@ def pause(attempt: int, salt: int) -> int:
 print(pause(1, 0), pause(1, 1))  # 4 1, not the same backoff
 ```
 
+![Same rhythm, no progress](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-11-same-rhythm-no-progress.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 11.*
+
 ## A flag the other thread never sees
 
 One thread sets `shutdown = True` when the kiln should stop. Another thread loops on `while not shutdown` with no lock and no volatile. The loop never ends. Why, and what is the smallest fix that is still wrong for a counter?
@@ -197,6 +241,10 @@ def published(uses_volatile_or_lock: bool) -> str:
 
 print(published(False), published(True))
 ```
+
+![A flag the other thread never sees](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-12-flag-never-seen.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 12.*
 
 ## The GIL is not your lock
 
@@ -212,6 +260,10 @@ def increments_need_a_lock() -> bool:
 print(increments_need_a_lock())
 ```
 
+![The GIL is not your lock](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-13-gil-is-not-your-lock.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 13.*
+
 ## Lock, then the network
 
 A clerk holds the ledger lock, then calls a remote printer, then updates the row. What do you move outside the lock, and what do you recheck?
@@ -226,6 +278,10 @@ print(section("read row"), section("print"), section("write row"))
 # inside outside inside
 ```
 
+![Lock, then the network](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-14-lock-then-network.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 14.*
+
 ## Waiting on your own pool
 
 A pool has one worker. A task on that worker submits a second task to the same pool and waits for it. Why does this stop, and what do you change?
@@ -238,6 +294,10 @@ def deadlocks(workers: int, waits_on_same_pool: bool) -> bool:
 
 print(deadlocks(1, True), deadlocks(1, False))  # True False
 ```
+
+![Waiting on your own pool](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-15-waiting-on-own-pool.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 15.*
 
 ## Join sees the writes
 
@@ -258,3 +318,7 @@ worker.start()
 worker.join()
 print(box)  # [1], the join happens-before this read
 ```
+
+![Join sees the writes](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills-16-join-sees-the-writes.png)
+
+*Source: [`diagrams/threads-and-locks-drills.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-drills.drawio), page 16.*

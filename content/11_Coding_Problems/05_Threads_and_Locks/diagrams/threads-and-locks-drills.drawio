@@ -1,0 +1,394 @@
+<mxfile host="drawio">
+  <diagram id="heaps" name="Shared counter, two heaps">
+    <mxGraphModel dx="900" dy="340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="340" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t11" value="Shared counter, two heaps" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t12" value="The door updates a badge counter; the desk reads it. Threads or processes?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t13" value="" style="rounded=1;html=1;fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="380" height="150" as="geometry"/></mxCell>
+<mxCell id="t14" value="one process" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="112" width="380" height="16" as="geometry"/></mxCell>
+<mxCell id="t15" value="counter (shared heap) + lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="80" y="136" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="t16" value="door thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="80" y="196" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="t17" value="desk thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="196" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="t18" value="" style="rounded=1;html=1;fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1"><mxGeometry x="470" y="110" width="180" height="150" as="geometry"/></mxCell>
+<mxCell id="t19" value="door process&lt;br&gt;own counter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="485" y="140" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="t110" value="" style="rounded=1;html=1;fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1"><mxGeometry x="670" y="110" width="180" height="150" as="geometry"/></mxCell>
+<mxCell id="t111" value="desk process&lt;br&gt;own counter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="685" y="140" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="t112" value="needs shared memory or a message" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="210" width="280" height="36" as="geometry"/></mxCell>
+<mxCell id="t113" value="&lt;b&gt;Answer:&lt;/b&gt; Threads in one process: they share the heap, so both name the counter (still under a lock). Processes would need extra machinery for one integer." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="284" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="lost" name="One increment disappears">
+    <mxGraphModel dx="900" dy="318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="318" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t21" value="One increment disappears" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t22" value="Two doors each add 1 to a count both read as 40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t23" value="no lock: 41" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="98" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="t24" value="door A" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="42" y="124" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t25" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="139.0" as="sourcePoint"/><mxPoint x="436" y="139.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t26" value="door B" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="42" y="164" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t27" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="179.0" as="sourcePoint"/><mxPoint x="436" y="179.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t28" value="read 40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="144" y="124" width="66" height="30" as="geometry"/></mxCell>
+<mxCell id="t29" value="read 40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="218" y="164" width="66" height="30" as="geometry"/></mxCell>
+<mxCell id="t210" value="write 41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="292" y="124" width="66" height="30" as="geometry"/></mxCell>
+<mxCell id="t211" value="write 41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="366" y="164" width="66" height="30" as="geometry"/></mxCell>
+<mxCell id="t212" value="whole read-modify-write under one lock: 42" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="98" width="390" height="18" as="geometry"/></mxCell>
+<mxCell id="t213" value="door A" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="462" y="124" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t214" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="560" y="139.0" as="sourcePoint"/><mxPoint x="840" y="139.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t215" value="door B" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="462" y="164" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t216" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="560" y="179.0" as="sourcePoint"/><mxPoint x="840" y="179.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t217" value="lock·40→41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="564" y="124" width="132" height="30" as="geometry"/></mxCell>
+<mxCell id="t218" value="lock·41→42" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="704" y="164" width="132" height="30" as="geometry"/></mxCell>
+<mxCell id="t219" value="✗ a lock around only the write does nothing: both already computed 41" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="820" height="34" as="geometry"/></mxCell>
+<mxCell id="t220" value="&lt;b&gt;Answer:&lt;/b&gt; Both read 40, both write 41, one arrival is gone. The critical section is the entire read-modify-write, under one lock every door uses." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="262" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="monitor" name="Which object is the lock">
+    <mxGraphModel dx="900" dy="318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="318" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t31" value="Which object is the lock" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t32" value="synchronized void deposit() and, inside, synchronized (log) { … }. Can two threads be in each?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t33" value="thread 1 in deposit()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="120" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="t34" value="thread 2 in the log block" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="190" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="t35" value="monitor: this (the instance)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="120" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="t36" value="monitor: log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="190" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="t37" value="holds" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t33" target="t35"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t38" value="holds" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t34" target="t36"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t39" value="different monitors → both proceed" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="650" y="150" width="210" height="40" as="geometry"/></mxCell>
+<mxCell id="t310" value="&lt;b&gt;Answer:&lt;/b&gt; Yes, if log is not this. If the balance and the log must move together, both paths must use the same lock. The object is the lock, not the line." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="262" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sem" name="Three firings, not a mutex">
+    <mxGraphModel dx="900" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="388" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t41" value="Three firings, not a mutex" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t42" value="The kiln runs three firings at once; a fourth waits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t43" value="firing 1&lt;br&gt;holds a permit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="120" width="140" height="50" as="geometry"/></mxCell>
+<mxCell id="t44" value="firing 2&lt;br&gt;holds a permit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="210" y="120" width="140" height="50" as="geometry"/></mxCell>
+<mxCell id="t45" value="firing 3&lt;br&gt;holds a permit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="120" width="140" height="50" as="geometry"/></mxCell>
+<mxCell id="t46" value="firing 4&lt;br&gt;acquire() blocks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="510" y="120" width="140" height="50" as="geometry"/></mxCell>
+<mxCell id="t47" value="Semaphore(3): three acquire, the fourth fails (False); after a release it succeeds (True)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="186" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="t48" value="tool" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="216" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t49" value="fit" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="260" y="216" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t410" value="Semaphore(3)" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="242" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t411" value="the rule is a count of permits ✓" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="242" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t412" value="mutex" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="268" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t413" value="one holder: serializes firings the kiln can run together ✗" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="268" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t414" value="mutex (separately)" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="294" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t415" value="still right for a shared count of finished firings" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="294" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t416" value="&lt;b&gt;Answer:&lt;/b&gt; A semaphore matches “at most three”. Releasing a permit you never acquired raises the count and lets a fourth firing in." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="332" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="recheck" name="The wakeup you must recheck">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t51" value="The wakeup you must recheck" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t52" value="A consumer wakes from waiting for a non-empty queue, and the queue is empty again" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t53" value="consumer 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="70.0" y="104" width="140" height="30" as="geometry"/></mxCell>
+<mxCell id="t54" value="queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="310.0" y="104" width="140" height="30" as="geometry"/></mxCell>
+<mxCell id="t55" value="consumer 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="550.0" y="104" width="140" height="30" as="geometry"/></mxCell>
+<mxCell id="t56" value="" style="endArrow=none;html=1;strokeColor=#bbbbbb;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="134" as="sourcePoint"/><mxPoint x="140" y="296" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t57" value="" style="endArrow=none;html=1;strokeColor=#bbbbbb;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="380" y="134" as="sourcePoint"/><mxPoint x="380" y="296" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t58" value="" style="endArrow=none;html=1;strokeColor=#bbbbbb;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="620" y="134" as="sourcePoint"/><mxPoint x="620" y="296" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t59" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;endSize=5;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="152" as="sourcePoint"/><mxPoint x="380" y="152" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t510" value="wait (queue empty)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="144" y="136" width="232" height="15" as="geometry"/></mxCell>
+<mxCell id="t511" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;endSize=5;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="380" y="182" as="sourcePoint"/><mxPoint x="140" y="182" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t512" value="notify: 1 item" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="144" y="166" width="232" height="15" as="geometry"/></mxCell>
+<mxCell id="t513" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;endSize=5;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="620" y="212" as="sourcePoint"/><mxPoint x="380" y="212" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t514" value="takes the item first" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="384" y="196" width="232" height="15" as="geometry"/></mxCell>
+<mxCell id="t515" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;endSize=5;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="242" as="sourcePoint"/><mxPoint x="380" y="242" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t516" value="if-wait: pop → error ✗" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="144" y="226" width="232" height="15" as="geometry"/></mxCell>
+<mxCell id="t517" value="while-wait: recheck, empty → wait again ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="28.0" y="261" width="224" height="22" as="geometry"/></mxCell>
+<mxCell id="t518" value="&lt;b&gt;Answer:&lt;/b&gt; Another consumer took the item, or the wakeup was spurious. Wait in a loop: while the queue is empty, wait." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="308" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="shelf" name="Full shelf, empty shelf">
+    <mxGraphModel dx="900" dy="328" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="328" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t61" value="Full shelf, empty shelf" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t62" value="A shelf holds at most 2 bowls. Potters add, the shop removes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t63" value="potter&lt;br&gt;build bowl outside the lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="140" width="190" height="56" as="geometry"/></mxCell>
+<mxCell id="t64" value="" style="rounded=0;html=1;fillColor=none;strokeColor=#555555;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="290" y="130" width="200" height="76" as="geometry"/></mxCell>
+<mxCell id="t65" value="bowl" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1"><mxGeometry x="302" y="148" width="84" height="40" as="geometry"/></mxCell>
+<mxCell id="t66" value="bowl" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1"><mxGeometry x="394" y="148" width="84" height="40" as="geometry"/></mxCell>
+<mxCell id="t67" value="limit 2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="290" y="210" width="200" height="14" as="geometry"/></mxCell>
+<mxCell id="t68" value="shop&lt;br&gt;wrap outside the lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="140" width="170" height="56" as="geometry"/></mxCell>
+<mxCell id="t69" value="waits while 2 bowls" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="190" height="16" as="geometry"/></mxCell>
+<mxCell id="t610" value="waits while 0 bowls" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="206" width="170" height="16" as="geometry"/></mxCell>
+<mxCell id="t611" value="offer(full shelf) → wait   ·   offer(empty shelf) → added" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="t612" value="&lt;b&gt;Answer:&lt;/b&gt; Potters wait at 2, the shop waits at 0, both on the shelf&#x27;s lock. Signal the shop after an add and a potter after a remove." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="272" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="rw" name="Readers barging in">
+    <mxGraphModel dx="900" dy="272" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="272" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t71" value="Readers barging in" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t72" value="Dozens of readers on a price list; one writer must replace it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t73" value="new readers always admitted" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="98" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="t74" value="readers" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="42" y="124" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t75" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="139.0" as="sourcePoint"/><mxPoint x="420" y="139.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t76" value="writer" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="42" y="164" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t77" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="179.0" as="sourcePoint"/><mxPoint x="420" y="179.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t78" value="R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="144" y="124" width="48" height="30" as="geometry"/></mxCell>
+<mxCell id="t79" value="R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="124" width="48" height="30" as="geometry"/></mxCell>
+<mxCell id="t710" value="R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="256" y="124" width="48" height="30" as="geometry"/></mxCell>
+<mxCell id="t711" value="R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="312" y="124" width="48" height="30" as="geometry"/></mxCell>
+<mxCell id="t712" value="starved" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="368" y="164" width="48" height="30" as="geometry"/></mxCell>
+<mxCell id="t713" value="new readers blocked once the writer queues" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="98" width="390" height="18" as="geometry"/></mxCell>
+<mxCell id="t714" value="readers" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="472" y="124" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t715" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="570" y="139.0" as="sourcePoint"/><mxPoint x="858" y="139.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t716" value="writer" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="472" y="164" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t717" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="570" y="179.0" as="sourcePoint"/><mxPoint x="858" y="179.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t718" value="current R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="574" y="124" width="88" height="30" as="geometry"/></mxCell>
+<mxCell id="t719" value="writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670" y="164" width="88" height="30" as="geometry"/></mxCell>
+<mxCell id="t720" value="new R" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="766" y="124" width="88" height="30" as="geometry"/></mxCell>
+<mxCell id="t721" value="&lt;b&gt;Answer:&lt;/b&gt; The writer starves (not a deadlock: no cycle, it is never chosen). Block new readers once a writer waits; let current readers finish first." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="216" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cas" name="One field, not two">
+    <mxGraphModel dx="900" dy="270" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="270" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t81" value="One field, not two" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t82" value="A counter of finished firings vs a balance and its ledger row that must move together" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t83" value="counter: CAS loop ✓&lt;br&gt;cas_inc(5, seen 5) → 6 · cas_inc(6, seen 5) → retry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="t84" value="CAS balance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="110" width="120" height="60" as="geometry"/></mxCell>
+<mxCell id="t85" value="crash / interleave" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="605" y="110" width="120" height="60" as="geometry"/></mxCell>
+<mxCell id="t86" value="CAS ledger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="740" y="110" width="120" height="60" as="geometry"/></mxCell>
+<mxCell id="t87" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t84" target="t85"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t88" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t85" target="t86"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t89" value="two successful CASes are still two steps → torn update" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="178" width="390" height="18" as="geometry"/></mxCell>
+<mxCell id="t810" value="&lt;b&gt;Answer:&lt;/b&gt; The counter can be a CAS loop that retries until the swap wins. The balance and ledger need one lock or one transaction." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pool" name="A thread per ticket">
+    <mxGraphModel dx="900" dy="300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="300" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t91" value="A thread per ticket" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t92" value="Every ticket opens a thread that writes the ledger. A sale morning brings tens of thousands" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t93" value="✗ unbounded threads" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="98" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="t94" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t95" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="84" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t96" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="128" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t97" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="172" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t98" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="216" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t99" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t910" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="304" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t911" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="348" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t912" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="392" y="124" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t913" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t914" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="84" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t915" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="128" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t916" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="172" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t917" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="216" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t918" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t919" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="304" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t920" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="348" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t921" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="392" y="154" width="38" height="24" as="geometry"/></mxCell>
+<mxCell id="t922" value="… thousands: stacks, create cost, a crowd at the ledger lock" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="400" height="30" as="geometry"/></mxCell>
+<mxCell id="t923" value="✓ fixed pool + bounded queue + a policy when full" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="98" width="390" height="18" as="geometry"/></mxCell>
+<mxCell id="t924" value="w1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="124" width="52" height="30" as="geometry"/></mxCell>
+<mxCell id="t925" value="w2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="530" y="124" width="52" height="30" as="geometry"/></mxCell>
+<mxCell id="t926" value="w3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="590" y="124" width="52" height="30" as="geometry"/></mxCell>
+<mxCell id="t927" value="w4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="650" y="124" width="52" height="30" as="geometry"/></mxCell>
+<mxCell id="t928" value="queue (bounded)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="164" width="232" height="30" as="geometry"/></mxCell>
+<mxCell id="t929" value="full → block the desk, reject, or run on the desk&#x27;s thread: say which" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="470" y="200" width="390" height="30" as="geometry"/></mxCell>
+<mxCell id="t930" value="&lt;b&gt;Answer:&lt;/b&gt; Thread count and stacks grow without limit. Bound the workers and the queue, and state the full-queue policy explicitly." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="244" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="coffman" name="Which condition is missing">
+    <mxGraphModel dx="900" dy="338" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="338" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t101" value="Which condition is missing" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t102" value="A holds kiln, wants shelf. B holds shelf, wants kiln. Both wait" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t103" value="thread A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="150" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="t104" value="thread B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="150" width="110" height="40" as="geometry"/></mxCell>
+<mxCell id="t105" value="kiln" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="104" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="t106" value="shelf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="206" width="110" height="34" as="geometry"/></mxCell>
+<mxCell id="t107" value="held" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t105" target="t103"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t108" value="wants" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="t103" target="t106"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t109" value="held" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t106" target="t104"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1010" value="wants" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="t104" target="t105"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1011" value="mutual exclusion ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="104" width="330" height="32" as="geometry"/></mxCell>
+<mxCell id="t1012" value="hold and wait ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="144" width="330" height="32" as="geometry"/></mxCell>
+<mxCell id="t1013" value="no preemption ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="184" width="330" height="32" as="geometry"/></mxCell>
+<mxCell id="t1014" value="circular wait ✓ → break this one" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="224" width="330" height="32" as="geometry"/></mxCell>
+<mxCell id="t1015" value="&lt;b&gt;Answer:&lt;/b&gt; All four are present. Break circular wait: both threads lock kiln, then shelf (sorted order), so no cycle forms." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="282" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="livelock" name="Same rhythm, no progress">
+    <mxGraphModel dx="900" dy="292" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="292" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t111" value="Same rhythm, no progress" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t112" value="Two clerks try the kiln, fail, release, and retry immediately, in step" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t113" value="clerk A" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="32" y="110" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t114" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="130" y="125.0" as="sourcePoint"/><mxPoint x="620" y="125.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t115" value="clerk B" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="32" y="150" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t116" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="130" y="165.0" as="sourcePoint"/><mxPoint x="620" y="165.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t117" value="try" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="134" y="110" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t118" value="try" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="204" y="150" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t119" value="release" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="274" y="110" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t1110" value="release" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="344" y="150" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t1111" value="try" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="414" y="110" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t1112" value="try" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="484" y="150" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t1113" value="…" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="554" y="110" width="62" height="30" as="geometry"/></mxCell>
+<mxCell id="t1114" value="pause(1, salt 0) = 4 · pause(1, salt 1) = 1: different backoffs break the mirror" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="t1115" value="&lt;b&gt;Answer:&lt;/b&gt; Livelock, not deadlock: neither holds and waits. Break the symmetry with a random or uneven pause, or let one side win." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="236" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="flag" name="A flag the other thread never sees">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t121" value="A flag the other thread never sees" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t122" value="One thread sets shutdown = True; another loops on while not shutdown with no lock or volatile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t123" value="setter: shutdown = True" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="120" width="240" height="40" as="geometry"/></mxCell>
+<mxCell id="t124" value="looper: while not shutdown" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="120" width="250" height="40" as="geometry"/></mxCell>
+<mxCell id="t125" value="no happens-before edge" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;dashed=1;" edge="1" parent="1" source="t123" target="t124"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t126" value="the looper may keep a register copy of false forever" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="166" width="250" height="30" as="geometry"/></mxCell>
+<mxCell id="t127" value="fix" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t128" value="works for" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="340" y="214" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t129" value="volatile boolean (Java)" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1210" value="a flag: one writer, other readers ✓" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="240" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1211" value="Lock or Event (Python)" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="266" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1212" value="a flag ✓" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="266" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1213" value="volatile for count++" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="292" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1214" value="✗ still a read and a write" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="292" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1215" value="&lt;b&gt;Answer:&lt;/b&gt; No happens-before between the write and the read. volatile or a lock/Event publishes the flag; volatile does not make count++ atomic." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="gil" name="The GIL is not your lock">
+    <mxGraphModel dx="900" dy="402" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="402" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t131" value="The GIL is not your lock" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t132" value="Two Python threads run n = n + 1 a million times. “The GIL makes the lock unnecessary”?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t133" value="T1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="42" y="110" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t134" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="125.0" as="sourcePoint"/><mxPoint x="580" y="125.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t135" value="T2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="42" y="150" width="90" height="30" as="geometry"/></mxCell>
+<mxCell id="t136" value="" style="endArrow=none;html=1;strokeColor=#dddddd;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="140" y="165.0" as="sourcePoint"/><mxPoint x="580" y="165.0" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t137" value="LOAD n" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="144" y="110" width="102" height="30" as="geometry"/></mxCell>
+<mxCell id="t138" value="LOAD n" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="254" y="150" width="102" height="30" as="geometry"/></mxCell>
+<mxCell id="t139" value="ADD, STORE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="364" y="150" width="102" height="30" as="geometry"/></mxCell>
+<mxCell id="t1310" value="ADD, STORE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="474" y="110" width="102" height="30" as="geometry"/></mxCell>
+<mxCell id="t1311" value="the GIL can switch between the load and the store → updates lost" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="t1312" value="work" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1313" value="threads?" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="340" y="230" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1314" value="counter shared by threads" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="256" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1315" value="need a Lock" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="256" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1316" value="blocking I/O per thread" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="282" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1317" value="help: I/O releases the GIL" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="282" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1318" value="pure-Python CPU loop" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="308" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="t1319" value="no speedup: use processes" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="308" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="t1320" value="&lt;b&gt;Answer:&lt;/b&gt; False for the counter: n = n + 1 is several bytecodes. Threads help for blocking I/O; use processes for CPU-bound Python." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="346" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="network" name="Lock, then the network">
+    <mxGraphModel dx="900" dy="318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="318" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t141" value="Lock, then the network" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t142" value="A clerk holds the ledger lock, calls a remote printer, then updates the row" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t143" value="✗ before" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="98" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="t144" value="lock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="124" width="150" height="36" as="geometry"/></mxCell>
+<mxCell id="t145" value="read row" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="212" y="124" width="150" height="36" as="geometry"/></mxCell>
+<mxCell id="t146" value="print (network)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="384" y="124" width="150" height="36" as="geometry"/></mxCell>
+<mxCell id="t147" value="write row" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="556" y="124" width="150" height="36" as="geometry"/></mxCell>
+<mxCell id="t148" value="unlock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="728" y="124" width="150" height="36" as="geometry"/></mxCell>
+<mxCell id="t149" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t144" target="t145"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1410" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t145" target="t146"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1411" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t146" target="t147"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1412" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t147" target="t148"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1413" value="✓ after" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="178" width="400" height="18" as="geometry"/></mxCell>
+<mxCell id="t1414" value="lock · read row · unlock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="204" width="250" height="36" as="geometry"/></mxCell>
+<mxCell id="t1415" value="print (no lock)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325" y="204" width="250" height="36" as="geometry"/></mxCell>
+<mxCell id="t1416" value="lock · recheck row · write · unlock" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610" y="204" width="250" height="36" as="geometry"/></mxCell>
+<mxCell id="t1417" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t1414" target="t1415"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1418" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="t1415" target="t1416"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t1419" value="&lt;b&gt;Answer:&lt;/b&gt; Move the print outside the lock; hold it only to read and to write. After the call, re-acquire and recheck that the row did not change." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="262" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pooldl" name="Waiting on your own pool">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t151" value="Waiting on your own pool" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t152" value="A one-worker pool runs a task that submits a second task to the same pool and waits for it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t153" value="the only worker&lt;br&gt;running task 1 → waits for task 2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="130" width="240" height="56" as="geometry"/></mxCell>
+<mxCell id="t154" value="queue: task 2&lt;br&gt;(needs a free worker)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="130" width="200" height="56" as="geometry"/></mxCell>
+<mxCell id="t155" value="waits for task 2" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;exitX=1;exitY=0.25;entryX=0;entryY=0.25;" edge="1" parent="1" source="t153" target="t154"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t156" value="needs this worker" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;dashed=1;exitX=0;exitY=0.8;entryX=1;entryY=0.8;" edge="1" parent="1" source="t154" target="t153"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="t157" value="a larger pool makes it likely under load instead of certain" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="640" y="140" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="t158" value="fix" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t159" value="how" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="260" y="214" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t1510" value="run inline" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t1511" value="do the second piece on the current thread" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="240" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t1512" value="another pool" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="266" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t1513" value="a separate executor for the sub-task" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="266" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t1514" value="return a future" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="292" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="t1515" value="let the caller outside the pool wait" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="292" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="t1516" value="&lt;b&gt;Answer:&lt;/b&gt; The only worker waits for work that needs that worker: a pool deadlock. Never wait on the same pool you are running on." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="join" name="Join sees the writes">
+    <mxGraphModel dx="900" dy="358" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="358" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="t161" value="Join sees the writes" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="t162" value="A thread fills a list; the caller reads it after join() returns" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="t163" value="caller" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="110.0" y="104" width="140" height="30" as="geometry"/></mxCell>
+<mxCell id="t164" value="worker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="410.0" y="104" width="140" height="30" as="geometry"/></mxCell>
+<mxCell id="t165" value="" style="endArrow=none;html=1;strokeColor=#bbbbbb;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="180" y="134" as="sourcePoint"/><mxPoint x="180" y="266" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t166" value="" style="endArrow=none;html=1;strokeColor=#bbbbbb;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480" y="134" as="sourcePoint"/><mxPoint x="480" y="266" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t167" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;endSize=5;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="180" y="152" as="sourcePoint"/><mxPoint x="480" y="152" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t168" value="start()" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="184" y="136" width="292" height="15" as="geometry"/></mxCell>
+<mxCell id="t169" value="box.append(1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="338.0" y="171" width="284" height="22" as="geometry"/></mxCell>
+<mxCell id="t1610" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;endSize=5;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480" y="212" as="sourcePoint"/><mxPoint x="180" y="212" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="t1611" value="last action → join() returns" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="184" y="196" width="292" height="15" as="geometry"/></mxCell>
+<mxCell id="t1612" value="read box → [1] ✓" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="38.0" y="231" width="284" height="22" as="geometry"/></mxCell>
+<mxCell id="t1613" value="a read before join() has no edge: the list may be empty or half-updated" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="274" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="t1614" value="&lt;b&gt;Answer:&lt;/b&gt; join() is a publication edge for that thread&#x27;s work, so the read sees [1]. It is not a lock for later sharing with a third thread." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="302" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -9,6 +9,10 @@ Process: own heap. Talk by message or explicit shared memory.
 Thread: shared heap, private stack. Talk by reading the same objects.
 ```
 
+![Threads and processes](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-1-threads-and-processes.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 1.*
+
 ## Threads in Java
 
 In Java you start work by passing a `Runnable` to a `Thread`, or, more often, to an executor. `thread.start()` asks the runtime to call `run` on a new thread. Calling `run()` yourself runs it on the current thread and creates no concurrency. `join()` waits until that thread finishes, and the joiner then sees the writes the other thread made.
@@ -24,6 +28,10 @@ void deposit(int cents) {
 }
 ```
 
+![Threads in Java](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-2-threads-in-java.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 2.*
+
 ## Race conditions
 
 A race is a bug that appears only for some interleavings. The usual shape is a read-modify-write split across threads. Both threads read `count` as 5, both compute 6, both write 6, and one increment is gone. "It passed when I ran it" is not evidence. The losing interleaving may be rare, and a different scheduler can hide it for months.
@@ -37,6 +45,10 @@ A writes 6
 B writes 6
 -- one increment is gone
 ```
+
+![Race conditions](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-3-race-conditions.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 3.*
 
 ## Locks and synchronized blocks
 
@@ -56,6 +68,10 @@ def increment() -> None:
         count += 1
 ```
 
+![Locks and synchronized blocks](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-4-locks-and-synchronized.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 4.*
+
 ## Mutex, semaphore, and monitor
 
 A mutex is a lock with one holder. It answers "who may touch this data." The holder is the thread that acquired it, and that thread is the one that must release it. A semaphore is a counter of permits. It answers "how many may proceed." A semaphore of 3 in front of a kiln means three firings at once. Threads do not own a semaphore permit in the way they own a mutex. Any thread can release a permit, which is useful for a pool and dangerous if you release once too often.
@@ -71,6 +87,10 @@ def fire() -> None:
     with kiln:
         pass  # one permit held for the firing
 ```
+
+![Mutex, semaphore, and monitor](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-5-mutex-semaphore-monitor.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 5.*
 
 ## Wait, notify, and condition variables
 
@@ -91,6 +111,10 @@ def publish() -> None:
         cv.notify_all()
 ```
 
+![Wait, notify, and condition variables](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-6-wait-notify-condition.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 6.*
+
 ## Producer and consumer
 
 One side produces items. The other consumes them. A bounded queue sits between them so a fast producer cannot allocate without limit. The producer waits when the queue is full. The consumer waits when it is empty. Both waits use the same lock, because both touch the queue, and two conditions (or one condition and `notify_all`) so a producer wake does not get stolen by another producer that still sees a full queue.
@@ -102,11 +126,19 @@ producer: make item | lock | enqueue | notify | unlock
 consumer: lock | while empty: wait | dequeue | notify | unlock | use item
 ```
 
+![Producer and consumer](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-7-producer-consumer.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 7.*
+
 ## Reader-writer locks
 
 Some data is read far more often than it is written. A reader-writer lock lets many readers hold it together, and lets a writer hold it only alone. A reader waits if a writer holds it. A writer waits until current readers finish. The shared structure stays consistent for the writer, and readers do not queue behind each other.
 
 The policy for new readers while a writer is waiting is the design choice. If new readers always barge in, a steady stream of readers starves the writer. Prefer a lock that blocks new readers once a writer is queued, or say that starvation is acceptable because writes are rare and you measured it. In Java this is `ReentrantReadWriteLock`. Do not invent it for a counter. A mutex is simpler, and a counter wants an atomic add.
+
+![Reader-writer locks](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-8-reader-writer-locks.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 8.*
 
 ## Atomics and compare-and-swap
 
@@ -125,6 +157,10 @@ def cas(box: list[int], seen: int, new: int) -> bool:
 print(cas([5], 5, 6), cas([6], 5, 7))  # True False
 ```
 
+![Atomics and compare-and-swap](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-9-atomics-and-cas.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 9.*
+
 ## Thread pools
 
 A pool is a fixed set of worker threads that pull tasks from a queue. Creating a thread per request spends time and stack on the create, and an unbounded number of requests creates an unbounded number of threads. The pool caps the concurrency. The queue caps the backlog. When both are full you need a rejection policy: block the caller, drop the task, or run it on the caller. Say which one. "The pool will handle it" is not a policy.
@@ -138,6 +174,10 @@ def run_jobs(jobs: list) -> None:
     with ThreadPoolExecutor(max_workers=4) as pool:
         list(pool.map(lambda fn: fn(), jobs))
 ```
+
+![Thread pools](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-10-thread-pools.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 10.*
 
 ## The Coffman conditions
 
@@ -153,6 +193,10 @@ All four, or it is not deadlock:
   the waits form a cycle
 ```
 
+![The Coffman conditions](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-11-coffman-conditions.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 11.*
+
 ## Lock ordering
 
 Pick a global order and acquire locks only in that order. If every transfer locks the lower account id first, two transfers cannot wait on each other. When the set of locks is dynamic, order them by identity before you acquire any of them. Releasing in reverse order is the usual pairing. A thread that already holds a later lock and then wants an earlier one has broken the order. That is the bug to look for.
@@ -166,11 +210,19 @@ def ids_in_order(a: int, b: int) -> tuple[int, int]:
 print(ids_in_order(7, 3))  # (3, 7), always the lower id first
 ```
 
+![Lock ordering](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-12-lock-ordering.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 12.*
+
 ## Livelock and starvation
 
 Livelock is motion without progress. Two threads each hold nothing, each sees the other, each backs off, and each retries in the same rhythm. Neither is blocked, so it is not deadlock, and the work never finishes. Break the symmetry: randomize the pause, or let one side proceed while the other yields.
 
 Starvation is a thread that is ready and still never gets the resource. A reader-writer lock that always prefers readers starves a writer under a constant read load. An unfair mutex can in theory starve too, though many runtimes queue waiters. Name who waits and why the policy never picks them. The fix is a fair queue, or a rule that a waiting writer blocks new readers. Do not call starvation a deadlock. Nobody is stuck in a cycle. Someone is just never chosen.
+
+![Livelock and starvation](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-13-livelock-and-starvation.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 13.*
 
 ## Visibility and happens-before
 
@@ -181,6 +233,10 @@ A lock is not only mutual exclusion. It also publishes writes. Without a happens
 ```java
 volatile boolean shutdown = false; // visible, not a compound counter
 ```
+
+![Visibility and happens-before](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-14-visibility-happens-before.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 14.*
 
 ## The GIL, briefly
 
@@ -194,8 +250,16 @@ n = 0
 n = n + 1
 ```
 
+![The GIL, briefly](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-15-the-gil.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 15.*
+
 ## What you say first
 
 Start from the shared data, not from the API. Which fields are shared. Which lock guards them. What the critical section contains, and what stays outside it. The order locks are acquired. What a thread does when it cannot proceed: wait on a condition, fail, or retry. Then the failure modes you designed against: the lost update, the deadlock cycle, the starved writer.
 
 A design you cannot describe at that level is a design you cannot debug. If the interviewer asks for Java, name `synchronized`, `volatile`, and the executor. If they ask for Python, name `Lock`, `Condition`, and the GIL's limit. The shared-state story is the same in both.
+
+![What you say first](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks-16-what-you-say-first.png)
+
+*Source: [`diagrams/threads-and-locks.drawio`](/content/11_Coding_Problems/05_Threads_and_Locks/diagrams/threads-and-locks.drawio), page 16.*
