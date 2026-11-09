@@ -62,12 +62,21 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## 4. Databases and SQL
 
-- **Keys** — primary key identifies, foreign key references.
-- **Joins** — inner drops unmatched rows, left keeps them, one-to-many multiplies.
-- **Filter and group** — `WHERE` on rows, `HAVING` on groups.
-- **Indexes** — justified by a named lookup, paid for on writes.
-- **Transactions** — the pair of writes that must commit together.
-- **Normalization** — one fact in one place, unless a stated read justifies a copy.
+- **Explicit joins** — the match belongs in `ON`. A comma join with no predicate is a cross join.
+- **Inner, left, and full** — inner drops unmatched rows. Left keeps the left side. Full keeps both.
+- **Self join and anti-join** — alias a table to pair rows with each other. `NOT EXISTS` means no partner.
+- **Statements** — name the rows an `UPDATE` or `DELETE` will touch.
+- **WHERE, GROUP BY, HAVING** — filter rows, collapse, then filter groups.
+- **NULL** — unknown. Use `IS NULL`. `COUNT(col)` skips nulls.
+- **CTE** — name a grouped result so a later filter can average it.
+- **Windows** — `ROW_NUMBER` picks one row. `RANK` ties and skips. A running sum does not collapse rows.
+- **Normal forms** — one value per column, dependence on the whole key, no dependence between non-key columns.
+- **Keys** — primary key identifies. Foreign key rejects a child with no parent.
+- **Indexes** — equality columns, then the range. Cover the columns you return.
+- **Transactions and isolation** — commit related writes together. Add to a total in one `UPDATE`.
+- **Denormalize** — copy a fact only with the query and the refresh story.
+- **Small design** — pin what a sale is, then name tables, cardinality, and the first statement.
+- **Large design** — partition or archive by the date you already filter. Leave shards to system design.
 
 ## 5. Threads and Locks
 
@@ -98,4 +107,4 @@ A distilled checklist for the Coding Problems section. The teachable writeups li
 
 ## How to use this list
 
-Pick a line and explain it with a fresh example. For Math and Logic Puzzles, Object-Oriented Design, and Testing, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.
+Pick a line and explain it with a fresh example. For Math and Logic Puzzles, Object-Oriented Design, Testing, and Databases and SQL, the drills are the check. For the outline topics, being able to expand the line into a short paragraph is the check; those chapters are not written out yet.

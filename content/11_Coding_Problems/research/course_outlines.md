@@ -73,18 +73,17 @@ Original study outline for the coding-problem chapters that are not already cove
 
 ## 4. Databases and SQL (Chapter 14)
 
-**Scope:** Relational modeling and the SQL an interview expects you to read aloud. Distributed-database design stays in the system-design section.
+**Scope:** Writing interview queries and drawing a logical schema. Replication and sharding stay in the system-design section.
 
-**Status:** Outline only. No drills yet.
+**Status:** Concepts, notes, and drills.
 
 ### Themes
 
-- Keys and foreign keys
-- Inner and left joins, and the row multiplication a one-to-many join causes
-- `WHERE`, `GROUP BY`, and `HAVING`
-- Indexes matched to a named query
-- Transactions around a pair of writes that must land together
-- Normalize by default, denormalize only with a stated read and a freshness plan
+- Explicit joins, inner and outer joins, self joins, and anti-joins
+- `WHERE`, `GROUP BY`, `HAVING`, NULL, subqueries, CTEs, and window functions
+- Normal forms, keys, index order, transactions, and isolation anomalies
+- When a copy of a fact is justified
+- A small schema from an ambiguous sentence, and what to do when one table grows large
 
 ---
 
@@ -146,7 +145,7 @@ Original study outline for the coding-problem chapters that are not already cove
 | Math and Logic Puzzles | 6 | Concepts, notes, and drills | Primes, probability, puzzle reasoning, Euclid, modular arithmetic |
 | Object-Oriented Design | 7 | Concepts, notes, and drills | Types, relationships, SOLID, and a few patterns |
 | Testing | 11 | Concepts, notes, and drills | Cases, layers, doubles, and troubleshooting |
-| Databases and SQL | 14 | Outline | Keys, joins, aggregation, transactions |
+| Databases and SQL | 14 | Concepts, notes, and drills | Queries, schema, and indexes, not sharding |
 | Threads and Locks | 15 | Outline | Races, locks, deadlock, waiting |
 | Moderate Problems | 16 | Outline | One-insight problems, without a problem list |
 | Hard Problems | 17 | Outline | State, recursion, caching, without a problem list |
