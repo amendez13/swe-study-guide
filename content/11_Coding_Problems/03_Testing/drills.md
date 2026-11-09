@@ -21,6 +21,10 @@ def case_list() -> list[str]:
 print(len(case_list()))  # 5
 ```
 
+![Categories before the tool](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-1-categories-before-the-tool.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 1.*
+
 ## From a cabinet to cases
 
 A workshop key cabinet should open for the right key, stay shut for the wrong key, stay open if you turn an already-open lock, and not tear if two people turn it together. Map each of those four to a software check on `assign_locker(member_id, locker_id)`.
@@ -39,6 +43,10 @@ print(assign_once(box, "ada", "L1"), assign_once(box, "bea", "L1"))
 # assigned taken
 ```
 
+![From a cabinet to cases](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-2-from-a-cabinet.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 2.*
+
 ## What you automate
 
 You have three checks. (1) A member's fee at 2 hours and at 3 hours. (2) Whether the new "locker full" sentence sounds blaming. (3) A script the release captain clicks whenever the fee formula changes. Which do you automate, and which stays manual?
@@ -50,6 +58,10 @@ automate = {"fee at 2 and 3 hours", "release fee script"}
 manual = {"tone of the full-locker sentence"}
 print(sorted(automate), sorted(manual))
 ```
+
+![What you automate](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-3-what-you-automate.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 3.*
 
 ## Which view sees the bug
 
@@ -76,6 +88,10 @@ except ValueError:
     print("rejected", correct(2000, 100))  # rejected 0
 ```
 
+![Which view sees the bug](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-4-which-view-sees-the-bug.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 4.*
+
 ## The missing boundary
 
 A teammate's tests call the correct member fee at 5 hours and at 10 hours. Both pass. Name two inputs those tests do not cover, and say what bug survives.
@@ -89,6 +105,10 @@ def fee(hours: int) -> int:
 print(fee(5), fee(10))                 # 225 600, spec agrees
 print(fee(22), fee(23), min(fee(23), 1500))  # 1500 1575 1500
 ```
+
+![The missing boundary](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-5-the-missing-boundary.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 5.*
 
 ## One from each class
 
@@ -107,6 +127,10 @@ samples = [(1, True, 0), (5, True, 225), (22, True, 1500), (0, False, 0), (4, Fa
 print(all(locker_fee(h, m) == expected for h, m, expected in samples))  # True
 ```
 
+![One from each class](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-6-one-from-each-class.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 6.*
+
 ## Which layer fails
 
 Three reports come in. (A) A member with a 5-hour stay is charged 300 instead of 225, and a direct call to the fee function returns 300. (B) The fee function returns 225, and the ledger row says 500. (C) The fee function and the ledger are right, and the screen still shows the placeholder "fee: --". Which test level belongs to each?
@@ -120,6 +144,10 @@ def layer(report: str) -> str:
 print(layer("formula"), layer("ledger"), layer("screen"))
 ```
 
+![Which layer fails](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-7-which-layer-fails.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 7.*
+
 ## Upside down
 
 The suite has 30 browser tests, one per hour of a stay, and one unit test that checks hour 5. A one-character fee change takes twelve minutes to verify, and the browser failures say "timed out waiting for .total". What do you move, and what single browser test do you keep?
@@ -132,6 +160,10 @@ browser_tests_after = 1
 function_cases = ["h2", "h3", "h22", "h23", "guest15", "negative"]
 print(browser_tests_before - browser_tests_after, len(function_cases))  # 29 6
 ```
+
+![Upside down](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-8-upside-down.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 8.*
 
 ## Stub, fake, or mock
 
@@ -163,6 +195,10 @@ mail.send(225)
 print(ledger.load("ada"), mail.sent)  # 225 [225]
 ```
 
+![Stub, fake, or mock](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-9-stub-fake-or-mock.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 9.*
+
 ## A property, not another example
 
 You already assert `locker_fee(5, True) == 225`. Name two properties that should hold for every hour from 0 through 40, and show one input that would violate "never above the cap" if the `min` were deleted.
@@ -179,6 +215,10 @@ for hours in range(0, 41):
     guest = min(hours * 100, 1500)
     assert 0 <= member <= guest <= 1500
 ```
+
+![A property, not another example](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-10-a-property.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 10.*
 
 ## Why it flickers
 
@@ -203,6 +243,10 @@ def desk_open(hour: int) -> bool:
 assert desk_open(9) and not desk_open(20)
 ```
 
+![Why it flickers](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-11-why-it-flickers.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 11.*
+
 ## Not a load test yet
 
 Someone says the locker desk "feels fast" because they refreshed the page for a minute and nothing errored. What three facts are missing before you would call that a load result?
@@ -215,6 +259,10 @@ def is_load_result(concurrency: int, has_pass_line: bool) -> bool:
 
 print(is_load_result(1, False), is_load_result(50, True))  # False True
 ```
+
+![Not a load test yet](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-12-not-a-load-test-yet.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 12.*
 
 ## Two refusals
 
@@ -232,6 +280,10 @@ print(open_locker("a1", "b2"), open_locker("a1", ""), open_locker("a1", "a1"))
 # refused refused open
 ```
 
+![Two refusals](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-13-two-refusals.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 13.*
+
 ## Sometimes charged
 
 Members report they are "sometimes" charged for the first two hours. You have not seen the code. What do you ask, and what do you refuse to do yet?
@@ -248,6 +300,10 @@ def next_step(function_returned: int, ledger_stored: int) -> str:
 
 print(next_step(0, 75), next_step(75, 75))
 ```
+
+![Sometimes charged](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-14-sometimes-charged.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 14.*
 
 ## A test that cannot catch the bug
 
@@ -270,3 +326,7 @@ def locker_fee(hours: int, member: bool) -> int:
 value = locker_fee(2, member=True)
 print(value == value, value == 0)  # True False
 ```
+
+![A test that cannot catch the bug](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills-15-test-that-cannot-catch.png)
+
+*Source: [`diagrams/testing-drills.drawio`](/content/11_Coding_Problems/03_Testing/diagrams/testing-drills.drawio), page 15.*
