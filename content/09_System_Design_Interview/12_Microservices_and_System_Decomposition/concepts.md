@@ -12,6 +12,10 @@ split           a service ships and scales on its own
 first move      one process, until a measured reason appears
 ```
 
+![Monolith or Microservices](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-1-monolith-or-microservices.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 1.*
+
 ## When to Decompose
 
 Three checks decide whether a piece leaves the monolith. A drawing with more boxes is not one of them.
@@ -31,6 +35,10 @@ own train       a team ships without the rest
 not a reason    a drawing with more boxes
 ```
 
+![When to Decompose](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-2-when-to-decompose.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 2.*
+
 ## Service Boundaries
 
 Draw a service around a business capability, a bounded context. Inside the shelf service, "ready" means the piece can go in a kiln. Inside the kiln service, "ready" means the week has room. Same word, two meanings, two owners. The shelf service knows pieces and shelves. The kiln service knows cones, kilns, and weeks. The glaze service knows batches the guild mixed. Each one is a reason a member calls the guild.
@@ -46,6 +54,10 @@ glaze      batches the guild mixed
 reject     "the database" or "validation" as a service
 ```
 
+![Service Boundaries](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-3-service-boundaries.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 3.*
+
 ## Data Ownership
 
 The service that decides a fact is the service that writes the row. The shelf service owns the piece row, including the condition. The kiln service does not update that condition. It stores `piece_id`. When it needs the condition, it asks the shelf service, or it applies a fact the shelf service already published. An unknown id is a normal answer: the piece was withdrawn, and the caller handles that.
@@ -59,6 +71,10 @@ owner         the only service allowed to write the row
 piece_id      a reference, not a shared row
 shared table  two deploys, one schema
 ```
+
+![Data Ownership](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-4-data-ownership.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 4.*
 
 ## Multi-Tier Architecture
 
@@ -75,6 +91,10 @@ data           that service's database
 orthogonal     tiers sit inside a deploy; services are the deploys
 ```
 
+![Multi-Tier Architecture](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-5-multi-tier-architecture.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 5.*
+
 ## Event-Driven Architecture
 
 A service records a fact and publishes it. Others react. The kiln service writes "kiln 2, week 12, piece 18" and returns. The shelf service marks the piece as scheduled. The glaze service stages a batch. The holiday tally counts the firing. None of those steps sit inside the member's request.
@@ -90,6 +110,10 @@ publish     the kiln service states the week and returns
 react       shelf, glaze, and the tally each apply it
 call        the page needs a yes or no before it can answer
 ```
+
+![Event-Driven Architecture](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-6-event-driven-architecture.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 6.*
 
 ## Service Discovery
 
@@ -110,6 +134,10 @@ mesh           a sidecar does the lookup and the certificate
 front door     the gateway, for browsers, not for peers
 ```
 
+![Service Discovery](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-7-service-discovery.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 7.*
+
 ## Third-Party Integration
 
 A vendor is a process you do not deploy and cannot change. The clay supplier is one. Wrap it behind a boundary the guild owns. An adapter service is the only code that knows the supplier's URL, the odd status codes, and which errors may be retried. The kiln service says "deliver two bags of stoneware before week 12." When the supplier renames a field, the adapter changes. The kiln service does not.
@@ -123,6 +151,10 @@ adapter    the only code that speaks the supplier
 timeout    the confirm page does not inherit the supplier's latency
 queue      the week is already saved, and the clay can follow
 ```
+
+![Third-Party Integration](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-8-third-party-integration.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 8.*
 
 ## Saga Pattern
 
@@ -142,3 +174,7 @@ glaze fails → cancel the week → release the shelf
 orchestrate    one coordinator calls each step
 choreograph    each service reacts to the previous event
 ```
+
+![Saga Pattern](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-9-saga-pattern.png)
+
+*Source: [`diagrams/microservices.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices.drawio), page 9.*
