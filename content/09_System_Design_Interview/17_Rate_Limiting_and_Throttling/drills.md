@@ -30,6 +30,10 @@ print(" ".join(PLACE[name] for name in CASES))
 # client gateway service
 ```
 
+![Where to Put](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-1-where-to-put.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 1.*
+
 ## Limit By
 
 Three keys are proposed for the lower station. What goes wrong with the weak ones?
@@ -57,6 +61,10 @@ FAULT = {
 print(" ".join(FAULT[name] for name in CASES))
 # shared-address expensive-path-uncapped none
 ```
+
+![Limit By](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-2-limit-by.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 2.*
 
 ## Token Burst
 
@@ -90,6 +98,10 @@ print(
 )
 # (8, 2) 8
 ```
+
+![Token Burst](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-3-token-burst.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 3.*
 
 ## Token or Leaky
 
@@ -125,6 +137,10 @@ print(token(SEAT_ARRIVED, CAPACITY), leaky(TIMETABLE_ARRIVED, QUEUE))
 # (8, 2) (6, 9)
 ```
 
+![Token or Leaky](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-4-token-or-leaky.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 4.*
+
 ## Window Seam
 
 A fixed window allows 20 seat asks in a clock minute. Twenty land in the last three seconds of minute 12. Twenty land in the first three seconds of minute 13. Does each window allow its own count, and how many asks crossed the edge?
@@ -151,6 +167,10 @@ def seam(late: int, early: int, limit: int) -> tuple[bool, int]:
 print(*seam(LATE, EARLY, LIMIT))
 # True 40
 ```
+
+![Window Seam](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-5-window-seam.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 5.*
 
 ## Sliding Weight
 
@@ -182,6 +202,10 @@ count = weighted(PREV, CURR, ELAPSED, WINDOW)
 print(count, count > LIMIT)
 # 25 True
 ```
+
+![Sliding Weight](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-6-sliding-weight.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 6.*
 
 ## Counter Race
 
@@ -217,6 +241,10 @@ print(raced(REMAINING, CARS), atomic(REMAINING, CARS))
 # 2 1
 ```
 
+![Counter Race](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-7-counter-race.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 7.*
+
 ## Retry-After
 
 Rider 14's board received HTTP 429 with Retry-After: 8, and X-RateLimit-Remaining: 0. Four boards at the lower station each received that answer. How many of those four call again during this second if they honor the header, and how many call if they ignore it? What does the second choice do to the desk?
@@ -242,3 +270,7 @@ def retries_this_second(boards: int, honors_header: bool) -> int:
 print(retries_this_second(BOARDS, True), retries_this_second(BOARDS, False), RETRY_AFTER_S)
 # 0 4 8
 ```
+
+![Retry-After](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills-8-retry-after.png)
+
+*Source: [`diagrams/rate-limiting-drills.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-drills.drawio), page 8.*
