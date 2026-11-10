@@ -11,6 +11,10 @@ during a split
 CA     a label that assumes the network never splits
 ```
 
+![CAP Theorem](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-1-cap-theorem.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 1.*
+
 ## PACELC Theorem
 
 PACELC separates the rare case from the request you serve every day. If a partition is underway, choose availability or consistency. Else, with every replica reachable, choose latency or consistency.
@@ -21,6 +25,10 @@ A lobby count that returns from one local replica is PA/EL. During a split it st
 PA/EL   one local copy answers
 PC/EC   the operation waits until the required copies agree
 ```
+
+![PACELC Theorem](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-2-pacelc-theorem.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 2.*
 
 ## Replication Topologies
 
@@ -38,6 +46,10 @@ multi-leader     a writer per site; overlapping keys can diverge
 leaderless       any replica accepts; W and R set the wait
 ```
 
+![Replication Topologies](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-3-replication-topologies.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 3.*
+
 ## Strong Consistency
 
 Strong consistency means an acknowledged write to a key is what a later read of that key returns, whoever asks. The copies those reads are allowed to use already hold the write, or the serving node withholds an older copy. A desk that opens a shelf card after the save was acknowledged sees the new clay body.
@@ -49,6 +61,10 @@ ack, then a later read of that key    returns that write
 the writer's own next read            read-after-write
 a lock or a single winner             linearizable
 ```
+
+![Strong Consistency](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-4-strong-consistency.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 4.*
 
 ## Eventual Consistency
 
@@ -62,6 +78,10 @@ until then a read can be older
 the gap has no promised bound
 ```
 
+![Eventual Consistency](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-5-eventual-consistency.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 5.*
+
 ## Read-After-Write Consistency
 
 Read-after-write consistency is a session guarantee. The writer sees their own write on the next read in that session. Other sessions can still see the older value. A member who changes the display name on a shelf and reloads the page sees the new name. The lobby board can keep the previous name for a while.
@@ -73,6 +93,10 @@ read-after-write    this session's next read sees this session's write
 monotonic read      a later read in the session stays at least that new
 other sessions      can still see the older value
 ```
+
+![Read-After-Write Consistency](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-6-read-after-write-consistency.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 6.*
 
 ## Linearizability
 
@@ -86,6 +110,10 @@ the member reloads their card  read-after-write
 pots fired today               eventual
 ```
 
+![Linearizability](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-7-linearizability.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 7.*
+
 ## Quorum Reads and Writes
 
 N replicas hold a key. A write waits until W of them acknowledge. A read waits until R of them respond, and the caller keeps the newest version among those responses. When W + R > N, every such read set shares a replica with every such write set, so one of the responses carries the latest acknowledged write.
@@ -98,6 +126,10 @@ N=3, W=1, R=1    the sets can miss; a read can miss the write
 N=3, W=3, R=1    every replica took the write
 a write still completes with up to N - W replicas silent
 ```
+
+![Quorum Reads and Writes](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-8-quorum-reads-and-writes.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 8.*
 
 ## Conflict Resolution
 
@@ -114,6 +146,10 @@ app merge        the type combines them, or a person picks
 CRDT             the merge is part of the type
 ```
 
+![Conflict Resolution](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-9-conflict-resolution.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 9.*
+
 ## Read and Write Path
 
 The coordinator is the node a client contacts for a key in a leaderless cluster. It can be one of the replicas, or a node that forwards.
@@ -128,6 +164,10 @@ read      ask R, return the newest version
 repair    write that version onto an older answer
 ```
 
+![Read and Write Path](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-10-read-and-write-path.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 10.*
+
 ## Replica Failure Handling
 
 The coordinator stops waiting on a replica that has missed its deadline. A missed heartbeat, or a gossip round with no answer, is enough to leave that replica out of this attempt. Partial Failures and Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/) describe how a slow link imitates a dead node, and how two sides can both act as leader. Fencing the old relational primary is Failover and Promotion in [Databases Relational](../06_Databases_Relational/).
@@ -141,3 +181,7 @@ detect       a missed heartbeat or gossip round ends the wait
 temporary    hint on a stand-in, forwarded when the replica returns
 permanent    Merkle tree, then copy the ranges whose hashes differ
 ```
+
+![Replica Failure Handling](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-11-replica-failure-handling.png)
+
+*Source: [`diagrams/consistency-replication.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication.drawio), page 11.*
