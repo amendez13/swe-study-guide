@@ -17,6 +17,10 @@ def lowest_wing(mask: int) -> int | None:
 print(lowest_wing(0b10100), lowest_wing(0))  # 2 None
 ```
 
+![Lowest open wing](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-1-lowest-open-wing.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 1.*
+
 ## Same slot, XOR swap
 
 This swap exchanges two locker numbers without a temporary. What does it do when both indexes are 2, and how do you fix it?
@@ -45,9 +49,13 @@ swap_slots(pair, 0, 1)
 print(same, pair)  # [9] [7, 3]
 ```
 
+![Same slot, XOR swap](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-2-same-slot-xor-swap.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 2.*
+
 ## Midpoint of two big counters
 
-Two counters hold `2000000000` and `200000000010` and both fit in a signed 32-bit integer. Their sum does not. What midpoint do you want, and which expression wraps?
+Two counters hold `2000000000` and `2000000010` and both fit in a signed 32-bit integer. Their sum does not. What midpoint do you want, and which expression wraps?
 
 **Answer:** The midpoint is `2000000005`. `lo + hi` is `4000000010`, which is past `2**31 - 1`, so a 32-bit add wraps negative before the division. `lo + (hi - lo) // 2` subtracts first. The difference is 10, half of that is 5, and the add stays in range. Cost is O(1). Test a small pair and a pair near the top of the type. Python will not show the wrap unless you mask to 32 bits.
 
@@ -65,6 +73,10 @@ lo, hi = 2_000_000_000, 2_000_000_010
 print(midpoint(lo, hi), wrapped_mid(lo, hi))  # 2000000005 -147483643
 ```
 
+![Midpoint of two big counters](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-3-midpoint-big-counters.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 3.*
+
 ## Lengths that repeat
 
 A bin of rope offcuts is `[4, 2, 4, 3, 2, 2]`. Which lengths appear more than once?
@@ -80,6 +92,10 @@ def repeated(lengths: list[int]) -> list[int]:
 
 print(repeated([4, 2, 4, 3, 2, 2]))  # [2, 4]
 ```
+
+![Lengths that repeat](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-4-lengths-that-repeat.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 4.*
 
 ## Kayaks from both ends
 
@@ -101,6 +117,10 @@ def trips(weights: list[int], limit: int) -> int:
 
 print(trips([1, 2, 4, 5], 6), trips([5, 5], 6), trips([], 6))  # 2 2 0
 ```
+
+![Kayaks from both ends](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-5-kayaks-from-both-ends.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 5.*
 
 ## Hours under a liter budget
 
@@ -125,6 +145,10 @@ def longest_under(hours: list[int], limit: int) -> int:
 print(longest_under([1, 2, 2, 4, 1, 1], 5), longest_under([9], 5))  # 3 0
 ```
 
+![Hours under a liter budget](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-6-hours-under-liter-budget.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 6.*
+
 ## Jars between two days
 
 Daily jar counts are `[2, 0, 3, 4]`. Several questions ask for the total from day `left` through day `right`, inclusive, with day 0 first. How do you answer many of them?
@@ -145,6 +169,10 @@ sums = prefix([2, 0, 3, 4])
 print(range_sum(sums, 1, 2), range_sum(sums, 0, 3))  # 3 9
 ```
 
+![Jars between two days](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-7-jars-between-two-days.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 7.*
+
 ## Smallest gap between crates
 
 Crate weights are `[8, 1, 5, 3]`. What is the smallest positive difference between any two, and what do you return for one crate?
@@ -161,6 +189,10 @@ def smallest_gap(weights: list[int]) -> int | None:
 print(smallest_gap([8, 1, 5, 3]), smallest_gap([4]), smallest_gap([4, 4]))
 # 2 None 0
 ```
+
+![Smallest gap between crates](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-8-smallest-gap-crates.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 8.*
 
 ## Kiln bookings that overlap
 
@@ -181,6 +213,10 @@ def merge(spans: list[tuple[int, int]]) -> list[tuple[int, int]]:
 
 print(merge([(1, 3), (2, 6), (8, 10), (9, 12)]))  # [(1, 6), (8, 12)]
 ```
+
+![Kiln bookings that overlap](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-9-kiln-bookings-overlap.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 9.*
 
 ## The turnstile log
 
@@ -205,6 +241,10 @@ def replay(events: list[str]) -> str:
 print(replay(["badge", "pass", "badge", "force"]))  # alarm
 ```
 
+![The turnstile log](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-10-the-turnstile-log.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 10.*
+
 ## Increasing badge numbers
 
 A positive integer is accepted when each decimal digit is strictly greater than the digit on its left. `1359` is accepted. `133` is not. `7` is accepted. What about `21`?
@@ -228,6 +268,10 @@ print(strictly_increasing(1359), strictly_increasing(133), strictly_increasing(7
 # True False True False
 ```
 
+![Increasing badge numbers](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-11-increasing-badge-numbers.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 11.*
+
 ## Two spools, one offcut
 
 Spools of 18 feet and 12 feet must be cut into equal pieces with nothing left over. What is the longest piece, and why is 9 feet wrong?
@@ -243,6 +287,10 @@ def gcd(a: int, b: int) -> int:
 print(gcd(18, 12), gcd(12, 0))  # 6 12
 ```
 
+![Two spools, one offcut](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-12-two-spools-one-offcut.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 12.*
+
 ## A million badge ids
 
 Each id is a 32-bit integer. Roughly how much memory is a million of them, and does a hash map of them fit in a laptop?
@@ -255,6 +303,10 @@ def badge_bytes(count: int) -> int:
 
 print(badge_bytes(1_000_000), badge_bytes(1_000_000) < 10**9)  # 4000000 True
 ```
+
+![A million badge ids](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-13-a-million-badge-ids.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 13.*
 
 ## Deepest dip in a barrel
 
@@ -276,6 +328,10 @@ def deepest_dip(levels: list[int]) -> int:
 print(deepest_dip([4, 7, 5, 9, 2]), deepest_dip([1, 2, 3]))  # 7 0
 ```
 
+![Deepest dip in a barrel](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-14-deepest-dip.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 14.*
+
 ## Twelve-hour clock
 
 A studio clock reads 8. A firing runs 20 hours. What hour does it read, using a 12-hour face with 0 for midnight?
@@ -288,6 +344,10 @@ def clock(start: int, steps: int) -> int:
 
 print(clock(8, 20), clock(0, -1))  # 4 11
 ```
+
+![Twelve-hour clock](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-15-twelve-hour-clock.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 15.*
 
 ## The fast window against a slow one
 
@@ -322,3 +382,7 @@ def slow(hours: list[int], limit: int) -> int:
 sample = [1, 2, 2, 4, 1, 1]
 print(longest_under(sample, 5), slow(sample, 5), longest_under([], 5))  # 3 3 0
 ```
+
+![The fast window against a slow one](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills-16-fast-vs-slow-window.png)
+
+*Source: [`diagrams/moderate-problems-drills.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-drills.drawio), page 16.*
