@@ -1,22 +1,22 @@
 # Geospatial and Location-Based Services
 
-Cindermoss Survey indexes plot pins across a valley and a polar holding, answers a radius from the drying shed, and decides when a crew enters the work ring or leaves the frost hollow. A geohash prefix, a quadtree, and S2 cells are the indexes. The proximity path reads a box and then a distance. Fences are the enter and exit tests. Pins are rebuilt on a schedule. A crew ping updates one memory entry. A cache tier, a shard map, the socket that carries a ping, and the message after a fence fires stay in the topics that own them. A keyword match on a pin's name stays in Search Autocomplete and Information Retrieval.
+Nearby search, geofences, and live positions all start from the same problem: latitude and longitude are two numbers, and the indexes we already know order one. A geohash, a quadtree, and S2 cells each fold a map into something a lookup can prune. A proximity call reads a box of candidates and then a real distance. A geofence compares this sample with the previous one. Businesses are rebuilt in a batch. Drivers are replaced in memory and expired with a TTL. Caching, sharding, the socket that carries a ping, and the push after a fence fires stay in the topics that own them. A keyword match on a place name stays in Search Autocomplete and Information Retrieval.
 
 ## Key Points
 
-- **Geohash** — interleaves longitude and latitude, five bits to a character. The shed `b7nq4c` and the post `b7nq4f` share `b7nq4`. The ridge `b7nq80` shares only `b7nq`. A five-character prefix is a B-tree range, a box a few kilometers across in the valley. The read is that cell and the eight that touch it.
-- **Quadtree** — an in-memory tree. A box with more than 4 pins splits while it is wider than 50 meters. The yard splits. The ridge stays a leaf. A pile on one post stops at the floor. A radius query leaves a box unread when the box misses the circle.
-- **Google S2** — a degree of longitude is about 74 km at 48° and about 23 km at 78°, taking 111 km at the equator. S2 projects the sphere onto six cube faces, numbers cells along a Hilbert curve as 64-bit ids, and keeps roughly equal area at one level. A valley prefix is enough near 48°. Both holdings want equal-area cells. H3 is the hexagonal cousin.
-- **Proximity Service** — read the cell and its eight neighbors, then keep pins within 400 meters. A corner of the box can fail that distance. A repeated ask can sit in a cache. The valley prefix and the polar prefix can sit on different shards. A moving crew is Location Updates.
-- **Geofencing** — the work ring is under 30 meters from the shed. The frost hollow is a polygon, inside on an odd number of eastward ray crossings. Outside then inside is an enter. Inside then outside is an exit. A long fence list tests only the boxes the index returns. The send is Push Notification System.
-- **Location Updates** — 4,000 pins and about 12 edits a day become one scheduled rebuild, and searches keep the previous index until the swap. A ping every five seconds replaces one memory entry, 720 point-updates in an hour. The pipe is WebSockets and SSE.
+- **Geohash** — interleaves longitude and latitude bits, longitude first, and writes each five bits as one base32 character. A shared prefix is one rectangle and one B-tree range. At the equator, length 5 is about 4.9 km across, length 6 about 1.2 km by 610 m, and length 7 about 150 m. The east-west side shrinks with cos(latitude). Two places a short walk apart can miss the prefix when a cell wall falls between them, so a query reads the home cell and the eight that touch it, then checks the distance.
+- **Quadtree** — an in-memory tree that splits a box into four when it holds more than a small cap and is still larger than a minimum size. With a cap of 4 and a floor of 50 m, a dense 200 m box splits, a sparse 800 m box stays a leaf, and a crowd already inside the floor stops. A radius query opens only boxes that meet the circle. Choose it when the points fit in memory and density is uneven.
+- **Google S2** — a degree of longitude is about 111 km × cos(latitude): about 74 km at 48° and about 23 km at 78°. S2 projects the sphere onto six cube faces, quarters the cells to level 30, and numbers them along a Hilbert curve as 64-bit ids so a circle becomes a few id ranges. Cells at one level have roughly equal area. H3 is the hexagonal grid for the same global job. A single-city catalog can stay on a geohash prefix.
+- **Proximity Service** — pick a cell at least as big as the radius, read it and its eight neighbors, keep candidates within the radius, and sort. A corner of the box can fail the distance. A repeated catalog search can sit in a cache. A prefix can name a shard, and a downtown prefix runs hot. Moving drivers are Location Updates.
+- **Geofencing** — a circle is a distance compare, such as under 30 m from a center. A polygon is inside when an eastward ray crosses an odd number of edges. Outside then inside is an enter. Inside then outside is an exit. Debounce GPS jitter on the line. A long fence list tests only the boxes the index returns. The send is Push Notification System.
+- **Location Updates** — a business index is rebuilt beside the live one and swapped in, so a handful of edits a day can wait for the batch. Drivers live in memory: a million of them reporting every 5 seconds is about 200,000 single-key writes a second, and a TTL of a few missed pings, such as 30 seconds, drops a silent device. The connection is WebSockets and SSE.
 
 ## Example
 
-The shed and the post share a five-character cell. The ridge leaves that cell. A prefix box from 0 to 100 meters holds the corner and the post. A 40-meter radius keeps the post. Pip's sample moves from outside the ring to inside.
+Two San Francisco hashes a few dozen meters apart share a length-6 cell. A third hash, about 200 m north across a cell edge, does not. A prefix box from 0 to 100 holds the corner and the cafe. A 40 m radius keeps the cafe. A sample that was outside a fence and is now inside records an enter.
 
 ```python
-def same(left: str, right: str, length: int) -> bool:
+def shares(left: str, right: str, length: int) -> bool:
     return left[:length] == right[:length]
 
 
@@ -47,22 +47,25 @@ def crossed(was_in: bool, now_in: bool) -> str:
     return "still"
 
 
-pins = (("corner", (2, 2)), ("post", (60, 55)), ("lane", (180, 50)))
+home = "9q8yyk8"
+nearby = "9q8yyk9"
+across_edge = "9q8yym0"
+places = (("corner", (2, 2)), ("cafe", (60, 55)), ("far", (180, 50)))
 print(
-    same("b7nq4c", "b7nq4f", 5),
-    same("b7nq4c", "b7nq80", 5),
-    kept(pins, (50, 50), 40, (0, 100, 0, 100)),
+    shares(home, nearby, 6),
+    shares(home, across_edge, 6),
+    kept(places, (50, 50), 40, (0, 100, 0, 100)),
     crossed(False, True),
 )
-# True False ('post',) enter
+# True False ('cafe',) enter
 ```
 
-The five-character range is one B-tree read for the shed and the post, and a different read for the ridge. The lane pin never entered the box. The corner pin did, and the radius removed it. Recording Pip's enter is the fence test. Sending the message stays in Real-Time and Notification Systems.
+The length-6 range is one B-tree read for the two cafes that share `9q8yyk`, and a different read for the place across the cell edge. The far pin never entered the box. The corner pin did, and the radius removed it. Recording the enter is the fence test. Sending the message stays in Real-Time and Notification Systems.
 
 ## See also
 
-- [Caching](../05_Caching/) — When Caching Helps and Cache Tier Placement. A repeated proximity read can sit there. The prefix query and the distance filter stay here.
-- [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/) — Horizontal Partitioning (Sharding) and Hot Partition Mitigation. Placing a prefix on a shard, and cooling the yard prefix, stay there. The prefix that names a cell stays here.
-- [Networking and Communication](../10_Networking_and_Communication/) — WebSockets and SSE. The pipe for a ping stays there. Which index the ping updates stays here.
-- [Search Autocomplete and Information Retrieval](../18_Search_Autocomplete_and_Information_Retrieval/) — a keyword match on a pin's name stays there.
+- [Caching](../05_Caching/) — When Caching Helps and Cache Tier Placement. A repeated proximity read of a slow-changing catalog can sit there, with an explicit staleness bound. The prefix query and the distance filter stay here.
+- [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/) — Horizontal Partitioning (Sharding) and Hot Partition Mitigation. Placing a prefix on a shard, and cooling a downtown prefix, stay there. The prefix that names a cell stays here.
+- [Networking and Communication](../10_Networking_and_Communication/) — WebSockets and SSE. The connection that carries a location ping stays there. Which index that ping updates stays here.
+- [Search Autocomplete and Information Retrieval](../18_Search_Autocomplete_and_Information_Retrieval/) — a keyword match on a place name stays there.
 - [Real-Time and Notification Systems](../21_Real_Time_and_Notification_Systems/) — Push Notification System. The send after a fence fires stays there. The enter and the exit stay here.
