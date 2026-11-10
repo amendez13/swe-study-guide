@@ -13,6 +13,10 @@ isolate      a down consumer leaves messages waiting
 persist      the broker writes, then acks the producer
 ```
 
+![Message Queue](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-1-message-queue.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 1.*
+
 ## When to Queue
 
 Queue a step when the caller can finish without its result. Keep a step on the request when the response would be a guess without it.
@@ -27,6 +31,10 @@ on the bus        the caller can leave, and the worker catches up later
 a hidden queue    the request still waits, and now it also waits on the broker
 ```
 
+![When to Queue](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-2-when-to-queue.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 2.*
+
 ## Point-to-Point or Pub/Sub
 
 Point-to-point hands each message to one consumer. Two indexers sharing a queue split the scans. Indexer A takes scan 1, indexer B takes scan 2, and scan 1 is not indexed twice. The message leaves the queue when that one worker is done. This is the shape for a job that must happen once: one scan, one transcription, one parcel update.
@@ -40,6 +48,10 @@ point-to-point    one consumer does the job
 pub/sub           every subscriber gets a copy
 one log, groups  split inside a group, every group still sees the log
 ```
+
+![Point-to-Point or Pub/Sub](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-3-point-to-point-or-pub-sub.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 3.*
 
 ## Message Delivery Guarantees
 
@@ -61,6 +73,10 @@ visibility       hide, then delete on ack, or show again
 offset           commit after the work, or the record is read again
 ```
 
+![Message Delivery Guarantees](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-4-message-delivery-guarantees.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 4.*
+
 ## Consumer Groups
 
 A consumer group is a set of consumers that share one subscription. The broker assigns each partition to one member of the group, so each record is handled by one member. That is how a log scales consumption. Four partitions and three indexers means the index runs three ways at once, and the group as a whole still covers every record. An indexer in a second group is a different subscriber: it sees the same records, with its own assignment and its own offsets.
@@ -72,6 +88,10 @@ group A, 3 members, 4 partitions    one member handles each record
 group B, its own members            the same records, a separate offset
 two groups                          both see the log
 ```
+
+![Consumer Groups](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-5-consumer-groups.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 5.*
 
 ## Ordering and Partitions
 
@@ -86,6 +106,10 @@ one partition     a global order, and one working member in the group
 members > parts   the extras sit idle
 ```
 
+![Ordering and Partitions](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-6-ordering-and-partitions.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 6.*
+
 ## Log or Queue
 
 A queue forgets a message once a consumer acks it. The scan exists so one indexer can transcribe it. After the ack, a new worker has nothing to read. This fits a job that should happen once and then disappear. An SQS-style queue is this shape. A second independent subscriber needs its own queue, and a copy has to be placed on each one.
@@ -99,6 +123,10 @@ queue    ack deletes; a new consumer starts from empty
 log      the record stays; a consumer keeps an offset and can replay
 pick     once-and-done work wants a queue; a later reader wants a log
 ```
+
+![Log or Queue](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-7-log-or-queue.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 7.*
 
 ## Backpressure
 
@@ -115,6 +143,10 @@ throttle    slow the producer; the limiter's math stays in Rate Limiting
 scale       add consumers, up to the partition count
 ```
 
+![Backpressure](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-8-backpressure.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 8.*
+
 ## Dead Letter Queue
 
 A dead letter queue (DLQ) is where a message goes after it has failed N times, so the main queue keeps moving. The indexer tries a scan, the page is unreadable, and the handler returns a failure. The broker retries. After the Nth failure the scan moves to the DLQ and the next scans continue. Someone inspects the DLQ, fixes the page or the bug, and replays the message on purpose. A poison message left on the main queue retries forever. On a queue that keeps handing the same head to the consumer, it blocks everything behind it. On a log, it stalls the partition it landed on, because that member never advances past it.
@@ -126,6 +158,10 @@ tries 1 through N - 1    stay on the main queue and retry
 try N                    move to the dead letter queue
 later messages           keep moving on the main queue
 ```
+
+![Dead Letter Queue](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-9-dead-letter-queue.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 9.*
 
 ## Transactional Outbox
 
@@ -140,3 +176,7 @@ one transaction     deed row and outbox row commit together
 publisher           sends unpublished outbox rows, then marks them sent
 crash before mark   the row is still there, and the send happens again
 ```
+
+![Transactional Outbox](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-10-transactional-outbox.png)
+
+*Source: [`diagrams/message-queues.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues.drawio), page 10.*

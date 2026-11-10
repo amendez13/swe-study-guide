@@ -28,6 +28,10 @@ print(" ".join("sync" if step in SYNC else "queue" for step in STEPS))
 # sync sync queue queue
 ```
 
+![Queue or Not](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-1-queue-or-not.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 1.*
+
 ## Point-to-Point or Pub/Sub
 
 Assign each case to point-to-point, pub/sub, or consumer groups on one log.
@@ -55,6 +59,10 @@ CHOICE = {
 print(" ".join(CHOICE[name] for name in CASES))
 # point-to-point pub-sub groups
 ```
+
+![Point-to-Point or Pub/Sub](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-2-point-to-point-or-pub-sub.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 2.*
 
 ## Delivery Pick
 
@@ -92,6 +100,10 @@ print(effects(HUMIDITY, True), effects(ACCESSION, False), effects(ACCESSION, Tru
 # 0 2 1
 ```
 
+![Delivery Pick](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-3-delivery-pick.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 3.*
+
 ## Idle Consumers
 
 The germination log has a fixed partition count. For each pair, how many technicians do work, and how many sit idle?
@@ -114,6 +126,10 @@ def assignment(partitions: int, consumers: int) -> tuple[int, int]:
 print([assignment(*case) for case in CASES])
 # [(4, 2), (3, 0)]
 ```
+
+![Idle Consumers](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-4-idle-consumers.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 4.*
 
 ## Key Order
 
@@ -142,6 +158,10 @@ idle = TECHNICIANS - working
 print(same_partition("packet-17", "packet-17"), same_partition("packet-17", "packet-18"), working, idle)
 # True False 1 4
 ```
+
+![Key Order](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-5-key-order.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 5.*
 
 ## Backpressure Move
 
@@ -175,6 +195,10 @@ print(depth(HOURS), technicians_to_match(IN_RATE, PER_TECHNICIAN))
 # 900 3
 ```
 
+![Backpressure Move](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-6-backpressure-move.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 6.*
+
 ## DLQ Trip
 
 A packet that fails the tray handler is retried. The limit is 3. packet-9 has failed 3 times. packet-10 has failed once. packet-11 and packet-12 are still waiting and have not failed. What is on the dead letter queue, what stays on the main queue, and do packet-11 and packet-12 still move?
@@ -203,6 +227,10 @@ print(split(ATTEMPTS, WAITING, MAX_TRIES))
 # (['packet-9'], ['packet-10', 'packet-11', 'packet-12'])
 ```
 
+![DLQ Trip](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-7-dlq-trip.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 7.*
+
 ## Outbox Crash
 
 The intake service commits the packet row for packet-17, then the process dies before the publish call returns. packet-18 was never started. What does that dual write leave for subscribers? What does an outbox row, inserted in the same transaction as the packet row, leave for a publisher that starts after the restart?
@@ -223,3 +251,7 @@ def pending(committed: list[str], published: list[str]) -> list[str]:
 print(pending(["packet-17"], []), pending(["packet-17"], ["packet-17"]))
 # ['packet-17'] []
 ```
+
+![Outbox Crash](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills-8-outbox-crash.png)
+
+*Source: [`diagrams/message-queues-drills.drawio`](/content/09_System_Design_Interview/11_Message_Queues_and_Async_Processing/diagrams/message-queues-drills.drawio), page 8.*
