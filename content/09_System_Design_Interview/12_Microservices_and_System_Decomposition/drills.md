@@ -1,35 +1,37 @@
 # Microservices and System Decomposition — Drills
 
-Original practice for where a process should split, who owns a row, and what a failed later step undoes. Each card is one exercise: commit to an answer, then check it. The numbers are invented for a ridge-path trail crew. The scale cube and stateless services stay in Scalability Fundamentals. Circuit breakers stay in High Availability and Reliability. Load-balancer algorithms stay in Load Balancing. The API gateway and connection-level state stay in Networking and Communication. The bus, When to Queue, and the transactional outbox stay in Message Queues and Async Processing. Stream processing, change data capture, and event sourcing stay in Storage and Data Processing at Scale. Two-phase commit stays in Transactions and Concurrency Control. Notification products stay in Real-Time and Notification Systems. Payment products stay in Payment and Financial Systems. Logs and request ids stay in Observability.
+Original practice for an online store: where one process should split, who writes a row, and what a failed later step undoes. Each card is one exercise. Commit to an answer, then check it. The numbers are invented for that store.
+
+The scale cube and stateless services stay in [Scalability Fundamentals](../02_Scalability_Fundamentals/). Circuit breakers stay in [High Availability and Reliability](../03_High_Availability_and_Reliability/). Load-balancer algorithms stay in [Load Balancing](../04_Load_Balancing/). The API gateway and connection-level state stay in [Networking and Communication](../10_Networking_and_Communication/). The bus, When to Queue, and the transactional outbox stay in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). Stream processing, change data capture, and event sourcing stay in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). Two-phase commit stays in [Transactions and Concurrency Control](../16_Transactions_and_Concurrency_Control/). Notification products stay in [Real-Time and Notification Systems](../21_Real_Time_and_Notification_Systems/). Payment products stay in [Payment and Financial Systems](../23_Payment_and_Financial_Systems/). Logs and request ids stay in [Observability](../25_Observability/).
 
 ## Monolith or Microservices
 
-Six maintainers ship the ridge-path desk once, on Friday. Work orders, the crew roster, and the cabin lockers live in one process. Saturday photo uploads of muddy segments are most of the CPU and have crashed that process twice, which took the work-order page down with them. Roster changes and work-order changes still land together. Pick the starting shape.
+Six engineers ship the store once, on Friday. Catalog, cart, and orders live in one process. Holiday image uploads are most of the CPU and have crashed that process twice, which took the checkout page down with them. Cart changes and order changes still land together. Pick the starting shape.
 
 ```python
 TEAM = 6
-HOT = "photos"
+HOT = "images"
 SHARED_CRASHES = True
 ```
 
-**Answer:** One desk service for work orders, the roster, and the lockers, plus photo ingest as its own deploy. Six people cannot staff a service per noun, and the roster still ships with the work orders, so those stay one process. Photo ingest is the hot path, and its crash is the outage the crew leader feels. That is the one functional split worth a network hop. Cloning the whole desk would copy the quiet roster onto every extra machine. The scale cube's Y-axis is this split, and the rest of that cube stays in Scalability Fundamentals.
+**Answer:** One store service for catalog, cart, and orders, plus image ingest as its own deploy. Six people cannot staff a service per noun, and the cart still ships with the orders, so those stay one process. Image ingest is the hot path, and its crash is the outage the shopper feels. That is the one functional split worth a network hop. Cloning the whole store would copy the quiet cart onto every extra machine. The scale cube's Y-axis is this split, and the rest of that cube stays in Scalability Fundamentals.
 
 ```python
 TEAM = 6
-HOT = "photos"
+HOT = "images"
 SHARED_CRASHES = True
 
 
 def shape(team: int, hot: str, shared_crashes: bool) -> str:
     if team <= 8 and shared_crashes:
-        return f"one-desk-plus-{hot}"
+        return f"one-store-plus-{hot}"
     if team <= 8:
-        return "one-desk"
+        return "one-store"
     return "per-noun"
 
 
 print(shape(TEAM, HOT, SHARED_CRASHES))
-# one-desk-plus-photos
+# one-store-plus-images
 ```
 
 ![Monolith or Microservices](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-1-monolith-or-microservices.png)
@@ -38,23 +40,23 @@ print(shape(TEAM, HOT, SHARED_CRASHES))
 
 ## When to Decompose
 
-The desk is still one process and it works. Three pains show up in the same month. Which split is justified, and which piece moves first?
+The store is still one process and it works. Three pains show up in the same month. Which split is justified, and which piece moves first?
 
 ```text
-1. whiteboard — a sketch with a box per noun. Nothing is hot. One crew ships the whole path.
-2. same-release — every roster change is in the same pull request as a work-order change.
-3. partner-club — a neighboring club edits cabin-locker counts. Their bad release has taken down work orders. They need to ship on Tuesday, not on the Friday train.
+1. whiteboard — a sketch with a box per noun. Nothing is hot. One team ships the whole path.
+2. same-release — every cart change is in the same pull request as an order change.
+3. payments-team — a payments group edits charge rules. Their bad release has taken down checkout. They need to ship on Tuesday, not on the Friday train.
 ```
 
 ```python
-PAINS = ["whiteboard", "same-release", "partner-club"]
+PAINS = ["whiteboard", "same-release", "payments-team"]
 ```
 
-**Answer:** Only the partner club. Cabin lockers move first, because another team needs a release train and their failures are already taking down the work-order page. The whiteboard is a drawing. The roster and the work orders change together, so they stay one service. A modular split inside the process is enough for the first two pains. The third pain is a deploy boundary.
+**Answer:** Only the payments team. Payments moves first, because another team needs a release train and their failures are already taking down checkout. The whiteboard is a drawing. The cart and the orders change together, so they stay one service. A modular split inside the process is enough for the first two pains. The third pain is a deploy boundary.
 
 ```python
-PAINS = ["whiteboard", "same-release", "partner-club"]
-FIRST = {"partner-club": "cabin-lockers"}
+PAINS = ["whiteboard", "same-release", "payments-team"]
+FIRST = {"payments-team": "payments"}
 
 
 def move(pain: str) -> str:
@@ -62,7 +64,7 @@ def move(pain: str) -> str:
 
 
 print(" ".join(move(pain) for pain in PAINS))
-# none none cabin-lockers
+# none none payments
 ```
 
 ![When to Decompose](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-2-when-to-decompose.png)
@@ -74,21 +76,21 @@ print(" ".join(move(pain) for pain in PAINS))
 Four proposed cuts. Keep the one that is a business capability. Reject the others.
 
 ```text
-1. orders-and-roster — work orders in one service, the crew roster in another. Every work-order change still ships with a roster change.
+1. cart-and-orders — the cart in one service, orders in another. Every cart change still ships with an order change.
 2. database-service — one service that reads and writes every table for every caller.
-3. segment-catalog — mile markers, surface, and closures. A work order stores a segment id. A closure change does not change the work-order schema.
-4. validation-service — one service that checks every form, from crew certification to locker counts.
+3. product-catalog — title, price, and images. An order stores a product id. A price change does not change the order schema.
+4. validation-service — one service that checks every form, from coupon rules to address rules.
 ```
 
 ```python
-CUTS = ["orders-and-roster", "database-service", "segment-catalog", "validation-service"]
+CUTS = ["cart-and-orders", "database-service", "product-catalog", "validation-service"]
 ```
 
-**Answer:** Keep the segment catalog. A closure is a different capability from a work order, and the work order only needs the segment id. Merge the work orders and the roster, because they still ship as one change. Reject the database service and the validation service. Both are technical layers. Every feature would have to edit them, and the rule would sit apart from the rows it judges.
+**Answer:** Keep the product catalog. A listed product is a different capability from an order, and the order only needs the product id. Merge the cart and the orders, because they still ship as one change. Reject the database service and the validation service. Both are technical layers. Every feature would have to edit them, and the rule would sit apart from the rows it judges.
 
 ```python
-CUTS = ["orders-and-roster", "database-service", "segment-catalog", "validation-service"]
-KEEP = {"segment-catalog"}
+CUTS = ["cart-and-orders", "database-service", "product-catalog", "validation-service"]
+KEEP = {"product-catalog"}
 
 print(" ".join("keep" if name in KEEP else "reject" for name in CUTS))
 # reject reject keep reject
@@ -100,17 +102,17 @@ print(" ".join("keep" if name in KEEP else "reject" for name in CUTS))
 
 ## Data Ownership
 
-The work-order service and the segment catalog both run `UPDATE segments SET closed = ...`. What breaks, and what does ownership look like instead?
+The orders service and the product catalog both run `UPDATE products SET price = ...`. What breaks, and what does ownership look like instead?
 
 ```python
-SHARED = ["work-orders", "segment-catalog"]
+SHARED = ["orders", "catalog"]
 ```
 
-**Answer:** Two deploys share one schema. The catalog renames `closed` and ships on Tuesday. The work-order service still writes the old column on Friday, and there is no API version between them. The segment catalog is the only writer of `segments`. A work order stores `segment_id` and does not write `closed`. It asks the catalog, or it applies a closure the catalog published. An unknown id means the segment was retired. A shared prepare-and-commit across the two databases is two-phase commit, and that protocol stays in Transactions and Concurrency Control. One writer is the repair.
+**Answer:** Two deploys share one schema. The catalog renames `price` and ships on Tuesday. Orders still writes the old column on Friday, and there is no API version between them. The catalog is the only writer of `products`. An order stores `product_id` and does not write `price`. It asks the catalog, or it applies a price the catalog published. An unknown id means the product was withdrawn. A shared prepare-and-commit across the two databases is two-phase commit, and that protocol stays in Transactions and Concurrency Control. One writer is the repair.
 
 ```python
-SHARED = ["work-orders", "segment-catalog"]
-OWNED = ["segment-catalog"]
+SHARED = ["orders", "catalog"]
+OWNED = ["catalog"]
 
 
 def coupled(writers: list[str]) -> bool:
@@ -118,7 +120,7 @@ def coupled(writers: list[str]) -> bool:
 
 
 print(coupled(SHARED), coupled(OWNED), OWNED[0])
-# True False segment-catalog
+# True False catalog
 ```
 
 ![Data Ownership](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-4-data-ownership.png)
@@ -127,24 +129,24 @@ print(coupled(SHARED), coupled(OWNED), OWNED[0])
 
 ## Sync or Events
 
-Four hops follow a closure. Which ones are a request that returns yes or no, and which ones are a published event?
+Four hops follow a checkout. Which ones are a request that returns yes or no, and which ones are a published event?
 
 ```text
-1. mile-open — the crew leader asks whether mile 40 is open before leaving the barn. The page is that answer.
-2. cache-pick — after the closure is saved, the cabin locker stages paint. The leader already has the closure on screen.
-3. lead-named — the response must name the crew lead, or the page is a failure.
-4. season-hours — the winter tally of volunteer hours, printed in March.
+1. stock-check — the shopper asks whether SKU 18 has 2 units before paying. The page is that answer.
+2. receipt-email — after the order is saved, the store emails the receipt. The shopper already has the confirmation on screen.
+3. price-shown — the response must show the price, or the page is a failure.
+4. weekly-sales — the Monday tally of units sold, printed for the buying team.
 ```
 
 ```python
-STEPS = ["mile-open", "cache-pick", "lead-named", "season-hours"]
+STEPS = ["stock-check", "receipt-email", "price-shown", "weekly-sales"]
 ```
 
-**Answer:** `mile-open` and `lead-named` stay calls. The page would be a guess without them. `cache-pick` and `season-hours` are events. The closure is already on screen, the locker can catch up, and March is a later reader. How the event waits on a bus, and the test for leaving the request, are When to Queue in Message Queues and Async Processing. Which broker stores it is that topic's choice. Put a request id on the event so a log search can follow the closure. The search stays in Observability.
+**Answer:** `stock-check` and `price-shown` stay calls. The page would be a guess without them. `receipt-email` and `weekly-sales` are events. The confirmation is already on screen, the receipt can catch up, and Monday is a later reader. How the event waits on a bus, and the test for leaving the request, are When to Queue in Message Queues and Async Processing. Which broker stores it is that topic's choice. Put a request id on the event so a log search can follow the order. The search stays in Observability.
 
 ```python
-STEPS = ["mile-open", "cache-pick", "lead-named", "season-hours"]
-SYNC = {"mile-open", "lead-named"}
+STEPS = ["stock-check", "receipt-email", "price-shown", "weekly-sales"]
+SYNC = {"stock-check", "price-shown"}
 
 print(" ".join("sync" if step in SYNC else "event" for step in STEPS))
 # sync event sync event
@@ -156,7 +158,7 @@ print(" ".join("sync" if step in SYNC else "event" for step in STEPS))
 
 ## Discovery Style
 
-The work-order service calls the segment catalog. Pick client-side, server-side, or mesh for each constraint.
+The orders service calls inventory. Pick client-side, server-side, or mesh for each constraint.
 
 ```text
 1. many-languages — four services, four languages. Callers know one stable address. An extra hop is acceptable. You will not ship a registry client in each language.
@@ -168,7 +170,7 @@ The work-order service calls the segment catalog. Pick client-side, server-side,
 CASES = ["many-languages", "no-extra-hop", "uniform-mtls"]
 ```
 
-**Answer:** Server-side, client-side, then mesh. Several languages and one stable address means a balancer reads the registry and the callers stay simple. The algorithm that picks an instance stays in Load Balancing. No extra hop, with code you ship, means the caller reads the registry and connects. Uniform certificates, with handlers that do not implement them, means a sidecar on each instance. The public trail map is the API gateway in Networking and Communication. That host is the browser's front door, not this lookup.
+**Answer:** Server-side, client-side, then mesh. Several languages and one stable address means a balancer reads the registry and the callers stay simple. The algorithm that picks an instance stays in Load Balancing. No extra hop, with code you ship, means the caller reads the registry and connects. Uniform certificates, with handlers that do not implement them, means a sidecar on each instance. The public storefront is the API gateway in Networking and Communication. That host is the browser's front door, not this lookup.
 
 ```python
 CASES = ["many-languages", "no-extra-hop", "uniform-mtls"]
@@ -188,19 +190,19 @@ print(" ".join(CHOICE[name] for name in CASES))
 
 ## Saga Compensation
 
-A closure is three local commits. The segment catalog marks mile 40 closed. The work-order service opens repair `r-40`. The crew desk then fails to assign a Saturday sawyer, because nobody certified is free. What does each earlier step undo, and is an orchestrator or choreography the better fit?
+A checkout is three local commits. Orders opens order 1842 as pending. Inventory reserves 2 units of SKU 18. Payments then fails to charge $42, because the card is declined. What does each earlier step undo, and is an orchestrator or choreography the better fit?
 
 ```python
-DONE = ["close-mile-40", "open-r-40"]
-FAILED = "assign-sawyer"
+DONE = ["open-1842", "reserve-sku-18"]
+FAILED = "charge-42"
 ```
 
-**Answer:** Cancel `r-40`, then mark mile 40 open. Those are new writes, in reverse order of the commits that succeeded. The catalog does not roll back the work-order database. An orchestrator is the better fit. The desk is one team, the chain is three steps, and a crew leader asks what happens when Saturday falls through. One coordinator can read that path back. Choreography would also compensate, with each service reacting to the last event, and the story would be spread across three codebases. The bus those events would ride, and the outbox the first event may need, stay in Message Queues and Async Processing. A prepare-and-commit across the three databases is two-phase commit, and that protocol stays in Transactions and Concurrency Control.
+**Answer:** Release the 2 units, then cancel order 1842. Those are new writes, in reverse order of the commits that succeeded. Inventory does not roll back the orders database. An orchestrator is the better fit. The store is one team, the chain is three steps, and a shopper asks what happens when the charge is declined. One coordinator can read that path back. Choreography would also compensate, with each service reacting to the last event, and the story would be spread across three codebases. The bus those events would ride, and the outbox the first event may need, stay in Message Queues and Async Processing. A prepare-and-commit across the three databases is two-phase commit, and that protocol stays in Transactions and Concurrency Control.
 
 ```python
-DONE = ["close-mile-40", "open-r-40"]
-FAILED = "assign-sawyer"
-UNDO = {"close-mile-40": "reopen-mile-40", "open-r-40": "cancel-r-40"}
+DONE = ["open-1842", "reserve-sku-18"]
+FAILED = "charge-42"
+UNDO = {"open-1842": "cancel-1842", "reserve-sku-18": "release-sku-18"}
 
 
 def compensate(done: list[str]) -> list[str]:
@@ -208,7 +210,7 @@ def compensate(done: list[str]) -> list[str]:
 
 
 print(compensate(DONE), FAILED)
-# ['cancel-r-40', 'reopen-mile-40'] assign-sawyer
+# ['release-sku-18', 'cancel-1842'] charge-42
 ```
 
 ![Saga Compensation](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-7-saga-compensation.png)
@@ -217,21 +219,21 @@ print(compensate(DONE), FAILED)
 
 ## Vendor on the Path
 
-A forecast vendor has a slow tail of 8 seconds, and it was down this morning. The page budget for saving a closure is 300 ms. Saving the closure has to succeed even when the forecast is stale. The Saturday go-or-no-go page may show the last forecast the desk stored. What sits in an adapter, what stays on the request, and when does a queue help?
+A shipping-quote vendor has a slow tail of 8 seconds, and it was down this morning. The page budget for placing an order is 300 ms. Placing the order has to succeed even when the quote is stale. The confirmation page may show the last quote the store stored. What sits in an adapter, what stays on the request, and when does a queue help?
 
 ```python
 VENDOR_P99_MS = 8000
 PAGE_BUDGET_MS = 300
-STEPS = ["save-closure", "refresh-forecast", "vendor-url"]
+STEPS = ["save-order", "refresh-quote", "vendor-url"]
 ```
 
-**Answer:** The adapter is the only code that knows the vendor URL, the odd status codes, and the timeout. It stores the last good forecast. The closure save stays on the request and reads that stored forecast. It does not call the vendor. Eight seconds does not fit a 300 ms page. Refreshing the forecast goes on a queue, because the closure is already saved and the leader can leave. A vendor outage then fails the refresh, not the save. That split is When to Queue in Message Queues and Async Processing. The adapter is not a design for sending the forecast to a phone, and it is not a payment flow.
+**Answer:** The adapter is the only code that knows the vendor URL, the odd status codes, and the timeout. It stores the last good quote. The order save stays on the request and reads that stored quote. It does not call the vendor. Eight seconds does not fit a 300 ms page. Refreshing the quote goes on a queue, because the order is already saved and the shopper can leave. A vendor outage then fails the refresh, not the save. That split is When to Queue in Message Queues and Async Processing. The adapter is not a design for sending the quote to a phone, and it is not a payment flow.
 
 ```python
 VENDOR_P99_MS = 8000
 PAGE_BUDGET_MS = 300
-STEPS = ["save-closure", "refresh-forecast", "vendor-url"]
-PLACE = {"save-closure": "request", "refresh-forecast": "queue", "vendor-url": "adapter"}
+STEPS = ["save-order", "refresh-quote", "vendor-url"]
+PLACE = {"save-order": "request", "refresh-quote": "queue", "vendor-url": "adapter"}
 
 
 def on_request(vendor_ms: int, budget_ms: int) -> bool:
