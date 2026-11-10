@@ -40,6 +40,10 @@ print(*(ruling(OPTIONS[name]) for name in ("uuid-v4", "ulid", "ticket", "snowfla
 # time-sortable bits-64 no-round-trip none
 ```
 
+![ID Fit](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-1-id-fit.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 1.*
+
 ## UUID Locality
 
 Four pours were made in the order p1, p2, p3, p4. Each carries a version-4 id, shown here as a small integer. Sort those rows by the id. If a leaf page is `id mod 4`, which page does each insert hit, in pour order? How many bytes is the key beside an 8-byte Snowflake id?
@@ -70,6 +74,10 @@ print(by_id(POURS), pages(POURS), UUID_BYTES, SNOW_BYTES)
 # ('p4', 'p2', 'p1', 'p3') (2, 0, 2, 3) 16 8
 ```
 
+![UUID Locality](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-2-uuid-locality.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 2.*
+
 ## Snowflake Capacity
 
 Holly's id uses 41 timestamp bits, 10 worker bits, and 12 sequence bits. How many ids can holly mint in one millisecond, and how many is that in one second? The 4,097th mint of that millisecond has no unused sequence value. What does holly do with it?
@@ -96,6 +104,10 @@ one_ms = per_millisecond(SEQUENCE_BITS)
 print(one_ms, one_ms * 1000, TIMESTAMP_BITS, WORKER_BITS)
 # 4096 4096000 41 10
 ```
+
+![Snowflake Capacity](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-3-snowflake-capacity.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 3.*
 
 ## Clock Backward
 
@@ -133,6 +145,10 @@ print(bad_id in ISSUED, bad_id < (FURNACE, LAST[0], LAST[1]), safe(LAST, CLOCK_T
 # True True wait
 ```
 
+![Clock Backward](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-4-clock-backward.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 4.*
+
 ## Ticket Step
 
 North takes offset 1 and south takes offset 2. The shared step is 2. List the first three ids from each desk. Are the six ids unique? South issues its three before north issues any. Does issuance order match id order?
@@ -164,6 +180,10 @@ issued = south + north
 print(north, south, unique, issued == tuple(sorted(issued)))
 # (1, 3, 5) (2, 4, 6) True False
 ```
+
+![Ticket Step](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-5-ticket-step.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 5.*
 
 ## Offset Primary
 
@@ -209,6 +229,10 @@ print(len(issued) == 9, overlap, starts)
 # True (4, 7) (13, 10, 11, 12)
 ```
 
+![Offset Primary](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-6-offset-primary.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 6.*
+
 ## Short Code
 
 The window will label 20,000 bowls in base 62. How many codes do 2 characters hold, how many do 3 hold, and how many characters does the counter path use? Bowl 1 and bowl 3,845 share a 2-character hash slot when the salt is 0. What is that slot, and what slot does bowl 3,845 take when its salt becomes 1?
@@ -242,6 +266,10 @@ print(two, three, counter_chars, slot(1, 0, two), slot(1 + two, 0, two), slot(1 
 # 3844 238328 3 97 97 110
 ```
 
+![Short Code](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-7-short-code.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 7.*
+
 ## Pick the ID
 
 The shop has three jobs open at once: the pour row, the name the tablet puts on a call it may send twice, and the code on the window card. Which scheme fits each job?
@@ -263,3 +291,7 @@ PICK = {
 print(*(PICK[name] for name in OBJECTS))
 # snowflake uuid base62
 ```
+
+![Pick the ID](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills-8-pick-the-id.png)
+
+*Source: [`diagrams/unique-id-drills.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-drills.drawio), page 8.*
