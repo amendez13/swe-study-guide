@@ -16,6 +16,10 @@ def flipped(before: int, after: int) -> list[int]:
 print(flipped(0b1100, 0b1010))  # [1, 2]
 ```
 
+![Bits that differ](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-1-bits-that-differ.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 1.*
+
 ## Parity of a sensor byte
 
 A sensor byte is `0b1011_0001`. Is the number of set bits odd? Do it with a fold, not a full popcount table.
@@ -33,6 +37,10 @@ def odd_parity(word: int) -> bool:
 print(odd_parity(0b10110001), (0b10110001).bit_count() % 2 == 1)  # False False
 ```
 
+![Parity of a sensor byte](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-2-parity-of-a-sensor-byte.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 2.*
+
 ## A scripted shuffle
 
 Shuffle `[0, 1, 2, 3]` by Fisher-Yates. The random choices, one per index, are suffix indexes `[2, 1, 3]`. What order comes out, and why is "swap each item with a random earlier item" unfair to mention as a fix?
@@ -48,6 +56,10 @@ def shuffle(items: list[int], picks: list[int]) -> list[int]:
 
 print(shuffle([0, 1, 2, 3], [2, 1, 3]))  # [2, 1, 3, 0]
 ```
+
+![A scripted shuffle](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-3-a-scripted-shuffle.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 3.*
 
 ## Two items from a stream
 
@@ -66,6 +78,10 @@ def reservoir(stream: list[str], k: int, picks: list[int]) -> list[str]:
 
 print(reservoir(list("abcd"), 2, [0, 1]))  # ['c', 'd']
 ```
+
+![Two items from a stream](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-4-two-items-from-a-stream.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 4.*
 
 ## Three coldest hours
 
@@ -87,6 +103,10 @@ def coldest(hours: list[int], k: int) -> list[int]:
 
 print(coldest([5, 1, 8, 0, 3], 3))  # [0, 1, 3]
 ```
+
+![Three coldest hours](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-5-three-coldest-hours.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 5.*
 
 ## Median after each arrival
 
@@ -114,6 +134,10 @@ def medians(values: list[int]) -> list[float]:
 
 print(medians([1, 8, 3, 6]))  # [1.0, 4.5, 3.0, 4.5]
 ```
+
+![Median after each arrival](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-6-median-after-each-arrival.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 6.*
 
 ## Alarm codes in a log line
 
@@ -151,6 +175,10 @@ def appearing(text: str, words: list[str]) -> list[str]:
 print(appearing("tap the pit", ["pip", "pit", "tap"]))  # ['pit', 'tap']
 ```
 
+![Alarm codes in a log line](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-7-alarm-codes-log-line.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 7.*
+
 ## Ropes between piers
 
 Piers are numbered 0 through 5. Ropes join `(1, 2)`, `(3, 4)`, and `(2, 3)`. Is pier 1 connected to pier 4? Is pier 1 connected to pier 5?
@@ -175,6 +203,10 @@ ropes = [(1, 2), (3, 4), (2, 3)]
 print(joined(6, ropes, 1, 4), joined(6, ropes, 1, 5))  # True False
 ```
 
+![Ropes between piers](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-8-ropes-between-piers.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 8.*
+
 ## Next taller crate
 
 Heights from the left are `[2, 1, 4, 3]`. For each crate, what is the index of the next strictly taller crate to its right, or -1 if none?
@@ -194,6 +226,10 @@ def next_taller(heights: list[int]) -> list[int]:
 print(next_taller([2, 1, 4, 3]))  # [2, 2, -1, -1]
 ```
 
+![Next taller crate](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-9-next-taller-crate.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 9.*
+
 ## A common subsequence
 
 What is the length of the longest common subsequence of `stone` and `notes`? The characters need not be contiguous.
@@ -212,6 +248,10 @@ def lcs_length(left: str, right: str) -> int:
 
 print(lcs_length("stone", "notes"))  # 2
 ```
+
+![A common subsequence](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-10-a-common-subsequence.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 10.*
 
 ## Pairs out of order
 
@@ -248,6 +288,10 @@ def inversions(values: list[int]) -> int:
 print(inversions([2, 4, 1, 3]))  # 3
 ```
 
+![Pairs out of order](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-11-pairs-out-of-order.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 11.*
+
 ## Fewest code changes
 
 Allowed dock codes are `rib`, `rid`, `rod`, `red`, and `bed`. One change may replace a single character, and the result must be an allowed code. How many changes turn `rib` into `red`?
@@ -278,6 +322,10 @@ codes = {"rib", "rid", "rod", "red", "bed"}
 print(changes("rib", "red", codes))  # 2
 ```
 
+![Fewest code changes](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-12-fewest-code-changes.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 12.*
+
 ## Is the candidate a majority?
 
 Paint cans pass as `red, blue`. Boyer-Moore still returns a candidate. Is it a majority? What about `red, red, blue, red`?
@@ -304,6 +352,10 @@ print(majority(["red", "blue"]), majority(["red", "red", "blue", "red"]))
 # None red
 ```
 
+![Is the candidate a majority?](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-13-candidate-a-majority.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 13.*
+
 ## Ticket sizes in a small range
 
 Sizes are `[3, 1, 2, 3, 1]`, each between 1 and 3. Sort them without a comparison sort.
@@ -322,6 +374,10 @@ def counting_sort(sizes: list[int], upper: int) -> list[int]:
 
 print(counting_sort([3, 1, 2, 3, 1], 3))  # [1, 1, 2, 3, 3]
 ```
+
+![Ticket sizes in a small range](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-14-ticket-sizes-small-range.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 14.*
 
 ## The slow check, then the sort
 
@@ -344,3 +400,7 @@ def close_fast(values: list[int]) -> bool:
 print(close_slow([1, 5, 9]), close_fast([1, 5, 9]))  # False False
 print(close_slow([1, 5, 6]), close_fast([1, 5, 6]))  # True True
 ```
+
+![The slow check, then the sort](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills-15-slow-check-then-sort.png)
+
+*Source: [`diagrams/hard-problems-drills.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-drills.drawio), page 15.*
