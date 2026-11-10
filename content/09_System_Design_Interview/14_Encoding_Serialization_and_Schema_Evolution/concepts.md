@@ -14,6 +14,10 @@ all night    the same names, once a second
 XML          tags around the same fields; older exchanges
 ```
 
+![JSON and XML](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-1-json-and-xml.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 1.*
+
 ## Protocol Buffers and Thrift
 
 The dome controller and the log service are both code the station ships. They leave the field names off the wire. A definition assigns each field a number. The bytes are that number and the value. A generated stub in each language turns number 4 back into the name that stub was built with. The call that looks like a local function is RPC in [Networking and Communication](../10_Networking_and_Communication/). These bytes are the payload of that call. The usual form of that call is gRPC.
@@ -28,6 +32,10 @@ rename, number stays 4  an old stub still fills brightness
 new number 5            the old stub never asked for 5
 ```
 
+![Protocol Buffers and Thrift](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-2-protocol-buffers-and-thrift.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 2.*
+
 ## Avro
 
 Avro writes compact binary, and the schema travels with the data. A file of samples stores the schema in the header. A single sample can carry a schema id, and the reader looks that id up. Fields match by name. The writer schema is the set of names that were encoded. The reader schema is the set of names this program expects. Where a name appears on both, the value moves across. A name only the writer sent is skipped. A name only the reader asks for becomes the default on the reader schema.
@@ -40,6 +48,10 @@ reader schema    names this program asks for
 match            by name
 schema           in the file header, or fetched by id
 ```
+
+![Avro](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-3-avro.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 3.*
 
 ## Columnar Storage Formats
 
@@ -54,6 +66,10 @@ parquet       the usual lake file; schema in the footer
 compress      pays when one column is long and repetitive
 ```
 
+![Columnar Storage Formats](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-4-columnar-storage-formats.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 4.*
+
 ## Row or Column
 
 Showing sample `s-14` on the board wants the whole record: second, facing, brightness, and the rest. A row layout reads that record and stops. A columnar file would open each column, pull one value, and stitch the row back. That work is a poor fit for "this sample."
@@ -66,6 +82,10 @@ mean brightness, season    column, one field
 live board                 row
 season archive             column
 ```
+
+![Row or Column](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-5-row-or-column.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 5.*
 
 ## Serialization Format
 
@@ -80,6 +100,10 @@ events that change over nights   Avro
 season scan in the lake          Parquet
 who, size, schema enforced       the three questions
 ```
+
+![Serialization Format](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-6-serialization-format.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 6.*
 
 ## Schema Evolution
 
@@ -98,6 +122,10 @@ full        both, so either side can ship first
 breaking    a type change, or a rename with no alias when matching by name
 ```
 
+![Schema Evolution](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-7-schema-evolution.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 7.*
+
 ## Schema Registry
 
 A schema registry is the gate in front of publish. The producer proposes a schema for a subject, the night samples. The registry compares that schema with the compatibility rule on the subject, backward, forward, or full, and rejects the proposal when the change fails the rule. An accepted schema gets an id. The sample can carry the id, and a consumer fetches the schema by id.
@@ -111,3 +139,7 @@ refuse      a change the rule cannot read in the direction it promises
 accept      an optional field with a default, under a full rule
 id          the consumer fetches the schema; the log holds the bytes
 ```
+
+![Schema Registry](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-8-schema-registry.png)
+
+*Source: [`diagrams/encoding.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding.drawio), page 8.*

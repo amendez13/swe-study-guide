@@ -32,6 +32,10 @@ print(" ".join(FORMAT[name] for name in CALLERS))
 # json protobuf avro parquet
 ```
 
+![Serialization Format](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-1-serialization-format.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 1.*
+
 ## JSON Cost
 
 The public board sends one compact JSON sample. The sensor writes the same shape once a second for six hours, 21,600 times. How many bytes of that night are the values, and how many are the names and the punctuation around them?
@@ -61,6 +65,10 @@ def night_bytes(sample: dict, count: int) -> tuple[int, int]:
 print(night_bytes(SAMPLE, 1), night_bytes(SAMPLE, NIGHT))
 # (60, 16) (1296000, 345600)
 ```
+
+![JSON Cost](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-2-json-cost.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 2.*
 
 ## Field Number
 
@@ -92,6 +100,10 @@ def project(reader: dict[int, str], wire: dict[int, int]) -> dict[str, int]:
 print(project(OLD_READER, RENAME), project(OLD_READER, NEW_NUMBER))
 # {'brightness': 3} {}
 ```
+
+![Field Number](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-3-field-number.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 3.*
 
 ## Avro Default
 
@@ -130,6 +142,10 @@ new_reader = resolve(WRITER_V1, READER_V2, DEFAULTS)
 print(old_reader, new_reader["cloud_ok"])
 # {'dome': 'milepost', 'second': 23, 'brightness': 3} False
 ```
+
+![Avro Default](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-4-avro-default.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 4.*
 
 ## Row or Column
 
@@ -174,6 +190,10 @@ print(sum(BRIGHTNESS) // len(BRIGHTNESS))
 # 4
 ```
 
+![Row or Column](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-5-row-or-column.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 5.*
+
 ## Compatibility Pick
 
 The current sample is dome, second, and brightness, an int. Readers skip fields they do not know. Classify each edit as backward, forward, full, or breaking.
@@ -203,6 +223,10 @@ KIND = {
 print(" ".join(KIND[name] for name in EDITS))
 # full forward backward breaking
 ```
+
+![Compatibility Pick](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-6-compatibility-pick.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 6.*
 
 ## Registry Gate
 
@@ -236,6 +260,10 @@ print(RULE, " ".join(gate(RULE, name) for name in PROPOSALS))
 # full accept reject reject
 ```
 
+![Registry Gate](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-7-registry-gate.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 7.*
+
 ## Deploy Order
 
 Two changes are ready. For each, say whether the writer, the reader, or either side can ship first.
@@ -264,3 +292,7 @@ def ship(change: str) -> str:
 print(" ".join(ship(name) for name in CHANGES))
 # either neither
 ```
+
+![Deploy Order](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills-8-deploy-order.png)
+
+*Source: [`diagrams/encoding-drills.drawio`](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-drills.drawio), page 8.*
