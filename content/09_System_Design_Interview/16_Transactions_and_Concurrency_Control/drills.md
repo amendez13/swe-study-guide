@@ -1,37 +1,39 @@
 # Transactions and Concurrency Control — Drills
 
-Original practice for a unit of work, the anomaly a level still allows, and which side of a cut may lead. Each card is one exercise: commit to an answer, then check it. The numbers are invented for Lantern Press, a letterpress co-op. A run marks a plate used and takes sheets from a lot in one press database. Three coordination nodes, west, east, and loft, keep the night schedule. The four ACID letters, durability on the committing node, and fencing a relational primary stay in Databases Relational. Replica linearizability, strong consistency, and quorum overlap stay in Consistency and Replication. The transactional outbox stays in Message Queues and Async Processing. Saga compensations stay in Microservices and System Decomposition. Split brain as a mode stays in Distributed System Failure Modes. A race inside a limiter stays in Rate Limiting and Throttling.
+Original practice for a unit of work, the anomaly a level still allows, and which side of a cut may lead. Each card is one exercise: commit to an answer, then check it. The numbers are small on purpose. A transfer moves money between two accounts in one database. Two doctors share an on-call rule. Buyers reserve inventory. An order database and a payment database prepare together. A coordination cluster of a few nodes keeps one log. The four ACID letters, durability on the committing node, and fencing a relational primary stay in Databases Relational. Replica linearizability, strong consistency, and quorum overlap stay in Consistency and Replication. The transactional outbox stays in Message Queues and Async Processing. Saga compensations stay in Microservices and System Decomposition. Split brain as a failure mode stays in Distributed System Failure Modes. A race inside a limiter stays in Rate Limiting and Throttling.
 
 ## Need a Transaction
 
-Plate P-14 and lot L-3 are one run. The lot starts at 800 sheets, and the run takes 400. The plate write lands. The process dies before the lot write. What is left when those writes stand alone? What does commit leave, and what does rollback leave?
+A transfer moves $400 from checking to savings. Checking starts at $800 and savings starts at $0. The debit lands. The process dies before the credit. What is left when those writes stand alone? What does commit leave, and what does rollback leave?
 
 ```python
-START_LOT = 800
-RUN_SHEETS = 400
+START_CHECKING = 800
+START_SAVINGS = 0
+TRANSFER = 400
 ```
 
-**Answer:** Alone, the plate is used and the lot is still 800. The sheets are on the press, and the lot can hand them out again. Commit leaves the plate used and the lot at 400. Rollback leaves the plate free and the lot at 800. Durability of a commit that did land, and the four letters around it, stay on ACID Properties.
+**Answer:** Alone, checking is $400 and savings is $0. The $400 left checking and never arrived, so it is in neither account. Commit leaves checking at $400 and savings at $400. Rollback leaves checking at $800 and savings at $0. A crash inside a transaction, before commit, ends as the rollback does: recovery undoes the debit. Durability of a commit that did land, and the four letters around it, stay on ACID Properties.
 
 ```python
-START_LOT = 800
-RUN_SHEETS = 400
+START_CHECKING = 800
+START_SAVINGS = 0
+TRANSFER = 400
 
 
-def crash_between() -> tuple[str, int]:
-    return "used", START_LOT
+def crash_between() -> tuple[int, int]:
+    return START_CHECKING - TRANSFER, START_SAVINGS
 
 
-def after_commit() -> tuple[str, int]:
-    return "used", START_LOT - RUN_SHEETS
+def after_commit() -> tuple[int, int]:
+    return START_CHECKING - TRANSFER, START_SAVINGS + TRANSFER
 
 
-def after_rollback() -> tuple[str, int]:
-    return "free", START_LOT
+def after_rollback() -> tuple[int, int]:
+    return START_CHECKING, START_SAVINGS
 
 
 print(crash_between(), after_commit(), after_rollback())
-# ('used', 800) ('used', 400) ('free', 800)
+# (400, 0) (400, 400) (800, 0)
 ```
 
 ![Need a Transaction](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-1-need-a-transaction.png)
@@ -40,24 +42,22 @@ print(crash_between(), after_commit(), after_rollback())
 
 ## Isolation Pick
 
-Name the anomaly each level still allows on the press database. Lots A and B hold 300 sheets each. The shop rule keeps their sum at or above 500. West takes 200 from A and east takes 200 from B, each having read a sum of 600. What is the sum afterward, and when is serializable worth its cost?
+Name the anomaly each level still allows on one database. Two doctors are on call, and the rule is that at least one stays on call. Each reads a count of 2 and then goes off call. The two writes touch different rows. How many doctors are on call afterward, and when is serializable worth its cost?
 
 ```python
 LEVELS = ["read-committed", "snapshot", "serializable"]
-LOT_A = 300
-LOT_B = 300
-TAKE = 200
-FLOOR = 500
+ON_CALL = 2
+EACH_GOES_OFF = 1
+MINIMUM = 1
 ```
 
-**Answer:** Read committed still allows a non-repeatable read: west's second read of a lot can show a commit east made in between. Snapshot isolation still allows this write skew, and the sum afterward is 200, under the floor of 500. Each writer updated a different row, so the two updates missed each other. Serializable closes both of those anomalies and aborts one of the two runs. Pay for it on a rule that spans rows this way. A unique key on one plate is the cheaper check for a single row. This is one database. Linearizability and strong consistency of replicas stay in Consistency and Replication.
+**Answer:** Read committed still allows a non-repeatable read: a second read of the same row can show a commit that landed in between. It also allows a phantom and a lost update when the application reads a value and writes a new one. Snapshot isolation still allows this write skew. Afterward, 0 doctors are on call, under the minimum of 1. Each writer updated a different row, so the two updates missed each other. Serializable closes that non-repeatable read, the phantom, the lost update, and this write skew, and it aborts one of the two transactions. Pay for it on a rule that spans rows this way. A unique key on one seat is the cheaper check for a single row. This is one database. Linearizability and strong consistency of replicas stay in Consistency and Replication.
 
 ```python
 LEVELS = ["read-committed", "snapshot", "serializable"]
-LOT_A = 300
-LOT_B = 300
-TAKE = 200
-FLOOR = 500
+ON_CALL = 2
+EACH_GOES_OFF = 1
+MINIMUM = 1
 ALLOWS = {
     "read-committed": "non-repeatable-read",
     "snapshot": "write-skew",
@@ -65,13 +65,13 @@ ALLOWS = {
 }
 
 
-def lot_sum(lot_a: int, lot_b: int, take: int) -> int:
-    return lot_a - take + lot_b - take
+def still_on_call(on_call: int, each: int) -> int:
+    return on_call - each - each
 
 
-left = lot_sum(LOT_A, LOT_B, TAKE)
-print(" ".join(ALLOWS[name] for name in LEVELS), left, left >= FLOOR)
-# non-repeatable-read write-skew none 200 False
+left = still_on_call(ON_CALL, EACH_GOES_OFF)
+print(" ".join(ALLOWS[name] for name in LEVELS), left, left >= MINIMUM)
+# non-repeatable-read write-skew none 0 False
 ```
 
 ![Isolation Pick](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-2-isolation-pick.png)
@@ -80,19 +80,19 @@ print(" ".join(ALLOWS[name] for name in LEVELS), left, left >= FLOOR)
 
 ## Optimistic or Pessimistic
 
-The night poster is plate P-14, and forty operators want it. Day jobs give each operator a different plate. Which strategy fits each, and what does an update that read version 7 and now finds version 8 mean when it changes 0 rows?
+A flash sale has one unit of a SKU and forty buyers. Ordinary catalog checkouts each reserve a different SKU. Which strategy fits each, and what does an update that read version 7 and now finds version 8 mean when it changes 0 rows?
 
 ```python
-CASES = ["night-poster", "day-jobs"]
+CASES = ["flash-sale", "ordinary-catalog"]
 READ_VERSION = 7
 VERSION_NOW = 8
 ```
 
-**Answer:** Lock first on the night poster. A conflict is the common case, and a retry would throw the work away most of the time. Check the version at commit on day jobs, where a conflict is rare. Zero rows means the version moved and this run retries. The plate stays with the operator who committed version 8.
+**Answer:** Lock first on the flash sale. A conflict is the common case, and a retry would throw the checkout away most of the time. Check the version at commit on the ordinary catalog, where a conflict is rare. Zero rows means the version moved and this checkout retries. The unit stays with the buyer who committed version 8.
 
 ```python
-CASES = ["night-poster", "day-jobs"]
-STRATEGY = {"night-poster": "pessimistic", "day-jobs": "optimistic"}
+CASES = ["flash-sale", "ordinary-catalog"]
+STRATEGY = {"flash-sale": "pessimistic", "ordinary-catalog": "optimistic"}
 READ_VERSION = 7
 VERSION_NOW = 8
 
@@ -113,22 +113,22 @@ print(" ".join(STRATEGY[name] for name in CASES), version_rows(READ_VERSION, VER
 
 ## Lock Order
 
-West locks P-14, then waits for L-3. East locks L-3, then waits for P-14. Does this deadlock, and which rule breaks it?
+Transfer 1 locks account A, then waits for account B. Transfer 2 locks account B, then waits for account A. Does this deadlock, and which rule breaks it?
 
 ```python
-HOLDS = {"west": "P-14", "east": "L-3"}
-WAITS = {"west": "L-3", "east": "P-14"}
+HOLDS = {"transfer-1": "account-A", "transfer-2": "account-B"}
+WAITS = {"transfer-1": "account-B", "transfer-2": "account-A"}
 ```
 
-**Answer:** Yes. Each run waits for the lock the other holds, which is a cycle. A lock timeout aborts the run that waited too long. Walking the wait-for cycle and aborting one of the two breaks it the same way. The aborted run retries. Taking P-14 before L-3 on every run makes the second run wait on P-14, and this cycle does not form.
+**Answer:** Yes. Each transfer waits for the lock the other holds, which is a cycle in the wait-for graph. A lock timeout aborts the transfer that waited too long. Walking the cycle and aborting one of the two breaks it the same way. The aborted transfer retries. Locking the lower account id before the higher one, on every transfer, makes the second transfer wait on the first account, and this cycle does not form.
 
 ```python
-HOLDS = {"west": "P-14", "east": "L-3"}
-WAITS = {"west": "L-3", "east": "P-14"}
+HOLDS = {"transfer-1": "account-A", "transfer-2": "account-B"}
+WAITS = {"transfer-1": "account-B", "transfer-2": "account-A"}
 
 
 def deadlock(holds: dict[str, str], waits: dict[str, str]) -> bool:
-    return holds["east"] == waits["west"] and holds["west"] == waits["east"]
+    return holds["transfer-2"] == waits["transfer-1"] and holds["transfer-1"] == waits["transfer-2"]
 
 
 print(deadlock(HOLDS, WAITS))
@@ -141,17 +141,17 @@ print(deadlock(HOLDS, WAITS))
 
 ## 2PC Hang
 
-The press book and the paper ledger have both voted yes and prepared. The coordinator dies before it sends commit or abort. What may a participant do? When is a saga the better shape?
+The order database and the payment database have both voted yes and prepared. The coordinator dies before it sends commit or abort. What may a participant do? When is a saga the better shape?
 
 ```python
-PREPARED = ("press-book", "paper-ledger")
+PREPARED = ("order-db", "payment-db")
 DECISION = None
 ```
 
-**Answer:** A participant that has voted yes waits. The locks it took at prepare stay held until the coordinator returns and finishes the decision. Commit and abort are both still open, so the participant chooses neither. When the press book and the paper ledger are two services, a saga is the better shape: each service commits locally, and a failed later step is repaired by a compensating write. Those compensations stay on the Saga Pattern card. The press row and an outbox row in one local commit, then a publish, are the Transactional Outbox.
+**Answer:** A participant that has voted yes waits. The locks it took at prepare stay held until the coordinator returns and finishes the decision. Commit and abort are both still open, so the participant chooses neither. A saga is the better shape when you are deciding how the order service and the payment service agree, rather than once this prepare has already happened. Each service commits locally, and a failed charge is repaired by a compensating write that cancels the order. Those compensations stay on the Saga Pattern card. The order row and an outbox row in one local commit, then a publish, are the Transactional Outbox.
 
 ```python
-PREPARED = ("press-book", "paper-ledger")
+PREPARED = ("order-db", "payment-db")
 DECISION = None
 
 
@@ -171,13 +171,13 @@ print(participant_action(DECISION), len(PREPARED))
 
 ## Majority Ack
 
-The schedule log has 5 nodes. How many must acknowledge an entry before it is committed, and how many failures does that majority survive?
+The coordination log has 5 nodes. How many must acknowledge an entry before it is committed, and how many failures does that majority survive?
 
 ```python
 NODES = 5
 ```
 
-**Answer:** 3 acknowledgements commit the entry. The group still commits after 2 failures, because 3 of 5 can still answer. With 3 nodes the same rule is 2 acknowledgements and 1 failure. How many replicas a read set and a write set must share is Quorum Reads and Writes. This number is the majority on one log entry. Raft is the name for the protocol. Call etcd or ZooKeeper.
+**Answer:** 3 acknowledgements commit the entry. The group still commits after 2 failures, because 3 of 5 can still answer. With 3 nodes the same rule is 2 acknowledgements and 1 failure. How many replicas a read set and a write set must share is Quorum Reads and Writes. This number is the majority that must store one log entry. Raft is the name for the protocol. Call etcd or ZooKeeper.
 
 ```python
 NODES = 5
@@ -201,27 +201,27 @@ print(majority(NODES), failures_survived(NODES), majority(3), failures_survived(
 
 ## Leader Cut
 
-West is cut off from east and loft. Three nodes, a cut of 1 against 2. Which side may elect a schedule writer, and which side must stop writing?
+Node A is cut off from nodes B and C. Three nodes, a cut of 1 against 2. Which side may elect a leader, and which side must stop committing new entries?
 
 ```python
 NODES = 3
-WEST = 1
-EAST_AND_LOFT = 2
+ISOLATED = 1
+PAIR = 2
 ```
 
-**Answer:** East and loft may elect and may keep writing the schedule. West must stop. An entry from the side of one would diverge from an entry the pair commits. Both sides writing is Split Brain. The overlapping set a replicated read and write need is Quorum Reads and Writes. Fencing a relational primary that still accepts commits is Failover and Promotion. This exercise is which side may lead.
+**Answer:** B and C may elect and may keep committing. A must stop committing. A cannot gather the majority a commit needs, so an entry committed on the side of one would diverge from an entry the pair commits. Both sides committing is Split Brain. The overlapping set a replicated read and write need is Quorum Reads and Writes. Fencing a relational primary that still accepts commits is Failover and Promotion. This exercise is which side may lead.
 
 ```python
 NODES = 3
-WEST = 1
-EAST_AND_LOFT = 2
+ISOLATED = 1
+PAIR = 2
 
 
 def may_elect(side: int, nodes: int = NODES) -> bool:
     return side * 2 > nodes
 
 
-print(may_elect(WEST), may_elect(EAST_AND_LOFT))
+print(may_elect(ISOLATED), may_elect(PAIR))
 # False True
 ```
 
@@ -231,14 +231,14 @@ print(may_elect(WEST), may_elect(EAST_AND_LOFT))
 
 ## Lock Lease
 
-The holder of `press/folio` has a 10-second lease and has paused for 14 seconds. What may a new holder assume?
+The holder of `locks/nightly-billing` has a 10-second lease and has paused for 14 seconds. What may a new holder assume?
 
 ```python
 LEASE_S = 10
 PAUSED_S = 14
 ```
 
-**Answer:** The new holder may take `press/folio`. The lease has expired, so the key is open. The new holder has no basis to treat the paused process as stopped. That process can resume and write as if it still held the press. An expired holder has to be fenced before those writes count. Fencing a relational primary, so the old node cannot commit, is Failover and Promotion. The steps of that fence stay on that card.
+**Answer:** The new holder may take `locks/nightly-billing`. The lease has expired, so the key is open. The new holder has no basis to treat the paused process as stopped. That process can resume and write as if it still held the job. The billing store rejects those writes when they carry an older storage token than the one the new holder already stored. Fencing a relational primary, so the old node cannot commit, is Failover and Promotion. The steps of that fence stay on that card.
 
 ```python
 LEASE_S = 10
