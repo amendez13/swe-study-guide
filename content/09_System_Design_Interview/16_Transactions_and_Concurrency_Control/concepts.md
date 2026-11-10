@@ -11,6 +11,10 @@ crash between the two writes   plate used, lot 800
 four letters, durability       ACID Properties
 ```
 
+![Transaction](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-1-transaction.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 1.*
+
 ## Isolation Levels
 
 Isolation is how much two concurrent runs on the press database can see of each other. Read committed hides rows another run has yet to commit, so west never reads east's half-finished lot. A later statement in west's run can still see a commit that landed in between: west reads L-3 at 800, east commits 400, and west's next read returns 400. That second answer is a non-repeatable read. A new row that matches a predicate west already read can show up the same way. West and east can also both read 800, both subtract 100 in application code, and both write 700, so one job's sheets vanish. An `UPDATE` that subtracts inside the database keeps that arithmetic on the row.
@@ -25,6 +29,10 @@ one database      this card
 replicas          Strong Consistency, Linearizability
 ```
 
+![Isolation Levels](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-2-isolation-levels.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 2.*
+
 ## Optimistic or Pessimistic
 
 Pessimistic control locks the row, then does the work. West takes the plate with a row lock, marks P-14 used, and commits. East waits. The lock fits the night poster, one plate and forty operators, where a conflict is the common case. The wait is the cost. Two runs that lock in opposite orders can deadlock, and that cycle is Two-Phase Locking.
@@ -37,6 +45,10 @@ day jobs, a plate each       check the version at commit
 1 row updated                this run claimed the plate
 0 rows updated               the version moved; retry
 ```
+
+![Optimistic or Pessimistic](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-3-optimistic-or-pessimistic.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 3.*
 
 ## Two-Phase Locking
 
@@ -51,6 +63,10 @@ cycle       west holds P-14 and waits for L-3
             east holds L-3 and waits for P-14
 break       timeout, or abort one side of the cycle
 ```
+
+![Two-Phase Locking](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-4-two-phase-locking.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 4.*
 
 ## Two-Phase Commit
 
@@ -67,6 +83,10 @@ across services                Saga Pattern
 local commit, then a publish   Transactional Outbox
 ```
 
+![Two-Phase Commit](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-5-two-phase-commit.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 5.*
+
 ## Consensus Algorithms
 
 Consensus is how the west, east, and loft nodes agree on the next entry in the schedule log when one of them has stopped. Raft is the algorithm to name. The leader appends an entry and counts acknowledgements. The entry is committed once a majority has acknowledged it. With 3 nodes that majority is 2, so the group still commits after 1 failure. With 5 nodes the majority is 3, and the group still commits after 2 failures. Paxos agrees on a value too. Raft is the name to give for this log.
@@ -82,6 +102,10 @@ the order    Linearizability
 two writers  Split Brain
 ```
 
+![Consensus Algorithms](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-6-consensus-algorithms.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 6.*
+
 ## Leader Election
 
 One node writes the night schedule. The others follow. A majority of the three coordination nodes has to choose that writer. West, cut off from east and loft, has 1 of 3 and must stop writing. East and loft have 2 of 3 and may elect. A schedule entry from the side of one would diverge from an entry the pair commits.
@@ -94,6 +118,10 @@ east and loft      2 of 3, may elect
 both sides write   Split Brain
 relational primary Failover and Promotion
 ```
+
+![Leader Election](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-7-leader-election.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 7.*
 
 ## Distributed Locks
 
@@ -108,3 +136,7 @@ paused 14 seconds    a new holder may take the key
 expired holder       must be fenced
 relational primary   Failover and Promotion
 ```
+
+![Distributed Locks](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-8-distributed-locks.png)
+
+*Source: [`diagrams/transactions.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions.drawio), page 8.*
