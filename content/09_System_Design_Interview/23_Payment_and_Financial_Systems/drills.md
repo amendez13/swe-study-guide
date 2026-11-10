@@ -30,6 +30,10 @@ print(tuple(take(store, key) for key in CALLS))
 # (('succeeded', 'stored'), ('failed', 'stored'), ('succeeded', 'charged'))
 ```
 
+![Attempt Key](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-1-attempt-key.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 1.*
+
 ## Check First
 
 One handler calls Cove and stores `l42-try-1` afterward. It dies after Cove accepts the 480 and before that store. The buyer retries the same key, and the retry completes the store. The other handler stores the key and then calls Cove. The retry finds the key. How many Cove charges does each handler produce?
@@ -61,6 +65,10 @@ def cove_charges(reserve_first: bool) -> int:
 print(cove_charges(False), cove_charges(True))
 # 2 1
 ```
+
+![Check First](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-2-check-first.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 2.*
 
 ## Webhook Twice
 
@@ -101,6 +109,10 @@ print(
 # ('written', 'replay', 'rejected') 1
 ```
 
+![Webhook Twice](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-3-webhook-twice.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 3.*
+
 ## Silent PSP
 
 The wait is 90 seconds. It ends with no webhook. A poll of Cove for that intent returns failed. A second intent also has no webhook, and the poll errors. What does the ropewalk write in each case?
@@ -129,6 +141,10 @@ print(WAIT_S, *(settle(hook, polled) for hook, polled in CASES))
 # 90 failed unknown
 ```
 
+![Silent PSP](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-4-silent-psp.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 4.*
+
 ## Ledger Zero
 
 L-42 is posted as buyer -480, splicer +408, shed +72. A second write drops the shed leg. A third write pays the splicer +480 and has no shed leg. Which writes sum to 0, and which of those still pays the wrong account?
@@ -154,6 +170,10 @@ def net(legs: tuple[tuple[str, int], ...]) -> int:
 print(net(LEGS), net(MISSING_FEE), net(WRONG_PAYEE))
 # 0 -72 0
 ```
+
+![Ledger Zero](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-5-ledger-zero.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 5.*
 
 ## State Move
 
@@ -194,6 +214,10 @@ print(*(allowed(src, dst) for src, dst in MOVES))
 # True False False True
 ```
 
+![State Move](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-6-state-move.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 6.*
+
 ## Reconcile Orphan
 
 Cove's closed-day file contains L-42 and L-51. The ledger contains L-42 and L-44. Which line is the orphan, and which line is the phantom?
@@ -223,6 +247,10 @@ def classify(line: str) -> str:
 print(*(f"{line}:{classify(line)}" for line in ("L-42", "L-44", "L-51")))
 # L-42:matched L-44:phantom L-51:orphan
 ```
+
+![Reconcile Orphan](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-7-reconcile-orphan.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 7.*
 
 ## Hold then Capture
 
@@ -254,3 +282,7 @@ results = tuple(apply(HOLDS, line, event) for line, event in STEPS)
 print(results, tuple(name == "captured" for name in results))
 # ('captured', 'voided', 'refund-path') (True, False, False)
 ```
+
+![Hold then Capture](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills-8-hold-then-capture.png)
+
+*Source: [`diagrams/payments-drills.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-drills.drawio), page 8.*

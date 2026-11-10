@@ -12,6 +12,10 @@ evt-l42-9 delivered twice   one ledger write
 generic repeated POST       Idempotency
 ```
 
+![Idempotency in Payments](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-1-idempotency-in-payments.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 1.*
+
 ## Payment Service Provider (PSP) Integration
 
 Cove moves the money. The ropewalk creates a payment intent for L-42 and asks Cove to start it. Cove finishes later and sends `payment.succeeded` or `payment.failed`. The handler recomputes Cove's signature over the body and drops a mismatch. A signature that matches can still be a delivery the ropewalk has already applied. That replay is Idempotency in Payments.
@@ -26,6 +30,10 @@ no webhook       poll Cove; unknown stays unknown
 wait, retry      Timeouts and Retries
 vendor adapter   Third-Party Integration
 ```
+
+![Payment Service Provider (PSP) Integration](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-2-payment-service-provider-psp-integration.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 2.*
 
 ## Double-Entry Bookkeeping
 
@@ -42,6 +50,10 @@ missing fee  buyer -480, splicer +408, sum -72
 one commit   Transaction
 ```
 
+![Double-Entry Bookkeeping](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-3-double-entry-bookkeeping.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 3.*
+
 ## Reconciliation
 
 Each morning the ropewalk reads Cove's settlement file for the closed day and compares it with the ledger. L-51 in the file and absent from the ledger is an orphan: Cove took money the ropewalk did not record. L-44 in the ledger and absent from the file is a phantom: the ropewalk recorded money the file does not show. The same id with two amounts waits for a person, unless a rounding rule the ropewalk already published explains the gap.
@@ -54,6 +66,10 @@ phantom   in the ledger, missing from Cove, L-44
 amount    one id, two figures
 job       Batch Processing
 ```
+
+![Reconciliation](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-4-reconciliation.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 4.*
 
 ## Payment State Machine
 
@@ -70,6 +86,10 @@ SUCCEEDED → CREATED    refused
 FAILED → SUCCEEDED     refused
 ```
 
+![Payment State Machine](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-5-payment-state-machine.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 5.*
+
 ## Handling Refunds and Chargebacks
 
 A refund starts at the ropewalk. The buyer brings L-42 back, and the ropewalk asks Cove to reverse 480. The charge moves to REFUND_PENDING on that ask, and to REFUNDED when Cove confirms. A failed reversal is REFUND_FAILED, and the original legs stay. The opposite legs are written once, on the confirmation: buyer +480, splicer -408, shed -72. That set sums to 0. A return of 120 reverses buyer +120, splicer -102, and shed -18, and that smaller set sums to 0. The card network can take days to show the credit. The ropewalk's state has already moved.
@@ -84,6 +104,10 @@ chargeback      the bank opens it, evidence in 14 days
 lost            buyer keeps 480, fee pair of 15
 ```
 
+![Handling Refunds and Chargebacks](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-6-handling-refunds-and-chargebacks.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 6.*
+
 ## Authorize and Capture
 
 A buyer can ask Halden to hold L-42 while they check the coil on the dock. The ropewalk asks Cove to authorize 480. Cove places a hold. The ropewalk records AUTHORIZED. The buyer, splicer, and shed legs are not written, because nothing has been captured.
@@ -97,3 +121,7 @@ void           on cancel or expiry, no fee
 after success  a release is a refund
 product        Ticket Booking System
 ```
+
+![Authorize and Capture](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments-7-authorize-and-capture.png)
+
+*Source: [`diagrams/payments.drawio`](/content/09_System_Design_Interview/23_Payment_and_Financial_Systems/diagrams/payments.drawio), page 7.*
