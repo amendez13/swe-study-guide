@@ -30,6 +30,10 @@ print(same(SHED, POST, QUERY), same(SHED, RIDGE, QUERY), same(SHED, RIDGE, QUERY
 # True False True
 ```
 
+![Prefix Cell](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-1-prefix-cell.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 1.*
+
 ## Edge Neighbor
 
 Cells are 100-meter squares. The edge pin is (99, 50). The pin across the line is (101, 50). Which cells are they in, how many meters apart are they, and does a cover of the edge pin's cell plus its eight neighbors include the cell across the line?
@@ -60,6 +64,10 @@ def covers(origin: tuple[int, int]) -> tuple[tuple[int, int], ...]:
 print(cell_of(EDGE), cell_of(ACROSS), ACROSS[0] - EDGE[0], len(covers(EDGE)), cell_of(ACROSS) in covers(EDGE))
 # (0, 0) (1, 0) 2 9 True
 ```
+
+![Edge Neighbor](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-2-edge-neighbor.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 2.*
 
 ## Quad Split
 
@@ -116,6 +124,10 @@ print(tuple(action(count, width) for _name, count, width in ROWS), opened)
 # ('split', 'leaf', 'stop') ('NE',)
 ```
 
+![Quad Split](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-3-quad-split.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 3.*
+
 ## Equal Area
 
 Take a degree of longitude as 111 kilometers at the equator. How wide is that degree at 48°, and how wide at 78°? The valley catalog stays near 48°. The full catalog also includes the polar holding. Which index does each catalog use?
@@ -151,6 +163,10 @@ def index_for(scope: str) -> str:
 print(lon_km(VALLEY_LAT), lon_km(POLAR_LAT), index_for("valley"), index_for("both"))
 # 74 23 prefix equal-area
 ```
+
+![Equal Area](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-4-equal-area.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 4.*
 
 ## Box then Radius
 
@@ -188,6 +204,10 @@ print(boxed, kept)
 # ('corner', 'post') ('post',)
 ```
 
+![Box then Radius](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-5-box-then-radius.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 5.*
+
 ## Prefix Shard
 
 The shard key is the first five characters, the same length the survey queries. Where do `b7nq4c`, `b7nq4f`, `b7nq80`, and `c4ee10` land? Of 100 queries, 80 use the prefix `b7nq4`. What does that 80 do?
@@ -211,6 +231,10 @@ def home(code: str) -> str:
 print(*(home(code) for code in CODES), YARD_SHARE)
 # b7nq4 b7nq4 b7nq8 c4ee1 80
 ```
+
+![Prefix Shard](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-6-prefix-shard.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 6.*
 
 ## Ping or Rebuild
 
@@ -239,6 +263,10 @@ def rows(path: str) -> int:
 print(rows("rebuild"), EDITS, rows("ping") * PINGS)
 # 4000 12 720
 ```
+
+![Ping or Rebuild](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-7-ping-or-rebuild.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 7.*
 
 ## Fence Fire
 
@@ -293,3 +321,7 @@ lark = crossed(in_polygon(LARK_PREV, HOLLOW), in_polygon(LARK_NOW, HOLLOW))
 print(pip, lark)
 # enter exit
 ```
+
+![Fence Fire](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills-8-fence-fire.png)
+
+*Source: [`diagrams/geospatial-drills.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-drills.drawio), page 8.*

@@ -12,6 +12,10 @@ index        the prefix is a range on a B-tree
 edge         the cell and the eight that touch it
 ```
 
+![Geohash](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-1-geohash.png)
+
+*Source: [`diagrams/geospatial.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial.drawio), page 1.*
+
 ## Quadtree
 
 The yard holds most of the pins. The ridge holds a few. A quadtree keeps the valley in memory as nested boxes. The root is one box. A node splits into northwest, northeast, southwest, and southeast when it holds more than 4 pins and the box is still wider than 50 meters. The yard, 6 pins in a 200-meter box, splits. The ridge, 2 pins, stays a leaf. Nine pins on one post, in a box already 40 meters wide, stop at that floor. The floor keeps that post from chaining the tree.
@@ -25,6 +29,10 @@ ridge    2 pins, stays a leaf
 one post 9 pins, 40 m, stops
 query    a box that misses the circle stays unread
 ```
+
+![Quadtree](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-2-quadtree.png)
+
+*Source: [`diagrams/geospatial.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial.drawio), page 2.*
 
 ## Google S2
 
@@ -41,6 +49,10 @@ both holdings  equal-area cells
 cousin         H3
 ```
 
+![Google S2](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-3-google-s2.png)
+
+*Source: [`diagrams/geospatial.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial.drawio), page 3.*
+
 ## Proximity Service
 
 A caller at the shed asks for posts within 400 meters. The service encodes the caller's point, reads the five-character cell and the eight cells that touch it, and holds every pin in those rectangles. It then measures the distance from the caller to each pin and drops any pin past 400 meters. A pin in the corner of a neighbor cell is inside the box and past the radius, so the distance check removes it. What remains is ordered by distance.
@@ -55,6 +67,10 @@ cache    When Caching Helps, Cache Tier Placement
 shards   Horizontal Partitioning, Hot Partition Mitigation
 crews    Location Updates
 ```
+
+![Proximity Service](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-4-proximity-service.png)
+
+*Source: [`diagrams/geospatial.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial.drawio), page 4.*
 
 ## Geofencing
 
@@ -71,6 +87,10 @@ many fences  the boxes the index returns
 send         Push Notification System
 ```
 
+![Geofencing](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-5-geofencing.png)
+
+*Source: [`diagrams/geospatial.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial.drawio), page 5.*
+
 ## Location Updates
 
 The pin table holds 4,000 rows, and a day edits about 12 of them. The survey rebuilds the prefix index from that table on a schedule and swaps the new index in when the build finishes. Searches during the build keep reading the previous index. A pin edited at noon can wait for the swap. Rows that did not change are rewritten because the whole index is replaced, and that cost fits a catalog edited a dozen times a day.
@@ -84,3 +104,7 @@ ping      every 5 seconds, replace one memory entry
 an hour   720 point-updates
 pipe      WebSockets and SSE
 ```
+
+![Location Updates](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial-6-location-updates.png)
+
+*Source: [`diagrams/geospatial.drawio`](/content/09_System_Design_Interview/20_Geospatial_and_Location_Based_Services/diagrams/geospatial.drawio), page 6.*
