@@ -1,158 +1,121 @@
 ## Rate Limiter
 
-Controls the rate of requests a client or service can make. Protects against abuse, prevents cascading overload, and enforces fair usage across tenants.
+Copperline Tram sells a seat by taking an ask at the desk. A rate limiter is the budget on how often one rider may ask. It keeps one phone from filling the next car, and it keeps a client that retries without a pause from holding the desk. The rules sit with the check, the counters sit in a store the cars can share, and the desk answers before it assigns a seat. A pause inside the rider's phone is cooperative, and the app can skip it. The usual place for one budget over every public path is the API Gateway in [Networking and Communication](../10_Networking_and_Communication/). That host applies the decision. The shape of the bucket stays here. The timetable service holds its own check, as a library in its request pipeline, when only that path is expensive and seat asks must keep a separate count.
+
+A spent personal budget is HTTP 429 Too Many Requests. Retry-After names the wait in seconds. X-RateLimit-Limit, X-RateLimit-Remaining, and X-RateLimit-Reset report the budget on the answer, including the answers that pass. Waiting out that header, and keeping a fleet of retries off one second, is Timeouts and Retries in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). Refusing every rider because the hill itself is full is load shedding, with the Circuit Breaker Pattern and Graceful Degradation in [High Availability and Reliability](../03_High_Availability_and_Reliability/). The chart of those rejects stays in [Observability](../25_Observability/). How to scope the interview question stays on The Four-Step Framework in [Interview Framework and Process](../01_Interview_Framework_and_Process/).
 
 ```text
-Where to place it:
-  Client-side:     cooperative throttling (unreliable — client can ignore it)
-  API Gateway:     centralized, applies to all services behind the gateway
-  Per-service:     each service enforces its own limits
-  Middleware:       rate limiter as a library in the request pipeline
-
-What to limit by:
-  IP address        — simple, but shared IPs (NAT, VPN) cause false positives
-  User ID / API key — accurate per-user throttling
-  Endpoint           — different limits for /search (expensive) vs /health (cheap)
+phone            may pause; the app can skip it
+gateway          one budget for every public path; API Gateway
+one service      a library on the expensive path
+429              personal budget spent; Retry-After: 8
+headers          X-RateLimit-Limit, Remaining, Reset
+the wait         Timeouts and Retries
+hill is full     load shedding, in High Availability
+the chart        Observability
+the question     The Four-Step Framework
 ```
 
+## Rate Limit Rules
+
+The rule names the key and the path. An address is easy to read and a poor key at the lower-station cafe, where twenty riders share one NAT. One busy phone spends the cafe's budget, and the other nineteen are refused on that same address. A rider who changes networks starts over as a new caller. A rider id, or the API key the desk issued, counts the person who holds the credential. A path counts the work. A seat ask and a timetable recompute are different costs, and each path keeps its own count.
+
+A short rate and a longer quota can both apply to the same rider. The seat-ask bucket allows a burst of 8 and refills 2 permits a second. A quota of 500 seat asks in a day stops the caller who never takes that burst and still sends with the refill: 2 a second reaches 500 in 250 seconds. The timetable path has its own key, capped at 4 asks a minute. A cap on how many notifications one person may be sent is a product rule on the Push Notification System card in [Real-Time and Notification Systems](../21_Real_Time_and_Notification_Systems/). The counters that enforce the rule are the cards that follow.
+
 ```text
-Response when rate-limited:
-  HTTP 429 Too Many Requests
-  Retry-After: 30       ← tells client when to retry
-  X-RateLimit-Limit: 100
-  X-RateLimit-Remaining: 0
-  X-RateLimit-Reset: 1710001200
+cafe address     twenty riders, one NAT, one shared budget
+rider id or key  the person who holds the credential
+path             seat ask and timetable recompute, separate keys
+burst and day    8, then 2 a second; 500 seat asks in a day
+timetable        4 asks a minute, its own key
+notifications    Push Notification System
+```
+
+## Throttle or Reject
+
+Past the budget, the desk either slows the work or refuses the ask. A throttle holds a short queue and lets the ask wait its turn, or it tells a producer the desk can reach to send more slowly. A reject answers 429 and keeps no copy of the ask. Slowing a producer is Backpressure in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). The queue, its depth, and when to add consumers stay on that card.
+
+Hold a timetable recompute when the rider can wait and the queue still has room. Reject a seat ask from a browser, which can try again after the header. Reject once the queue is full. A full queue that keeps taking asks is how the desk runs out of room to work.
+
+```text
+throttle      a short queue, or a slower producer
+reject        429, and the desk keeps nothing
+producer      Backpressure
+queue full    refuse the next ask
 ```
 
 ## Token Bucket
 
-Tokens accumulate in a bucket at a fixed rate. Each request consumes one token. If the bucket is empty, the request is rejected. Allows short bursts up to the bucket's capacity.
+A token bucket is a count of permits and a refill. Each seat ask takes one permit. Copperline gives rider 14 a bucket that holds 8 permits and gains 2 permits a second, and the count never climbs past 8. A full bucket lets a burst of 8 through. One second later the refill has put 2 permits back, so 2 more asks pass. Five quiet seconds from an empty bucket would add 10, and the cap keeps the bucket at 8, so a quiet stretch stays a burst of 8.
+
+The state is one count and the time it was last refilled. That is the usual interview default for an API that should tolerate a short burst, cap the idle savings, and remember one bucket per rider.
 
 ```text
-Parameters:
-  Rate:     10 tokens/second (refill rate)
-  Capacity: 50 tokens (max burst size)
-
-Timeline:
-  t=0:  Bucket has 50 tokens. Burst of 50 requests → all pass.
-  t=1:  10 tokens added. 10 requests pass.
-  t=5:  50 tokens accumulated (capped at capacity).
-        Another burst of 50 → all pass.
-
-Characteristics:
-  ✓ Allows bursts (good for bursty traffic patterns)
-  ✓ Simple to implement (one counter + timestamp)
-  ✓ Memory efficient (one bucket per client)
+capacity     8, the largest burst
+refill       2 permits each second
+full         a burst of 8 passes
+one second   2 more pass
+five quiet   from empty, 10 would arrive; the cap leaves 8
+memory       one count and a timestamp per rider
 ```
-
-Token bucket is the most commonly used algorithm. AWS API Gateway, Stripe, and most cloud providers use it.
 
 ## Leaky Bucket
 
-Requests enter a queue (bucket) that is processed at a fixed rate. If the queue is full, new requests are dropped. Smooths traffic to a constant rate.
+A leaky bucket is a queue that drains at a fixed rate. Timetable recomputes enter the queue, and the planner takes them out at 1 per second. The queue holds 6. A burst of 15 arrives: 6 wait, 9 are dropped at once, and the queue is empty 6 seconds later.
+
+A token bucket lets the burst through and refuses once the permits are gone. A leaky bucket turns the burst into a steady departure and holds the excess only while the queue has room. Seat asks want the burst, so they stay on the token bucket. The timetable path wants a smooth arrival at the planner, so it uses this queue. The choice between waiting and refusing is Throttle or Reject.
 
 ```text
-Parameters:
-  Rate:     10 requests/second (drain rate)
-  Capacity: 100 requests (queue size)
-
-Behavior:
-  Burst of 200 requests arrives.
-  100 are queued (bucket is full).
-  100 are dropped immediately.
-  Queued requests drain at 10/sec → 10 seconds to clear.
-
-Compared to token bucket:
-  Token bucket: allows bursts, rejects when tokens exhausted.
-  Leaky bucket: smooths bursts into steady flow, queues excess.
-
-  Token bucket is better for APIs (users expect burst tolerance).
-  Leaky bucket is better for network traffic shaping.
+drain            1 request a second
+queue            6
+burst of 15      6 wait, 9 dropped
+empty            6 seconds
+seat asks        token bucket, the burst passes
+timetable        this queue, a steady drain
 ```
 
 ## Fixed Window Counter
 
-Counts requests in fixed time windows (e.g., per minute). Simple to implement but allows burst at window boundaries.
+A fixed window counts asks inside a clock minute, then starts the next minute at zero. The desk once allowed 20 seat asks in each minute. The key is the rider and the minute. An increment that passes 20 is refused, and the key expires when the minute is over.
+
+The seam is the fault. Twenty asks land in the last three seconds of minute 12, and the window shows 20, which the rule allows. Twenty more land in the first three seconds of minute 13, and that window shows 20 as well. Across the edge the rider sent 40 asks in six seconds, two windows of traffic, while each window on its own stayed inside the rule. Keep a fixed window when that seam is acceptable. Leave it when those six seconds matter.
 
 ```text
-Example: limit 100 requests/minute
-
-  Window [10:00 – 10:01]: 90 requests → OK
-  Window [10:01 – 10:02]: starts at 0
-
-Boundary problem:
-  90 requests at 10:00:55 (end of window 1)
-  90 requests at 10:01:05 (start of window 2)
-  → 180 requests in 10 seconds, but both windows show < 100.
-  The limit is effectively doubled at boundaries.
-
-Implementation:
-  Key: "rate:user42:202403151030" (minute-granularity)
-  INCR key → if count > limit → reject
-  EXPIRE key 60
+window           one minute, the next starts at 0
+limit            20
+minute 12, late  20, allowed
+minute 13, early 20, allowed
+six seconds      40, two windows
+key              boardings:rider-14:m12, then expire
 ```
-
-Fixed window is fine for approximate rate limiting where the boundary burst is acceptable.
 
 ## Sliding Window
 
-Two variants that solve the fixed window boundary problem at the cost of more complexity.
+A log and a weighted pair of counts both repair that seam, and they stay on one card.
+
+A sliding log stores the time of each ask and counts the times still inside the last 60 seconds. The count matches the asks that arrived. The seam is gone. The cost is one timestamp per ask per rider, and that list is the memory to avoid when the minute is busy.
+
+A sliding counter keeps two numbers, the previous minute and the current minute, and weights the previous minute by the part that still falls inside the last 60 seconds. Twenty seconds into the new minute, the previous minute holds 24 and the current minute holds 9. The overlap is 40 seconds out of 60, so the estimate keeps 24 * 40 / 60 = 16 of those asks and adds the 9 already counted. The weighted count is 25. A limit of 20 refuses the ask. The figure is an estimate, and it stores two counts instead of every timestamp. Prefer it in an interview unless the problem asks for an exact count.
 
 ```text
-Sliding Window Log:
-  Store the timestamp of every request.
-  On new request, count timestamps in the last N seconds.
-  If count > limit → reject.
-  + Exact, no boundary problem.
-  - Memory heavy (stores every timestamp per user).
-
-Sliding Window Counter (hybrid):
-  Combine the current window count and the previous window count
-  using a weighted average based on time elapsed in the current window.
-
-  Example: limit 100/minute, current window is 40% elapsed.
-    Previous window: 80 requests.
-    Current window:  30 requests so far.
-    Weighted count = 80 × 0.6 + 30 = 78 → under limit → allow.
-
-  + Low memory (two counters per window per user).
-  + Smooth, no boundary burst.
-  - Approximate (but close enough for rate limiting).
+log              each timestamp in the last 60 seconds
+log cost         memory grows with the asks
+counter          previous minute and current minute
+at 20s of 60     24 * 40 / 60 + 9 = 25
+limit 20         25 refuses the ask
 ```
-
-Sliding window counter is the best balance of accuracy and efficiency. Use it as the default in interviews unless the problem specifically calls for exact counting.
 
 ## Distributed Rate Limiting
 
-When rate limits must be enforced across multiple servers, each server needs access to shared counters. A single-server rate limiter doesn't work behind a load balancer.
+Alder, beech, and cedar all take seat asks. A counter that lives on one car is wrong for a rider whose next ask lands on another car. A shared counter, often in Redis, is what every car updates. The total matches the asks. Every ask pays a hop, and the store sits on the path. A local counter plus a periodic sync gives each car a share of the budget. The read stays on the car. Until the next sync the shares can add up past the limit, which is the drift you accept when a local share is enough and the hop can wait. Sticky routing sends rider 14 to alder every time, so alder's counter is that rider's counter. The pin is Sticky Sessions (Session Affinity) in [Load Balancing](../04_Load_Balancing/). The riders who arrived first pile onto one car, and a restart of that car drops the count it held.
+
+The race is two cars updating that shared count in separate steps. The remaining permits are 1. Alder reads 1 and admits its ask. Beech reads 1 before alder writes, and admits its ask. Each then writes 0, the value it computed from the 1 it read. Two asks passed on one permit. An atomic decrement, or one script that reads, decides, and writes before another car runs, lets alder take the permit and leaves beech looking at 0. A distributed lock, two-phase commit, and a consensus round stay in [Transactions and Concurrency Control](../16_Transactions_and_Concurrency_Control/). They coordinate a unit of work across records. This failure is one counter written in two steps. The timestamp list and its memory stay on Sliding Window.
 
 ```text
-Approach 1 — Centralized counter (Redis):
-  All servers INCR a shared Redis key per client.
-  + Globally accurate counts.
-  - Redis becomes a dependency and potential bottleneck.
-  - Network latency for every request.
-
-Approach 2 — Local counters with sync:
-  Each server maintains local counters.
-  Periodically sync to a central store.
-  + Lower latency (local reads).
-  - Temporarily over-limit (each server allows its share).
-
-Approach 3 — Sticky routing:
-  Route all requests from the same client to the same server.
-  Local rate limiter is accurate for that client.
-  + Simple, no shared state.
-  - Uneven load distribution.
+shared store     accurate, a hop on every ask
+local plus sync  fast, the shares can overshoot
+sticky           one rider, one car; Sticky Sessions
+remaining 1      alder and beech both read 1 and both admit
+fix              atomic decrement, or one script
+locks and 2PC    Transactions and Concurrency Control
 ```
-
-```text
-Redis implementation (token bucket):
-  local tokens = redis.call('GET', key)
-  -- Calculate tokens to add based on elapsed time
-  -- If tokens > 0: DECR and allow
-  -- If tokens <= 0: reject
-  -- Use Lua script for atomicity
-```
-
-In interviews, say "Redis-based distributed rate limiter" and move on — it's the standard answer and lets you focus on more interesting design decisions.
