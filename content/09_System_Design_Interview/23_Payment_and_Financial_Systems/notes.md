@@ -1,20 +1,20 @@
 # Payment and Financial Systems
 
-Halden Ropewalk sells consigned dock lines. Buyers pay the ropewalk, Cove moves the money, and the ledger records a buyer leg, a splicer leg, and a shed fee that sum to 0. A key is checked before Cove is called, a webhook is signed and safe to replay, and silence is polled. Refunds start at the ropewalk. Chargebacks start at the bank. An authorization holds funds until a capture or a void. The generic retry key, the vendor adapter, the batch job, the wait, the atomic commit, and the reserved product stay in the topics that own them.
+A marketplace checkout takes a card payment through a PSP such as Stripe or Adyen, then records who paid, who is owed, and what the marketplace keeps. Those ledger legs sum to 0. The attempt key is reserved before the PSP is called. A webhook is signed, and a second delivery of the same event posts the ledger once. Silence stays unknown until a poll returns a status. Refunds start with the merchant. Chargebacks start with the customer's bank. An authorization is a hold until a capture writes the legs or a void releases the card. The generic meaning of a repeated POST, the vendor adapter, the batch job, the deadline and the retry, the atomic commit, and the reserved stock stay in the topics that own them.
 
 ## Key Points
 
-- **Idempotency in Payments** — look up `l42-try-1` before calling Cove. A stored failure is that try's result. `l44-try-2` is the next try of a line that failed. A second delivery of `evt-l42-9` writes the ledger once. The generic POST rule is Idempotency.
-- **Payment Service Provider (PSP) Integration** — an intent, a signed webhook, and a poll when the wait ends in silence. A bad signature is dropped. Unknown stays unknown. The vendor boundary is Third-Party Integration. The wait is Timeouts and Retries.
-- **Double-Entry Bookkeeping** — buyer -480, splicer +408, shed +72, sum 0. A missing fee leg sums to -72. The three legs are one Transaction.
-- **Reconciliation** — L-51 in Cove's file and missing from the ledger is an orphan. L-44 in the ledger and missing from Cove is a phantom. The morning job's shape is Batch Processing.
-- **Payment State Machine** — CREATED goes to PROCESSING, and PROCESSING goes to SUCCEEDED, FAILED, or CANCELLED. SUCCEEDED does not go to CREATED. FAILED does not go to SUCCEEDED. A refund starts at SUCCEEDED.
-- **Handling Refunds and Chargebacks** — the ropewalk reverses a charge through Cove. The opposite legs are written when Cove confirms, and they sum to 0. The buyer's bank opens a chargeback. Evidence is due in 14 days. A loss adds a fee pair of 15.
-- **Authorize and Capture** — authorize holds 480 and writes no settled legs. Confirm captures. Cancel or expiry voids. A void after SUCCEEDED is a refund. The reserved product is Ticket Booking System.
+- **Idempotency in Payments** — look up `l42-try-1` and reserve it before calling the PSP. A stored success or a stored failure is that attempt's result, and the PSP is not called. A timeout keeps the same key and reads the PSP. `l44-try-2` is a new attempt after `l44-try-1` failed. A second delivery of `evt-l42-9` writes the ledger once. What a repeated POST means in general is Idempotency.
+- **Payment Service Provider (PSP) Integration** — create the payment, verify the signed webhook, and poll when the wait ends with no webhook. A bad signature is dropped. Unknown stays unknown until the PSP returns a status. The success URL is the customer coming back to the shop. The vendor boundary is Third-Party Integration. The 90-second wait and the retry are Timeouts and Retries.
+- **Double-Entry Bookkeeping** — customer −480, seller +408, platform fee +72, sum 0. A missing fee leg sums to −72 and is refused. A set that pays the seller the whole 480 can still sum to 0, so the account names are checked too. The three legs are one Transaction.
+- **Reconciliation** — L-51 in the PSP's closed-day file and missing from the ledger is an orphan. L-44 in the ledger and missing from the file is a phantom. The same id with two amounts waits for a person unless a published rounding rule explains it. The morning job's shape is Batch Processing.
+- **Payment State Machine** — CREATED goes to PROCESSING, and PROCESSING goes to SUCCEEDED, FAILED, or CANCELLED. A new attempt after a decline goes FAILED to PROCESSING with a new key. SUCCEEDED does not go back to CREATED. FAILED does not jump to SUCCEEDED. A refund starts at SUCCEEDED.
+- **Handling Refunds and Chargebacks** — the merchant asks the PSP to reverse a charge it accepts. The opposite legs are written when the PSP confirms, and they sum to 0, including a partial refund of 120 as +120, −102, and −18. The customer's bank opens a chargeback, and the PSP pulls the 480 from the available balance while the case is open. Evidence is due on that dispute's deadline, 14 days in the example. A win puts the 480 back. A loss leaves it with the customer. The dispute fee is its own pair of 15.
+- **Authorize and Capture** — authorize holds 480 and writes no settled legs. Confirm captures, and the three legs are written on success. Cancel or expiry voids the hold and books no fee. A release after SUCCEEDED is a refund. The reserved stock is Ticket Booking System.
 
 ## Example
 
-L-42's three legs, two charge moves, and a failed key followed by a new key:
+Order L-42's three legs, the two charge moves a support tool has to allow, and a failed attempt followed by a new one:
 
 ```python
 def net(legs: tuple[tuple[str, int], ...]) -> int:
@@ -38,7 +38,7 @@ def take(store: dict[str, str], key: str) -> str:
     return "charged"
 
 
-legs = (("buyer", -480), ("splicer", 408), ("shed", 72))
+legs = (("customer", -480), ("seller", 408), ("platform", 72))
 store = {"l44-try-1": "failed"}
 print(
     net(legs),
@@ -50,13 +50,13 @@ print(
 # 0 False True stored charged
 ```
 
-The legs of L-42 sum to 0, so the shed fee is in the same commit as the payment and the payout. SUCCEEDED may open a refund and may not return to CREATED. The failed key is a stored result. The new key is the one that can charge Cove. After 90 quiet seconds the ropewalk polls Cove and writes the status Cove returns. L-51, present at Cove and missing from the ledger, is the orphan the morning comparison flags. A hold of 480 becomes a capture on confirm and a void on expiry, and the coil reserved during that hold is Ticket Booking System.
+The legs of the $480 order sum to 0, so the 72 fee commits with the customer's payment and the seller's 408. SUCCEEDED may open a refund, and the handler refuses a return to CREATED. The failed key is a stored result. The new key is the one that can call the PSP. After 90 quiet seconds the merchant polls the PSP and writes the status the PSP returns. L-51, present in the settlement file and missing from the ledger, is the orphan the morning comparison flags. A hold of 480 becomes a capture when the seller accepts and a void when the hold expires. The unit of stock reserved during that hold is Ticket Booking System.
 
 ## See also
 
-- [Networking and Communication](../10_Networking_and_Communication/) — Idempotency. What a repeated POST means stays there. The lookup before Cove, the new key after a failed charge, and a replayed webhook stay here.
-- [Microservices and System Decomposition](../12_Microservices_and_System_Decomposition/) — Third-Party Integration. The adapter around a vendor stays there. The payment intent, the signed webhook, and the poll stay here.
+- [Networking and Communication](../10_Networking_and_Communication/) — Idempotency. What a repeated POST means stays there. The lookup before the PSP call, the new key after a declined charge, and a replayed webhook stay here.
+- [Microservices and System Decomposition](../12_Microservices_and_System_Decomposition/) — Third-Party Integration. The adapter around a vendor stays there. The payment object, the signed webhook, and the poll stay here.
 - [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/) — Batch Processing. The scheduled read of a finished file stays there. Orphan, phantom, and amount mismatch stay here.
 - [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/) — Timeouts and Retries. The deadline and the retry stay there. A missing webhook leaves the charge unknown, which stays here.
-- [Transactions and Concurrency Control](../16_Transactions_and_Concurrency_Control/) — Transaction. The atomic commit of the legs stays there. The balanced debit and credit, shed fee included, stay here.
-- [Classic Design Problems](../24_Classic_Design_Problems/) — Ticket Booking System. The reserved coil, seat, or other product stays there. Authorize, capture, and void stay here.
+- [Transactions and Concurrency Control](../16_Transactions_and_Concurrency_Control/) — Transaction. The atomic commit of the legs stays there. The balanced customer, seller, and fee legs stay here.
+- [Classic Design Problems](../24_Classic_Design_Problems/) — Ticket Booking System. The reserved seat, ticket, or unit of stock stays there. Authorize, capture, and void stay here.
