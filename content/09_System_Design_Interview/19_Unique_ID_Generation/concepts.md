@@ -12,6 +12,10 @@ compact        8 bytes in the clustered index
 one database   autoincrement, while every insert shares it
 ```
 
+![ID Requirements](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-1-id-requirements.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 1.*
+
 ## UUID
 
 A UUID is 128 bits. A furnace or a tablet can mint one without asking the others. Version 4 draws 122 of those bits at random. The other 6 mark the version and the variant. The stored key is 16 bytes. Two minters collide when they draw the same 122 bits. The shop's million-row log sits far below that meeting, so a collision is the wrong worry.
@@ -26,6 +30,10 @@ insert       a random leaf, then a split
 retry name   a UUID the tablet mints
 the call     Idempotency
 ```
+
+![UUID](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-2-uuid.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 2.*
 
 ## Snowflake ID
 
@@ -43,6 +51,10 @@ clock behind wait for the last issued timestamp
 other epoch  a different timeline
 ```
 
+![Snowflake ID](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-3-snowflake-id.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 3.*
+
 ## Ticket Server
 
 A ticket server is a database whose job is the next integer. The furnaces ask it, then write the pour in their own stores. One desk and one counter give a single increasing order. That desk is one outage and one write limit, and a pour that must be numbered during the outage waits. A ticket the desk hands out and the furnace never stores leaves a gap. The next ticket is still larger.
@@ -58,6 +70,10 @@ order         6 can be issued before 1
 third desk    the step changes
 ```
 
+![Ticket Server](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-4-ticket-server.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 4.*
+
 ## Multi-Master Sequence
 
 Holly, yew, and ash each accept pour inserts on their own primary. Which nodes accept writes, how a primary ships its log, and what happens when two primaries write one key are Replication Topologies and Conflict Resolution in [Consistency and Replication](../09_Consistency_and_Replication/). The numbering on those primaries is the scheme here.
@@ -72,6 +88,10 @@ time order    not across primaries
 elm           step 4, next id above the ids already issued
 topology      Replication Topologies
 ```
+
+![Multi-Master Sequence](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-5-multi-master-sequence.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 5.*
 
 ## ULID and Other Modern Alternatives
 
@@ -89,6 +109,10 @@ width        16 bytes
 8-byte key   Snowflake ID
 ```
 
+![ULID and Other Modern Alternatives](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-6-ulid-and-other-modern-alternatives.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 6.*
+
 ## Base62 or Hash
 
 A window card is a short public code for a finished bowl. The desk takes the next counter value and writes it in base 62. Rowan fixes the alphabet as the 10 digits, then the 26 lowercase letters, then the 26 uppercase letters, and every desk uses that order. Two characters cover 3,844 bowls. Three cover 238,328. The shop expects 20,000 bowls, so the counter path uses 3 characters. Each code is unique because the counter was. Neighboring counters become neighboring codes, so a visitor can guess the next card. The card is public, and a guessable code is acceptable on the window.
@@ -104,6 +128,10 @@ hash prefix  a lookup, then a new salt or one more character
 product      URL Shortener
 ```
 
+![Base62 or Hash](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-7-base62-or-hash.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 7.*
+
 ## ID Strategy
 
 The pour log, the tablet, and the window card do not share one id. The fit is the line that matches the job.
@@ -118,3 +146,7 @@ a few characters on the window card                  Base62 or Hash
 ```
 
 What a repeated tablet call means is Idempotency in [Networking and Communication](../10_Networking_and_Communication/). Which primary accepts a write is Replication Topologies in [Consistency and Replication](../09_Consistency_and_Replication/). The shortener product is URL Shortener in [Classic Design Problems](../24_Classic_Design_Problems/).
+
+![ID Strategy](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id-8-id-strategy.png)
+
+*Source: [`diagrams/unique-id.drawio`](/content/09_System_Design_Interview/19_Unique_ID_Generation/diagrams/unique-id.drawio), page 8.*
