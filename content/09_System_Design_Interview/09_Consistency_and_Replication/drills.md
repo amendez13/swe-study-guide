@@ -32,6 +32,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # AP CP PA/EL PC/EC
 ```
 
+![CAP or PACELC](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-1-cap-or-pacelc.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 1.*
+
 ## Quorum Overlap
 
 For each `(N, W, R)`, does `W + R > N` hold? How many replicas may stay silent and the write still succeed?
@@ -53,6 +57,10 @@ def report(n: int, w: int, r: int) -> tuple[bool, int]:
 print([report(*case) for case in CASES])
 # [(True, 1), (False, 2), (True, 2), (False, 4)]
 ```
+
+![Quorum Overlap](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-2-quorum-overlap.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 2.*
 
 ## Stale Replica
 
@@ -77,6 +85,10 @@ newest = [max(VERSIONS[name] for name in pair) for pair in combinations(sorted(V
 print(newest, VERSIONS["C"], W + R > N)
 # [7, 7, 7] 6 True
 ```
+
+![Stale Replica](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-3-stale-replica.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 3.*
 
 ## Model per Feature
 
@@ -108,6 +120,10 @@ print(" ".join(CHOICE[name] for name in FEATURES))
 # eventual read-after-write strong linearizable
 ```
 
+![Model per Feature](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-4-model-per-feature.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 4.*
+
 ## Concurrent Writes
 
 Dock A writes the defect "flat" with timestamp 100 and version vector `{A: 1, B: 0}`. Dock B writes "brake" with timestamp 140 and `{A: 0, B: 1}`. What does last-write-wins keep, are the vectors concurrent, and what does a merge of a defect set keep?
@@ -138,6 +154,10 @@ print(lww, concurrent, merged)
 # brake True ['brake', 'flat']
 ```
 
+![Concurrent Writes](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-5-concurrent-writes.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 5.*
+
 ## Hinted Handoff
 
 Preferred replicas for bike b-17 are A, B, and C. C is down for a few minutes. The write is acknowledged by A and by D, a stand-in. Where does the hint sit, which preferred replica does it name, and which preferred replicas hold the write before C returns?
@@ -161,6 +181,10 @@ print(HINT["on"], HINT["for"], preferred_holding)
 # D C ['A']
 ```
 
+![Hinted Handoff](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-6-hinted-handoff.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 6.*
+
 ## Merkle Repair
 
 Replica C was gone long enough to miss an unknown set of keys. The key space is 1,000,000 keys, and each Merkle leaf covers 1,000 of them. After the roots differ, three leaves differ. How many leaves are in the tree, and how many keys sit under the leaves you still have to exchange? What does one differing leaf tell you?
@@ -181,6 +205,10 @@ DIFFER = 3
 print(KEYS // LEAF, DIFFER * LEAF)
 # 1000 3000
 ```
+
+![Merkle Repair](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-7-merkle-repair.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 7.*
 
 ## Write Path Ack
 
@@ -205,3 +233,7 @@ def verdict(acks: tuple[str, ...], w: int) -> str:
 print(" ".join(verdict(acks, W) for acks in CASES))
 # ok fail
 ```
+
+![Write Path Ack](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills-8-write-path-ack.png)
+
+*Source: [`diagrams/consistency-replication-drills.drawio`](/content/09_System_Design_Interview/09_Consistency_and_Replication/diagrams/consistency-replication-drills.drawio), page 8.*
