@@ -23,6 +23,10 @@ print(modulo, share, remainder)
 # 204 34 2
 ```
 
+![Rehash Count](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-1-rehash-count.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 1.*
+
 ## Ring Owner
 
 Collectors sit at 15, 48, and 73 on a ring. A key that lands on a collector belongs to it. Otherwise walk clockwise, wrapping after the last position. Which collector owns key hashes 48, 50, 90, and 10?
@@ -50,6 +54,10 @@ def owner(key_hash: int, nodes: list[int]) -> int:
 print([owner(key, NODES) for key in KEYS])
 # [48, 73, 15, 15]
 ```
+
+![Ring Owner](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-2-ring-owner.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 2.*
 
 ## Affected Range
 
@@ -96,6 +104,10 @@ print(
 # 20 55 35 80 25
 ```
 
+![Affected Range](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-3-affected-range.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 3.*
+
 ## Vnode Balance
 
 Three collectors, one point each, own 50, 30, and 20 of a 100-position ring. The same three machines with many virtual nodes own the arcs below. What is the max share and the min share in each scheme?
@@ -124,6 +136,10 @@ print(max(ONE_POINT), min(ONE_POINT), max(shares), min(shares))
 # 50 20 34 33
 ```
 
+![Vnode Balance](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-4-vnode-balance.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 4.*
+
 ## Range or Hash
 
 The page a gardener opens is one scan of sensor ids 4000 through 4100. An admin tool, used rarely, looks up one sensor id. New sensors receive the next id. How many shards does this scan touch if the shard is `id % 8`, and how many if each shard owns a contiguous span? Which scheme do you pick, and where do new sensors land under that scheme?
@@ -142,6 +158,10 @@ N = 8
 print(len({sensor_id % N for sensor_id in IDS}), 1, len(list(IDS)))
 # 8 1 101
 ```
+
+![Range or Hash](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-5-range-or-hash.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 5.*
 
 ## Shard Key Locality
 
@@ -171,6 +191,10 @@ print(bench_page("b1", "bench_id"), bench_page("b1", "sensor_id"), len(WATCHES["
 # 1 2 2
 ```
 
+![Shard Key Locality](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-6-shard-key-locality.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 6.*
+
 ## Routing Choice
 
 Match each constraint to client-side, proxy, or gossip.
@@ -199,6 +223,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # client-side proxy gossip
 ```
 
+![Routing Choice](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-7-routing-choice.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 7.*
+
 ## Hot Key Salt
 
 Sensor `s-royal` in the royal palm house is one key at 600 writes per second. A collector can take 220 writes per second. Other sensors are fine. What is the smallest salt width that fits the cap, how many writes does each bucket take if the salt spreads evenly, and how many writes would two buckets take? What does the house page do on read? Why does isolating this key, or splitting a time range, not finish the job by itself?
@@ -226,3 +254,7 @@ k = smallest_k(RATE, CAP)
 print(k, RATE // k, RATE // (k - 1))
 # 3 200 300
 ```
+
+![Hot Key Salt](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills-8-hot-key-salt.png)
+
+*Source: [`diagrams/data-partitioning-drills.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-drills.drawio), page 8.*
