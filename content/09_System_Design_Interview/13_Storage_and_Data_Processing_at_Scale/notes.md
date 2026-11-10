@@ -1,44 +1,48 @@
 # Storage and Data Processing at Scale
 
-How to store and process data when it's too large for a single machine. This topic covers the spectrum from durable blob storage to real-time event processing. In system design interviews, you'll choose between these based on latency requirements, data volume, and whether the system needs results in seconds or hours.
+Lock Fourteen weighs grain, keeps the probe files, and has to know both yesterday's closed total and that a silo just ran hot. The bytes live in an object, on a volume, or in a shared file tree. Raw files land in a lake. A batch job reads a finished set. A stream job folds events as they arrive. Change data capture and event sourcing are how a committed row, or the events themselves, feed another view.
 
 ## Key Points
 
-- **Object storage** — key-blob store for media, backups, and data lake files. S3 is the default in interviews. 11 nines durability, unlimited scale, high first-byte latency.
-- **Distributed file system** — HDFS for large sequential reads and batch processing. Largely replaced by S3 + Spark in modern architectures.
-- **Batch processing** — process large datasets in scheduled jobs (Spark, MapReduce). High throughput, minutes-to-hours latency. Use for ETL, analytics, ML training.
-- **Stream processing** — process events in real time (Kafka Streams, Flink). Low latency, continuous operation. Use for fraud detection, live dashboards, alerting.
-- **Lambda architecture** — batch + speed layers for accuracy and freshness. Powerful but doubles code complexity. Kappa architecture (stream-only) is the simpler alternative.
-- **Change data capture** — stream DB changes as events. Debezium reads WAL/binlog. Use to sync search indexes, caches, and warehouses without polling.
-- **Event sourcing** — store every state change as an immutable event. Complete audit trail, temporal queries, easy to add new projections. Pairs with CQRS.
+- **Object storage** — a key, a blob, and metadata. Durable and large, with a wait for the first byte. Hot and cold classes, and a pre-signed PUT, stay a store choice. The upload product and a public edge copy stay in Content Distribution and Media.
+- **Block storage** — a volume or fixed-size chunks a host mounts and reads at an offset. A chunk already stored under the same checksum can be kept once. Syncing a file to a laptop stays in Content Distribution and Media.
+- **Distributed file system** — a shared tree for a huge file, written once and scanned straight through. Millions of tiny files spend the metadata service.
+- **Data lake** — raw files on object storage. A later job writes a curated set. The analytical store is Data Warehousing, and a columnar file layout stays in Encoding Serialization and Schema Evolution.
+- **Batch processing** — a scheduled job over a complete input, minutes to hours. Map, shuffle, and reduce are the teaching shape.
+- **Stream processing** — a job that stays up, windows on event time, and a watermark for late events. The log and a duplicate delivery stay in Message Queues and Async Processing.
+- **Batch or stream** — a closed set that can wait, or a check that has to fire in seconds. Asking for both is the next card.
+- **Lambda or Kappa** — a batch path plus a speed path, or one stream job that rebuilds by replaying a log. The log's retention stays in Message Queues and Async Processing.
+- **Change data capture** — tail the write-ahead log or binlog, including deletes. A cache, a search index, and a warehouse are the usual destinations. An outbox table is Transactional Outbox.
+- **Event sourcing** — the events are the source of truth. A snapshot skips a full replay. A projection serves a reader. Schema changes on an event stay in Encoding Serialization and Schema Evolution.
 
 ## Example
 
-Data processing pipeline for a ride-sharing analytics platform:
+Lot 18 received 1000 bushels, shipped 40, shipped 25, and received 100. Yesterday's batch total is 48,200 bushels, and the speed path has 860 from after midnight. The yard screen's budget for a first byte is 50 ms. A sealed scan in the cold class takes 800 ms to start.
 
-```text
-Real-time path (stream):
-  Ride events (start, end, location updates) → Kafka
-  → Flink stream processing
-  → Real-time dashboard: active rides, avg wait time, surge pricing
-  → Latency: seconds
+```python
+def fold(events: list[tuple[str, int]], start: int = 0) -> int:
+    level = start
+    for kind, amount in events:
+        level += amount if kind == "receive" else -amount
+    return level
 
-Batch path:
-  Nightly Spark job reads from S3 data lake
-  → Computes: driver earnings, ride patterns, demand forecasting
-  → Writes results to Redshift (data warehouse)
-  → Latency: hours, but accurate and complete
 
-CDC for search:
-  PostgreSQL (rides, drivers) → Debezium CDC → Kafka
-  → Elasticsearch consumer updates the driver search index
-  → Passengers can search for nearby drivers in real-time
+def query(batch: int, speed_after_batch: int) -> int:
+    return batch + speed_after_batch
 
-Storage:
-  S3: ride GPS traces (100 GB/day), driver documents, receipts
-  PostgreSQL: rides, users, payments (transactional data)
-  Redis: active ride state, driver locations (low-latency reads)
-  Redshift: historical analytics (months of aggregated data)
+
+EVENTS = [("receive", 1000), ("ship", 40), ("ship", 25), ("receive", 100)]
+print(fold(EVENTS), query(48_200, 860), 800 <= 50)
+# 1035 49060 False
 ```
 
-Different storage and processing choices for different latency and accuracy requirements — all feeding from the same event stream.
+The fold leaves 1035 bushels on the floor. A snapshot after the first ship is 960, and the tail brings it back to 1035, which is the same fold. The query is yesterday's batch plus today's speed path with no overlap, 49,060. The cold scan misses the screen budget, so the open lot stays on the primary and the sealed probe file stays in object storage. The morning settlement can wait for a complete file. Silo 4 crossing 40 C has to ring while the grain is still in the bin.
+
+## See also
+
+- [Interview Framework and Process](../01_Interview_Framework_and_Process/) — QPS and Storage Estimate. How many bytes a season of probes is.
+- [Caching](../05_Caching/) — Cache Invalidation. A captured change can drop a stale lot card.
+- [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/) — Data Warehousing and Search Index Store. This topic feeds those stores.
+- [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/) — Log or Queue, Message Delivery Guarantees, and Transactional Outbox. Processing reads the log. The broker choice stays there.
+- [Encoding Serialization and Schema Evolution](../14_Encoding_Serialization_and_Schema_Evolution/) — Columnar Storage Formats and Schema Evolution. A lake file's layout, and a new field on an event.
+- [Content Distribution and Media](../22_Content_Distribution_and_Media/) — Why a CDN, Video Uploading and Transcoding, and File Sync and Conflict Resolution. A pre-signed PUT and a chunk are store facts. The product flows stay there.
