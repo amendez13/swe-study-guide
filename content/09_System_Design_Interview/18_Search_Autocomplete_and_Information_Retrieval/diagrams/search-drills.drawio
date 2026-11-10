@@ -1,0 +1,197 @@
+<mxfile host="drawio">
+  <diagram id="sx1" name="Prefix Walk">
+    <mxGraphModel dx="900" dy="506" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="506" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="a1" value="Prefix Walk" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="a2" value="Which titles does the walk return for “ni” and for “night ”?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="a3" value="root" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="226.25" y="100" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a4" value="m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="35.0" y="164" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a5" value="marsh rail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="35.0" y="228" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a6" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a4" target="a5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a7" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a3" target="a4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a8" value="n" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="417.5" y="164" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a9" value="ni" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="417.5" y="228" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a10" value="night␣" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="290.0" y="292" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a11" value="night jar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="205.0" y="356" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a12" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a10" target="a11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a13" value="night market" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="356" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a14" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a10" target="a13"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a15" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a9" target="a10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a16" value="nine bells" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="545.0" y="292" width="130" height="34" as="geometry"/></mxCell>
+<mxCell id="a17" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a9" target="a16"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a18" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a8" target="a9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a19" value="" style="endArrow=none;html=1;strokeColor=#888888;strokeWidth=1.5;" edge="1" parent="1" source="a3" target="a8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="a20" value="“ni” (green) → night jar, night market, nine bells" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="400" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="a21" value="“night ” (orange, after the space) → night jar, night market" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b07000;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="422" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="a22" value="&lt;b&gt;Answer:&lt;/b&gt; [&#x27;night jar&#x27;, &#x27;night market&#x27;, &#x27;nine bells&#x27;] · [&#x27;night jar&#x27;, &#x27;night market&#x27;]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="452" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx2" name="Top-K at the Node">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="b1" value="Top-K at the Node" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="b2" value="Node “ni” stores its top 2; “night market” jumps 12 → 50 without a rebuild" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="b3" value="before" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="400" height="20" as="geometry"/></mxCell>
+<mxCell id="b4" value="night jar" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="128" width="110" height="30" as="geometry"/></mxCell>
+<mxCell id="b5" value="40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="128" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="b6" value="nine bells" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="164" width="110" height="30" as="geometry"/></mxCell>
+<mxCell id="b7" value="30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="164" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="b8" value="night market" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="110" height="30" as="geometry"/></mxCell>
+<mxCell id="b9" value="12" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="160" y="200" width="60" height="30" as="geometry"/></mxCell>
+<mxCell id="b10" value="after the jump" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="100" width="400" height="20" as="geometry"/></mxCell>
+<mxCell id="b11" value="night jar" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="128" width="110" height="30" as="geometry"/></mxCell>
+<mxCell id="b12" value="40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="590" y="128" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="b13" value="nine bells" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="164" width="110" height="30" as="geometry"/></mxCell>
+<mxCell id="b14" value="30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="590" y="164" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="b15" value="night market" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=11;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="200" width="110" height="30" as="geometry"/></mxCell>
+<mxCell id="b16" value="50" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="590" y="200" width="250" height="30" as="geometry"/></mxCell>
+<mxCell id="b17" value="stored: night jar, nine bells" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="380" height="36" as="geometry"/></mxCell>
+<mxCell id="b18" value="fresh trim: night market, night jar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="250" width="390" height="36" as="geometry"/></mxCell>
+<mxCell id="b19" value="the board still shows the stored pair until the node is rebuilt" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="296" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="b20" value="&lt;b&gt;Answer:&lt;/b&gt; (&#x27;night jar&#x27;, &#x27;nine bells&#x27;) · (&#x27;night market&#x27;, &#x27;night jar&#x27;) · equal: False" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="326" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx3" name="Gather Cadence">
+    <mxGraphModel dx="900" dy="320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="320" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="c1" value="Gather Cadence" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="c2" value="4,000 submits yesterday: count-writes on the board path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="c3" value="nightly" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="c4" value="0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="120" width="30" height="30" as="geometry"/></mxCell>
+<mxCell id="c5" value="noon serves last night&#x27;s trie" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="240" y="120" width="400" height="30" as="geometry"/></mxCell>
+<mxCell id="c6" value="live" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="164" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="c7" value="4,000 writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="164" width="600.0" height="30" as="geometry"/></mxCell>
+<mxCell id="c8" value="rank moves during the day" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="810.0" y="164" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="c9" value="“nine bells” must leave before the next patron: a delete (Trie Patch). Counting alone, nightly or live, leaves it in the lists." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="214" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="c10" value="&lt;b&gt;Answer:&lt;/b&gt; 0 · 4000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="266" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx4" name="Trie Patch">
+    <mxGraphModel dx="900" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="420" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="e1" value="Trie Patch" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="e2" value="Four changes: what is the move for each?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="e3" value="“night market” jumped; morning may show it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=left;fontStyle=1;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="104" width="380" height="40" as="geometry"/></mxCell>
+<mxCell id="e4" value="rebuild" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="106" width="140" height="36" as="geometry"/></mxCell>
+<mxCell id="e5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="e3" target="e4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e6" value="same jump; the evening board must show it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=left;fontStyle=1;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="156" width="380" height="40" as="geometry"/></mxCell>
+<mxCell id="e7" value="patch" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="158" width="140" height="36" as="geometry"/></mxCell>
+<mxCell id="e8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="e6" target="e7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e9" value="“nighthawk” passed 5 submits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=left;fontStyle=1;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="208" width="380" height="40" as="geometry"/></mxCell>
+<mxCell id="e10" value="insert" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="210" width="140" height="36" as="geometry"/></mxCell>
+<mxCell id="e11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="e9" target="e10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e12" value="“nine bells” banned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=left;fontStyle=1;spacingLeft=8;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="380" height="40" as="geometry"/></mxCell>
+<mxCell id="e13" value="delete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="262" width="140" height="36" as="geometry"/></mxCell>
+<mxCell id="e14" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="e12" target="e13"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e15" value="ancestor list: night jar · nine bells" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1"><mxGeometry x="40" y="318" width="380" height="32" as="geometry"/></mxCell>
+<mxCell id="e16" value="count = 0, lists untouched → still suggested: True" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="318" width="420" height="32" as="geometry"/></mxCell>
+<mxCell id="e17" value="&lt;b&gt;Answer:&lt;/b&gt; rebuild · patch · insert · delete · still suggested True" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="366" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx5" name="Prefix Shard">
+    <mxGraphModel dx="900" dy="386" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="386" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="f1" value="Prefix Shard" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="f2" value="Gallery a–m, annex n–z; 70 of 100 keystrokes begin with n" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="f3" value="gallery (a–m)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="f4" value="annex (n–z)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="f5" value="marsh rail" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="100" y="170" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="f6" value="ni" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="520" y="170" width="80" height="32" as="geometry"/></mxCell>
+<mxCell id="f7" value="night jar" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="620" y="170" width="180" height="32" as="geometry"/></mxCell>
+<mxCell id="f8" value="30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="245.99999999999997" height="30" as="geometry"/></mxCell>
+<mxCell id="f9" value="70 keystrokes: CPU + trie memory hot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="286.0" y="230" width="574.0" height="30" as="geometry"/></mxCell>
+<mxCell id="f10" value="Next cut: lengthen the n prefixes and keep each prefix with its descendants. Hashing the whole string can split “ni” from “night jar”." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="f11" value="&lt;b&gt;Answer:&lt;/b&gt; gallery · annex · annex · 70 on annex" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="332" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx6" name="Postings Intersect">
+    <mxGraphModel dx="900" dy="318" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="318" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="g1" value="Postings Intersect" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="g2" value="Sorted posting lists; walk two lists once" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="g3" value="owls" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="90" height="36" as="geometry"/></mxCell>
+<mxCell id="g4" value="p1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="150" y="110" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g5" value="p3" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="210" y="110" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g6" value="fen" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="156" width="90" height="36" as="geometry"/></mxCell>
+<mxCell id="g7" value="p1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="150" y="156" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g8" value="p2" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="210" y="156" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g9" value="AND → p1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=14;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="290" y="124" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="g10" value="quay" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="470" y="110" width="90" height="36" as="geometry"/></mxCell>
+<mxCell id="g11" value="p3" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="580" y="110" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g12" value="p4" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g13" value="rails" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="470" y="156" width="90" height="36" as="geometry"/></mxCell>
+<mxCell id="g14" value="p2" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#ffffff;strokeColor=#999999;fontSize=11;" vertex="1" parent="1"><mxGeometry x="580" y="156" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g15" value="p4" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1"><mxGeometry x="640" y="156" width="54" height="36" as="geometry"/></mxCell>
+<mxCell id="g16" value="AND → p4" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=14;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="124" width="140" height="40" as="geometry"/></mxCell>
+<mxCell id="g17" value="A survivor is a candidate; its order is Rank Signal. The store holding the lists, and that they are a copy, is Search Index Store." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="g18" value="&lt;b&gt;Answer:&lt;/b&gt; (&#x27;p1&#x27;,) · (&#x27;p4&#x27;,)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="264" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx7" name="Rank Signal">
+    <mxGraphModel dx="900" dy="438" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="438" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="h1" value="Rank Signal" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="h2" value="Text score = term frequency × weight; plays sit beside it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="h3" value="“over” 8 × 1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="h4" value="8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="110" width="128" height="30" as="geometry"/></mxCell>
+<mxCell id="h5" value="“quay” 1 × 20" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="h6" value="20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="150" width="320" height="30" as="geometry"/></mxCell>
+<mxCell id="h7" value="plays: evening rails" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="h8" value="40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="200" width="320.0" height="30" as="geometry"/></mxCell>
+<mxCell id="h9" value="plays: quay notes" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="170" height="30" as="geometry"/></mxCell>
+<mxCell id="h10" value="3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="240" width="24.0" height="30" as="geometry"/></mxCell>
+<mxCell id="h11" value="(plays drawn at half scale)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="560" y="240" width="200" height="30" as="geometry"/></mxCell>
+<mxCell id="h12" value="typed" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="h13" value="leads" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="340" y="290" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="h14" value="“quay” (weight ≥ 10)" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="316" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="h15" value="text" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="316" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="h16" value="“over” (common)" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="342" width="300" height="26" as="geometry"/></mxCell>
+<mxCell id="h17" value="plays" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="340" y="342" width="520" height="26" as="geometry"/></mxCell>
+<mxCell id="h18" value="&lt;b&gt;Answer:&lt;/b&gt; 8 · 20 · text · plays · 40" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="384" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sx8" name="Index Lag">
+    <mxGraphModel dx="900" dy="316" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="316" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="i1" value="Index Lag" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="i2" value="p9 “nighthawk” committed on the primary; search misses it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="i3" value="catalog primary" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="104" width="300" height="18" as="geometry"/></mxCell>
+<mxCell id="i4" value="p1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i5" value="p2" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1"><mxGeometry x="110" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i6" value="p3" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1"><mxGeometry x="180" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i7" value="p9" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1"><mxGeometry x="250" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i8" value="search index (copy)" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="104" width="300" height="18" as="geometry"/></mxCell>
+<mxCell id="i9" value="p1" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1"><mxGeometry x="480" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i10" value="p2" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1"><mxGeometry x="550" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i11" value="p3" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1"><mxGeometry x="620" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i12" value="—" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1"><mxGeometry x="690" y="128" width="62" height="34" as="geometry"/></mxCell>
+<mxCell id="i13" value="the gap is the copy (Change Data Capture → Search Index Store), not the commit" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="820" height="18" as="geometry"/></mxCell>
+<mxCell id="i14" value="The trie can also lack “nighthawk” until the nightly swap or a patch — that is the trie cadence, a different delay. A crawler is a different ingress." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="i15" value="&lt;b&gt;Answer:&lt;/b&gt; missing: (&#x27;p9&#x27;,)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="262" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
