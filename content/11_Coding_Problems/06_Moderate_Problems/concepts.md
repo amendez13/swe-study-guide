@@ -10,6 +10,10 @@ Insight: one pass and a map, O(n)
 Edge: empty input, one element, the boundary value
 ```
 
+![One insight and its cost](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-1-one-insight-and-its-cost.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 1.*
+
 ## Bit tests and masks
 
 A bit is a flag. Bit `i` of a badge mask means wing `i` is open. `mask & (1 << i)` tests it. `mask |= 1 << i` sets it. `mask &= ~(1 << i)` clears it. `mask & -mask` isolates the lowest set bit, which is the smallest wing number you can answer without a loop over the high bits. Use this when the input is a set of small integers packed into a word, or when the problem asks for a parity, a single differing flag, or the lowest open wing.
@@ -23,6 +27,10 @@ def lowest_wing(mask: int) -> int:
 
 print(lowest_wing(0b10100))  # 2, the lowest set bit
 ```
+
+![Bit tests and masks](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-2-bit-tests-and-masks.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 2.*
 
 ## Swap without a temporary
 
@@ -40,6 +48,10 @@ def xor_swap(a: int, b: int) -> tuple[int, int]:
 print(xor_swap(3, 7))  # (7, 3)
 ```
 
+![Swap without a temporary](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-3-swap-without-temporary.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 3.*
+
 ## Overflow-safe arithmetic
 
 A fixed-width integer wraps. The sum of two large indexes can overflow before you divide it by two, so the midpoint of a range becomes negative and the search walks off the array. Write `lo + (hi - lo) // 2`. The difference fits when both ends fit and `lo` is not above `hi`. The same habit applies to a product: reduce modulo `m` after each multiply, or divide out a shared factor before multiplying, instead of building a huge intermediate and hoping.
@@ -52,6 +64,10 @@ def midpoint(lo: int, hi: int) -> int:
 
 print(midpoint(2_000_000_000, 2_000_000_010))  # 2000000005
 ```
+
+![Overflow-safe arithmetic](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-4-overflow-safe-arithmetic.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 4.*
 
 ## Count with a map
 
@@ -68,6 +84,10 @@ def repeated(lengths: list[int]) -> list[int]:
 
 print(repeated([4, 2, 4, 3, 2, 2]))  # [2, 4]
 ```
+
+![Count with a map](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-5-count-with-a-map.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 5.*
 
 ## Two pointers
 
@@ -89,6 +109,10 @@ def trips(weights: list[int], limit: int) -> int:
 
 print(trips([1, 2, 4, 5], 6))  # 2
 ```
+
+![Two pointers](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-6-two-pointers.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 6.*
 
 ## Sliding window
 
@@ -112,6 +136,10 @@ def longest_under(hours: list[int], limit: int) -> int:
 print(longest_under([1, 2, 2, 4, 1, 1], 5))  # 3, the hours 1+2+2
 ```
 
+![Sliding window](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-7-sliding-window.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 7.*
+
 ## Prefix sums
 
 A prefix array stores the sum of everything up to each index. The sum from `left` through `right` is `prefix[right + 1] - prefix[left]`, in constant time, after O(n) to build the prefixes. Many range questions on one array become two array lookups. One question does not need the array. A loop is clearer. Ten thousand questions do.
@@ -129,6 +157,10 @@ jars = prefix([2, 0, 3])
 print(jars[3] - jars[1])  # days 1 through 2: 0 + 3 = 3
 ```
 
+![Prefix sums](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-8-prefix-sums.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 8.*
+
 ## Sort, then scan
 
 Sorting is the insight when the next step wants neighbors. The smallest gap between crate weights is the minimum of `sorted[i + 1] - sorted[i]`, one pass after the sort. Before the sort those neighbors are not next to each other, and a double loop is the honest brute force. After the sort, any closer pair would be a contradiction.
@@ -142,6 +174,10 @@ def smallest_gap(weights: list[int]) -> int:
 
 print(smallest_gap([8, 1, 5, 3]))  # 2
 ```
+
+![Sort, then scan](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-9-sort-then-scan.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 9.*
 
 ## Merge intervals
 
@@ -163,6 +199,10 @@ def merge(spans: list[tuple[int, int]]) -> list[tuple[int, int]]:
 print(merge([(1, 3), (2, 6), (8, 10), (9, 12)]))  # [(1, 6), (8, 12)]
 ```
 
+![Merge intervals](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-10-merge-intervals.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 10.*
+
 ## Simulate a small machine
 
 Some problems are a machine with a few states and a list of events. Write the states and the legal transitions before the loop. A turnstile might be `locked`, `open`, or `alarm`. A badge moves locked to open. A pass moves open to locked. A pass while locked, or a forced gate, moves to alarm. Each event is O(1), and the whole log is O(n).
@@ -180,6 +220,10 @@ NEXT = {
 def step(state: str, event: str) -> str:
     return NEXT.get((state, event), state)
 ```
+
+![Simulate a small machine](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-11-simulate-a-small-machine.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 11.*
 
 ## Digits, not the whole number
 
@@ -203,6 +247,10 @@ def strictly_increasing(number: int) -> bool:
 print(strictly_increasing(1359), strictly_increasing(133))  # True False
 ```
 
+![Digits, not the whole number](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-12-digits-not-whole-number.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 12.*
+
 ## Modulo and gcd
 
 Two shortcuts show up often enough to name. `(a + b) mod m` and `(a * b) mod m` can be reduced at each step, so a fixed-width product never has to hold `a * b`. A clock position after `steps` hours is `(start + steps) % 12`. Reduce as you go when the sum itself can overflow.
@@ -218,6 +266,10 @@ def gcd(a: int, b: int) -> int:
 print(gcd(18, 12), (8 + 20) % 12)  # 6, clock from 8 by 20 hours is 4
 ```
 
+![Modulo and gcd](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-13-modulo-and-gcd.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 13.*
+
 ## Estimate, then the edges
 
 A moderate problem often hides a size. Say the size out loud before the algorithm. A million 32-bit badge ids are about 4 megabytes, so they fit in memory and a hash map is honest. A billion of them may not, and the insight changes. Powers of two are enough: `2**20` is about a million, `2**10` is about a thousand. You are checking that the plan fits, not producing a capacity plan.
@@ -231,8 +283,16 @@ def badge_bytes(count: int) -> int:
 print(badge_bytes(1_000_000))  # 4000000, about 4 MB
 ```
 
+![Estimate, then the edges](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-14-estimate-then-edges.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 14.*
+
 ## Check the fast path
 
 Keep a slow version for a tiny input, or one you can compute by hand. The window, the prefix, and the merged spans should match it. A mismatch is a bug in the shortcut or an edge the slow version handled and the fast one skipped. Three or four elements are enough. Include the empty input in that check when the function claims to accept it.
 
 The slow version is also what you say first if the shortcut is not ready. A correct O(n^2) answer, with its cost named, beats a fast idea you cannot finish. Mark the fast idea as a plan. Do not hand in half of it as if the tests had passed.
+
+![Check the fast path](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems-15-check-the-fast-path.png)
+
+*Source: [`diagrams/moderate-problems.drawio`](/content/11_Coding_Problems/06_Moderate_Problems/diagrams/moderate-problems.drawio), page 15.*
