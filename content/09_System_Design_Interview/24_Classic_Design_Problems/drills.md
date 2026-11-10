@@ -26,6 +26,10 @@ print(status(LINKS["lot-18"]), status(LINKS["hours"]))
 # 302 301
 ```
 
+![Redirect Code](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-1-redirect-code.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 1.*
+
 ## Chat Offline
 
 Nia sends "wagon at gate" to Cal. Cal's socket is down. The stored message ids are 41 and 42. Cal's phone last applied 40, and the shed tablet last applied 42. What does the exchange do while Cal is offline, what does the phone receive on reconnect, and what does the tablet receive?
@@ -55,6 +59,10 @@ print(sent_now, catch_up(STORED, PHONE), catch_up(STORED, TABLET))
 # () (41, 42) ()
 ```
 
+![Chat Offline](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-2-chat-offline.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 2.*
+
 ## Feed Assembly
 
 Ada is an ordinary grower. Her note is already in Dee's precomputed board. Bram is followed by the whole exchange. His note was stored once and was not copied into that board. Dee's scores are Ada 3 and Bram 9. What does Dee's open call return, and in what order?
@@ -81,6 +89,10 @@ def board(inbox: tuple[str, ...], pull: tuple[str, ...]) -> tuple[str, ...]:
 print(board(INBOX, PULL))
 # ('bram', 'ada')
 ```
+
+![Feed Assembly](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-3-feed-assembly.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 3.*
 
 ## Politeness
 
@@ -120,6 +132,10 @@ print(next_url(), wait("trial.example"))
 # notes.example/leaf 1
 ```
 
+![Politeness](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-4-politeness.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 4.*
+
 ## KV Knobs
 
 Lot status has to return the put that was acknowledged. The packed-today counter on the shed door may be stale. N is 3. Which W and R does each key use, and which topic owns the rule that makes the lot-status pair valid?
@@ -150,6 +166,10 @@ print(
 # 3 (2, 2) (1, 1)
 ```
 
+![KV Knobs](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-5-kv-knobs.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 5.*
+
 ## Push or Scrape
 
 Pear room sits behind the shed network. The collector cannot dial it. The door counter exposes a metrics page the collector can dial, and a silent counter has to show up as a missed read. Which collection mode does each one use, and where do the samples land?
@@ -179,6 +199,10 @@ def mode(dialable: bool) -> str:
 print(mode(SOURCES["pear"]["dialable"]), mode(SOURCES["door"]["dialable"]))
 # push scrape
 ```
+
+![Push or Scrape](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-6-push-or-scrape.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 6.*
 
 ## Seat Hold
 
@@ -217,6 +241,10 @@ print(
 )
 # confirmed False ('held', 'available')
 ```
+
+![Seat Hold](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-7-seat-hold.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 7.*
 
 ## Price-Time Fill
 
@@ -260,3 +288,7 @@ def fill(limit: int, qty: int) -> tuple[tuple[tuple[str, int], ...], int, tuple[
 print(fill(*BUY))
 # ((('a', 4), ('b', 3)), 2, (('c', 8),))
 ```
+
+![Price-Time Fill](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills-8-price-time-fill.png)
+
+*Source: [`diagrams/classic-problems-drills.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-drills.drawio), page 8.*

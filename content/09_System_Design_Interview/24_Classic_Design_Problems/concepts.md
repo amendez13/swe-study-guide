@@ -17,6 +17,10 @@ code            Base62 or Hash
 cache           Caching
 ```
 
+![URL Shortener](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-1-url-shortener.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 1.*
+
 ## Chat System
 
 Pickers at the exchange talk to the desk and to their crew from the rows. A signed-in phone holds a connection the server can write on. The upgrade, the frames, and the fact that the socket stays on the process that accepted it are WebSockets and SSE in [Networking and Communication](../10_Networking_and_Communication/). A note from Nia to Cal looks up the process that holds Cal's socket and forwards the frame. The exchange keeps that map, member to process. How a caller learns the current address of a service from a registry is Service Discovery in [Microservices and System Decomposition](../12_Microservices_and_System_Decomposition/).
@@ -37,6 +41,10 @@ ids             Snowflake ID
 online          Presence
 ```
 
+![Chat System](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-2-chat-system.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 2.*
+
 ## News Feed
 
 A grower publishes a lot note once. A member who follows that grower sees it on the board they open. Publish and retrieve are different calls. Publish stores the note. Retrieve returns the board.
@@ -54,6 +62,10 @@ pattern         Fan-Out Strategies
 order           time in storage, score on the board
 assembled board Caching
 ```
+
+![News Feed](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-3-news-feed.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 3.*
 
 ## Web Crawler
 
@@ -75,6 +87,10 @@ due and gap     URL Frontier
 missed fetch    Timeouts and Retries
 ```
 
+![Web Crawler](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-4-web-crawler.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 4.*
+
 ## URL Frontier
 
 The frontier is the list of URLs still to fetch, and it is the gate in front of the fetcher. Each host has its own queue. After a fetch, that host waits out a gap before another of its URLs may leave. A crawl-delay in robots.txt is that host's gap. A higher-priority URL on a host fetched a moment ago waits out the rest of the gap. Priority orders URLs the gap has released.
@@ -92,6 +108,10 @@ storage         durable queues, checkpointed offsets
 breadth-first   a layer of hosts, then deeper links
 depth-first     one path; one host can fill the crawl
 ```
+
+![URL Frontier](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-5-url-frontier.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 5.*
 
 ## Distributed Key-Value Store
 
@@ -114,6 +134,10 @@ silent copy     Replica Failure Handling
 deadline        Timeouts and Retries
 ```
 
+![Distributed Key-Value Store](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-6-distributed-key-value-store.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 6.*
+
 ## Metrics Monitoring System
 
 Cold rooms report temperature, and the packing doors report a count. A push has the room send each sample to a collector. Pear room sits behind the shed network, and the collector cannot dial it, so pear room pushes. A scrape has the collector read a metrics page on an interval. The door counter can be dialed, so the collector scrapes it. A missed scrape is the door going silent. On the push path, a heartbeat is what makes a silent room visible, because a room with nothing new and a room that has stopped look alike until that heartbeat is late.
@@ -131,6 +155,10 @@ coarser series  one minute, then one hour
 job             Batch Processing
 page            one open incident per room and rule
 ```
+
+![Metrics Monitoring System](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-7-metrics-monitoring-system.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 7.*
 
 ## Ticket Booking System
 
@@ -151,6 +179,10 @@ wagon           22 tickets for 20 seats
 gate            the latest extra ticket takes the next wagon
 ```
 
+![Ticket Booking System](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-8-ticket-booking-system.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 8.*
+
 ## Matching Engine
 
 The morning call matches bids and asks for one variety at a time. An ask rests with a price, the time it arrived, and a crate count. Asks are ordered by price ascending, and by time ascending at one price. Bids are ordered by price descending, then time ascending. A buy crosses when its limit is at least the best ask. It fills at the resting ask's price, earlier time first at that price, then walks to the next ask. Crates the buy cannot take, because the next ask is above the limit, rest on the bid book at the buy's limit.
@@ -168,3 +200,7 @@ sequencer       one increasing stamp, then the book
 one variety     one thread, book in memory
 after the fill  Message Queue
 ```
+
+![Matching Engine](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems-9-matching-engine.png)
+
+*Source: [`diagrams/classic-problems.drawio`](/content/09_System_Design_Interview/24_Classic_Design_Problems/diagrams/classic-problems.drawio), page 9.*
