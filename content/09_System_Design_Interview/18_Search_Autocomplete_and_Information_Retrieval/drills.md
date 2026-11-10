@@ -54,6 +54,10 @@ print(completions(root, SHORT), completions(root, LONG))
 # ['night jar', 'night market', 'nine bells'] ['night jar', 'night market']
 ```
 
+![Prefix Walk](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-1-prefix-walk.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 1.*
+
 ## Top-K at the Node
 
 The node for "ni" has three counts: "night jar" 40, "nine bells" 30, "night market" 12. The board shows 2 titles. Which pair is stored? "night market" later reaches 50, and the node has not been rebuilt. Which pair would a fresh trim keep, and what does the board still show?
@@ -83,6 +87,10 @@ print(stored, fresh, stored == fresh)
 # ('night jar', 'nine bells') ('night market', 'night jar') False
 ```
 
+![Top-K at the Node](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-2-top-k-at-the-node.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 2.*
+
 ## Gather Cadence
 
 Yesterday's log holds 4,000 submitted queries. The nightly design counts that closed log and swaps a trie at close. The live design increments a count on every submit, on the board path. How many count-writes does the board path do under each design, and when is each design acceptable? "nine bells" has to leave the board before the next patron. What removes it?
@@ -108,6 +116,10 @@ def board_writes(mode: str, submits: int) -> int:
 print(*(board_writes(mode, SUBMITS) for mode in MODES))
 # 0 4000
 ```
+
+![Gather Cadence](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-3-gather-cadence.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 3.*
 
 ## Trie Patch
 
@@ -141,6 +153,10 @@ print(" ".join(MOVE[name] for name in EVENTS), still_suggested(LISTS, BANNED))
 # rebuild patch insert delete True
 ```
 
+![Trie Patch](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-4-trie-patch.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 4.*
+
 ## Prefix Shard
 
 Gallery holds a first character from a through m. Annex holds n through z. Where do "marsh rail", "night jar", and the prefix "ni" land? Of 100 keystrokes, 70 begin with n. What does that 70 do to the pair of hosts?
@@ -166,6 +182,10 @@ def host(text: str) -> str:
 print(*(host(text) for text in TITLES), N_SHARE)
 # gallery annex annex 70
 ```
+
+![Prefix Shard](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-5-prefix-shard.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 5.*
 
 ## Postings Intersect
 
@@ -214,6 +234,10 @@ print(
 # ('p1',) ('p4',)
 ```
 
+![Postings Intersect](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-6-postings-intersect.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 6.*
+
 ## Rank Signal
 
 "over" has term frequency 8 and weight 1. "quay" has term frequency 1 and weight 20. "evening rails" was played 40 times this week. "quay notes" was played 3 times. What is each text score? When the patron typed "quay", which signal leads? When the typed words are common, which signal may lead?
@@ -246,6 +270,10 @@ print(text_score("over"), text_score("quay"), leader("quay"), leader("over"), PL
 # 8 20 text plays 40
 ```
 
+![Rank Signal](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-7-rank-signal.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 7.*
+
 ## Index Lag
 
 Program p9, "nighthawk", is committed on the catalog primary. The search index still holds p1, p2, and p3. A search for the words in p9 misses it. Where does that gap live?
@@ -270,3 +298,7 @@ def missing(primary: tuple[str, ...], index: tuple[str, ...]) -> tuple[str, ...]
 print(missing(PRIMARY, INDEX))
 # ('p9',)
 ```
+
+![Index Lag](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills-8-index-lag.png)
+
+*Source: [`diagrams/search-drills.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-drills.drawio), page 8.*

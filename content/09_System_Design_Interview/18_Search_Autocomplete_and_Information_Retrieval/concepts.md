@@ -12,6 +12,10 @@ cap       40 characters
 on node   top 5, already ordered
 ```
 
+![Trie (Prefix Tree)](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-1-trie-prefix-tree.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 1.*
+
 ## Search Autocomplete System
 
 This is the online path. A patron types "ni" on the desk board. The service walks to that node and returns the five titles stored there. The board's budget is 40 ms, so the answer is that list. An empty box returns the five most played programs, the list stored at the root. A title that has been banned is omitted in this response even when an older list still names it.
@@ -26,6 +30,10 @@ banned        omitted in the response
 reorder       this patron's three recent plays
 counts        Query Log Aggregation
 ```
+
+![Search Autocomplete System](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-2-search-autocomplete-system.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 2.*
 
 ## Query Log Aggregation
 
@@ -42,6 +50,10 @@ ban       cannot wait for the swap
 shape     Batch Processing
 ```
 
+![Query Log Aggregation](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-3-query-log-aggregation.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 3.*
+
 ## Trie Operations
 
 Create runs when a string passes a cutoff of 5 submits. The new string is inserted, any missing prefix nodes are added, and the top 5 on that path are refreshed. Update runs when a count changes. "night market" moving from 12 to 50 re-sorts the top 5 on "n", on "ni", and on each longer node of its path. A jump the morning board can show waits for the nightly rebuild. A jump the evening board must show is a patch of those nodes.
@@ -55,6 +67,10 @@ wait      nightly rebuild
 tonight   patch the nodes on the path
 delete    unlink, prune, strip every ancestor list
 ```
+
+![Trie Operations](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-4-trie-operations.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 4.*
 
 ## Trie Partition
 
@@ -70,6 +86,10 @@ next cut   a longer prefix, descendants stay with it
 ring, salt Horizontal Partitioning, Hot Partition Mitigation
 ```
 
+![Trie Partition](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-5-trie-partition.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 5.*
+
 ## Inverted Index
 
 An inverted index maps a term to the programs whose transcripts contain it. Program p1 is "owls over the fen", p2 is "fen rails at dusk", and p3 is "owls at the quay". The postings are owls → p1, p3 and fen → p1, p2. A query that wants both terms intersects the lists and leaves p1. A query that wants either term unions them. A posting can also carry the term's count in that program, and the positions a phrase query uses.
@@ -83,6 +103,10 @@ both → p1
 store, lagging copy   Search Index Store
 nearby programs       Geohash, Quadtree
 ```
+
+![Inverted Index](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-6-inverted-index.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 6.*
 
 ## Relevance Ranking
 
@@ -98,6 +122,10 @@ distinctive word         text score leads
 common words             plays or recency can lead
 ```
 
+![Relevance Ranking](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-7-relevance-ranking.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 7.*
+
 ## Full-Text Search Architecture
 
 The catalog primary commits program p9. A search for p9's words can miss it until a later copy has written those terms into the index. The commit has landed. The gap is the copy. The pipeline that carries a committed change is Change Data Capture in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). The store that holds the copy is Search Index Store in [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/). Text that arrives because a crawler fetched a page is the Web Crawler in [Classic Design Problems](../24_Classic_Design_Problems/).
@@ -112,3 +140,7 @@ scatter           every shard that might hold "quay"
 gather            merge by score
 id lookup         the primary
 ```
+
+![Full-Text Search Architecture](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search-8-full-text-search-architecture.png)
+
+*Source: [`diagrams/search.drawio`](/content/09_System_Design_Interview/18_Search_Autocomplete_and_Information_Retrieval/diagrams/search.drawio), page 8.*
