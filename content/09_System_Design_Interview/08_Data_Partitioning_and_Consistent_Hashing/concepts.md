@@ -9,6 +9,10 @@ one primary   12 million bookings, one log
 four shards   about 3 million each, four logs
 ```
 
+![Horizontal Partitioning (Sharding)](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-1-horizontal-partitioning-sharding.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 1.*
+
 ## Vertical Partitioning
 
 Vertical partitioning moves different tables, columns, or feature data onto different servers or stores. The booking row stays on the relational primary. The gate-scan log for that sailing, wide and append-only, lives on another disk. One page may read both.
@@ -19,6 +23,10 @@ Vertical scaling is a bigger machine for the box you already have. That lever is
 bookings(sailing_id, seat, fare)    relational primary
 scans(sailing_id, at, gate)         another store, another disk
 ```
+
+![Vertical Partitioning](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-2-vertical-partitioning.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 2.*
 
 ## Choosing a Shard Key
 
@@ -31,6 +39,10 @@ sailing_id       one sailing, one shard; the passenger page is a lookup
 passenger_id     one passenger, one shard; a sailing is scatter-gather
 departure_day    today's inserts share one shard
 ```
+
+![Choosing a Shard Key](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-3-choosing-a-shard-key.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 3.*
 
 ## Range Partitioning
 
@@ -45,6 +57,10 @@ ids 100–180      shard A
 ids 2990–3010    shard A and shard B
 ```
 
+![Range Partitioning](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-4-range-partitioning.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 4.*
+
 ## Hash Partitioning
 
 Hash partitioning maps `hash(key) % N` to a shard. Sequential sailing ids that would share a range land on different shards. Point lookups spread. A range scan does not: ids 100 through 180 are not one span, so the read is a scatter-gather across the shards.
@@ -57,6 +73,10 @@ sailing 10 % 4 → 2     sailing 10 % 5 → 0
 sailing 11 % 4 → 3     sailing 11 % 5 → 1
 sailing 14 % 4 → 2     sailing 14 % 5 → 4
 ```
+
+![Hash Partitioning](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-5-hash-partitioning.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 5.*
 
 ## Consistent Hashing
 
@@ -74,6 +94,10 @@ add D at 25, from this ring: D takes (10, 25] from B
 remove B, from this ring: (10, 40] goes to C
 ```
 
+![Consistent Hashing](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-6-consistent-hashing.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 6.*
+
 ## Virtual Nodes (Vnodes)
 
 One position per physical machine has two problems. The arcs are uneven, so one machine can own much more of the ring than another. An add or a remove then shifts load only with the neighbor that owned the arc, so one machine absorbs the whole change and the others keep their share.
@@ -84,6 +108,10 @@ Many virtual nodes per physical machine place that machine at many positions. Th
 one point each:   arcs 60, 10, 30
 many points each: each machine closer to a third
 ```
+
+![Virtual Nodes (Vnodes)](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-7-virtual-nodes-vnodes.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 7.*
 
 ## Rebalancing
 
@@ -101,6 +129,10 @@ a 5th node takes 12 from each → 48 each
 a key's partition number stays
 ```
 
+![Rebalancing](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-8-rebalancing.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 8.*
+
 ## Request Routing
 
 Request routing is how a client reaches the shard the partition map names. The map is the object: a key range, or a hash partition, to a node. Consistent hashing told you how to compute an owner from positions. This card is how that result is stored and refreshed.
@@ -117,6 +149,10 @@ proxy         client → proxy → owner
 gossip        client → any node → owner
 ```
 
+![Request Routing](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-9-request-routing.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 9.*
+
 ## Hot Partition Mitigation
 
 A hot partition is a shard whose key, or whose range, takes a disproportionate share of the traffic. Even hashing does not fix one key that is most of the writes. Sailing 88 is a celebrity key. Every booking for it hashes to one shard.
@@ -131,3 +167,7 @@ Isolate the key on its own shard and leave the ring for everyone else. That shar
 sailing 88          one shard takes every booking
 sailing 88#0–#7     eight shards, the page merges eight reads
 ```
+
+![Hot Partition Mitigation](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning-10-hot-partition-mitigation.png)
+
+*Source: [`diagrams/data-partitioning.drawio`](/content/09_System_Design_Interview/08_Data_Partitioning_and_Consistent_Hashing/diagrams/data-partitioning.drawio), page 10.*
