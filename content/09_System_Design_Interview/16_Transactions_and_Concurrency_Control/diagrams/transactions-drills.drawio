@@ -1,0 +1,186 @@
+<mxfile host="drawio">
+  <diagram id="td1" name="Need a Transaction">
+    <mxGraphModel dx="900" dy="394" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="394" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="a1" value="Need a Transaction" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="a2" value="Plate P-14 + lot L-3 (800, run takes 400); process dies between writes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="a3" value="writes stand alone, crash between" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="320" height="44" as="geometry"/></mxCell>
+<mxCell id="a4" value="plate used" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1"><mxGeometry x="400" y="110" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="a5" value="lot 800" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1"><mxGeometry x="620" y="110" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="a6" value="commit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="170" width="320" height="44" as="geometry"/></mxCell>
+<mxCell id="a7" value="plate used" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1"><mxGeometry x="400" y="170" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="a8" value="lot 400" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1"><mxGeometry x="620" y="170" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="a9" value="rollback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="320" height="44" as="geometry"/></mxCell>
+<mxCell id="a10" value="plate free" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="400" y="230" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="a11" value="lot 800" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="620" y="230" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="a12" value="Alone, the sheets are on the press and the lot can hand them out again. Durability and the ACID letters → ACID Properties." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="296" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="a13" value="&lt;b&gt;Answer:&lt;/b&gt; (&#x27;used&#x27;, 800) · (&#x27;used&#x27;, 400) · (&#x27;free&#x27;, 800)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td2" name="Isolation Pick">
+    <mxGraphModel dx="900" dy="470" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="470" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="b1" value="Isolation Pick" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="b2" value="Lots A and B hold 300 each; rule A + B ≥ 500; west takes 200 from A, east 200 from B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="b3" value="level" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="104" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="b4" value="still allows" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="260" y="104" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b5" value="on this pair" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="560" y="104" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b6" value="read committed" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="138" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="b7" value="non-repeatable read" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="138" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b8" value="—" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="560" y="138" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b9" value="snapshot" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#fff2e0;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="172" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="b10" value="write skew" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#fff2e0;" vertex="1" parent="1"><mxGeometry x="260" y="172" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b11" value="both commit: sum 200" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#fff2e0;" vertex="1" parent="1"><mxGeometry x="560" y="172" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b12" value="serializable" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="206" width="220" height="34" as="geometry"/></mxCell>
+<mxCell id="b13" value="none" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="206" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b14" value="one of the two aborts" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="560" y="206" width="300" height="34" as="geometry"/></mxCell>
+<mxCell id="b15" value="before" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="b16" value="A 300" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="270" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="b17" value="B 300" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="270" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="b18" value="after skew" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=12;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="150" height="30" as="geometry"/></mxCell>
+<mxCell id="b19" value="A 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="310" width="100" height="30" as="geometry"/></mxCell>
+<mxCell id="b20" value="B 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="310" width="100" height="30" as="geometry"/></mxCell>
+<mxCell id="b21" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="700" y="260" as="sourcePoint"/><mxPoint x="700" y="350" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="b22" value="floor 500" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=10;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="704" y="346" width="100" height="16" as="geometry"/></mxCell>
+<mxCell id="b23" value="Each writer updated a different row, so the updates missed each other. A unique key on one plate is cheaper for a single row." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="372" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="b24" value="&lt;b&gt;Answer:&lt;/b&gt; non-repeatable-read · write-skew · none · sum 200 · ≥ 500 False" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="416" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td3" name="Optimistic or Pessimistic">
+    <mxGraphModel dx="900" dy="396" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="396" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="c1" value="Optimistic or Pessimistic" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="c2" value="Night poster: one plate, forty operators · day jobs: a plate each" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="c3" value="night-poster&lt;br&gt;&lt;span style=&#x27;font-weight:normal&#x27;&gt;conflict is the common case&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="c4" value="pessimistic: lock first" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="116" width="240" height="38" as="geometry"/></mxCell>
+<mxCell id="c5" value="day-jobs&lt;br&gt;&lt;span style=&#x27;font-weight:normal&#x27;&gt;conflict is rare&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="c6" value="optimistic: version check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="186" width="240" height="38" as="geometry"/></mxCell>
+<mxCell id="c7" value="UPDATE&amp;nbsp;…&amp;nbsp;SET&amp;nbsp;v=8&amp;nbsp;WHERE&amp;nbsp;id=&amp;#x27;P-14&amp;#x27;&amp;nbsp;AND&amp;nbsp;v=7&lt;br&gt;--&amp;nbsp;current&amp;nbsp;version&amp;nbsp;is&amp;nbsp;already&amp;nbsp;8&lt;br&gt;--&amp;nbsp;rows&amp;nbsp;changed:&amp;nbsp;0" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontFamily=Courier New;fontSize=11;fillColor=#272822;fontColor=#f8f8f2;strokeColor=none;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="520" height="64" as="geometry"/></mxCell>
+<mxCell id="c8" value="0 rows → the version moved; retry. The plate stays with whoever committed v8" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="580" y="260" width="280" height="64" as="geometry"/></mxCell>
+<mxCell id="c9" value="&lt;b&gt;Answer:&lt;/b&gt; pessimistic · optimistic · 0 rows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="342" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td4" name="Lock Order">
+    <mxGraphModel dx="900" dy="424" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="424" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="e1" value="Lock Order" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="e2" value="West holds P-14 and waits for L-3; east holds L-3 and waits for P-14" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="e3" value="west" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="80" y="140" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="e4" value="P-14" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="300" y="110" width="100" height="40" as="geometry"/></mxCell>
+<mxCell id="e5" value="L-3" style="rounded=0;whiteSpace=wrap;html=1;fontFamily=Courier New;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1"><mxGeometry x="300" y="200" width="100" height="40" as="geometry"/></mxCell>
+<mxCell id="e6" value="east" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="140" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="e7" value="holds" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="e3" target="e4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e8" value="holds" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#2d7a1f;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#2d7a1f;fontStyle=1;" edge="1" parent="1" source="e6" target="e5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e9" value="waits" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="e3" target="e5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e10" value="waits" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="e6" target="e4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="e11" value="cycle → deadlock" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=14;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="150" width="220" height="24" as="geometry"/></mxCell>
+<mxCell id="e12" value="fix" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="e13" value="effect" style="whiteSpace=wrap;html=1;fillColor=#e6e6e6;strokeColor=#999999;fontStyle=1;fontSize=12;" vertex="1" parent="1"><mxGeometry x="260" y="270" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="e14" value="lock timeout / detection" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="296" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="e15" value="abort one run; it retries" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="296" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="e16" value="always P-14 before L-3" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="322" width="220" height="26" as="geometry"/></mxCell>
+<mxCell id="e17" value="the second run waits on P-14; no cycle" style="whiteSpace=wrap;html=1;strokeColor=#999999;fontSize=12;fillColor=#ffffff;" vertex="1" parent="1"><mxGeometry x="260" y="322" width="600" height="26" as="geometry"/></mxCell>
+<mxCell id="e18" value="&lt;b&gt;Answer:&lt;/b&gt; deadlock: True" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="370" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td5" name="2PC Hang">
+    <mxGraphModel dx="900" dy="438" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="438" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="f1" value="2PC Hang" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="f2" value="Both participants voted yes; the coordinator died before deciding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="f3" value="coordinator ✗&lt;br&gt;&lt;span style=&#x27;font-weight:normal&#x27;&gt;decision: None&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="f4" value="press-book&lt;br&gt;&lt;span style=&#x27;font-weight:normal&#x27;&gt;prepared, voted yes&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="f5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="f3" target="f4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="f6" value="wait · locks held" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="200" height="32" as="geometry"/></mxCell>
+<mxCell id="f7" value="paper-ledger&lt;br&gt;&lt;span style=&#x27;font-weight:normal&#x27;&gt;prepared, voted yes&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="190" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="f8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;dashed=1;" edge="1" parent="1" source="f3" target="f7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="f9" value="wait · locks held" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="250" width="200" height="32" as="geometry"/></mxCell>
+<mxCell id="f10" value="commit and abort are both still open: choose neither" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="300" width="420" height="18" as="geometry"/></mxCell>
+<mxCell id="f11" value="Two services: a saga is the better shape — local commits plus compensating writes (Saga Pattern). Local row + outbox, then publish → Transactional Outbox." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="332" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="f12" value="&lt;b&gt;Answer:&lt;/b&gt; wait · 2 prepared participants" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="384" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td6" name="Majority Ack">
+    <mxGraphModel dx="900" dy="398" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="398" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="g1" value="Majority Ack" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="g2" value="How many acks commit an entry, and how many failures does that survive?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="g3" value="5 nodes" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="100" height="30" as="geometry"/></mxCell>
+<mxCell id="g4" value="✓" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="160" y="110" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g5" value="✓" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="230" y="110" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g6" value="✓" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="300" y="110" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g7" value="✗" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="370" y="110" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g8" value="✗" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="440" y="110" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g9" value="majority 3 · survives 2" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="530" y="120" width="260" height="30" as="geometry"/></mxCell>
+<mxCell id="g10" value="3 nodes" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="100" height="30" as="geometry"/></mxCell>
+<mxCell id="g11" value="✓" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="160" y="200" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g12" value="✓" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1"><mxGeometry x="230" y="200" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g13" value="✗" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fontSize=12;fontFamily=Courier New;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1"><mxGeometry x="300" y="200" width="50" height="50" as="geometry"/></mxCell>
+<mxCell id="g14" value="majority 2 · survives 1" style="text;html=1;whiteSpace=wrap;fontSize=11;align=left;verticalAlign=middle;fontSize=13;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="390" y="210" width="260" height="30" as="geometry"/></mxCell>
+<mxCell id="g15" value="This is the majority on one log entry (Raft). Read/write set overlap is Quorum Reads and Writes. Call etcd or ZooKeeper." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="g16" value="&lt;b&gt;Answer:&lt;/b&gt; 3 · 2 · (3 nodes: 2 · 1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="344" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td7" name="Leader Cut">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="h1" value="Leader Cut" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="h2" value="West cut off from east and loft" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="h3" value="west" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="80" y="130" width="140" height="44" as="geometry"/></mxCell>
+<mxCell id="h4" value="1 × 2 &gt; 3? False → stop" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="184" width="240" height="18" as="geometry"/></mxCell>
+<mxCell id="h5" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=3;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="320" y="110" as="sourcePoint"/><mxPoint x="320" y="240" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="h6" value="east" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="130" width="140" height="44" as="geometry"/></mxCell>
+<mxCell id="h7" value="loft" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="130" width="140" height="44" as="geometry"/></mxCell>
+<mxCell id="h8" value="2 × 2 &gt; 3? True → elect, keep writing" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=12;fontColor=#2d7a1f;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="184" width="320" height="18" as="geometry"/></mxCell>
+<mxCell id="h9" value="An entry from the side of one would diverge from the pair&#x27;s (Split Brain). Fencing a relational primary → Failover and Promotion." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="256" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="h10" value="&lt;b&gt;Answer:&lt;/b&gt; west False · east and loft True" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="td8" name="Lock Lease">
+    <mxGraphModel dx="900" dy="356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="356" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="i1" value="Lock Lease" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="i2" value="press/folio: 10-second lease, holder paused 14 seconds" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;fontSize=14;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="i3" value="0s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="108" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i4" value="2s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="168" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i5" value="4s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="228" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i6" value="6s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="288" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i7" value="8s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="348" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i8" value="10s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="408" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i9" value="12s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="468" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i10" value="14s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="528" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i11" value="16s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;fontSize=9;fontColor=#888;" vertex="1" parent="1"><mxGeometry x="588" y="100" width="24" height="14" as="geometry"/></mxCell>
+<mxCell id="i12" value="lease 10 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="120" y="120" width="300" height="28" as="geometry"/></mxCell>
+<mxCell id="i13" value="paused 14 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="120" y="158" width="420" height="28" as="geometry"/></mxCell>
+<mxCell id="i14" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=2;dashed=1;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="420" y="112" as="sourcePoint"/><mxPoint x="420" y="230" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="i15" value="expired at 10 s" style="text;html=1;whiteSpace=wrap;fontSize=11;align=right;verticalAlign=middle;fontSize=10;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="310" y="214" width="106" height="16" as="geometry"/></mxCell>
+<mxCell id="i16" value="new holder may take the key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="196" width="220" height="28" as="geometry"/></mxCell>
+<mxCell id="i17" value="The new holder has no basis to treat the paused process as stopped: it can resume and write. Fence the expired holder (Failover and Promotion for a primary)." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="i18" value="&lt;b&gt;Answer:&lt;/b&gt; lease expired: True" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=left;spacingLeft=12;" vertex="1" parent="1"><mxGeometry x="40" y="302" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

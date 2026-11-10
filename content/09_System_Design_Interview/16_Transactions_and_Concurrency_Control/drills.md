@@ -34,6 +34,10 @@ print(crash_between(), after_commit(), after_rollback())
 # ('used', 800) ('used', 400) ('free', 800)
 ```
 
+![Need a Transaction](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-1-need-a-transaction.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 1.*
+
 ## Isolation Pick
 
 Name the anomaly each level still allows on the press database. Lots A and B hold 300 sheets each. The shop rule keeps their sum at or above 500. West takes 200 from A and east takes 200 from B, each having read a sum of 600. What is the sum afterward, and when is serializable worth its cost?
@@ -70,6 +74,10 @@ print(" ".join(ALLOWS[name] for name in LEVELS), left, left >= FLOOR)
 # non-repeatable-read write-skew none 200 False
 ```
 
+![Isolation Pick](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-2-isolation-pick.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 2.*
+
 ## Optimistic or Pessimistic
 
 The night poster is plate P-14, and forty operators want it. Day jobs give each operator a different plate. Which strategy fits each, and what does an update that read version 7 and now finds version 8 mean when it changes 0 rows?
@@ -99,6 +107,10 @@ print(" ".join(STRATEGY[name] for name in CASES), version_rows(READ_VERSION, VER
 # pessimistic optimistic 0
 ```
 
+![Optimistic or Pessimistic](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-3-optimistic-or-pessimistic.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 3.*
+
 ## Lock Order
 
 West locks P-14, then waits for L-3. East locks L-3, then waits for P-14. Does this deadlock, and which rule breaks it?
@@ -122,6 +134,10 @@ def deadlock(holds: dict[str, str], waits: dict[str, str]) -> bool:
 print(deadlock(HOLDS, WAITS))
 # True
 ```
+
+![Lock Order](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-4-lock-order.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 4.*
 
 ## 2PC Hang
 
@@ -149,6 +165,10 @@ print(participant_action(DECISION), len(PREPARED))
 # wait 2
 ```
 
+![2PC Hang](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-5-2pc-hang.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 5.*
+
 ## Majority Ack
 
 The schedule log has 5 nodes. How many must acknowledge an entry before it is committed, and how many failures does that majority survive?
@@ -174,6 +194,10 @@ def failures_survived(nodes: int) -> int:
 print(majority(NODES), failures_survived(NODES), majority(3), failures_survived(3))
 # 3 2 2 1
 ```
+
+![Majority Ack](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-6-majority-ack.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 6.*
 
 ## Leader Cut
 
@@ -201,6 +225,10 @@ print(may_elect(WEST), may_elect(EAST_AND_LOFT))
 # False True
 ```
 
+![Leader Cut](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-7-leader-cut.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 7.*
+
 ## Lock Lease
 
 The holder of `press/folio` has a 10-second lease and has paused for 14 seconds. What may a new holder assume?
@@ -224,3 +252,7 @@ def lease_expired(paused_s: int, lease_s: int) -> bool:
 print(lease_expired(PAUSED_S, LEASE_S))
 # True
 ```
+
+![Lock Lease](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills-8-lock-lease.png)
+
+*Source: [`diagrams/transactions-drills.drawio`](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-drills.drawio), page 8.*
