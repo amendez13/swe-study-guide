@@ -36,6 +36,10 @@ print(*(channel(kind, has_token) for kind, has_token in EVENTS))
 # push sms email
 ```
 
+![Which Channel](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-1-which-channel.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 1.*
+
 ## Preference Gate
 
 Member 14's switches: push on, SMS off, email on, seed-list off, frost on. What happens to a seed-list push, a frost text, and a frost push?
@@ -63,6 +67,10 @@ def gate(kind: str, channel_name: str) -> str:
 print(*(gate(kind, channel_name) for kind, channel_name in NOTICES))
 # stop stop send
 ```
+
+![Preference Gate](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-2-preference-gate.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 2.*
 
 ## Token Book
 
@@ -93,6 +101,10 @@ print(updated, drop(updated, REFRESHED))
 # (('shed', 'tok-shed-2'), ('pocket', 'tok-pocket')) ('pocket',)
 ```
 
+![Token Book](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-3-token-book.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 3.*
+
 ## Notify Cap
 
 Promotional push is capped at 2 per member each week. Transactional push is capped at 20 per member each day. Member 14 has already been sent 2 seed-list pushes this week and 3 tap pushes today. A third seed-list push, a fourth tap push, and a 21st tap push arrive. Which ones leave?
@@ -122,6 +134,10 @@ def allow(sent: int, cap: int) -> bool:
 print(allow(PROMO_SENT, PROMO_CAP), allow(TX_SENT, TX_CAP), allow(TX_FULL, TX_CAP))
 # False True False
 ```
+
+![Notify Cap](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-4-notify-cap.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 4.*
 
 ## Presence Grace
 
@@ -160,6 +176,10 @@ print(states, *(told(state) for state in states))
 # ('online', 'offline', 'offline') () ('m2',) ('m2',)
 ```
 
+![Presence Grace](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-5-presence-grace.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 5.*
+
 ## Fan-Out Pick
 
 Three events name a recipient count. The write line is 500. The read line is 5,000. Which shape does each count take?
@@ -190,6 +210,10 @@ print(*(pick(count) for _name, count in COUNTS))
 # write hybrid read
 ```
 
+![Fan-Out Pick](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-6-fan-out-pick.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 6.*
+
 ## Offline Summary
 
 Member 14 was away from the tap board. Nine tap updates are waiting. Earlier in the week, three tool reminders were waiting. What does the handset receive in each case?
@@ -215,6 +239,10 @@ def plan(waiting: int) -> tuple[str, int]:
 print(*(plan(waiting) for waiting in PILES))
 # ('summary', 1) ('each', 3)
 ```
+
+![Offline Summary](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-7-offline-summary.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 7.*
 
 ## Dup Send
 
@@ -244,3 +272,7 @@ def shown(ids: tuple[str, ...]) -> tuple[str, ...]:
 print(shown(ARRIVED))
 # ('n-18', 'n-19')
 ```
+
+![Dup Send](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills-8-dup-send.png)
+
+*Source: [`diagrams/notifications-drills.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-drills.drawio), page 8.*
