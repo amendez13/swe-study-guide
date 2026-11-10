@@ -1,29 +1,29 @@
 # Search Autocomplete and Information Retrieval
 
-Redcedar Listening Room keeps a catalog of spoken programs and a desk board where patrons type the start of a title. A trie answers that prefix from a short list stored on the node. A nightly count of submitted queries rebuilds the trie, and a ban or a jump that cannot wait patches it. Gallery and annex split the trie by first letter. Transcript search is a separate path: an inverted index, a score, and a copy that can lag the primary. The cache tier, the search store, generic sharding, the batch job, the change pipeline, a crawler, and a geohash stay in the topics that own them.
+A search box like Google's suggests previous queries as someone types. An Amazon-style product box is the same interaction over product queries. The structure for that prefix is a trie: one step per character, with a short ordered list stored on the node. A nightly count of submitted queries rebuilds the trie, and a ban or a jump that cannot wait patches it. The trie is split by prefix so a walk stays on one host. Finding documents that contain words is a separate path: an Elasticsearch-style inverted index, a score, and a copy that can lag the catalog primary. The cache tier, the search store, generic sharding, the batch job, the change pipeline, a crawler, and a geohash stay in the topics that own them.
 
 ## Key Points
 
-- **Trie (Prefix Tree)** — one step per character. "ni" reaches night jar, night market, and nine bells. Paths stop at 40 characters. The keystroke reads the ordered top 5 stored on the node.
-- **Search Autocomplete System** — the online read. Return the list on the node inside 40 ms. An empty box uses the root list. A banned title is omitted in the response. One patron's recent plays can reorder the same five.
-- **Query Log Aggregation** — a nightly count of submitted queries builds a new trie and swaps it in at close. The counted thing is the query string. The job shape is Batch Processing. A ban does not wait for the swap.
-- **Trie Operations** — insert a string past 5 submits, re-sort the top 5 when a count jumps, or unlink a banned string and strip it from every ancestor list. The rebuild is the consistent picture. A patch is for a change that cannot wait.
-- **Trie Partition** — gallery holds a–m, annex holds n–z, and a prefix stays with its completions. Annex takes about 70 of 100 keystrokes. The next cut is a longer prefix. A hash ring and a salted key stay in Data Partitioning and Consistent Hashing.
-- **Inverted Index** — a term points at program ids. owls AND fen leaves p1. Term counts and positions can ride on the posting. The store, and the lag of that copy, are Search Index Store.
-- **Relevance Ranking** — eight times "over" at weight 1 scores 8. One "quay" at weight 20 scores 20. BM25 saturates frequency and accounts for length. A distinctive word keeps the text score in front. Common words leave room for plays or recency.
-- **Full-Text Search Architecture** — p9 can be committed on the primary and missing from search until the copy lands. That pipeline is Change Data Capture. A word query scatters by program id and the coordinator merges scores. An id lookup stays on the primary.
+- **Trie (Prefix Tree)** — one step per character, so `ni` reaches `night mode`, `night sky`, and `nintendo` while `maps` stays unread. Paths stop at 40 characters. The keystroke reads the ordered top 5 stored on the node.
+- **Search Autocomplete System** — the online read. Return the list on the node inside a 40 ms budget. An empty box uses the five most common queries at the root. A banned query is omitted in the response. One person's three recent searches can reorder the same five.
+- **Query Log Aggregation** — a nightly count of submitted queries builds a new trie and swaps it in when the job finishes. The counted thing is the query string. The job shape is Batch Processing. A ban does not wait for the swap.
+- **Trie Operations** — insert a string past 5 submits, re-sort the top 5 when a count jumps, or unlink a banned string and strip it from every ancestor list. The rebuild writes every list from the same counts. A patch is for a change that cannot wait. A count of zero that leaves the string in a list still suggests it.
+- **Trie Partition** — host a–m holds first letters `a` through `m`, host n–z holds `n` through `z`, and a prefix stays with its completions. In the worked example, 70 of 100 keystrokes start with `n`, so that host is hot. The next cut is a longer prefix. A hash ring and a salted key stay in Data Partitioning and Consistent Hashing.
+- **Inverted Index** — a term points at sorted document ids. `wool` AND `trail` leaves p1. Term counts and positions can ride on the posting. The store, and the lag of that copy, are Search Index Store.
+- **Relevance Ranking** — eight times `for` at weight 1 scores 8. One `merino` at weight 20 scores 20. That product is a sketch. BM25, the Elasticsearch default, saturates frequency (`k1` 1.2) and accounts for length (`b` 0.75). A rare typed word keeps the text score in front. Common words leave room for clicks or recency.
+- **Full-Text Search Architecture** — p9 can be committed on the primary and missing from search until the copy lands, and a shard refresh (about one second in Elasticsearch) can hide it a moment longer. That pipeline is Change Data Capture. A word query scatters by document id and the coordinator merges scores. An id lookup stays on the primary.
 
 ## Example
 
-The board walks "ni". The node for that prefix is rebuilt after "night market" reaches 50. A transcript query for owls and fen intersects two sorted posting lists.
+The box walks `ni`. The node for that prefix is rebuilt after `night mode` reaches 50. A product query for wool and trail intersects two sorted posting lists.
 
 ```python
-WORDS = ("night jar", "night market", "nine bells", "marsh rail")
+WORDS = ("night sky", "night mode", "nintendo", "maps")
 PREFIX = "ni"
-JUMPED = (("night jar", 40), ("nine bells", 30), ("night market", 50))
+JUMPED = (("night sky", 40), ("nintendo", 30), ("night mode", 50))
 K = 2
-OWLS = ("p1", "p3")
-FEN = ("p1", "p2")
+WOOL = ("p1", "p3")
+TRAIL = ("p1", "p2")
 
 
 def build(words: tuple[str, ...]) -> dict:
@@ -76,11 +76,11 @@ def intersect(left: tuple[str, ...], right: tuple[str, ...]) -> tuple[str, ...]:
     return tuple(found)
 
 
-print(completions(build(WORDS), PREFIX), top_k(JUMPED, K), intersect(OWLS, FEN))
-# ['night jar', 'night market', 'nine bells'] ('night market', 'night jar') ('p1',)
+print(completions(build(WORDS), PREFIX), top_k(JUMPED, K), intersect(WOOL, TRAIL))
+# ['night mode', 'night sky', 'nintendo'] ('night mode', 'night sky') ('p1',)
 ```
 
-The walk returns the three titles under "ni" and leaves "marsh rail" on its own branch. The fresh top 2 leads with "night market". The posting lists meet at p1. A list still showing the pair from before the jump is stale until a patch or the nightly swap. p9 can be committed on the primary and absent from a posting list until the copy lands.
+The walk returns the three queries under `ni` and leaves `maps` on its own branch. The fresh top 2 leads with `night mode`. The posting lists meet at p1. A list still showing the pair from before the jump is stale until a patch or the nightly swap. p9 can be committed on the primary and absent from a posting list until the copy lands.
 
 ## See also
 
@@ -90,5 +90,5 @@ The walk returns the three titles under "ni" and leaves "marsh rail" on its own 
 - [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/) — Search Index Store. The store choice, and a copy that can lag the primary, stay there.
 - [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/) — Horizontal Partitioning (Sharding) and Hot Partition Mitigation. A hash ring, a move, and a salted key stay there. The first-letter split stays here.
 - [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/) — Batch Processing and Change Data Capture. The job shape and the change pipeline stay there. What the nightly job counts, and the search gap after a commit, stay here.
-- [Geospatial and Location-Based Services](../20_Geospatial_and_Location_Based_Services/) — Geohash and Quadtree. Nearby programs stay there.
+- [Geospatial and Location-Based Services](../20_Geospatial_and_Location_Based_Services/) — Geohash and Quadtree. Nearby documents stay there.
 - [Classic Design Problems](../24_Classic_Design_Problems/) — Web Crawler. Pages fetched by a crawler stay there.
