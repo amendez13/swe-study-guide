@@ -11,6 +11,10 @@ def close_pair_slow(values: list[int]) -> bool:
 print(close_pair_slow([1, 5, 9]), close_pair_slow([1, 5, 6]))  # False True
 ```
 
+![Optimize brute force in steps](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-1-optimize-in-steps.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 1.*
+
 ## Bit-level arithmetic
 
 XOR is addition without the carries. A carry happens where both bits are 1, which is `a & b`, and that carry lands one position higher, so `(a & b) << 1`. Adding in a loop is: sum without carry, then fold the carry back in, until the carry is 0. That is how hardware adds. It is also a way to see that a mask difference is just XOR: bits on in exactly one of two firmware words.
@@ -28,6 +32,10 @@ def xor_add(a: int, b: int) -> int:
 print(xor_add(5, 3), 5 ^ 3)  # 8, and 6 is the bits that differ
 ```
 
+![Bit-level arithmetic](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-2-bit-level-arithmetic.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 2.*
+
 ## A fair shuffle
 
 A fair shuffle gives every permutation the same chance. Fisher-Yates does that in one pass. For index `i` from 0 through n - 2, swap `i` with a uniformly chosen index in `i .. n - 1`, inclusive. The item at `i` is then fixed. Choosing from the whole array every time, or swapping `i` only with `i + 1`, does not give equal probability to every order.
@@ -43,6 +51,10 @@ def shuffle(items: list[int], picks: list[int]) -> list[int]:
 
 print(shuffle([0, 1, 2, 3], [2, 1, 3]))  # [2, 1, 3, 0]
 ```
+
+![A fair shuffle](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-3-a-fair-shuffle.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 3.*
 
 ## Reservoir sampling
 
@@ -61,6 +73,10 @@ def reservoir(stream: list[str], k: int, picks: list[int]) -> list[str]:
 
 print(reservoir(["a", "b", "c", "d"], 2, [0, 1]))  # ["c", "d"]
 ```
+
+![Reservoir sampling](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-4-reservoir-sampling.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 4.*
 
 ## A heap for top-k
 
@@ -83,17 +99,29 @@ def coldest(hours: list[int], k: int) -> list[int]:
 print(coldest([5, 1, 8, 0, 3], 3))  # [0, 1, 3]
 ```
 
+![A heap for top-k](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-5-heap-for-top-k.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 5.*
+
 ## Two heaps for a running median
 
 One heap holds the lower half as a max-heap. The other holds the upper half as a min-heap. Their tops are the middle. Add a value to the lower half, then move the lower top onto the upper half so the upper half stays all-greater. If the upper half is longer, move its top back. The sizes differ by at most one.
 
 The median is the lower top when that heap is longer, and the average of the two tops when the sizes match. Each insert is O(log n). A sorted list would be O(n) per insert. After `[1, 8, 3, 6]` the halves are `{1, 3}` and `{6, 8}`, and the median is `(3 + 6) / 2 = 4.5`. Odd counts return the lower top with no average. Say whether the problem wants a float average or the lower middle.
 
+![Two heaps for a running median](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-6-two-heaps-running-median.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 6.*
+
 ## A trie for many patterns
 
 A trie is a tree of characters. Each path from the root is a prefix. A node marked end-of-word is a whole pattern. Inserting `p` patterns of length up to `L` costs O(p L). Checking a prefix is O(L). To find which alarm codes appear in a log line, insert the codes, then from each index in the line walk the trie while the characters match. Every time you land on an end-of-word node, you have a hit.
 
 That scan is O(n L) for a line of length `n`. It beats running a separate search per pattern when many patterns share prefixes (`pip` and `pit` share `pi`). It loses to a single `in` check when you have one pattern. A trie does not by itself skip ahead the way a full automaton does. For an interview, the walk from each index is the version to draw. Say that overlapping hits are allowed: the walk reports every match, not the longest only, unless you ask it to.
+
+![A trie for many patterns](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-7-trie-many-patterns.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 7.*
 
 ## Union-find
 
@@ -118,6 +146,10 @@ def connected(n: int, ropes: list[tuple[int, int]], query: tuple[int, int]) -> b
 print(connected(6, [(1, 2), (3, 4), (2, 3)], (1, 4)))  # True
 ```
 
+![Union-find](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-8-union-find.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 8.*
+
 ## A monotonic stack
 
 A monotonic stack keeps indexes whose values are in order, usually strictly decreasing. Walk left to right. Before you push index `i`, pop every index whose crate is shorter than `heights[i]`. Each popped index has just found its next taller crate: it is `i`. Indexes left on the stack have no taller crate to the right.
@@ -136,6 +168,10 @@ def next_taller(heights: list[int]) -> list[int]:
 
 print(next_taller([2, 1, 4, 3]))  # [2, 2, -1, -1]
 ```
+
+![A monotonic stack](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-9-monotonic-stack.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 9.*
 
 ## DP on strings
 
@@ -156,17 +192,29 @@ def lcs_length(left: str, right: str) -> int:
 print(lcs_length("stone", "notes"))  # 2, for example t-e or o-e or n-e
 ```
 
+![DP on strings](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-10-dp-on-strings.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 10.*
+
 ## Divide and conquer
 
 Divide and conquer splits the input, solves the halves, and combines them. An inversion is a pair `i < j` with `value[i] > value[j]`. Merge sort counts them while it merges. A value taken from the right half is greater than every still-unmerged value in the left half, and each of those is an inversion. The sort is O(n log n). The naive double loop is O(n^2) and is the check on a four-element list.
 
 The combine step is where this technique succeeds or fails. If combining the halves costs more than the split saved, you do not have an improvement. Quickselect, which partitions like quicksort and only recurses into the side that holds the k-th item, is the same family and is expected O(n) for one order statistic. Say the split, the combine, and the base case (a range of length 0 or 1 has zero inversions).
 
+![Divide and conquer](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-11-divide-and-conquer.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 11.*
+
 ## Search on a one-change graph
 
 Some searches are graphs you build as you go. Dock codes are short strings. An edge exists between two codes in the allowed set when they differ by exactly one character. The fewest changes from `rib` to `red` is what a breadth-first search returns on that graph. BFS is the right search because every edge has cost 1, so the first time you reach a code you reached it by a shortest path.
 
 The cost is O(N L^2 A) if you generate neighbors by trying each position and each character, over `N` codes of length `L` and alphabet size `A`, with a set for "is this code allowed." For a handful of codes, compare each pair in O(N^2 L). Draw the codes and the edges for a set of five before you write the queue. A visited set is required. Without it a cycle of two codes that differ by one character never ends.
+
+![Search on a one-change graph](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-12-search-one-change-graph.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 12.*
 
 ## Majority vote
 
@@ -193,6 +241,10 @@ def majority(items: list[str]) -> str | None:
 print(majority(["red", "red", "blue", "red"]))  # red
 ```
 
+![Majority vote](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-13-majority-vote.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 13.*
+
 ## Counting and buckets
 
 When the values are small integers, a count array sorts them without comparisons. Ticket sizes in `1 .. 5` get a slot per size. One pass increments the slot. A second pass writes the values back in order. Time is O(n + k) for `k` possible sizes. Comparison sort is O(n log n) and loses when `k` is tiny. A hash map is the same idea when the integers are sparse. Then you pay for the keys you actually see, not for a dense array.
@@ -212,8 +264,16 @@ def counting_sort(sizes: list[int], upper: int) -> list[int]:
 print(counting_sort([3, 1, 2, 3, 1], 3))  # [1, 1, 2, 3, 3]
 ```
 
+![Counting and buckets](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-14-counting-and-buckets.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 14.*
+
 ## A candidate is not an answer
 
 Several of these tools return a candidate you still have to check. The majority algorithm returns a value that might not be a majority. A heuristic trie walk can report a prefix that is not a full code. A quickselect pivot can land on the wrong side if the partition is off by one. The check is a second linear pass, a membership test, or the slow function on a tiny input.
 
 Ship the check. It is usually cheaper than the search and it is the difference between a plausible value and a correct one. If the check fails, the honest result is "no such item," not the candidate with a comment. State that case out loud: no majority, no path between the codes, no pair within 1.
+
+![A candidate is not an answer](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems-15-candidate-not-answer.png)
+
+*Source: [`diagrams/hard-problems.drawio`](/content/11_Coding_Problems/07_Hard_Problems/diagrams/hard-problems.drawio), page 15.*
