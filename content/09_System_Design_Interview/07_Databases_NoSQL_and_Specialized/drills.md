@@ -45,6 +45,10 @@ print(" ".join(CHOICE[name] for name in PATHS))
 # key-value relational document column-family graph time-series search-index warehouse
 ```
 
+![Pick the Store](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-1-pick-the-store.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 1.*
+
 ## SQL or NoSQL
 
 Two writes. The booking updates a deposit and inserts a reservation, at 200 writes per second. The primary has been measured at 1,500 writes per second. The feed appends 20,000 posts per second, one member's row, with no cross-member constraint. Where does each go? What would change if the booking itself were 20,000 writes per second and still touched both rows?
@@ -78,6 +82,10 @@ print(choose(CASES[0]), choose(CASES[1]), choose({"writes": 20000, "cap": 1500, 
 # relational nosql relational-shard
 ```
 
+![SQL or NoSQL](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-2-sql-or-nosql.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 2.*
+
 ## KV API Fit
 
 The client sends get, put, and delete for `session:9f3`, then asks for every value whose city is North. Two puts store `name=Sam` and then `city=North` under that same key. Which calls does this API serve, and what value remains? The session must still be there after a restart.
@@ -109,6 +117,10 @@ print([api_fit(op) for op in OPS], last_put(BLOBS))
 # [True, True, True, False] city=North
 ```
 
+![KV API Fit](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-3-kv-api-fit.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 3.*
+
 ## Document Shape
 
 Forty open reservations embed the tool price of 29. Checkout already happened. The contract is that the member pays the price at checkout. The catalog price then changes to 31. How many reservation documents do you rewrite so the contract stays true? How many of those documents disagree with today's catalog price?
@@ -134,6 +146,10 @@ def disagree_with_catalog(open_reservations: int) -> int:
 print(contract_rewrites(), disagree_with_catalog(OPEN))
 # 0 40
 ```
+
+![Document Shape](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-4-document-shape.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 4.*
 
 ## Wide Row Feed
 
@@ -177,6 +193,10 @@ def sample_matches() -> int:
 print(member_page_partitions(), keyword_seek_partitions(MEMBERS), sample_matches())
 # 1 800 2
 ```
+
+![Wide Row Feed](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-5-wide-row-feed.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 5.*
 
 ## Graph or Join
 
@@ -226,6 +246,10 @@ print(drill_holders("m17", 2), drill_holders("m17", 1))
 # ['m04'] []
 ```
 
+![Graph or Join](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-6-graph-or-join.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 6.*
+
 ## Time-Series Retention
 
 One series stores a sample every 10 seconds. Keep the raw samples for 14 days. Keep hourly averages for 90 days. On day 90, how many raw points are still stored, how many hourly points, and how many points would you hold if you kept every 10-second sample for the whole 90 days?
@@ -251,6 +275,10 @@ print(raw, hourly, kept, unbounded)
 # 120960 2160 123120 777600
 ```
 
+![Time-Series Retention](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-7-time-series-retention.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 7.*
+
 ## Warehouse Isolation
 
 The booking primary is budgeted at 10,000 reads per second. The booking path already uses 9,500. A borough report would read 20,000 rows per second if you ran it there. How much budget is left, and how many times that remainder is the report? Where does the report run, and how fresh is it?
@@ -272,3 +300,7 @@ remaining = BUDGET - BOOKING
 print(remaining, REPORT_PER_SEC // remaining)
 # 500 40
 ```
+
+![Warehouse Isolation](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills-8-warehouse-isolation.png)
+
+*Source: [`diagrams/databases-nosql-drills.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-drills.drawio), page 8.*

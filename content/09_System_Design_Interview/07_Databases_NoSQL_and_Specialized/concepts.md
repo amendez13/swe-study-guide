@@ -15,11 +15,19 @@ yearly borough totals            warehouse
 
 Product names overlap. DynamoDB often plays the key-value store or the document store, and TimescaleDB is a time-series layout on Postgres. The access path still decides. Joins, foreign keys, and a balance that must stay correct belong on a relational primary. That choice is Choosing Relational or NoSQL in [Databases Relational](../06_Databases_Relational/).
 
+![Access Pattern to Store](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-1-access-pattern-to-store.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 1.*
+
 ## SQL vs NoSQL Trade-Offs
 
 A relational primary keeps a declared schema, joins, and a transaction that leaves constraints intact on the node that ran it. Use it when rows share a shape and one write touches more than one of them. Those writes land on that primary until the data or the rate outgrows one machine. Indexing, replicas, and sharding that primary are [Databases Relational](../06_Databases_Relational/).
 
 A NoSQL store takes a path that is already one key, one document, or one append, and it can spread those writes across machines. The record holds whatever the writer stored. A query you did not build into the key becomes a scan, or a second store. Keeping the relational primary for members and payments, a key-value store for sessions, and a column family for the feed is polyglot persistence: each store earns one access path, and each extra store is another pipeline to run. A rebuildable copy of a hot row is [Caching](../05_Caching/).
+
+![SQL vs NoSQL Trade-Offs](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-2-sql-vs-nosql-trade-offs.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 2.*
 
 ## Key-Value Store
 
@@ -33,11 +41,19 @@ PUT    session:9f3   → ack after the flush you required
 DELETE session:9f3   → key is gone
 ```
 
+![Key-Value Store](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-3-key-value-store.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 3.*
+
 ## Distributed Key-Value Basics
 
 One machine runs out of memory and disk, and a crash of that machine takes every key with it. You distribute so the key space is larger than one machine and so a lost machine is not the only copy. The key still has one home.
 
 Partitioning assigns the key to a machine. Replication keeps another copy of that partition. Finding the owner, and which keys move when a machine joins, is [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/). Whether a get may return an older copy, and how two puts of the same key are ordered, is [Consistency and Replication](../09_Consistency_and_Replication/).
+
+![Distributed Key-Value Basics](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-4-distributed-key-value-basics.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 4.*
 
 ## Document Store
 
@@ -54,6 +70,10 @@ A copied field is a second fact. Embed the price when the contract is "the membe
 }
 ```
 
+![Document Store](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-5-document-store.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 5.*
+
 ## Column-Family Store
 
 A column-family store groups columns under a row key and appends them in cluster order. The layout matches one read: the latest posts for this member, in time order, from one partition. The row can be wide. Cassandra is the usual engine for that feed, and HBase and Bigtable use the same idea. A query that is not the row key plus that order reads every partition.
@@ -66,6 +86,10 @@ row m17
   profile: name "Sam"
 ```
 
+![Column-Family Store](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-6-column-family-store.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 6.*
+
 ## Graph Database
 
 A graph store keeps entities as nodes and relationships as edges, and a query walks the edges. "Who may borrow this drill" can be the member, the co-ops they belong to, and the members of those co-ops. Two or three hops is the product. Each extra hop is another join, and a variable depth has no fixed join count.
@@ -75,6 +99,10 @@ Use it when the relationship is the query: permissions, a fraud ring, recommenda
 ```text
 (m17)-[:MEMBER_OF]->(c1)<-[:MEMBER_OF]-(m22)
 ```
+
+![Graph Database](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-7-graph-database.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 7.*
 
 ## Time-Series Database
 
@@ -87,6 +115,10 @@ checkouts borough=north 1710000000 12
 checkouts borough=north 1710000060  9
 ```
 
+![Time-Series Database](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-8-time-series-database.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 8.*
+
 ## Search Index Store
 
 A search index answers which records contain these words. The usual structure is an inverted index from a term to ids. It is a secondary copy. The reservation is created on the primary, and a pipeline copies the fields you search. The reader can find "cordless" and still load the price from the primary, because the index can lag and can omit a field the ranking does not need.
@@ -98,8 +130,16 @@ primary:  reservations(id, tool_name, price)
 index:    "cordless" → [resv_1842]
 ```
 
+![Search Index Store](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-9-search-index-store.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 9.*
+
 ## Data Warehousing
 
 A warehouse is a separate store for long analytical reads. The primary serves the member who is booking a tool. A sum of a year of reservations by borough would compete with that booking. Column storage reads the borough and the day count without the rest of the row. A star schema puts those reservation facts in one table and member, tool, and borough in smaller tables beside it. Normalizing those side tables further is a snowflake schema. BigQuery, Snowflake, Redshift, and ClickHouse are the usual engines.
 
 The booking still commits on the primary. The warehouse holds a copy, and the report is as fresh as that copy. A nightly batch is hours behind. The job that moves the rows, batch or change stream, is [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). Ask for a warehouse when the requirement is a report over history.
+
+![Data Warehousing](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql-10-data-warehousing.png)
+
+*Source: [`diagrams/databases-nosql.drawio`](/content/09_System_Design_Interview/07_Databases_NoSQL_and_Specialized/diagrams/databases-nosql.drawio), page 10.*
