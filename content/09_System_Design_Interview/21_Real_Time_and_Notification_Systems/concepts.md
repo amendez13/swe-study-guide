@@ -17,6 +17,10 @@ slow provider  Timeouts and Retries
 dead token     Device Tokens
 ```
 
+![Push Notification System](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-1-push-notification-system.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 1.*
+
 ## Device Tokens
 
 Member 14 allows alerts on two installs. APNs or FCM returns a token for that install, and the app sends the token to the desk. The SMS row is the number they wrote at the shed. The email row is the address on the membership record. The book is one member to many rows. Each row is a channel, an address, and the install it belongs to. The shed handset and the pocket handset are both stored.
@@ -30,6 +34,10 @@ two phones  two rows
 refresh     replace the row for that install
 rejected    delete that row, keep the others
 ```
+
+![Device Tokens](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-2-device-tokens.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 2.*
 
 ## Notification Preferences
 
@@ -48,6 +56,10 @@ budgets      Push Notification System
 counter      Rate Limiter
 ```
 
+![Notification Preferences](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-3-notification-preferences.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 3.*
+
 ## Notification Service Architecture
 
 A tap event, or a call from the shed desk, enters the notification service. The service applies Notification Preferences, fills one template, and writes one message for each channel that passed. The tap template reads "Plot 14, the west tap is yours until 18:00." The wording lives in the template, so a frost notice and a tap notice share the rest of the path.
@@ -65,6 +77,10 @@ status    queued, provider-accepted, opened
 depth     Backpressure
 charts    Metrics Monitoring System
 ```
+
+![Notification Service Architecture](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-4-notification-service-architecture.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 4.*
 
 ## Presence
 
@@ -85,6 +101,10 @@ large list  Fan-Out Strategies
 chat dot    Chat System
 ```
 
+![Presence](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-5-presence.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 5.*
+
 ## Fan-Out Strategies
 
 Fan-out is how one allotment event becomes a notice for many members. The choice is write, read, or hybrid, and it follows the size of the recipient set.
@@ -102,6 +122,10 @@ read line     5,000, store the notice once
 screen, rank, cache   News Feed / Timeline
 ```
 
+![Fan-Out Strategies](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-6-fan-out-strategies.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 6.*
+
 ## In-App or Push
 
 The path is chosen after Notification Preferences have passed the notice. Member 14 is in the app, watching the tap board. The tap notice rides the connection the app already holds. How that connection is kept, including a poll or a long poll, is Polling and Long-Polling and WebSockets and SSE in [Networking and Communication](../10_Networking_and_Communication/).
@@ -116,6 +140,10 @@ frost, no token         SMS
 transports              Polling and Long-Polling, WebSockets and SSE
 shed polygon            Geofencing
 ```
+
+![In-App or Push](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-7-in-app-or-push.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 7.*
 
 ## Delivery Guarantees for Notifications
 
@@ -133,3 +161,7 @@ pile past 3   one summary
 pause         Timeouts and Retries
 park          Dead Letter Queue
 ```
+
+![Delivery Guarantees for Notifications](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications-8-delivery-guarantees-for-notifications.png)
+
+*Source: [`diagrams/notifications.drawio`](/content/09_System_Design_Interview/21_Real_Time_and_Notification_Systems/diagrams/notifications.drawio), page 8.*
