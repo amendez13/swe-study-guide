@@ -13,6 +13,10 @@ replica repair         Replica Failure Handling
 spare, or a dark site  Failover Strategies, Multi-DC and Geo Routing
 ```
 
+![Partial Failures](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-1-partial-failures.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 1.*
+
 ## Unreliable Networks
 
 The path from a kiosk to the desk can lose a packet, hold it, deliver a copy twice, or deliver a packet ahead of one that was sent earlier. A slip grant that never arrives, a grant that arrives after the kiosk has moved on, a second copy of the same grant, and boat 18's grant arriving before boat 12's are ordinary outcomes on that path.
@@ -26,6 +30,10 @@ duplicated   the same grant arrives twice
 reordered    boat 18 arrives before boat 12
 the wait     Timeouts and Retries
 ```
+
+![Unreliable Networks](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-2-unreliable-networks.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 2.*
 
 ## Timeouts and Retries
 
@@ -42,6 +50,10 @@ budget          past the cap, fail the attempt
 then            Idempotency for the retry; Dead Letter Queue after N
 ```
 
+![Timeouts and Retries](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-3-timeouts-and-retries.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 3.*
+
 ## Unreliable Clocks
 
 Each tide house has a wall clock, the time of day it would show a person. The clocks drift, and a correction can step one forward or back. North stamped slip 4 at a wall time of 1300 ms. South stamped slip 7 at a wall time of 1100 ms. Last-write-wins keeps slip 4, the greater stamp. In real time north wrote at 1000 ms and south wrote at 1180 ms, so the later assignment is slip 7, and the greater stamp kept the earlier one. Why a wall-clock stamp is a weak input to that pick is Conflict Resolution in [Consistency and Replication](../09_Consistency_and_Replication/).
@@ -56,6 +68,10 @@ monotonic        a duration on one house
 two houses       two boot counters, not an order between them
 ```
 
+![Unreliable Clocks](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-4-unreliable-clocks.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 4.*
+
 ## Byzantine Faults
 
 A crash-stop fault is a desk that follows the protocol until it stops answering. The three desks Cove Station runs fit that model. Most interview designs use the same assumption, and it belongs in the answer as a stated choice: the nodes you operate either work or they stop.
@@ -68,6 +84,10 @@ open peers    can present two different claims
 interview     state the crash-stop assumption
 liars         more nodes, a different protocol, outside this catalog
 ```
+
+![Byzantine Faults](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-5-byzantine-faults.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 5.*
 
 ## Split Brain
 
@@ -85,6 +105,10 @@ overlap                 Quorum Reads and Writes
 one leader              Consensus Algorithms
 ```
 
+![Split Brain](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-6-split-brain.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 6.*
+
 ## Cascading Failures
 
 A soaked radio slows the south gauge. Slip threads wait on it, the pool fills, and a new boat gets no assignment. The six kiosks then retry on the same second. That retry storm is the next failure, recruited by the first, and it spends the capacity the desk had left. The tide board shares the pool, so it stops painting. One slow gauge has become an outage.
@@ -100,3 +124,7 @@ shed         past the cap, reject the extra boat
 breaker      stop calling the failing desk
 degraded     "assignments paused"
 ```
+
+![Cascading Failures](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-7-cascading-failures.png)
+
+*Source: [`diagrams/failure-modes.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes.drawio), page 7.*

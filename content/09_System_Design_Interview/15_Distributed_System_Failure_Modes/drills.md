@@ -28,6 +28,10 @@ print(named_cause(OBSERVED), len(CAUSES))
 # unknown 3
 ```
 
+![Slow or Dead](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-1-slow-or-dead.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 1.*
+
 ## Packet Mode
 
 Four grants leave the desk. Name what the kiosk has to tolerate in each case, and what a retry of the slip write requires.
@@ -58,6 +62,10 @@ print(" ".join(TOLERATE[mode] for mode in MODES))
 # missing late second-copy arrival-order
 ```
 
+![Packet Mode](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-2-packet-mode.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 2.*
+
 ## Timeout Tune
 
 Healthy houses answer in 40 to 90 ms. Classify a deadline of 30 ms, one of 200 ms, and one of 30 seconds.
@@ -81,6 +89,10 @@ def false_death(deadline_ms: int) -> bool:
 print(false_death(30), false_death(200), CANDIDATES_MS[2] // 1000)
 # True False 30
 ```
+
+![Timeout Tune](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-3-timeout-tune.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 3.*
 
 ## Backoff and Jitter
 
@@ -109,6 +121,10 @@ spread = placed(True)
 print(len(aligned), peak(aligned), len(spread), peak(spread))
 # 6 6 6 2
 ```
+
+![Backoff and Jitter](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-4-backoff-and-jitter.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 4.*
 
 ## Clock Order
 
@@ -140,6 +156,10 @@ print(later_slip([NORTH_WALL, SOUTH_WALL]), later_slip([NORTH_REAL, SOUTH_REAL])
 # 4 7
 ```
 
+![Clock Order](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-5-clock-order.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 5.*
+
 ## Crash or Byzantine
 
 Two groups interact with the desk. Which fault model fits each group?
@@ -162,6 +182,10 @@ MODEL = {"desk-trio": "crash-stop", "open-peers": "byzantine"}
 print(" ".join(MODEL[name] for name in CASES))
 # crash-stop byzantine
 ```
+
+![Crash or Byzantine](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-6-crash-or-byzantine.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 6.*
 
 ## Split Quorum
 
@@ -186,6 +210,10 @@ def may_take_writes(side: int, nodes: int = NODES) -> bool:
 print(may_take_writes(SIDES[0]), may_take_writes(SIDES[1]))
 # False True
 ```
+
+![Split Quorum](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-7-split-quorum.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 7.*
 
 ## Cascade Cut
 
@@ -234,3 +262,7 @@ CUT = {
 print(" ".join(CUT[step] for step in STEPS))
 # deadline retry-budget bulkhead shed breaker degraded
 ```
+
+![Cascade Cut](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills-8-cascade-cut.png)
+
+*Source: [`diagrams/failure-modes-drills.drawio`](/content/09_System_Design_Interview/15_Distributed_System_Failure_Modes/diagrams/failure-modes-drills.drawio), page 8.*
