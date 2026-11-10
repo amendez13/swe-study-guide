@@ -1,161 +1,110 @@
 ## Transaction
 
-A unit of work that either fully completes or fully aborts. Transactions shield application developers from the complexity of concurrent access and partial failure.
+A run at Lantern Press writes two rows in the press database. It marks plate P-14 used, and it takes 400 sheets from lot L-3, which held 800. Those two writes are one unit of work. Commit leaves the plate used and the lot at 400. Rollback leaves the plate free and the lot at 800.
+
+A crash after the plate write and before the lot write leaves the plate used and the lot still at 800 when nothing ties the writes together. The sheets are on the press, and the lot still offers them to the next run. The four letters of the unit, including durability on the node that committed, are ACID Properties in [Databases Relational](../06_Databases_Relational/). The C in those letters is a different word from the C in CAP, and that distinction is on the same card.
 
 ```text
-Without transactions:
-  1. Debit $100 from account A.      ← succeeds
-  2. Credit $100 to account B.       ← system crashes!
-  Result: $100 disappeared.
-
-With a transaction:
-  BEGIN;
-    UPDATE accounts SET balance = balance - 100 WHERE id = 'A';
-    UPDATE accounts SET balance = balance + 100 WHERE id = 'B';
-  COMMIT;
-  → Both succeed, or both are rolled back. Money is never lost.
+commit                         plate used, lot 400
+rollback                       plate free, lot 800
+crash between the two writes   plate used, lot 800
+four letters, durability       ACID Properties
 ```
-
-In system design interviews, transactions matter when multiple writes must be atomic (transfers, inventory reservation, order placement) or when concurrent users might conflict (booking the same seat, claiming the same username).
 
 ## Isolation Levels
 
-The degree to which concurrent transactions are shielded from each other. Higher isolation prevents more anomalies but costs more in performance and concurrency.
+Isolation is how much two concurrent runs on the press database can see of each other. Read committed hides rows another run has yet to commit, so west never reads east's half-finished lot. A later statement in west's run can still see a commit that landed in between: west reads L-3 at 800, east commits 400, and west's next read returns 400. That second answer is a non-repeatable read. A new row that matches a predicate west already read can show up the same way. West and east can also both read 800, both subtract 100 in application code, and both write 700, so one job's sheets vanish. An `UPDATE` that subtracts inside the database keeps that arithmetic on the row.
+
+Snapshot isolation gives the run one snapshot from its start, so the second read of L-3 stays 800. PostgreSQL's repeatable read is that snapshot. InnoDB starts at repeatable read, and the locking details are ACID Properties in [Databases Relational](../06_Databases_Relational/). Write skew still fits under the snapshot. Lots A and B hold 300 sheets each, and the shop rule keeps their sum at or above 500. West reads the sum at 600 and takes 200 from A. East reads the same snapshot and takes 200 from B. Each wrote a different row, the updates miss each other, and the sum is 200. Serializable treats the two runs as if one finished before the other and aborts one of them. Pay for that when the rule spans rows and each writer updates a different one. A unique key on the plate already stops two runs from taking P-14, and that check is cheaper. These are concurrent transactions on one database. A later read of a replica, and a real-time order across clients, are Strong Consistency and Linearizability in [Consistency and Replication](../09_Consistency_and_Replication/). A lost increment inside a limiter's own counter is [Rate Limiting and Throttling](../17_Rate_Limiting_and_Throttling/).
 
 ```text
-Read Committed:
-  No dirty reads (can't see uncommitted writes).
-  No dirty writes (can't overwrite uncommitted writes).
-  May see non-repeatable reads (same query, different results).
-  Default in PostgreSQL, Oracle.
-
-Repeatable Read / Snapshot Isolation:
-  Transaction sees a consistent snapshot from its start time.
-  Prevents non-repeatable reads.
-  May still allow write skew (two transactions read, then both write
-  based on the now-stale read, creating an invalid state).
-  Default in MySQL InnoDB.
-
-Serializable:
-  Transactions behave as if they ran one at a time.
-  Prevents all anomalies including write skew and phantoms.
-  Slowest — uses locking or serialization conflict detection.
+read committed    no uncommitted row; a later read can change
+snapshot          one snapshot; write skew can remain
+serializable      one of the skew pair aborts
+one database      this card
+replicas          Strong Consistency, Linearizability
 ```
 
-In interviews, know the default isolation level (Read Committed for Postgres, Repeatable Read for MySQL) and when you'd upgrade to Serializable (financial transactions, seat booking, username uniqueness).
+## Optimistic or Pessimistic
 
-## Optimistic vs. Pessimistic Concurrency
+Pessimistic control locks the row, then does the work. West takes the plate with a row lock, marks P-14 used, and commits. East waits. The lock fits the night poster, one plate and forty operators, where a conflict is the common case. The wait is the cost. Two runs that lock in opposite orders can deadlock, and that cycle is Two-Phase Locking.
 
-Two strategies for handling concurrent access to the same data.
+Optimistic control does the work, then checks a version at commit. West read version 7. The update writes version 8 only where the version is still 7. One row changed means west claimed the plate. Zero rows means another operator committed, and west retries the run. The check fits day jobs, where each operator has a different plate and a conflict is rare. A retry throws away the work done since the read. Contention decides which of the two to use.
 
 ```text
-Pessimistic (lock first, then operate):
-  Acquire a lock before reading/writing.
-  Other transactions wait until the lock is released.
-  + Guarantees no conflicts.
-  - Blocks other transactions → reduced throughput.
-  - Risk of deadlocks.
-  Best when: conflicts are frequent (popular concert tickets).
-
-  SELECT * FROM seats WHERE id = 42 FOR UPDATE;
-  -- Locks row 42 until transaction commits
-
-Optimistic (operate, then check):
-  Read data, do work, check for conflicts at commit time.
-  If another transaction modified the data, abort and retry.
-  + No locking → high throughput when conflicts are rare.
-  - Wasted work on abort (must retry the entire transaction).
-  Best when: conflicts are rare (most users editing different data).
-
-  UPDATE seats SET booked_by = 'user_A'
-  WHERE id = 42 AND version = 3;
-  -- If version changed, 0 rows updated → conflict detected → retry
+night poster, one plate      lock first
+day jobs, a plate each       check the version at commit
+1 row updated                this run claimed the plate
+0 rows updated               the version moved; retry
 ```
 
-## Two-Phase Locking (2PL)
+## Two-Phase Locking
 
-A pessimistic concurrency protocol that guarantees serializability. Transactions go through two phases: a growing phase (acquire locks) and a shrinking phase (release locks).
+Two-phase locking is a lock protocol a database can use to make runs serializable. In the growing phase a run acquires locks and releases none: a shared lock to read a lot, an exclusive lock to write it. In the shrinking phase it releases locks, usually all of them at commit or rollback, and it acquires none.
+
+West holds P-14 and waits for L-3. East holds L-3 and waits for P-14. Each is waiting for a lock the other holds. That is a cycle in the wait-for graph. A lock timeout aborts the run that waited too long. Deadlock detection walks the graph, finds the cycle, and aborts one run. The aborted run retries. Taking P-14 before L-3 on every run makes the second run wait on P-14 while the first still holds it, so this cycle does not form. Holding locks until commit is why this path allows less concurrency than a snapshot. It is one way to reach serializable, and the level itself is Isolation Levels.
 
 ```text
-Growing phase:
-  Transaction acquires locks as needed (shared for reads, exclusive for writes).
-  No locks are released during this phase.
-
-Shrinking phase:
-  Transaction releases all locks (typically at commit/abort).
-  No new locks are acquired.
-
-Result:
-  Equivalent to serial execution of transactions.
-  But: can deadlock when two transactions each hold a lock the other needs.
-
-Deadlock handling:
-  Timeout: abort the transaction if it waits too long for a lock.
-  Detection: build a wait-for graph, find cycles, abort one transaction.
-  Prevention: acquire all locks upfront in a predefined order.
+growing     acquire, release nothing
+shrinking   release at commit, acquire nothing
+cycle       west holds P-14 and waits for L-3
+            east holds L-3 and waits for P-14
+break       timeout, or abort one side of the cycle
 ```
 
-2PL is used internally by databases when running at Serializable isolation. You rarely interact with it directly but should understand why Serializable is slower.
+## Two-Phase Commit
 
-## Two-Phase Commit (2PC)
+Two-phase commit, 2PC, is one commit decision for two databases. The press book and the paper ledger are the participants. A coordinator asks each to prepare. A participant that can commit records that promise and votes yes. When every vote is yes, the coordinator tells them to commit. When any vote is no, it tells them to abort.
 
-A protocol for atomic commits across multiple nodes (databases, services). Ensures that either all nodes commit or all abort — even across different databases.
+A coordinator that dies after both votes are yes, and before it sends the decision, leaves each participant waiting. The participant has promised to follow a decision it has not heard, and the locks it took at prepare stay held until the coordinator returns and finishes. When the press book and the paper ledger belong to two services, each service commits locally and a failed later step is repaired by a compensating write. Those compensations are the Saga Pattern in [Microservices and System Decomposition](../12_Microservices_and_System_Decomposition/). The press row and an outbox row in one local commit, followed by a publish, are the Transactional Outbox in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). Three-phase commit adds a pre-commit round so a participant can time out. Almost nobody runs it.
 
 ```text
-Phase 1 — Prepare:
-  Coordinator asks all participants: "Can you commit?"
-  Each participant writes to its WAL and responds YES or NO.
-
-Phase 2 — Commit or Abort:
-  If ALL say YES → Coordinator sends COMMIT to all.
-  If ANY says NO → Coordinator sends ABORT to all.
-```
-
-```mermaid
-sequenceDiagram
-    Coordinator->>DB1: Prepare
-    Coordinator->>DB2: Prepare
-    DB1-->>Coordinator: YES
-    DB2-->>Coordinator: YES
-    Coordinator->>DB1: Commit
-    Coordinator->>DB2: Commit
-```
-
-```text
-Problem: blocking
-  If the coordinator crashes after sending PREPARE but before
-  sending COMMIT/ABORT, participants are stuck — they've promised
-  to commit but don't know whether to actually do it.
-  They hold locks and wait for the coordinator to recover.
-
-Alternatives:
-  Saga pattern: compensating transactions instead of distributed locks.
-  Three-phase commit: adds a pre-commit phase, but rarely used in practice.
+prepare                        each participant votes yes or no
+commit                         every vote was yes
+abort                          any vote was no
+coordinator dies after yes     participants wait
+across services                Saga Pattern
+local commit, then a publish   Transactional Outbox
 ```
 
 ## Consensus Algorithms
 
-Protocols that allow distributed nodes to agree on a value despite failures. The foundation for leader election, distributed locking, and coordination services.
+Consensus is how the west, east, and loft nodes agree on the next entry in the schedule log when one of them has stopped. Raft is the algorithm to name. The leader appends an entry and counts acknowledgements. The entry is committed once a majority has acknowledged it. With 3 nodes that majority is 2, so the group still commits after 1 failure. With 5 nodes the majority is 3, and the group still commits after 2 failures. Paxos agrees on a value too. Raft is the name to give for this log.
+
+Call etcd or ZooKeeper, which already run a majority protocol. etcd runs Raft. ZooKeeper runs Zab. The order a caller of those stores observes is Linearizability in [Consistency and Replication](../09_Consistency_and_Replication/). How many replicas a read set and a write set must share is Quorum Reads and Writes there. This count is the majority on the log. Two nodes that both accept schedule writes after a cut are Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). Choosing the one writer is Leader Election. A timed key in the same store is Distributed Locks.
 
 ```text
-Raft (most commonly discussed in interviews):
-  Elects a leader via majority vote.
-  Leader replicates log entries to followers.
-  Committed when majority acknowledges.
-  If leader fails, followers elect a new one.
-  Understandable by design — explicitly built to be easier than Paxos.
-
-Paxos:
-  The original consensus algorithm. Correct but notoriously hard
-  to understand and implement. Variants: Multi-Paxos, Fast Paxos.
-
-Zab (ZooKeeper Atomic Broadcast):
-  Used by Apache ZooKeeper. Similar to Raft in practice.
-
-Practical systems:
-  ZooKeeper — distributed coordination, config management, leader election
-  etcd       — Kubernetes' key-value store for cluster state (uses Raft)
-  Consul     — service discovery and configuration (uses Raft)
+Raft         the name to give
+3 nodes      2 acks, survives 1 failure
+5 nodes      3 acks, survives 2 failures
+call         etcd or ZooKeeper
+the order    Linearizability
+two writers  Split Brain
 ```
 
-In interviews, say "we'd use ZooKeeper (or etcd) for leader election and distributed locking" rather than implementing consensus from scratch. Know that it requires a majority of nodes to be available (3 nodes tolerates 1 failure, 5 nodes tolerates 2).
+## Leader Election
+
+One node writes the night schedule. The others follow. A majority of the three coordination nodes has to choose that writer. West, cut off from east and loft, has 1 of 3 and must stop writing. East and loft have 2 of 3 and may elect. A schedule entry from the side of one would diverge from an entry the pair commits.
+
+Both sides writing is Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). The majority that commits a log entry is Consensus Algorithms. When the writer is a relational primary that still accepts commits after another node has been promoted, fencing that primary is Failover and Promotion in [Databases Relational](../06_Databases_Relational/).
+
+```text
+west alone         1 of 3, stops writing
+east and loft      2 of 3, may elect
+both sides write   Split Brain
+relational primary Failover and Promotion
+```
+
+## Distributed Locks
+
+A distributed lock is a lease on a key in a consensus store. Lantern Press puts `press/folio` in etcd. The holder renews a 10-second lease while it prints. Another operator who finds the key absent may take it. The store agrees on that key the way Consensus Algorithms agrees on a log entry. The lease is the part this card adds.
+
+A holder that pauses for 14 seconds misses the renewal. The lease ends, and a new holder may take `press/folio`. The paused process can resume and still act as the holder. An expired holder has to be fenced before its later writes count. When that holder is a relational primary, fencing it so the old node cannot commit is Failover and Promotion in [Databases Relational](../06_Databases_Relational/).
+
+```text
+key                  press/folio
+lease                10 seconds, renewed while the holder works
+paused 14 seconds    a new holder may take the key
+expired holder       must be fenced
+relational primary   Failover and Promotion
+```
