@@ -32,6 +32,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # object block dfs object
 ```
 
+![Store Pick](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-1-store-pick.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 1.*
+
 ## Lake or Warehouse
 
 Say where each artifact lives, and who writes it. The choices are the lake, a curated file derived from the lake, and the warehouse.
@@ -67,6 +71,10 @@ print(" ".join(WRITER[name] for name in CASES))
 # probe batch-job load-job
 ```
 
+![Lake or Warehouse](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-2-lake-or-warehouse.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 2.*
+
 ## Batch or Stream
 
 Pick batch, stream, or both for each need.
@@ -94,6 +102,10 @@ CHOICE = {
 print(" ".join(CHOICE[name] for name in CASES))
 # batch stream both
 ```
+
+![Batch or Stream](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-3-batch-or-stream.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 3.*
 
 ## Late Event
 
@@ -135,6 +147,10 @@ print(in_sealed_file(14, SEAL), in_sealed_file(16, SEAL))
 # True False
 ```
 
+![Late Event](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-4-late-event.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 4.*
+
 ## Lambda or Kappa
 
 Yesterday's batch total is 48,200 bushels and covers every event through midnight. The speed path has 860 bushels from after midnight. A second speed total, 2,060, still includes 1,200 bushels from late yesterday that the batch already counted. What does a lambda query return when the speed path starts at the cutoff, and what does it return if those 1,200 are added too? When would you replay one log instead of keeping both paths?
@@ -160,6 +176,10 @@ def query(batch: int, speed_after_batch: int) -> int:
 print(query(BATCH, AFTER_CUTOFF), query(BATCH, AFTER_CUTOFF + ALREADY_IN_BATCH))
 # 49060 50260
 ```
+
+![Lambda or Kappa](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-5-lambda-or-kappa.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 5.*
 
 ## CDC Destination
 
@@ -188,6 +208,10 @@ DEST = {
 print(" ".join(DEST[name] for name in READERS), "wal")
 # cache search warehouse wal
 ```
+
+![CDC Destination](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-6-cdc-destination.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 6.*
 
 ## Replay State
 
@@ -219,6 +243,10 @@ snapshot = fold(EVENTS[:SNAPSHOT_THROUGH])
 print(fold(EVENTS), snapshot, fold(EVENTS[SNAPSHOT_THROUGH:], snapshot))
 # 1035 960 1035
 ```
+
+![Replay State](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-7-replay-state.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 7.*
 
 ## Cold Copy
 
@@ -260,3 +288,7 @@ def within_budget(row: dict, budget_ms: int) -> bool:
 print([home(row) for row in ROWS], [within_budget(row, BUDGET_MS) for row in ROWS])
 # ['primary', 'object'] [True, False]
 ```
+
+![Cold Copy](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills-8-cold-copy.png)
+
+*Source: [`diagrams/storage-processing-drills.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-drills.drawio), page 8.*

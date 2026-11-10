@@ -12,6 +12,10 @@ hot   this week's tickets, sooner to open
 cold  last season, cheaper, slower to open
 ```
 
+![Object Storage](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-1-object-storage.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 1.*
+
 ## Block Storage
 
 A block store presents a volume, or a set of fixed-size chunks, that a host treats as a disk. The open-lot database on the desk host mounts the volume and reads an 8 KB page at a chosen offset. The volume can be detached from a failed host and attached to its replacement. The caller addresses ranges. The ticket photo stays a key and a whole blob.
@@ -24,6 +28,10 @@ block    a volume or fixed-size chunks, mounted, a range at an offset
 dfs      a shared tree of files on many machines
 ```
 
+![Block Storage](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-2-block-storage.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 2.*
+
 ## Distributed File System
 
 A distributed file system is a directory tree whose bytes live on many machines. The layout fits a large file read from the first byte to the last. The belt-history file is about 2 TB, and the nightly job opens it and scans. The usual cut is large blocks, more than one copy of each block, and a metadata service that holds the directory and the block list. HDFS is the teaching system: write the file once, then let many jobs read it. A second writer appending that same file is the case this layout handles poorly.
@@ -34,6 +42,10 @@ Small files spend the metadata service before they fill the data disks. Two mill
 fits    a huge file, written once, scanned from start to finish
 hurts   millions of tiny files, random small reads, several writers
 ```
+
+![Distributed File System](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-3-distributed-file-system.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 3.*
 
 ## Data Lake
 
@@ -46,6 +58,10 @@ lake       raw capture on object storage
 curated    a later job's file, derived from a raw prefix
 warehouse  the analytical store those files can load
 ```
+
+![Data Lake](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-4-data-lake.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 4.*
 
 ## Batch Processing
 
@@ -61,6 +77,10 @@ reduce    write the total
 latency   minutes to hours, after the input is complete
 ```
 
+![Batch Processing](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-5-batch-processing.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 5.*
+
 ## Stream Processing
 
 A stream job stays up. Each event is a temperature, a scale reading, or a lot closing, and the job updates a result while the truck is still in the yard. Yesterday arrives as a sequence of events, one window at a time. The window is measured in event time, the clock on the probe, which can differ from the minute the packet reached the job.
@@ -75,6 +95,10 @@ late         event time sits behind the watermark
 grace        a short allowance that still counts
 ```
 
+![Stream Processing](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-6-stream-processing.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 6.*
+
 ## Batch or Stream
 
 A batch job fits a complete set whose reader can wait. The morning settlement is that case. Every ticket from yesterday belongs in the total, and the sheet is due at 06:00, after the day has closed.
@@ -87,6 +111,10 @@ a check that must fire in seconds    stream
 the closed day and the last minute   both results, next card
 ```
 
+![Batch or Stream](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-7-batch-or-stream.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 7.*
+
 ## Lambda or Kappa
 
 Lambda runs two paths over the same facts. The batch path reads the closed day and writes the total people will reconcile, the bushels through midnight. The speed path folds events as they arrive and serves the minutes the batch has not covered. A query adds the batch total to the speed total from after the batch cutoff. Fold yesterday into the speed total as well and those bushels count twice. The batch path can be run again to correct a bad day. The cost is two copies of "bushels by grower" that can disagree until the batch lands.
@@ -98,6 +126,10 @@ lambda    batch through the cutoff + speed after the cutoff
 kappa     one stream job, replay the log to rebuild
 overlap   speed rows already inside the batch count twice
 ```
+
+![Lambda or Kappa](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-8-lambda-or-kappa.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 8.*
 
 ## Change Data Capture
 
@@ -113,6 +145,10 @@ month report      land the row in the warehouse
 outbox table      Transactional Outbox
 ```
 
+![Change Data Capture](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-9-change-data-capture.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 9.*
+
 ## Event Sourcing
 
 Event sourcing stores each change as an immutable event. The current value is a fold of that sequence. Lot 18 is receive 1000, ship 40, ship 25, receive 100. The bushels still on the floor are that fold, 1035. The events are the source of truth. A table of the current fill is a copy that can be rebuilt from them.
@@ -125,3 +161,7 @@ fold         1035 bushels still on the floor
 snapshot     fold through ship 40, then apply the tail
 projection   the yard card, from the same events
 ```
+
+![Event Sourcing](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing-10-event-sourcing.png)
+
+*Source: [`diagrams/storage-processing.drawio`](/content/09_System_Design_Interview/13_Storage_and_Data_Processing_at_Scale/diagrams/storage-processing.drawio), page 10.*
