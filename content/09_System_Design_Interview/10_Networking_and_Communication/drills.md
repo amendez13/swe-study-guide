@@ -32,6 +32,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # REST RPC REST REST+RPC
 ```
 
+![REST or RPC](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-1-rest-or-rpc.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 1.*
+
 ## Method and Key
 
 Which of these operations are naturally idempotent? For the one that is not, name a key that makes one calibration attempt safe to retry, and say why the gauge id alone is the wrong key.
@@ -72,6 +76,10 @@ print(idempotent, apply(["try-1", "try-2"]), apply(ATTEMPTS[:2]), apply(ATTEMPTS
 # ['GET', 'PUT', 'DELETE'] 2 1 2
 ```
 
+![Method and Key](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-2-method-and-key.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 2.*
+
 ## Transport Pick
 
 Pick the mechanism from the constraint. The choices are short poll, long poll, WebSocket, and SSE.
@@ -102,6 +110,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # short-poll long-poll websocket sse
 ```
 
+![Transport Pick](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-3-transport-pick.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 3.*
+
 ## Proxy Direction
 
 Classify each placement. Then name one job in this desk that belongs on the load balancer, not on the API gateway.
@@ -130,6 +142,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # forward reverse gateway
 ```
 
+![Proxy Direction](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-4-proxy-direction.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 4.*
+
 ## TCP or UDP
 
 Assign a transport. For a UDP choice, say what the application adds. The beacons are the handshake question: each beacon is one datagram, and a TCP handshake is 3 packets.
@@ -155,6 +171,10 @@ CHOICE = ["TCP", "UDP", "UDP"]
 print(" ".join(CHOICE), BEACONS * HANDSHAKE, BEACONS)
 # TCP UDP UDP 6000 2000
 ```
+
+![TCP or UDP](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-5-tcp-or-udp.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 5.*
 
 ## Gateway Cut
 
@@ -199,6 +219,10 @@ print(on_gateway, on_service)
 # ['terminate-tls', 'check-token', 'route', 'apply-budget'] ['window-free', 'insert-booking']
 ```
 
+![Gateway Cut](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-6-gateway-cut.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 6.*
+
 ## Retry Duplicate
 
 The calibration write times out. The handler may already have committed, and the response may be what was lost. Count the inserts when the client retries with a fresh identity each time, and when both tries carry `cal-17`.
@@ -230,6 +254,10 @@ print(inserts(UNKEYED), inserts(KEYED))
 # 2 1
 ```
 
+![Retry Duplicate](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-7-retry-duplicate.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 7.*
+
 ## Connection Count
 
 Six gauge reads are in flight together. How many connections does HTTP/1.1 need for those six responses, and how many does HTTP/2 need? Separately, gauge-a holds 40 live WebSocket clients and gauge-b holds none. Why does a reconnect of one of those clients want stickiness?
@@ -253,3 +281,7 @@ def connections(in_flight: int, multiplex: bool) -> int:
 print(connections(IN_FLIGHT, False), connections(IN_FLIGHT, True), SOCKETS["gauge-a"], SOCKETS["gauge-b"])
 # 6 1 40 0
 ```
+
+![Connection Count](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills-8-connection-count.png)
+
+*Source: [`diagrams/networking-drills.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-drills.drawio), page 8.*

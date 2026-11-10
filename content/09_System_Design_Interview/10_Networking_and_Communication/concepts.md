@@ -10,6 +10,10 @@ UDP     one datagram, loss and reorder stay visible
 on UDP  the application adds order, a resend, or an auth tag when it needs them
 ```
 
+![TCP and UDP](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-1-tcp-and-udp.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 1.*
+
 ## HTTP Connections
 
 HTTP/1.0 opened a TCP connection, carried one request, and closed it. The next request paid for another handshake. HTTP/1.1 keep-alive leaves the connection open, so a following request skips that handshake. Responses on that connection still come back one at a time, in order. A slow response holds every later response on the same connection. That wait is head-of-line blocking. A client that wants six responses in flight opens six connections.
@@ -22,6 +26,10 @@ HTTP/1.1    keep-alive, one response at a time on the connection
 HTTP/2      many streams on one connection
 gRPC        uses that multiplex so calls do not queue behind one response
 ```
+
+![HTTP Connections](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-2-http-connections.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 2.*
 
 ## REST
 
@@ -40,6 +48,10 @@ DELETE  /jobs/42     remove job 42
 3xx                  Location names the next URL
 ```
 
+![REST](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-3-rest.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 3.*
+
 ## RPC
 
 A remote procedure call is written as a function call. The client calls a stub, the stub sends the arguments, and the return value comes back as if the function had run in the same process. The network is still on the path. The call can time out, and a retry can run the handler again. The name that makes a retried write one write is Idempotency. The lost reply is Unreliable Networks in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/).
@@ -54,6 +66,10 @@ stream = press.Watch(job_id=42)      messages until the run ends
 schema and field numbers             Encoding Serialization and Schema Evolution
 ```
 
+![RPC](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-4-rpc.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 4.*
+
 ## REST or RPC
 
 REST fits a caller outside your deploy, a CRUD operation on a resource, and a response a cache or a browser can use. RPC fits a service you ship, a high call rate, and a stream. Many systems use both. The public edge speaks REST. Services behind that edge call each other with RPC.
@@ -65,6 +81,10 @@ public, CRUD, cacheable          REST
 internal, low latency, a stream  RPC
 the usual system                 REST at the edge, RPC behind it
 ```
+
+![REST or RPC](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-5-rest-or-rpc.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 5.*
 
 ## Forward and Reverse Proxy
 
@@ -80,6 +100,10 @@ reverse proxy    customer → shop address → a server  the customer does not a
 load balancer    spreads one pool                    the pick stays in Load Balancing
 API gateway      path, credential, and budget        a reverse proxy with API duties
 ```
+
+![Forward and Reverse Proxy](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-6-forward-and-reverse-proxy.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 6.*
 
 ## API Gateway
 
@@ -101,6 +125,10 @@ service    the job row and the rule that decides it
 peers      Service Discovery
 ```
 
+![API Gateway](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-7-api-gateway.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 7.*
+
 ## Polling and Long-Polling
 
 Short polling asks on a timer. The client sends a request, the server answers with the current value, and the connection closes. A job page that can be fifteen seconds stale sends `GET /jobs/42` every fifteen seconds. The handler is an ordinary read. Most answers say the job has not changed. The change can arrive as late as one full interval, and the client pays for a request on every interval.
@@ -114,6 +142,10 @@ short poll    request, answer now, wait out the interval, request again
 long poll     the request stays open until a change or a timeout
 lateness      up to one interval, or as long as the hold
 ```
+
+![Polling and Long-Polling](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-8-polling-and-long-polling.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 8.*
 
 ## WebSockets and SSE
 
@@ -129,6 +161,10 @@ SSE          the server writes events, the client reads
 reconnect    a new connection; SSE can send the last event id
 the socket   stays on the process that accepted it
 ```
+
+![WebSockets and SSE](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-9-websockets-and-sse.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 9.*
 
 ## Idempotency
 
@@ -147,3 +183,7 @@ POST with 9af0          creates a different job
 ```
 
 A charge has this same shape: the key names the attempt, and the handler returns the stored result on a retry. The ledger under that charge is Idempotency in Payments in [Payment and Financial Systems](../23_Payment_and_Financial_Systems/). Lost replies, duplicate packets, and the wait before a retry are Unreliable Networks in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). A consumer that can see the same queued message twice is Message Delivery Guarantees in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). A notification that must not surface twice as a product rule is Delivery Guarantees for Notifications in [Real-Time and Notification Systems](../21_Real_Time_and_Notification_Systems/).
+
+![Idempotency](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking-10-idempotency.png)
+
+*Source: [`diagrams/networking.drawio`](/content/09_System_Design_Interview/10_Networking_and_Communication/diagrams/networking.drawio), page 10.*
