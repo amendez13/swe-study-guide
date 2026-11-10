@@ -32,6 +32,10 @@ print(shape(TEAM, HOT, SHARED_CRASHES))
 # one-desk-plus-photos
 ```
 
+![Monolith or Microservices](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-1-monolith-or-microservices.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 1.*
+
 ## When to Decompose
 
 The desk is still one process and it works. Three pains show up in the same month. Which split is justified, and which piece moves first?
@@ -61,6 +65,10 @@ print(" ".join(move(pain) for pain in PAINS))
 # none none cabin-lockers
 ```
 
+![When to Decompose](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-2-when-to-decompose.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 2.*
+
 ## Boundary Cut
 
 Four proposed cuts. Keep the one that is a business capability. Reject the others.
@@ -86,6 +94,10 @@ print(" ".join("keep" if name in KEEP else "reject" for name in CUTS))
 # reject reject keep reject
 ```
 
+![Boundary Cut](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-3-boundary-cut.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 3.*
+
 ## Data Ownership
 
 The work-order service and the segment catalog both run `UPDATE segments SET closed = ...`. What breaks, and what does ownership look like instead?
@@ -108,6 +120,10 @@ def coupled(writers: list[str]) -> bool:
 print(coupled(SHARED), coupled(OWNED), OWNED[0])
 # True False segment-catalog
 ```
+
+![Data Ownership](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-4-data-ownership.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 4.*
 
 ## Sync or Events
 
@@ -133,6 +149,10 @@ SYNC = {"mile-open", "lead-named"}
 print(" ".join("sync" if step in SYNC else "event" for step in STEPS))
 # sync event sync event
 ```
+
+![Sync or Events](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-5-sync-or-events.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 5.*
 
 ## Discovery Style
 
@@ -162,6 +182,10 @@ print(" ".join(CHOICE[name] for name in CASES))
 # server-side client-side mesh
 ```
 
+![Discovery Style](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-6-discovery-style.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 6.*
+
 ## Saga Compensation
 
 A closure is three local commits. The segment catalog marks mile 40 closed. The work-order service opens repair `r-40`. The crew desk then fails to assign a Saturday sawyer, because nobody certified is free. What does each earlier step undo, and is an orchestrator or choreography the better fit?
@@ -186,6 +210,10 @@ def compensate(done: list[str]) -> list[str]:
 print(compensate(DONE), FAILED)
 # ['cancel-r-40', 'reopen-mile-40'] assign-sawyer
 ```
+
+![Saga Compensation](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-7-saga-compensation.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 7.*
 
 ## Vendor on the Path
 
@@ -213,3 +241,7 @@ def on_request(vendor_ms: int, budget_ms: int) -> bool:
 print(" ".join(PLACE[step] for step in STEPS), on_request(VENDOR_P99_MS, PAGE_BUDGET_MS))
 # request queue adapter False
 ```
+
+![Vendor on the Path](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills-8-vendor-on-the-path.png)
+
+*Source: [`diagrams/microservices-drills.drawio`](/content/09_System_Design_Interview/12_Microservices_and_System_Decomposition/diagrams/microservices-drills.drawio), page 8.*
