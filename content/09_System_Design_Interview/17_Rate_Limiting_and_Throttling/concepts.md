@@ -16,6 +16,10 @@ the chart        Observability
 the question     The Four-Step Framework
 ```
 
+![Rate Limiter](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-1-rate-limiter.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 1.*
+
 ## Rate Limit Rules
 
 The rule names the key and the path. An address is easy to read and a poor key at the lower-station cafe, where twenty riders share one NAT. One busy phone spends the cafe's budget, and the other nineteen are refused on that same address. A rider who changes networks starts over as a new caller. A rider id, or the API key the desk issued, counts the person who holds the credential. A path counts the work. A seat ask and a timetable recompute are different costs, and each path keeps its own count.
@@ -31,6 +35,10 @@ timetable        4 asks a minute, its own key
 notifications    Push Notification System
 ```
 
+![Rate Limit Rules](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-2-rate-limit-rules.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 2.*
+
 ## Throttle or Reject
 
 Past the budget, the desk either slows the work or refuses the ask. A throttle holds a short queue and lets the ask wait its turn, or it tells a producer the desk can reach to send more slowly. A reject answers 429 and keeps no copy of the ask. Slowing a producer is Backpressure in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). The queue, its depth, and when to add consumers stay on that card.
@@ -43,6 +51,10 @@ reject        429, and the desk keeps nothing
 producer      Backpressure
 queue full    refuse the next ask
 ```
+
+![Throttle or Reject](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-3-throttle-or-reject.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 3.*
 
 ## Token Bucket
 
@@ -59,6 +71,10 @@ five quiet   from empty, 10 would arrive; the cap leaves 8
 memory       one count and a timestamp per rider
 ```
 
+![Token Bucket](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-4-token-bucket.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 4.*
+
 ## Leaky Bucket
 
 A leaky bucket is a queue that drains at a fixed rate. Timetable recomputes enter the queue, and the planner takes them out at 1 per second. The queue holds 6. A burst of 15 arrives: 6 wait, 9 are dropped at once, and the queue is empty 6 seconds later.
@@ -74,6 +90,10 @@ seat asks        token bucket, the burst passes
 timetable        this queue, a steady drain
 ```
 
+![Leaky Bucket](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-5-leaky-bucket.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 5.*
+
 ## Fixed Window Counter
 
 A fixed window counts asks inside a clock minute, then starts the next minute at zero. The desk once allowed 20 seat asks in each minute. The key is the rider and the minute. An increment that passes 20 is refused, and the key expires when the minute is over.
@@ -88,6 +108,10 @@ minute 13, early 20, allowed
 six seconds      40, two windows
 key              boardings:rider-14:m12, then expire
 ```
+
+![Fixed Window Counter](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-6-fixed-window-counter.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 6.*
 
 ## Sliding Window
 
@@ -105,6 +129,10 @@ at 20s of 60     24 * 40 / 60 + 9 = 25
 limit 20         25 refuses the ask
 ```
 
+![Sliding Window](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-7-sliding-window.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 7.*
+
 ## Distributed Rate Limiting
 
 Alder, beech, and cedar all take seat asks. A counter that lives on one car is wrong for a rider whose next ask lands on another car. A shared counter, often in Redis, is what every car updates. The total matches the asks. Every ask pays a hop, and the store sits on the path. A local counter plus a periodic sync gives each car a share of the budget. The read stays on the car. Until the next sync the shares can add up past the limit, which is the drift you accept when a local share is enough and the hop can wait. Sticky routing sends rider 14 to alder every time, so alder's counter is that rider's counter. The pin is Sticky Sessions (Session Affinity) in [Load Balancing](../04_Load_Balancing/). The riders who arrived first pile onto one car, and a restart of that car drops the count it held.
@@ -119,3 +147,7 @@ remaining 1      alder and beech both read 1 and both admit
 fix              atomic decrement, or one script
 locks and 2PC    Transactions and Concurrency Control
 ```
+
+![Distributed Rate Limiting](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting-8-distributed-rate-limiting.png)
+
+*Source: [`diagrams/rate-limiting.drawio`](/content/09_System_Design_Interview/17_Rate_Limiting_and_Throttling/diagrams/rate-limiting.drawio), page 8.*
