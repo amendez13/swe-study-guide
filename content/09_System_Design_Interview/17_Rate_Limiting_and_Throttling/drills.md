@@ -1,29 +1,29 @@
 # Rate Limiting and Throttling — Drills
 
-Original practice for where a budget sits, which key it counts, and which counter enforces it. Each card is one exercise: commit to an answer, then check it. The numbers are invented for Copperline Tram, a hillside line with three cars, alder, beech, and cedar. Riders ask the desk for a seat. The gateway that can host the check stays in Networking and Communication. Slowing a producer stays in Message Queues and Async Processing. Shedding because the hill is full stays in High Availability and Reliability. Pinning a rider to one car stays in Load Balancing. How a client waits stays in Distributed System Failure Modes. A lock around the counter stays in Transactions and Concurrency Control.
+Original practice for where a budget sits, which key it counts, and which counter enforces it. Each card is one exercise: commit to an answer, then check it. The numbers are a teaching budget for a public REST API, in the spirit of GitHub's per-user limit and Stripe's per-account limit. They are smaller than those published budgets so the arithmetic stays visible. Each picture is in the same order as its prompt. Match a row by its position and by the answer under the code. The gateway that can host the check stays in Networking and Communication. Slowing a producer stays in Message Queues and Async Processing. Shedding because the whole service is full stays in High Availability and Reliability. Pinning a caller to one server stays in Load Balancing. How a client waits stays in Distributed System Failure Modes. A lock around the counter stays in Transactions and Concurrency Control.
 
 ## Where to Put
 
-The desk is choosing a home for the check. Who can you trust, and which paths share a budget?
+You are choosing a home for the check on a public API. Who can you trust, and which routes share a budget?
 
 ```text
-1. phone-pause — the app can delay its own asks. A modified app can skip the delay.
-2. every-path — seat asks and timetable recomputes share one public budget, and both services sit behind one host.
-3. timetable-only — only the timetable path is expensive, and seat asks keep their own budget.
+1. client-pause — the app delays its own calls. A modified app can delete the delay.
+2. every-route — creating an issue and running search share one public budget, and both sit behind one gateway.
+3. search-only — only search is expensive, and creating an issue keeps its own budget.
 ```
 
 ```python
-CASES = ["phone-pause", "every-path", "timetable-only"]
+CASES = ["client-pause", "every-route", "search-only"]
 ```
 
-**Answer:** The phone is a client, and a pause there is a courtesy. The desk cannot trust it. Every public path sharing one budget belongs on the gateway, the API Gateway, which already sees those calls and applies the decision. The timetable-only budget belongs on the timetable service, as a library in its request pipeline, so seat asks never spend it. The gateway's other jobs, the token check and the route, stay on the API Gateway card.
+**Answer:** The app is a client, and a pause there is a courtesy. The server cannot trust it. Stripe recommends a client-side token bucket for this courtesy, and a rebuilt client can skip it. Every public route sharing one budget belongs on the gateway, the API Gateway, which already sees those calls and applies the decision. The search-only budget belongs on the search service, as a library in its request pipeline, so creating an issue never spends it. The gateway's other jobs, the token check and the route, stay on the API Gateway card.
 
 ```python
-CASES = ["phone-pause", "every-path", "timetable-only"]
+CASES = ["client-pause", "every-route", "search-only"]
 PLACE = {
-    "phone-pause": "client",
-    "every-path": "gateway",
-    "timetable-only": "service",
+    "client-pause": "client",
+    "every-route": "gateway",
+    "search-only": "service",
 }
 
 print(" ".join(PLACE[name] for name in CASES))
@@ -36,26 +36,26 @@ print(" ".join(PLACE[name] for name in CASES))
 
 ## Limit By
 
-Three keys are proposed for the lower station. What goes wrong with the weak ones?
+Three keys are proposed for an authenticated API that also accepts anonymous calls. What goes wrong with the weak ones?
 
 ```text
-1. cafe-nat — twenty riders share one address. The counter key is that address.
-2. one-path — rider 14's seat asks and timetable recomputes share one counter, capped like a seat ask.
-3. split-key — seat asks are one key for rider 14, and timetable recomputes are another, capped at 4 a minute.
+1. shared-nat — twenty people on cafe Wi-Fi share one public address. The counter key is that address.
+2. one-counter — one user's issue writes and search calls share one counter, capped like the cheap write.
+3. per-route — issue writes are one key for that user, and search calls are another, capped at 4 a minute.
 ```
 
 ```python
-CASES = ["cafe-nat", "one-path", "split-key"]
+CASES = ["shared-nat", "one-counter", "per-route"]
 ```
 
-**Answer:** The cafe address treats twenty riders as one caller. Rider 14 spends the stop, and riders 15 through 19 are refused with them. A rider who changes networks starts a fresh budget. One shared path lets the timetable recompute run as often as a seat ask, so the expensive path has no cap of its own. The split key counts the person who holds the credential, and the timetable key stops at 4 a minute. A day quota of 500 seat asks can sit beside the short rate, so a script that never bursts still stops. A cap on notification sends stays on the Push Notification System card.
+**Answer:** The shared address treats twenty people as one caller. One of them spends the budget, and the rest are refused with them. A client that changes networks starts a fresh budget. GitHub's unauthenticated limit is this kind of key: 60 requests per hour for the IP address. One shared counter lets search run as often as a cheap write, so the expensive route has no cap of its own. The per-route key counts the person who holds the credential, and the search key stops at 4 a minute. A day quota of 500 writes can sit beside the short rate, so a script that never bursts still stops. A cap on notification sends stays on the Push Notification System card.
 
 ```python
-CASES = ["cafe-nat", "one-path", "split-key"]
+CASES = ["shared-nat", "one-counter", "per-route"]
 FAULT = {
-    "cafe-nat": "shared-address",
-    "one-path": "expensive-path-uncapped",
-    "split-key": "none",
+    "shared-nat": "shared-address",
+    "one-counter": "expensive-path-uncapped",
+    "per-route": "none",
 }
 
 print(" ".join(FAULT[name] for name in CASES))
@@ -68,7 +68,7 @@ print(" ".join(FAULT[name] for name in CASES))
 
 ## Token Burst
 
-Rider 14's bucket holds 8 permits and refills 2 permits a second. It starts full. How many seat asks pass in a burst that arrives together, and how many pass one second later? From empty, what does a quiet stretch of 5 seconds leave in the bucket?
+A caller's bucket holds 8 permits and refills 2 permits a second. It starts full. How many requests pass in a burst that arrives together, and how many pass one second later? From empty, what does a quiet stretch of 5 seconds leave in the bucket?
 
 ```python
 CAPACITY = 8
@@ -76,7 +76,7 @@ REFILL = 2
 QUIET_S = 5
 ```
 
-**Answer:** The burst takes 8, which empties the bucket. One second later the refill has put 2 permits back, so 2 asks pass. Five quiet seconds from empty would add 10, and the cap leaves 8. Idle time does not raise the burst.
+**Answer:** The burst takes 8, which empties the bucket. One second later the refill has put 2 permits back, so 2 requests pass. Five quiet seconds from empty would add 10, and the cap leaves 8. Idle time does not raise the burst. If 10 requests had arrived in that first instant, 8 would pass and 2 would be 429 immediately. A refused request does not take a permit.
 
 ```python
 CAPACITY = 8
@@ -105,21 +105,21 @@ print(
 
 ## Token or Leaky
 
-Ten seat asks arrive together from a rider who expects a short burst to succeed. Fifteen timetable recomputes arrive together, and the planner must see them leave at 1 per second. The timetable queue holds 6. Which algorithm fits each path, how many seat asks pass, how many are refused at once, and how many timetable asks wait?
+Ten user-facing writes arrive together from a caller who expects a short burst to succeed. Fifteen report jobs arrive together, and the worker must start them at 1 per second. The report queue holds 6. Which algorithm fits each path, how many writes pass, how many are refused at once, and how many report jobs wait?
 
 ```python
-SEAT_ARRIVED = 10
+WRITES_ARRIVED = 10
 CAPACITY = 8
-TIMETABLE_ARRIVED = 15
+REPORTS_ARRIVED = 15
 QUEUE = 6
 ```
 
-**Answer:** A token bucket for the seat asks. Eight pass. The two past the capacity are 429 in the moment they arrive, and the bucket keeps no queue. A leaky bucket for the timetable. Six wait in the short queue and leave at 1 per second, so the queue is empty 6 seconds later. Nine are dropped because the queue is already full. Slowing a producer the desk can reach, and the depth of a broker queue, stay on Backpressure. The seat path refuses at once. The timetable path waits while the queue has room.
+**Answer:** A token bucket for the writes. Eight pass. The two past the capacity are 429 in the moment they arrive, and the bucket keeps no queue. A leaky bucket for the reports. Six wait in the short queue and leave at 1 per second, so the queue is empty 6 seconds later. Nine are dropped because the queue is already full. Slowing a producer you can reach, and the depth of a broker queue, stay on Backpressure. The write path refuses at once. The report path waits while the queue has room.
 
 ```python
-SEAT_ARRIVED = 10
+WRITES_ARRIVED = 10
 CAPACITY = 8
-TIMETABLE_ARRIVED = 15
+REPORTS_ARRIVED = 15
 QUEUE = 6
 
 
@@ -133,7 +133,7 @@ def leaky(arrived: int, queue: int) -> tuple[int, int]:
     return waiting, arrived - waiting
 
 
-print(token(SEAT_ARRIVED, CAPACITY), leaky(TIMETABLE_ARRIVED, QUEUE))
+print(token(WRITES_ARRIVED, CAPACITY), leaky(REPORTS_ARRIVED, QUEUE))
 # (8, 2) (6, 9)
 ```
 
@@ -143,7 +143,7 @@ print(token(SEAT_ARRIVED, CAPACITY), leaky(TIMETABLE_ARRIVED, QUEUE))
 
 ## Window Seam
 
-A fixed window allows 20 seat asks in a clock minute. Twenty land in the last three seconds of minute 12. Twenty land in the first three seconds of minute 13. Does each window allow its own count, and how many asks crossed the edge?
+A fixed window allows 20 requests in a clock minute. Twenty land in the last three seconds of minute 12. Twenty land in the first three seconds of minute 13. Does each window allow its own count, and how many requests crossed the edge?
 
 ```python
 LIMIT = 20
@@ -151,7 +151,7 @@ LATE = 20
 EARLY = 20
 ```
 
-**Answer:** Each window shows 20, which the rule allows, so both sides look fine. The six seconds around the edge carried 40 asks, two windows of traffic. A fixed window admits that seam. A sliding count would see the asks that are still inside the last minute.
+**Answer:** Each window shows 20, which the rule allows, so both sides look fine. The six seconds around the edge carried 40 requests, two windows of traffic. A fixed window admits that seam. The spike is up to twice the limit. A sliding count would see the requests that are still inside the last minute.
 
 ```python
 LIMIT = 20
@@ -174,7 +174,7 @@ print(*seam(LATE, EARLY, LIMIT))
 
 ## Sliding Weight
 
-Twenty seconds of a 60-second window have elapsed. The previous minute recorded 24 asks. This minute has recorded 9. The limit is 20. What is the weighted count, and is it over the limit?
+Twenty seconds of a 60-second window have elapsed. The previous minute recorded 24 requests. This minute has recorded 9. The limit is 20. What is the weighted count, and is it over the limit?
 
 ```python
 PREV = 24
@@ -184,7 +184,7 @@ WINDOW = 60
 LIMIT = 20
 ```
 
-**Answer:** The previous minute still overlaps the last 60 seconds by 40 seconds. The estimate keeps 24 * 40 / 60 = 16 of those asks and adds the 9 already in this minute. The weighted count is 25, which is over 20, so the ask is refused. A log of timestamps would be exact and would store every ask. This estimate stores two counts. The division lands on a whole number here.
+**Answer:** The previous minute still overlaps the last 60 seconds by 40 seconds. The estimate keeps `24 × 40 / 60 = 16` of those requests and adds the 9 already in this minute. The weighted count is 25, which is over 20, so the request is refused. The weight assumes the previous minute was spread evenly. A log of timestamps would be exact and would store every request. This estimate stores two counts. The division lands on a whole number here.
 
 ```python
 PREV = 24
@@ -209,35 +209,35 @@ print(count, count > LIMIT)
 
 ## Counter Race
 
-One permit remains on the shared seat-ask counter. Alder reads 1 and admits. Beech reads 1 before alder writes, and admits. Each would store 0. How many asks pass, and how many pass when the decrement is one atomic step? Why is a lock or a two-phase commit the wrong repair?
+One permit remains on the shared counter in Redis. Two API servers each read 1 and admit, before either writes. Each would store 0. How many requests pass, and how many pass when the decrement is one atomic step? Why is a lock or a two-phase commit the wrong repair?
 
 ```python
 REMAINING = 1
-CARS = 2
+SERVERS = 2
 ```
 
-**Answer:** Both cars admit, so 2 asks pass on 1 permit. An atomic decrement admits 1. The second car sees 0 and refuses. One script that reads, decides, and writes before another car runs does the same thing. A distributed lock, two-phase commit, and a consensus round stay in Transactions and Concurrency Control. They coordinate a unit of work across records. This failure is one counter updated in two steps.
+**Answer:** Both servers admit, so 2 requests pass on 1 permit. An atomic decrement admits 1. The second server sees 0, or a negative result it must treat as a refusal. One script that reads, decides, and writes before another server runs does the same thing: the first server takes the permit and the second sees 0. A distributed lock, two-phase commit, and a consensus round stay in Transactions and Concurrency Control. They coordinate a unit of work across records. This failure is one counter updated in two steps.
 
 ```python
 REMAINING = 1
-CARS = 2
+SERVERS = 2
 
 
-def raced(remaining: int, cars: int) -> int:
-    return sum(1 for _ in range(cars) if remaining > 0)
+def raced(remaining: int, servers: int) -> int:
+    return sum(1 for _ in range(servers) if remaining > 0)
 
 
-def atomic(remaining: int, cars: int) -> int:
+def atomic(remaining: int, servers: int) -> int:
     admitted = 0
     left = remaining
-    for _ in range(cars):
+    for _ in range(servers):
         if left > 0:
             left -= 1
             admitted += 1
     return admitted
 
 
-print(raced(REMAINING, CARS), atomic(REMAINING, CARS))
+print(raced(REMAINING, SERVERS), atomic(REMAINING, SERVERS))
 # 2 1
 ```
 
@@ -247,27 +247,27 @@ print(raced(REMAINING, CARS), atomic(REMAINING, CARS))
 
 ## Retry-After
 
-Rider 14's board received HTTP 429 with Retry-After: 8, and X-RateLimit-Remaining: 0. Four boards at the lower station each received that answer. How many of those four call again during this second if they honor the header, and how many call if they ignore it? What does the second choice do to the desk?
+Four API clients each received HTTP 429 with `Retry-After: 8` and `X-RateLimit-Remaining: 0`. How many of those four call again during this second if they honor the header, and how many call if they ignore it? What does the second choice do to the API?
 
 ```python
 RETRY_AFTER_S = 8
-BOARDS = 4
+CLIENTS = 4
 ```
 
-**Answer:** A board that honors the header waits 8 seconds and then sends one ask, so this second sees 0 of the four. A board that ignores the header calls again now, so this second sees 4. Those four immediate calls are a retry storm: they spend the capacity the refusal was meant to protect. The growing gap and the spread that keep retries off one second stay on Timeouts and Retries. This exercise is the header.
+**Answer:** A client that honors the header waits 8 seconds and then sends one request, so this second sees 0 of the four. A client that ignores the header calls again now, so this second sees 4. Those four immediate calls are a retry storm: they spend the capacity the refusal was meant to protect. GitHub tells callers to wait out `Retry-After` when it is present, and otherwise to wait until `x-ratelimit-reset` when the remaining count is 0. Stripe asks for exponential backoff with jitter, which spreads retries that would otherwise land on the same second. The growing gap and the spread stay on Timeouts and Retries. This exercise is the header.
 
 ```python
 RETRY_AFTER_S = 8
-BOARDS = 4
+CLIENTS = 4
 
 
-def retries_this_second(boards: int, honors_header: bool) -> int:
+def retries_this_second(clients: int, honors_header: bool) -> int:
     if honors_header:
         return 0
-    return boards
+    return clients
 
 
-print(retries_this_second(BOARDS, True), retries_this_second(BOARDS, False), RETRY_AFTER_S)
+print(retries_this_second(CLIENTS, True), retries_this_second(CLIENTS, False), RETRY_AFTER_S)
 # 0 4 8
 ```
 
