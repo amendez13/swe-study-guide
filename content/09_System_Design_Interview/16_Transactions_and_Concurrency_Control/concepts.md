@@ -1,27 +1,17 @@
 ## Transaction
 
-A transaction is a set of reads and writes that the database applies as one unit. Commit keeps every write in the set. Rollback removes every write in the set.
+A transaction is a set of reads and writes that the database applies as one unit. Commit keeps every write in the set, and rollback removes every write in it. A transfer moves $400 from checking to savings. Checking starts at $800 and savings at $0, so the transfer is two writes: checking becomes $400 and savings becomes $400. Those two balances are one fact. With nothing tying the writes together, a crash after the debit and before the credit leaves checking at $400 and savings at $0. The $400 is in neither account, and a later read treats that as the truth.
 
-**Why it exists.** A transfer moves $400 from checking to savings. Checking starts at $800 and savings starts at $0, so the transfer is two writes: checking becomes $400, and savings becomes $400. Those two balances are one fact. A crash after the debit and before the credit, with nothing tying the writes together, leaves checking at $400 and savings at $0. The $400 is in neither account, and a later read will treat that as the truth.
+Inside a transaction, the debit and the credit are followed by a commit, and commit returns only after this node's log has a commit record. Both new balances are then what a later read sees, even after a crash and restart, because recovery replays the log. A rollback leaves checking at $800 and savings at $0. A crash before commit ends the same way, because recovery undoes the debit that never committed.
 
-**How it works.** Commit returns only after this node's log has a commit record for the transfer.
+The promise is about this node's log. A commit that never reached another node can still disappear if this node is discarded, which is Failover and Promotion in [Databases Relational](../06_Databases_Relational/). The four letters around the unit are ACID Properties in the same topic. The C there means declared constraints still hold after commit, such as checking staying at or above $0. The C in CAP is a different word, about replicas. In an interview, walk the two balances through commit, rollback, and a crash between the writes. When both rows live in one database, the answer is a local transaction. When the debit and credit are two services, use two-phase commit or a saga.
 
-1. Begin the transaction and debit checking from $800 to $400.
-2. Credit savings from $0 to $400.
-3. Commit. Both new balances are the ones a later read sees, including after this process crashes and restarts. Commit returned only after this node's log had the record, so recovery can replay it.
-4. Rollback instead of commit leaves checking at $800 and savings at $0. A crash before commit ends the same way: recovery undoes the debit that never committed.
-
-**Trade-offs.** The promise is about this node's log. A commit that never reached another node can still disappear if this node is discarded. That case is Failover and Promotion in [Databases Relational](../06_Databases_Relational/). The four letters around the unit are ACID Properties in the same topic. The C in those letters means the constraints you declared still hold after commit, such as a check that checking stays at or above $0. The C in CAP is a different word, about replicas, and that distinction is on the ACID card.
-
-**In an interview.** Walk the two balances for commit, rollback, and a crash between the writes. When both rows live in one database, the answer is a local transaction. When the debit and the credit are two services, the later cards apply: two-phase commit, or a saga.
-
-**Recap.**
-
-- Commit leaves checking at $400 and savings at $400.
-- Rollback leaves checking at $800 and savings at $0.
-- A crash between the two writes, with no transaction around them, leaves checking at $400 and savings at $0. The $400 is in neither account.
-- A crash after the debit and before commit, inside the transaction, undoes the debit. Checking stays at $800 and savings stays at $0.
-- Durability here is this node's log. The four letters, and the two meanings of C, are ACID Properties in Databases Relational.
+```text
+commit              checking $400, savings $400
+rollback            checking $800, savings $0
+crash, no txn       checking $400, savings $0, the $400 is lost
+crash before commit recovery undoes the debit
+```
 
 ![Transaction](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-1-transaction.png)
 
@@ -29,33 +19,18 @@ A transaction is a set of reads and writes that the database applies as one unit
 
 ## Isolation Levels
 
-Isolation is how much one transaction is allowed to see of another transaction's work on the same database. The levels differ by which anomalies they still allow.
+Isolation is how much one transaction may see of another's work on the same database. The levels differ by which anomalies they still allow. Name the anomaly the requirement forbids, then pick the cheapest level that forbids it.
 
-**Why it exists.** Two transfers and two checkouts run at the same time. Without a rule, one of them can read a balance the other has not committed, read the same account twice and get two answers, or sell a unit the other checkout also sold. The level is the rule you pick for that risk.
+Read committed hides uncommitted rows, and it is PostgreSQL's default. Each statement sees what was committed before it started. A transfer reads checking at $800, another transaction debits $400 and commits, and the next read returns $400. That is a non-repeatable read. A count of on-call doctors can also grow between two counts because a new matching row committed, and that row is a phantom. Read committed also loses updates when the application does the arithmetic. The stock is 8, two checkouts each read 8 and write 7, and two units are gone while the stock says 7. `UPDATE inventory SET qty = qty - 1` keeps the subtraction on the row, so the second update waits for the lock and the stock ends at 6.
 
-**How it works.** The examples are one checking account, one inventory row, and two on-call doctors.
+Snapshot isolation gives the transaction one snapshot from its first statement, so checking stays $800. PostgreSQL's repeatable read is this snapshot, and a second update of the same row fails and retries. Write skew still gets through. Alex and Blake are on call, and the rule is that at least one doctor stays on. Each transaction counts 2 and takes its own doctor off. The updates hit different rows, both commit, and the count is 0. Serializable requires the outcome to match some serial order. PostgreSQL detects this pair and aborts one, and the retry reads 1 and keeps that doctor on. Serializable aborts more under contention. Cheaper checks often do the job. A unique key rejects a second reservation for seat 14, and `SELECT ... FOR UPDATE` on the on-call rows makes the second doctor wait. InnoDB's default is repeatable read, covered in ACID Properties in [Databases Relational](../06_Databases_Relational/). Replica reads and real-time order are Strong Consistency and Linearizability in [Consistency and Replication](../09_Consistency_and_Replication/).
 
-Read committed hides rows another transaction has not committed. It is PostgreSQL's default. Each statement sees what was committed before that statement started, so the next statement can see a commit that landed in between. A transfer reads checking at $800. Another transaction debits $400 and commits. The first transfer's next read returns $400. That change to the same row is a non-repeatable read. A count of on-call doctors can also grow because a new matching row committed between the two counts. That new row is a phantom.
-
-Read committed also allows a lost update when the application does the arithmetic. The stock of one SKU is 8. Two checkouts each read 8, subtract 1 in memory, and write 7. Both commits succeed, two units were sold, and the stock is 7. `UPDATE inventory SET qty = qty - 1` keeps the subtraction on the row. The second update waits for the row lock, then subtracts from 7, and the stock ends at 6.
-
-Snapshot isolation gives the transaction one snapshot, taken at its first statement, so the second read of checking stays $800. PostgreSQL's repeatable read is that snapshot. A second update of the same inventory row fails, and the application retries. Write skew still fits, because the two writes touch different rows. Alex and Blake are both on call, and the clinic rule is that at least one doctor stays on call. Alex's transaction counts 2 and sets Alex off call. Blake's transaction reads the same snapshot, counts 2, and sets Blake off call. Each update hits a different row, so the updates miss each other. Both commit, and the on-call count is 0. Either transaction, run alone, would have left 1 and the rule would have held.
-
-Serializable requires the outcome to match some order in which one of those transactions finished before the other started. PostgreSQL's serializable isolation detects this pair and aborts one of them. The application retries the aborted transaction. The retry reads a count of 1 and, because the rule still requires one doctor on call, leaves that doctor on call. InnoDB's default level is repeatable read. How its locks treat a phantom is ACID Properties in [Databases Relational](../06_Databases_Relational/).
-
-**Trade-offs.** Read committed allows the most overlap, and it is the right default when each statement stands alone and the arithmetic stays inside the `UPDATE`. A snapshot is the right level when one transaction reads the same rows twice and needs a stable picture. It still allows a rule that spans rows, as in the on-call count. Serializable closes that rule and aborts more often under contention. The application has to retry the whole transaction.
-
-A unique key is the cheaper check when the rule is a single row. The second reservation for seat 14 fails on the unique key, at insert time. Locking the rows the decision reads is the other cheaper check for the doctors: `SELECT ... FOR UPDATE` on the on-call rows makes the second doctor wait, then see the updated count, at read committed. These are concurrent transactions on one database. A later read of a replica, and a real-time order across clients, are Strong Consistency and Linearizability in [Consistency and Replication](../09_Consistency_and_Replication/). A lost increment inside a limiter's own counter is [Rate Limiting and Throttling](../17_Rate_Limiting_and_Throttling/).
-
-**In an interview.** Name the anomaly the requirement forbids, then the cheapest level that forbids it. Say that a unique key beats serializable when the rule is one row, and that this card is one database.
-
-**Recap.**
-
-| Level | What can still happen | What you pay |
-| --- | --- | --- |
-| Read committed | A later statement can see a new commit, including a new matching row. Read-then-write in application code can lose an update. | The usual default. Put the arithmetic in the `UPDATE`, or lock the row first. |
-| Snapshot | Write skew. Two transactions can each keep a rule that the pair then breaks. PostgreSQL's repeatable read is this snapshot. | A stable read. A second write to the same row conflicts. A rule that spans rows can still break. |
-| Serializable | One of the conflicting transactions aborts, and the application retries. | More aborts when many transactions touch the same rule. |
+```text
+read committed   sees new commits, phantoms, lost read-then-write updates
+snapshot         stable reads, write skew across rows
+serializable     aborts one of the pair, the application retries
+cheaper          unique key, or SELECT ... FOR UPDATE
+```
 
 ![Isolation Levels](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-2-isolation-levels.png)
 
@@ -63,19 +38,11 @@ A unique key is the cheaper check when the rule is a single row. The second rese
 
 ## Optimistic or Pessimistic
 
-Pessimistic control locks the row, then does the work. Optimistic control does the work, then checks a version at commit. Contention decides which one fits.
+Pessimistic control locks the row and then does the work. Optimistic control does the work and then checks a version at commit. Two buyers can both try to reserve the last unit. One has to be refused, and the stock has to end at 0 with a single reservation. The choice is whether the loser waits up front or finds out at commit, and contention decides it.
 
-**Why it exists.** Two buyers can both try to reserve the last unit. One of them has to be refused, and the stock has to end at 0 with a single reservation. The choice is whether the loser waits up front or finds out at commit.
+A flash sale has one unit of `sku-14` and 40 buyers, so a conflict is the common case. The buyer runs `SELECT qty FROM inventory WHERE sku = 'sku-14' FOR UPDATE`, sees 1, decrements it, inserts the reservation, and commits. The next buyer waits on the lock, then sees 0. The lock has to be on the reservation path, because a plain read that does not take it still sees the last committed quantity.
 
-**How it works.** A flash sale has one unit of `sku-14` and 40 buyers. A conflict is the common case, so the buyer locks first.
-
-1. `SELECT qty FROM inventory WHERE sku = 'sku-14' FOR UPDATE` locks the row.
-2. The quantity is 1. The buyer decrements it and inserts the reservation.
-3. Commit releases the lock. The next buyer takes the same lock, waits, and then sees 0.
-
-The lock has to be on the reservation path. A plain read that does not take it still sees the last committed quantity.
-
-Ordinary catalog traffic gives each buyer a different SKU, and a conflict is rare. The buyer reads version 7 and does the rest of the checkout. The write then claims the row only if that version is still current:
+Ordinary catalog traffic spreads buyers across SKUs, so conflicts are rare. The buyer reads version 7, does the checkout, and claims the row only if the version has not moved:
 
 ```sql
 UPDATE inventory
@@ -83,18 +50,14 @@ SET qty = qty - 1, version = 8
 WHERE sku = 'sku-14' AND version = 7;
 ```
 
-One row updated means this buyer reserved the unit, and the version is now 8. Zero rows updated means another buyer committed first. This checkout retries from the read, or tells the buyer the unit is gone. The work done since the read is discarded.
+One row updated means this buyer got the unit. Zero rows means another buyer committed first, so this checkout retries from the read or reports the unit gone. In the flash sale, a version check would throw away most of the 40 checkouts. In the catalog, a lock held across a slow checkout makes unrelated buyers wait. The lock costs a wait, plus a deadlock when two transactions lock rows in opposite orders, which is Two-Phase Locking. The version check costs a retry.
 
-**Trade-offs.** The lock fits the flash sale. A version check there would throw the checkout away for most of the 40 buyers, because the conflict is the usual outcome. The version check fits the ordinary catalog. Holding a lock across a slow checkout would make unrelated buyers wait. The cost of the lock is the wait, and a deadlock when two transactions lock rows in opposite orders. That cycle is Two-Phase Locking. The cost of the version check is the retry.
-
-**In an interview.** Ask how often two transactions touch the same row. A common conflict means lock first. A rare conflict means check the version at commit, and say what 0 rows means: the version moved, so this attempt retries.
-
-**Recap.**
-
-| Situation | Strategy | What you observe |
-| --- | --- | --- |
-| One unit, 40 buyers | Lock the row, then do the work | The other buyers wait. Retrying them would waste the work. |
-| A different SKU per buyer | Read version 7, write only if it is still 7 | 1 row updated means this buyer got the unit. 0 rows means retry. |
+```text
+common conflict   lock first, the others wait
+rare conflict     check the version at commit
+1 row updated     this buyer won
+0 rows updated    the version moved, retry
+```
 
 ![Optimistic or Pessimistic](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-3-optimistic-or-pessimistic.png)
 
@@ -102,28 +65,18 @@ One row updated means this buyer reserved the unit, and the version is now 8. Ze
 
 ## Two-Phase Locking
 
-Two-phase locking is a lock protocol a database can use to make transactions serializable. In the growing phase a transaction acquires locks and releases none. In the shrinking phase it releases locks and acquires none.
+Two-phase locking is a lock protocol a database can use to make transactions serializable. In the growing phase a transaction acquires locks and releases none. In the shrinking phase it releases locks and acquires none. Taking and releasing locks in any order does not by itself produce a serial order, and these two phases are what produce it. Releasing a write lock before commit would let another transaction read a value that might still roll back, so engines hold locks until commit or rollback. That form is strict two-phase locking.
 
-**Why it exists.** Locks taken and released in any order do not by themselves produce a serial order. The growing phase and the shrinking phase are what produce that order. Releasing a write lock before commit lets another transaction read a value that might still roll back. Engines that use locking for serializable isolation avoid that read by holding the locks until commit or rollback. That form is strict two-phase locking.
+A shared lock is enough to read a row, and many transactions can hold one. An exclusive lock is needed to write, and it conflicts with both. A deadlock is a cycle in the wait-for graph. Transfer 1 locks account A and waits for account B, while transfer 2 locks B and waits for A. A lock timeout aborts whichever waited too long, and it retries. Deadlock detection walks the graph, finds the cycle, and aborts one side. A fixed lock order prevents the cycle: every transfer locks the lower account id first, so the second transfer waits on A while the first holds it.
 
-**How it works.** A shared lock is enough to read a row, and many transactions can hold one. An exclusive lock is required to write a row, and it conflicts with both. The transaction releases those locks at commit or rollback, and it acquires none after the release starts.
+Holding locks until commit is why this path allows less concurrency than a snapshot, because readers and writers queue for the whole unit of work. Snapshot isolation lets them overlap and leaves write skew possible, as the Isolation Levels card shows. Two-phase locking orders locks inside one database. Two-phase commit, the next card, is one commit decision across databases. Say which one you mean.
 
-A deadlock is a cycle in the wait-for graph. Transfer 1 locks account A and then waits for account B. Transfer 2 locks account B and then waits for account A. Each is waiting for a lock the other holds.
-
-1. A lock timeout aborts the transaction that waited too long. It retries.
-2. Deadlock detection walks the graph, finds the cycle, and aborts one of the two. The aborted transaction retries.
-3. A fixed lock order keeps this cycle from forming. Every transfer locks the lower account id first. The second transfer waits on account A while the first still holds it.
-
-**Trade-offs.** Holding locks until commit is why this path allows less concurrency than a snapshot. Readers and writers queue for the whole unit of work. Snapshot isolation lets them overlap, and write skew remains possible, as the Isolation Levels card shows. Two-phase locking is one way to reach serializable. It is a lock protocol inside one database. Two-phase commit, the next card, is one decision across databases.
-
-**In an interview.** Call a deadlock a cycle in the wait-for graph. Name a timeout, aborting one side, and one lock order for every transaction. Then say which protocol you mean: two-phase locking orders locks in one database, and two-phase commit orders one commit across databases.
-
-**Recap.**
-
-- Growing phase: acquire locks, and release nothing.
-- Shrinking phase: release at commit or rollback, and acquire nothing.
-- Transfer 1 holds account A and waits for account B. Transfer 2 holds account B and waits for account A. That wait is a cycle.
-- A timeout or a deadlock detector aborts one transaction, and it retries. Locking the lower account id first keeps this cycle from forming.
+```text
+growing     acquire, release nothing
+shrinking   release at commit or rollback, acquire nothing
+deadlock    1 holds A wants B, 2 holds B wants A
+fixes       timeout, detect and abort, lock lower id first
+```
 
 ![Two-Phase Locking](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-4-two-phase-locking.png)
 
@@ -131,36 +84,19 @@ A deadlock is a cycle in the wait-for graph. Transfer 1 locks account A and then
 
 ## Two-Phase Commit
 
-Two-phase commit, 2PC, is one commit decision for two or more databases. A coordinator asks each participant to prepare, then tells every participant to commit or every participant to abort.
+Two-phase commit, 2PC, is one commit decision for two or more databases. An order row in the order database and a charge row in the payment database should agree, because a local commit in only one leaves an order with no charge or a charge with no order. A coordinator sends prepare to both. A participant that can commit records that promise in its own log, votes yes, and keeps its locks. One that cannot votes no. If every vote is yes, the coordinator records commit and sends it, and each participant commits and releases its locks. If any vote is no, the coordinator sends abort.
 
-**Why it exists.** An order row in the order database and a charge row in the payment database should agree. A local commit in only one of them leaves an order with no charge, or a charge with no order. The coordinator exists so those databases make one decision.
+The wait is the cost. A coordinator that dies after both yes votes and before the decision leaves each participant stuck. It has promised to follow a decision it has not heard, guessing could disagree with the other participant, and its locked rows stay unavailable until the coordinator returns. Three-phase commit adds a pre-commit round so a participant can finish on a timeout. That only stays correct if a missing coordinator has truly crashed, a partition can split the decision, and production systems almost never run it.
 
-**How it works.** The order database and the payment database are the participants.
+That blocking is a poor fit for an order service and a payment service that must keep answering. Across services, each commits locally, and a failed charge is repaired by a compensating write that cancels the order. The order can show as pending and then cancelled, because no lock spans both databases. That is the Saga Pattern in [Microservices and System Decomposition](../12_Microservices_and_System_Decomposition/), and a retried charge uses Idempotency in Payments in [Payment and Financial Systems](../23_Payment_and_Financial_Systems/). Saving the order and an outbox row in one local commit, then publishing, is the Transactional Outbox in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/).
 
-1. The coordinator sends prepare to both.
-2. A participant that can commit records that promise in its own log, votes yes, and keeps the locks it took. A participant that cannot commit votes no.
-3. When every vote is yes, the coordinator records commit and sends commit. Each participant commits and releases its locks.
-4. When any vote is no, the coordinator sends abort. Each participant rolls back.
-
-A coordinator that dies after both votes are yes, and before it sends the decision, leaves each participant waiting. The participant has promised to follow a decision it has not heard. The locks it took at prepare stay held until the coordinator returns and finishes. Guessing commit or abort can disagree with what the other participant was told, so the participant chooses neither.
-
-**Trade-offs.** The wait is the cost. A dead coordinator blocks every participant that voted yes, and the locked rows stay unavailable. That is a poor fit for an order service and a payment service that have to keep answering. Across those services, each one commits locally, and a failed charge is repaired by a compensating write that cancels the order. The order can be visible as pending and then as cancelled, because nothing holds a lock across both databases while the charge is in flight. Those compensations are the Saga Pattern in [Microservices and System Decomposition](../12_Microservices_and_System_Decomposition/). A retry of the same charge uses an idempotency key, which is Idempotency in Payments in [Payment and Financial Systems](../23_Payment_and_Financial_Systems/).
-
-The order row and an outbox row in one local commit, followed by a publish, are the Transactional Outbox in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). That pair ties the saved order to the message. The payment database still makes its own commit.
-
-Three-phase commit adds a pre-commit round so a participant that times out can try to finish. That timeout stays correct in a model where a missing coordinator has crashed. A partition can let the two sides finish with different decisions. Production systems almost never run it.
-
-**In an interview.** For two databases you operate, and a commit that is allowed to wait, name two-phase commit and the dead coordinator. For an order service and a payment service, say each commits locally and a failed charge cancels the order. For save-then-publish inside one service, say the outbox.
-
-**Recap.**
-
-| Situation | What happens |
-| --- | --- |
-| Every participant votes yes | The coordinator sends commit, and the locks are released. |
-| Any participant votes no | The coordinator sends abort. |
-| The coordinator dies after the yes votes and before the decision | Each participant waits. The locks taken at prepare stay held. |
-| The order service and the payment service must both stay available | Each commits locally. A failed charge cancels the order. That repair is the Saga Pattern. |
-| The order and the "order placed" message must agree | One local commit writes the order and an outbox row. That is the Transactional Outbox. |
+```text
+all yes            commit, locks released
+any no             abort
+coordinator dies   participants wait, locks held
+two services       local commits plus compensation, a saga
+save then publish  Transactional Outbox
+```
 
 ![Two-Phase Commit](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-5-two-phase-commit.png)
 
@@ -168,42 +104,18 @@ Three-phase commit adds a pre-commit round so a participant that times out can t
 
 ## Consensus Algorithms
 
-Consensus is how a group of nodes agrees on the next entry in a replicated log when some of them have stopped or cannot be reached. Raft is the algorithm to name for that log.
+Consensus is how a group of nodes agrees on the next entry in a replicated log when some of them have stopped or cannot be reached. One node that records "order 19 is paid" loses that fact when it dies. Two nodes that each record it independently can record different facts. The log needs a single next entry that survives a minority of nodes being down. Raft is the algorithm to name for that log.
 
-**Why it exists.** One node that records "order 19 is paid" loses that fact when it dies. Two nodes that both record it can record different facts. The log needs a single next entry that survives a minority of the nodes being down.
+Raft picks one leader. The leader appends "order 19 is paid" locally and sends it to the followers, and each follower stores it and acknowledges. The entry is committed once a majority has stored it, and then the leader applies it and tells the followers they may too. With 3 nodes the majority is 2, so the group survives 1 failure. With 5 nodes the majority is 3, and it survives 2. A fourth node still needs 3 acknowledgements and still survives only 1, so the useful sizes are odd. Paxos agrees on a value as well. Raft is the name to give because its leader, term, and majority acknowledgement are pieces you can walk through.
 
-**How it works.** Raft picks one leader. The leader appends the entry and asks the others to store it.
+A majority write waits for the slowest acknowledgement it needs, and a cluster that cannot gather a majority refuses the entry. In a design, call a store that already runs this protocol: etcd runs Raft, and ZooKeeper runs Zab. The order a caller observes is Linearizability, and overlapping read and write sets are Quorum Reads and Writes, both in [Consistency and Replication](../09_Consistency_and_Replication/). Two sides both writing after a cut is Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). Choosing the writer is Leader Election, and a timed key in the same store is Distributed Locks.
 
-1. The leader appends "order 19 is paid" locally and sends it to the followers.
-2. A follower stores the entry and acknowledges it.
-3. The entry is committed once a majority has stored it. The leader applies it and tells the followers they may apply it.
-4. With 3 nodes the majority is 2, so the group still commits after 1 failure. With 5 nodes the majority is 3, and the group still commits after 2 failures.
-
-```python
-def majority(nodes: int) -> int:
-    return nodes // 2 + 1
-
-
-def failures_survived(nodes: int) -> int:
-    return (nodes - 1) // 2
-
-
-print(majority(3), failures_survived(3), majority(5), failures_survived(5))
-# 2 1 3 2
+```text
+3 nodes   majority 2, survives 1 failure
+4 nodes   majority 3, still survives 1
+5 nodes   majority 3, survives 2
+stores    etcd (Raft), ZooKeeper (Zab)
 ```
-
-Paxos agrees on a value too. Raft is the name to give for this log, because the leader, the term, and the majority acknowledgement are the pieces you can walk through. In the design, call a store that already runs a majority protocol. etcd runs Raft. ZooKeeper runs Zab.
-
-**Trade-offs.** A majority write waits for the slower of those acknowledgements, and a cluster that cannot gather a majority refuses the entry. Adding a fourth node still needs 3 acknowledgements and still survives 1 failure. The next size that survives another failure is 5. The order a caller of etcd or ZooKeeper observes is Linearizability in [Consistency and Replication](../09_Consistency_and_Replication/). How many replicas a read set and a write set must share is Quorum Reads and Writes in that topic. The count on this card is the majority on one log entry. Two nodes that both accept writes after a cut are Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). Choosing the one writer is Leader Election. A timed key in the same store is Distributed Locks.
-
-**In an interview.** Say Raft, then the majority for the size they gave you: 2 of 3, or 3 of 5. Say the service calls etcd or ZooKeeper.
-
-**Recap.**
-
-- Raft is the name to give for a replicated log. Paxos is the name for agreeing on a value.
-- Three nodes commit an entry after 2 have stored it, and still commit after 1 failure.
-- Five nodes commit after 3 have stored it, and still commit after 2 failures.
-- etcd runs Raft. ZooKeeper runs Zab. The caller-visible order is Linearizability.
 
 ![Consensus Algorithms](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-6-consensus-algorithms.png)
 
@@ -211,28 +123,18 @@ Paxos agrees on a value too. Raft is the name to give for this log, because the 
 
 ## Leader Election
 
-Leader election picks the one node allowed to accept new entries in the log. The other nodes replicate what that leader commits.
+Leader election picks the one node allowed to accept new entries in the log, and the other nodes replicate what it commits. Two leaders that both commit produce two logs. A client can be told both writes succeeded while the entries disagree. A majority vote keeps a single leader in each term.
 
-**Why it exists.** Two leaders that both commit produce two logs. A client can be told that both writes succeeded, and the entries then disagree. A majority vote is what keeps a single leader in a term.
+In Raft, a candidate increments the term and asks for votes. A node votes once per term, and only for a candidate whose log is at least as new as its own. The candidate with a majority becomes leader. Take three nodes, and a cut that leaves A alone with B and C together. A holds 1 vote of 3, so it cannot win, and since a commit needs a majority acknowledgement it cannot commit either. A client that reaches only A gets no successful commit. Anything A appended but did not commit is dropped when it rejoins and follows the pair's log at the higher term. B and C hold 2 of 3, so they may elect a leader and keep committing.
 
-**How it works.** In Raft, a candidate increments the term and asks the others for votes. A node votes once in a term, and only for a candidate whose log is at least as new as its own. The candidate that gathers a majority becomes the leader.
+The lone node can still be up and answering, and the safe answer is to refuse the write. That is a short outage for clients who can only reach it. Letting it commit avoids the outage and forks the log, which is Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). The majority that commits an entry is Consensus Algorithms. A relational primary that keeps accepting commits after another node is promoted has to be fenced, which is Failover and Promotion in [Databases Relational](../06_Databases_Relational/). In an interview, draw the cut and count each side.
 
-Three nodes, A, B, and C, make the cut concrete. A network cut leaves A alone and leaves B and C together.
-
-1. A holds 1 vote of 3. It cannot win the election. A commit needs a majority acknowledgement, so A cannot commit a new entry. A client that can reach only A does not receive a successful commit. An entry A appended and did not commit is dropped when A follows the pair's log at the higher term.
-2. B and C hold 2 votes of 3. They may elect a leader and keep committing.
-3. An entry committed on the side of one would diverge from an entry the pair commits. Both sides committing is the failure this rule prevents.
-
-**Trade-offs.** The side of one can still be up and answering. The safe answer is to refuse the write, which is a short outage for clients who can reach only that node. Letting it commit avoids the outage and forks the log. Both sides committing is Split Brain in [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/). The majority that commits a log entry is Consensus Algorithms. When the writer is a relational primary that still accepts commits after another node has been promoted, fencing that primary is Failover and Promotion in [Databases Relational](../06_Databases_Relational/).
-
-**In an interview.** Draw the cut and count each side. Only a strict majority may elect. With 3 nodes, the pair may lead and the single node must stop committing.
-
-**Recap.**
-
-- A leader needs a majority of votes in one term, and each node votes once in that term.
-- One node of three cannot elect and cannot commit a new entry.
-- The other two may elect and may keep committing.
-- Both sides committing forks the log. That failure is Split Brain.
+```text
+vote        once per term, for a log at least as new
+1 of 3      cannot elect, cannot commit
+2 of 3      may elect and keep committing
+both commit the log forks, split brain
+```
 
 ![Leader Election](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-7-leader-election.png)
 
@@ -240,29 +142,18 @@ Three nodes, A, B, and C, make the cut concrete. A network cut leaves A alone an
 
 ## Distributed Locks
 
-A distributed lock is a lease on a key in a consensus store. The holder may do the work while the lease is valid. When the lease expires, another worker may take the key.
+A distributed lock is a lease on a key in a consensus store. The holder may do the work while the lease is valid, and when it expires another worker may take the key. Two workers should not both run the nightly billing job, and a lock inside one process does not stop the other process. The store agrees on the key the way Consensus Algorithms agrees on a log entry. The lease adds an expiry, so the winner's right ends when it stops renewing.
 
-**Why it exists.** Two workers should not both run the nightly billing job. A lock that lives in one process does not stop the other process. The store agrees on the key the way Consensus Algorithms agrees on a log entry. The lease is the part this card adds: the winner's right expires when it stops renewing.
+The key is `locks/nightly-billing`, with a 10-second lease in etcd or ZooKeeper. The holder renews it while running the job. Then the holder pauses for 14 seconds, for example in a long garbage-collection pause, and misses the renewal. At 10 seconds the lease ends, and a second worker takes the key and starts the job. At 14 seconds the first worker resumes, still believing it holds the lock. If its writes count, both workers have billed the same accounts. Checking the lease just before writing does not help, because the pause can come right after the check.
 
-**How it works.** The key is `locks/nightly-billing`, and the lease is 10 seconds. etcd or ZooKeeper is the store.
+The fix is a storage token that increases with every grant: 1 for the first holder, 2 for the next. The billing store rejects any write whose token is older than the highest it has accepted, so token 1 is refused after token 2. The check happens on the write itself. A short lease spots a dead holder fast and costs more renewals. A long one delays takeover, so size it from how long the job may pause. When every worker shares one database, a row lock or advisory lock ending with the transaction is enough. A relational primary is fenced the same way, in Failover and Promotion in [Databases Relational](../06_Databases_Relational/).
 
-1. The holder takes the key and renews the 10-second lease while it runs the job.
-2. Another worker that finds the key absent, or the lease expired, may take it.
-3. The holder pauses for 14 seconds, for example in a long garbage-collection pause. It misses the renewal. At 10 seconds the lease ends, and a second worker takes the key and starts the job.
-4. The first worker resumes at 14 seconds and still believes it holds the lock. If its later writes count, both workers have billed the same accounts.
-
-The grant carries a monotonically increasing storage token, 1 for the first holder and 2 for the next. The system that stores the billing result rejects a write whose token is older than the highest token it has already accepted. The resumed worker's token 1 is rejected after token 2 has been stored. Checking the lease in the worker, just before the write, still loses if the process pauses after that check. The token check happens on the write itself.
-
-**Trade-offs.** The lease is a deadline after which someone else may proceed. The paused process can still be running. A short lease detects a dead holder quickly and costs a renewal round trip. A long lease delays the takeover. Ten seconds is the lease in this example. Pick the length from how long the job may pause and how soon a dead holder should be replaced. When every worker already shares one database, a row lock or an advisory lock in that database is enough, and it ends with the transaction. The lease is for work that outlives one database transaction or does not share one. When the holder is a relational primary, fencing it so the old node cannot commit is Failover and Promotion in [Databases Relational](../06_Databases_Relational/).
-
-**In an interview.** Call it a lease. Give the 10-second lease and the 14-second pause, and say the billing store rejects the older token on the write. Naming etcd or ZooKeeper is the start. The answer still includes the pause and the token.
-
-**Recap.**
-
-- The key `locks/nightly-billing` is held with a 10-second lease, renewed while the holder works.
-- A pause of 14 seconds expires the lease. A new holder may take the key.
-- The paused process can resume and still act as the holder.
-- The storage token on the write rejects that expired holder. A relational primary is fenced the same way, on Failover and Promotion.
+```text
+lease      10 s on locks/nightly-billing, renewed while working
+pause      14 s, the lease expires, a second worker takes over
+resumed    the first worker still thinks it holds the lock
+token      the store rejects token 1 after accepting token 2
+```
 
 ![Distributed Locks](/content/09_System_Design_Interview/16_Transactions_and_Concurrency_Control/diagrams/transactions-8-distributed-locks.png)
 
