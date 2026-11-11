@@ -40,6 +40,10 @@ for name, works, invoked, money in PRODUCTS:
 # support-refund ('complementary', 'reactive', 'person confirms')
 ```
 
+![Compose or Refund](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-1-compose-or-refund.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 1.*
+
 ## Use or Skip
 
 Four tasks are on the table. Duolingo conversation practice is language, a learner can try again, and one turn does not change a credential. A Gusto or ADP payroll-tax filing must be exact, and submitting the wrong figure is a filing you then have to amend. An Expensify-style receipt read fills vendor, date, and total for a person who still compares them to the photo before anyone is paid. Google Maps driving time already comes from a routing algorithm.
@@ -91,6 +95,10 @@ for name, language, reviewable, exact, irreversible, algorithm in TASKS:
 # receipt-fields model drafts, a person commits
 # maps-route ordinary software
 ```
+
+![Use or Skip](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-2-use-or-skip.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 2.*
 
 ## Which Lever
 
@@ -150,6 +158,10 @@ for name, case in CASES.items():
 # shopify-house-style ('prompt', 'finetune')
 ```
 
+![Which Lever](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-3-which-lever.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 3.*
+
 ## Repo or File
 
 A Copilot Chat or Cursor feature answers "explain this code." One design pastes 80,000 tokens of the repository on every question. The other pastes the open file, the question, and a short instruction, 3,500 tokens. Both designs generate 400 output tokens. The team expects 50,000 questions a day.
@@ -185,6 +197,10 @@ def daily_usd(input_tokens: int) -> float:
 print(daily_usd(WHOLE_REPO), daily_usd(OPEN_FILE))
 # 2040.0 127.5
 ```
+
+![Repo or File](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-4-repo-or-file.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 4.*
 
 ## Demo Milestone
 
@@ -222,6 +238,10 @@ print(next_milestone(**MEASURED, policy_bar=POLICY_BAR))
 # human on policy replies
 ```
 
+![Demo Milestone](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-5-demo-milestone.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 5.*
+
 ## Eighty Percent
 
 The same support bot's demo of 25 curated tickets was described as "about 80 percent." A later random sample is more specific: 80 percent of drafts are sendable with a light edit, 15 percent need a full rewrite, and 5 percent invent a policy such as a refund the help center does not offer. The desk handles 10,000 tickets a day.
@@ -248,6 +268,10 @@ rewrite_per_day = DAILY_TICKETS * (100 - SENDABLE_PCT - POLICY_PCT) // 100
 print(DEMO_TICKETS, policy_per_day, rewrite_per_day)
 # 25 500 1500
 ```
+
+![Eighty Percent](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-6-eighty-percent.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 6.*
 
 ## Stack Map
 
@@ -292,6 +316,10 @@ for name, layer in WORK.items():
 # infrastructure: the process that stores the embedding index
 ```
 
+![Stack Map](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-7-stack-map.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 7.*
+
 ## Pinned Snapshot
 
 A Notion-style summarizer calls a floating "latest" model. The previous snapshot, `model-2026-03-01`, scores 0.93 faithfulness on your regression set. The new snapshot scores 0.81. Your bar is 0.90. Input price falls from $5.00 to $0.50 per million tokens. Output stays $15.00 per million. You run 1,000,000 summaries. Each summary sends 2,000 input tokens. The old snapshot writes 200 output tokens. The new one writes 1,200.
@@ -335,3 +363,7 @@ new_bill = bill(NEW["output_tokens"], NEW["input_usd_per_million"])
 print(choice(NEW["faithfulness"], BAR), old_bill, new_bill, new_bill > old_bill)
 # pin model-2026-03-01 13000.0 19000.0 True
 ```
+
+![Pinned Snapshot](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-8-pinned-snapshot.png)
+
+*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 8.*
