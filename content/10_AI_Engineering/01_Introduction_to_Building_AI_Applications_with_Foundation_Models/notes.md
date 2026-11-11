@@ -1,51 +1,110 @@
 # Introduction to Building AI Applications with Foundation Models
 
-This chapter introduces the shift from training narrow machine learning models to building products on top of reusable foundation models. AI engineering is distinct not because it uses trendier tools, but because it changes the center of gravity: less effort goes into training bespoke models, and more goes into choosing the right use case, adapting the model, shaping the user workflow, and evaluating failure modes in production.
+AI engineering is the discipline of shipping products on foundation models that already exist. This topic covers why that became practical, which real products those models show up in, how to decide whether a task should use one and in what role, how to plan the path from a demo to a pinned production model, and how the work sits in a three-layer stack next to ML engineering and full-stack engineering. Language-model internals stay short on purpose. Architecture, sampling, and training live in the next topic.
 
 ## Key Points
 
-- **AI engineering** — building applications on top of foundation models has become practical because model capability rose while access barriers fell through APIs and tooling.
-- **Language models** — many AI tasks can be reframed as next-token completion, which explains both their power and their probabilistic behavior.
-- **Masked vs. autoregressive models** — masked models fill in missing text using both left and right context, while autoregressive models generate one token at a time from prior context; modern generative AI products are mostly built on the autoregressive side.
-- **Self-supervision** — LLM scaling became possible because language models can learn from raw text without manual labels for every example.
-- **Foundation models** — the big shift is from narrow, task-specific models to reusable, general-purpose models that can be adapted to many tasks.
-- **Adaptation levers** — prompt engineering changes instructions, RAG changes available context, and finetuning changes model weights.
-- **Use-case selection** — evaluate fit at the task level: foundation models work best on unstructured inputs, open-ended outputs, and reviewable outcomes; in the OpenAI exposure study, a task counts as exposed when AI can cut completion time by at least 50%.
-- **Human role** — define the application along four axes: critical or complementary, reactive or proactive, dynamic or static, and human review versus direct automation; these choices determine the quality bar, latency bar, and guardrail design.
-- **Planning matters** — a flashy demo is not the same as a production-ready system; evaluation, maintenance, latency, and cost have to be planned early.
-- **Three-layer stack** — application development, model development, and infrastructure are distinct layers with different responsibilities.
-- **Role shift** — compared with ML engineering, AI engineering is more adaptation- and evaluation-heavy; compared with full-stack work, it deals with probabilistic systems and model trade-offs.
+- **AI engineering** — build the product on a foundation model you adapt, evaluate, and operate. Training a base model from scratch is a separate project most teams buy as an API.
+- **Language models in product terms** — a product model finishes a prompt. Masked models such as BERT fill a gap from both sides. Autoregressive models write ChatGPT, Copilot, and Gmail drafts. Tokens are the unit of context, latency, and price.
+- **Self-supervision** — the next piece of the document is the label, which is why training could scale without a human mark on every row. Private facts and your quality bar are not in that signal.
+- **Foundation models** — a broad base you adapt to many tasks. Text is one modality. Midjourney, Firefly, Runway, Sora, and the image inputs on GPT-4o, Gemini, and Claude are the same pattern with different cost and review.
+- **Why this became practical** — useful models, hosted APIs, and the investment that followed visible products such as ChatGPT and GitHub Copilot arrived together.
+- **Prompting, RAG, and finetuning** — prompt when the task is in the request, retrieve when facts are private or changing, finetune when a behavior will not stick and you have examples. Earlier levers stay when you add the next.
+- **Coding and writing** — Copilot, Cursor, Notion AI, and Gmail drafts generate a version a person accepts. Tests catch some bad code. Prose usually has only the sender.
+- **Image, video, and tutoring** — stills fit a person choosing variations, video adds a watch-before-publish review, and Duolingo or Khanmigo fit low-stakes practice on material you supply. Grades and answer keys need a source outside the sample.
+- **Bots and aggregation** — ChatGPT can be the whole product. Intercom and Zendesk bots sit on a desk with articles and agents. Perplexity, NotebookLM, and Gmail summaries work when each claim is a step away from its source.
+- **Extraction and automation** — receipt and invoice tools should emit fields that code can check. Zapier-style agents start with drafts and read-only tools. Money movement and sending as the company wait for a person.
+- **Task-level fit** — judge the task. The Eloundou, Manning, Mishkin, and Rock paper marks a task exposed when a model could cut its time by at least half. About 80 percent of U.S. workers are in occupations with at least a tenth of tasks exposed, and about 19 percent are in occupations with more than half exposed. The figures measure time that could be saved on tasks. The job can remain.
+- **Roles** — critical or complementary, reactive or proactive, static or dynamic, and what the human still decides. The axes are independent. A complementary refund bot still needs a person on the charge.
+- **Expectations** — set a quality threshold against the user's real alternative, a latency threshold for the interaction, and a cost per successful task. An average of 80 percent hides a harmful tail.
+- **Milestones** — demo, eval set, shadow, limited send, pinned production. A meeting that liked 20 tickets is still the demo.
+- **Maintenance** — pin a model id, re-run the regression set, and recompute the bill from input and output tokens. A cheaper rate card can raise spend when answers get longer.
+- **Three-layer stack** — application (prompt, context, UI, product eval), model (train, finetune, datasets, quantization), infrastructure (GPUs, serving, storage, monitoring). Start at the top.
+- **Versus ML engineering** — the default moves from training a labeled task model to adapting a general one and judging open-ended output. Latency and token cost show up on the first call. Finetunes and rerankers are ML work inside this job.
+- **Versus full-stack engineering** — the app around the model is ordinary product engineering. The model adds a slow, metered call that can return a wrong answer with a success status. Prompts are reviewed like code. Faithfulness belongs on an eval set.
 
 ## Example
 
+A practice conversation can go to the model. A payroll filing cannot. A wiki that changes wants retrieval. A thread that is already on screen wants a prompt. Two million Gmail-style summaries, each with 1,900 input tokens and 200 output tokens, cost $2,700 a month at the exercise prices of $0.50 per million input tokens and $2.00 per million output tokens.
+
 ```python
-from dataclasses import dataclass
+def fit(language_heavy: bool, needs_exact: bool, irreversible: bool) -> str:
+    if needs_exact and irreversible:
+        return "skip"
+    if language_heavy and needs_exact:
+        return "draft"
+    if language_heavy:
+        return "use"
+    return "skip"
 
 
-@dataclass
-class AIUseCase:
-    name: str
-    language_heavy: bool
-    needs_hard_guarantees: bool
-    requires_fresh_context: bool
+def lever(facts_change_outside: bool) -> str:
+    if facts_change_outside:
+        return "rag"
+    return "prompt"
 
 
-def recommend_strategy(use_case: AIUseCase) -> str:
-    if use_case.needs_hard_guarantees and not use_case.language_heavy:
-        return f"{use_case.name}: prefer conventional software first."
-    if use_case.requires_fresh_context:
-        return f"{use_case.name}: start with prompting + RAG."
-    return f"{use_case.name}: start with prompting, then evaluate whether finetuning is worth it."
+def month_usd(calls: int, input_tokens: int, output_tokens: int) -> float:
+    input_cost = calls * input_tokens / 1_000_000 * 0.50
+    output_cost = calls * output_tokens / 1_000_000 * 2.00
+    return input_cost + output_cost
 
 
-cases = [
-    AIUseCase("Internal knowledge assistant", True, False, True),
-    AIUseCase("Fraud rule engine", False, True, False),
-    AIUseCase("Product description generator", True, False, False),
-]
-
-for case in cases:
-    print(recommend_strategy(case))
+print(
+    fit(True, False, False),
+    fit(False, True, True),
+    lever(True),
+    lever(False),
+    round(month_usd(2_000_000, 1_900, 200)),
+)
+# use skip rag prompt 2700
 ```
 
-This example is intentionally simple, but it captures the chapter’s planning mindset: begin by classifying the task, then choose an adaptation strategy instead of assuming every problem needs the same AI architecture.
+`use` is the Duolingo-style practice turn. `skip` is the payroll filing. `rag` is the wiki. `prompt` is the thread summary. The $2,700 figure is an assumption at those rates, and it counts every call, including summaries nobody reads. The drills work the role axes, the last mile, the stack, and a price cut that still fails the quality bar.
+
+## Source Chapter
+
+- **Book chapter**: Chapter 1
+- **Title**: Introduction to Building AI Applications with Foundation Models
+
+## Book Outline
+
+- The Rise of AI Engineering
+- From Language Models to Large Language Models
+- From Large Language Models to Foundation Models
+- From Foundation Models to AI Engineering
+- Foundation Model Use Cases
+- Coding
+- Image and Video Production
+- Writing
+- Education
+- Conversational Bots
+- Information Aggregation
+- Data Organization
+- Workflow Automation
+- Planning AI Applications
+- Use Case Evaluation
+- Setting Expectations
+- Milestone Planning
+- Maintenance
+- The AI Engineering Stack
+- Three Layers of the AI Stack
+- AI Engineering Versus ML Engineering
+- AI Engineering Versus Full-Stack Engineering
+- Summary
+
+## Status
+
+- `concepts.md` is a study set of 18 cards: the rise from language models to AI engineering, the use-case landscape, task fit and the four product roles, expectations, milestones, maintenance, the three-layer stack, and the comparisons with ML engineering and full-stack engineering.
+- `drills.md` has eight worked drills. The site sets `hasDrills` from the file, so this topic shows a Drills tab.
+- Language-model architecture, sampling, and training stay brief here. They belong to Understanding Foundation Models.
+- Diagrams are not part of this change. The two Mermaid figures are the milestone sequence and the stack.
+
+## See also
+
+- [Understanding Foundation Models](../02_Understanding_Foundation_Models/) — architecture, training, sampling, and why outputs are probabilistic.
+- [Evaluation Methodology](../03_Evaluation_Methodology/) — how to score open-ended output once a task has a threshold.
+- [Prompt Engineering](../05_Prompt_Engineering/) — the first adaptation lever, in detail.
+- [RAG and Agents](../06_RAG_and_Agents/) — retrieval, tools, and workflows that take actions.
+- [Finetuning](../07_Finetuning/) — when a behavior has to live in the weights.
+- [AI Engineering Architecture and User Feedback](../10_AI_Engineering_Architecture_and_User_Feedback/) — guardrails, monitoring, and feedback after the feature is live.
