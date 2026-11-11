@@ -1,50 +1,22 @@
 ## JSON and XML
 
-JSON and XML are text encodings. Each record carries its own field names, so a phone, a browser, or a person reading a log can see the shape without generated code.
-
-A public order API has many readers you do not compile: the mobile app, a browser, and a partner script. Text is the format they already parse. The encoding itself does not check that `qty` is a number. A validator such as JSON Schema or an OpenAPI check is a separate step. Until that step runs, a bad value is still legal text, and it fails when the application reads the field.
-
-One compact order shows where the bytes go.
+JSON and XML are text encodings. Each record carries its own field names, so a phone, a browser, or a person reading a log can see the shape without generated code. A public order API has many readers you do not compile, such as the mobile app, a browser, and a partner script, and text is the format they already parse. The encoding does not check that `qty` is a number. A validator such as JSON Schema or an OpenAPI check is a separate step, and until it runs a bad value is still legal text.
 
 ```json
 {"sku":"mug","qty":2,"size":"m","cents":1299}
 ```
 
-```python
-import json
+That compact order is 45 bytes. The values `mug,2,m,1299` are 12 of them, and the other 33 are names, braces, quotes, and colons. One response can afford 33 bytes. One order a second for six hours is 21,600 orders: 972,000 bytes of JSON, of which 712,800 are repeated structure. The same four fields in XML, `<order><sku>mug</sku>...<cents>1299</cents></order>`, are 74 bytes. XML remains in older partner APIs, SOAP-style feeds, and some config files. A new mobile API uses JSON. MessagePack and CBOR encode the names in binary, which shrinks the punctuation, but they still repeat the names.
 
-ORDER = {"sku": "mug", "qty": 2, "size": "m", "cents": 1299}
+JSON has one number syntax. A parser that stores every number as an IEEE-754 double, as JavaScript does, turns 9007199254740993 into 9007199254740992, while Python keeps it. Send large ids as strings, and keep money in integer cents, because 12.99 is a binary fraction a double cannot store exactly and 1299 is exact. JSON wins when a person or a third-party client reads the payload. It loses when the same names are written tens of thousands of times, which is where a schema-backed binary format drops them. The HTTP method and URL that carry the body are REST in [Networking and Communication](../10_Networking_and_Communication/).
 
-
-def split_bytes(record: dict, count: int) -> tuple[int, int]:
-    compact = len(json.dumps(record, separators=(",", ":")).encode())
-    values = len(",".join(str(value) for value in record.values()).encode())
-    return compact * count, values * count
-
-
-print(split_bytes(ORDER, 1), split_bytes(ORDER, 6 * 60 * 60))
-# (45, 12) (972000, 259200)
+```text
+45-byte order     12 bytes of values, 33 of names and punctuation
+6 hours at 1/s    712,800 bytes of repeated structure
+large ids         strings, JavaScript rounds past 2^53
+money             integer cents
+XML               74 bytes, kept for partners that already speak it
 ```
-
-The compact object is 45 bytes. The values `mug,2,m,1299` are 12 of those bytes. The other 33 are the names and the braces, quotes, and colons that attach them. One response can spend 33 bytes. The same shape written once a second for six hours is 21,600 orders: 972,000 bytes of JSON, of which 259,200 are values and 712,800 are repeated structure.
-
-JSON text has a single number syntax. It does not mark an integer as different from a fraction. A parser that stores every number as an IEEE-754 double, which is what JavaScript does, cannot represent every integer past 2^53. The integer 9007199254740993 becomes 9007199254740992. Python's `json` module keeps that integer, so the same digits are safe in one process and wrong in a browser. Send a large id as a string when both sides must agree on it. Keep money in integer cents. A JSON number such as 12.99 is a binary fraction a double does not store exactly, and 1299 is exact.
-
-XML puts each value inside a tag. The same four fields, written as `<order><sku>mug</sku><qty>2</qty><size>m</size><cents>1299</cents></order>`, are 74 bytes. A person can still read them. XML remains in older partner APIs, in SOAP-style feeds, and in some configuration files. A new mobile API uses JSON. The HTTP method and URL that carry the body are REST in [Networking and Communication](../10_Networking_and_Communication/). This topic is the body.
-
-MessagePack and CBOR keep the field names and encode them in binary. They shrink the punctuation. They still repeat the names, and they still need a separate check for the shape. Protocol Buffers, on the next card, drop the names when both sides share a schema.
-
-**Trade-offs.** JSON wins when a person or a third-party client must read the payload, and when one response is small next to the work of handling the order. It loses when the same names are written tens of thousands of times, or when a large integer has to survive a JavaScript client. XML wins only when the other side already speaks XML. A hand-edited config file can stay JSON because a person is the reader and there is no stub to generate.
-
-**In an interview.** Say JSON for the mobile API. Say integer cents, and say large ids travel as strings. Say OpenAPI or JSON Schema checks the shape, because the parser only checks that the text is JSON. When the interviewer asks about a high-rate internal call, move to a schema-backed binary format and explain the 33 bytes you would stop repeating.
-
-**Recap**
-
-- JSON and XML keep each field name inside the record, so a reader needs no generated code.
-- The sample order is 45 bytes. Twelve are the values, and 33 are names and punctuation.
-- At one order a second for six hours, those 33 bytes add up to 712,800 bytes of repeated structure.
-- JavaScript rounds the integer 9007199254740993 to 9007199254740992. A large id can travel as a string.
-- The same four fields are 74 bytes of XML. A new HTTP API uses JSON. XML remains for older partners and some config files.
 
 ![JSON and XML](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-1-json-and-xml.png)
 
@@ -52,11 +24,7 @@ MessagePack and CBOR keep the field names and encode them in binary. They shrink
 
 ## Protocol Buffers and Thrift
 
-Protocol Buffers and Thrift are schema-backed binary encodings. The bytes carry a field number and a value. Generated code turns that number back into a name.
-
-Checkout calls inventory on every order. Both services are code you compile, so they can share one definition. Repeating the word `cents` on every call spends the 33 bytes of names from the JSON order, plus the quotes and colons, at a rate where that overhead is pure tax. The number is stable even when a developer renames the field in source code.
-
-A definition assigns the numbers once:
+Protocol Buffers and Thrift are schema-backed binary encodings. The bytes carry a field number and a value, and generated code turns the number back into a name. Checkout calls inventory on every order, and both are code you compile, so they can share one definition instead of repeating the word `cents` on every call.
 
 ```text
 message Order {
@@ -67,41 +35,16 @@ message Order {
 }
 ```
 
-On the wire, field 4 is a tag and the integer 1299. The generated code on each side was built with a copy of the definition, and that copy says 4 means `cents`.
+On the wire, field 4 is a tag and the integer 1299. The number is the contract and the name is a local label. A rename to `amount = 4` still sends 1299 under 4, and an old binary stores it in `cents`. Moving it to `amount = 5` is a different field: the old binary skips 5, and `cents` is missing. When you remove a field, reserve its number, because a later author who reuses 4 makes every old reader treat the new value as `cents`. The tag is the field number plus a wire type. Numbers 1 through 15 fit in one byte and 16 through 2047 take two, so put the fields you send on every call in 1 through 15.
 
-1. A rename that keeps the number is the same field. The definition now says `amount = 4`, and the writer still sends 1299 under number 4. An old binary reads 4 and stores 1299 in `cents`.
-2. A new number is a different field. The definition says `amount = 5`, and the writer sends 1299 under number 5 only. The old binary was built to read 4. It skips 5, and `cents` is missing.
-3. When you remove a field, reserve its number. A later author who reuses 4 for a new meaning makes every old reader treat the new value as `cents`.
+A reader skips a field number it does not know, which is how an old binary accepts a newer writer's record. In proto3, a missing field decodes as the zero value: 0, false, or empty. If 0 is a real `cents` amount, mark the field `optional` so the reader can tell "omitted" from "free order." Thrift is the same bargain in another toolchain: an IDL, field numbers, generated code. Its `required` fields are hard to add and hard to remove, so new definitions use optional ones. Protobuf fits an internal RPC where you ship both ends. A public client usually stays on JSON, since a browser has no stubs. The usual call is gRPC, covered as RPC in [Networking and Communication](../10_Networking_and_Communication/).
 
-```python
-OLD_READER = {4: "cents"}
-
-
-def project(reader: dict[int, str], wire: dict[int, int]) -> dict[str, int]:
-    return {name: wire[number] for number, name in reader.items() if number in wire}
-
-
-print(project(OLD_READER, {4: 1299}), project(OLD_READER, {5: 1299}))
-# {'cents': 1299} {}
+```text
+same number    a rename still reaches the old reader
+new number     the old reader skips it
+retired        reserve the number
+hot fields     1 through 15, a one-byte tag
 ```
-
-The tag is the field number plus a wire type. Numbers 1 through 15 fit that tag in one byte. Numbers 16 through 2047 take two bytes. Put the fields you send on every call in 1 through 15.
-
-A reader skips a field number it does not know. That is what lets an old binary accept a record from a newer writer. In proto3, a missing number decodes as the zero value for its type: 0, false, or empty. That zero value is the default. If 0 is a real `cents` amount, the new reader cannot tell "the writer omitted this" from "the writer sent a free order." Mark the field `optional` when the reader must tell those two apart.
-
-Thrift is the same bargain in another toolchain: an IDL, field numbers, generated code, and a binary protocol that leaves the names off the wire. Thrift still has `required` fields. A required field is hard to add, because old bytes do not contain it, and hard to remove, because old readers still demand it. New definitions use optional fields. The call that looks like a local function is RPC in [Networking and Communication](../10_Networking_and_Communication/). These bytes are the payload. The usual form of that call is gRPC, which uses Protocol Buffers.
-
-**Trade-offs.** Protobuf fits an internal RPC where you ship both ends and you want small, fast payloads. Thrift stays where both sides already compile Thrift. A public mobile client usually stays on JSON, because a browser and a third-party script have no generated code. You can put protobuf on a public API when you own every client and you accept the work of shipping stubs. The public JSON body and the internal protobuf body can describe the same order.
-
-**In an interview.** Say the field number is the contract and the name is a local label. A rename that keeps the number can roll out while old binaries are still running. Reusing a number cannot. Say you reserve retired numbers, and you put hot fields in 1 through 15. Point the RPC mechanics at Networking, and keep schema changes on the Schema Evolution card.
-
-**Recap**
-
-- The wire carries a field number and a value. Generated code maps the number back to a name.
-- Keeping number 4 means a rename still delivers 1299 to an old reader that calls the field `cents`.
-- Sending that value only under number 5 makes the old reader skip it, so `cents` is missing.
-- Reserve a retired number so a later field cannot reuse it.
-- Thrift uses field numbers the same way. Treat its required fields as a compatibility hazard, and prefer optional fields.
 
 ![Protocol Buffers and Thrift](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-2-protocol-buffers-and-thrift.png)
 
@@ -109,65 +52,22 @@ Thrift is the same bargain in another toolchain: an IDL, field numbers, generate
 
 ## Avro
 
-Avro is a compact binary encoding that stores the writer's schema with the data and matches fields by name.
-
-A Kafka order event outlives the process that wrote it. A consumer deployed next week has to read an event written today, and a consumer still on today's build has to read an event written next week. There is no field number to reserve. The bytes are values in schema order, with no names and no tags, so the reader cannot decode them unless it has the schema the writer used.
-
-That schema travels in one of two places. A file of many orders stores it once, in the file header, and the records follow. A single Kafka record stores a schema id. The consumer fetches the writer schema for that id from a registry. That gate is the Schema Registry card. This compact schema text is 132 bytes:
+Avro is a compact binary encoding that stores the writer's schema with the data and matches fields by name. A Kafka order event outlives the process that wrote it. A consumer deployed next week reads events written today, and a consumer still on today's build reads events written next week. The bytes are values in schema order, with no names and no tags, so the reader cannot decode them without the schema the writer used.
 
 ```json
 {"type":"record","name":"Order","fields":[{"name":"sku","type":"string"},{"name":"qty","type":"int"},{"name":"cents","type":"int"}]}
 ```
 
-Repeating those 132 bytes on all 21,600 events in a six-hour run is 2,851,200 bytes of schema. A four-byte id on each event is 86,400 bytes. The file pays the schema once in the header. The stream pays an id per record and keeps the text in the registry.
+That schema is 132 bytes. Repeated on all 21,600 events in a six-hour run, it is 2,851,200 bytes. A file of many orders stores it once, in the header. A single Kafka record stores a schema id instead, four bytes each or 86,400 in total, and the consumer fetches the schema for that id from a registry.
 
-Resolution uses two schemas. The writer schema is the names that were encoded, in the order of the bytes. The reader schema is the names this program expects.
+Resolution uses two schemas. The writer schema is the names that were encoded, and the reader schema is the names this program expects. For each reader field, the reader looks for the same name, or an alias, in the writer schema and moves the value across. Avro can promote an int to a long, and an int read as a string fails. A name only the writer sent is skipped. A name only the reader asks for gets the reader schema's default, and if there is no default the read fails. Writer v2 adds `gift_wrap` set to true, and a v1 reader skips it. A v2 reader given a v1 record fills `gift_wrap` with false from its own schema. A rename without an alias fails both ways. Avro fits events and files whose readers and writers upgrade separately. The topic is Log or Queue in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/), and folding events is Event Sourcing in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/).
 
-1. The reader loads the writer schema from the header or the registry.
-2. For each name in the reader schema, it looks for the same name in the writer schema. An alias on the reader field counts as the same name.
-3. When both sides have the name, the value moves across. Avro can promote a wider numeric read, such as an int read as a long. An int read as a string fails.
-4. A name only the writer sent is skipped.
-5. A name only the reader asks for becomes the default declared on the reader schema. If that default is missing, the read fails.
-
-```python
-def resolve(record: dict, fields: tuple[str, ...], defaults: dict) -> dict:
-    found = {}
-    for name in fields:
-        if name in record:
-            found[name] = record[name]
-        else:
-            found[name] = defaults[name]
-    return found
-
-
-# Name resolution only. The Avro payload is binary values in writer-schema order.
-writer_v1 = {"sku": "mug", "qty": 2, "cents": 1299}
-writer_v2 = {"sku": "mug", "qty": 2, "cents": 1299, "gift_wrap": True}
-reader_v1 = ("sku", "qty", "cents")
-reader_v2 = ("sku", "qty", "cents", "gift_wrap")
-defaults = {"gift_wrap": False}
-
-old_reader = resolve(writer_v2, reader_v1, defaults)
-new_reader = resolve(writer_v1, reader_v2, defaults)
-print(old_reader, new_reader["gift_wrap"])
-# {'sku': 'mug', 'qty': 2, 'cents': 1299} False
+```text
+file           schema once in the header
+Kafka record   a schema id, resolved by the registry
+match          by name, extra writer fields skipped
+missing        the reader schema's default, or the read fails
 ```
-
-Writer v2 added `gift_wrap` and set it true. The v1 reader has no such name, so it skips the value. That is an old reader on new bytes. The v2 reader, given a v1 record, fills `gift_wrap` with false from its own schema. That is a new reader on old bytes. The default lives on the reader schema. An old writer cannot supply a default the new reader forgot to declare.
-
-The topic those events sit on is a log: Log or Queue in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). Folding the events into the current order is Event Sourcing in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). This card is the encoding of the event.
-
-**Trade-offs.** Avro fits events whose writers and readers upgrade separately, and files that should stay readable after the code that wrote them is gone. Protobuf fits an RPC where both ends share generated field numbers. JSON fits the phone. Avro's payload is small, and a person reads it by pairing the bytes with the schema. A rename without an alias fails both sides, because each side looks up a name the other omits. An alias on the new reader maps the writer's old name onto the new field. An old reader still looks up the old name.
-
-**In an interview.** Say writer schema and reader schema, matched by name, with the default on the reader. Say a file stores the schema in the header, and a Kafka record stores an id. Then name the registry as the place that id is resolved. Keep offset and retention on the queue topic.
-
-**Recap**
-
-- Avro writes values in schema order and leaves names and field numbers off each record.
-- The reader needs the writer schema, from the file header or from a schema id.
-- Matching is by name. Extra writer fields are skipped. Missing reader fields use the reader schema's default.
-- The sample schema text is 132 bytes. On 21,600 events, repeating it costs 2,851,200 bytes, and a four-byte id per event costs 86,400.
-- An int may be read as a long. An int read as a string fails.
 
 ![Avro](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-3-avro.png)
 
@@ -175,29 +75,18 @@ The topic those events sit on is a log: Log or Queue in [Message Queues and Asyn
 
 ## Columnar Storage Formats
 
-A columnar file stores one field for many rows together. A row file stores every field of one row, then the next row.
+A columnar file stores one field for many rows together. A row file stores every field of one row, then the next row. The monthly question is the mean quantity, or the sum of `cents`. That job reads one field and ignores `sku` and `region`, and a row file still steps through them to reach each number. With three orders, a row file runs `o-14`, `mug`, `nw`, `3`, then the same four fields for `o-15` and `o-16`. A column file puts the ids together, then the regions, then the quantities `3`, `6`, `3`, so the job reads one column and skips the rest.
 
-The monthly question is the mean quantity of orders, or the sum of `cents`. That job reads one field and ignores `sku` and `region`. A row file still has to step through those other fields to reach the number. Laying every quantity together lets the job read one column and skip the rest.
+Parquet does this inside row groups, and each group holds one column chunk per field. The schema and the chunk offsets sit in the footer, so a reader seeks to the footer and opens the quantity chunk directly. ORC is the same layout, used where a pipeline already reads ORC. Similar values in one chunk are why compression pays. A run of small integers gives dictionary and run-length encoding something to work with, and Snappy or Zstandard then compresses a smaller input. A column of unique order ids compresses poorly. A file of a few dozen orders often spends more on the footer, row-group metadata, and codec than it saves, while a year of orders pays easily.
 
-Three orders are enough to see the layout. In a row file the bytes run `o-14`, `mug`, `nw`, `3`, then the same four fields for `o-15` and `o-16`. In a column file the ids sit together (`o-14`, `o-15`, `o-16`), then the regions, then the quantities `3`, `6`, `3`.
+Parquet is a poor store for "load order o-14," because that read opens several column chunks and stitches one row back together. The live API keeps a row store, and a job copies settled orders into columnar files in the lake: Data Lake in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). The month's SQL runs in Data Warehousing in [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/). A column-family database is a different layout, one row key holding an entity's cells for a point read. That is Column-Family Store in the same topic.
 
-A real Parquet file does this inside row groups. Each row group holds a column chunk per field. The schema and the offsets of those chunks sit in the footer, so a reader seeks to the footer and opens the quantity chunk from those offsets. ORC is the same column layout where a pipeline already reads ORC. The files live in the lake: Data Lake in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). The SQL that answers the month question runs in the warehouse: Data Warehousing in [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/).
-
-Similar values in one chunk are why compression pays. Quantities `3`, `6`, `3` are a run of small integers, so dictionary encoding and run-length encoding have something to compress, and a codec such as Snappy or Zstandard then has a smaller input. A quantity squeezed between a sku and a region, which is the row layout, gives the codec a worse run. A column of unique order ids compresses poorly, because there is no repeated value to dictionary-encode. A file of a few dozen orders often spends more on the footer, the row-group metadata, and the codec than it saves. A year of orders is long enough for the quantity column to pay.
-
-A column-family database is a different layout. One row key holds the cells of that entity, which is a point read of one order. That store is Column-Family Store in [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/). Parquet is a file of many orders, organized by column, for a scan.
-
-**Trade-offs.** Parquet and ORC are the files you write for analytical scans. They are a poor store for "load order o-14," because that read opens several column chunks and stitches one row back together. The live API keeps a row store. A job copies settled orders into a columnar file. Tiny files and unique identifier columns are the cases where the columnar copy is larger or slower than the row file it came from.
-
-**In an interview.** Say Parquet for a scan of a few fields across many orders, with the schema in the footer. Mention row groups: each group stores its own column chunks. Say a few dozen rows do not pay for the footer and the codec. Keep the column-family store on its own card.
-
-**Recap**
-
-- A row file stores one order's fields together. A columnar file stores one field for many orders together.
-- Parquet keeps the schema and the column offsets in the footer. A reader jumps to the quantity column.
-- ORC is the same idea where the pipeline already reads ORC.
-- Compression pays when the column is long and repetitive. Unique ids and a few dozen rows often do not pay.
-- The lake holds the file. The warehouse runs the month query. A column-family row is a point-read layout.
+```text
+row file      one order's fields together
+column file   one field across many orders
+Parquet       row groups, schema and offsets in the footer
+pays          long repetitive columns, not unique ids or tiny files
+```
 
 ![Columnar Storage Formats](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-4-columnar-storage-formats.png)
 
@@ -205,45 +94,17 @@ A column-family database is a different layout. One row key holds the cells of t
 
 ## Row or Column
 
-Use a row layout when the read wants one whole record. Use a column layout when the read wants one field across many records.
+Use a row layout when the read wants one whole record, and a column layout when it wants one field across many records. The same orders serve two jobs. The mobile API loads order `o-14` for a customer, and the monthly report asks for the mean quantity. One layout makes one of those jobs read bytes it throws away.
 
-The same orders serve two jobs. The mobile API loads order `o-14` for a customer. The monthly report asks for the mean quantity. One layout makes one of those jobs read bytes it will throw away.
+Fetching `o-14` from rows reads its four fields, id, sku, region, and quantity, and stops. Those fields are the whole order the phone renders. A columnar file would open four column chunks, pull one value from each, and stitch the row back, which costs extra seeks for one order. The mean reads quantity only. The values are 3, 6, and 3, so the mean is 4. A row file reads sku and region on the way to each quantity, and a columnar file reads only the quantity column. At three rows the waste is small. Across a year of orders, reading three unused fields on every row dominates the scan.
 
-```python
-ORDERS = [
-    {"id": "o-14", "sku": "mug", "region": "nw", "qty": 3},
-    {"id": "o-15", "sku": "cup", "region": "n", "qty": 6},
-    {"id": "o-16", "sku": "bowl", "region": "e", "qty": 3},
-]
+A system that serves both jobs keeps both layouts. The row store answers the phone, and a Parquet copy answers the mean. The copy lags, so the mean is only as fresh as the last export. Ask which fields a query touches before you name a store, and say how fresh the copy has to be. The file lives in Data Lake in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/), and the SQL runs in Data Warehousing in [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/).
 
-
-def fields_touched(job: str) -> int:
-    if job == "fetch-o-14":
-        return len(ORDERS[0])
-    return 1
-
-
-qty = [order["qty"] for order in ORDERS]
-print(fields_touched("fetch-o-14"), fields_touched("mean-qty"), sum(qty) // len(qty))
-# 4 1 4
+```text
+fetch o-14     4 fields of one row, a row store
+mean qty       1 column, (3 + 6 + 3) / 3 = 4, a columnar file
+both           a row store plus a columnar copy that lags
 ```
-
-Fetching `o-14` reads four fields and stops. Those four fields are the whole order the phone renders. A columnar file would open the id column, the sku column, the region column, and the quantity column, pull one value from each, and stitch the row back. That is extra seeks for one order.
-
-The mean reads quantity only. The values are 3, 6, and 3, and the mean is 4. A row file reads sku and region on the way to each quantity. A columnar file reads the quantity column and skips the rest. At three rows the waste is small. At a year of orders, reading three unused fields on every row dominates the scan.
-
-The live API and the database of record stay rows. The file the monthly job scans stays columns. The file's home is Data Lake in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/). The store that answers the SQL is Data Warehousing in [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/).
-
-**Trade-offs.** A system that serves both jobs keeps both layouts. The row store answers the phone. A copy in Parquet answers the mean. Writing that copy has lag: the mean is as fresh as the last export. Serving the phone from Parquet, or running the year-long mean against the live row store, each makes the other job pay.
-
-**In an interview.** Ask which fields the query touches before you name a store. Four fields of one order is a row. One field of a year is a column. If the interviewer wants both, say the row store serves the API and a columnar copy serves the scan, and say how fresh that copy has to be.
-
-**Recap**
-
-- Fetching order `o-14` touches four fields of one row, then stops.
-- The mean of quantities 3, 6, and 3 is 4, and it touches one column.
-- The live API stays on rows. The year-long scan stays on columns.
-- Keeping both means a copy, and the copy is as fresh as the last export.
 
 ![Row or Column](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-5-row-or-column.png)
 
@@ -251,35 +112,19 @@ The live API and the database of record stay rows. The file the monthly job scan
 
 ## Serialization Format
 
-The format follows who reads the bytes, how large the payload is at the rate you have, and whether a schema is enforced before the write.
+The format follows three questions: who reads the bytes, how large the payload gets at your rate, and whether a schema is enforced before the write. One shop produces the same order four ways. The phone loads it, checkout calls inventory with it, Kafka carries it to billing and search, and a yearly job scans one field of it. Picking one format for all four makes three of them pay.
 
-One shop produces the same order four ways. The phone loads it. Checkout calls inventory with it. Kafka carries it to billing and to search. A yearly job scans one field of it. Those readers do not want the same bytes, and picking one format for all four makes three of them pay.
+A person, a browser, or a partner you do not ship code to reads JSON, and one 45-byte response can afford its names. Two services you generate read Protocol Buffers: the internal call is an RPC, and at 21,600 orders the 712,800 bytes of repeated names are worth dropping. Kafka consumers that upgrade while old events are still in the log read Avro, with names matched, a schema id on the record, and defaults on the reader. A scan of one field across a year of lake files reads Parquet, with the schema in the footer. On enforcement, JSON can be checked by OpenAPI but the check is optional. Protobuf and Avro refuse to encode a field the schema lacks, and a registry applies that rule to a stream.
 
-| Reader | Format | Why this one |
-| --- | --- | --- |
-| Phone or browser, no generated client | JSON | Names stay in the text. One response can spend the extra 33 bytes. |
-| Checkout calling inventory, both compiled here | Protocol Buffers | Field numbers, no names. The call is an RPC. |
-| Kafka consumers that upgrade on their own | Avro | Names matched, schema id on the record, default on the reader. |
-| Mean quantity across a year of lake files | Parquet | One column, schema in the footer. |
+A file a person edits by hand stays JSON, because there is no stub to generate. Thrift stays where both sides already compile Thrift. You can send protobuf to a mobile app you own, but you then ship a generated client, and old app builds keep old field numbers. Avro on a synchronous checkout call works and is unusual, because that is the protobuf case. Parquet as a phone response makes the client stitch a row from columns. The HTTP status line and RPC framework stay in [Networking and Communication](../10_Networking_and_Communication/).
 
-Apply the three questions in order.
-
-1. Who reads it? A person, a browser, or a partner you do not ship code to reads JSON. Two services you generate read protobuf. A consumer that will be upgraded while old events are still in the log reads Avro. A scan of one field reads Parquet.
-2. What does the rate do to the size? One order of 45 bytes is a JSON response. The same shape 21,600 times spends 712,800 bytes on repeated names. That is the point where an internal call or a log drops the names.
-3. Is a schema enforced before the write? JSON can be validated by OpenAPI, and the check is optional. Protobuf and Avro refuse to encode a field the schema does not have. The registry card is the gate that applies that rule to a stream. Parquet writes the schema into the file footer, so a later job knows the columns.
-
-A file a person edits by hand stays JSON. The size is beside the point, and there is no stub to generate. Thrift stays the contract where both sides already compile Thrift. One order rarely pays for a columnar file or for a codec. The year file is where that layout earns its cost.
-
-**Trade-offs.** You can send protobuf to a mobile app you own. You then ship a generated client with the app, and an old app build still has the old field numbers, so schema evolution still applies. JSON remains the default when any reader is a browser or a third party. Using Avro for a synchronous checkout call works and is unusual. The caller wants a response now, and both sides can share generated code, which is the protobuf case. Using Parquet as the response body of the phone call makes the client stitch a row out of columns.
-
-**In an interview.** Say the three questions out loud, then name one format for each reader. Offer JSON to the phone, protobuf on the internal RPC, Avro on the Kafka order, and Parquet for the yearly scan. Say Thrift only when it is already the toolchain. The HTTP status line and the RPC framework stay in [Networking and Communication](../10_Networking_and_Communication/).
-
-**Recap**
-
-- Choose from who reads the bytes, the size at this rate, and whether a schema is enforced on write.
-- The phone gets JSON. The internal call gets Protocol Buffers. The Kafka order gets Avro. The year scan gets Parquet.
-- A hand-edited file stays JSON. Thrift stays where both sides already compile it.
-- One order does not pay for a columnar file. A year of one field does.
+```text
+phone or partner      JSON
+internal RPC          Protocol Buffers
+Kafka order event     Avro
+year-long field scan  Parquet
+hand-edited file      JSON, Thrift only where it is already the toolchain
+```
 
 ![Serialization Format](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-6-serialization-format.png)
 
@@ -287,51 +132,21 @@ A file a person edits by hand stays JSON. The size is beside the point, and ther
 
 ## Schema Evolution
 
-Schema evolution is changing the fields of a message over time while programs still on the previous version can read and write it.
+Schema evolution changes the fields of a message while programs on the previous version still read and write it. Old and new code run at the same time. Eight API servers replaced two at a time serve both versions during the rollout. The phone app installed last month keeps calling after the servers are done. Kafka's default seven-day retention means a new consumer reads events written under an older schema. Assume readers skip unknown fields, as protobuf and Avro do by rule and JSON does when the client ignores unknown keys.
 
-It exists because old and new code run at the same time. Eight API servers, replaced two at a time, spend the rollout with both versions serving traffic. A new server writes an order that an old consumer still reads. An old server writes an order that a new consumer reads. The phone is slower than the rollout: the app installed last month keeps calling the API after the servers are done. Kafka's default retention is seven days, so a new consumer also reads events that were written under an older schema and are still in the log.
+Backward compatible means a new reader can read old bytes. Forward compatible means an old reader can read new bytes. Full means both, so either side can deploy first. Backward only means readers deploy first. Forward only means writers deploy first, and new readers wait until the old bytes are gone through retention or a rewrite. Breaking means neither side can go first. Add a new field, move readers, move writers, and remove the old field as its own change. On the order `{sku, qty, cents}`, adding `gift_wrap` with default false is full. Adding a required `note` with no default is forward only, because the new reader cannot invent the string. Dropping `sku` while old readers still require it is backward only. Changing `cents` from int to string is breaking. Avro promotes int to long but never int to string, so treat any unchecked type change as breaking.
 
-Two directions name which of those readers still works. Assume a reader skips a field it does not know. JSON does that when the client ignores unknown keys. A strict parser that rejects unknown keys gives up the forward direction. Protobuf and Avro skip unknown fields by rule.
+A protobuf rename that keeps field number 4 is still `cents` on the wire. A name-matched rename without an alias breaks Avro and JSON. An Avro alias on the new reader restores only the backward direction. The safe rename is a new field written beside the old one until every reader has moved. For a type change, add `cents_text` with a default, keep the int, move readers, then writers, and remove the int later. A breaking HTTP change gets a `/v2/` path, REST in [Networking and Communication](../10_Networking_and_Communication/). A replica's version token is a different idea, in [Consistency and Replication](../09_Consistency_and_Replication/). Folding old events is Event Sourcing in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/).
 
-Backward compatible means a new reader can read bytes an old writer produced. The new code looks back at old data. Forward compatible means an old reader can read bytes a new writer produced. The old code accepts data from a writer that is ahead of it. Full compatibility is both directions, so either side can deploy first. A change that works in only one direction has a required order. A breaking change fails both directions, so neither side can deploy first while the other version is still live.
-
-Who deploys first follows the direction that works.
-
-- Full: either the writer or the reader deploys first.
-- Backward only: deploy every reader first, then the writers. An old reader fails on the new bytes.
-- Forward only: deploy the writers first. Deploy the readers afterward, once old bytes are gone, because a new reader fails on those bytes. On a log, retention has to drop them, or a job has to rewrite them.
-- Breaking: deploy neither side onto the same stream. Add a new field, move readers, move writers, and remove the old field as its own change.
-
-The order `{sku, qty, cents}` walks the common edits. `cents` is an int. Readers skip unknown fields. A missing field is filled only when the reader has a default: application code for JSON, the zero value or an explicit default for protobuf, and the reader schema for Avro.
-
-| Change | New reader, old bytes | Old reader, new bytes | Result |
-| --- | --- | --- | --- |
-| Add `gift_wrap`, a bool, default false | Fills false | Skips `gift_wrap` | Full. Either side first. |
-| Add required `note`, a string, no default | Cannot invent the string | Skips `note` | Forward only. Writers first. |
-| Stop writing `sku`. Old readers still require it and have no default. | The new reader no longer asks | The old reader cannot fill `sku` | Backward only. Readers first. |
-| Change `cents` from int to string | Fails | Fails | Breaking. Neither side first. |
-| Rename `cents` to `amount`, no alias, matched by name | Looks up a name the old bytes omit | Looks up a name the new bytes omit | Breaking for Avro and for JSON bound by name. |
-
-A type change is the usual break. Avro will promote an int to a long. It will not read an int as a string. Treat any type change you have not checked against the format's promotion list as breaking.
-
-A rename that keeps protobuf field number 4 is still `cents` on the wire. The old generated code keeps working. An alias on a new Avro reader maps the writer's old name onto the new field, which restores the backward direction for readers that have the alias. Old readers still look for the old name. The safe rename is a new field, written beside the old one, until every reader has moved.
-
-Those seven days of events stay after the writer process restarts. A new consumer that lacks backward compatibility with them fails on replay. A registry rule that compares only with the latest schema can miss an older generation still inside the window. The registry card is where that check is enforced. Folding the events into a current order is Event Sourcing in [Storage and Data Processing at Scale](../13_Storage_and_Data_Processing_at_Scale/).
-
-A `/v2/` path, or a version header, is a different lever. That is the HTTP API, REST in [Networking and Communication](../10_Networking_and_Communication/). Use it when the change is breaking and old phones must keep calling the old contract. A version token that picks a winning replica among copies is a different version. That token stays in [Consistency and Replication](../09_Consistency_and_Replication/).
-
-**Trade-offs.** Full compatibility is the rule when you cannot order the deploys, which is the phone and a Kafka topic with independent consumer teams. Backward-only is enough when you can stop the writers, upgrade every reader, and then start the writers, and when no old bytes remain to be read. Adding fields with defaults keeps the door open. Required fields and renames close it. A new URL is the clean break when the old contract has to live for the life of an installed app.
-
-**In an interview.** Define the term first. Backward means a new reader reads old bytes. Forward means an old reader reads new bytes. Full means either side deploys first. Then take one change and say who rolls first. For a type change, say neither, and describe the extra field: add `cents_text` with a default, keep the int, move every reader, then the writers, and remove the int later as its own check. Mention the installed phone and the seven-day log as the reasons both directions show up in real systems.
-
-**Recap**
-
-- Schema evolution is a field change that old and new code can both survive while they run side by side.
-- Backward compatibility: the new reader reads old bytes. Forward compatibility: the old reader reads new bytes. Full is both.
-- Add `gift_wrap` with a default and the change is full. Add a required `note` with no default and it is forward only.
-- Drop a field old readers still require and the change is backward only. Change `cents` from int to string and it breaks both directions.
-- A protobuf rename that keeps the field number stays compatible. A name-matched rename without an alias does not.
-- A breaking HTTP change gets a new URL. A replica's version token is a different problem.
+```text
+backward   new reader, old bytes, readers deploy first
+forward    old reader, new bytes, writers deploy first
+full       both, either side first
+add with default         full
+add required, no default forward only
+drop a required field    backward only
+int to string            breaking
+```
 
 ![Schema Evolution](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-7-schema-evolution.png)
 
@@ -339,32 +154,19 @@ A `/v2/` path, or a version header, is a different lever. That is the HTTP API, 
 
 ## Schema Registry
 
-A schema registry stores schemas for a stream and rejects a new schema that breaks the compatibility rule on that subject.
+A schema registry stores schemas for a stream and rejects a new schema that breaks the compatibility rule on that subject. Producers and consumers deploy on different days, and the topic keeps old events. Without a gate, one producer can publish a string `cents` into a topic whose consumers decode an int, and those bytes stay for the retention window. The registry runs the Schema Evolution rules at publish time, so a bad schema gets no id and its bytes are never written.
 
-Producers and consumers deploy on different days, and the topic keeps old events. Without a gate, one producer can publish a `cents` string into a topic whose consumers still decode an int. Those bytes stay for the retention window. The registry runs the Schema Evolution rules at publish time, so a bad schema gets no id and the bytes are never written.
+The subject is the name the rule hangs on. For topic `orders`, the value subject is usually `orders-value`, and the key can have its own. The producer proposes a schema, and the registry checks it against the subject's rule: backward, forward, full, or none. Under full, an int-to-string `cents` is refused, and so is dropping `sku` while readers require it. Optional `gift_wrap` with default false passes and gets an id such as 7. Confluent's serializer prefixes the Avro bytes with one magic byte and the four-byte id. The consumer reads the id, fetches and caches schema 7, and resolves its reader schema against it. An accepted schema never rewrites events already in the log, which keep the id they were written with.
 
-The subject is the name the rule hangs on. For a topic called `orders`, the usual subject for the value is `orders-value`. The key can have its own subject. The steps for one change:
+Confluent Schema Registry defaults to backward and non-transitive. It compares only with the latest schema, and consumers upgrade before producers. Set full when old consumers must keep reading during a producer rollout you cannot order. A transitive rule checks every registered version, which matters when a seven-day log holds more than one generation. None turns the gate off, for a topic you can wipe. The same gate exists for Protobuf and JSON Schema. Avro is the common pairing because its bytes need the writer schema. Retention and offsets are Log or Queue in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/).
 
-1. The producer proposes a schema for `orders-value`.
-2. The registry compares it with the rule on that subject: backward, forward, full, or none. A non-transitive rule compares the proposal with the latest schema. A transitive rule compares it with every registered version, which is what you want when the topic still holds events from more than the latest schema. Kafka's default retention is seven days, so more than one version is a normal state.
-3. Under a full rule, changing `cents` from int to string is refused. Dropping `sku` while existing readers still require it, with no default, is refused. The producer gets an error and does not publish the new encoding.
-4. Adding optional `gift_wrap`, a bool with default false, passes a full rule. The registry stores the schema and returns an id, such as 7.
-5. The producer writes the Kafka record with that id. Confluent's serializer prefixes the Avro bytes with one magic byte and a four-byte schema id.
-6. The consumer reads the id, fetches schema 7, and resolves its reader schema against that writer schema. It caches schema 7, so the next record with the same id does not ask again.
-
-The log stores the event bytes, the id, and the offsets. How long the record stays, and which consumer keeps which offset, are Log or Queue in [Message Queues and Async Processing](../11_Message_Queues_and_Async_Processing/). The rule that allows or refuses the schema is this card. An accepted schema does not rewrite events already in the log. Those events keep the id they were written with.
-
-**Trade-offs.** Confluent Schema Registry defaults to backward, and that check is non-transitive: the new schema is compared with the latest schema, and you upgrade every consumer before the producers. A new consumer can then rewind through data the previous schema wrote. Set the subject to full when an old consumer must also keep reading during the producer rollout. That is a rolling deploy whose order you do not control, and a phone that stays installed. A transitive rule extends the check from the latest schema to every registered version, so a seven-day log that holds more than one generation stays covered. Forward matches writers first, and the new readers wait until older bytes are gone. None turns the gate off, which fits a topic you can wipe. The registry stops a publish the readers cannot survive. It leaves events already in the log on the id they were written with, and it leaves the consumer deploy to you. The same gate exists for Protobuf and for JSON Schema. Avro plus a registry is the common Kafka pairing because those bytes need the writer schema.
-
-**In an interview.** Say the registry is the gate and the log is the data. Name the subject and the rule before you describe the field. The usual default is backward, so consumers upgrade first and can rewind one schema. Under a full rule, `gift_wrap` with a default is accepted and a `cents` type change is rejected. Say the consumer uses the id on the record to fetch the writer schema. Mention a transitive check when the log holds more than the latest version.
-
-**Recap**
-
-- The registry checks a proposed schema against the subject's rule and then issues an id, or it refuses the proposal.
-- The usual subject for topic `orders` is `orders-value`.
-- A full rule accepts `gift_wrap` with a default and refuses an int-to-string change and a removal that old readers still require.
-- A transitive rule checks every registered version, not only the latest, so events still inside retention stay readable.
-- The record carries the schema id. The log keeps the bytes. The consumer fetches and caches the schema.
+```text
+subject       orders-value
+full rule     gift_wrap with default accepted, int to string refused
+record        magic byte + 4-byte schema id + Avro bytes
+default       backward, non-transitive, consumers first
+transitive    check every version still inside retention
+```
 
 ![Schema Registry](/content/09_System_Design_Interview/14_Encoding_Serialization_and_Schema_Evolution/diagrams/encoding-8-schema-registry.png)
 
