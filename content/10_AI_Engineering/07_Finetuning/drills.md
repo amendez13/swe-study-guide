@@ -19,7 +19,7 @@ SMALL_IN, SMALL_OUT = 0.15, 0.60
 SHAPES = {"few_shot": (700, 6), "playbook_rag": (900, 6), "finetune": (140, 6)}
 ```
 
-**Answer:** Ship the finetune, and keep a short instruction that names the six labels. The clause text is already in the request, so there is no corpus to retrieve. The gap that remains after the few-shot prompt is a boundary between labels, indemnity against limitation of liability, which is a behavior. A playbook paste scores 0.92 against the few-shot 0.91 and spends more tokens to do it. The finetune scores 0.96. At the exercise prices, half a million clauses cost $181.00 few-shot, $231.00 with the playbook paste, and $12.30 on the small finetuned model. Retrieval over case law would answer a different question, what a jurisdiction has held, and it would not pick the label. If counsel rewrote the definitions every week, the definitions would go back in the prompt and the weights would not be the store for that text. They are not rewriting them. The held-out clauses are an eval set, not more training data.
+**Answer:** Ship the finetune, and keep a short instruction that names the six labels. The clause text is already in the request, so there is no corpus to retrieve. The gap that remains after the few-shot prompt is a boundary between labels, indemnity against limitation of liability, which is a behavior. A playbook paste scores 0.92 against the few-shot 0.91 and spends more tokens to do it. The finetune scores 0.96. At the exercise prices, half a million clauses cost $181.00 few-shot, $231.00 with the playbook paste, and $12.30 to run the small finetuned model. Those three numbers are inference only. The training job is not in the $12.30. The inference gap against few-shot is $168.70 on this volume, so a modest training run is paid for, and this exercise does not price that run. Retrieval over case law would answer a different question, what a jurisdiction has held, and it would not pick the label. If counsel rewrote the definitions every week, the definitions would go back in the prompt and the weights would not be the store for that text. They are not rewriting them. The held-out clauses are an eval set, not more training data.
 
 ```python
 CLAUSES = 500_000
@@ -44,7 +44,7 @@ print(ACCURACY["finetune"] > ACCURACY["few_shot"] > ACCURACY["zero_shot"])
 
 ## The 4090
 
-You will QLoRA-finetune the Llama 2 13B shape on one RTX 4090, sold as 24 GB. The layout is the public one: 40 layers, hidden size 5,120, intermediate size 13,824, vocabulary 32,000, untied embeddings, no biases. The adapters are rank 16 on every linear layer of the block, and they use the 18-byte AdamW accounting. The base is NF4 with the QLoRA paper's double-quantized scales, 4.126953 bits per parameter. Two activation peaks below are exercise measurements from a profiler, not a published 4090 benchmark. The budget used here is 24 GiB.
+You will QLoRA-finetune the Llama 2 13B shape on one RTX 4090, sold as 24 GB. The layout is the public one: 40 layers, hidden size 5,120, intermediate size 13,824, vocabulary 32,000, untied embeddings, no biases. The adapters are rank 16 on every linear layer of the block, and they use the 16-byte AdamW accounting: BF16 weight, BF16 gradient, FP32 master, and two FP32 moments. The base is packed at the QLoRA paper's double-quantized width, 4.126953 bits for every parameter, including the embeddings. Two activation peaks below are exercise measurements from a profiler, not a published 4090 benchmark. The budget used here is 24 GiB.
 
 Which launch configuration fits, and why is a full AdamW finetune not the alternative?
 
@@ -62,7 +62,7 @@ PEAKS = (("batch 1, seq 2048, checkpointed", 5.5), ("batch 4, seq 4096", 18.0))
 BUDGET_GIB = 24
 ```
 
-**Answer:** Ship the checkpointed batch of 1 at sequence 2,048. The Llama 2 13B layout is 13,015,864,320 parameters. A full 18-byte AdamW state is 218.2 GiB, so it does not fit this card no matter how you set the batch. A second 24 GB card is 48 GiB and still does not hold that state. The QLoRA static state, the 4-bit base plus the adapter optimizer, is 7.30 GiB. Adding the exercise peak of 5.5 GiB lands at 12.80 GiB, inside 24. Adding the 18.0 GiB peak lands at 25.30 GiB and misses. The miss is activations, not the 13B weights. The repair is the smaller microbatch, the shorter sequence, and checkpointing. Leave headroom for fragmentation. 12.80 GiB of a 24 GiB budget has it. 25.30 does not. Re-profile on the card you will train on. These peaks are exercise numbers.
+**Answer:** Ship the checkpointed batch of 1 at sequence 2,048. The Llama 2 13B layout is 13,015,864,320 parameters. A full 16-byte AdamW state is 194.0 GiB, so it does not fit this card no matter how you set the batch. The FP32-gradient variant, 18 bytes, is 218.2 GiB and does not fit either. A second 24 GB card is 48 GiB and still does not hold the 16-byte state. The QLoRA static state under this drill's assumption, every parameter packed at 4.126953 bits plus 16 bytes on the adapters, is 7.19 GiB. Adding the exercise peak of 5.5 GiB lands at 12.69 GiB, inside 24. Adding the 18.0 GiB peak lands at 25.19 GiB and misses. The miss is activations, not the 13B weights. The repair is the smaller microbatch, the shorter sequence, and checkpointing. Leave headroom for fragmentation. 12.69 GiB of a 24 GiB budget has it. 25.19 does not. bitsandbytes would also leave the embedding and the output projection in BF16, so the static floor on a real load is a bit higher than 7.19 GiB and still has to be profiled. Re-profile on the card you will train on. These peaks are exercise numbers.
 
 ```python
 def llama2_params(layers: int, hidden: int, intermediate: int, vocab: int = 32_000) -> int:
@@ -75,18 +75,19 @@ BITS = 4 + 8 / 64 + 32 / (64 * 256)
 LORA = 40 * (4 * 16 * (5120 + 5120) + 3 * 16 * (13824 + 5120))
 PEAKS = (("batch 1, seq 2048, checkpointed", 5.5), ("batch 4, seq 4096", 18.0))
 BUDGET_GIB = 24
-STATIC = PARAMS * BITS / 8 + LORA * 18
+BYTES = 16
+STATIC = PARAMS * BITS / 8 + LORA * BYTES
 print(PARAMS)
-print(f"{PARAMS * 18 / 1024**3:.1f}")
+print(f"{PARAMS * BYTES / 1024**3:.1f} {PARAMS * (BYTES + 2) / 1024**3:.1f}")
 print(f"{STATIC / 1024**3:.2f}")
 for name, peak in PEAKS:
     total = STATIC / 1024**3 + peak
     print(f"{total:.2f} {total <= BUDGET_GIB}")
 # 13015864320
-# 218.2
-# 7.30
-# 12.80 True
-# 25.30 False
+# 194.0 218.2
+# 7.19
+# 12.69 True
+# 25.19 False
 ```
 
 ## Rank against coverage
@@ -245,7 +246,7 @@ RUN_A_EVAL = (2.45, 2.05, 2.70)
 RUN_B_TRAIN_STEP_80 = float("nan")
 ```
 
-**Answer:** Keep the checkpoint after epoch 2, eval loss 2.05, and do not promote epoch 3. The three recorded points are the ends of epochs 1, 2, and 3. Training loss fell from 2.40 to 0.35 across those epochs while eval fell from 2.45 to 2.05 and then rose to 2.70. That rise is overfitting. More epochs will copy the issue replies, not generalize them. The repairs are the earlier checkpoint, fewer passes, and more issue pairs if you still need the training loss to mean something. Run B is a different fault. A NaN at step 80 is a step size or a numeric range problem, a learning rate too high for this adapter, or an FP16 overflow if the run is not in BF16. Cut the learning rate by 10 and run in BF16, which has the range for the update, and start the job again. Do not average the two runs and do not keep training B to see if the NaN heals. Read a generated reply from the epoch-2 checkpoint before you ship it. The eval set that produced 2.05 stays out of the training file.
+**Answer:** Keep the checkpoint after epoch 2, eval loss 2.05, and do not promote epoch 3. The three recorded points are the ends of epochs 1, 2, and 3. Training loss fell from 2.40 to 0.35 across those epochs while eval fell from 2.45 to 2.05 and then rose to 2.70. That rise is overfitting. More epochs will copy the issue replies, not generalize them. The repairs are the earlier checkpoint, fewer passes, and more issue pairs if you still need the training loss to mean something. Run B is a different fault. A NaN at step 80 is a step size or a numeric range problem. If the run is in FP16, switch it to BF16 and keep the learning rate, because FP16 overflows at 65,504 and BF16 has the range. If the run is already in BF16, cut the learning rate by 10 and start again. Change one of those, not both, or you will not know which one fixed the NaN. Do not average the two runs and do not keep training B to see if the NaN heals. Read a generated reply from the epoch-2 checkpoint before you ship it. The eval set that produced 2.05 stays out of the training file.
 
 ```python
 RUN_A_TRAIN = (2.40, 1.10, 0.35)
@@ -274,7 +275,7 @@ TOKENS = 1024
 BUDGET_GIB = 24
 ```
 
-**Answer:** Finetune the Llama 2 7B. It scores 0.93, over the bar, and one request at 1,024 tokens is 13.05 GiB of BF16 weights plus cache, inside 24. The whiteboard 1B is 1.86 GiB of weights and scores 0.84, under the bar. A model that fits and misses the label bar is the wrong save. The 13B scores 0.94, a gain of 0.01 over the 7B, and its BF16 weights alone are 24.24 GiB. With a 1,024-token cache the request is 25.03 GiB, over the card before a batch. You would be training a base you cannot serve in the precision you just measured. Full AdamW of the 7B is the 113 GiB training state from the training-memory card, so the training method on this card is QLoRA, not a full update. INT4 serving of the 13B might fit and is a different accuracy experiment. It is not justified by 0.01 on an exercise score. Pin the 7B, and keep the intent eval off the training set.
+**Answer:** Finetune the Llama 2 7B. It scores 0.93, over the bar, and one request at 1,024 tokens is 13.05 GiB of BF16 weights plus cache, inside 24. The whiteboard 1B is 1.86 GiB of weights and scores 0.84, under the bar. A model that fits and misses the label bar is the wrong save. The 13B scores 0.94, a gain of 0.01 over the 7B, and its BF16 weights alone are 24.24 GiB. With a 1,024-token cache the request is 25.03 GiB, over the card before a batch. You would be training a base you cannot serve in the precision you just measured. Full 16-byte AdamW of the 7B is the 100.4 GiB training state from the training-memory card, so the training method on this card is QLoRA, not a full update. The 113.0 GiB figure is the same layout with FP32 gradients, and it does not fit either. INT4 serving of the 13B might fit and is a different accuracy experiment. It is not justified by 0.01 on an exercise score. Pin the 7B, and keep the intent eval off the training set.
 
 ```python
 def llama2_params(layers: int, hidden: int, intermediate: int, vocab: int = 32_000) -> int:
