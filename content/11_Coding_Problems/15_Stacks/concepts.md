@@ -22,6 +22,10 @@ The list gives back `delete`, then `type-b`, then `type-a`. Nothing in the loop 
 
 **Recap.** A stack returns the most recent unfinished item, in constant time at one end. Matching, undo, deferred work, and reversal are the four reasons to pick it. A queue, a deque, a heap, or a binary search is the tool when the order is something else. Say what an empty pop does before you write the loop.
 
+![When a stack fits](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-1-when-a-stack-fits.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 1.*
+
 ## Matching nested structures
 
 Matching nested structures means every closer pairs with the opener that is still open, and the openers that remain at the end are a failure.
@@ -72,6 +76,10 @@ print(indent_events([0, 4]))
 **Interview.** Say which opener the closer has to match, and say what is left at the end. For indentation, say that 0 stays on the stack and that a dedent has to hit a saved column. For tags, say that a real HTML parser also finishes elements that the author never closed. Then offer the linear scan.
 
 **Recap.** Nested matching pushes an opener and pairs a closer with the opener still on top. Python's indent stack starts at 0, stays strictly deeper as it grows, and emits one `DEDENT` per column it pops. A column that hits none of the saved levels is an indentation error. A single counter is enough only when there is one pair of brackets.
+
+![Matching nested structures](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-2-matching-nested-structures.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 2.*
 
 ## A monotonic stack
 
@@ -151,6 +159,10 @@ Each index is pushed once. Each index is popped at most once. One step can pop m
 
 **Recap.** A monotonic stack keeps indexes in value order and pops the ones the new value resolves. Next strictly greater pops while the top is `<` the new value, and next greater-or-equal pops while the top is `<=`. Smaller flips the inequality. Previous reads the top that remains after the same kind of pop. Ties are the case that separates those tests, and the whole scan is linear because each index moves once.
 
+![A monotonic stack](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-3-monotonic-stack.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 3.*
+
 ## Each index is pushed once
 
 Aggregate analysis charges every push and every pop to the index that moved, then adds those charges up. A loop inside the scan can still be linear when each index is pushed once and popped at most once.
@@ -183,6 +195,10 @@ The first four values only push. The 9 pops all four in one step. The sum of the
 **Interview.** When you have a loop inside the scan, say how many times an index can enter the stack and how many times it can leave. If both numbers are one, the total is linear. Separate that from the worst single call when the interviewer asks about latency. Name the quadratic version you are replacing, which is the nested scan or the repeated string copy.
 
 **Recap.** A nested loop is linear when each index is pushed once and popped at most once. One step may pop a whole decreasing run, and that cost is paid by those indexes, not paid again on the next step. The same charge covers a monotonic scan, adjacent-pair removal, and a pour from one stack into another. Amortized O(1) still allows a single call to take O(n) time.
+
+![Each index is pushed once](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-4-each-index-pushed-once.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 4.*
 
 ## A deque that remembers the window extreme
 
@@ -225,6 +241,10 @@ On `[6, 2, 8, 4, 7, 3]` with `k` of 3, the 8 pops both the 6 and the 2, and the 
 **Interview.** Say why a running total cannot produce the new maximum. Name both ends: the front expires, the back drops dominated indexes. Say that you store indexes, and that you emit only after the first full window. Give O(n) time and O(k) memory. If the interviewer asks for a heap, say which one: a window-sized tree is O(n log k), and a lazy binary heap is O(n log n).
 
 **Recap.** The maximum of every window of length k lives at the front of a deque of indexes whose values decrease toward the back. Expire the front when its index leaves, drop smaller and equal values from the back, then push. The scan is linear because each index is pushed once and popped at most once, and the deque stays inside the window. A lazy binary heap answers the same question in O(n log n). A tree that deletes the leaving value answers it in O(n log k).
+
+![A deque that remembers the window extreme](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-5-monotonic-deque.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 5.*
 
 ## A valid bracket expression (LeetCode-style: Valid Parentheses)
 
@@ -274,6 +294,10 @@ The scan is O(n) time. The stack holds at most n openers, so the extra memory is
 
 **Recap.** Valid brackets push each opener and require the top to be the closer's partner. The stack has to end empty. An empty pop, a crossed pair, and a leftover opener are the three failures. The scan is linear, and a letter or an empty string is outside LeetCode 20's contract.
 
+![A valid bracket expression (LeetCode-style: Valid Parentheses)](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-6-valid-parentheses.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 6.*
+
 ## The next greater value to the right
 
 For each value, find the first value to its right that is strictly larger. If there is none, the answer is -1.
@@ -310,6 +334,10 @@ LeetCode 496, Next Greater Element I, asks for this answer only for the values i
 **Interview.** Say "strictly larger" back, and write `<` only after you have said what a tie does. Walk the two equal 4s. State the aggregate bound. If the interviewer makes the array circular, say that each index is still pushed once, and that you stop after a full extra lap so a value does not answer itself.
 
 **Recap.** The next strictly greater value to the right is a decreasing stack of indexes. Pop while the top is smaller than the new value, and leave equals in place so a later greater value can still answer them. Empty, a single value, ties, a rising run, and a falling run are the edges. LeetCode 496 asks the question for a unique subset of a second array, and LeetCode 503 wraps the array.
+
+![The next greater value to the right](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-7-next-greater-value.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 7.*
 
 ## Evaluate plus, minus, and parentheses (LeetCode-style: Basic Calculator)
 
@@ -379,6 +407,10 @@ LeetCode 224, Basic Calculator, is this expression. The length is 1 through 3 ·
 
 **Recap.** Plus and minus share one running total and one sign. A parenthesis pushes that pair and starts a fresh total, and the closer combines the inner total with the saved sign. Digits accumulate, spaces disappear, and a leading minus is a sign with no number flushed yet. The scan is linear. `eval` is the wrong tool, and an unmatched closer is an empty pop. An unclosed opener leaves the saved pair unused, so `8-(3` returns 3.
 
+![Evaluate plus, minus, and parentheses (LeetCode-style: Basic Calculator)](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-8-basic-calculator.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 8.*
+
 ## Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates in String)
 
 Repeatedly delete two adjacent equal characters until no such pair remains. The finished string does not depend on which pair you delete first.
@@ -414,6 +446,10 @@ LeetCode 1047, Remove All Adjacent Duplicates in String, is this problem for low
 **Interview.** Say that cancelling a pair can create a new pair with the character that was buried, and that the new top is that character. Walk `abccba` or `bookkeeper` for one cancellation that exposes a new pair. Say you join once. Mention that a run of three leaves one.
 
 **Recap.** The stack is the string so far. An equal top pops, and anything else pushes. Later pairs see the characters that survived, so one pass finishes the job. The time is linear because each character is pushed once and popped at most once. Join at the end.
+
+![Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates in String)](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-9-adjacent-equal-pairs.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 9.*
 
 ## A queue built from two stacks (LeetCode-style: Implement Queue using Stacks)
 
@@ -482,6 +518,10 @@ LeetCode 232, Implement Queue using Stacks, asks for `push`, `pop`, `peek`, and 
 
 **Recap.** Pushes land on the inbox. Pops and peeks read the outbox, and they pour the inbox only when the outbox is empty. The pour reverses the inbox, so the oldest value comes off first. Each value is transferred at most once, which makes the operations amortized O(1) and leaves a single pour at O(n). Pouring while the outbox still has values breaks the order.
 
+![A queue built from two stacks (LeetCode-style: Implement Queue using Stacks)](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-10-queue-from-two-stacks.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 10.*
+
 ## The maximum of every window (LeetCode-style: Sliding Window Maximum)
 
 Return the maximum of every contiguous block of length k, in order.
@@ -531,3 +571,7 @@ A plain binary heap can answer the same blocks if you store the value with its i
 **Interview.** Restate k, and ask what to return when k is larger than the array. Walk one step where the old maximum expires and one step where a new value kills the back of the deque. Say O(n) and O(k). If you offer the heap, say whether it deletes the leaving index. Lazy deletion is O(n log n) and can use more than k slots. Deleting the leaving value is O(n log k).
 
 **Recap.** Every window maximum is the front of a deque of indexes. Drop the front when it leaves the window, drop the back while it is less than or equal to the new value, and read the front only after k values have arrived. The scan is linear and the deque stays within the window. A lazy binary heap does the same job in O(n log n), and a k outside 1 through the length yields no block.
+
+![The maximum of every window (LeetCode-style: Sliding Window Maximum)](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-11-sliding-window-maximum.png)
+
+*Source: [`diagrams/stacks.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks.drawio), page 11.*

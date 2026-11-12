@@ -28,6 +28,10 @@ print(days_until_warmer([6, 4, 1]), days_until_warmer([2, 3, 5, 8]))
 # [0, 0, 0] [1, 1, 1, 0]
 ```
 
+![Days until a warmer reading](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-1-days-until-warmer.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 1.*
+
 ## How far a price still covers
 
 The exercise prices are `[9, 4, 9, 9, 11]`. The span of a day is how many consecutive prices, ending today and going backward, are less than or equal to today's price. Report every span. Also answer an empty list, `[5]`, `[2, 2, 2]`, `[8, 6, 3]`, and `[3, 5, 8]`.
@@ -53,6 +57,10 @@ print(stock_spans([8, 6, 3]), stock_spans([3, 5, 8]))
 # [] [1] [1, 2, 3]
 # [1, 1, 1] [1, 2, 3]
 ```
+
+![How far a price still covers](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-2-stock-span.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 2.*
 
 ## Fewest parentheses to delete
 
@@ -83,6 +91,10 @@ print(min_remove("())("))
 # '' abc '' ''
 # ()
 ```
+
+![Fewest parentheses to delete](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-3-fewest-parentheses-to-delete.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 3.*
 
 ## Multiply and divide with no parentheses
 
@@ -126,6 +138,10 @@ print(calculate("2147483647*2147483647/100"))
 # 46116860141324206
 ```
 
+![Multiply and divide with no parentheses](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-4-multiply-and-divide.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 4.*
+
 ## Asteroids that meet head-on
 
 A positive asteroid moves right and a negative asteroid moves left. They move at the same speed, so two asteroids meet only when a right-mover has a left-mover somewhere to its right and nothing between them survives. The smaller one explodes. Equal sizes both explode. The exercise row is `[4, -2, 3, -3, -1]`. What remains? Also answer `[-2, -1, 5]`, `[5, 1, -2]`, an empty row, `[3]`, and `[3, -3]`.
@@ -157,6 +173,10 @@ print(collide([]), collide([3]), collide([3, -3]))
 # [] [3] []
 ```
 
+![Asteroids that meet head-on](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-5-asteroid-collision.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 5.*
+
 ## Drop digits and keep the smallest
 
 The exercise numeral is `42035`. Remove 2 digits so the remaining numeral is as small as possible, without leading zeros. Also answer `1002` removing 1, `9` removing 1, `20` removing 2, and `112` removing 1.
@@ -186,6 +206,10 @@ print(remove_k_digits("112", 1))
 # 2 0 0
 # 11
 ```
+
+![Drop digits and keep the smallest](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-6-remove-k-digits.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 6.*
 
 ## Pour only when the outbox is empty
 
@@ -235,6 +259,10 @@ print(replay(True))
 # ([5, 1, 1, 8], 3)
 ```
 
+![Pour only when the outbox is empty](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-7-pour-only-when-outbox-empty.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 7.*
+
 ## The maximum that was stored as a value
 
 This deque stores values, and once the first window is full it pops the front on every later step. The exercise readings are `[3, 1, 4, 2]` and the window length is 3. What does it report, and what is the maximum of each window?
@@ -279,6 +307,10 @@ print(window_max_indexes([3, 1, 4, 2], 3))
 # [4, 4]
 ```
 
+![The maximum that was stored as a value](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-8-maximum-stored-as-value.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 8.*
+
 ## An equal reading is not strictly greater
 
 The exercise readings are `[6, 6, 2, 6]` and `[5, 5, 5]`. One scan pops while the top is `<` the new value. Another pops while the top is `<=` the new value. For a next strictly greater value, which row is right, and what does the other row write on the ties?
@@ -305,3 +337,7 @@ print(next_greater([5, 5, 5], False))
 # [-1, -1, -1]
 # [5, 5, -1]
 ```
+
+![An equal reading is not strictly greater](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills-9-equal-is-not-strictly-greater.png)
+
+*Source: [`diagrams/stacks-drills.drawio`](/content/11_Coding_Problems/15_Stacks/diagrams/stacks-drills.drawio), page 9.*
