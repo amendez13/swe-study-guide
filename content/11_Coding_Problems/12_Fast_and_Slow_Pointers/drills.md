@@ -130,7 +130,7 @@ print(show([3, 8], 1))
 
 Each exercise array has length n + 1. Every value is in 1 through n, and exactly one value appears more than once. Return that value. Do not modify the array. Use a constant amount of extra memory. Check the result against a count of the values.
 
-**Answer:** Follow `nums[i]` as the successor of index i. Index 0 is a stem, because every stored value is at least 1. The entrance of the cycle is the repeated value. `[4, 1, 6, 2, 5, 3, 6]` returns 6. `[1, 4, 6, 3, 2, 5, 4]` returns 4. `[1, 1]` returns 1. `[2, 2, 2]` returns 2, a value that appears three times. `[6, 5, 4, 3, 2, 1, 5]` returns 5. `[1, 2, 3, 4, 5, 6, 6]` returns 6. The count of values agrees on every row, and the arrays are unchanged. LeetCode 287 is this contract, with n up to 100,000, and it requires constant extra memory. These arrays are smaller and are not that problem's samples. Time for the cycle walk is O(n). Extra memory is O(1). The count used here as a check is O(n) extra memory. The value-range halving on the concept card is the constant-memory check with an extra log factor.
+**Answer:** Follow `nums[i]` as the successor of index i. Index 0 is a stem, because every stored value is at least 1. The entrance of the cycle is the repeated value. `[4, 1, 6, 2, 5, 3, 6]` returns 6. `[8, 3, 5, 1, 7, 2, 6, 4, 8]` returns 8, a repeat at both ends. `[1, 1]` returns 1. `[4, 4, 4, 4, 4]` returns 4, a value that appears five times, with 1, 2, and 3 missing. `[6, 5, 4, 3, 2, 1, 5]` returns 5. `[1, 2, 3, 4, 5, 6, 6]` returns 6. The count of values agrees on every row, and the arrays are unchanged. LeetCode 287 is this contract, with n up to 100,000, and it requires constant extra memory. These arrays are smaller and are not that problem's samples. Time for the cycle walk is O(n). Extra memory is O(1). The count used here as a check is O(n) extra memory. The value-range halving on the concept card is the constant-memory check with an extra log factor.
 
 ```python
 def find_duplicate(nums: list[int]) -> int:
@@ -160,15 +160,15 @@ def show(nums: list[int]) -> tuple[int, list[int], list[int]]:
 
 
 print(show([4, 1, 6, 2, 5, 3, 6]))
-print(show([1, 4, 6, 3, 2, 5, 4]))
+print(show([8, 3, 5, 1, 7, 2, 6, 4, 8]))
 print(show([1, 1]))
-print(show([2, 2, 2]))
+print(show([4, 4, 4, 4, 4]))
 print(show([6, 5, 4, 3, 2, 1, 5]))
 print(show([1, 2, 3, 4, 5, 6, 6]))
 # (6, [6], [4, 1, 6, 2, 5, 3, 6])
-# (4, [4], [1, 4, 6, 3, 2, 5, 4])
+# (8, [8], [8, 3, 5, 1, 7, 2, 6, 4, 8])
 # (1, [1], [1, 1])
-# (2, [2], [2, 2, 2])
+# (4, [4], [4, 4, 4, 4, 4])
 # (5, [5], [6, 5, 4, 3, 2, 1, 5])
 # (6, [6], [1, 2, 3, 4, 5, 6, 6])
 ```
@@ -306,9 +306,9 @@ print(show([7, 8, 9, 1, 2, 6]))
 
 ## 23 reaches one and 15 does not
 
-Replace a non-negative integer by the sum of the squares of its digits, and repeat. A value that reaches 1 is happy. Report the chain and the value where the one-step and two-step walks meet, for 23, for 15, and for 1.
+Replace a non-negative integer by the sum of the squares of its digits, and repeat. A value that reaches 1 is happy. Report the chain and the value where the one-step and two-step walks meet, for 23, for 15, for 1, and for 7.
 
-**Answer:** 23 goes 23 → 13 → 10 → 1 and the two speeds meet at 1, so 23 is happy. 15 goes 15 → 26 → 40 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4, and the next step returns to 16. The two speeds meet at 42. 42 is on the cycle and it is not 1, so 15 is not happy. A set of seen values notices the repeat at 16, which is the entrance of that cycle, a different node from the meeting value. 1 goes to 1 and the speeds meet at 1, so 1 is happy. The unhappy cycle that 15 reaches is 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 and back to 4. LeetCode 202 starts at 1 and includes neither of these exercise values as its sample. Time is O(log n) once the value has fallen into the small range. Extra memory for the two speeds is O(1).
+**Answer:** 23 goes 23 → 13 → 10 → 1 and the two speeds meet at 1, so 23 is happy. 15 goes 15 → 26 → 40 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4, and the next step returns to 16. The two speeds meet at 42. 42 is on the cycle and it is not 1, so 15 is not happy. A set of seen values notices the repeat at 16, which is the entrance of that cycle, a different node from the meeting value. 1 goes to 1 and the speeds meet at 1, so 1 is happy. 7 goes 7 → 49 → 97 → 130 → 10 → 1 and the speeds meet at 1, so 7 is happy. The unhappy cycle that 15 reaches is 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 and back to 4. LeetCode 202 starts at 1 and includes none of these exercise values as its sample. Reading the digits is O(log n). After the value falls into the finite range, the rest is a bounded number of steps. Extra memory for the two speeds is O(1).
 
 ```python
 def digit_square_sum(number: int) -> int:
@@ -336,18 +336,20 @@ def chain_and_meeting(number: int) -> tuple[list[int], int, bool]:
 print(chain_and_meeting(23))
 print(chain_and_meeting(15))
 print(chain_and_meeting(1))
+print(chain_and_meeting(7))
 print(chain_and_meeting(4))
 # ([23, 13, 10, 1], 1, True)
 # ([15, 26, 40, 16, 37, 58, 89, 145, 42, 20, 4], 42, False)
 # ([1], 1, True)
+# ([7, 49, 97, 130, 10, 1], 1, True)
 # ([4, 16, 37, 58, 89, 145, 42, 20], 4, False)
 ```
 
 ## Three steps for the fast pointer
 
-On the exercise list `4 → 8 → 9 → 1 → 6`, with `6` linked back to `8`, move the slow pointer one step and the fast pointer three steps. Do they meet? If you then put one pointer on the head and walk both one step at a time, do you reach the entrance? What does the one-step and two-step schedule return on the same list?
+On the exercise list `4 → 8 → 9 → 1 → 6`, with `6` linked back to `8`, move the slow pointer one step and the fast pointer three steps. Do they meet? If you then put one pointer on the head and walk both one step at a time, do you reach the entrance? What does the one-step and two-step schedule return on the same list? Then answer both schedules for `5 → 7` linked back to `5`, and for `4 → 8 → 9 → 1` with `1` linked back to `8`.
 
-**Answer:** A fast step of 3 still detects the cycle. The pointers meet on the node that holds `9`. The entrance is `8`. Walking both pointers one step from the head and from `9` does not land them on one node. The pairs keep moving around the cycle. The one-step and two-step schedule meets on `6`, then the reset takes one step and stops on `8`, which is the entrance. Detection works for the faster step because both pointers started on the head. The entrance reset is proved for steps 1 and 2, and this list is a case where that reset does not transfer to a meeting found at step 3. On `5 → 7` linked back to `5`, steps 1 and 2 meet on `5` and the reset takes 0 steps. Steps 1 and 3 meet on `7`, and the same reset does not meet. Time to detect is still linear in the length. Extra memory is O(1).
+**Answer:** A fast step of 3 still detects a cycle when both pointers start on the head. Each printed row is the step-3 meeting value, the slow step count, and the reset value, then the same three fields for steps 1 and 2. On `4 → 8 → 9 → 1 → 6` linked back to `8`, the stem has 1 node and the cycle has 4. The pointers meet on `9` after 2 slow steps. The entrance is `8`. 2 is not a multiple of 4, so walking both pointers one step from the head and from `9` repeats a pair of nodes and never lands them on one node. Steps 1 and 2 meet on `6` after 4 slow steps, 4 is a multiple of 4, and the reset stops on `8`. On `5 → 7` linked back to `5` the cycle length is 2 and the stem is empty. Steps 1 and 3 meet on `7` after 1 slow step, and 1 is not a multiple of 2, so the reset misses. Steps 1 and 2 meet on `5` after 2 slow steps and the reset takes 0 steps. On `4 → 8 → 9 → 1` linked back to `8` the cycle length is 3. Twice a step count is a multiple of 3 only when the step count itself is. Both schedules meet on `1` after 3 slow steps, and the reset stops on `8`, the entrance. The reset lands on the entrance exactly when the slow step count at the meeting is a multiple of the cycle length. Steps 1 and 2 always produce that multiple. A fast step of 3 produces it on the 3-cycle and misses it on the 4-cycle and the 2-cycle. Time to detect is still linear in the length. Extra memory is O(1).
 
 ```python
 class ListNode:
@@ -364,52 +366,59 @@ def chain(values: list[int], back: int) -> ListNode:
     return nodes[0]
 
 
-def meet(head: ListNode, fast_step: int) -> int:
+def meet(head: ListNode, fast_step: int) -> tuple[ListNode, int]:
     slow = fast = head
+    steps = 0
     while True:
         slow = slow.next
         for _ in range(fast_step):
             fast = fast.next
+        steps += 1
         if slow is fast:
-            return slow.val
+            return slow, steps
 
 
-def reset_from(head: ListNode, meeting_value: int) -> int | None:
-    meeting = head
-    while meeting.val != meeting_value:
-        meeting = meeting.next
-    walker = head
-    for _ in range(12):
-        if walker is meeting:
+def reset_from(head: ListNode, meeting: ListNode) -> int | None:
+    walker: ListNode | None = head
+    other: ListNode | None = meeting
+    seen: set[tuple[int, int]] = set()
+    while walker is not None and other is not None:
+        if walker is other:
             return walker.val
+        mark = (id(walker), id(other))
+        if mark in seen:
+            return None
+        seen.add(mark)
         walker = walker.next
-        meeting = meeting.next
+        other = other.next
     return None
 
 
-def show(values: list[int], back: int) -> tuple[int, int | None, int, int | None]:
+def show(values: list[int], back: int) -> tuple[int, int, int | None, int, int, int | None]:
     head = chain(values, back)
-    met3 = meet(head, 3)
-    met2 = meet(head, 2)
-    return (met3, reset_from(head, met3), met2, reset_from(head, met2))
+    met3, steps3 = meet(head, 3)
+    met2, steps2 = meet(head, 2)
+    return (met3.val, steps3, reset_from(head, met3), met2.val, steps2, reset_from(head, met2))
 
 
 print(show([4, 8, 9, 1, 6], 1))
 print(show([5, 7], 0))
-# (9, None, 6, 8)
-# (7, None, 5, 5)
+print(show([4, 8, 9, 1], 1))
+# (9, 2, None, 6, 4, 8)
+# (7, 1, None, 5, 2, 5)
+# (1, 3, 8, 1, 3, 8)
 ```
 
 ## Which memory the question allows
 
 For each question, name the structure you would use, and the extra memory it stores on the exercise input.
 
-1. Does `8 → 1 → 4 → 6 → 2 → 9 → 3`, with `3` linked to `6`, contain a cycle? Extra memory must stay a constant number of references.
+1. Does `12 → 4 → 7 → 3 → 9 → 5 → 8`, with `8` linked to `3`, contain a cycle? Extra memory must stay a constant number of references.
 2. Return every value on that list up to and including the nodes stored before a repeat.
-3. Is 23 happy, with extra memory a constant number of integers?
-4. Find the repeated value in `[2, 5, 1, 4, 3, 2]`. Linear memory is allowed, and the simpler code is preferred.
+3. Is 7 happy, with extra memory a constant number of integers?
+4. Find the repeated value in `[4, 1, 6, 2, 5, 3, 6]`. Linear memory is allowed, and the simpler code is preferred.
 
-**Answer:** Question 1 is two speeds, 2 references. A set of identities would store all 7 nodes to answer a boolean. Question 2 is that set, because two speeds do not keep the path. It stores 7 values, `8, 1, 4, 6, 2, 9, 3`, and the next node is the `6` already stored. Question 3 is two speeds on the digit-square function, 2 integers. The seen set for 23 holds 4 integers, `23, 13, 10, 1`, so it is legal only if the constant bound is relaxed. Question 4 is a set of values. The array's distinct values are 5 integers, and the repeated one is 2. The index cycle is what you switch to when constant memory becomes a requirement. The set's expected time is linear and its collision worst case is quadratic. Two speeds are worst-case linear because they follow links.
+**Answer:** Question 1 is two speeds, 2 references. A set of identities would store all 7 nodes to answer a boolean. Question 2 is that set, because two speeds do not keep the path. It stores 7 values, `12, 4, 7, 3, 9, 5, 8`, and the next node is the `3` already stored. Question 3 is two speeds on the digit-square function, 2 integers. The seen set for 7 holds 6 integers, `7, 49, 97, 130, 10, 1`, so it is legal only if the constant bound is relaxed. Question 4 is a set of values. The array's distinct values are 6 integers, and the repeated one is 6. The index cycle is what you switch to when constant memory becomes a requirement. The set's expected time is linear and its collision worst case is quadratic. Two speeds are worst-case linear because they follow links.
 
 ```python
 class ListNode:
@@ -453,25 +462,25 @@ def happy_values(number: int) -> list[int]:
     return seen
 
 
-looping = chain([8, 1, 4, 6, 2, 9, 3], 3)
+looping = chain([12, 4, 7, 3, 9, 5, 8], 3)
 stored = values_until_repeat(looping)
-happy = happy_values(23)
-duplicate = [2, 5, 1, 4, 3, 2]
+happy = happy_values(7)
+duplicate = [4, 1, 6, 2, 5, 3, 6]
 print(("cycle-bool", "two-speeds", 2, len(stored)))
 print(("values-before-repeat", "set", stored))
-print(("happy-23", "two-speeds", 2, happy))
-print(("duplicate-memory-ok", "set", len(set(duplicate)), 2))
+print(("happy-7", "two-speeds", 2, happy))
+print(("duplicate-memory-ok", "set", len(set(duplicate)), 6))
 # ('cycle-bool', 'two-speeds', 2, 7)
-# ('values-before-repeat', 'set', [8, 1, 4, 6, 2, 9, 3])
-# ('happy-23', 'two-speeds', 2, [23, 13, 10, 1])
-# ('duplicate-memory-ok', 'set', 5, 2)
+# ('values-before-repeat', 'set', [12, 4, 7, 3, 9, 5, 8])
+# ('happy-7', 'two-speeds', 2, [7, 49, 97, 130, 10, 1])
+# ('duplicate-memory-ok', 'set', 6, 6)
 ```
 
 ## The same value on two nodes
 
-The exercise list `4 → 1 → 4 → 1 → 4` has no link from the last node. A check that compares `.val` reports a cycle. A check that compares nodes does not. What does each check return on that list, and what does each check return on a single node that holds `4` and points at itself?
+The exercise list `9 → 2 → 9 → 2 → 9` has no link from the last node. A check that compares `.val` reports a cycle. A check that compares nodes does not. What does each check return on that list, on a single node that holds `2` and points at itself, and on `3 → 5 → 7` linked back to `3`?
 
-**Answer:** On `4 → 1 → 4 → 1 → 4` the second iteration puts the slow pointer on the middle `4` and the fast pointer on the last `4`. The values match and the nodes do not. Identity returns false. The value check returns true. On the self-loop, both checks return true, because the pointers land on the same node and that node's value matches itself. A value match is evidence of a cycle only when you already know the values are unique. The safe comparison is `is`. LeetCode 141 allows values to repeat inside −100,000 to 100,000, so a value comparison is the wrong test on that problem too. Time is O(n). Extra memory is O(1).
+**Answer:** On `9 → 2 → 9 → 2 → 9` the second iteration puts the slow pointer on the middle `9` and the fast pointer on the last `9`. The values match and the nodes do not. Identity returns false. The value check returns true. On the self-loop, both checks return true, because the pointers land on the same node and that node's value matches itself. On `3 → 5 → 7` linked back to `3`, both checks return true, because the pointers meet on a node and that node's value matches itself. A value match is evidence of a cycle only when you already know the values are unique. The safe comparison is `is`. LeetCode 141 allows values to repeat inside −100,000 to 100,000, so a value comparison is the wrong test on that problem too. Time is O(n). Extra memory is O(1).
 
 ```python
 class ListNode:
@@ -516,9 +525,9 @@ def show(values: list[int], back: int | None) -> tuple[bool, bool]:
     return (by_identity(head), by_value(head))
 
 
-print(show([4, 1, 4, 1, 4], None))
-print(show([4], 0))
-print(show([8, 1, 4], 0))
+print(show([9, 2, 9, 2, 9], None))
+print(show([2], 0))
+print(show([3, 5, 7], 0))
 # (False, True)
 # (True, True)
 # (True, True)

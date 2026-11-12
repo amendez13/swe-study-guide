@@ -57,9 +57,9 @@ print(first_meeting(looping))
 
 An empty list never enters the loop, so the answer is no cycle in 0 steps. A single node whose `next` is `None` is the same. A single node whose `next` is itself meets on step 1, on that node. The straight list `8 → 1 → 4` takes one double-step, lands the fast pointer on `4`, and then `4.next` is `None`. The exercise list `8 → 1 → 4 → 6 → 2 → 9 → 3`, with `3` linked back to `6`, meets on step 4 at the node that holds `2`. The later card uses that same list to show why the meeting node is not the entrance.
 
-The walk is O(n) time and O(1) extra memory. The fast pointer moves at most about twice the number of nodes before a meeting or a fall off the end. A set of node identities answers the same yes-or-no question in expected linear time and O(n) extra memory. The closing card is that choice.
+The walk is O(n) time and O(1) extra memory. The fast pointer follows at most twice as many links as there are nodes, whether it meets or falls off the end. A set of node identities answers the same yes-or-no question in expected linear time and O(n) extra memory. The closing card is that choice.
 
-**Trade-offs.** Two speeds use a constant amount of extra memory and a worst-case linear number of link follows, with no hashing. A set of identities is shorter to explain and spends memory proportional to the length. A speed other than two still detects a cycle when both pointers start on the head, and the entrance arithmetic in the later card is proved for one step and two steps. Checking `fast.next` while `fast` is `None` raises `AttributeError`. The safe test names `fast` first.
+**Trade-offs.** Two speeds use a constant amount of extra memory and a worst-case linear number of link follows, with no hashing. A set of identities is shorter to explain and spends memory proportional to the length. A faster constant step still detects a cycle when both pointers start on the head. The same step can miss a cycle when the pointers start on different nodes. The entrance arithmetic in the later card is proved for one step and two steps, and a fast step of 3 can meet without that reset landing on the entrance. Checking `fast.next` while `fast` is `None` raises `AttributeError`. The safe test names `fast` first.
 
 **Interview.** Say which question you are answering: a boolean, the entrance node, or the middle. Start both pointers on the head, move, then compare with `is`. Name empty, one node, a self-loop, and a straight list before you talk about a long cycle. Offer the set of identities as the version that spends linear memory, then the two speeds as the constant-memory version. If the statement is an array with indexes, this is the wrong pattern until you can say what the next index is.
 
@@ -71,7 +71,11 @@ Once both pointers are on a cycle, and the speeds are one step and two steps, th
 
 The fast pointer gains one node per iteration on the slow pointer. A gap of g nodes, with g at least 1, is gone after g iterations. The fast pointer cannot jump over the slow one, because the relative speed is 1. If the chain has no cycle, the fast pointer reaches a node whose `next` is `None`, and the loop stops. The exercise chain below is `5 → 10 → 11 → 12 → 13 → 14 → 15`, with `15` linked back to `10`. The first iteration puts the slow pointer on `10` and the fast pointer on `11`, both on the cycle. The forward distance from the fast pointer to the slow pointer is then 5, 4, 3, 2, 1, and 0. They meet on `15`.
 
-A slow step of 1 and a fast step of h, with h greater than 1, also meets when both pointers start on the head. When the slow pointer first arrives on the cycle, the fast pointer is ahead by a distance created by those same speeds, so that distance is a multiple of h − 1 along the cycle. Each later iteration closes h − 1 nodes. A gap that is a multiple of the step size can be closed by that step, including when the step size and the cycle length share a factor. Speeds 1 and 2 are the pair to memorize, because the gap is 1 and 1 divides every cycle length. The block checks that claim on exercise chains: stem lengths 0 through 11, cycle lengths 1 through 11, and straight chains of length 0 through 11, for speed pairs (1, 2), (1, 3), (1, 4), (2, 5), and (3, 7).
+A slow step of 1 and a fast step of h, with h greater than 1, also meets when both pointers start on the head. After k iterations the slow pointer has taken k steps and the fast pointer has taken h times k. Once both are on the cycle, those counts name the same node exactly when the cycle length divides k times (h − 1). The smallest positive k is the cycle length divided by the greatest common divisor of (h − 1) and the cycle length, and a large enough multiple of that k is past the stem. The divisor can be greater than 1. That does not block the meeting, because both step counts come from the same k. The lead before you reduce it modulo the cycle length is a multiple of (h − 1). Along the cycle, the distance is only guaranteed to be a multiple of that divisor. On the exercise chain with stem 2 and cycle 5, a fast step of 4 has lead 6, and 6 mod 5 is 1, which is not a multiple of 3. The pointers still meet.
+
+A faster step does not always meet when the pointers start on different nodes. On a cycle of two nodes, start the slow pointer on one node and the fast pointer on the other, and move the fast pointer 3 steps at a time. The fast pointer gains 2 steps on the slow pointer, and 2 does not divide the starting gap of 1, so the gap never closes. The pointers swap places and never land together.
+
+Speeds 1 and 2 are the pair to memorize, because the gap shrinks by 1 and 1 divides every cycle length. The block checks shared-start detection on exercise chains: stem lengths 0 through 11, cycle lengths 1 through 11, and straight chains of length 0 through 11, for speed pairs (1, 2), (1, 3), (1, 4), (2, 5), and (3, 7). It also prints that reduced lead, and the two-node start that never meets.
 
 ```python
 class ListNode:
@@ -124,6 +128,27 @@ def detects(head: ListNode | None, slow_step: int, fast_step: int) -> bool:
     return False
 
 
+def modular_gap(stem: int, fast_step: int, length: int) -> int:
+    return (stem * (fast_step - 1)) % length
+
+
+def separated_step3() -> str:
+    first = ListNode(1)
+    second = ListNode(2)
+    first.next = second
+    second.next = first
+    slow: ListNode | None = first
+    fast: ListNode | None = second
+    for _ in range(8):
+        if slow is None or fast is None or fast.next is None or fast.next.next is None:
+            return "fell"
+        slow = slow.next
+        fast = fast.next.next.next
+        if slow is fast:
+            return "met"
+    return "never"
+
+
 failures = 0
 cycle_checks = 0
 pairs = ((1, 2), (1, 3), (1, 4), (2, 5), (3, 7))
@@ -143,17 +168,21 @@ for length in range(12):
             failures += 1
 print(gaps(chain([5, 10, 11, 12, 13, 14, 15], 1)))
 print(failures, cycle_checks, straight_checks)
+print(modular_gap(2, 4, 5), detects(chain(list(range(7)), 2), 1, 4))
+print(separated_step3())
 # [(1, 10, 11, 5), (2, 11, 13, 4), (3, 12, 15, 3), (4, 13, 11, 2), (5, 14, 13, 1), (6, 15, 15, 0)]
 # 0 660 60
+# 1 True
+# never
 ```
 
-The six rows are the iteration, the slow value, the fast value, and the forward distance. The distance falls by 1 until the pointers are on the same node. The sweep reports 0 misses, 660 cycle checks, and 60 straight-chain checks. 12 stem lengths times 11 cycle lengths times 5 speed pairs is 660. 12 straight lengths times 5 pairs is 60. A straight chain includes the empty list. Detection is not the entrance. The next cards separate those two questions, and a drill shows a fast step of 3 whose meeting node is the wrong place to stop.
+The six rows are the iteration, the slow value, the fast value, and the forward distance. The distance falls by 1 until the pointers are on the same node. The sweep reports 0 misses, 660 cycle checks, and 60 straight-chain checks. 12 stem lengths times 11 cycle lengths times 5 speed pairs is 660. 12 straight lengths times 5 pairs is 60. A straight chain includes the empty list. The next line prints 1 and True. 1 is 6 mod 5, the distance along that cycle, and it is not a multiple of 3. True means the pointers still meet. The last line is the two-node start: a fast step of 3 never meets. The sweep is a finite check. The ratio argument above is what covers every stem and every cycle. Detection is not the entrance. The next cards separate those two questions. A fast step of 3 can meet, and the one-step reset still misses when the slow pointer's step count is not a multiple of the cycle length. A drill shows that miss on a 4-cycle, and a 3-cycle where the same reset hits.
 
-**Trade-offs.** Speeds 1 and 2 need one guard, `fast` and `fast.next`, and the relative speed divides every cycle length. A faster step needs a guard on every hop and a fresh proof if you still want the entrance. There is no asymptotic gain from a larger step. The sweep bound of 200 iterations is only a backstop. On these chain lengths a real meeting happens within a few dozen steps.
+**Trade-offs.** Speeds 1 and 2 need one guard, `fast` and `fast.next`, and the relative speed divides every cycle length. A faster step needs a guard on every hop and a fresh proof if you still want the entrance. There is no asymptotic gain from a larger step. Starting the pointers on different nodes can make a faster step miss a cycle that steps 1 and 2 would still find, because the gap is no longer produced by one shared iteration count. The sweep bound of 200 iterations is only a backstop. On these chain lengths a real meeting happens within a few dozen steps.
 
-**Interview.** Say the shrink-by-1 sentence before you write the loop, and say it applies once both pointers are on the cycle. If the interviewer asks about a fast step of 3, say detection still holds when both start at the head, because the gap the speeds created can be closed by those speeds, and say the entrance reset is a separate proof for steps 1 and 2. Then give a straight list, so the fall-off case is in the same answer as the meeting.
+**Interview.** Say the shrink-by-1 sentence before you write the loop, and say it applies once both pointers are on the cycle. If the interviewer asks about a fast step of 3, say detection still holds when both start at the head, because the cycle length divides a multiple of the speed gap, and say it can fail when the pointers start apart. Give the two-node cycle as the counterexample. Say the entrance reset is proved for steps 1 and 2, and that it misses for a faster step when the slow pointer's step count at the meeting is not a multiple of the cycle length. Then give a straight list, so the fall-off case is in the same answer as the meeting.
 
-**Recap.** With steps 1 and 2, the distance from the fast pointer forward to the slow pointer shrinks by 1 per iteration on the cycle, so the two pointers meet. A straight chain makes the fast pointer reach `None` instead. A larger constant speed still detects a cycle when both pointers start together. On the five speed pairs in the block, all 660 looping chains met and all 60 straight chains fell off. The node where they meet is not, by itself, the entrance of the cycle.
+**Recap.** With steps 1 and 2, the distance from the fast pointer forward to the slow pointer shrinks by 1 per iteration on the cycle, so the two pointers meet. A straight chain makes the fast pointer reach `None` instead. A larger constant speed still detects a cycle when both pointers start together, and it can miss when they start apart. On the five speed pairs in the block, all 660 looping chains met and all 60 straight chains fell off. The node where they meet is not, by itself, the entrance of the cycle, and the one-step reset that finds the entrance is proved for steps 1 and 2.
 
 ## Does This List Loop? (LeetCode-style: Linked List Cycle)
 
@@ -241,9 +270,9 @@ The entrance is the first node on the cycle, the node a tail link points back to
 
 LeetCode 142, Linked List Cycle II, returns the node rather than a boolean. It allows 0 to 10,000 nodes, values from −100,000 to 100,000, and a tail link that is either absent or a valid index. The follow-up asks for constant extra memory. The [Cycle detection with Floyd's algorithm](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card shows the reset. This card is why the reset lands on the entrance. The length of the cycle is the extra question you can answer from the meeting node. The [How long is the loop?](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) drill counts that length on a different list.
 
-Both pointers start at the head. Let the stem hold μ nodes before the entrance, and let the cycle hold λ nodes. At the first meeting, the slow pointer has taken t steps and the fast pointer has taken 2t. They started together, so the fast pointer has gained t steps. A meeting on the stem would require two different distances to land on one stem node, and each stem node has one path from the head, so the only shared stem position is the start, before either pointer moves. The meeting is on the cycle. Standing on the same cycle node after gaining t steps means t is a whole number of laps: t = mλ for some positive integer m.
+Both pointers start at the head. Let the stem hold μ nodes before the entrance, and let the cycle hold λ nodes. At the first meeting, the slow pointer has taken t steps and the fast pointer has taken 2t. A node before the entrance has only one path from the head, so two different step counts cannot land on it. The meeting is on the cycle, which means t is at least μ. The two walks share those μ stem steps. After that, the slow pointer travels t − μ steps on the cycle and the fast pointer travels 2t − μ steps on the cycle. Those two distances end on one node, so their difference, t, is a whole number of laps: t = mλ for a positive integer m. The equation does not force m to be 1. When the stem is longer than the cycle, the fast pointer finishes one or more laps before the slow pointer arrives, and m is 2 or more. Those extra laps are multiples of λ, so they cancel when the position is reduced modulo λ.
 
-The meeting node's offset along the cycle is therefore (t − μ) mod λ = (−μ) mod λ. Put one pointer back on the head and leave the other on the meeting node. Move both one step at a time. The head pointer reaches the entrance after exactly μ steps, and it is not on the cycle before that step, so the two pointers cannot meet earlier. The pointer that stayed on the meeting node is on the cycle the whole time, so μ steps move it (μ mod λ) nodes forward. That is the forward distance from offset (−μ) mod λ back to offset 0. Full laps inside μ bring it around the cycle and leave it on the entrance at the same moment the head pointer arrives.
+The meeting node's offset along the cycle is (t − μ) mod λ = (mλ − μ) mod λ = (−μ) mod λ. Put one pointer back on the head and leave the other on the meeting node. Move both one step at a time. The head pointer reaches the entrance after exactly μ steps, and it is not on the cycle before that step, so the two pointers cannot meet earlier, even while the cycle pointer passes the entrance. The pointer that stayed on the meeting node is on the cycle the whole time, so μ steps move it (μ mod λ) nodes forward, plus the full laps hidden inside μ. That is the forward distance from offset (−μ) mod λ back to offset 0. Both pointers arrive on the entrance together. The laps that happened before the meeting do not change this walk, because they already cancelled in the offset.
 
 The exercise list `8 → 1 → 4 → 6 → 2 → 9 → 3`, with `3` linked to `6`, has μ = 3 and λ = 4. The pointers meet at `2` after t = 4 steps, and 4 is 1 × 4. The offset of `2` is 1, and (−3) mod 4 = 1. The forward walk `2 → 9 → 3 → 6` is 3 steps, which is 3 mod 4. The reset takes 3 steps and stops on `6`.
 
@@ -251,7 +280,7 @@ The longer exercise list `10 → 20 → 30 → 40 → 50 → 60 → 70 → 80 �
 
 When μ is 0 the head is the entrance. On `11 → 4 → 15` linked back to `11`, the pointers meet on `11`, and the reset sees them already equal, so it takes 0 steps. On a tail self-loop, `4 → 1 → 9` with `9` linked to itself, λ is 1 and μ is 2. They meet on `9`. The reset walks 2 steps, and the pointer on the self-loop stays on `9` because one step forward is `9` again. A node that points at itself is the same case with μ = 0: the meeting is that node and the reset takes 0 steps. A straight list, an empty list, and a single node with `next` of `None` return `None`.
 
-After the meeting, both pointers move one step. Moving the fast pointer two steps again is a different ratio, and this count does not apply. A drill shows a fast step of 3 that detects the cycle and then misses the entrance under this reset.
+After the meeting, both pointers move one step. Moving the fast pointer two steps again is a different ratio, and this count does not apply. The reset lands on the entrance exactly when t is a multiple of λ. Steps 1 and 2 always make t a multiple of λ, including when m is greater than 1. A fast step of 3 only makes 2t a multiple of λ, so t itself may not be. A drill shows a 4-cycle where the pointers meet after 2 slow steps and the reset never meets, and a 3-cycle where they meet after 3 slow steps and the same reset lands on the entrance.
 
 ```python
 class ListNode:
@@ -336,7 +365,7 @@ Finding the entrance is O(n) time and O(1) extra memory. The identity set is exp
 
 **Interview.** Draw the stem and the cycle and name μ and λ. Say that t, the slow pointer's steps at the meeting, is a multiple of λ because the fast pointer gained t steps and they stand on one node. Then say the reset walks μ steps. On the cycle that distance is μ mod λ, so a stem longer than the cycle still lands on the entrance. Give one example where μ is smaller than λ and one where it is larger. Say the whole-list cycle takes 0 reset steps. Compare nodes with `is`. Offer the length count as the follow-up after the entrance.
 
-**Recap.** After the one-step and two-step pointers meet, send one back to the head and move both one step at a time. They meet at the entrance. The slow pointer's travel at the first meeting is a multiple of the cycle length, so the remaining walk from the meeting node equals the stem length modulo the cycle, and walking the whole stem absorbs the extra laps. A stem longer than the cycle, a cycle through the head, and a self-loop at the tail all use that same reset. LeetCode 142 returns the node and allows an empty list. The meeting node itself is a different node whenever the slow pointer has not landed on the entrance.
+**Recap.** After the one-step and two-step pointers meet, send one back to the head and move both one step at a time. They meet at the entrance. The slow pointer's travel at the first meeting is a multiple of the cycle length, for one lap or for several, so the remaining walk from the meeting node equals the stem length modulo the cycle, and walking the whole stem absorbs the extra laps. A stem longer than the cycle, a cycle through the head, and a self-loop at the tail all use that same reset. LeetCode 142 returns the node and allows an empty list. The meeting node itself is a different node whenever the slow pointer has not landed on the entrance. A fast step of 3 keeps the detection and can lose this reset, because its meeting count need not be a multiple of the cycle length.
 
 ## Which middle the loop stops on
 
@@ -562,17 +591,17 @@ The cycle walk is O(n) time and O(1) extra memory. The value-range count is O(n 
 
 ## Reaching One by Squaring Digits (LeetCode-style: Happy Number)
 
-A non-negative integer is happy when replacing it, repeatedly, by the sum of the squares of its digits reaches 1. The value 1 maps to 1, so the process stays there. Every other starting value eventually reaches a cycle that does not contain 1.
+A non-negative integer is happy when replacing it, repeatedly, by the sum of the squares of its digits reaches 1. The value 1 maps to 1, so the process stays there. Any cycle that contains 1 is that same one-node cycle, because the next value after 1 is 1. A start that never reaches 1 still repeats. The bound later in this card puts every later value into a finite set, and a walk on a finite set must repeat. The first repeated value is the entrance of a cycle, and that cycle does not contain 1.
 
-LeetCode 202, Happy Number, asks for that boolean. Its n runs from 1 through 2³¹ − 1. This card also defines 0, which is outside that range: 0 maps to 0, so it is not happy. A negative integer is not a digit string under Python's remainder. The [Modular arithmetic](../01_Math_and_Logic_Puzzles/) card records that `%` on a negative left side stays non-negative. `divmod(-23, 10)` yields quotient −3 and digit 7, then quotient −1 and digit 9, and the quotient stays −1, so a loop conditioned on the quotient never ends. The function below requires n ≥ 0.
+LeetCode 202, Happy Number, asks for that boolean. Its n runs from 1 through 2³¹ − 1. This card also defines 0, which is outside that range: 0 maps to 0, so it is not happy. A negative integer is outside the problem, and Python's floor division does not peel its decimal digits. The [Modular arithmetic](../01_Math_and_Logic_Puzzles/) card records that `%` on a negative left side stays non-negative. `divmod(-23, 10)` yields quotient −3 and remainder 7, then quotient −1 and remainder 7, then quotient −1 and remainder 9, and that last pair repeats. A loop that continues while the quotient is non-zero never ends. The function below requires n ≥ 0.
 
 The next value is a function of the current value, so the sequence is the linked list from the previous card. Two speeds detect the cycle. Move before you compare. A loop written `while slow != fast` is false at the start, when both variables still hold n, and returning `slow == 1` would call the exercise value 23 unhappy. The meeting test is `slow == fast`, and the number is happy when that shared value is 1. The value 1 is a cycle of length 1, so a happy number does meet there.
 
 The exercise value 23 goes 23 → 13 → 10 → 1. The two speeds meet at 1, so 23 is happy. The exercise value 15 goes 15 → 26 → 40 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4, and the next value is 16, which is already in that chain. A set notices the repeat at 16. The two speeds meet at 42. Both answers are "not happy." Meeting at 42 does not mean 42 is the first repeated value. It means 42 is on the cycle. The cycle that holds these unhappy values is 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4.
 
-A d-digit number is at least 10^(d − 1). The sum of the squares of its digits is at most 81d, because each digit is at most 9 and 9² is 81. For every d ≥ 4, 81d is less than 10^(d − 1), so one step produces a number with fewer digits. The exercise value 9999 has 4 digits. The bound is 324, and 9² four times is exactly 324, which is less than 1000. Under the published cap, n has at most 10 digits, so the next value is at most 810. The largest sum of digit squares for a value in 0 through 810 is 211. The largest sum for a value in 0 through 243 is 163, from 199. Once a value is at most 243, the next value stays in that range.
+A d-digit number is at least 10^(d − 1). The sum of the squares of its digits is at most 81d, because each digit is at most 9 and 9² is 81. For every d ≥ 4, 81d is less than 10^(d − 1), so one step produces a number with fewer digits. The size of that next number is the stronger fact: it is at most 81d, not merely one digit shorter. The exercise value 9999 has 4 digits. The bound is 324, and 9² four times is exactly 324, which is less than 1000. Under the published cap, n has at most 10 digits, so the next value is at most 810. The largest sum of digit squares for a value in 0 through 810 is 211, from 799. The largest sum for a value in 0 through 243 is 163, from 199. Once a value is at most 243, the next value stays in that range. Every start from 0 through 243 reaches one of three cycles: 0 → 0, 1 → 1, or 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4. A non-negative integer is happy exactly when its walk reaches 1 → 1. The exercise value 7 is happy. The exercise value 10^18 is past the published cap. Its digit-square sum is 1, so it is happy in one step.
 
-2³¹ − 1 is 2147483647. Its digit-square sum is 260, then 40, and the two speeds meet away from 1, so it is not happy. A set of the values until the repeat holds 11 integers on that input. Reading the digits of n is O(log n) work. After the drop into a few hundred, the meeting happens inside a bounded set. The check is O(log n) time. Two speeds store a constant number of integers, O(1) extra memory. The seen set stores each distinct value until a repeat. With the 81d bound that set is a bounded collection of small integers plus the original n. The loose label, if you only say "the decimal length shrinks," is O(log n) extra memory.
+2³¹ − 1 is 2147483647. Its digit-square sum is 260, then 40, and the two speeds meet away from 1, so it is not happy. A set of the values until the repeat holds 11 integers on that input. Reading the digits of n is O(log n) work and yields a value of at most 81 times the digit count. Under the cap that value is at most 810, and one more step is at most 211. The meeting then happens inside a fixed finite set, a bounded number of steps on small integers, so the whole check is O(log n) time. A drop of one digit per step, with each step scanning the digits that remain, would be O((log n)^2). The 81d cap is what makes the later steps constant. Two speeds store a constant number of integers, O(1) extra memory. The seen set stores the original n plus each distinct later value. On this cap that list is short. The looser label O(log n) extra memory is what the digit count alone suggests, before the 81d cap.
 
 ```python
 def digit_square_sum(number: int) -> int:
@@ -619,8 +648,25 @@ def quotients(number: int, limit: int) -> list[tuple[int, int, int]]:
     return rows
 
 
+def cycle_keys(limit: int) -> list[tuple[int, ...]]:
+    found: set[tuple[int, ...]] = set()
+    for start in range(limit + 1):
+        seen: list[int] = []
+        where: dict[int, int] = {}
+        value = start
+        while value not in where:
+            where[value] = len(seen)
+            seen.append(value)
+            value = digit_square_sum(value)
+        body = seen[where[value] :]
+        pivot = body.index(min(body))
+        found.add(tuple(body[pivot:] + body[:pivot]))
+    return sorted(found)
+
+
 capped = 2**31 - 1
-print(is_happy(23), is_happy(15), is_happy(1), is_happy(0))
+print(is_happy(23), is_happy(15), is_happy(1), is_happy(7), is_happy(0))
+print(is_happy(10**18), digit_square_sum(10**18))
 print(happy_if_already_equal(23), is_happy(23))
 print(chain_until_repeat(23))
 print(chain_until_repeat(15))
@@ -631,7 +677,9 @@ print([81 * digits < 10 ** (digits - 1) for digits in range(1, 7)])
 print(len(chain_until_repeat(capped)), is_happy(capped))
 print(quotients(23, 4))
 print(quotients(-23, 4))
-# True False True False
+print(cycle_keys(243))
+# True False True True False
+# True 1
 # False True
 # [23, 13, 10, 1]
 # [15, 26, 40, 16, 37, 58, 89, 145, 42, 20, 4]
@@ -642,15 +690,16 @@ print(quotients(-23, 4))
 # 11 False
 # [(23, 3, 2), (2, 2, 0)]
 # [(-23, 7, -3), (-3, 7, -1), (-1, 9, -1), (-1, 9, -1)]
+# [(0,), (1,), (4, 16, 37, 58, 89, 145, 42, 20)]
 ```
 
-23, 1 are happy. 15 and 0 are not. The comparison that never moves calls 23 unhappy, and the version that moves first calls it happy. The chain for 15 stops just before 16 repeats. The chain for 4 is the unhappy cycle. 9999 steps to 324. 2147483647 steps to 260 and then 40, the seen chain holds 11 values, and the number is not happy. The strict drop 81d < 10^(d − 1) starts at 4 digits. A non-negative peel of 23 yields digits 3 and 2. The negative peel sticks at quotient −1.
+23, 1, and 7 are happy. 15 and 0 are not. 10^18 steps to 1 and is happy, past the published cap. The comparison that never moves calls 23 unhappy, and the version that moves first calls it happy. The chain for 15 stops just before 16 repeats. The chain for 4 is the unhappy cycle. 9999 steps to 324. 2147483647 steps to 260 and then 40, the seen chain holds 11 values, and the number is not happy. The strict drop 81d < 10^(d − 1) starts at 4 digits. A non-negative peel of 23 yields digits 3 and 2. The negative peel goes remainder 7 with quotient −3, remainder 7 with quotient −1, then remainder 9 with quotient −1, and stays there. The last row is the only three cycles inside 0 through 243.
 
-**Trade-offs.** Two speeds are O(log n) time and a constant number of integers. The seen set is the same time class and a short list of integers, and it is easier to explain. Deriving 81d in the interview is optional. The one sentence that carries the complexity is that a 4-digit-or-longer number steps to a shorter number, so the walk falls into a small range and stays there. Spending the interview on a tighter bound than that sentence is how the solution stays unwritten.
+**Trade-offs.** Two speeds are O(log n) time and a constant number of integers. The seen set is the same time class and a short list of integers, and it is easier to explain. The sentence that carries the complexity is that one digit pass costs O(log n) and leaves a value of at most 81 times the digit count, at most 810 under the published cap, so the rest of the walk stays in a fixed range. Saying only that the digit count gets smaller leaves an O((log n)^2) reading on the table. Spending the interview on a tighter bound than the 81d sentence is how the solution stays unwritten.
 
-**Interview.** Define happy with the rule and the value 1, then say the sequence must repeat because it falls into a finite range. Write the digit peel for a non-negative integer, move both speeds, and return whether they meet at 1. Give 23 and an unhappy value whose meeting point is on the cycle and is not 1. Mention 0 only if you have extended the contract. Say O(log n) time and O(1) extra memory, and mention the set. If they ask why it terminates, give the 81d sentence for 4 digits and the example 9999 → 324.
+**Interview.** Define happy with the rule and the value 1, then say the sequence must repeat because one step leaves at most 81 times the digit count and the later values stay in a finite range. Write the digit peel for a non-negative integer, move both speeds, and return whether they meet at 1. Give 23 and an unhappy value whose meeting point is on the cycle and is not 1. Mention 0 only if you have extended the contract. Say O(log n) time and O(1) extra memory, and mention the set. If they ask why it terminates, give the 81d sentence, the example 9999 → 324, and the three cycles inside 0 through 243.
 
-**Recap.** A happy number reaches 1 by replacing the value with the sum of the squares of its digits. The sequence is a linked list, so two speeds detect the cycle, and the number is happy when they meet at 1. LeetCode 202 starts at 1 and stops at 2³¹ − 1. A number with 4 or more digits steps to at most 81 times its digit count, which has fewer digits, so the later values stay in a small range. That is an O(log n) check. Two speeds use a constant number of integers. A negative quotient under Python's `divmod` is not a digit peel.
+**Recap.** A happy number reaches 1 by replacing the value with the sum of the squares of its digits. The sequence is a linked list, so two speeds detect the cycle, and the number is happy when they meet at 1. LeetCode 202 starts at 1 and stops at 2³¹ − 1. A number with 4 or more digits steps to at most 81 times its digit count. Under the published cap that next value is at most 810, and one more step is at most 211, inside 0 through 243. The only cycles in that range are 0 → 0, 1 → 1, and the cycle through 4, so the sequence must repeat, and it is happy exactly when the cycle is 1. That is an O(log n) check. Two speeds use a constant number of integers. A negative quotient under Python's `divmod` is not a digit peel.
 
 ## Two speeds, or a set of seen values
 
