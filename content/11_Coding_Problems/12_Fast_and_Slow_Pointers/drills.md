@@ -48,6 +48,10 @@ print(trace(chain(values, None)))
 # [(1, 4, 7), (2, 7, 9), (3, 3, 8), (4, 3, None)]
 ```
 
+![The step where they meet](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-1-step-where-they-meet.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 1.*
+
 ## Walk back to the entrance
 
 The exercise list is `2 → 6 → 1 → 8 → 4 → 7 → 9 → 5`, and `5` links back to `7`. The one-step and two-step pointers have already met. Put one pointer back on the head, leave the other on the meeting node, and move both one step. Which node do they reach, and how many steps does that take? What is the forward distance from the meeting node to the entrance, along the cycle? Then answer the same entrance question for `2 → 6 → 8` linked back to `2`, and for `3 → 8` with `8` linked to itself.
@@ -126,6 +130,10 @@ print(show([3, 8], 1))
 # (8, 1, 8)
 ```
 
+![Walk back to the entrance](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-2-walk-back-to-the-entrance.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 2.*
+
 ## The value that index zero leads into
 
 Each exercise array has length n + 1. Every value is in 1 through n, and exactly one value appears more than once. Return that value. Do not modify the array. Use a constant amount of extra memory. Check the result against a count of the values.
@@ -172,6 +180,10 @@ print(show([1, 2, 3, 4, 5, 6, 6]))
 # (5, [5], [6, 5, 4, 3, 2, 1, 5])
 # (6, [6], [1, 2, 3, 4, 5, 6, 6])
 ```
+
+![The value that index zero leads into](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-3-value-index-zero-leads-into.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 3.*
 
 ## The condition that reads past the end
 
@@ -235,6 +247,10 @@ print(show([5, 7, 1, 3], 0))
 # ('cycle', 'cycle')
 # ('cycle', 'cycle')
 ```
+
+![The condition that reads past the end](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-4-condition-reads-past-the-end.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 4.*
 
 ## Unlink the middle from the node in front of it
 
@@ -304,6 +320,10 @@ print(show([7, 8, 9, 1, 2, 6]))
 # ([7, 8, 9, 2, 6], [7, 8, 9, 2, 6])
 ```
 
+![Unlink the middle from the node in front of it](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-5-unlink-the-middle.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 5.*
+
 ## 23 reaches one and 15 does not
 
 Replace a non-negative integer by the sum of the squares of its digits, and repeat. A value that reaches 1 is happy. Report the chain and the value where the one-step and two-step walks meet, for 23, for 15, for 1, and for 7.
@@ -344,6 +364,10 @@ print(chain_and_meeting(4))
 # ([7, 49, 97, 130, 10, 1], 1, True)
 # ([4, 16, 37, 58, 89, 145, 42, 20], 4, False)
 ```
+
+![23 reaches one and 15 does not](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-6-23-reaches-one-15-does-not.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 6.*
 
 ## Three steps for the fast pointer
 
@@ -408,6 +432,10 @@ print(show([4, 8, 9, 1], 1))
 # (7, 1, None, 5, 2, 5)
 # (1, 3, 8, 1, 3, 8)
 ```
+
+![Three steps for the fast pointer](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-7-three-steps-for-the-fast-pointer.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 7.*
 
 ## Which memory the question allows
 
@@ -476,6 +504,10 @@ print(("duplicate-memory-ok", "set", len(set(duplicate)), 6))
 # ('duplicate-memory-ok', 'set', 6, 6)
 ```
 
+![Which memory the question allows](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-8-which-memory-the-question-allows.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 8.*
+
 ## The same value on two nodes
 
 The exercise list `9 → 2 → 9 → 2 → 9` has no link from the last node. A check that compares `.val` reports a cycle. A check that compares nodes does not. What does each check return on that list, on a single node that holds `2` and points at itself, and on `3 → 5 → 7` linked back to `3`?
@@ -532,3 +564,7 @@ print(show([3, 5, 7], 0))
 # (True, True)
 # (True, True)
 ```
+
+![The same value on two nodes](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills-9-same-value-on-two-nodes.png)
+
+*Source: [`diagrams/fast-and-slow-pointers-drills.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-drills.drawio), page 9.*
