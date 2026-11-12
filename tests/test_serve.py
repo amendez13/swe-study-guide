@@ -570,6 +570,7 @@ CODING_PROBLEMS_TOPICS = (
     "07_Hard_Problems",
     "09_Two_Pointers",
     "10_Hash_Maps_and_Sets",
+    "11_Linked_Lists",
 )
 
 
@@ -595,6 +596,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Hard Problems",
         "Two Pointers",
         "Hash Maps and Sets",
+        "Linked Lists",
     ]
 
 
@@ -923,6 +925,39 @@ def test_hash_maps_and_sets_topic_exposes_drills() -> None:
     assert "pair_sum_unsorted" in notes
 
 
+def test_linked_lists_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "11_Linked_Lists")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Linked Lists"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "11_Linked_Lists"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Linked-list problems are pointer rewiring",
+        "## A dummy head when the head can change",
+        "## A fixed gap between two node pointers",
+        "## A hash map plus a doubly linked list",
+        "## Reverse a Singly Linked List (LeetCode-style: Reverse Linked List)",
+        "## Remove the Kth Last Node (LeetCode-style: Remove Nth Node From End of List)",
+        "## The Node Two Lists Share (LeetCode-style: Intersection of Two Linked Lists)",
+        "## Least-Recently-Used Cache (LeetCode-style: LRU Cache)",
+        "## A List That Reads the Same Both Ways (LeetCode-style: Palindrome Linked List)",
+        "## Flatten Child Lists One Level at a Time",
+        "## A rewiring, a gap, a map, or a copy",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "reverse_iter" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -936,11 +971,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "07_Hard_Problems",
         "09_Two_Pointers",
         "10_Hash_Maps_and_Sets",
+        "11_Linked_Lists",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[9:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[10:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
