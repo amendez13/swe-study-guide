@@ -1088,7 +1088,7 @@ def test_stacks_topic_exposes_drills() -> None:
         "## A valid bracket expression (LeetCode-style: Valid Parentheses)",
         "## The next greater value to the right",
         "## Evaluate plus, minus, and parentheses (LeetCode-style: Basic Calculator)",
-        "## Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates In String)",
+        "## Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates in String)",
         "## A queue built from two stacks (LeetCode-style: Implement Queue using Stacks)",
         "## The maximum of every window (LeetCode-style: Sliding Window Maximum)",
     ):

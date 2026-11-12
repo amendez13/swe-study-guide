@@ -86,9 +86,9 @@ print(min_remove("())("))
 
 ## Multiply and divide with no parentheses
 
-The exercise expression is `14-3*2+8/3`. Integers are non-negative, the operators are `+`, `-`, `*`, and `/`, and division truncates toward zero. There are no parentheses. What is the value? Also answer `7*2+3`, `8/3`, an empty string, and `6-8`.
+The exercise expression is `14-3*2+8/3`. Integers are non-negative, the operators are `+`, `-`, `*`, and `/`, and division truncates toward zero. There are no parentheses. What is the value? Also answer `7*2+3`, `8/3`, an empty string, `6-8`, and `2147483647*2147483647/100`, which divides the square of the largest integer in the stated range by 100.
 
-**Answer:** The value is 10. Multiplication and division happen before the surrounding addition: `3*2` is 6 and `8/3` truncates to 2, so the expression is `14 - 6 + 2`. Keep a stack of terms that still have to be added. A `+` or `-` pushes the next number with that sign. A `*` or `/` pops the latest term, combines it with the new number, and pushes the combination back. A sentinel operator at the end flushes the last number. `int(prev / number)` truncates toward zero. `//` would floor, and `int(-5 / 2)` is -2 while `-5 // 2` is -3. The numbers in this contract are non-negative, and a subtraction can still leave a negative term for a later add. Each character is handled once, so the time is O(n). The stack holds one term per `+` or `-`, so the extra memory is O(n). An empty string returns 0. `7*2+3` is 17. `8/3` is 2. `6-8` is -2. A divisor of 0 is outside the contract. LeetCode 227, Basic Calculator II, is this expression for length 1 through 3 · 10⁵, non-negative integers up to 2³¹ - 1, a result that fits in a 32-bit integer, and division that truncates toward zero. `eval` is forbidden there, and it is not used here. The parenthesis form, with no multiplication, is the calculator card in this topic.
+**Answer:** The value is 10. Multiplication and division happen before the surrounding addition: `3*2` is 6 and `8/3` truncates to 2, so the expression is `14 - 6 + 2`. Keep a stack of terms that still have to be added. A `+` or `-` pushes the next number with that sign. A `*` or `/` pops the latest term, combines it with the new number, and pushes the combination back. A sentinel operator at the end flushes the last number. Division truncates toward zero. `//` floors, so `-5 // 2` is -3 while the toward-zero quotient is -2. `int(prev / number)` uses a float. A product of two values near 2³¹ no longer fits in the exact integer range of that float, so the quotient can round. The function divides with integers: the sign of the previous term is restored after `abs(prev) // number`. The numbers in this contract are non-negative, and a subtraction can still leave a negative term for a later multiply or divide. Each character is handled once, so the time is O(n). The stack holds one term per `+` or `-`, so the extra memory is O(n). An empty string returns 0. `7*2+3` is 17. `8/3` is 2. `6-8` is -2. At the top of the stated range, `2147483647*2147483647/100` is 46116860141324206. Float division of that product returns 46116860141324208. A divisor of 0 is outside the contract. LeetCode 227, Basic Calculator II, is this expression for length 1 through 3 · 10⁵, non-negative integers up to 2³¹ - 1, a result that fits in a 32-bit integer, and division that truncates toward zero. `eval` is forbidden there, and it is not used here. The parenthesis form, with no multiplication, is the calculator card in this topic.
 
 ```python
 def calculate(expression: str) -> int:
@@ -111,7 +111,8 @@ def calculate(expression: str) -> int:
             stack.append(stack.pop() * number)
         elif sign == "/":
             prev = stack.pop()
-            stack.append(int(prev / number))
+            quotient = abs(prev) // number
+            stack.append(-quotient if prev < 0 else quotient)
         sign = ch
         number = 0
     return sum(stack)
@@ -119,8 +120,10 @@ def calculate(expression: str) -> int:
 
 print(calculate("14-3*2+8/3"))
 print(calculate("7*2+3"), calculate("8/3"), calculate(""), calculate("6-8"))
+print(calculate("2147483647*2147483647/100"))
 # 10
 # 17 2 0 -2
+# 46116860141324206
 ```
 
 ## Asteroids that meet head-on
@@ -236,18 +239,18 @@ print(replay(True))
 
 This deque stores values, and once the first window is full it pops the front on every later step. The exercise readings are `[3, 1, 4, 2]` and the window length is 3. What does it report, and what is the maximum of each window?
 
-**Answer:** The buggy scan reports `[4, 2]`. The windows are `[3, 1, 4]` and `[1, 4, 2]`, so the maximums are `[4, 4]`. At the 4, the 3 and the 1 are smaller and they leave the back of the deque. The next step pops the front because the window moved, and the front is now that 4, which is still inside `[1, 4, 2]`. The value that actually left was the 3, and it was already gone. A value has no index, so the deque cannot tell those two facts apart. Store the index, drop the front only when `index <= i - k`, and the same readings report `[4, 4]`. Both scans are O(n) stack operations. The correct one uses O(k) indexes. The [Monotonic deque: sliding window maximum](../../07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/) card is the index version on a different list. LeetCode 239 requires `1 <= k <= length`. This pair of functions uses a k of 3 on a list of 4.
+**Answer:** The buggy scan reports `[4, 2]`. The windows are `[3, 1, 4]` and `[1, 4, 2]`, so the maximums are `[4, 4]`. At the 4, the 3 and the 1 are smaller and they leave the back of the deque. The next step pops the front because the window moved, and the front is now that 4, which is still inside `[1, 4, 2]`. The value that actually left was the 3, and it was already gone. A value has no index, so the deque cannot tell those two facts apart. Store the index, drop the front only when `index <= i - k`, and the same readings report `[4, 4]`. Both scans push each entry once and pop it at most once, so both are linear and both stay inside the window. The correct one stores indexes. The buggy one stores the value, so a moved window and a dominated value look the same. The [Monotonic deque: sliding window maximum](../../07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/) card is the index version on a different list. LeetCode 239 requires `1 <= k <= length`. This pair of functions uses a k of 3 on a list of 4.
 
 ```python
 from collections import deque
 
 
 def window_max_values(values: list[int], k: int) -> list[int]:
-    dq: list[int] = []
+    dq: deque[int] = deque()
     out = []
     for i, value in enumerate(values):
         if i >= k and dq:
-            dq.pop(0)
+            dq.popleft()
         while dq and dq[-1] <= value:
             dq.pop()
         dq.append(value)
