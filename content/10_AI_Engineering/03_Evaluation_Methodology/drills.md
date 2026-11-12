@@ -60,6 +60,10 @@ print(verdict(DROP_SQL, None))
 # refuse to run
 ```
 
+![Rows or Strings](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-1-rows-or-strings.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 1.*
+
 ## Doubled Surprise
 
 You replaced the tokenizer on a base model. The new vocabulary is larger, in the direction of the Llama 2 vocabulary of 32,000 pieces toward the Llama 3 vocabulary of 128,256, and these losses are an exercise, not Meta's measurements. On 8,000 bytes of ASCII support transcripts, the old tokenizer produces 2,000 tokens at a mean loss of 1.6 nats. The new tokenizer produces 1,200 tokens at a mean loss of 2.4 nats. A teammate wants to revert because perplexity more than doubled.
@@ -107,6 +111,10 @@ print(f"{bits_per_byte(OLD_LOSS, OLD_TOKENS):.4f} {bits_per_byte(NEW_LOSS, NEW_T
 # 0.5771 0.5194
 ```
 
+![Doubled Surprise](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-2-doubled-surprise.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 2.*
+
 ## Helpful or Correct
 
 A Zendesk draft bot for a Shopify returns desk is graded by a judge prompted with "is this helpful?" People relabel the same 40 drafts with three checks: the return window matches the article, the draft does not promise a refund the article refuses, and the draft tells the customer the next step. A draft passes only when all three hold. The confusion matrix against the judge is 22 drafts both call a pass, 4 the person passes and the judge fails, 6 the person fails and the judge passes, and 8 both call a fail.
@@ -140,6 +148,10 @@ print(f"{agreements / labeled:.4f} {chance:.4f} {kappa:.4f}")
 # 0.7500 0.5600 0.4318
 ```
 
+![Helpful or Correct](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-3-helpful-or-correct.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 3.*
+
 ## Swap the Sides
 
 You are choosing between two prompt variants for Gmail's Smart Reply, call them answer A and answer B, with a judge. On 12 real threads the judge sees A first and picks A 10 times. You were about to ship A. The same 12 threads, with the order swapped, are the second row. The letter is the answer, not the slot.
@@ -170,6 +182,10 @@ print(kept.count("A"), kept.count("B"), kept.count("flip"))
 # 10 12
 # 5 1 6
 ```
+
+![Swap the Sides](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-4-swap-the-sides.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 4.*
 
 ## Thirty or Sixty
 
@@ -230,6 +246,10 @@ print(f"{paraphrase[0]:.4f} " + " ".join(f"{precision:.4f}" for precision in par
 # 0.7071 0.8750 0.7143 0.6667 0.6000
 # 0.0000 0.3333 0.1250 0.0000 0.0000
 ```
+
+![Thirty or Sixty](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-5-thirty-or-sixty.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 5.*
 
 ## Uneven Schedule
 
@@ -321,6 +341,10 @@ print(" ".join(f"{rated[name]:.3f}" for name in by_strength), by_strength)
 # 0.502 0.227 0.141 0.093 0.037 ['finetune', 'prod', 'llama', 'mistral', 'small']
 ```
 
+![Uneven Schedule](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-6-uneven-schedule.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 6.*
+
 ## Strong or Cheap
 
 A nightly regression judges 50,000 pairwise Gmail thread summaries. Each judgment sends 1,600 input tokens, the rubric plus both summaries, and receives 200 output tokens. Exercise rates, not a rate card: the strong judge is $2.50 per million input tokens and $10 per million output tokens. The small judge is $0.15 and $0.60 on the same units. On a 100-row human audit the strong judge agrees on 84 rows and the small judge agrees on 61.
@@ -369,6 +393,10 @@ print(f"{STRONG_AGREE / AUDIT:.2f} {SMALL_AGREE / AUDIT:.2f}")
 # 0.84 0.61
 ```
 
+![Strong or Cheap](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-7-strong-or-cheap.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 7.*
+
 ## Wikipedia Rose
 
 A Llama-style base model and the instruct checkpoint trained from it share a tokenizer. On a held-out Wikipedia slice the exercise losses are 2.15 nats for the base model and 2.55 nats for the instruct model. These are not published Llama losses. On 100 Intercom replies, raters prefer the instruct draft 62 times. On 40 held-out tickets where the policy window is checkable, the instruct draft states it correctly 37 times and the base draft states it correctly 21 times. A teammate wants to revert to the base model because Wikipedia perplexity rose by half.
@@ -409,3 +437,7 @@ print(INSTRUCT_WINDOW, BASE_WINDOW, WINDOW_TICKETS)
 # 62 100
 # 37 21 40
 ```
+
+![Wikipedia Rose](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills-8-wikipedia-rose.png)
+
+*Source: [`diagrams/evaluation-methodology-drills.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-drills.drawio), page 8.*
