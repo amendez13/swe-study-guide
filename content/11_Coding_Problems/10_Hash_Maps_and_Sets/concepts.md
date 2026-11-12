@@ -6,7 +6,7 @@ A scan answers "have I seen this?" by walking everything stored so far. The key 
 
 Python's `dict` is the map and `set` is the set. Since Python 3.7, a `dict` preserves insertion order: updating a key does not move it, and a key inserted again after a deletion goes to the end. The language still calls a `set` unordered. Do not depend on set iteration order. Keys have to be hashable. A `list` and a `set` are not. A `tuple` of hashables is. A `frozenset` is. The mechanics of the hash, of collisions, and of the load factor sit on the [Hash table fundamentals](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/), [Hash collisions and resolution strategies](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/), and [Load factor and rehashing](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) cards. CPython stores a `dict` in an open-addressed table. It salts the hash of a `str` and of `bytes` with a per-process secret, so a collision set built in one process does not transfer to the next. Integer hashes are not salted. A small integer hashes to itself, except that `hash(-1)` is `-2` because the implementation reserves `-1` as an internal error code. Integers that do not fit the hash width are reduced.
 
-You reach for the pattern when the statement says frequency, unique, duplicate, seen before, group, lookup, or count, and a pointer move has nothing ordered to discard. The [Two pointers, a hash map, or brute force](../09_Two_Pointers/) card is that fork from the pointer side. This topic is the key side: what you store, when you store it, and what the key has to mean.
+You reach for the pattern when the statement says frequency, unique, duplicate, seen before, group, lookup, dictionary, or count, and a pointer move has nothing ordered to discard. The [Two pointers, a hash map, or brute force](../09_Two_Pointers/) card is that fork from the pointer side. This topic is the key side: what you store, when you store it, and what the key has to mean.
 
 One operation is expected O(1) while keys spread across buckets, and O(n) when every key lands in one bucket. n operations are therefore expected O(n) and worst-case O(n^2). A resize, covered on the load-factor card, makes a long run of inserts amortized O(1) on top of the hash cost, the same accounting as a dynamic array. Say "expected" for the hash. Say O(n log n) when you sorted and want a guarantee that does not depend on the hash.
 
@@ -77,7 +77,7 @@ The pass is expected O(n) time and O(n) extra memory, and O(n^2) time if every k
 
 A counting map stores, under each key, how many times that key has appeared.
 
-The second fact is a lookup. Which code appears more than once, which character appears once, which jar is missing: build the counts, then read them. POSIX `uniq -c` can prefix a count, and it only compares adjacent lines, so the file has to be sorted first when equal lines are not already neighbors. A hash map counts without that sort. `collections.Counter` is this map with a zero default. The [Frequency map and character counting](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card, the [Frequency map](../../07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/) card, and the [Count with a map](../06_Moderate_Problems/) card already use it for anagrams and repeated lengths. The loop below is the same map written out, on exercise status codes rather than those examples.
+The second fact is a lookup. Which code appears more than once, and which character appears once: build the counts, then read them. POSIX `uniq -c` can prefix a count, and it only compares adjacent lines, so the file has to be sorted first when equal lines are not already neighbors. A hash map counts without that sort. `collections.Counter` is this map with a zero default. The [Frequency map and character counting](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card, the [Frequency map](../../07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/) card, and the [Count with a map](../06_Moderate_Problems/) card already use it for anagrams and repeated lengths. The loop below is the same map written out, on exercise status codes rather than those examples.
 
 When the key is a small dense integer, the map is an array. Twenty-six lowercase letters are indexes `ord(ch) - ord("a")`. Digits are indexes `0` through `9`. The array operation is worst-case O(1), not expected O(1), and the extra memory is the fixed length of the array. A hash of those same letters still works and adds a collision case the array does not have.
 
@@ -276,7 +276,7 @@ print(valid_digit_grid(place(blank(), 0, 0, "a")), valid_digit_grid([]), valid_d
 
 Two fives at `(0, 0)` and `(1, 1)` sit in different rows and different columns. They share block 0, so the grid is invalid. Two eights at the ends of row 4 share a row. Two twos in column 6 share a column. Two fives at `(0, 0)` and `(3, 3)` sit in different rows, columns, and blocks, so a repeated digit is fine. An all-dot grid has nothing to conflict and passes. A letter is not a digit and not a dot, so it fails. A board that is not 9 by 9 fails the shape check. Nothing in the loop writes a digit into a dot. A pass is not a completed puzzle and not a proof that a completion exists. LeetCode 37, Sudoku Solver, is that search.
 
-The fixed board has 81 cells, so the time and the extra memory are O(1). Each set holds at most nine digits. For an `s` by `s` board with block width `b`, the block index is `(r // b) * (s // b) + c // b`, and the time and extra memory are O(s^2). Digits 1 through 9 also fit a length-10 array of booleans per row, per column, and per block. That array drops the hash. The sets generalize to tokens that are not a tiny integer range. LeetCode 36 promises a 9 by 9 board whose cells are already `'.'` or `'1'` through `'9'`, and it asks only for validity. This card also rejects a short board and a character outside that alphabet.
+The fixed board has 81 cells, so the time and the extra memory are O(1). Each set holds at most nine digits. For an `s` by `s` board whose block width `b` divides `s`, the block index is `(r // b) * (s // b) + c // b`, and the time and extra memory are O(s^2). A width that does not divide the side is not this grid. Digits 1 through 9 also fit a length-10 array of booleans per row, per column, and per block. That array drops the hash. The sets generalize to tokens that are not a tiny integer range. LeetCode 36 promises a 9 by 9 board whose cells are already `'.'` or `'1'` through `'9'`, and it asks only for validity. This card also rejects a short board and a character outside that alphabet.
 
 **Trade-offs.** Three families of sets are one pass and expected constant work per cell. A boolean array per family is worst-case constant work per cell on this alphabet. Checking every pair of cells in a row is correct and clumsier. Searching for a completion is a different problem with a different cost. Treating a dot as a digit makes every blank collide with every other blank.
 
@@ -441,7 +441,7 @@ Count index triplets `i < j < k` whose values form a geometric step with a given
 
 Take each value as the middle. Its left partner is `value // ratio` when `value` is divisible by `ratio`. Its right partner is `value * ratio`. A map of values already passed supplies the left count. A map of values not yet passed supplies the right count. The product is the number of triplets with this middle, because every earlier partner pairs with every later partner and the indexes stay in order. Drop the current value from the later map before the product. It is the middle, so it is not a legal right partner. Leaving it in inflates the product whenever the right partner equals the middle: ratio `1`, or a zero with any nonzero ratio.
 
-Ratio `0` is a different formula. The middle must be `0` and the right partner must be `0`. Any earlier value times `0` is `0`, so the left count is the number of values already passed, not the number of earlier zeros. `value % ratio` and `value // ratio` raise `ZeroDivisionError` when the ratio is `0`, so that case is a branch, not a division. Truncating division without the divisibility test is a false hit: `5 // 2` is `2`, and a stored `2` is not a value that produces `5` when doubled. Python's `%` and `//` agree for a negative ratio, because `%` is the remainder of floor division. The lists below are exercise numbers.
+Ratio `0` is a different formula. The middle must be `0` and the right partner must be `0`. Any earlier value times `0` is `0`, so the left count is the number of values already passed, not the number of earlier zeros. `value % ratio` and `value // ratio` raise `ZeroDivisionError` when the ratio is `0`, so that case is a branch, not a division. Using `//` without a remainder test is a false hit. `//` floors, and `%` is that floor remainder, including when the ratio is negative. On these positive numbers the floor drops the fraction: `5 // 2` is `2`, and a stored `2` is not a value that produces `5` when doubled. The lists below are exercise numbers.
 
 ```python
 def count_fixed_ratio(values: list[int], ratio: int) -> int:
@@ -479,7 +479,7 @@ def count_if_current_stays_on_the_right(values: list[int], ratio: int) -> int:
     return total
 
 
-def count_truncating(values: list[int], ratio: int) -> int:
+def count_skipping_remainder(values: list[int], ratio: int) -> int:
     earlier: dict[int, int] = {}
     later: dict[int, int] = {}
     for value in values:
@@ -496,7 +496,7 @@ def count_truncating(values: list[int], ratio: int) -> int:
 print(count_fixed_ratio([3, 6, 12, 4, 8], 2))
 print(count_fixed_ratio([4, 4, 4, 4], 1), count_if_current_stays_on_the_right([4, 4, 4, 4], 1))
 print(count_fixed_ratio([0, 0, 0], 5), count_fixed_ratio([5, 0, 0], 0))
-print(count_fixed_ratio([2, 5, 10], 2), count_truncating([2, 5, 10], 2))
+print(count_fixed_ratio([2, 5, 10], 2), count_skipping_remainder([2, 5, 10], 2))
 print(count_fixed_ratio([2, -4, 8], -2), count_fixed_ratio([], 3), count_fixed_ratio([9], 3), count_fixed_ratio([9, 18], 2))
 # 1
 # 4 10
@@ -505,7 +505,7 @@ print(count_fixed_ratio([2, -4, 8], -2), count_fixed_ratio([], 3), count_fixed_r
 # 1 0 0 0
 ```
 
-`[3, 6, 12, 4, 8]` with ratio `2` has one triplet, indexes `(0, 1, 2)`. Four equal values with ratio `1` have `C(4, 3) = 4` triplets. Leaving the current value on the right counts `10`. Three zeros with ratio `5` are one triplet, because `0 * 5` is `0`. `[5, 0, 0]` with ratio `0` is one triplet: the `5` is a legal left value. `[2, 5, 10]` with ratio `2` has no triplet. Truncating `5 // 2` invents one. `[2, -4, 8]` with ratio `-2` is one triplet. Fewer than three values is zero.
+`[3, 6, 12, 4, 8]` with ratio `2` has one triplet, indexes `(0, 1, 2)`. Four equal values with ratio `1` have `C(4, 3) = 4` triplets. Leaving the current value on the right counts `10`. Three zeros with ratio `5` are one triplet, because `0 * 5` is `0`. `[5, 0, 0]` with ratio `0` is one triplet: the `5` is a legal left value. `[2, 5, 10]` with ratio `2` has no triplet. Skipping the remainder test on `5 // 2` invents one. `[2, -4, 8]` with ratio `-2` is one triplet. Fewer than three values is zero.
 
 The scan is expected O(n) time and O(n) extra memory, and O(n^2) time if every key collides. Three nested loops are O(n^3) and constant extra memory, and they are the check on a short list. Sorting does not preserve index order, and the constraint `i < j < k` is about positions. HackerRank's Count Triplets is this count for a positive ratio and positive values, so ratio `0`, zeros, and negatives do not arise there. This card includes them. Python's product grows. A fixed-width `value * ratio` can wrap and look up the wrong key, which is the [Overflow-safe arithmetic](../06_Moderate_Problems/) card.
 
@@ -565,7 +565,7 @@ print(pair_costs([8, 3, 11, 2, 15, 7], 17))
 # (13, 5, 1, (3, 4))
 ```
 
-The double loop stops at the first hit, after 13 additions. The hash examines 5 values. The fifth is `15`, whose complement `2` is already stored. The inward scan on the sorted copy adds `2 + 15` once and stops. Those indexes are into the sorted copy, not into the caller's list. A different target moves the counts. The bounds do not: quadratic for the nested loop, expected linear for the hash, linear for the inward scan after an O(n log n) sort.
+The double loop stops at the first hit, after 13 additions, and that hit is the pair `(3, 4)` in the caller's list: `2` and `15`. Six values have 15 pairs, and this run stops early. The hash examines 5 values. The fifth is `15`, whose complement `2` is already stored. The inward scan sorts a copy to `[2, 3, 7, 8, 11, 15]`, adds `2 + 15` once, and stops. Its left and right indexes point into that copy, and this function does not return them. A different target moves the counts. The bounds do not: quadratic for the nested loop, expected linear for the hash, linear for the inward scan after an O(n log n) sort.
 
 The other problems in this topic are not pair searches, so two pointers are not the competitor. The digit grid wants three grouping keys, and a length-10 boolean array is the dense-key alternative. The zeroing wants a record of rows and columns, and the matrix itself can hold that record. The consecutive run wants membership of a neighbor. A sort answers it with a guarantee, and a presence array does not fit a sparse range. The ratio triplets want two counts and index order, which a sort throws away. A sliding window, on the [Sliding window](../06_Moderate_Problems/) card, is the tool when the constraint is a contiguous segment. A set of the values inside that segment is a hash used by the window, not a replacement for it.
 
