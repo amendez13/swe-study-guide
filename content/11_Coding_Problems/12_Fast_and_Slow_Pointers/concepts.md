@@ -65,6 +65,10 @@ The walk is O(n) time and O(1) extra memory. The fast pointer follows at most tw
 
 **Recap.** Two pointers at different speeds answer cycle and middle questions on a chain that has no indexes. The usual speeds are one step and two steps, both starting at the head, and the comparison is node identity after the move. The walk is linear time and constant extra memory. A set of identities is the linear-memory alternative. Pollard's rho factoring method uses the same one-step and two-step schedule on x → (x² + 1) mod n. Linux symlink lookup stops at 40 traversals instead.
 
+![Fast and slow pointers](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-1-fast-and-slow-pointers.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 1.*
+
 ## Why the faster pointer meets the slower one
 
 Once both pointers are on a cycle, and the speeds are one step and two steps, the distance from the fast pointer forward to the slow pointer shrinks by 1 on every iteration, so it reaches 0.
@@ -184,6 +188,10 @@ The six rows are the iteration, the slow value, the fast value, and the forward 
 
 **Recap.** With steps 1 and 2, the distance from the fast pointer forward to the slow pointer shrinks by 1 per iteration on the cycle, so the two pointers meet. A straight chain makes the fast pointer reach `None` instead. A larger constant speed still detects a cycle when both pointers start together, and it can miss when they start apart. On the five speed pairs in the block, all 660 looping chains met and all 60 straight chains fell off. The node where they meet is not, by itself, the entrance of the cycle, and the one-step reset that finds the entrance is proved for steps 1 and 2.
 
+![Why the faster pointer meets the slower one](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-2-why-they-meet.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 2.*
+
 ## Does This List Loop? (LeetCode-style: Linked List Cycle)
 
 Decide whether a singly linked list contains a cycle. Return true when some node is reachable again by following `next`, and false when the last node points at `None`.
@@ -263,6 +271,10 @@ Time is O(n). Extra memory is O(1). The set of node identities is expected O(n) 
 **Interview.** Repeat the question as a boolean about node identity. Write the guard as `fast is not None and fast.next is not None`, then the two moves, then `is`. Give the empty list, the self-loop, the straight list, and one list whose values repeat without a cycle. Mention that an odd-length straight list can hide a reversed guard. State O(n) time and O(1) extra memory, and mention the set as the alternative you would write first if memory were free.
 
 **Recap.** A list loops when the one-step pointer and the two-step pointer land on the same node. They start at the head, and the fast pointer's guard names the node before `next`. Equal values on different nodes are not a cycle. LeetCode 141 allows an empty list and asks for constant extra memory as a follow-up. The unsafe order `fast.next and fast` crashes when `fast` is `None`, which an even-length straight list produces and an odd-length straight list can skip.
+
+![Does This List Loop? (LeetCode-style: Linked List Cycle)](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-3-linked-list-cycle.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 3.*
 
 ## The Node Where the Cycle Starts (LeetCode-style: Linked List Cycle II)
 
@@ -367,6 +379,10 @@ Finding the entrance is O(n) time and O(1) extra memory. The identity set is exp
 
 **Recap.** After the one-step and two-step pointers meet, send one back to the head and move both one step at a time. They meet at the entrance. The slow pointer's travel at the first meeting is a multiple of the cycle length, for one lap or for several, so the remaining walk from the meeting node equals the stem length modulo the cycle, and walking the whole stem absorbs the extra laps. A stem longer than the cycle, a cycle through the head, and a self-loop at the tail all use that same reset. LeetCode 142 returns the node and allows an empty list. The meeting node itself is a different node whenever the slow pointer has not landed on the entrance. A fast step of 3 keeps the detection and can lose this reset, because its meeting count need not be a multiple of the cycle length.
 
+![The Node Where the Cycle Starts (LeetCode-style: Linked List Cycle II)](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-4-cycle-entrance.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 4.*
+
 ## Which middle the loop stops on
 
 The middle this topic returns is the node at 0-based index n // 2. On an even length that is the second of the two middle nodes.
@@ -454,6 +470,10 @@ Each row is version A, version B, and index n // 2. Version A matches the index 
 
 **Recap.** Version A, the loop `while fast is not None and fast.next is not None`, returns the node at index n // 2. On an even length that is the second middle, the same node the even-length middle drill calls version A and the same node the palindrome card reverses from. Version B starts the fast pointer one node ahead and, on an even length, stops on the first middle, where a split cuts the list. An odd length has one middle, and both versions stop on it.
 
+![Which middle the loop stops on](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-5-which-middle.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 5.*
+
 ## The Middle Node (LeetCode-style: Middle of the Linked List)
 
 Return the middle node of a singly linked list. When the length is even, return the second middle node.
@@ -519,6 +539,10 @@ Time is O(n). Extra memory is O(1). The count-then-walk version is the same clas
 **Interview.** Quote the even-length rule in one sentence: second middle, index n // 2, the same node version A returns. LeetCode 876 starts at one node and limits values to 1 through 100. Say you also define empty as `None` if that input is on the table. Walk `4 → 9` and a five-node list out loud. Mention the palindrome use and the split use so the interviewer hears that you know both middles.
 
 **Recap.** The middle node in this problem is the slow pointer after the fast pointer can no longer take two steps. On an even length that is the second middle, index n // 2, consistent with version A and with the palindrome split of the second half. LeetCode 876 requires at least one node and values from 1 to 100. An empty list is outside that contract, and this card returns `None` for it. The walk is linear time and constant extra memory.
+
+![The Middle Node (LeetCode-style: Middle of the Linked List)](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-6-middle-node.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 6.*
 
 ## A sequence of next values is a linked list
 
@@ -588,6 +612,10 @@ The cycle walk is O(n) time and O(1) extra memory. The value-range count is O(n 
 **Interview.** Say the contract before the loop: length n + 1, values in 1 through n, one repeated value, the array stays intact, constant extra memory. Then say index 0 is a stem because nothing stores 0. The repeated value is the entrance, found by the same reset as a linked list. Mention the count of values at most m as the other constant-memory method, and give its O(n log n) time. Walk `[2, 5, 1, 4, 3, 2]` from index 0 out loud.
 
 **Recap.** A function from a value to the next value is a linked list. On an array of n + 1 entries drawn from 1 through n, index i points at `nums[i]`, index 0 is a stem, and the cycle entrance is the repeated value. One step and two steps, then the reset back to 0, find it in linear time and constant extra memory without modifying the array. Counting how many values are at most m finds the same value in O(n log n) time. LeetCode 287 requires the constant-memory bound. A set of seen values is the linear-memory version.
+
+![A sequence of next values is a linked list](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-7-sequence-is-a-linked-list.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 7.*
 
 ## Reaching One by Squaring Digits (LeetCode-style: Happy Number)
 
@@ -701,6 +729,10 @@ print(cycle_keys(243))
 
 **Recap.** A happy number reaches 1 by replacing the value with the sum of the squares of its digits. The sequence is a linked list, so two speeds detect the cycle, and the number is happy when they meet at 1. LeetCode 202 starts at 1 and stops at 2³¹ − 1. A number with 4 or more digits steps to at most 81 times its digit count. Under the published cap that next value is at most 810, and one more step is at most 211, inside 0 through 243. The only cycles in that range are 0 → 0, 1 → 1, and the cycle through 4, so the sequence must repeat, and it is happy exactly when the cycle is 1. That is an O(log n) check. Two speeds use a constant number of integers. A negative quotient under Python's `divmod` is not a digit peel.
 
+![Reaching One by Squaring Digits (LeetCode-style: Happy Number)](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-8-happy-number.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 8.*
+
 ## Two speeds, or a set of seen values
 
 The choice follows what the statement asks you to return, and how much extra memory it allows.
@@ -771,3 +803,7 @@ The first row is a boolean cycle question: two references against a set that sto
 **Interview.** Start from the sentence the interviewer asked. Boolean cycle, tight memory: two speeds. Entrance as well: the reset, still two references. The values along the way: a set. Middle of a linked list: version A, and say the second middle. Happy number: two speeds, with the set as the short alternative. Duplicate, constant memory, array unchanged: the index cycle or the count. Then name the edges that match the question you picked.
 
 **Recap.** Two speeds are the constant-memory tool for a cycle, an entrance, a middle, and a repeated function. A set of seen nodes or values is the tool when the answer is the path, or when linear memory is allowed and the code should stay obvious. On the seven-node exercise cycle the set stores 7 nodes and the two speeds store 2 references. The duplicate and the happy number are the same choice applied to a function.
+
+![Two speeds, or a set of seen values](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers-9-two-speeds-or-a-set.png)
+
+*Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 9.*
