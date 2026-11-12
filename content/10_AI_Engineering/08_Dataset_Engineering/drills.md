@@ -187,7 +187,7 @@ print(f"{full_correct / EVAL_N:.2f} {CLEAN_CORRECT / clean:.2f}")
 
 ## Outputs you do not get to train on
 
-You want a support assistant you will host and sell. The plan is to call the OpenAI API for 50,000 demonstrations, then finetune a Llama student on that file. The clause in front of you assigns ownership of the output to the customer. The public wording in front of you is the consumer Terms of Use effective January 1, 2026, and the business terms effective May 1, 2025. The account you would actually call may be on a later page. The 50,000 is the size of this plan, not a public dataset.
+You want a support assistant you will host and sell. The plan is to call the OpenAI API for 50,000 demonstrations, then finetune a Llama student on that file. The clause in front of you assigns ownership of the output to the customer. The public wording in front of you is the consumer Terms of Use and the Services Agreement, both effective January 1, 2026. The May 1, 2025 business terms are the previous page and use the same exception. The account you would actually call may be on a later page or an order form. The 50,000 is the size of this plan, not a public dataset.
 
 Does ownership of the output make the Llama finetune allowed, and what would be allowed instead?
 
@@ -198,7 +198,7 @@ WILL_DISTRIBUTE = True
 PURPOSE = "general support assistant"
 ```
 
-**Answer:** Ownership does not make the finetune allowed. The consumer terms prohibit using Output to develop models that compete with OpenAI. They also prohibit automatically or programmatically extracting Output, which is a second problem if the rows are harvested from the consumer product rather than generated under an API agreement. The business terms prohibit using Output to develop models that compete with OpenAI's products and services, except a permitted exception. The exception covers a model whose purpose is to categorize, classify, or organize data, such as a classifier or an embedding model, when that model is not distributed, and it covers fine-tuning through OpenAI's own services. A Llama you host and sell as a support assistant is the competing-model case. An internal refund classifier you never ship is the classification exception, and only against the contract on that account. Fine-tuning inside OpenAI's service is the other exception, and it does not give you weights to host. The remaining clean paths are demonstrations people write, and a teacher whose license allows the training. The license on the Llama student is a second document, on the open-weights card in [Evaluate AI Systems](../04_Evaluate_AI_Systems/). Read the page the account is actually on before you generate the file. These two effective dates are the public pages, and they move.
+**Answer:** Ownership does not make the finetune allowed. The consumer terms prohibit using Output to develop models that compete with OpenAI. They also prohibit automatically or programmatically extracting data or Output, which is a second problem if the rows are harvested from the consumer product rather than generated under an API agreement. The Services Agreement prohibits using Output to develop models that compete with OpenAI's products and services, except a permitted exception. The exception covers a model primarily intended to categorize, classify, or organize data, such as a classifier or an embedding model, when that model is not distributed or made commercially available to third parties, and it covers fine-tuning models OpenAI itself provides. A Llama you host and sell as a support assistant is the competing-model case. An internal refund classifier you never ship is the classification exception, and only against the contract on that account. Fine-tuning inside OpenAI's service is the other exception, and it does not give you weights to host. The remaining clean paths are demonstrations people write, and a teacher whose license allows the training. The license on the Llama student is a second document, on the open-weights card in [Evaluate AI Systems](../04_Evaluate_AI_Systems/). Read the page the account is actually on before you generate the file. Both public pages are effective January 1, 2026. The May 1, 2025 business terms are the previous page, with the same exception, and an order form can still differ.
 
 ```python
 def allowed(purpose: str, distribute: bool, openai_hosted_tune: bool) -> bool:
@@ -214,22 +214,19 @@ print(allowed("general support assistant", True, True))
 # True
 ```
 
-## The chat log and the template
+## The ranking of two wrappers
 
-A Zendesk transcript has to become Llama 3 supervised rows. The base is Llama 3 Instruct. Someone has already wrapped the same turns in ChatML, and someone else rendered Llama 3 headers with a single newline instead of the blank line Meta's encoder inserts. The loss, in a third experiment, was applied to every content word, user and assistant. The header tokens themselves are specified on the chat-template card in [Prompt Engineering](../05_Prompt_Engineering/). The 100-token and 20-token mask arithmetic stays on the prompt-loss card in [Finetuning](../07_Finetuning/).
+A preference file for a Llama 3 Instruct finetune has one prompt and two refunds. The chosen refund is 3200 cents. The rejected refund is 6400 cents. Someone rendered the chosen answer with Llama 3's template, including the blank line Meta's encoder inserts, and rendered the rejected answer with ChatML. The header tokens are specified on the chat-template card in [Prompt Engineering](../05_Prompt_Engineering/). The 100-token and 20-token mask, and the 0.167 share, stay on the finetuning-hyperparameters card in [Finetuning](../07_Finetuning/). The formatting card's 9-versus-18 special-token count is a different string and is not rerun here.
 
-Which rendering do you train, and which words are in the loss?
+Which comparison does this pair train, and what do you change before the loss?
 
 ```python
-TURNS = (
-    ("user", "I placed order 7781 on Monday. The tracking page still says label created, and I need the delivery date before Friday."),
-    ("assistant", "Order 7781 shipped on Tuesday."),
-    ("user", "Can I change the address before the carrier scans it?"),
-    ("assistant", "The address can be changed before the carrier scans the package."),
-)
+PROMPT = "Refund order 1001. The damaged-item rule is half of 6400 cents."
+CHOSEN = "Refunded 3200 cents."
+REJECTED = "Refunded 6400 cents."
 ```
 
-**Answer:** Train the Llama 3 rendering with the blank line, and put the loss on the assistant contents only. ChatML is a different string from that rendering. A single newline after the header is a different string from the blank line. Both can produce a falling loss on a task the server will not send. Of the content words, 16 are assistant and 31 are user, so an unmasked loss has the answer at 0.340 of the content words. The mask makes the assistant text the whole loss. The user turns stay in the context. Special tokens such as `<|eot_id|>` have to be one tokenizer id, which is the formatting card's 9-versus-18 stand-in. Apply one function in the trainer and on the server, the function that shipped with the weights.
+**Answer:** This pair trains a ranking of wrappers until both answers are rendered with the Llama 3 template. ChatML is a different string from that template, so the loss can prefer Llama 3's boundary tokens over the 3200-cent answer. Render the prompt, the chosen answer, and the rejected answer with the one function that shipped with the weights, then compute the preference loss. The amounts are still checked before that. Half of 6400 cents is 3200, so the chosen line matches the rule and the rejected line does not. A preference pair does not get to teach a wrong amount just because the wrapper was fixed. A missing blank line is also a different string. That comparison is the formatting card's worked example, and it is not repeated here.
 
 ```python
 def llama3(messages: list[tuple[str, str]], blank: str = "\n\n") -> str:
@@ -243,19 +240,16 @@ def chatml(messages: list[tuple[str, str]]) -> str:
     return "".join(f"<|im_start|>{role}\n{content}<|im_end|>\n" for role, content in messages)
 
 
-TURNS = (
-    ("user", "I placed order 7781 on Monday. The tracking page still says label created, and I need the delivery date before Friday."),
-    ("assistant", "Order 7781 shipped on Tuesday."),
-    ("user", "Can I change the address before the carrier scans it?"),
-    ("assistant", "The address can be changed before the carrier scans the package."),
-)
-official = llama3(TURNS)
-user_words = sum(len(content.split()) for role, content in TURNS if role == "user")
-assistant_words = sum(len(content.split()) for role, content in TURNS if role == "assistant")
-print(official == chatml(TURNS), official == llama3(TURNS, blank="\n"))
-print(user_words, assistant_words, f"{assistant_words / (user_words + assistant_words):.3f}")
-# False False
-# 31 16 0.340
+prompt = "Refund order 1001. The damaged-item rule is half of 6400 cents."
+chosen = llama3([("user", prompt), ("assistant", "Refunded 3200 cents.")])
+rejected_chatml = chatml([("user", prompt), ("assistant", "Refunded 6400 cents.")])
+rejected_llama = llama3([("user", prompt), ("assistant", "Refunded 6400 cents.")])
+print(chosen == rejected_chatml)
+print(rejected_llama == rejected_chatml)
+print(int(6400 * 0.5))
+# False
+# False
+# 3200
 ```
 
 ## The fluent wrong amount
@@ -287,38 +281,30 @@ print(correct, judge_kept, f"{JUDGE_KEEPS_WRONG / WRONG_AMOUNT:.3f}", f"{JUDGE_K
 # 164 198 0.944 0.172
 ```
 
-## The number left in the ticket
+## The label the filter deleted
 
-A finetune file was exported from real Zendesk tickets. A regex pass is proposed as the privacy filter before training. The three rows below are the sample you were handed. `4242-4242-4242-4242` is Stripe's published test card number. `555-010-0199` is in the fictional North American number range. `case@example.com` is a reserved example address. None of these is a customer. The pattern is what you are checking.
+A moderation classifier for Zendesk is supposed to learn the toxic class, which a person has already labeled. An exercise batch has 1,000 rows, and 180 of them are toxic. A bad-word list, the kind Dodge and coauthors documented on C4, drops 140 of the toxic rows and 25 non-toxic rows whose topic is a medication. The counts are an exercise, not a C4 statistic. Jigsaw's Perspective API is a public toxicity score with the same shape of mistake. The phone regex on the cleaning card is a different pass and is not rerun here.
 
-Do you train on the file after this regex pass?
+Do you train on the file after this list?
 
 ```python
-ROWS = (
-    "Email case@example.com or call 555-010-0199 about order 7781.",
-    "The note says to call five five five zero one zero zero one nine nine.",
-    "The tester typed 4242-4242-4242-4242 and it must not be learned.",
-)
+ROWS = 1_000
+TOXIC = 180
+DROPPED_TOXIC = 140
+DROPPED_MEDICATION = 25
 ```
 
-**Answer:** Do not train on the file after this pass alone. The email pattern and the digit-phone pattern catch the first row. A grouped card pattern catches the test PAN in the third row. The second row is the same phone number in words, and none of the three patterns sees it. Order 7781 is not a secret and should survive, because a filter that redacts every integer erases the task. Replace the hits with placeholders when the model should learn to skip them, or drop the row when the private value is the content. Then read a sample, and add a pass for number words once a sample finds one, which this sample already did. Scrubbing at inference, after the number was in the optimizer, does not take it out of the weights. Presidio-style detectors and the pretraining scrub on the training-data card are the same problem at two scales. This file is the one you are about to finetune.
+**Answer:** Do not train the moderation model on the filtered file. The list removes 140 of 180 positive rows, 0.778 of the class the model is supposed to learn, and it also removes 25 medication rows that were not the toxic class. The file falls from 1,000 rows to 835, and the toxic share falls from 0.180 to 0.048. That is a different task. Keep the labeled toxic rows. Sample the medication rows the list wanted to drop. That sample is the failure Dodge and coauthors found when a bad-word list took science, medicine, and legal text out with the sexual content, and put a row back unless a person marks it unsafe for a reason the product policy names. A generic toxicity score is the wrong filter for a dataset whose label is toxicity. The safety card in [Evaluate AI Systems](../04_Evaluate_AI_Systems/) is the taxonomy. The rows you reject still belong in the datasheet.
 
 ```python
-import re
-
-EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
-PHONE = re.compile(r"\b\d{3}-\d{3}-\d{4}\b")
-CARD = re.compile(r"\b(?:\d{4}-){3}\d{4}\b")
-ROWS = (
-    "Email case@example.com or call 555-010-0199 about order 7781.",
-    "The note says to call five five five zero one zero zero one nine nine.",
-    "The tester typed 4242-4242-4242-4242 and it must not be learned.",
-)
-for row in ROWS:
-    print(bool(EMAIL.search(row)), bool(PHONE.search(row)), bool(CARD.search(row)))
-print("7781" in ROWS[0])
-# True True False
-# False False False
-# False False True
-# True
+ROWS = 1_000
+TOXIC = 180
+DROPPED_TOXIC = 140
+DROPPED_MEDICATION = 25
+remain = ROWS - DROPPED_TOXIC - DROPPED_MEDICATION
+kept_toxic = TOXIC - DROPPED_TOXIC
+print(remain, kept_toxic)
+print(f"{DROPPED_TOXIC / TOXIC:.3f} {TOXIC / ROWS:.3f} {kept_toxic / remain:.3f}")
+# 835 40
+# 0.778 0.180 0.048
 ```
