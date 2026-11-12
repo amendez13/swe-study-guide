@@ -32,6 +32,10 @@ print(moving_averages([4, 4, 4, 4], 2))
 # [4, 4, 4]
 ```
 
+![Moving average of the last k readings](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-1-moving-average-of-last-k.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 1.*
+
 ## At most two distinct readings
 
 The exercise ids are `[4, 4, 5, 4, 6, 6, 5, 5]`. What is the longest contiguous stretch that uses at most two distinct ids? Also answer an empty list, a single id, a run of one id, and `[1, 2, 3]`.
@@ -60,6 +64,10 @@ print(longest_two([]), longest_two([7]), longest_two([3, 3, 3]), longest_two([1,
 # 0 1 3 2
 ```
 
+![At most two distinct readings](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-2-at-most-two-distinct.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 2.*
+
 ## Products that stay under a ceiling
 
 The exercise factors are `[2, 3, 4, 1, 5]`, each at least 1. How many contiguous blocks have a product strictly under 12? What do an empty list, a single 8 against ceilings 5 and 9, a ceiling of 1, and `[1, 1, 1]` against a ceiling of 2 return?
@@ -87,6 +95,10 @@ print(count_under([], 5), count_under([8], 5), count_under([8], 9), count_under(
 # 8
 # 0 0 1 0 6
 ```
+
+![Products that stay under a ceiling](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-3-products-under-a-ceiling.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 3.*
 
 ## Smallest span that covers the pattern
 
@@ -137,6 +149,10 @@ print(repr(smallest_cover("", "ab")), repr(smallest_cover("abc", "")))
 # '' ''
 ```
 
+![Smallest span that covers the pattern](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-4-smallest-span-covering-pattern.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 4.*
+
 ## The jump that walks backwards
 
 This unique-character scan stores the last index of each character. On the exercise string `abba` it returns 3. The true length is 2. Why does the left edge move backward, and what does the repaired scan return for `abba`, `success`, an empty string, and `aaaa`?
@@ -186,6 +202,10 @@ print(jump_unique("deed"), jump_unique(""), jump_unique("bbbb"))
 # 2 0 1
 ```
 
+![The jump that walks backwards](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-5-jump-that-walks-backwards.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 5.*
+
 ## Ones you can buy with k flips
 
 The exercise bits are `[1, 0, 1, 1, 0, 0, 1, 1]`. You may flip at most 2 zeros into ones. What is the longest contiguous run of ones you can produce? Also answer an empty list, three zeros with 0 flips, three zeros with 2 flips, three ones with 0 flips, and `[0, 1, 0]` with 0 flips.
@@ -213,6 +233,10 @@ print(longest_ones([1, 1, 1], 0), longest_ones([0, 1, 0], 0))
 # 0 0 2
 # 3 1
 ```
+
+![Ones you can buy with k flips](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-6-ones-with-k-flips.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 6.*
 
 ## The negative that the shrink already dropped
 
@@ -263,6 +287,10 @@ print([5 + 1, 1 + -4])
 # [6, -3]
 ```
 
+![The negative that the shrink already dropped](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-7-negative-the-shrink-dropped.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 7.*
+
 ## Fixed, longest, shortest, or a deque
 
 Label each exercise prompt with `fixed window`, `longest window`, `shortest window`, or `monotonic deque`.
@@ -293,6 +321,10 @@ print(label("maximum of every block of 4 samples"))
 # shortest window
 # monotonic deque
 ```
+
+![Fixed, longest, shortest, or a deque](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-8-fixed-longest-shortest-or-deque.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 8.*
 
 ## A zero that is still in the dictionary
 
@@ -382,3 +414,7 @@ print(delete_zero("wxyz", "xyz"), array_anagrams("wxyz", "xyz"))
 # 0 1 1
 # 1 1
 ```
+
+![A zero that is still in the dictionary](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills-9-zero-still-in-the-dictionary.png)
+
+*Source: [`diagrams/sliding-windows-drills.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-drills.drawio), page 9.*

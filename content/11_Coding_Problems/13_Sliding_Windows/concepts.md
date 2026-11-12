@@ -16,6 +16,10 @@ Three moves cover the problems in this topic. Expand steps the right index and a
 
 **Recap.** A sliding window keeps a sum or a count equal to a contiguous span while the two ends move only forward. Fixed, longest, and shortest are the three questions, and each one has its own rule for when the left end moves. The scan is linear because each index is added once and removed at most once. The shrink is safe only when a larger span cannot become legal again by itself.
 
+![Sliding window: a range that only moves forward](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-1-a-range-that-only-moves-forward.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 1.*
+
 ## Fixed window: the length is part of the problem
 
 A fixed window has a length the problem already gives you. Every span you report has that length, and the next span is the current span with one new value on the right and one old value on the left.
@@ -52,6 +56,10 @@ After the right index has reached at least `k - 1`, the running total equals the
 **Interview.** Repeat `k` back, and ask what to return when `k` is larger than the input. Write the first window before the loop, then one line that adds the new value and subtracts the value `k` steps back. Name the invariant on a block you can add by hand. If the interviewer removes the fixed length and asks for the longest span under a budget, switch to the next card.
 
 **Recap.** A fixed window visits every contiguous block of a given length by adding the value that enters and subtracting the value that leaves. The first block costs `k` additions, and every later block costs a constant amount of work, so the scan is linear. A length that is not between 1 and the input length produces no block. Negatives do not break a fixed sum.
+
+![Fixed window: the length is part of the problem](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-2-fixed-window.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 2.*
 
 ## Longest valid window: shrink while the span is over budget
 
@@ -91,6 +99,10 @@ The right index walks forward `n` times. The left index walks forward at most `n
 
 **Recap.** For a longest legal span, grow the right end, shrink the left end while the span is illegal, and keep the largest length. Non-negative values make the shrink safe, because a start that is already over budget cannot be saved by a longer span. The nested loops are linear because the left index only moves forward. Record the length after the shrink.
 
+![Longest valid window: shrink while the span is over budget](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-3-longest-valid-window.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 3.*
+
 ## Shortest valid window: shrink while the span still qualifies
 
 A shortest-window scan grows the right end until the span qualifies, records the length, and then keeps shrinking from the left while the span still qualifies.
@@ -129,6 +141,10 @@ The aggregate bound is the same as the longest scan. The right index moves `n` t
 **Interview.** Say which way the record runs: while legal for a shortest span, after the repair for a longest span. Walk the first time the sum reaches the target, including the shrink that follows the record. Ask whether the values are non-negative. Name the sentinel you used for "no span," and return 0 instead of that sentinel.
 
 **Recap.** For a shortest legal span, grow until the span qualifies, record the length, and shrink while it still qualifies. Non-negative values make each shrink a step toward a shorter candidate that ends at the same place. The scan is linear for the same reason as the longest scan: the left index only moves forward. A missing span returns 0, not the sentinel you used inside the loop.
+
+![Shortest valid window: shrink while the span still qualifies](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-4-shortest-valid-window.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 4.*
 
 ## Window state: a sum, a count, or a matches counter
 
@@ -186,6 +202,10 @@ print(anagram_hits("ab", "abcd"))
 
 **Recap.** Window state is a value you can fix up from the character that entered and the character that left. Sums and products are one number. Lowercase counts are 26 slots, and a matches counter turns the 26-slot compare into a constant-time check. A dict is the state when the alphabet is not 26 letters. Delete a dict key that falls to 0, or compare arrays, or use a Counter, which treats a zero count as absent.
 
+![Window state: a sum, a count, or a matches counter](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-5-window-state.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 5.*
+
 ## Count of Anagram Windows (LeetCode-style: Find All Anagrams in a String)
 
 Count the contiguous blocks of `text` that use the same letters, with the same counts, as `pattern`. Order does not matter. The block length is the pattern length, so this is a fixed window.
@@ -232,6 +252,10 @@ The time is O(n). Each slide changes two slots and compares 26, and 26 is consta
 
 **Recap.** An anagram block is a fixed window whose letter counts equal the pattern's counts. Slide one letter in and one letter out, and compare two 26-slot arrays. The scan is linear and the arrays are constant memory. A pattern that is empty or longer than the text returns 0 in this contract. LeetCode 438 returns the start indexes of the same windows, and LeetCode 567 returns whether any window exists.
 
+![Count of Anagram Windows (LeetCode-style: Find All Anagrams in a String)](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-6-count-anagram-windows.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 6.*
+
 ## Longest Stretch With No Repeated Character (LeetCode-style: Longest Substring Without Repeating Characters)
 
 Return the length of the longest contiguous piece of a string that never uses the same character twice.
@@ -267,6 +291,10 @@ The right index moves `n` times and each character is inserted and removed at mo
 **Interview.** Repeat that the piece has to be contiguous. A subsequence that skips letters is a different problem. Walk `diction` as far as the second `i`, and say which characters leave. Put the length update after the shrink. Mention the alphabet: letters, digits, symbols, and spaces, so a 26-slot array does not implement the published contract.
 
 **Recap.** The longest stretch with no repeated character grows a set and shrinks from the left until the new character is unique again. Each character enters and leaves at most once, so the scan is linear and the set is proportional to the distinct characters. The length is recorded after the shrink. LeetCode 3 allows an empty string, and its alphabet is wider than 26 letters.
+
+![Longest Stretch With No Repeated Character (LeetCode-style: Longest Substring Without Repeating Characters)](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-7-longest-no-repeat.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 7.*
 
 ## Jump the left edge to one past the previous copy
 
@@ -314,6 +342,10 @@ The invariant is the unique-character invariant plus one sentence: `left` never 
 
 **Recap.** The last index of a character lets the left edge jump to one past the previous copy. The jump has to stay at or to the right of the current left edge, or a copy you already removed comes back into the span. Store the new index after you have read the old one. The length is the same one the set shrink computes, in linear time and in memory proportional to the distinct characters.
 
+![Jump the left edge to one past the previous copy](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-8-jump-the-left-edge.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 8.*
+
 ## Longest Run You Can Make Uniform (LeetCode-style: Longest Repeating Character Replacement)
 
 Return the length of the longest contiguous piece you can turn into one repeated character by changing at most `k` characters.
@@ -356,6 +388,10 @@ The time is O(n). A dict uses O(m) extra memory for `m` distinct characters. A 2
 **Interview.** Say the budget test in words: length minus the most common character, at most `k`. Then say why you do not lower the mark, and give `AAAB` with `k` of 0 as the case where the final slice is `AAB` and the length 3 belongs to `AAA`. If the interviewer asks for the slice, recompute the true maximum and remember a legal span. Mention that `k` of 0 is the longest run of one character.
 
 **Recap.** A window can be made into one character with at most `k` changes when its length minus its most common character is at most `k`. For the longest such window, a high-water mark of that count is enough, and the left edge slides by one when the length would pass the mark plus `k`. The final slice can be over budget. The length is the answer. LeetCode 424 is this length on uppercase letters, with `k` from 0 through the length.
+
+![Longest Run You Can Make Uniform (LeetCode-style: Longest Repeating Character Replacement)](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-9-longest-run-made-uniform.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 9.*
 
 ## When a sliding window is the wrong tool
 
@@ -435,6 +471,10 @@ print([max(block) for block in ([8, 3, 5], [3, 5, 1])])
 
 **Recap.** A dynamic sum window needs non-negative values, and a dynamic product window needs values that are at least 1. `[3, 3, -2]` with a limit of 4 is a sum the shrink gets wrong, 2 against a true 3. `[2, 0, 5]` with a product ceiling of 4 is a count the shrink gets wrong, 6 against a true 5. `[4, -2]` under a ceiling of 3 is 1 by the shrink and 2 by checking every product. Fixed-length sums still allow negatives. The maxima of `[8, 3, 5]` and `[3, 5, 1]` are 8 and then 5, and remembering 5 after 8 slides out is a deque.
 
+![When a sliding window is the wrong tool](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-10-when-a-window-is-wrong.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 10.*
+
 ## A window, two pointers, or prefix sums
 
 The first sentence of the problem picks the tool. A contiguous span with a length or a monotone budget is a window. A pair, a compaction, or a symmetric scan is two pointers. A range sum, especially once negatives appear, is a prefix array.
@@ -468,3 +508,7 @@ The tank readings have a length in the sentence, so the window is fixed. The sta
 **Interview.** Start from the noun in the constraint: length, longest, shortest, count, pair, range sum, or block maximum. Say the monotone reason in the same breath as the window, or say why you are not using one. Give both costs, time and extra memory. Offer the quadratic check as the thing you would run on a list of four elements.
 
 **Recap.** A named length is a fixed window. A longest or shortest contiguous budget, when growing the span only makes the condition harder, is a dynamic window. A sorted pair is two pointers. A range sum, and any sum budget that allows negatives, is a prefix array. The maximum of each block is a deque. The quadratic scan is the check on a tiny input.
+
+![A window, two pointers, or prefix sums](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows-11-window-two-pointers-or-prefix-sums.png)
+
+*Source: [`diagrams/sliding-windows.drawio`](/content/11_Coding_Problems/13_Sliding_Windows/diagrams/sliding-windows.drawio), page 11.*
