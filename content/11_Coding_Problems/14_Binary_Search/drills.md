@@ -36,7 +36,7 @@ print(last_at_most([], 15), last_at_most([8], 8), last_at_most([8], 9))
 
 The exercise list `[6, 8, 11, 2, 3, 4]` is a sorted list of distinct values, cut and restacked. Return the minimum value. Also return the minimum of the unrotated list `[2, 3, 4, 6, 8, 11]`, of every cut of that list, of `[13]`, of `[6, 1]`, and of `[1, 6]`.
 
-**Answer:** Compare the midpoint with the right end. When `values[mid]` is greater than `values[right]`, the drop that holds the minimum is to the right of `mid`, so `left` becomes `mid + 1`. Otherwise the minimum is at `mid` or to its left, so `right` becomes `mid`. The lower midpoint is safe because the rising branch excludes `mid` and the falling branch keeps it. The first midpoint of `[6, 8, 11, 2, 3, 4]` is index 2, value 11, which is greater than the right end 4, so the left edge moves to 3. The next midpoint is index 4, value 3, which is not greater than 4, so the right edge moves to 4. Then index 3, value 2, is not greater than 3, and the right edge meets the left edge at 3. The minimum is 2. An unrotated list keeps moving the right edge left until index 0. Every cut of `[2, 3, 4, 6, 8, 11]` has minimum 2. A single 13 is 13. `[6, 1]` drops across the midpoint, so the minimum is the right value, 1. `[1, 6]` does not drop, so the minimum is the left value, 1. The time is O(log n) and the extra memory is O(1). LeetCode 153, Find Minimum in Rotated Sorted Array, returns this value for distinct values, length 1 through 5000, and values from -5000 through 5000. Its rotations include the unrotated array, because a list can be rotated `n` times. LeetCode 154 allows duplicates, and the comparison with the right end no longer tells you which side holds the minimum. This drill stays on distinct values. The [Rotated sorted array](../../07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/) card searches for a target. This drill searches for the cut.
+**Answer:** Compare the midpoint with the right end. When `values[mid]` is greater than `values[right]`, the drop that holds the minimum is to the right of `mid`, so `left` becomes `mid + 1`. Otherwise the minimum is at `mid` or to its left, so `right` becomes `mid`. The lower midpoint is safe because the rising branch excludes `mid` and the falling branch keeps it. The first midpoint of `[6, 8, 11, 2, 3, 4]` is index 2, value 11, which is greater than the right end 4, so the left edge moves to 3. The next midpoint is index 4, value 3, which is not greater than 4, so the right edge moves to 4. Then index 3, value 2, is not greater than 3, and the right edge meets the left edge at 3. The minimum is 2. An unrotated list keeps moving the right edge left until index 0. Every cut of `[2, 3, 4, 6, 8, 11]` has minimum 2. A single 13 is 13. `[6, 1]` drops across the midpoint, so the minimum is the right value, 1. `[1, 6]` does not drop, so the minimum is the left value, 1. The time is O(log n) and the extra memory is O(1). LeetCode 153, Find Minimum in Rotated Sorted Array, returns this value for distinct values, length 1 through 5000, and values from -5000 through 5000. Its rotations include the unrotated array, because a list can be rotated `n` times. LeetCode 154 allows duplicates, and the comparison with the right end no longer tells you which side holds the minimum. On the exercise list `[2, 2, 2, 0, 2]` the same loop returns 2. The minimum is 0, at index 3. The first midpoint is index 2. Its value equals the right end, so `values[mid] > values[right]` fails and the right edge moves to 2. Indexes 3 and 4, including the 0, are discarded. The loop still terminates: the lower midpoint either steps `left` past `mid` or moves `right` onto `mid`. It returns the wrong value. The distinct cuts above are the contract this drill solves. The [Rotated sorted array](../../07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/) card searches for a target. This drill searches for the cut.
 
 ```python
 def find_min(values: list[int]) -> int:
@@ -55,17 +55,19 @@ print(find_min([6, 8, 11, 2, 3, 4]))
 print(find_min(base))
 print([find_min(base[k:] + base[:k]) for k in range(len(base))])
 print(find_min([13]), find_min([6, 1]), find_min([1, 6]))
+print(find_min([2, 2, 2, 0, 2]), min([2, 2, 2, 0, 2]))
 # 2
 # 2
 # [2, 2, 2, 2, 2, 2]
 # 13 1 1
+# 2 0
 ```
 
 ## The slowest speed that finishes in time
 
 The exercise piles are `[5, 8, 10]`. In one hour a worker finishes `speed` items from a single pile and does not start another pile in that hour. A pile of 5 at speed 4 takes two hours, because the second hour finishes the remainder. What is the slowest integer speed that finishes all three piles within 6 hours? Also answer 3 hours, 2 hours, and 100 hours.
 
-**Answer:** If a speed finishes in time, every faster speed does too, so the predicate flips once and the answer is the first true speed. The range is 1 through the largest pile. The check sums `ceil(pile / speed)` over the piles, which for positive integers is `(pile + speed - 1) // speed`. Speed 4 takes 2 + 2 + 3 = 7 hours, which misses 6. Speed 5 takes 1 + 2 + 2 = 5 hours, which fits. The loop returns 5. Three hours is one hour per pile, so the speed is the largest pile, 10. Two hours is fewer than the three piles, and each pile costs at least one hour, so no speed works and the function returns -1. One hundred hours is enough for speed 1, which takes 23 hours. The time is O(n log M), where M is the largest pile, and the extra memory is O(1). LeetCode 875, Koko Eating Bananas, is this speed. Its length is from 1 through 10^4, each pile is from 1 through 10^9, and the hour limit is from the number of piles through 10^9, so two hours on three piles is outside that contract. The hour sum can exceed a 32-bit integer when the piles are at the top of that contract. Python's `int` does not wrap. The published samples use different piles. The [Binary search on the answer](../../07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/) card is the first-true loop. The capacity drills on that topic and on the pattern page split a sequence into days. This drill is a per-pile ceiling.
+**Answer:** If a speed finishes in time, every faster speed does too, so the predicate flips once and the answer is the first true speed. The range is 1 through the largest pile. The check sums `ceil(pile / speed)` over the piles, which for positive integers is `(pile + speed - 1) // speed`. Speed 4 takes 2 + 2 + 3 = 7 hours, which misses 6. Speed 5 takes 1 + 2 + 2 = 5 hours, which fits. The loop returns 5. Three hours is one hour per pile, so the speed is the largest pile, 10. Two hours is fewer than the three piles, and each pile costs at least one hour, so no speed works and the function returns -1. One hundred hours is enough for speed 1, which takes 23 hours. The time is O(n log M + n) when the largest pile M is at least 1. The linear term finds that pile, including when every pile is 1 and the search range is a single speed. The extra memory is O(1). LeetCode 875, Koko Eating Bananas, is this speed. Its length is from 1 through 10^4, each pile is from 1 through 10^9, and the hour limit is from the number of piles through 10^9, so two hours on three piles is outside that contract. The hour sum can exceed a 32-bit integer when the piles are at the top of that contract. Python's `int` does not wrap. The published samples use different piles. The [Binary search on the answer](../../07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/) card is the first-true loop. The capacity drills on that topic and on the pattern page split a sequence into days. This drill is a per-pile ceiling.
 
 ```python
 def hours_needed(piles: list[int], speed: int) -> int:
@@ -97,7 +99,7 @@ print(min_speed([5, 8, 10], 3), min_speed([5, 8, 10], 2), min_speed([5, 8, 10], 
 
 Versions 1 through 1000 are exercise build numbers. A version is bad when it is at least 700, and every later version stays bad. How many times does the predicate run before the loop returns 700? How many times does it run when the first bad version is 501, when it is 1, and when it is 1000?
 
-**Answer:** This is the first-true search on `[1, 1001)`. A bad midpoint might be the first bad version, so the right edge moves onto it. A good midpoint is excluded by moving the left edge to `mid + 1`. The lower midpoint is the one that matches those updates. The first bad version 700 takes 10 predicate calls. The midpoints are 501, 751, 626, 689, 720, 705, 697, 701, 699, and 700. Version 501 takes 9 calls. Versions 1 and 1000 take 10. Across every first-bad version from 1 through 1000, 22 answers take 9 calls and the other 978 take 10. The cost stays logarithmic, and it is not the same count for every answer. The extra memory is O(1). `git bisect` is this walk on a line of commits: you mark the checked-out commit good or bad, and the remaining range is the commits that can still be the first bad one. LeetCode 278, First Bad Version, is the same predicate. Its `n` can be 2147483647, so a 32-bit midpoint has to be `left + (right - left) // 2`. This drill's `n` is 1000, and the predicate reads a known threshold so the call count can be checked. The [Binary search on answer](../../07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/) card uses the same loop on a different predicate.
+**Answer:** This is the first-true search on `[1, 1001)`. A bad midpoint might be the first bad version, so the right edge moves onto it. A good midpoint is excluded by moving the left edge to `mid + 1`. The lower midpoint is the one that matches those updates. The first bad version 700 takes 10 predicate calls. The midpoints are 501, 751, 626, 689, 720, 705, 697, 701, 699, and 700. Version 501 takes 9 calls. Versions 1 and 1000 take 10. Across every first-bad version from 1 through 1000, 22 answers take 9 calls and the other 978 take 10. The block prints that midpoint list and those two counts. The cost stays logarithmic, and it is not the same count for every answer. The extra memory is O(1). `git bisect` is this walk on a line of commits: you mark the checked-out commit good or bad, and the remaining range is the commits that can still be the first bad one. LeetCode 278, First Bad Version, is the same predicate. Its `n` can be 2147483647, so a 32-bit midpoint has to be `left + (right - left) // 2`. The half-open end used here is `n + 1`. When `n` is 2147483647 that end does not fit in a signed 32-bit integer, so the loop that fits keeps `right` at `n` and still uses the lower midpoint. This drill's `n` is 1000, and the predicate reads a known threshold so the call count can be checked. The [Binary search on answer](../../07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/) card uses the same loop on a different predicate.
 
 ```python
 def first_bad(n: int, bad_at: int) -> tuple[int, int]:
@@ -118,12 +120,30 @@ def first_bad(n: int, bad_at: int) -> tuple[int, int]:
     return left, calls
 
 
+def midpoints(n: int, bad_at: int) -> list[int]:
+    seen: list[int] = []
+    left, right = 1, n + 1
+    while left < right:
+        mid = left + (right - left) // 2
+        seen.append(mid)
+        if mid >= bad_at:
+            right = mid
+        else:
+            left = mid + 1
+    return seen
+
+
 print(first_bad(1000, 700))
 print(first_bad(1000, 501))
 print(first_bad(1000, 1), first_bad(1000, 1000))
+print(midpoints(1000, 700))
+counts = [first_bad(1000, bad)[1] for bad in range(1, 1001)]
+print(counts.count(9), counts.count(10))
 # (700, 10)
 # (501, 9)
 # (1, 10) (1000, 10)
+# [501, 751, 626, 689, 720, 705, 697, 701, 699, 700]
+# 22 978
 ```
 
 ## The insertion index that cannot land past the end
