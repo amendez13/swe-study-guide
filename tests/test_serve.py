@@ -574,6 +574,7 @@ CODING_PROBLEMS_TOPICS = (
     "12_Fast_and_Slow_Pointers",
     "13_Sliding_Windows",
     "14_Binary_Search",
+    "15_Stacks",
 )
 
 
@@ -603,6 +604,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Fast and Slow Pointers",
         "Sliding Windows",
         "Binary Search",
+        "Stacks",
     ]
 
 
@@ -1064,6 +1066,39 @@ def test_binary_search_topic_exposes_drills() -> None:
     assert "highest_blade" in notes
 
 
+def test_stacks_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "15_Stacks")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Stacks"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "15_Stacks"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## When a stack fits",
+        "## Matching nested structures",
+        "## A monotonic stack",
+        "## Each index is pushed once",
+        "## A deque that remembers the window extreme",
+        "## A valid bracket expression (LeetCode-style: Valid Parentheses)",
+        "## The next greater value to the right",
+        "## Evaluate plus, minus, and parentheses (LeetCode-style: Basic Calculator)",
+        "## Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates In String)",
+        "## A queue built from two stacks (LeetCode-style: Implement Queue using Stacks)",
+        "## The maximum of every window (LeetCode-style: Sliding Window Maximum)",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "next_greater" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1081,11 +1116,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "12_Fast_and_Slow_Pointers",
         "13_Sliding_Windows",
         "14_Binary_Search",
+        "15_Stacks",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[13:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[14:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
