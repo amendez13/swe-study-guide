@@ -12,6 +12,10 @@ Public benchmarks have two further failures, and both show up before you pick a 
 
 **Recap.** Evaluating a foundation model is hard because many answers can be acceptable, one model is used for many tasks, each call is a sample, and public benchmarks leak into training data and then saturate. Metrics that all sound like quality answer different questions, and they can move in opposite directions. Match the metric to the failure a user would notice, and keep a real checker wherever one exists.
 
+![Why evaluation is hard](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-1-why-evaluation-is-hard.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 1.*
+
 ## Entropy
 
 Entropy is the average surprise in a probability distribution, measured in bits when the logarithm is base 2. It is the lower bound on the average number of bits needed to encode draws from that distribution, and it is the floor under every language-model loss in this topic.
@@ -43,6 +47,10 @@ print(f"{fair:.4f} {biased:.4f}")
 **Interview.** Write `H = -Σ p log p` and state the base. Compute the fair coin as 1 bit and a 0.9/0.1 coin as about 0.469 bits, and say the deterministic case is 0. Then separate entropy of the data from cross entropy of a model. The interview trap is calling the training loss "entropy." The loss is cross entropy. Entropy is the part of that loss that remains when the model has matched the data.
 
 **Recap.** Entropy is the average information in a distribution. A fair coin is 1 bit, a 0.9/0.1 coin is about 0.469 bits, and a sure outcome is 0. Language-model training does not minimize entropy. It minimizes the model's extra surprise on top of the entropy of the text, and a number below that floor on the training slice is a sign you measured memorization.
+
+![Entropy](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-2-entropy.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 2.*
 
 ## Cross entropy
 
@@ -85,6 +93,10 @@ The matched model lands back on the entropy, 1.1568 bits. The mismatched model p
 
 **Recap.** Cross entropy is the average surprise of a model on data from another distribution. It equals the entropy of the data plus the KL penalty for disagreeing with it. On a 0.7, 0.2, 0.1 distribution, a model that predicts 0.5, 0.3, 0.2 has cross entropy 1.2796 bits against an entropy of 1.1568 bits. The language-model loss is this quantity averaged over next tokens, usually in nats, and perplexity is what you get by exponentiating it.
 
+![Cross entropy](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-3-cross-entropy.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 3.*
+
 ## Bits per character and bits per byte
 
 Bits per character and bits per byte take a model's total cross entropy and divide by the length of the original text, so two models can be compared when they cut the text into different tokens.
@@ -120,6 +132,10 @@ The second tokenizer has the lower perplexity, 4.0552 against 7.3891, because ea
 
 **Recap.** Bits per character and bits per byte divide a model's total cross entropy, in bits, by the length of the original text. They exist so a 250-token encoding and a 400-token encoding of the same file can be ranked. On the exercise pair, perplexity prefers the 400-token model, 4.0552 against 7.3891, and bits per byte prefers the 250-token model, 0.7213 against 0.8079. Use bytes when the script or the normalization would make a character count ambiguous.
 
+![Bits per character and bits per byte](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-4-bits-per-byte.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 4.*
+
 ## Perplexity
 
 Perplexity is the exponential of the average next-token cross entropy. It restates that loss as an effective number of equally likely choices at each token.
@@ -147,6 +163,10 @@ The first number treats 2.0 as nats, so perplexity is 7.3891. The second convert
 
 **Recap.** Perplexity is `e` raised to the average next-token cross entropy in nats, which is the same number as 2 raised to that cross entropy in bits. A loss of 2.0 nats is perplexity 7.3891, the uncertainty of a uniform guess among about 7.39 tokens. Treating that same printed 2.0 as bits produces 4, so the unit is part of the answer. Lower perplexity means a tighter fit to the measured text, for one tokenizer and one corpus.
 
+![Perplexity](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-5-perplexity.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 5.*
+
 ## How to read perplexity
 
 Reading perplexity means deciding what a change in that number is evidence of. The number is evidence about next-token fit on one corpus under one tokenizer, and several common changes are evidence of something else.
@@ -165,6 +185,10 @@ Use a suspiciously low score as a contamination smell only against a matched con
 
 **Recap.** Perplexity compares next-token fit for one tokenizer on one corpus. It is a training curve, a domain probe, a corpus filter, and, against a matched control, a contamination smell. It is not a ranking across tokenizers, and a rise after supervised or preference training can be the objective changing rather than the chat model getting worse. InstructGPT's alignment tax was that kind of regression on public tasks, reduced by mixing pretraining updates back in, and not removed. The ship decision stays with the task metric the user actually feels.
 
+![How to read perplexity](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-6-reading-perplexity.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 6.*
+
 ## Exact and subjective evaluation
 
 Exact evaluation marks an output right or wrong with a program. Subjective evaluation marks quality by a judgment, because more than one output is acceptable and no program has the rule.
@@ -182,6 +206,10 @@ Comparative evaluation and an A/B test answer different questions, and the names
 **Interview.** Split the feature into fields before you name a metric. Facts, amounts, labels, code behavior, and query results are exact. Tone and "which of these two helpful replies" are subjective. Say that a schema check is exact and is not the business rule. Give the Notion-style summary as the mixed case: the date is checked against the source, and the prose is judged only if the date survived. If you cannot name a program that could mark the output wrong, you are in the subjective half, and you owe a rubric.
 
 **Recap.** Exact evaluation is a program that marks the output right or wrong. Subjective evaluation is a judgment on a quality no program has a rule for. Code tests, labels, and query results are exact. Helpfulness and tone are subjective. A real feature usually has both, and each field should use the tool that matches that field.
+
+![Exact and subjective evaluation](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-7-exact-and-subjective.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 7.*
 
 ## Functional correctness
 
@@ -230,6 +258,10 @@ Text-to-SQL has the same shape and a trap in the string. Spider's original publi
 
 **Recap.** Functional correctness runs the output. HumanEval's 164 problems are correct when the unit tests pass. A SWE-bench patch is resolved when the fail-to-pass tests now pass and the pass-to-pass tests still pass. Text-to-SQL is correct when the result the user asked for matches, with the order rule written down. pass@k is the chance that k samples contain a pass. With 3 successes in 10 draws, unbiased pass@1 is 0.3000 and pass@5 is 0.9167, against a plug-in of 0.8319 that the Codex appendix shows is biased low. Compare that number at the sample budget the product actually has.
 
+![Functional correctness](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-8-functional-correctness.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 8.*
+
 ## Exact match
 
 Exact match means the output and the reference are the same string after a normalization you wrote down before you looked at the score.
@@ -243,6 +275,10 @@ It stops being the right metric as soon as a fluent system writes a sentence aro
 **Interview.** Say exact match is equality after a declared normalization, and give SQuAD's exact match and token F1 as the classic pair. Name a case where you want it, a closed label, and a case where you do not, a summary or a code line with tests available. Offer the failure mode of a helpful sentence wrapped around a correct span: the span is right and the string match is wrong, so you extract the field and match that. Ask what the normalization does with "NYC" and "New York City" before you accept the score.
 
 **Recap.** Exact match scores an output as right when it equals the reference after a normalization you wrote down. SQuAD uses it, alongside token F1, for short answer spans. It is the right metric for closed labels and the wrong metric for paraphrases, summaries, and code that should be executed. The normalization is part of the result, and a second reference does not turn it into a judge of every acceptable answer.
+
+![Exact match](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-9-exact-match.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 9.*
 
 ## Lexical similarity
 
@@ -285,6 +321,10 @@ print(f"{math.exp(1 - 10 / 5):.4f}")
 
 **Recap.** Lexical similarity measures shared surface form. Levenshtein distance counts edits, and "$12.50" versus "$125.0" is only distance 2 while the amount grows by ten. BLEU is n-gram precision with a brevity penalty, and a candidate half as long is multiplied by about 0.3679. ROUGE is n-gram recall. METEOR aligns stems and synonyms and still misses a swapped window. All of them prefer familiar wording, and none of them know that the unmatched word was the fact.
 
+![Lexical similarity](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-10-lexical-similarity.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 10.*
+
 ## Semantic similarity
 
 Semantic similarity scores whether two texts mean the same thing, including when they share few words.
@@ -298,6 +338,10 @@ The limit is the same one embeddings have. Meaning-shaped models still miss the 
 **Interview.** Contrast the refund paraphrase with the five-of-six token overlap from the lexical card, and say which metric can see which pair. Name BERTScore as token matching with contextual vectors, and name an NLI entailment check as the faithfulness version. Give negation or a swapped window as the case where a similarity score stays high and the product outcome flips. Then place the tool: semantic similarity ranks or filters open text, and an amount, a date, or a query result stays on an exact check.
 
 **Recap.** Semantic similarity scores meaning rather than shared words, so a paraphrase of a refund can pass it and fail BLEU. Sentence embeddings, BERTScore's token matching, and an NLI entailment model are the usual tools. They still miss negations and swapped numbers often enough that a high score is not a fact check. Use them for open wording, and keep exact checks on the fields a program can decide.
+
+![Semantic similarity](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-11-semantic-similarity.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 11.*
 
 ## Embeddings
 
@@ -336,6 +380,10 @@ The first pair has dot product 8 and both lengths are 3, so the cosine is 8/9, a
 
 **Recap.** An embedding is a vector that places similar texts in nearby directions, and cosine similarity scores that closeness independent of vector length. On the vectors (1, 2, 2) and (2, 1, 2) the cosine is 8/9, about 0.8889, and it stays 0.8889 if the second vector is scaled by 10. Sentence-BERT, E5, BGE, Cohere Embed, and OpenAI's text-embedding-3 family are real models of this kind. The score is not a probability, it is not comparable across models, and a topical near-miss such as a negated refund can look close.
 
+![Embeddings](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-12-embeddings.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 12.*
+
 ## Why use an AI judge
 
 An AI judge is a model asked to grade another model's output. It exists because open-ended text has no unit test, and people cannot relabel every row each time the prompt, the retriever, or the model changes.
@@ -349,6 +397,10 @@ The economic case is real and easy to overread. A judge is cheaper than a traine
 **Interview.** Explain the missing oracle first. Open text has no test suite, people do not scale to every prompt change, and a strong model can approximate preference judgments well enough to be useful once it is calibrated. Cite the MT-Bench paper with the counting rule: about 85 percent non-tie agreement for GPT-4 against experts, in the same range as expert-expert agreement, and about 66 percent once ties and order flips are kept. Say you would double-label a slice of your own tickets before a judge could block a launch. Place exact checks ahead of the judge whenever they exist.
 
 **Recap.** An AI judge grades open-ended model output so you can evaluate without a person on every row. On MT-Bench, GPT-4 agreed with experts about 85 percent of the time when ties were removed, and about 66 percent when ties and order-inconsistent votes were counted as ties. Both sit near expert-expert agreement under the same counting. Your rubric starts uncalibrated. Use the judge for the residue a program cannot check, and keep people on a slice large enough to see when the judge drifts.
+
+![Why use an AI judge](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-13-why-ai-judge.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 13.*
 
 ## How to use an AI judge
 
@@ -375,6 +427,10 @@ Self-critique is a judging pattern, not a fifth setup. The same model reads its 
 
 **Recap.** An AI judge is a prompt plus a verdict schema plus a calibration. Pointwise scores, pairwise wins, reference-based checks, and anchored rubrics answer different questions. Hide model names, pin the judge, and keep the temperature where you measured it. Percent agreement is not enough. A chance-corrected agreement on a human slice, and a review of the rows where you differ, is what makes the number a metric.
 
+![How to use an AI judge](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-14-how-to-use-ai-judge.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 14.*
+
 ## Limits of an AI judge
 
 The limits of an AI judge are the ways a verdict fails before you even get to a stable bias: the call is a sample, the rubric is vague, the second model is expensive, and the judge can be talked out of a math answer it could have solved alone.
@@ -393,6 +449,10 @@ Limited reasoning is a different failure, and Zheng and coauthors measured it on
 
 **Recap.** An AI judge is inconsistent on close calls, inventive when the rubric is vague, and too costly to sit on the user-facing path of a fast feature. It can also accept a wrong math answer it would have rejected in isolation. On a 10-question probe, that happened on 14 of 20 default judgments and on 3 of 20 once a separate reference was shown. Write criteria a person could reapply, keep the judge off the latency path, and put a program in front of any field a program can decide. A low temperature makes the judge repeatable. It does not make it right.
 
+![Limits of an AI judge](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-15-judge-limits.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 15.*
+
 ## Biases of an AI judge
 
 Biases of an AI judge are systematic preferences that survive a stable prompt. Zheng and coauthors measured position and verbosity directly. They also looked for a self-enhancement effect, and that study could not establish it.
@@ -408,6 +468,10 @@ Self-enhancement is the paper's name, taken from the social-cognition literature
 **Interview.** Name the three, and give the condition on each number. Position: two similar GPT-3.5 samples, GPT-4 consistent on 65.0 percent, others lower, and the sign moved when the prompt renamed the assistants. Verbosity: 91.3 percent failure for Claude-v1 and GPT-3.5 against 8.7 percent for GPT-4, on 23 padded lists. Self-enhancement: the paper reports a higher self win rate and then says the bias is not established. The mitigations are the swap, a length control you measure, and a different family or a person on the launch slice. Do not quote any of those rates as the flip rate of the judge you have not tested.
 
 **Recap.** An AI judge can prefer a slot, a longer answer, or its own voice, and only the first two were clearly measured in the MT-Bench study. On similar answers, GPT-4 kept the same verdict across a swap 65.0 percent of the time, and the other judges they tried did worse. On 23 padded lists, GPT-4 preferred the padding 8.7 percent of the time and the other two judges 91.3 percent. Self-enhancement was not established. Swap the order, hold length fixed when the fact is the question, and do not let a model grade its own family on the slice that ships.
+
+![Biases of an AI judge](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-16-judge-biases.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 16.*
 
 ## Which models can judge
 
@@ -431,6 +495,10 @@ The judge and the generator should not be the same training run when the verdict
 **Interview.** Match the judge to the asymmetry. Stronger judges weaker for open quality. Same model only for a preference between its own samples, not for truth. Weaker only where a measured agreement says the severe misses are rare. Specialized when the criterion is narrow enough to train or to prompt a small scorer. Say a schema does not need a judge at all. Mention the reward model as the distilled judge you already met in post-training, including its length shortcut. End with the pin: both model ids are part of the metric.
 
 **Recap.** A stronger model is the default judge of open-ended quality, and it still needs a human slice. The same model can rank its own prompts and cannot acquit its own answers. A weaker model or a reward model, an NLI checker, or a policy classifier is the right judge when the criterion is narrow and you have measured agreement. Use a program instead of a model whenever a program can decide.
+
+![Which models can judge](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-17-which-models-judge.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 17.*
 
 ## Ranking from pairwise votes
 
@@ -474,6 +542,10 @@ Votes include ties. A plain win/loss Bradley-Terry model drops ties or forces th
 
 **Recap.** Comparative evaluation ranks models from pairwise preferences. Elo updates a rating after each game. From 1500 and 1500, one win at K of 32 moves the ratings to 1516 and 1484, and a 400-point gap means a 10-to-1 expected score in the chess formula. Bradley-Terry fits the same kind of pairwise strength on the whole matrix at once and does not depend on game order. Chatbot Arena, later LMArena and now Arena, launched on online Elo in May 2023 and moved to Bradley-Terry, with style control as a later default. A rank needs the method, the date, and whether that control was on.
 
+![Ranking from pairwise votes](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-18-pairwise-ranking.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 18.*
+
 ## Challenges of comparative evaluation
 
 The challenges of collecting a comparative evaluation are the quadratic number of pairs and the quality of the votes. A relative win is a separate problem, on the next card.
@@ -488,6 +560,10 @@ Standardization and quality control are the other half of a vote. Chatbot Arena'
 
 **Recap.** Comparative evaluation does not scale as a full matrix. Five models are 10 pairs and twenty are 190, and fifty votes on those 190 pairs is 9,500 judgments. Sample the pairs, and use an estimator that matches the sampling. The votes need guidelines, gold pairs, hidden model names, a declared tie rule, and a prompt mix from your traffic. A public arena's crowd is evidence about that crowd. It is not your support queue.
 
+![Challenges of comparative evaluation](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-19-comparative-challenges.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 19.*
+
 ## From a ranking to a pass
 
 A ranking says who won among the models you entered. It does not say the winner is good enough to ship. Elo and Bradley-Terry have no unit for "correct."
@@ -499,6 +575,10 @@ A gap of a few dozen points is not an accuracy. Two models whose bootstrap inter
 **Interview.** Separate the two questions in one sentence. The ranking chooses the candidate. Tests, execution, and a pass line on the rubric choose the launch. Give the failure mode: the winner of a weak pool, or a style-controlled preference for a wrong window. A win inside the pool is not a quality bar.
 
 **Recap.** A comparative rating is relative. Elo and Bradley-Terry do not measure correctness, and a style-controlled score is still a preference. The winner of the comparison still has to pass the absolute checks before it ships. Use the ranking to decide who earns that expensive eval, and use the eval to decide what launches.
+
+![From a ranking to a pass](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-20-ranking-to-pass.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 20.*
 
 ## Where comparative evaluation is going
 
@@ -513,3 +593,7 @@ What this does not become is a single automatic number that replaces measurement
 **Interview.** Describe the system you would run, not a prediction about a future model. Pairwise votes, with a declared Elo or Bradley-Terry fit, an interval, and a style setting, choose the variant. Execution and exact checks gate the fields they can see. A pinned judge scores the open residue, calibrated against a human slice you refresh when the judge changes. A private prompt set, drawn from production and kept out of training, replaces a public board as the internal source of truth. Say that a public rank is context, dated and method-stamped, and that the next topic is how this becomes a pipeline.
 
 **Recap.** The public board already ranks with Bradley-Terry, intervals, category splits, and style control. The work left is the private half: prompts from real traffic, kept out of training, exact checks on every field a program can decide, and a calibrated judge for the rest. Public ranks remain a dated external signal, not the launch gate. Reward models distill the same pairwise signal into training and do not remove the need to audit the judge. The winner of a comparison still has to clear an absolute bar.
+
+![Where comparative evaluation is going](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology-21-comparative-future.png)
+
+*Source: [`diagrams/evaluation-methodology.drawio`](/content/10_AI_Engineering/03_Evaluation_Methodology/diagrams/evaluation-methodology.drawio), page 21.*
