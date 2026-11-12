@@ -345,9 +345,9 @@ print(LRUCache(2).get(10))
 
 ## The evicted key is still in the map
 
-This put unlinks the oldest node when the cache is over capacity and leaves that key in the map. Capacity is 2. The calls are `put(5, 50)`, `put(6, 60)`, `put(1, 10)`. What are the list order and the map keys before any get? What does `get(5)` return, and what is the order afterward? What does the repaired put do?
+This put unlinks the oldest node when the cache is over capacity and leaves that key in the map. Capacity is 2. The calls are `put(5, 50)`, `put(6, 60)`, `put(1, 10)`. What are the list order and the map keys before any get? What does an immediate `get(5)` return, and what is the order afterward? What happens if `get(6)` runs first, and only then `get(5)`? What does the repaired put do?
 
-**Answer:** Before the get, the list order is `[6, 1]` and the map keys are `1, 5, 6`. The node for 5 was unlinked and then left in the map. `get(5)` returns 50, and because get treats a map hit as a live node, it links 5 back at the newest end. The order becomes `[6, 1, 5]`, which is three keys in a cache of capacity 2. The repaired put deletes the key in the same step as the unlink. Its order stays `[6, 1]`, `get(5)` returns `None`, and the map keys are `1, 6`. The [Least-Recently-Used Cache (LeetCode-style: LRU Cache)](../11_Linked_Lists/) card deletes the key. Time is expected O(1) either way. The broken cache is the one that is wrong, not the one that is slower. Extra memory is O(capacity) when the delete runs, and it grows past capacity when the delete is skipped.
+**Answer:** Before the get, the list order is `[6, 1]` and the map keys are `1, 5, 6`. The node for 5 was unlinked and then left in the map. An immediate `get(5)` returns 50. The detached node's `prev` and `next` still name the two nodes the unlink joined, so unlinking again changes nothing on that edge and the append puts 5 at the newest end. The order becomes `[6, 1, 5]`, which is three keys in a cache of capacity 2. `get(6)` first moves 6 to the newest end, and the order is `[1, 6]`. Those stale links no longer describe a live edge. The following `get(5)` returns 50, the order becomes `[6, 5]`, and key 1 is gone from the list while it remains in the map. The repaired put deletes the key in the same step as the unlink. Its order stays `[6, 1]`, `get(5)` returns `None`, and the map keys are `1, 6`. The [Least-Recently-Used Cache (LeetCode-style: LRU Cache)](../11_Linked_Lists/) card deletes the key. Time is expected O(1) either way. The broken cache is the one that is wrong, not the one that is slower. Extra memory is O(capacity) when the delete runs, and it grows past capacity when the delete is skipped.
 
 ```python
 class DNode:
@@ -423,10 +423,15 @@ def fill(forget_key: bool) -> LRUCache:
 broken = fill(True)
 print(broken.order(), sorted(broken.nodes))
 print(broken.get(5), broken.order())
+moved = fill(True)
+print(moved.get(6), moved.order())
+print(moved.get(5), moved.order(), sorted(moved.nodes))
 repaired = fill(False)
 print(repaired.order(), repaired.get(5), sorted(repaired.nodes))
 # [6, 1] [1, 5, 6]
 # 50 [6, 1, 5]
+# 60 [1, 6]
+# 50 [6, 5] [1, 5, 6]
 # [6, 1] None [1, 6]
 ```
 
@@ -434,7 +439,7 @@ print(repaired.order(), repaired.get(5), sorted(repaired.nodes))
 
 List A is `3 -> 8 -> 5` and list B is `3 -> 8 -> 5`, built from different nodes. A second pair shares a tail: A is `3 -> 8 -> 5`, B is `8 -> 5`, and the final `5` is one node object. A search that remembers values, and a search that remembers node identity, each return a tag. Which tags come back? What do two empty lists return?
 
-**Answer:** On the separate lists the value search returns `("a3", "b3")`, the first value that appears on both, and the identity search returns `None`. On the joined lists the value search returns `("a8", "b8")`. Those two `8`s are different nodes. The shared node is the final `5`, tag `shared`, which is what the identity search returns. Two empty lists, and a real list paired with an empty list, return `None` for both searches. The value set has the same expected linear cost as an identity set and answers "some value occurs in both," which the statement did not ask. The [The Node Two Lists Share (LeetCode-style: Intersection of Two Linked Lists)](../11_Linked_Lists/) card is the identity walk. LeetCode 160 allows values to repeat inside 1 to 100,000, so this collision is inside that problem too. Time is O(n + m). The value map and the identity set each use O(n) extra memory. The collision worst case is quadratic in the hashed entries.
+**Answer:** On the separate lists the value search returns `("a3", "b3")`, the first value that appears on both, and the identity search returns `None`. On the joined lists the value search returns `("a8", "b8")`. Those two `8`s are different nodes. The shared node is the final `5`, tag `shared`, which is what the identity search returns. Two empty lists, and a real list paired with an empty list, return `None` for both searches. The value map answers "some value occurs in both," which the statement did not ask. It is expected O(n + m) time and O(n) extra memory, and O(n * m) time when every key collides. The identity walk in this drill is the two-pointer switch, not a set: worst-case O(n + m) time, O(1) extra memory, and no hash. [The Node Two Lists Share (LeetCode-style: Intersection of Two Linked Lists)](../11_Linked_Lists/) is that walk. LeetCode 160 allows values to repeat inside 1 to 100,000, so equal values on different nodes are inside that problem too.
 
 ```python
 class ListNode:
@@ -471,17 +476,17 @@ joined_a = ListNode(3, ListNode(8, shared, tag="a8"), tag="a3")
 joined_b = ListNode(8, shared, tag="b8")
 print(by_value(separate_a, separate_b), by_identity(separate_a, separate_b))
 print(by_value(joined_a, joined_b), by_identity(joined_a, joined_b))
-print(by_value(None, None), by_identity(None, None), by_identity(joined_a, None))
+print(by_value(None, None), by_identity(None, None), by_value(joined_a, None), by_identity(joined_a, None))
 # ('a3', 'b3') None
 # ('a8', 'b8') shared
-# None None None
+# None None None None
 ```
 
 ## Reverse in groups of three
 
 Reverse the exercise list `6 -> 1 -> 4 -> 9 -> 2 -> 8 -> 3` in groups of 3. A tail shorter than 3 stays in its original order. What does the list become? What do a group size of 1, a group size equal to the length, a group size longer than the list, an empty list, and a one-node list return?
 
-**Answer:** `4 -> 1 -> 6 -> 8 -> 2 -> 9 -> 3`. The first group `6, 1, 4` reverses, the second group `9, 2, 8` reverses, and the final `3` is shorter than 3 so it stays. Group size 1 leaves the list unchanged. Group size 7, the whole length, reverses it to `3, 8, 2, 9, 4, 1, 6`. Group size 8 is longer than the list, so the only group is short and the list stays as it is. An empty list and a one-node list stay as they are. Group size 0 is not a group. This drill leaves the list unchanged. `6 -> 1 -> 4 -> 9` with group size 3 becomes `4 -> 1 -> 6 -> 9`, a full group plus a one-node tail. Count k nodes past the previous group. If the count falls off the list, return what you have. Otherwise reverse that group in place and repeat. Values are not rewritten. Only `next` changes. The [Swap adjacent pairs](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) drill is group size 2. The [Reverse only positions left..right](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) drill is one range, not every group. Time is O(n). Extra memory is O(1). LeetCode 25 requires `1 <= k <= n` with n at least 1, forbids changing values, and asks in the follow-up for O(1) extra memory. This drill also defines k larger than the length, k < 1, and the empty list.
+**Answer:** `4 -> 1 -> 6 -> 8 -> 2 -> 9 -> 3`. The first group `6, 1, 4` reverses, the second group `9, 2, 8` reverses, and the final `3` is shorter than 3 so it stays. Group size 1 leaves the list unchanged. Group size 7, the whole length, reverses it to `3, 8, 2, 9, 4, 1, 6`. Group size 8 is longer than the list, so the only group is short and the list stays as it is. An empty list and a one-node list stay as they are. Group size 0 is not a group. This drill leaves the list unchanged. `6 -> 1 -> 4 -> 9` with group size 3 becomes `4 -> 1 -> 6 -> 9`, a full group plus a one-node tail. Count k nodes past the previous group. If the count falls off the list, return what you have. Otherwise reverse that group in place and repeat. Values are not rewritten. Only `next` changes. The [Swap adjacent pairs](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) drill is group size 2. The [Reverse only positions left..right](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) drill is one range, not every group. Time is O(n). Extra memory is O(1). LeetCode 25 requires `1 <= k <= n <= 5000`, values from 0 to 1000, forbids changing values, and asks in the follow-up for O(1) extra memory. This drill also defines k larger than the length, k < 1, and the empty list.
 
 ```python
 class ListNode:
