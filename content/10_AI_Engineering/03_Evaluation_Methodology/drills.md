@@ -17,7 +17,7 @@ MODEL_ROWS = (("1002", 400), ("1001", 1250))
 WRONG_ROWS = (("1001", 1250), ("1002", 4000))
 ```
 
-**Answer:** Normalized string equality rejects the model's query. The capitalization differs and the gold query has an `ORDER BY` the model omitted, and the result multiset is the same two orders. An execution check that sorts rows before comparing accepts `MODEL_ROWS` and rejects `WRONG_ROWS`, where order 1002 was returned as 4000 cents. BLEU on the SQL text would sit with the string metric: it rewards shared clauses and cannot see the warehouse. A judge that only reads the SQL has the same blind spot, and it can approve either string. `DROP TABLE` never runs. The checker allows one read-only statement, with a timeout and a row cap, and compares the result multiset. Spider's published score matches SQL structure, so a different `ORDER BY` fails it even when the rows match. BIRD's headline score runs the query. The product follows the result table, and the authorization check sits next to it so a correct-looking result cannot come from a table the analyst may not read.
+**Answer:** Normalized string equality rejects the model's query. The capitalization differs and the gold query has an `ORDER BY` the model omitted, while the result multiset is the same two orders. The analyst asked which paid orders, not for a sequence, so an execution check that sorts rows before comparing accepts `MODEL_ROWS` and rejects `WRONG_ROWS`, where order 1002 was returned as 4000 cents. If the question had required that order, the sorted comparison would be the wrong product metric and you would compare the tuples in order. BLEU on the SQL text sits with the string metric: it rewards shared clauses and cannot see the warehouse. A judge that only reads the SQL has the same blind spot, and it can approve either string. `DROP TABLE` never runs, and neither does a second statement hiding after a select. The checker allows one read-only statement, with a timeout and a row cap. Spider's original score is an exact match of SQL components, so a missing `ORDER BY` fails it even when the row set matches. BIRD's headline score runs the query and its common scorer compares result sets, which would accept `MODEL_ROWS`. The product follows that result set here, and the authorization check sits next to it so a correct-looking result cannot come from a table the analyst may not read.
 
 ```python
 GOLD_SQL = "select order_id, cents from orders where status = 'paid' order by order_id"
@@ -36,8 +36,17 @@ def same_rows(left: tuple[tuple[str, int], ...], right: tuple[tuple[str, int], .
     return sorted(left) == sorted(right)
 
 
+def is_single_select(sql: str) -> bool:
+    statement = sql.strip().rstrip(";").strip()
+    if ";" in statement or not statement.lower().startswith("select "):
+        return False
+    padded = f" {statement.lower()} "
+    banned = (" drop ", " delete ", " insert ", " update ", " alter ", " create ", " truncate ")
+    return not any(word in padded for word in banned)
+
+
 def verdict(sql: str, rows: tuple[tuple[str, int], ...] | None) -> str:
-    if not sql.lower().startswith("select "):
+    if not is_single_select(sql):
         return "refuse to run"
     if rows is not None and same_rows(GOLD_ROWS, rows):
         return "execution match"
@@ -142,7 +151,7 @@ A_FIRST = ("A", "A", "A", "A", "A", "A", "A", "B", "A", "B", "A", "A")
 B_FIRST = ("A", "A", "B", "A", "B", "B", "A", "B", "A", "A", "B", "B")
 ```
 
-**Answer:** With A shown first, A wins 10 of 12. That is position-inflated. After the swap, 6 of the 12 pairs flip, so they are ties under a consistent-win rule. A wins both orders on 5 pairs. B wins both orders on 1 pair. A still leads, and the lead is 5 to 1 on the pairs the judge can defend, not 10 to 2. You do not ship from the first-position pass. You keep A only as the better of these two prompts on the decisive pairs, and you still want a human read of the 6 flips before a launch, because a flip means the judge had no stable preference. The MT-Bench position result was measured on near-duplicate answers. These 12 threads are an exercise count for one judge on one feature, and the procedure is the same: swap, drop the flips, then decide.
+**Answer:** With A shown first, A wins 10 of 12. That is position-inflated. After the swap, 6 of the 12 pairs flip, so they are ties under a consistent-win rule. A wins both orders on 5 pairs. B wins both orders on 1 pair. A still leads, and the lead is 5 to 1 on the pairs the judge can defend, not 10 to 2. You do not ship from the first-position pass. You keep A only as the better of these two prompts on the decisive pairs, and you still want a human read of the 6 flips before a launch, because a flip means the judge had no stable preference. The MT-Bench position result was measured on two similar answers sampled from the same model, which is a harder case than a typical pair. These 12 threads are an exercise count for one judge on one feature, and the procedure is the same: swap, drop the flips, then decide.
 
 ```python
 A_FIRST = ("A", "A", "A", "A", "A", "A", "A", "B", "A", "B", "A", "A")
@@ -331,7 +340,7 @@ STRONG_AGREE = 84
 SMALL_AGREE = 61
 ```
 
-**Answer:** The strong judge costs $300 a night. The small judge costs $18. The $282 gap is real and it buys agreement of 0.84 against 0.61 on the audit. The small judge does not gate the launch. Sixty-one agreements in a hundred can sit close to a base-rate coincidence once the rubric is imbalanced, and even read as raw agreement it misses too many of the rows a person marked. Use the strong judge for the nightly gate, pin its model id, and keep a rotating human slice on its verdicts. Use the small judge, or a reward model distilled from the strong judge, for a mid-week smoke test only on a criterion where you have measured that it catches the severe misses. A date that must match the page never goes to either judge. A program checks the date. Recompute the $300 from the current rate card before it enters a budget. The bill doubles if you swap every pair to cancel position bias.
+**Answer:** The strong judge costs $300 a night and the small judge costs $18, a gap of $282. The audit is raw agreement, 0.84 against 0.61, and raw agreement is not the gate. The helpfulness drill is why: without the base rate, 0.61 can be chance, and 0.84 can still hide the severe misses. The small judge does not become the launch gate. A cheap judge that misses the rows a person failed is not a savings. The strong judge does not block tonight's launch on 0.84 alone either. Compute chance-corrected agreement on the 100 rows, read the disagreements, and pin the model id. Use the strong judge for the nightly run once that slice says the misses are ones you can tolerate. Use the small judge, or a reward model distilled from the strong judge, only on a criterion where you have measured that the severe rows are the ones it gets right. A date or a promise that must match the Gmail thread never goes to either judge. A program checks it. Recompute the $300 from the current rate card before it enters a budget. Swapping every pair to cancel position bias doubles the bill.
 
 ```python
 PAIRS = 50_000
@@ -378,7 +387,7 @@ INSTRUCT_WINDOW = 37
 BASE_WINDOW = 21
 ```
 
-**Answer:** Perplexity on the Wikipedia slice went from 8.5849 to 12.8071, a factor of 1.4918. The comparison is legal, because the tokenizer did not change, and it is evidence about the wrong text. Post-training optimizes replies a rater preferred, not continuation of an encyclopedia article, so a rise on that article is the alignment tax showing up as next-token fit. It is a reason to look at the task numbers, not a reason to revert. The task numbers favor the instruct checkpoint: 62 of 100 preference votes, and 37 of 40 windows against 21 of 40. Keep the instruct checkpoint. The three missed windows are the next exact-check failure, and they are a retrieval or a rubric problem, not a reason to go back to a base model that states the window wrong on almost half the tickets. Wikipedia perplexity stays on the pretraining chart.
+**Answer:** Perplexity on the Wikipedia slice went from 8.5849 to 12.8071, a factor of 1.4918, which is the rise of about half the teammate saw. The comparison is legal, because the tokenizer did not change, and it is evidence about the wrong text. InstructGPT's alignment tax was a drop on public tasks the preference step was not optimizing, including SQuAD and translation, not a perplexity quota. A rise on an encyclopedia article is that same objective change showing up as next-token fit. It is a reason to look at the task numbers, not a reason to revert. The task numbers favor the instruct checkpoint: raters prefer it on 62 of 100 replies, and it states the window correctly on 37 of 40 tickets against 21 of 40 for the base model. Keep the instruct checkpoint. The three missed windows are the next exact-check failure. The base model misses 19 of 40. That is a retrieval or a rubric problem on the instruct side, not a reason to restore a base model that is wrong on those 19. Wikipedia perplexity stays on the pretraining chart.
 
 ```python
 import math
