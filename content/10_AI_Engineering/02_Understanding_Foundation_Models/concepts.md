@@ -14,6 +14,10 @@ An application team usually inherits this mix through an API or an open checkpoi
 
 **Recap.** Training data is the corpus a base model learned to continue. Public models are trained on filtered web text plus curated sources such as code, reference articles, and books, with deduplication and benchmark decontamination as part of the pipeline. The model is strongest where that mix was dense. Private and fast-changing facts were never in it.
 
+![Training data](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-1-training-data.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 1.*
+
 ## Multilingual models
 
 A multilingual model is one set of weights trained on many languages, so a single serving stack answers more than English.
@@ -29,6 +33,10 @@ Quality does not follow a language toggle. English is the largest slice of a typ
 **Interview.** Refuse to quote an English score as the score of a multilingual launch. Say you would log, for each language you ship, tokens per request, latency, and task quality on a set written in that language. Name the tokenizer as a cost and a context problem. A Japanese support desk whose only eval is English has not been evaluated.
 
 **Recap.** A multilingual model shares one checkpoint across languages, which is how a GPT-4o, Claude, or Gemini model is served. Llama 3 does the same inside each size, and the 8B and 70B were still aimed at English. The tokenizer and the data mix make languages unequal: some scripts cost more tokens, and languages that were a thin slice of pretraining are weaker. Measure tokens and quality in each language you ship.
+
+![Multilingual models](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-2-multilingual-models.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 2.*
 
 ## Domain-specific models
 
@@ -46,6 +54,10 @@ Training one model on everything is the opposite bet, and it fails for a countin
 
 **Recap.** Domain-specific models put more of their training on one field. Codex, Code Llama, and StarCoder are public code models. BloombergGPT was pretrained from scratch on a financial-plus-general mix. Med-PaLM adapts a general model. Use one when an eval says the general model is short on that field and you can carry another checkpoint. Use retrieval for facts that change, and keep a person on the high-stakes decision.
 
+![Domain-specific models](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-3-domain-specific-models.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 3.*
+
 ## The transformer
 
 A transformer is a neural network that builds each token's representation by looking at other tokens in the sequence, rather than by folding the past into a single recurrent state.
@@ -61,6 +73,10 @@ The architecture won because training can run over the whole sequence in paralle
 **Interview.** Say which half of the original transformer the product is using. A chatbot, Copilot, and a Gmail draft are decoder-only and causal. A bidirectional encoder is a different product. Mention the mask, because it is why the model cannot peek ahead, and mention that position encoding is why a longer context is a model change. Leave the byte cost of the cache to the next question, and answer it with the arithmetic rather than with a vendor's context-length headline.
 
 **Recap.** A transformer represents a token by attending to other tokens. The 2017 architecture is an encoder-decoder. BERT keeps the encoder. Llama, Mistral, and the GPT-3 paper keep a causal decoder, which is the loop behind chat and completion. Attention gives direct access to earlier tokens and a cost that grows quickly with prompt length.
+
+![The transformer](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-4-transformer.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 4.*
 
 ## Attention, the KV cache, and context
 
@@ -88,6 +104,10 @@ Published context limits are product constraints with this price attached. Gemin
 
 **Recap.** Attention is a scored lookup over the tokens the mask allows the model to see. The KV cache stores keys and values so each new token reuses that work, and it grows linearly with the prompt plus the tokens generated so far. On the Llama 2 70B and Llama 3 70B shape, in BF16 with 8 key-value heads, one request is 1.25 GiB of cache at 4,096 tokens and 40 GiB at 131,072 tokens. A headline context length is a memory and latency budget, not a free feature.
 
+![Attention, the KV cache, and context](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-5-attention-kv-cache.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 5.*
+
 ## Other architectures
 
 Other architectures are sequence models that do not use full attention at every layer. The ones you will meet next to a transformer are state-space models such as Mamba, and recurrent models that train in parallel, such as RWKV.
@@ -101,6 +121,10 @@ The capability you give up is exact lookup. Attention can return to a specific e
 **Interview.** Explain the transformer's bill first, quadratic scores and a growing cache, and then the state model's trade, a fixed state and a weaker exact lookup. Name Mamba or RWKV, and name Jamba as a hybrid. Offer a needle-in-a-haystack check: hide a specific string in a long prompt and ask for it back. That is the test you want before a long-context product depends on a pure state model. Say that the chat APIs you ship against today are still, in the public architectures, transformers.
 
 **Recap.** State-space models such as Mamba, and parallel recurrent models such as RWKV, keep a state instead of a growing attention cache. They target long prompts at a flatter cost and they give up the transformer's direct lookup of an earlier token. Hybrids such as Jamba keep some attention layers for that lookup. Most product calls still go to a transformer.
+
+![Other architectures](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-6-other-architectures.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 6.*
 
 ## Parameters, tokens, and FLOPs
 
@@ -143,6 +167,10 @@ Mixture-of-experts models split the headline count from the FLOP count. Mixtral 
 
 **Recap.** Parameters are the learned numbers, tokens are the text those numbers train on and later bill, and FLOPs count the arithmetic. A round 70 billion parameters is 130.4 GiB of BF16 weights. The released Llama 3 70B configuration is 70,553,706,496 parameters and 131.4 GiB in BF16, or 65.7 GiB at INT8. Mixed-precision AdamW is 16 bytes per parameter when the gradient is BF16, 1,043.1 GiB at the round 70B count, and 18 bytes when the gradient is FP32, 1,173.5 GiB. Dense training FLOPs are about `6ND`, and on the published 405B token count that approximation rounds to Llama 3's published compute. A mixture of experts stores more parameters than it computes with on each token.
 
+![Parameters, tokens, and FLOPs](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-7-parameters-tokens-flops.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 7.*
+
 ## Compute-optimal scaling
 
 Compute-optimal training chooses the parameter count and the token count together so that a fixed training-FLOP budget buys the lowest loss.
@@ -161,6 +189,10 @@ The numbers inside `6ND` are not all the same kind of choice. Parameters, in the
 
 **Recap.** Compute-optimal training balances parameters and tokens for a fixed training-FLOP budget. The Chinchilla rule of thumb is about 20 tokens per parameter, which is why a 70B model wants on the order of 1.4 trillion tokens. Llama 3's 405B run sits near that kind of split for its own budget. The 8B and 70B were trained out to about 15 trillion tokens, far past it, because inference is paid on every request.
 
+![Compute-optimal scaling](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-8-compute-optimal-scaling.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 8.*
+
 ## Scaling extrapolation
 
 Scaling extrapolation uses loss curves from smaller runs to predict a larger run you have not paid for.
@@ -176,6 +208,10 @@ Bigger can also be worse on a task, which is inverse scaling. The Inverse Scalin
 **Interview.** Separate the loss forecast from the product forecast. Say what the fit assumes: the same architecture, a similar data mix, and a stable recipe. Mention that some apparent emergent jumps are the scoring rule, and that Llama 3 used the fit to size the 405B run while warning that loss is not a benchmark. If a plan says "ten times bigger will clear the help-desk bar," ask which smaller runs established the slope on that bar.
 
 **Recap.** Scaling extrapolation predicts a larger run from smaller ones, and it is only valid inside the same architecture, data regime, and recipe. The smooth curve is next-token loss. A benchmark with a hard threshold can look like a sudden jump while the underlying probability improves steadily. You still measure the metric users feel on the large run.
+
+![Scaling extrapolation](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-9-scaling-extrapolation.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 9.*
 
 ## Scaling bottlenecks
 
@@ -193,6 +229,10 @@ The product metric is the third bottleneck, and it is the one an application tea
 
 **Recap.** Data, power, and a product metric that does not track token loss are the bottlenecks a scaling curve leaves out. Llama 3's 405B run is a concrete power number: up to 16,384 H100 GPUs at a 700 watt TDP, 11.5 megawatts of accelerator nameplate before cooling. Synthetic data can extend a scarce corpus when it is filtered. A larger base model does not, by itself, fix a help-desk error the current model already makes for lack of the right page.
 
+![Scaling bottlenecks](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-10-scaling-bottlenecks.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 10.*
+
 ## Supervised finetuning
 
 Supervised finetuning is continued next-token training on examples of the behavior you want, each example a prompt paired with a target answer.
@@ -207,6 +247,10 @@ The ceiling is the demonstration set. The model imitates those answers, includin
 
 **Recap.** Supervised finetuning trains a base model on prompt-and-answer pairs so it replies instead of continuing the prompt. The loss usually covers the answer tokens only, and the model imitates the demonstrations it is given. It is the first post-training step behind Instruct-style chat models. It does not choose between two plausible answers, and it does not load this week's documents.
 
+![Supervised finetuning](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-11-supervised-finetuning.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 11.*
+
 ## Reward models
 
 A reward model is a scorer trained on preferences. Given a prompt and two answers, it learns to give the preferred answer a higher number than the rejected one.
@@ -220,6 +264,10 @@ That grade is useful in two places. During preference finetuning, the policy is 
 **Interview.** Define the reward model as a Bradley-Terry scorer on pairs, and give the logistic difference so the interviewer can see you know what is being fit. Separate it from the policy that writes the text. Name length bias as the example of reward hacking, and say the mitigation is in the pairs and in a length-aware score, with a person reading the winners. Mention best-of-N as the inference use. If the conversation then goes to how the score updates the policy, that is the next card, RLHF or DPO.
 
 **Recap.** A reward model scores answers from preference pairs, using a logistic comparison such as Bradley-Terry. It can train a policy or pick the best of several samples at serving time. It also learns the shortcuts in the comparisons, length being the usual one, and a policy optimized against it will take those shortcuts unless you close them.
+
+![Reward models](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-12-reward-models.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 12.*
 
 ## RLHF and direct preference optimization
 
@@ -238,6 +286,10 @@ Neither method inserts this week's help center, and neither is a substitute for 
 **Interview.** Walk InstructGPT's three stages, then say what the KL penalty is for. Describe DPO as the closed-form loss on pairs that targets the same KL-constrained objective, and name β. Choose RLHF or a kept reward model when you need on-policy samples or best-of-N at serving time. Choose DPO when you have pairs close to the current model and you want a training job you can rerun. Say that both of them come after supervised finetuning when the base behavior is missing, and that both of them leave fresh facts to retrieval.
 
 **Recap.** Classical RLHF, as in InstructGPT and Llama 2-Chat, finetunes with a reward model and PPO under a KL penalty to the supervised model. Rejection sampling uses that scorer without a full reinforcement-learning loop. DPO optimizes preference pairs directly and drops the separate reward model and the online loop, which is the preference step Llama 3's report publishes. Use the online path when you need a scorer or fresh samples, and the direct path when you have good pairs and want the simpler job. The help center still does not live in the weights.
+
+![RLHF and direct preference optimization](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-13-rlhf-and-dpo.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 13.*
 
 ## Sampling from logits
 
@@ -274,6 +326,10 @@ ChatGPT, Claude, and Gemini are this draw, repeated, until a stopping rule fires
 **Interview.** Write the softmax, then compute it at two temperatures on three logits and point at the mode staying put. That single observation is the whole relationship between sampling and hallucination: temperature changes how often you draw the leading token, and it does not replace the leading token when the leading token is false. Mention that temperature 0 is an argmax in practice and is not a contract for bitwise identity across hardware.
 
 **Recap.** The model emits a logit per vocabulary token, and a softmax turns those logits into probabilities you can sample. Dividing the logits by a temperature sharpens or flattens the distribution without changing which token leads. At temperature 1 the scores 2, 1, and 0 become probabilities about 0.665, 0.245, and 0.090. At temperature 0.5 they become about 0.867, 0.117, and 0.016. The draw is the product a user reads.
+
+![Sampling from logits](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-14-sampling-from-logits.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 14.*
 
 ## Temperature, top-k, top-p, and stopping
 
@@ -326,6 +382,10 @@ Stopping is three different events, and products confuse them. The model can emi
 
 **Recap.** Temperature reshapes probabilities without changing the leading token. Top-k and top-p drop the tail and renormalize. Stopping ends the sample on an end-of-turn token, a stop string, or a token cap. Use a low temperature for extraction and inline code, a higher temperature or a nucleus for brainstorming, and a stop condition that cannot appear inside a valid answer.
 
+![Temperature, top-k, top-p, and stopping](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-15-sampling-knobs-and-stopping.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 15.*
+
 ## Test-time compute
 
 Test-time compute is extra work spent while answering one request, after the weights are frozen, to raise the chance that the answer is right.
@@ -352,6 +412,10 @@ The product decides whether you can afford it. Copilot ghost text has to return 
 **Interview.** Name the verifier before the technique. Unit tests, a schema, or a proof checker make best-of-N a search. A second essay with no checker is another sample. Give the independence ceiling, `1 − (1 − p)^N`, and say you would measure the correlated version. Place the feature on a latency budget: inline suggestions get one decode, a pull-request agent can spend N, a reasoning model spends tokens inside one call. Mention that the reward model from post-training is a verifier you may already have.
 
 **Recap.** Test-time compute spends extra samples or extra tokens at request time to search for a better answer. Best-of-N, self-consistency, and reasoning traces such as o1 and DeepSeek-R1 are the common shapes. They pay off when a verifier can reject the failures, and the independence math is only a ceiling. Inline products with a tight latency budget stay at one short sample.
+
+![Test-time compute](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-16-test-time-compute.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 16.*
 
 ## Structured outputs
 
@@ -380,6 +444,10 @@ A concrete failure shows the order. The model returns a preamble, a markdown fen
 
 **Recap.** Structured output is text with a schema the program can enforce. Prompting asks for the shape, post-processing repairs and parses, constrained sampling masks illegal tokens, and finetuning teaches the shape from examples. JSON mode promises a JSON string. A schema mask promises the declared fields. A tool call promises arguments your code can refuse to execute. A parser that checks the values against the source is still required, because a valid object can contain a false total.
 
+![Structured outputs](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-17-structured-outputs.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 17.*
+
 ## Inconsistency
 
 Inconsistency is the model giving different answers when the underlying fact has not changed, either across two samples of one prompt or across two phrasings of one question.
@@ -404,6 +472,10 @@ Robustness is the same table under a nudge. A typo, a paraphrase, an extra blank
 **Interview.** Draw the four cells, and say which knob can move which cell. Sample variance is temperature, nucleus, and seed. A wrong mode is a data, context, or training problem, and it is the hallucination card. Prompt sensitivity is why the eval set freezes the wording. Give the product rule: Copilot and an extractor want the stable cell, a brainstorm is allowed to move, and a support bot is scored on the article rather than on whether two replies used the same sentence.
 
 **Recap.** Inconsistency means the answer changed while the fact did not, across samples or across phrasings. Agreement and support are different tests: replies can disagree and both be faithful, or agree and both be false. Sampling knobs and seeds reduce sample variance. They repeat a wrong mode, and an eval that rewrites the prompt on every run is no longer measuring the same task.
+
+![Inconsistency](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-18-inconsistency.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 18.*
 
 ## Hallucination
 
@@ -432,3 +504,7 @@ Two prompt moves are worth naming because they are cheap and they are not a retr
 **Interview.** Define hallucination as unsupported fluent content, and split intrinsic from extrinsic with the refund article. Then give the cause, because the fix depends on it. A wild sample wants a lower temperature. An agreed false total wants a different context or a tool, not a new nucleus. A missed retrieval wants an abstention. Mention that preference training can make the model prefer a guess to a refusal, so the demonstrations have to contain the refusal. Close with the product test: can a reader reach the supporting sentence in one step, and does that sentence exist?
 
 **Recap.** A hallucination is a fluent claim the source or the world does not support. Contradicting the source and adding something the source never said are both in scope. Plausible next-token training, missing data, self-conditioning, a preference for complete answers, and an unlucky sample are different causes. Sampling knobs fix the unlucky sample. Retrieval, tools, abstention, and a checkable source fix the rest.
+
+![Hallucination](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-19-hallucination.png)
+
+*Source: [`diagrams/foundation-models.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models.drawio), page 19.*

@@ -44,6 +44,10 @@ for name, case in CASES.items():
 # receipt-total (0.0, 1.0, 'json schema')
 ```
 
+![Sharp or Loose](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-1-sharp-or-loose.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 1.*
+
 ## Seventy Billion
 
 You are placing weights on an A100 or H100 that reports 81920 MiB, which is 80 GiB. Use two counts. A whiteboard model is `70 × 10^9` parameters. The released Llama 3 70B configuration sums to 70,553,706,496 parameters, because the 128,256 vocabulary is stored twice and the 80 layers are SwiGLU. BF16 and FP16 store 2 bytes per parameter. INT8 stores 1 byte. A 4,096-token KV cache on the Llama 70B attention shape, computed in the attention card, is 1.25 GiB. A 131,072-token cache on that shape is 40 GiB.
@@ -88,6 +92,10 @@ print(spare_gib >= CACHE_128K_GIB)
 # False
 ```
 
+![Seventy Billion](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-2-seventy-billion.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 2.*
+
 ## Twenty per Parameter
 
 A pretraining plan has to pick a token count. Use the Chinchilla rule of thumb of about 20 tokens per parameter, which is the training-compute split, not a law about the best model to serve. Separately, treat 15 trillion tokens as the exercise stand-in for the scale Meta reported for Llama 3 pretraining.
@@ -124,6 +132,10 @@ print(seen, seen / TOKENS_PER_PARAM, LLAMA3_TOKENS / META_8B_OPTIMUM)
 # 140000000000 1400000000000
 # 1875.0 93.75 75.0
 ```
+
+![Twenty per Parameter](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-3-twenty-per-parameter.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 3.*
 
 ## Refund Tool Call
 
@@ -177,6 +189,10 @@ for name, raw in (("broken", BROKEN), ("two-objects", TWO), ("valid-wrong", VALI
 # valid-wrong parsed, amount wrong
 ```
 
+![Refund Tool Call](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-4-refund-tool-call.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 4.*
+
 ## April or April
 
 Notion AI summarizes a meeting note the user pasted. The note says the launch review is April 3 and the budget is 40,000 dollars. You draw two samples at the temperature the feature is actually using, and you score the date and the budget, not whether the sentences match.
@@ -222,6 +238,10 @@ for name, agree, supported in CASES:
 # april-3-and-april-30 mixed hallucination
 # both-say-april-30 consistent hallucination
 ```
+
+![April or April](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-5-april-or-april.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 5.*
 
 ## Best of Four
 
@@ -274,6 +294,10 @@ print(one_fits, with_tests_fits)
 # 93.75 20.0 80.0 36.8
 # True False
 ```
+
+![Best of Four](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-6-best-of-four.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 6.*
 
 ## Show or Prefer
 
@@ -342,6 +366,10 @@ for name, case in CASES.items():
 # yesterday-policy retrieval
 ```
 
+![Show or Prefer](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-7-show-or-prefer.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 7.*
+
 ## One Long Paste
 
 A service holds the released Llama 3 70B configuration in BF16. That configuration is 70,553,706,496 parameters, 131.4 GiB of weights, across 80 GiB GPUs. The attention shape is the public Llama 2 70B and Llama 3 70B configuration: 80 layers, 8 key-value heads, head dimension 128, keys and values in BF16, full attention, one request. The length is the prompt plus tokens generated so far. A user pastes 131,072 tokens and the decode has not started. Another request is only 4,096 tokens. Full multi-head attention on this model would be 64 key-value heads.
@@ -396,3 +424,7 @@ print(gpus(short), gpus(long), gpus(full))
 # 131.4 1.25 40.0 320.0
 # 2 3 6
 ```
+
+![One Long Paste](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills-8-one-long-paste.png)
+
+*Source: [`diagrams/foundation-models-drills.drawio`](/content/10_AI_Engineering/02_Understanding_Foundation_Models/diagrams/foundation-models-drills.drawio), page 8.*
