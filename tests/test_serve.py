@@ -573,6 +573,7 @@ CODING_PROBLEMS_TOPICS = (
     "11_Linked_Lists",
     "12_Fast_and_Slow_Pointers",
     "13_Sliding_Windows",
+    "14_Binary_Search",
 )
 
 
@@ -601,6 +602,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Linked Lists",
         "Fast and Slow Pointers",
         "Sliding Windows",
+        "Binary Search",
     ]
 
 
@@ -1026,6 +1028,42 @@ def test_sliding_windows_topic_exposes_drills() -> None:
     assert "count_anagram_windows" in notes
 
 
+def test_binary_search_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "14_Binary_Search")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Binary Search"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "14_Binary_Search"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Binary search over a search space",
+        "## Four decisions that define the loop",
+        "## The midpoint, overflow, and the upper midpoint",
+        "## Lower bound and upper bound",
+        "## A monotone predicate, searched for the boundary",
+        "## The index where a value would be inserted (LeetCode-style: Search Insert Position)",
+        "## The first and last index of a value (LeetCode-style: Find First and Last Position of Element in Sorted Array)",
+        "## The highest blade that still yields the wood",
+        "## A target in a rotated sorted array (LeetCode-style: Search in Rotated Sorted Array)",
+        "## The median of two sorted arrays (LeetCode-style: Median of Two Sorted Arrays)",
+        "## A matrix sorted in row-major order (LeetCode-style: Search a 2D Matrix)",
+        "## Any index that is a local peak (LeetCode-style: Find Peak Element)",
+        "## A pick whose chance follows the weight (LeetCode-style: Random Pick with Weight)",
+        "## What to run before you trust the loop",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "highest_blade" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1042,11 +1080,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "11_Linked_Lists",
         "12_Fast_and_Slow_Pointers",
         "13_Sliding_Windows",
+        "14_Binary_Search",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[12:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[13:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
