@@ -22,6 +22,10 @@ The layers sit in the application tier of the three-layer stack in [Introduction
 
 **Recap.** Production grows a prompt into a path: context, guardrails, a router and a gateway, response caches, and an agent only where tools are required. Telemetry starts with the first production call. Prompt caching of a KV prefix is a serving technique under the call, covered in Inference Optimization, and it is not a substitute for any box in the table. Each layer has to name the failure it removes.
 
+![The incremental architecture](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-1-incremental-architecture.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 1.*
+
 ## Enhance context
 
 Enhancing context means putting the facts this request depends on into the prompt the model will actually read.
@@ -45,6 +49,10 @@ That $600 is the cost of showing the page. It is not a judgment that the page is
 **Interview.** Start from the question the model got wrong and name the fact that was absent. Say you would retrieve or look up that fact, with the caller's permissions, before you change models. Quote the exercise bill: 1,200 tokens at $0.50 per million is $600 per million calls, half of the 2,400-token prefix on the Context length and context efficiency card because it is half the tokens. Then say what context you would refuse to add: another user's orders, a secret, a page the caller cannot open.
 
 **Recap.** The first architectural step is to put this request's facts into the prompt. Retrieval, the order record, and the date are that step, and the machinery for them is already in RAG and Agents and in Prompt Engineering. At the shared exercise input price, a 1,200-token page is $600 per million calls. A page the caller must not see does not get added just because the model would sound better with it.
+
+![Enhance context](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-2-enhance-context.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 2.*
 
 ## Input guardrails
 
@@ -83,6 +91,10 @@ print(admit(False, 0.91, 0.80, True))
 **Interview.** Separate private data, a hazard, and an attack, and name a tool for each. Presidio, or a recognizer of the same kind, for the card number. Llama Guard or OpenAI's Moderation API for a hazard, and say neither is the injection check. Prompt Guard, a NeMo input rail, or Azure Prompt Shields for the attack. Then give the action: redact and continue for a draft; block a tool call when the input has private data or a high injection score. A clean tool call still faces the write gate. Mention the 512-token window so a long ticket is not a silent miss. End with the log: the raw span you redacted must not be the span you trace.
 
 **Recap.** Input guardrails run before the model acts. Presidio-style recognizers catch private spans, with the regex limitation already recorded in Dataset Engineering. Llama Guard and OpenAI's Moderation API score hazards. The safety card keeps that job distinct from an attack. Prompt Guard, NeMo Guardrails, and Azure Prompt Shields target jailbreaks and injections. A draft can redact and continue. A tool call blocks when the input is private or looks like an injection. The trace stores the redacted request.
+
+![Input guardrails](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-3-input-guardrails.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 3.*
 
 ## Output guardrails
 
@@ -130,6 +142,10 @@ print(release(good, article, True))
 
 **Recap.** Output guardrails check format, factuality, and harm before the user or the tool sees the text. Format is a parser. A policy quote has to occur in the retrieved article, with entailment only for what a substring cannot decide. Llama Guard, OpenAI Moderation, and Azure's harm scoring are the hazard classifiers. NeMo and Guardrails AI can carry those checks and a capped reask. One retry names the failed constraint. The draft that failed is not a new system prompt.
 
+![Output guardrails](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-4-output-guardrails.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 4.*
+
 ## Guardrail implementation
 
 Guardrail implementation is the decision of which checks run before the first token, which checks run on the finished text, which of them block, and how much of the latency budget they may spend.
@@ -172,6 +188,10 @@ Parallel input checks finish in 0.120 seconds and the first token is available a
 
 **Recap.** Guardrails add latency, and independent checks should run together so the user waits for the slowest one. In the exercise, parallel input checks leave the first token at 0.770 seconds, inside a 0.820 budget, and sequential checks land at 0.850 and miss it. Output checks in parallel add 0.180 seconds, not 0.225. A 60-token draft held for those checks is not visible until 2.425 seconds. Who is allowed to see a token earlier is the next card.
 
+![Guardrail implementation](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-5-guardrail-implementation.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 5.*
+
 ## Streaming and a guardrail
 
 Streaming against a guardrail means showing a token only when every check that must cover it has already passed, or accepting that a later veto cannot unsay it.
@@ -185,6 +205,10 @@ Four repairs show up in real products. Buffer until the check passes, which is t
 **Interview.** Start from the surface. A message sent as the company buffers until 2.425 seconds in the exercise, or it streams into a buffer the buyer cannot see. Ghost text may stream, because the developer has not accepted it. Then say what a retract does not undo: a notification, a screen reader, a client log. Point the token-40 arithmetic at the drill rather than reusing the 60-token draft as if it were that incident. Close with the rule: a check that has not seen the text does not cover the text.
 
 **Recap.** A stream and an output guardrail fight because a flushed token cannot be unsaid. In the exercise, streaming can show a token at 0.770 seconds and buffering the 60-token draft waits until 2.425. Buffer a message the company will send. Ghost text in Copilot may stream because acceptance is a later decision. A retract is not an undo of every client that already received the span.
+
+![Streaming and a guardrail](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-6-streaming-and-a-guardrail.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 6.*
 
 ## One retry and one fallback
 
@@ -212,6 +236,10 @@ One primary timeout, one healthy fallback, and one healthy retry take 2.900 seco
 **Interview.** Name the three second chances and give each a different trigger: a bad parse, a wrong model for the intent, a provider 500. Then give the exercise arithmetic, 2.900 seconds against a 3.000 cap, and 8.000 seconds if four timeouts stack. Say the 60-token buffered draft at 2.425 seconds needs its own budget and does not fit this timeout. Close with the write: a retry of a refund uses the idempotency key from RAG and Agents, or it is not a retry, it is a second refund.
 
 **Recap.** A guardrail retry, a router backup, and a gateway fallback are three different second chances. The exercise allows one timeout plus one healthy fallback plus one healthy retry, 2.900 seconds, under a 3.000 second cap. Four timeouts take 8.000 seconds. The 60-token draft lives on a different clock. A retried write still needs an idempotency key.
+
+![One retry and one fallback](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-7-one-retry-one-fallback.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 7.*
 
 ## The model router
 
@@ -247,6 +275,10 @@ The router also has to fit the prompt to the model it chose. A strong model with
 
 **Recap.** A router chooses a pipeline or a model per request. Intent classification picks the task. RouteLLM-style routing picks a strong or a weak model from preference data. The 1 July 2024 headline belongs to that post's best reported routers on GPT-4 Turbo versus Mixtral 8x7B, and the abstract's 2× claim is for certain cases, not for every benchmark in the headline. On the exercise mix, perfect routing costs $476.80 per 100,000 calls, against $1,440.00 for always-large and $64.00 for always-small. The cheap total is not evidence the hard slice survived.
 
+![The model router](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-8-model-router.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 8.*
+
 ## The model gateway
 
 A model gateway is the shared front door that holds provider keys, enforces limits, records spend, and presents one interface to every application.
@@ -272,6 +304,10 @@ Two jobs hide inside "the gateway" and should be named. Load balancing spreads o
 **Interview.** Draw the router and the gateway as two boxes. The router picks the model for the task. The gateway holds the key, the 500-request budget split 100, 100, 150, and 150, the token ledger, and the provider fallback. Name LiteLLM's proxy and Portkey as the virtual-key form, Cloudflare AI Gateway and Kong's AI gateway as the edge or proxy form, and OpenRouter as a hosted product that also routes. Say a fallback is a model change. Say the prompt that lands in the gateway log has already passed through the redaction guardrail.
 
 **Recap.** The gateway is the shared front door: one interface, limits, a cost ledger, and provider fallbacks. LiteLLM's proxy and Portkey issue virtual keys. Cloudflare AI Gateway and Kong's AI gateway log, limit, and cache on an edge or a proxy, and Cloudflare can fall back on an error or a timeout. OpenRouter also routes. In the exercise, four app caps of 100, 100, 150, and 150 sum to a 500-request provider limit, and no single app is that whole limit. The router chooses the model. The gateway executes the call.
+
+![The model gateway](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-9-model-gateway.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 9.*
 
 ## Exact response caching
 
@@ -317,6 +353,10 @@ Invalidation is part of the key. A new template version is a new key, so a promp
 
 **Recap.** Exact response caching returns a stored answer for a repeated request and skips the model. The key binds the model, the template, the prompt, the decoding settings, and any identity the answer depends on. At a 12 percent exercise hit rate, one million short classifications drop from $340.00 to a bill that is $40.80 cheaper, and average latency falls from 0.900 seconds to 0.79400 seconds. A key that omits the user, or the page, caches the wrong thing.
 
+![Exact response caching](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-10-exact-response-caching.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 10.*
+
 ## Semantic caching
 
 Semantic caching returns a stored answer when a new request is close to a cached request in embedding space, even though the text is not the same.
@@ -356,6 +396,10 @@ Invalidation is the other half. The embedding of "what is the return window" doe
 
 **Recap.** Semantic caching serves a stored answer to a nearby request. The threshold sets the hit rate and the false-hit rate together. In the exercise, cosine 0.92 saves $207.00 per million calls and 0.1380 seconds of average latency while serving 7,200 wrong answers. Cosine 0.98 saves $69.00 and serves 300 wrong answers. A namespace has to move when the corpus changes, and the key has to include the tenant when the answer is personal.
 
+![Semantic caching](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-11-semantic-caching.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 11.*
+
 ## Prompt cache versus response cache
 
 A prompt cache reuses the KV state of an identical prefix and still generates the answer. A response cache returns a stored answer and skips generation.
@@ -378,6 +422,10 @@ A response cache, exact or semantic, is the second one. A hit does not prefill a
 
 **Recap.** Prompt caching skips the prefill of an identical prefix and still generates. The Prompt caching card prices that at $7,010 versus $2,402 per million exercise calls, and the prefix is 0.50 GiB on Llama 3 8B. Response caching skips the call and returns a stored answer, exact or semantic, at this topic's own exercise bills. A shared system prompt belongs in the first. A customer's order status belongs in the second only behind a key that includes that customer.
 
+![Prompt cache versus response cache](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-12-prompt-vs-response-cache.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 12.*
+
 ## Agents and write actions in the architecture
 
 An agent in this architecture is a routed loop with tools. A write action remains a proposal the program has to accept.
@@ -399,6 +447,10 @@ The cost is why the router exists. The Efficiency failures card in [RAG and Agen
 
 **Recap.** The agent is one route, not the product. Reads can loop, with the step cap and the $684.00 versus $140.00 bill from RAG and Agents. Writes stay proposals: recomputed arguments, a person on the irreversible ones, an idempotency key. Tool results re-enter through a guardrail. The router is what keeps a simple ticket off that path.
 
+![Agents and write actions in the architecture](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-13-agents-and-write-actions.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 13.*
+
 ## Monitoring and observability
 
 Monitoring tells you a known signal crossed a line you set. Observability is the telemetry that lets you explain a failure you did not have a line for.
@@ -414,6 +466,10 @@ Spot checks and exhaustive checks are different promises about the same metric. 
 **Interview.** Define the two words with one incident. The page is the monitor: p95 crossed the line. The explanation is observability: the trace shows the template version and the passage ids. Name the three signals and the three products, LangSmith, Langfuse, and Phoenix, plus OpenTelemetry as the shared names. Mention that the GenAI conventions were still Development in November 2026, that `gen_ai.system` and `gen_ai.provider.name` are two generations of one fact, and that cache-read, cache-write, and reasoning tokens are subsets. Adding a subset to its total double-counts. Message bodies are Opt-In.
 
 **Recap.** Monitoring pages you when a known line is crossed. Observability is being able to explain a request you did not think to graph. Metrics, logs, and traces are the raw material, joined by a request id. OpenTelemetry's GenAI names were still Development in November 2026. Cached tokens belong inside the input count in that text, and adding the cache-read or cache-write subset double-counts. LangSmith, Langfuse, and Arize Phoenix are the trace products. A prompt in any of them is a privacy decision.
+
+![Monitoring and observability](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-14-monitoring-and-observability.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 14.*
 
 ## Quality, latency, cost, and reliability
 
@@ -448,6 +504,10 @@ Mean time to detect is 11.0 minutes. Mean time from the page to recovery is 32.5
 
 **Recap.** Production quality is an offline eval plus online failure rates. Latency keeps the TTFT and TPOT definitions from Evaluate AI Systems and adds the user-visible clock. Cost is dollars per successful task. On eight exercise incidents, mean detection is 11.0 minutes, mean mitigation after the page is 32.5, and mean time from onset to recovery is 43.5. User rates need a denominator. They do not outvote a measured task failure, and a task score does not outvote a real change in what users do.
 
+![Quality, latency, cost, and reliability](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-15-quality-latency-cost-reliability.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 15.*
+
 ## Logs and traces
 
 A log is an event you record. A trace is the tree of timed spans for one request.
@@ -478,6 +538,10 @@ The request takes 1,140 milliseconds. Retrieval and the model are 1,080 of them,
 **Interview.** Say what you put on the log line and what you refuse to put there: ids, versions, verdicts, passage ids, and not the raw card number. Then read a trace. In this exercise the total is 1,140 milliseconds and 94.74 percent of it is retrieval plus the model, so the 40 millisecond guard is the wrong optimization. Say the request id is what joins the log to the trace. Mention that a write belongs in the tree as its own span.
 
 **Recap.** Logs record the decision: which template, which model, which route, which verdicts, which passages. Traces record the time, as spans. In the exercise, one answer takes 1,140 milliseconds and retrieval plus the model are 94.74 percent of it. The guardrail is 40 milliseconds. Redaction happens before either store. A total without spans will send the work to the wrong layer.
+
+![Logs and traces](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-16-logs-and-traces.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 16.*
 
 ## Drift detection
 
@@ -511,6 +575,10 @@ The distance is 0.20. Account traffic went from a quarter of the mix to nearly h
 
 **Recap.** Drift is a prompt change, a silent model change, or a user-mix change that your deploy did not ship. Canaries, a rerun eval, online failure rates, and an intent histogram are how you see it. In the exercise, total variation between the two weeks is 0.20, with account traffic replacing refunds as the large class. Pin the model id. Treat a green canary on the old mix as incomplete evidence.
 
+![Drift detection](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-17-drift-detection.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 17.*
+
 ## Pipeline orchestration
 
 Pipeline orchestration is how multi-step work retries, waits, and resumes. A framework earns its place when that work no longer fits in one request function.
@@ -543,6 +611,10 @@ That function does not need a DAG. The index job that produces `passages` might.
 
 **Recap.** Orchestration is for work that retries, waits, and resumes, such as a reindex or a nightly eval. Airflow and Prefect are the usual engines. The user-facing path can stay a function: retrieve, generate, check. LangChain, LlamaIndex, Haystack, and DSPy help build that function and can hide the tool boundary if you let them own the action. A compiled prompt still goes through the gateway, the guardrails, and the eval.
 
+![Pipeline orchestration](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-18-pipeline-orchestration.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 18.*
+
 ## Explicit and implicit feedback
 
 Explicit feedback is a signal the person knows they are giving. Implicit feedback is behavior you interpret as a judgment.
@@ -556,6 +628,10 @@ Both kinds need a denominator and a definition of the action. Copilot can report
 **Interview.** Give one explicit signal and one implicit signal from real products: ChatGPT's thumb, Copilot's acceptance per suggestion shown. Say lines accepted are a different Copilot rate, and that Midjourney's grid is a deliberate choice among four images, distinct from a later variation or upscale. Say the voters and the accepters are not the whole user base, and point that bias at the acquiring data card rather than inventing a new one. Keep the offline eval in the answer so a thumb is not the only definition of quality.
 
 **Recap.** Explicit feedback is a thumb, a vote, or a written judgment the person knows they gave. Implicit feedback is behavior such as accepting a Copilot suggestion. ChatGPT's thumb and Arena's comparison are explicit. Copilot's acceptance rate is implicit and needs the shown suggestions as its denominator, and lines accepted are not that same rate. Midjourney's four-image pick is a choice the person means to make. Neither kind is the traffic, and neither replaces the task eval.
+
+![Explicit and implicit feedback](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-19-explicit-and-implicit-feedback.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 19.*
 
 ## Natural language feedback
 
@@ -573,6 +649,10 @@ Two conversational asks are feedback even when they look like features. "Are you
 
 **Recap.** The next turn contains feedback: a stop, a correction, a complaint, or a tone. Only a correction that supplies a better fact is close to a training pair, and only once you believe the fact. A stop alone is ambiguous. A complaint does not contain the right answer. Sentiment words lie, including "not bad." Store the turns, redact them, and do not promote a keyword to a label.
 
+![Natural language feedback](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-20-natural-language-feedback.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 20.*
+
 ## Regenerate, edits, length, and deletion
 
 Regenerate, an edit, the length of the conversation, and a deletion are feedback that never uses a rating widget.
@@ -586,6 +666,10 @@ None of these should be averaged into one "user unhappiness" score across produc
 **Interview.** Give the four signals and one product where each one means something different. Regenerate in a support draft is a miss. Another grid in Midjourney is the product. An edit that changes a fact is a candidate pair. Length needs a completed-task split. Deletion is privacy as often as it is quality. Say you would not ship one blended unhappiness score across Copilot, Midjourney, and a help-center bot. Copilot's next suggestion and a Copilot Chat reload are different events from this draft's regenerate button.
 
 **Recap.** Regenerate, edit distance, conversation length, and deletion are feedback without a star rating. A regenerate is a failed first answer in a draft product and a requested extra sample in Midjourney. Copilot cycles inline suggestions and can reload a chat response. Those are not the draft's rate. An edit that changes a fact is the useful pair. A long conversation is either engagement or a loop, depending on whether the task finished. A deletion is too confounded with privacy to train on alone.
+
+![Regenerate, edits, length, and deletion](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-21-regenerate-edits-length-deletion.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 21.*
 
 ## When to collect feedback
 
@@ -607,6 +691,10 @@ When the model fails, the person should still be able to finish the task. Inpain
 
 **Recap.** Collect feedback when the person can see the thing you might change, and when you will use what they tell you. Acceptance is recorded at the suggestion. A thumb waits for a finished answer. A refund is confirmed before it happens. Sample explicit questions. Do not add a draft score to an outcome score and call the sum quality.
 
+![When to collect feedback](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-22-when-to-collect-feedback.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 22.*
+
 ## How to collect feedback
 
 How to collect feedback is the design of the control: easy to ignore, specific enough to learn from, and ordered so the slot does not pick the winner.
@@ -625,6 +713,10 @@ Visibility changes what the signal means. A private thumb, visible to you and no
 
 **Recap.** The control sits on the path of the work and can be ignored. A thumb plus an optional reason on the negative is the small version. A side-by-side pick is the stronger one, with the order randomized or swapped, because slot bias is real for people and measured for judges. ChatGPT has used both patterns. Arena is the public comparison product. Log the unit, the order, and the template version with the vote.
 
+![How to collect feedback](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-23-how-to-collect-feedback.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 23.*
+
 ## Feedback biases
 
 A feedback bias is a systematic tilt in the signal, separate from the noise of one careless click.
@@ -640,6 +732,10 @@ The selection problem sits under all four. The people who rate are not the traff
 **Interview.** Name the four tilts: leniency, randomness, position, and preference for length or agreement. Give the fix that matches each one. Behavior beside the thumb. More data for noise, and no hope that more data fixes a tilt. Randomize the slot. A factual check beside the preference, plus the style-control warning from the ranking cards. Say the raters are not the traffic, and point at Dataset Engineering for that selection bias rather than restating the label budget.
 
 **Recap.** Leniency inflates ratings relative to later edits. Randomness adds noise and does not pick a direction. Position favors a slot, so the order has to move. Preference favors answers that are long, warm, or agreeable, which is a product choice only when you meant it. More ratings make a bias more precise. The people who respond are not the whole user base.
+
+![Feedback biases](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-24-feedback-biases.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 24.*
 
 ## A confidence interval on a thumb rate
 
@@ -673,6 +769,10 @@ The interval is 0.6590 to 0.7410. The margin is 0.0410, about four points. A wee
 
 **Recap.** On 336 thumbs up out of 480 exercise ratings, the rate is 0.70 and the 95 percent Wald interval is 0.6590 to 0.7410, a margin of 0.0410. A ±0.03 Wald margin at this rate needs 897 ratings. Wilson replaces Wald when the miss count is small. The annotation card's 3,551 per arm answers a different question, a powered comparison of 0.70 against 0.73. The interval measures noise. It does not repair a biased sample.
 
+![A confidence interval on a thumb rate](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-25-thumb-rate-confidence-interval.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 25.*
+
 ## Online experiments
 
 An online experiment serves two pinned variants to assigned traffic and compares a metric you declared before you looked.
@@ -689,6 +789,10 @@ Writes stay off the unscored arm. A refund, a sent email, or a merge does not ge
 
 **Recap.** An online experiment compares two pinned variants on assigned users, on a metric you named in advance. Acceptance, thumbs, regenerate, and task success stay separate series. 897 ratings and 3,551 per arm answer different sizing questions, and peeking is not a third one. Writes stay on the arm the eval scored. A moved thumb rate inside the experiment is a finding. It is not, by itself, a launch.
 
+![Online experiments](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-26-online-experiments.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 26.*
+
 ## Degenerate feedback loops
 
 A degenerate feedback loop is a system that trains on behavior its own outputs created, and then produces more of that behavior.
@@ -702,6 +806,10 @@ Popularity bias is the same loop in a recommender. YouTube's homepage and Spotif
 **Interview.** Explain the loop in both products. Chat: thumbs reward agreement, the next model agrees more, Sharma and coauthors showed preference data already leans that way and that optimization can cost truthfulness. Recommender: exposure creates the clicks that justify the exposure. Then give the breaks: a factual verifier in the reward, a canary of user-wrong items the training file cannot touch, logged exposure, and a random slice. Say you would not select the checkpoint by the thumb rate alone.
 
 **Recap.** A degenerate loop trains on the behavior it just induced. Sycophancy is that loop for agreement: Sharma and coauthors found preference judgments favoring answers that match the user, and optimization that can trade away truth. Popularity bias is the loop for recommenders: shown items collect the clicks that keep them shown. Log exposure, keep a random slice, and keep an eval the feedback cannot rewrite. A rising thumb rate is not, by itself, a better model.
+
+![Degenerate feedback loops](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-27-degenerate-feedback-loops.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 27.*
 
 ## What traces and feedback may keep
 
@@ -719,6 +827,10 @@ Feedback privacy is the same cut on a smaller record. A thumb, a star, or a rege
 
 **Recap.** Store ids, versions, verdicts, and counts by default. Store prompt text only for a purpose you can name, after redaction, and not by turning on Opt-In message attributes casually. A debug trace and a training export are different stores with different lifetimes. A thumb is not the prompt. A deleted conversation is not deleted from your log or your training file until those stores are in the deletion path. A hash of a card number is still a secret.
 
+![What traces and feedback may keep](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-28-what-traces-and-feedback-keep.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 28.*
+
 ## Feedback and the data flywheel
 
 The data flywheel is the path from a shipped product's feedback to the next prompt or the next model, closed by an eval the feedback is not allowed to rewrite.
@@ -734,3 +846,7 @@ The product decision is which signals may enter. A pairwise comparison with logg
 **Interview.** Walk the loop in order: serve a pinned id, collect a defined signal, redact, filter, write the file Dataset Engineering already specifies, train or change the prompt, pass the eval the file cannot touch, then look at latency and cost. Say which signals may enter: a debiased comparison, a checked edit, a stored accept with its suggestion. Say a bare thumb, a deletion, and anything in the eval set may not. Mention the retention card, and mention model collapse as the bound on training from your own outputs alone. An online experiment can choose the checkpoint. The thumb rate alone cannot. End with the gate.
 
 **Recap.** The flywheel turns feedback into the next prompt or model only through redaction, a filter, a training file, and an eval that file cannot touch. Dataset Engineering owns the file, the bias that thumbs are not traffic, and the collapse warning. This topic owns which signals may enter: checked edits, debiased comparisons, and stored acceptances, not bare thumbs, deletions, or the eval set. A moved thumb rate is not a ship decision. The pinned eval, the latency, and the cost are.
+
+![Feedback and the data flywheel](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-29-data-flywheel.png)
+
+*Source: [`diagrams/ai-engineering-architecture.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture.drawio), page 29.*

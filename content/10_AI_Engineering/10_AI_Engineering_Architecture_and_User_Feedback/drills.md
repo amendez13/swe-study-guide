@@ -34,6 +34,10 @@ print(COSINE >= THRESHOLD, serve_cached(COSINE, CACHED, ASKED))
 # True False
 ```
 
+![The Other Order](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-1-the-other-order.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 1.*
+
 ## Already on the Screen
 
 Gemini is drafting a reply the buyer will see in Gmail. The exercise clocks are a 500 millisecond time to first token and 30 milliseconds per later token. The first disallowed span, a card number, is token 40 of a 120-token draft. The harm classifier runs only on the finished string and takes 200 milliseconds more. Tokens are flushed to the client as they are generated. These clocks are not the 0.820 second budget or the 60-token buffered path on the guardrail card.
@@ -70,6 +74,10 @@ print(seen, finished, guard_done, guard_done - seen)
 # 1670 4070 4270 2600
 ```
 
+![Already on the Screen](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-2-already-on-the-screen.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 2.*
+
 ## The Easy Label
 
 A router in front of a coding assistant such as GitHub Copilot sends what it calls easy prompts to a small model. On an exercise slice of 1,000 prompts that a reviewer marked hard, the router still sends 850 to the small model. Exercise exact match on those 850 is 0.40. The 150 it sends to the large model score 0.91. Exact match if the large model had taken the whole slice is 0.91. These scores are not a published Copilot acceptance rate, and they are not the $476.80 blend on the router card.
@@ -98,6 +106,10 @@ print(TO_SMALL + TO_LARGE == HARD, f"{delivered:.4f}", f"{LARGE_SCORE:.2f}")
 # True 0.4765 0.91
 ```
 
+![The Easy Label](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-3-the-easy-label.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 3.*
+
 ## The Provider Is Down
 
 The primary model behind a Shopify support bot returns errors for the whole incident. The gateway, a proxy in the LiteLLM or Portkey position, falls back to a second provider. During the incident the bot attempts 500 refund conversations and 800 order-status questions. On an exercise set, the fallback's refund JSON passes the schema 0.62 of the time, so 310 parse and 190 do not. The primary's schema pass rate last week was 0.99. The fallback was never on the refund eval. Order status is a read.
@@ -124,6 +136,10 @@ status_answered = STATUS
 print(parsed, malformed, automatic_refunds, status_answered)
 # 310 190 0 800
 ```
+
+![The Provider Is Down](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-4-the-provider-is-down.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 4.*
 
 ## Thumbs Moved, the Eval Did Not
 
@@ -174,6 +190,10 @@ print(before[1] < after[0], f"{difference_z(BEFORE, AFTER):.2f}")
 # True 12.89
 ```
 
+![Thumbs Moved, the Eval Did Not](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-5-thumbs-moved-eval-did-not.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 5.*
+
 ## They Asked for Another
 
 On 1,000 exercise conversations in a support draft, 220 click regenerate. Of those, 150 accept the second draft and 70 abandon the thread. The product is the draft, not a gallery. Midjourney's "give me another grid" is the comparison you should not mix into this rate. Copilot's inline suggestion is accepted or cycled, and Copilot Chat on GitHub can reload a response. Neither control is this rate. This is not the semantic-cache or thumb-interval arithmetic.
@@ -201,6 +221,10 @@ print(f"{REGENERATE / CONVERSATIONS:.2f} {ACCEPT_SECOND / REGENERATE:.4f} {ABAND
 # 0.22 0.6818 0.3182
 ```
 
+![They Asked for Another](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-6-they-asked-for-another.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 6.*
+
 ## The Thumb Likes Agreement
 
 A tutoring chat is tuned on thumbs. The exercise set is 100 math prompts where the person states a wrong premise and the correct step contradicts it. Before the tuning, the model agrees with the wrong premise on 12 prompts. After, it agrees on 45. On a separate exercise read, agreeing replies get a thumb-up rate of 0.70 and corrections get 0.40. Sharma and coauthors found that preference judgments can favor agreement and that optimization does not move every kind of sycophancy the same way. These 12 and 45 are exercise counts, not their paper.
@@ -225,6 +249,10 @@ print(AGREE_AFTER > AGREE_BEFORE)
 # 0.12 0.45
 # True
 ```
+
+![The Thumb Likes Agreement](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-7-the-thumb-likes-agreement.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 7.*
 
 ## Where the Second Went
 
@@ -265,3 +293,7 @@ print(
 )
 # 1265 0.5059 0.3004 0.6719
 ```
+
+![Where the Second Went](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-8-where-the-second-went.png)
+
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 8.*
