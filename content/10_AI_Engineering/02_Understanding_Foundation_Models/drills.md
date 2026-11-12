@@ -46,47 +46,53 @@ for name, case in CASES.items():
 
 ## Seventy Billion
 
-You are placing a 70-billion-parameter model on an A100 or H100 that reports 81920 MiB, which is 80 GiB. BF16 and FP16 store 2 bytes per parameter. INT8 stores 1 byte. A 4,096-token KV cache on the Llama 70B attention shape, computed in the attention card, is 1.25 GiB. A 131,072-token cache on that shape is 40 GiB.
+You are placing weights on an A100 or H100 that reports 81920 MiB, which is 80 GiB. Use two counts. A whiteboard model is `70 × 10^9` parameters. The released Llama 3 70B configuration sums to 70,553,706,496 parameters, because the 128,256 vocabulary is stored twice and the 80 layers are SwiGLU. BF16 and FP16 store 2 bytes per parameter. INT8 stores 1 byte. A 4,096-token KV cache on the Llama 70B attention shape, computed in the attention card, is 1.25 GiB. A 131,072-token cache on that shape is 40 GiB.
 
-How much memory do the weights take in each precision? What fits on one GPU, and how many 4,096-token caches fit in the INT8 spare if that spare were entirely cache?
+How much memory do the weights take in each precision, for each count? What fits on one GPU, and how many 4,096-token caches fit in the Llama 3 INT8 spare if that spare were entirely cache?
 
 ```python
-PARAMS = 70_000_000_000
+ROUND_PARAMS = 70_000_000_000
+LLAMA3_70B = 70_553_706_496
 GPU_GIB = 80
 CACHE_4K_GIB = 1.25
 CACHE_128K_GIB = 40.0
 GIB = 1024**3
 ```
 
-**Answer:** BF16 or FP16 weights are 130.4 GiB and do not fit on one 80 GiB GPU. INT8 weights are 65.2 GiB and fit, with 14.8 GiB spare. That spare holds eleven 1.25 GiB caches only if the runtime takes none of it, so "about ten short contexts" is the planning sentence, and a single 40 GiB long-context cache does not fit beside the INT8 weights on that GPU. A whiteboard that says "140 GB versus 80 GB" reaches the same conclusion for BF16, because 70 billion times 2 bytes is 140 decimal GB. It reaches a different spare at INT8, 10 decimal GB rather than 14.8 GiB. Name the unit. Quantization scales add a little on top of the 1-byte estimate. Training with Adam is a different budget, on the order of 18 bytes per parameter, and it is not this serving question.
+**Answer:** At `70 × 10^9`, BF16 or FP16 weights are 130.4 GiB and INT8 weights are 65.2 GiB, with 14.8 GiB spare. The Llama 3 70B configuration is 131.4 GiB in BF16 and 65.7 GiB in INT8, with 14.3 GiB spare. Neither BF16 figure fits on one 80 GiB GPU. Both INT8 figures fit. The 14.3 GiB spare holds eleven 1.25 GiB caches only if the runtime takes none of it, so "about ten short contexts" is the planning sentence, and a single 40 GiB long-context cache does not fit beside the INT8 weights on that GPU. The round count's spare holds the same eleven caches. A whiteboard that says "140 GB versus 80 GB" reaches the same conclusion for BF16, because 70 billion times 2 bytes is 140 decimal GB. It reaches a different spare at INT8, 10 decimal GB rather than 14.3 GiB. Name the unit. Quantization scales add a little on top of the 1-byte estimate. Training with Adam is a different budget, on the order of 18 bytes per parameter, and it is not this serving question.
 
 ```python
-PARAMS = 70_000_000_000
+ROUND_PARAMS = 70_000_000_000
+LLAMA3_70B = 70_553_706_496
 GPU_GIB = 80
 CACHE_4K_GIB = 1.25
 CACHE_128K_GIB = 40.0
 GIB = 1024**3
 
 
-def weight_gib(bytes_per_param: int) -> float:
-    return PARAMS * bytes_per_param / GIB
+def weight_gib(params: int, bytes_per_param: int) -> float:
+    return params * bytes_per_param / GIB
 
 
-bf16_gib = weight_gib(2)
-int8_gib = weight_gib(1)
-spare_gib = GPU_GIB - int8_gib
+round_bf16 = weight_gib(ROUND_PARAMS, 2)
+round_int8 = weight_gib(ROUND_PARAMS, 1)
+llama_bf16 = weight_gib(LLAMA3_70B, 2)
+llama_int8 = weight_gib(LLAMA3_70B, 1)
+spare_gib = GPU_GIB - llama_int8
 short_caches = int(spare_gib // CACHE_4K_GIB)
-print(round(bf16_gib, 1), round(int8_gib, 1), round(spare_gib, 1))
-print(bf16_gib <= GPU_GIB, int8_gib <= GPU_GIB, short_caches, spare_gib >= CACHE_128K_GIB)
-# 130.4 65.2 14.8
-# False True 11 False
+print(round(round_bf16, 1), round(round_int8, 1), round(llama_bf16, 1), round(llama_int8, 1))
+print(round(spare_gib, 1), llama_bf16 <= GPU_GIB, llama_int8 <= GPU_GIB, short_caches)
+print(spare_gib >= CACHE_128K_GIB)
+# 130.4 65.2 131.4 65.7
+# 14.3 False True 11
+# False
 ```
 
 ## Twenty per Parameter
 
 A pretraining plan has to pick a token count. Use the Chinchilla rule of thumb of about 20 tokens per parameter, which is the training-compute split, not a law about the best model to serve. Separately, treat 15 trillion tokens as the exercise stand-in for the scale Meta reported for Llama 3 pretraining.
 
-How many tokens does the rule suggest for a 7-billion-parameter model and for a 70-billion-parameter model? If an 8-billion-parameter model trains on those 15 trillion tokens, how many tokens per parameter is that, and why would a team do it on purpose?
+How many tokens does the rule suggest for a 7-billion-parameter model and for a 70-billion-parameter model? If an 8-billion-parameter model trains on those 15 trillion tokens, how many tokens per parameter is that? Meta's Llama 3 blog puts the Chinchilla-optimal count for that 8B model at about 200 billion tokens. Why would a team train past either figure on purpose?
 
 ```python
 TOKENS_PER_PARAM = 20
@@ -94,9 +100,10 @@ SEVEN_B = 7_000_000_000
 SEVENTY_B = 70_000_000_000
 EIGHT_B = 8_000_000_000
 LLAMA3_TOKENS = 15_000_000_000_000
+META_8B_OPTIMUM = 200_000_000_000
 ```
 
-**Answer:** The rule suggests 140 billion tokens for the 7B model and 1.4 trillion tokens for the 70B model. The 1.4 trillion figure is Chinchilla's own training length for a 70B model. Fifteen trillion tokens on an 8B model is 1,875 tokens per parameter, which is 93.75 times the rule, so the run is far past the training-compute optimum. The reason to pass that optimum is inference. The training FLOPs are paid once. Every Copilot suggestion and every chat turn pays the inference cost of the model you kept. A smaller model that has seen more tokens can be the better checkpoint to serve. The ratio is still the check on the opposite mistake: a 70B model trained on a few tens of billions of tokens is the undertrained shape Chinchilla was written to retire.
+**Answer:** The rule suggests 140 billion tokens for the 7B model and 1.4 trillion tokens for the 70B model. The 1.4 trillion figure is Chinchilla's own training length for a 70B model. Fifteen trillion tokens on an 8B model is 1,875 tokens per parameter, which is 93.75 times the 20-token rule. Meta's Llama 3 blog puts the Chinchilla-optimal count for that 8B model at about 200 billion tokens, and 15 trillion is 75 times that estimate. Either comparison says the run is far past the training-compute optimum. The reason to pass that optimum is inference. The training FLOPs are paid once. Every Copilot suggestion and every chat turn pays the inference cost of the model you kept. A smaller model that has seen more tokens can be the better checkpoint to serve. Llama 3's report makes that split explicit: the 405B model is sized to the training budget, and the 8B and 70B are trained longer because they are cheaper to serve. The ratio is still the check on the opposite mistake: a 70B model trained on a few tens of billions of tokens is the undertrained shape Chinchilla was written to retire.
 
 ```python
 TOKENS_PER_PARAM = 20
@@ -104,6 +111,7 @@ SEVEN_B = 7_000_000_000
 SEVENTY_B = 70_000_000_000
 EIGHT_B = 8_000_000_000
 LLAMA3_TOKENS = 15_000_000_000_000
+META_8B_OPTIMUM = 200_000_000_000
 
 
 def per_parameter(tokens: int, params: int) -> float:
@@ -112,74 +120,88 @@ def per_parameter(tokens: int, params: int) -> float:
 
 seen = per_parameter(LLAMA3_TOKENS, EIGHT_B)
 print(TOKENS_PER_PARAM * SEVEN_B, TOKENS_PER_PARAM * SEVENTY_B)
-print(seen, seen / TOKENS_PER_PARAM)
+print(seen, seen / TOKENS_PER_PARAM, LLAMA3_TOKENS / META_8B_OPTIMUM)
 # 140000000000 1400000000000
-# 1875.0 93.75
+# 1875.0 93.75 75.0
 ```
 
-## Broken JSON
+## Refund Tool Call
 
-A receipt extractor returns a preamble, then a markdown fence, then `{"total": 12.50,}` with a trailing comma. The receipt total is 12.50.
+A Zendesk bot may call Stripe's refund API. The tool schema takes a charge id and an amount in cents. In this exercise the ticket's charge is `ch_1842`, an obvious stand-in rather than a live Stripe id, and the amount to refund is 1250 cents. The model returns three strings. One is a preamble, a markdown fence, and a trailing comma. One is two JSON objects, and the wrong amount is first. One is a single schema-valid object for 99900 cents.
 
-Which of the four structured-output methods removes this failure, and why is a finetune the wrong first purchase? The salvage below is the post-processing you could ship this afternoon.
+Which strings does a schema mask refuse to sample, which does a first-object repair silently accept, and why is a finetune the wrong first purchase? Your code still has to decide whether to call Stripe.
 
 ```python
 import json
 import re
 
 FENCE = "`" * 3
-RAW = "Here is the object:\n" + FENCE + "json\n" + '{"total": 12.50,}\n' + FENCE
-WRONG_BUT_VALID = '{"total": 999.0}'
+BROKEN = "Refunding now:\n" + FENCE + "json\n" + '{"charge": "ch_1842", "amount_cents": 1250,}\n' + FENCE
+TWO = '{"charge": "ch_1842", "amount_cents": 99900}{"charge": "ch_1842", "amount_cents": 1250}'
+VALID_WRONG = '{"charge": "ch_1842", "amount_cents": 99900}'
+RIGHT_CENTS = 1250
 ```
 
-**Answer:** Constrained decoding removes this class of failure. A JSON schema mask will not sample the preamble, the fence, or the trailing comma, because those tokens leave the grammar. A stricter prompt reduces how often they appear and still leaks. The salvage parses this sample to 12.5, and it also parses `{"total": 999.0}`, which is legal JSON and the wrong total. Post-processing stays in the stack as a parser that checks types and ranges. It is a bad place to stop. Finetuning is the purchase you make when valid objects keep holding the wrong fields, the schema is stable, the volume is high, and you have examples of the right fields. It is an expensive way to forbid a trailing comma. The grammar has not seen the receipt, so the total is still checked against the document.
+**Answer:** A schema mask for one object refuses the preamble, the fence, the trailing comma, and the second object, because those tokens leave the grammar. JSON mode would only promise that a finished string parses as JSON, which the two-object string does not, and which `{"amount_cents": 99900}` does. The first-object repair parses the broken string to 1250 cents, so post-processing can hide a syntax bug. On the two-object string it keeps 99900 and drops 1250 without saying a second object existed. On the schema-valid string it also returns 99900. Constrained decoding does not remove that last failure, because 99900 is a legal integer. The parser, and the rule that a person confirms a refund, are what stop Stripe from moving the wrong amount. Finetuning is the purchase you make when valid calls keep holding the wrong fields, the schema is stable, the volume is high, and you have examples. It is an expensive way to forbid a trailing comma.
 
 ```python
 import json
 import re
 
 FENCE = "`" * 3
-RAW = "Here is the object:\n" + FENCE + "json\n" + '{"total": 12.50,}\n' + FENCE
-WRONG_BUT_VALID = '{"total": 999.0}'
+BROKEN = "Refunding now:\n" + FENCE + "json\n" + '{"charge": "ch_1842", "amount_cents": 1250,}\n' + FENCE
+TWO = '{"charge": "ch_1842", "amount_cents": 99900}{"charge": "ch_1842", "amount_cents": 1250}'
+VALID_WRONG = '{"charge": "ch_1842", "amount_cents": 99900}'
+RIGHT_CENTS = 1250
 
 
-def salvage(raw: str) -> dict[str, float]:
-    start = raw.find("{")
-    end = raw.rfind("}")
-    body = re.sub(r",\s*}", "}", raw[start : end + 1])
+def first_object(raw: str) -> dict[str, object]:
+    match = re.search(r"\{.*?\}", raw, flags=re.DOTALL)
+    if match is None:
+        raise ValueError("no object")
+    body = re.sub(r",\s*}", "}", match.group(0))
     parsed = json.loads(body)
-    return {key: float(value) for key, value in parsed.items()}
+    return {key: value for key, value in parsed.items()}
 
 
-print(salvage(RAW), salvage(WRONG_BUT_VALID))
-# {'total': 12.5} {'total': 999.0}
+def verdict(parsed: dict[str, object]) -> str:
+    if parsed.get("amount_cents") != RIGHT_CENTS:
+        return "parsed, amount wrong"
+    return "parsed, amount matches"
+
+
+for name, raw in (("broken", BROKEN), ("two-objects", TWO), ("valid-wrong", VALID_WRONG)):
+    print(name, verdict(first_object(raw)))
+# broken parsed, amount matches
+# two-objects parsed, amount wrong
+# valid-wrong parsed, amount wrong
 ```
 
-## Wrong Twice
+## April or April
 
-A Zendesk or Intercom bot answers from a help-center article. The article says the return window is 30 days, through the returns portal. You draw two samples on the same prompt, at the temperature the bot is actually using.
+Notion AI summarizes a meeting note the user pasted. The note says the launch review is April 3 and the budget is 40,000 dollars. You draw two samples at the temperature the feature is actually using, and you score the date and the budget, not whether the sentences match.
 
-Four outcomes show up in the logs. Both samples say 30 days. Both samples say 30 days and describe the portal in different words. One sample says 30 days and the other says 60. Both samples say 60 days.
+Four outcomes show up in the logs. Both samples say April 3 and 40,000 dollars. Both samples have those two facts, and one writes "April 3" while the other writes "3 April." One sample says April 3 and the other says April 30, with the budget right in both. Both samples say April 30 and 400,000 dollars.
 
 Which outcomes are inconsistency, which are hallucination, and which knob can fix which outcome?
 
 ```python
 CASES = (
-    ("both-say-30", True, True),
-    ("two-wordings-of-30", False, True),
-    ("30-and-60", False, False),
-    ("both-say-60", True, False),
+    ("both-match-the-note", True, True),
+    ("april-3-and-3-april", False, True),
+    ("april-3-and-april-30", False, False),
+    ("both-say-april-30", True, False),
 )
 ```
 
-**Answer:** Both samples saying 30 days is a stable, supported answer. Different wordings that both match the article are inconsistency of phrasing, and a string compare will call it a failure when the fact survived. One sample at 30 and one at 60 is inconsistency and a hallucination together: the 60-day sample adds a window the article does not support. Lowering the temperature, or taking a vote, helps this cell when 30 is the mode, and the article check still has to reject a 60 that slips through. Both samples saying 60 is a consistent hallucination. The mode is wrong, so a lower temperature repeats 60 more reliably. That one wants the article in the prompt, an abstention when the draft disagrees with the retrieved page, or a field checked against the article. Sampling knobs are for the cell where the samples disagree. They are the wrong tool for the cell where the samples agree on a false window.
+**Answer:** Both samples matching the note is a stable, supported summary. "April 3" and "3 April" are inconsistency of phrasing: a string compare fails, and a field compare of the date and the budget passes. One sample on April 3 and one on April 30 is inconsistency and a hallucination together, because April 30 is not in the note. Lowering the temperature, or taking a vote, helps this cell when April 3 is the mode, and the note check still has to reject April 30 when it slips through. Both samples saying April 30 and 400,000 dollars is a consistent hallucination. The mode is wrong, so a lower temperature repeats it more reliably. That one wants the note left in the prompt, a field checked against the note, or an abstention when the draft disagrees with it. Sampling knobs are for the cell where the samples disagree. They are the wrong tool for the cell where the samples agree on a date the note does not contain.
 
 ```python
 CASES = (
-    ("both-say-30", True, True),
-    ("two-wordings-of-30", False, True),
-    ("30-and-60", False, False),
-    ("both-say-60", True, False),
+    ("both-match-the-note", True, True),
+    ("april-3-and-3-april", False, True),
+    ("april-3-and-april-30", False, False),
+    ("both-say-april-30", True, False),
 )
 
 
@@ -195,58 +217,61 @@ def diagnose(agree: bool, supported: bool) -> str:
 
 for name, agree, supported in CASES:
     print(name, diagnose(agree, supported))
-# both-say-30 stable
-# two-wordings-of-30 wording only
-# 30-and-60 mixed hallucination
-# both-say-60 consistent hallucination
+# both-match-the-note stable
+# april-3-and-3-april wording only
+# april-3-and-april-30 mixed hallucination
+# both-say-april-30 consistent hallucination
 ```
 
-## Best of Eight
+## Best of Four
 
-A background coding agent may draw several patches and keep one that passes the unit tests. One sample passes those tests 40 percent of the time. The exercise prices are $0.50 per million input tokens and $2.00 per million output tokens. Each sample sends 2,000 input tokens and writes 400 output tokens. The team runs 10,000 tasks a day. One sample takes 250 milliseconds of model time, and the test suite takes 2,000 milliseconds after the samples return. Copilot-style ghost text in this exercise has a 300 millisecond budget and no test suite in the loop.
+A background coding agent, the kind that opens a GitHub pull request, may draw several patches and keep one that passes the unit tests. One sample passes those tests 50 percent of the time. The exercise prices are $0.50 per million input tokens and $2.00 per million output tokens. Each sample sends 4,000 input tokens and writes 250 output tokens. The team runs 8,000 tasks a day. One sample takes 200 milliseconds of model time, and the test suite takes 1,500 milliseconds after the samples return. Copilot-style ghost text in this exercise has a 300 millisecond budget and no test suite in the loop. A prompt-cache read, in this exercise, costs 10 percent of the input price. That discount is the shape of a published cache-read rate. It is not a bill for zero, and a launch uses the provider's current rate.
 
-What does best-of-8 do to the pass rate and to the bill, and which product can spend it?
+What does best-of-4 do to the pass rate and to the bill, and which product can spend it?
 
 ```python
-TASKS = 10_000
-N = 8
-P_PASS = 0.4
-SAMPLE_MS = 250
-TEST_MS = 2_000
+TASKS = 8_000
+N = 4
+P_PASS = 0.5
+SAMPLE_MS = 200
+TEST_MS = 1_500
 INLINE_BUDGET_MS = 300
-INPUT_TOKENS = 2_000
-OUTPUT_TOKENS = 400
+INPUT_TOKENS = 4_000
+OUTPUT_TOKENS = 250
 INPUT_USD_PER_MILLION = 0.50
 OUTPUT_USD_PER_MILLION = 2.00
+CACHE_READ_FRACTION = 0.10
 ```
 
-**Answer:** Under an independence assumption, the chance that at least one of eight samples passes is 98.3 percent, because `1 − 0.6^8` is about 0.983. Shared bugs break that assumption, so eight copies of the same mistake stay near 40 percent. Measure pass@8 on the repository. The formula is a ceiling. Without a prompt cache, the day goes from $18 to $144. With the prompt cached so the input is billed once, the day is $74, because the eight generations are still billed. Ghost text cannot spend this. One sample fits in 300 milliseconds, and a sample plus the suite does not. The background agent can. Parallel samples keep the model wait near 250 milliseconds and still pay for eight outputs. The suite, not the sampling temperature, is what makes the extra samples a search.
+**Answer:** Under an independence assumption, the chance that at least one of four samples passes is 93.75 percent, because `1 − 0.5^4 = 0.9375`. Shared bugs break that assumption, so four copies of the same mistake stay near 50 percent. Measure pass@4 on the repository. The formula is a ceiling. One sample costs $20 for the day. Four uncached samples cost $80. If the 4,000 input tokens are shared and the three extra reads are billed at 10 percent, the day is $36.80, because the input factor is `1 + 3 × 0.10 = 1.3` and the four generations are still billed in full. Ghost text cannot spend this. One sample fits in 300 milliseconds, and a sample plus the suite does not. The background agent can. Parallel samples keep the model wait near 200 milliseconds and still pay for four outputs. The suite, not the sampling temperature, is what makes the extra samples a search.
 
 ```python
-TASKS = 10_000
-N = 8
-P_PASS = 0.4
-SAMPLE_MS = 250
-TEST_MS = 2_000
+TASKS = 8_000
+N = 4
+P_PASS = 0.5
+SAMPLE_MS = 200
+TEST_MS = 1_500
 INLINE_BUDGET_MS = 300
-INPUT_TOKENS = 2_000
-OUTPUT_TOKENS = 400
+INPUT_TOKENS = 4_000
+OUTPUT_TOKENS = 250
 INPUT_USD_PER_MILLION = 0.50
 OUTPUT_USD_PER_MILLION = 2.00
+CACHE_READ_FRACTION = 0.10
 
 
-def day_usd(input_bills: int, output_bills: int) -> float:
-    input_cost = TASKS * input_bills * INPUT_TOKENS / 1_000_000 * INPUT_USD_PER_MILLION
+def day_usd(input_factor: float, output_bills: int) -> float:
+    input_cost = TASKS * input_factor * INPUT_TOKENS / 1_000_000 * INPUT_USD_PER_MILLION
     output_cost = TASKS * output_bills * OUTPUT_TOKENS / 1_000_000 * OUTPUT_USD_PER_MILLION
     return input_cost + output_cost
 
 
 ceiling = 1 - (1 - P_PASS) ** N
+cached_factor = 1 + (N - 1) * CACHE_READ_FRACTION
 one_fits = SAMPLE_MS <= INLINE_BUDGET_MS
 with_tests_fits = SAMPLE_MS + TEST_MS <= INLINE_BUDGET_MS
-print(round(100 * ceiling, 1), day_usd(1, 1), day_usd(N, N), day_usd(1, N))
+print(round(100 * ceiling, 2), day_usd(1, 1), day_usd(N, N), day_usd(cached_factor, N))
 print(one_fits, with_tests_fits)
-# 98.3 18.0 144.0 74.0
+# 93.75 20.0 80.0 36.8
 # True False
 ```
 
@@ -319,7 +344,7 @@ for name, case in CASES.items():
 
 ## One Long Paste
 
-A service holds Llama 70B weights in BF16, 130.4 GiB, across 80 GiB GPUs. The attention shape is the public Llama 70B configuration: 80 layers, 8 key-value heads, head dimension 128, keys and values in BF16. A user pastes 131,072 tokens. Another request is only 4,096 tokens. Full multi-head attention on this model would be 64 key-value heads.
+A service holds the released Llama 3 70B configuration in BF16. That configuration is 70,553,706,496 parameters, 131.4 GiB of weights, across 80 GiB GPUs. The attention shape is the public Llama 2 70B and Llama 3 70B configuration: 80 layers, 8 key-value heads, head dimension 128, keys and values in BF16, full attention, one request. The length is the prompt plus tokens generated so far. A user pastes 131,072 tokens and the decode has not started. Another request is only 4,096 tokens. Full multi-head attention on this model would be 64 key-value heads.
 
 How big is the KV cache for one request at each length, how many GPUs hold the weights plus that cache, and what did grouped-query attention change?
 
@@ -331,13 +356,13 @@ KV_HEADS = 8
 FULL_HEADS = 64
 HEAD_DIM = 128
 BYTES = 2
-WEIGHT_GIB = 130.4
+LLAMA3_70B = 70_553_706_496
 GPU_GIB = 80
 SHORT = 4_096
 LONG = 131_072
 ```
 
-**Answer:** One token adds 327,680 bytes. A 4,096-token request is 1.25 GiB of cache. A 131,072-token request is 40 GiB. Weights plus the short cache are 131.7 GiB, so two 80 GiB GPUs hold them. Weights plus the long cache are 170.4 GiB, so two GPUs miss and three are the minimum. With 64 key-value heads the long cache is 320 GiB, and the weights plus that cache need six GPUs. Grouped-query attention is the difference between those two long-context bills. The count is weights plus one request's cache, before activations, fragmentation, and a second concurrent paste. Four concurrent 131,072-token requests would be 160 GiB of cache on top of the 130.4 GiB of weights.
+**Answer:** One token adds 327,680 bytes. A 4,096-token request is 1.25 GiB of cache. A 131,072-token request is 40 GiB. The weights are 131.4 GiB. Weights plus the short cache are 132.7 GiB, so two 80 GiB GPUs hold them as a sum of memory. Weights plus the long cache are 171.4 GiB, so two GPUs miss and three are the minimum. With 64 key-value heads the long cache is 320 GiB, and the weights plus that cache need six GPUs. Grouped-query attention is the difference between those two long-context bills. The round `70 × 10^9` figure of 130.4 GiB lands in the same GPU bins, 2, 3, and 6. The count is weights plus one request's cache, before activations, fragmentation, and a second concurrent paste. Four concurrent 131,072-token requests would be 160 GiB of cache on top of the 131.4 GiB of weights.
 
 ```python
 import math
@@ -347,10 +372,11 @@ KV_HEADS = 8
 FULL_HEADS = 64
 HEAD_DIM = 128
 BYTES = 2
-WEIGHT_GIB = 130.4
+LLAMA3_70B = 70_553_706_496
 GPU_GIB = 80
 SHORT = 4_096
 LONG = 131_072
+WEIGHT_GIB = round(LLAMA3_70B * BYTES / 1024**3, 1)
 
 
 def cache_gib(tokens: int, kv_heads: int) -> float:
@@ -365,8 +391,8 @@ def gpus(cache: float) -> int:
 short = cache_gib(SHORT, KV_HEADS)
 long = cache_gib(LONG, KV_HEADS)
 full = cache_gib(LONG, FULL_HEADS)
-print(short, long, full)
+print(WEIGHT_GIB, short, long, full)
 print(gpus(short), gpus(long), gpus(full))
-# 1.25 40.0 320.0
+# 131.4 1.25 40.0 320.0
 # 2 3 6
 ```
