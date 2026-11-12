@@ -21,6 +21,10 @@ Generation quality used to be scored as fluency and coherence, and those words a
 
 **Recap.** Evaluation criteria are the properties a system must have before it serves users. The four families are domain-specific capability, generation capability, instruction-following, and cost and latency. The previous topic is how you score a sample. This topic is which properties you score, on the system the user touches, before a public number is allowed to matter.
 
+![Evaluation criteria](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-1-evaluation-criteria.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 1.*
+
 ## Domain-specific capability
 
 Domain-specific capability is how well a model does the work of one field, such as code, graduate science, medicine, or law, as opposed to how well it chats in general.
@@ -36,6 +40,10 @@ Multiple choice is the trap inside this family. MMLU and GPQA ask the model to p
 **Interview.** Separate a public knowledge exam from the product task. Name MMLU as the 57-subject, four-choice set that frontier models have saturated, MMLU-Pro as the ten-choice revision, and GPQA as 448 gated graduate-science questions whose diamond subset is 198. Name HumanEval or SWE-bench as domain tests with an execution oracle, and leave pass@k to the previous topic. Say a letter grade is not a written answer. Then say how you would actually decide: screen with the public exam, ship on a private set graded the way the field fails.
 
 **Recap.** Domain-specific capability is performance on one field's work. MMLU is 57 four-choice subjects and has saturated for frontier models. MMLU-Pro is the harder ten-choice revision. GPQA is 448 gated graduate-science questions, and leaderboards usually quote the 198-question diamond subset. HumanEval, SWE-bench, and LiveCodeBench measure code by running it. A public exam can reject a model that cannot do the field. The launch number is a private set, graded in the form the product actually produces.
+
+![Domain-specific capability](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-2-domain-capability.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 2.*
 
 ## Factual consistency
 
@@ -80,6 +88,10 @@ The third claim is the whole distinction. A grounded Gmail summary fails it, bec
 
 **Recap.** Factual consistency asks whether claims are supported. Local consistency checks the source you provided, usually with an entailment judgment, and global consistency checks a knowledge source or the web. SelfCheckGPT only flags claims that change across samples, so a stable falsehood still needs FActScore or SAFE. FActScore is the fraction of atomic facts a named source supports, which is not the same as true in the world. A grounded product fails unsupported claims. A general assistant sends those claims to a world check. A wrong date fails both, on an exact comparison.
 
+![Factual consistency](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-3-factual-consistency.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 3.*
+
 ## Safety
 
 Safety, as an evaluation criterion, means the system refuses the harms its policy forbids and still answers the requests that policy allows.
@@ -95,6 +107,10 @@ The system under test includes the filter. A safe generator behind a filter that
 **Interview.** Separate the hazard taxonomy, the license's acceptable-use rules, and the product policy, and say you are bound by the intersection. Name Llama Guard 3's MLCommons list and the OpenAI moderation list as different label sets, and say you score both the raw model and the filter. Pair a harm set with an over-refusal set, and name XSTest as the public form of the second. Put TruthfulQA on the factuality side of the line. Say an adversarial benchmark is part of the number you quote, without describing an attack.
 
 **Recap.** Safety evaluation checks that the system refuses the harms its policy forbids and still answers what that policy allows. Llama Guard 3 emits a hazard label from the MLCommons list, plus code-interpreter abuse. The OpenAI moderation endpoint uses a different list, including harassment, hate, illicit activity, self-harm, sexual content, and violence. The license and the product policy both bind you. Over-refusal is its own set. Score the filter and the generator, on ordinary prompts and on adversarial ones.
+
+![Safety](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-4-safety.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 4.*
 
 ## Instruction following
 
@@ -144,6 +160,10 @@ The long reply contains the keyword and runs past the length, so instruction-lev
 
 **Recap.** Instruction following measures obedience to stated constraints. IFEval grades 541 prompts across 25 verifiable instruction types with a program, at prompt level or instruction level, strict or loose. Prompt-level strict is the gate when every constraint matters. Loose scoring tries eight surface variants and can both rescue a wrapper and hide a real miss. InFoBench's 2,250 decomposed requirements cover instructions a program cannot see, and that score is a judge. A format that your decoder already enforces is the decoder's metric. The model's remaining job is the values and the constraints neither benchmark contains.
 
+![Instruction following](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-5-instruction-following.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 5.*
+
 ## Roleplaying
 
 Roleplaying evaluation measures whether a model holds a stated persona, brand voice, or role across a conversation, rather than only in a single reply.
@@ -159,6 +179,10 @@ Multi-turn also changes the data you store. A single exported reply cannot show 
 **Interview.** Separate a verifiable instruction from a role that has to hold for a session. Name Character.AI, a custom GPT, and a brand-voice support bot as the same evaluation shape with different cards. Say the system-prompt leak is an exact fail, and the voice is a judge you calibrate. Give the metric as the fraction of conversations that stayed inside the card, not the fraction of turns that sounded fine. A turn average is how you debug a session that failed.
 
 **Recap.** Roleplaying evaluation checks that a persona, brand voice, or role survives the whole conversation. Character.AI, custom GPTs, and brand-voice support bots are the products. Leaks of hidden instructions and violations of explicit bans are exact checks. Voice and drift are judged on the transcript. The launch number is the session, because one broken turn is the conversation the user had.
+
+![Roleplaying](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-6-roleplaying.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 6.*
 
 ## Latency
 
@@ -203,6 +227,10 @@ Over one second, finishing 10 requests with 6 inside both a TTFT cap and a TPOT 
 
 **Recap.** Latency decides whether a correct answer arrives in time. TTFT waits for the first server token and TPOT is the average gap after that, so 500 tokens at 0.400 seconds and 0.020 seconds take 10.38 seconds, a 50 token-per-second decode and a 48.17 token-per-second end-to-end rate. Throughput counts every finished request. Goodput counts the ones that met every objective, 6 against 4 in the one-second example when the bigger batch misses the caps. The user's first visible token can be later than the server's TTFT, and an average gap can hide one long stall.
 
+![Latency](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-7-latency.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 7.*
+
 ## Cost
 
 Cost is the money a call spends, on a provider's rate card or on machines you keep switched on. It is an evaluation criterion because a correct answer the product cannot pay for does not ship.
@@ -236,6 +264,10 @@ The small card's input line is twice its output line. The frontier card has the 
 
 **Recap.** Cost is the rate card times the tokens you send, with input and output priced apart. Per 1,000 requests of 3,000 input tokens and 500 output tokens, the exercise cards cost $1.125 and $22.50, and the long prompt is the larger line on both. Prices move. A single blended token price hides which line dominates. Machines you own are a floor, measured on the self-hosting card, not a per-token quote.
 
+![Cost](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-8-cost.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 8.*
+
 ## Model selection workflow
 
 A model selection workflow turns the criteria into a shortlist and then into a choice. It filters on hard attributes, ranks what remains on soft ones, and repeats when a measurement proves an attribute was mislabeled.
@@ -254,6 +286,10 @@ Quality, latency, and cost are three axes, and a single score hides the front. A
 
 **Recap.** Model selection filters on hard attributes, ranks the survivors on soft ones, and checks the ranking with a private eval. Context, license, data handling, modality, language, and sometimes latency are hard. Quality and cost are usually soft. A failed constraint removes a model before its leaderboard score is allowed to argue. When a measurement shows the list was wrong, you change the list and run the filter again.
 
+![Model selection workflow](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-9-model-selection.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 9.*
+
 ## Build versus buy
 
 Build versus buy is the choice of who produces the checkpoint you call: a lab you run, or a provider you pay.
@@ -269,6 +305,10 @@ The reversible line is the practical one. Swapping an API model, or a hosted che
 **Interview.** Put pretraining on the far side of the line and name BloombergGPT as the rare from-scratch domain model, without reciting its parameter count from memory unless you have the paper's table in front of you. Put the application team's job on the near side: choose, adapt, evaluate, and operate a checkpoint someone else trained. Say a finetune is build-on-a-purchase, and that a daily-changing fact stays in retrieval. If the hard attribute is data residency, the buy is a checkpoint you can run, not a multi-tenant API.
 
 **Recap.** Build versus buy asks who produces the checkpoint. Application teams buy an API or a hosted open model, and they build the prompts, the retrieval, the tools, and the evaluation. Pretraining a base model is a separate project, and BloombergGPT is the kind of exception that proves how rare it is. A finetune builds a behavior on weights you bought. It does not replace a document that changes.
+
+![Build versus buy](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-10-build-versus-buy.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 10.*
 
 ## Open weights and licenses
 
@@ -301,6 +341,10 @@ A selection workflow treats the license as a hard attribute. An ordinary company
 
 **Recap.** Open weights means the parameters are downloadable. Open source, under the OSI's October 2024 AI definition, also means data information and code for a skilled person to rebuild a substantially equivalent system, under terms that do not ban a field of use. Data information describes the corpus, including data that cannot be redistributed. It is not the corpus itself. Apache 2.0 and MIT are permissive licenses, and only Apache carries the patent grant. The Llama 3 community license adds a 700 million monthly-active-user snapshot, a naming notice, a name prefix on derivative models, and a ban on training other model families. Mistral has shipped Apache 2.0, a non-production license, and a modified MIT revenue gate, depending on the checkpoint. Gemma ships under its own terms and prohibited-use policy. The license on the checkpoint you will run is a hard attribute.
 
+![Open weights and licenses](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-11-open-weights-licenses.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 11.*
+
 ## Self-hosting and model APIs
 
 Self-hosting means you run the weights on infrastructure you control. A model API means a provider runs a model and you send it requests. The choice is how the hard attributes of privacy, lineage, and control trade against performance, features, and cost.
@@ -321,6 +365,10 @@ Cost is a shape, not a winner. API cost scales with tokens and is near zero when
 
 **Recap.** Self-hosting runs weights you control. A model API sends prompts to a provider. Privacy, lineage, and control favor self-hosting or on-device models such as Gemini Nano and the on-device part of Apple Intelligence. Performance and new features often favor the API. Cost favors the API when traffic is low or spiky and can favor your GPUs when steady traffic fills them, which a peak load test has to confirm. The hard attributes pick the side before quality does.
 
+![Self-hosting and model APIs](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-12-self-hosting-vs-api.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 12.*
+
 ## Public benchmarks
 
 A public benchmark is a shared task, with a shared grader, that many models have been scored on. Navigating one means reading the number as a measurement with a date, a harness, and a task mix, not as a ranking of products.
@@ -336,6 +384,10 @@ Reading any of these numbers has a checklist. The model id has to be the checkpo
 **Interview.** Explain HELM as a matrix of metrics, and Arena as a preference rating whose rating model, bootstrap interval, and style control live in the previous topic. Explain the Open LLM Leaderboard as a six-task average that was replaced in June 2024 and retired in March 2025, and say the second mix was normalized above chance on several tasks before it was averaged. List either task mix only if you can list it accurately, and say the mix is the reason a leader can still be the wrong model. Then give the reading checklist: model id, harness and template, date, metric, and whether the set could have been in the training data. The board narrows a shortlist. The private eval makes the decision.
 
 **Recap.** Public benchmarks are shared tasks with shared graders. HELM reports a matrix of quality, risk, and efficiency metrics. Arena ranks preference, under the rules in the previous topic. The Open LLM Leaderboard averaged ARC, HellaSwag, MMLU, TruthfulQA, WinoGrande, and GSM8K, then IFEval, BBH, MATH level 5, GPQA, MuSR, and MMLU-Pro, with several of the later tasks normalized above chance. The maintainers retired it in March 2025. Read the model id, the harness, the date, and the metric. Use the number to filter, not to launch.
+
+![Public benchmarks](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-13-public-benchmarks.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 13.*
 
 ## Benchmark selection and aggregation
 
@@ -383,6 +435,10 @@ The mean picks B, at 71.33 against A's 70.33 and C's 70.00. The mean rank picks 
 
 **Recap.** Select public benchmarks by the failure the product has, not by what is easy to quote. Aggregate with the rule you declared. On the worksheet, the mean picks B at 71.33, the mean rank picks A at 1.667, and a floor of 50 removes A. The surviving decision is the column the product actually feels. A single average is a summary you add after that choice, not the choice itself.
 
+![Benchmark selection and aggregation](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-14-benchmark-aggregation.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 14.*
+
 ## Data contamination
 
 Data contamination means evaluation items were in the training data, so a score can reward memorization of the test rather than the capability the test was supposed to measure.
@@ -419,6 +475,10 @@ What you do with a flagged set is score the clean slice beside the full set. Whe
 
 **Recap.** Data contamination can inflate a benchmark when the items were in the training data. Long n-gram overlap is the screen while you still have the crawl. The GPT-3 training filter looked for 13-word overlaps and only partly removed them. Its published check used 8 to 13 words and, on most benchmarks, found little score change, which does not by itself prove the overlap was boilerplate. An 8-gram flags a copied sentence and misses a paraphrase, while a 4-gram flags both. After training, a rewrite test, a perplexity comparison, a canary, or a problem dated after the cutoff is the evidence. The launch number is the uncontaminated slice, or a private set that has not been trained on.
 
+![Data contamination](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-15-data-contamination.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 15.*
+
 ## Evaluate every component
 
 Evaluating every component means scoring each stage of the system on its own output, and scoring the task the user actually had, because those two numbers answer different questions.
@@ -435,6 +495,10 @@ The retrieval version of the same gap is why a correct final answer is not a ret
 
 **Recap.** An evaluation pipeline starts by scoring every component and scoring the task. Retrieval, tool arguments, grounding, and tone use different tools, and you can only compute them if you logged the stage. Turn-level metrics catch a bad refund amount or a bad retrieval. Task-level metrics catch whether the user actually got the outcome. A product that promises grounding reports the grounded number, not the lucky correct answer.
 
+![Evaluate every component](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-16-evaluate-every-component.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 16.*
+
 ## An evaluation guideline
 
 An evaluation guideline is the written definition of how raters, and any judge you prompt, decide a score. It is step 2 of the pipeline. It states the criteria, shows a rubric with an example of each level, and says which business metric the score is supposed to track.
@@ -450,6 +514,10 @@ The business tie is a hypothesis you then measure. A meeting-summary rubric is s
 **Interview.** Take a real feature and turn "helpfulness" into two or three decisions a program or a rater can apply. Put a pass, a partial, and a fail example next to them, including one wrong fact. Then name the logged outcome you would slice on, edits or reopens or escalations, and say what you do if the slice is flat: the rubric does not gate the launch. Mention that the judge prompt is this document, not a fresh adjective.
 
 **Recap.** An evaluation guideline defines the decisions, shows an example of each score, and names the business outcome the score should track. A meeting summary passes when decisions, dates, and owners match the transcript and nothing was added. The tie to user edits or to ticket reopens is measured by slicing the log, not assumed in the header. A rubric that does not move that outcome stays a diagnostic.
+
+![An evaluation guideline](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-17-evaluation-guideline.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 17.*
 
 ## Choosing evaluation methods
 
@@ -474,6 +542,10 @@ Cost orders the methods inside that table, not instead of it. A program runs on 
 **Interview.** Given a feature, draw the table for it rather than naming a favorite metric. A support bot gets an exact window check, a grounding check, a safety classifier, and a judge only for tone if tone earned a place in the guideline. Say the previous topic is why the judge needs a swap test and a human slice, and this step is only the assignment. If a method cannot mark the failure, it is out, however cheap it is.
 
 **Recap.** Each criterion gets the cheapest method that can see its failure. Programs take dates, amounts, tools, schemas, and leaks. Retrieval metrics take page ids. Entailment or a source-bound judge takes grounded claims. Classifiers take safety. A calibrated judge takes the residue, and pairwise votes only rank variants that still have to pass an absolute bar. The previous topic is how those tools behave. This step is which tool is allowed to grade which row.
+
+![Choosing evaluation methods](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-18-choosing-methods.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 18.*
 
 ## Annotating evaluation data
 
@@ -523,6 +595,10 @@ Double-label a slice of the same set. Agreement is not a reason to skip the next
 
 **Recap.** Evaluation data should look like traffic, with an expert slice for rare harms and both a frozen regression set and a rotating fresh slice. Neither set is training data. Slices stop an average from hiding a broken intent or language. Detecting 70 percent versus 73 percent, at 80 percent power and a two-sided 5 percent Wald test with no continuity correction, needs 3,551 examples per independent arm on the unpooled plan and 3,554 when the significance term uses the pooled rate. A shared item set is a paired comparison. Fewer labels can only support coarser claims.
 
+![Annotating evaluation data](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-19-annotating-data.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 19.*
+
 ## Evaluating the evaluation
 
 Evaluating the evaluation means testing the metric itself for signal, reliability, correlation with the business outcome, and cost, before you let the metric gate a launch. That audit is part of step 3.
@@ -541,6 +617,10 @@ Cost is whether you can run the metric often enough to catch the regression you 
 
 **Recap.** A metric has to earn its place as a gate. Signal means it moves when you break the stage it claims to measure. Reliability means a second rater or a second run agrees beyond chance, with Cohen's kappa for two raters and a multi-rater coefficient when the pool is larger. Correlation means the score tracks a business outcome such as edits or reopens. Cost means you can run it often enough to catch the change you are making. A metric that fails one of those stays a diagnostic.
 
+![Evaluating the evaluation](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-20-evaluating-the-evaluation.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 20.*
+
 ## Iterate and version
 
 Iterating and versioning an evaluation means changing the guideline, the data, and the methods on purpose, and never comparing a score to a number that was produced under a different version. It is the last part of step 3, and it closes the pipeline.
@@ -556,3 +636,7 @@ Public benchmarks stay outside this series. They can change who enters the short
 **Interview.** List the tuple that has to travel with a score: model id, set hash, guideline version, judge id, harness, date. Say a rubric edit starts a new series rather than a jump on the old one. Describe the loop as disagreements becoming edits, and incidents becoming rows, under a new version. Then place public benchmarks outside the series. They filter the shortlist. The versioned private eval is the launch gate.
 
 **Recap.** A score is comparable only within a version of the model, the set, the guideline, the judge, and the harness. Iteration turns disagreements and production incidents into edits and new rows, and each edit bumps the version. The frozen set keeps the trend honest. The rotating set keeps it relevant. Public leaderboards can change the shortlist. The launch number is the versioned private evaluation.
+
+![Iterate and version](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-21-iterate-and-version.png)
+
+*Source: [`diagrams/evaluate-ai-systems.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems.drawio), page 21.*

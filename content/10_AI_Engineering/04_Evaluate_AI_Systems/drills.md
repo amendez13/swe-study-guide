@@ -44,6 +44,10 @@ print(best_public[0], best_public[-1], survives(*best_public[1:-1]))
 # bargain_api 88 False
 ```
 
+![Bargain Score](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-1-bargain-score.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 1.*
+
 ## GPU Crossover
 
 An internal code assistant, the shape of a self-hosted alternative to Amazon Q Developer's completions, is deciding between a hosted API and two GPUs you would run yourself. The exercise API rate is $0.40 per million input tokens and $1.20 per million output tokens. A typical completion is 1,500 input tokens and 300 output tokens. Each GPU is $1.80 an hour, both run all month, and a 30-day month is the planning calendar. A load test of this checkpoint sustains 8 requests a second. Peak traffic is five times the average.
@@ -94,6 +98,10 @@ print(f"{1_000_000 * per_request:.0f} {5_000_000 * per_request:.0f} {peak_rps(5_
 # 960 4800 9.65
 ```
 
+![GPU Crossover](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-2-gpu-crossover.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 2.*
+
 ## Clean Slice
 
 A model scored 0.86 on a 200-item public multiple-choice set, and a teammate wants to put that number in the launch review for a general assistant. The training crawl is still available. A 13-gram overlap flags 150 of the 200 items. The model answered 145 of those 150 correctly and answered 27 of the other 50 correctly. Four choices make chance 0.25.
@@ -126,6 +134,10 @@ print(f"{1 / CHOICES:.2f}")
 # 27 50 0.54
 # 0.25
 ```
+
+![Clean Slice](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-3-clean-slice.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 3.*
 
 ## Voice Budget
 
@@ -170,6 +182,10 @@ for name, ttft, tpot in SETUPS:
 # A 0.280 0.445 0.865 True
 # B 0.700 0.788 1.012 False
 ```
+
+![Voice Budget](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-4-voice-budget.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 4.*
 
 ## Return Rate
 
@@ -218,6 +234,10 @@ for label, result in (("spec_ok", spec_ok), ("spec_bad", spec_bad), ("enthusiast
 # enthusiastic 22 65 0.3385
 # plain 17 55 0.3091
 ```
+
+![Return Rate](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-5-return-rate.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 5.*
 
 ## Slice Width
 
@@ -287,6 +307,10 @@ print(examples_per_arm(0.90, 0.82), examples_pooled(0.90, 0.82))
 # 292 295
 ```
 
+![Slice Width](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-6-slice-width.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 6.*
+
 ## Grounded or Lucky
 
 Glean is answering questions over a company's documents. Forty questions were labeled. The retriever placed the page that contains the answer in its top five on 18 of them. The final answer was marked correct on 33. Of the 22 retrieval misses, 16 answers were still correct. Of the 18 hits, 17 answers were correct and one misread the page. The product tells users the answer comes from their documents.
@@ -322,6 +346,10 @@ print(f"{CORRECT_ON_HIT / HITS:.4f}")
 # 0.4250
 # 0.9444
 ```
+
+![Grounded or Lucky](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-7-grounded-or-lucky.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 7.*
 
 ## Whole Session
 
@@ -370,3 +398,7 @@ print(passed, len(CONVERSATIONS), f"{passed / len(CONVERSATIONS):.4f}")
 # 36 40 0.9000
 # 4 8 0.5000
 ```
+
+![Whole Session](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills-8-whole-session.png)
+
+*Source: [`diagrams/evaluate-ai-systems-drills.drawio`](/content/10_AI_Engineering/04_Evaluate_AI_Systems/diagrams/evaluate-ai-systems-drills.drawio), page 8.*
