@@ -43,6 +43,10 @@ print(HITS["hybrid"]["symbol"] - HITS["bm25"]["symbol"])
 # 0
 ```
 
+![Symbol or Question](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-1-symbol-or-question.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 1.*
+
 ## Fork Secrets
 
 A bot over GitHub's Actions documentation is asked whether a pull request from a fork receives repository secrets. The relevant section is two sentences that a fixed splitter put in different chunks. The retriever returned the event sentence and an unrelated sentence about installing dependencies. It did not return the secrets sentence. The draft says the workflow runs and does not mention the secrets restriction.
@@ -78,6 +82,10 @@ print(contains([SECTION], "pull_request"), contains([SECTION], "do not receive r
 # True False
 # True True
 ```
+
+![Fork Secrets](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-2-fork-secrets.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 2.*
 
 ## Two Hundred Milliseconds
 
@@ -123,6 +131,10 @@ print(miss)
 # rerank 40 190 0.77
 # [('rerank 80', 320)]
 ```
+
+![Two Hundred Milliseconds](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-3-two-hundred-milliseconds.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 3.*
 
 ## Merged Pull Requests
 
@@ -206,6 +218,10 @@ print(merged_count(), opened_count(), review_count())
 # 3 1 4
 ```
 
+![Merged Pull Requests](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-4-merged-pull-requests.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 4.*
+
 ## The Same Search
 
 A coding agent on a GitHub repository is trying to find retry handling. The trace proposes `search_code` with the query `retry` on three steps in a row. Each observation is the same three paths. A later step would have read `retry.py`. The host's step cap is 6. The observations did not change between the calls.
@@ -254,6 +270,10 @@ print(len(run(REPEATS, CAP, False)[0]), run(REPEATS, CAP, False)[1])
 # ([('search_code', 'retry')], 'repeated call')
 # 6 step cap
 ```
+
+![The Same Search](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-5-the-same-search.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 5.*
 
 ## Who Confirms the Trip
 
@@ -304,6 +324,10 @@ print(gate("charge_card", True))
 # run
 ```
 
+![Who Confirms the Trip](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-6-who-confirms-the-trip.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 6.*
+
 ## Three Tools or Fifteen
 
 Google Calendar's "find a time" page can be given 3 tools or 15. On an exercise set of 20 scheduling questions, which is not a Google metric, the 3-tool list calls the scheduling tool on 16 questions. The 15-tool list calls it on 8. Of the 12 misses, 7 call the tool that sends mail. Sending mail is a real action on a different surface. It is not how this page finds a time.
@@ -335,6 +359,10 @@ print(misses, MAIL_MISROUTES, misses - MAIL_MISROUTES)
 # 0.80 0.40
 # 12 7 5
 ```
+
+![Three Tools or Fifteen](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-7-three-tools-or-fifteen.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 7.*
 
 ## Seven in the Morning
 
@@ -383,3 +411,7 @@ print("book" if not conflicts and not too_early else "wait")
 # ['timezone'] Europe/London 09:00 True
 # wait
 ```
+
+![Seven in the Morning](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills-8-seven-in-the-morning.png)
+
+*Source: [`diagrams/rag-and-agents-drills.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-drills.drawio), page 8.*

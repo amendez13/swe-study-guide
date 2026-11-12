@@ -12,6 +12,10 @@ Access control is the other reason the index exists. A long paste of a shared dr
 
 **Recap.** RAG answers from passages fetched at request time. A long context is the right tool for a document the user already supplied, and it is the wrong tool for a large permissioned corpus that changes. Lewis and coauthors, 2020, paired a trained BART generator with a retrieved Wikipedia index. A product you can inspect from the outside is a maintained index in front of a prompted model, and that is not evidence the vendor skipped training. The retriever has to enforce permissions, the generator has to cite real passages, and a missed page is either an abstention or an answer from memory.
 
+![Why retrieve](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-1-why-retrieve.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 1.*
+
 ## RAG architecture
 
 A RAG system has an index built ahead of the question, a retriever that returns passages for the question, and a generator that writes the answer from those passages.
@@ -25,6 +29,10 @@ The three stages fail differently, which is why the evaluation pipeline in [Eval
 **Interview.** Draw three boxes and put a log line under each: the chunk and its ACL in the index, the passage ids from the retriever, the draft and the citations from the generator. Say which box you would blame for a wrong window, and say it depends on whether the window was in the retrieved text. Mention that index lag is the search architecture, not a new kind of hallucination. Separate a trained retriever-generator, the 2020 paper, from a frozen model over a maintained index, the usual product.
 
 **Recap.** RAG is an index, a retriever, and a generator. The index is a copy of the source documents, with the freshness and the refresh of a search index. The retriever returns passages the user may see. The generator writes from those passages, and a checker keeps citations attached to text that was actually retrieved. A fluent answer on an empty retrieval is a retriever problem. A wrong window quoted from a passage that says something else is a generator problem.
+
+![RAG architecture](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-2-rag-architecture.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 2.*
 
 ## Term-based retrieval
 
@@ -117,6 +125,10 @@ Both query terms have Lucene idf 0.4700, because each appears in 2 of the 3 chun
 
 **Recap.** Term-based retrieval scores shared words. An inverted index finds the candidates, TF-IDF weights them by count and rarity, and BM25 saturates the count and normalizes length. On the three-chunk exercise, Lucene BM25 ranks "refund policy" first at 0.9984, while raw TF-IDF ranks the chunk that says refund three times first at 1.2164. Drop Lucene's `1 +` and the same saturations rank the shipping chunk first, because the idf is -0.5108. Elasticsearch and OpenSearch default to Lucene BM25. The score still cannot match a paraphrase that uses none of the query's words.
 
+![Term-based retrieval](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-3-term-based-retrieval.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 3.*
+
 ## Embedding-based retrieval
 
 Embedding-based retrieval ranks passages by the similarity of dense vectors, so a question and a passage can match when they share a meaning and few words.
@@ -132,6 +144,10 @@ Product quantization, from Jégou and coauthors, replaces a vector with a short 
 **Interview.** Separate the embedding, which the evaluation topic owns, from the index. Name DPR as the 2020 dual-encoder result. Give the trade: HNSW for latency at the cost of memory and a graph you sometimes rebuild, IVF for a trained partition and `nprobe`, product quantization and ScaNN for size, exact scan for a small corpus and as the correctness check. Say ScaNN's quantization penalizes the parallel error because that is the error that moves an inner product. Say index recall, whether the true vector neighbor came back, is not task recall, whether the passage that answers the question came back. A high cosine on a negated policy is still the failure from the embeddings card.
 
 **Recap.** Embedding retrieval ranks passages by dense similarity, which catches paraphrases lexical search misses. DPR trains separate question and passage encoders. Current APIs often use one model, and E5 still distinguishes the two sides with a prefix. The vectors live in an exact scan or in an approximate index: HNSW, IVF, product quantization, ScaNN, or a combination, in FAISS, hnswlib, pgvector, a vector database, or the kNN side of Elasticsearch and OpenSearch. HNSW spends memory to avoid a scan. IVF, product quantization, and ScaNN spend a training pass. Swapping the embedding model means rebuilding the index.
+
+![Embedding-based retrieval](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-4-embedding-retrieval.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 4.*
 
 ## Comparing retrieval algorithms
 
@@ -186,6 +202,10 @@ A retrieval system is chosen with a checklist, not with the highest cosine. Name
 
 **Recap.** Retrievers are compared on whether the right passages came back, how high, how fast, and how expensive the index is to maintain. On the exercise, mean recall at 5 is 0.6667, mean precision at 5 is 0.1333, and MRR is 0.4583, with linear-gain NDCG of 0.9639 on a separate graded list. BM25 is the cheap lexical baseline. Exact vector scan is the small-corpus baseline. Approximate indexes add a second recall number, and changing the embedding model rewrites the index.
 
+![Comparing retrieval algorithms](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-5-comparing-retrievers.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 5.*
+
 ## Combining retrieval algorithms
 
 Combining retrieval algorithms uses more than one ranker so a query that needs an exact token and a query that needs a paraphrase can both succeed.
@@ -222,6 +242,10 @@ Sequential combination is the other shape. A cheap retriever builds a candidate 
 **Interview.** Refuse to add a BM25 score to a cosine, and say why the scales differ: cosine in [-1, 1], an Elasticsearch cosine score often in [0, 2], BM25 unbounded. Write the RRF formula, fuse C, A, D with A, B, C at `k` of 60, and get A, C, B, D. Say Elasticsearch's default constant is 60, that the 8.19 guide's rank window defaults to 10, and that two copies of rank 62 tie one copy of rank 1. Then distinguish fusion from a sequential candidate pool. Give a product-code query and a paraphrase query as the pair that justifies two lists, and say you would measure each list's recall before you pay for the second index.
 
 **Recap.** Hybrid retrieval exists because exact tokens and paraphrases fail in different lists. Adding the raw scores lets one scale win. Reciprocal rank fusion sums `1 / (60 + rank)` and, on the exercise, orders the fused lists A, C, B, D. Two copies of rank 62 tie one copy of rank 1, and two copies of a worse rank lose to that lone rank 1. A rank window can drop a passage before fusion sees it. A sequential pipeline lets a cheap retriever drop candidates before an expensive ranker sees them. Two indexes are worth maintaining when the query mix actually contains both kinds of question.
+
+![Combining retrieval algorithms](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-6-combining-retrievers.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 6.*
 
 ## Chunking strategy
 
@@ -277,6 +301,10 @@ Each article yields five chunks, the last one 200 tokens, and the corpus yields 
 
 **Recap.** Chunking decides the unit you can retrieve. Fixed windows are the baseline, headings and functions are better cuts when they exist, and parent-child retrieval can match a short span and generate from the section. On the exercise, 400 articles become 2,000 chunks and 11.71875 MiB of 1,536-dimensional float32 vectors, with 560,000 stored tokens against 480,000 source tokens because of a 50-token overlap. A split answer is a chunking bug. Pasting the corpus is a context bug.
 
+![Chunking strategy](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-7-chunking.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 7.*
+
 ## Reranking
 
 Reranking takes a short list of retrieved passages and orders that list with a model that reads the query and the passage together.
@@ -293,6 +321,10 @@ Reranking does not create recall the first stage never had. A gold chunk that BM
 
 **Recap.** A reranker orders a short candidate list with a model that reads the query and the passage together. Cross-encoders such as the MS MARCO MiniLM rerankers and bge-reranker do this in one forward pass, and Cohere Rerank is a hosted reranker used the same way. ColBERT keeps a vector per token and adds each query token's best passage-token match. None of them can recover a passage the first stage dropped. They exist so the prompt contains a few strong passages rather than a long list. The rank is not proof the passage supports the draft.
 
+![Reranking](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-8-reranking.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 8.*
+
 ## Query rewriting
 
 Query rewriting changes the user's question into a search query, or into several, before retrieval runs.
@@ -306,6 +338,10 @@ HyDE, hypothetical document embeddings, from Gao and coauthors in 2022, is a den
 **Interview.** Give the follow-up "what about returns?" and say you rewrite it with the product from the previous turn, then retrieve, then answer from the passages. Describe HyDE as embedding a hypothetical answer, cite Gao and coauthors, 2022, and give the failure: the hypothetical names the wrong window and the index obediently finds that window. Say the rewrite is never a citation. Ask to see the logged query when a retrieval bug is being blamed on the generator.
 
 **Recap.** Query rewriting turns a conversational or vague question into the search you run. Follow-ups need their references resolved, compound questions may become several queries, and HyDE searches with an embedding of a hypothetical answer. The hypothetical can retrieve a policy it just invented. The passage that comes back is the source. The rewrite is only a query.
+
+![Query rewriting](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-9-query-rewriting.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 9.*
 
 ## Contextual retrieval
 
@@ -336,6 +372,10 @@ The bare chunk shares no query term with "headphone return". The same chunk with
 
 **Recap.** Contextual retrieval indexes a chunk together with a short note about where that chunk sits in the document, for both embeddings and BM25. Anthropic's 19 September 2024 write-up reported top-20 failure rates, defined as one minus recall at 20, of 5.7 percent, then 3.7 percent with contextual embeddings, 2.9 percent with contextual BM25 added, and 1.9 percent with those two plus their Cohere reranker. A bare "14 days" shares no term with "headphone return" until the note adds those words. The note is a generated prefix. A wrong prefix sends both retrievers to the wrong place.
 
+![Contextual retrieval](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-10-contextual-retrieval.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 10.*
+
 ## Multimodal RAG
 
 Multimodal RAG retrieves images, or pages that are images, along with text, so the generator can use a figure, a screenshot, or a scan.
@@ -349,6 +389,10 @@ The generator still has to see the thing you retrieved. If you retrieved a page 
 **Interview.** Pick a Shopify photo, a text policy, and a scanned table, and assign each a pipeline: CLIP or a caption for the photo, ordinary RAG for the policy, OCR or ColPali for the table. Cite CLIP as Radford and coauthors, 2021, and ColPali as Faysse and coauthors, 2024, with ColBERT-style late interaction and one vector per patch rather than one per page. Say a caption that dropped the number cannot be saved by the generator. Say the answer model has to be able to read whatever you retrieved.
 
 **Recap.** Multimodal RAG retrieves pictures and page images, not only strings. Captions and OCR are cheap and lose what they fail to read. CLIP puts a whole image in one vector. ColPali embeds page patches and matches them to query tokens with late interaction, at a heavier index. The generator has to be able to use the thing the retriever returned, and an image is still subject to the same permissions as a document.
+
+![Multimodal RAG](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-11-multimodal-rag.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 11.*
 
 ## RAG with tabular data
 
@@ -364,6 +408,10 @@ The failures are specific. The model names a column that was never in the schema
 
 **Recap.** Small tables can be chunks. A warehouse question is text-to-SQL: retrieve the schema, generate one read-only statement, execute it under a timeout and a permission check, and answer from the rows. The functional-correctness card owns how that result is scored. A missing column, the wrong date, and a count of the wrong entity are the bugs. The warehouse is the source. The model's sentence is not.
 
+![RAG with tabular data](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-12-tabular-rag.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 12.*
+
 ## What an agent is
 
 An agent is a model in a loop that observes an environment, chooses a tool, and uses the tool's result to decide what to do next, until the task stops.
@@ -378,6 +426,10 @@ An agent is not a smarter prompt. The prompt still conditions one sample. The lo
 
 **Recap.** An agent is a planner in a loop over an environment it can affect only through tools. The environment might be a repository, a browser, or a ticket. The loop is a program that feeds observations back to the model. One retrieval and one draft is RAG. A model that chooses the next tool is an agent. The program has to be able to stop the loop when the model never proposes a stop.
 
+![What an agent is](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-13-what-an-agent-is.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 13.*
+
 ## Knowledge tools
 
 A knowledge tool returns text the model did not have in the prompt. Search over a Notion workspace, a web search, and the help-center retriever from the first half of this topic are knowledge tools.
@@ -389,6 +441,10 @@ The result is untrusted context, not a fact and not an instruction. A page, a se
 **Interview.** Classify the tool before you discuss the planner. A Notion search is knowledge. Say the payload is untrusted, the access check happens before the prompt, and a second search is not a refresh of the index. Point injection at Prompt Engineering and index lag at the search topic. Ask what the log contains when the draft is wrong: the query, the ids, and whether the page that had the answer was among them.
 
 **Recap.** Knowledge tools fetch text. Search over Notion, the web, or a help center is this class. The text is untrusted and has to be permissioned, and it can be stale. The tool makes the text present. It does not make the text true, and it does not make an instruction inside the text something the agent should follow.
+
+![Knowledge tools](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-14-knowledge-tools.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 14.*
 
 ## Capability tools
 
@@ -402,6 +458,10 @@ The model can write a plausible test summary without running the tests. The tool
 
 **Recap.** Capability tools perform a computation or a run the model cannot be trusted to do in its head. A calculator and a test interpreter are the usual examples. The sandbox, the timeout, and the network policy are code. The number or the exit code in the observation is the source. The model's sentence about that run is not.
 
+![Capability tools](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-15-capability-tools.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 15.*
+
 ## Write tools
 
 A write tool changes a system outside the conversation. A Stripe refund, outbound mail, and a merge to a protected branch are write tools. The model's JSON is a proposal. The program decides whether the call happens.
@@ -413,6 +473,10 @@ The checks are specific. Recompute the amount from the order, or check it agains
 **Interview.** Put the model's arguments on the proposal side. Walk a Stripe refund: recompute the cents, require a confirmation that shows those cents, send an idempotency key, and do not retry the refund because the email failed. Give a merge to a protected branch as the case you would not automate. Say a tool that can both read and send has already bundled a write into a lookup.
 
 **Recap.** Write tools change a system of record. The model can ask for a refund, a sent message, or a merge. The program recomputes the arguments, requires a person for the irreversible ones, and uses an idempotency key so a retry does not apply the change twice. A successful write followed by a failed notification is not a reason to perform the write again.
+
+![Write tools](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-16-write-tools.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 16.*
 
 ## Planning, then checking, then acting
 
@@ -427,6 +491,10 @@ Plan-and-execute is the name of that broader pattern: write the steps, then act.
 **Interview.** Separate propose, validate, and execute, and give a plan you would reject: a charge before the order is read, or a tool that is not on the list. Name plan-and-execute as the pattern, and cite ReWOO as a plan written before observations. Say the cost is blindness to tool errors unless a replan exists. Put the validator in code. A model's opinion of its own plan is not the validator.
 
 **Recap.** A plan is a proposal, a check accepts or rejects it, and execution is a separate step that can still refuse a write. Plan-and-execute writes the steps before it acts. ReWOO is a published version that writes the plan, with placeholders, before tool results return. A frozen plan is reviewable and blind to errors. A replan sees the errors and can be steered by them. The allow-list and the human gate are the check. The model's blessing of its own plan is not.
+
+![Planning, then checking, then acting](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-17-plan-check-act.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 17.*
 
 ## Foundation models as planners
 
@@ -453,6 +521,10 @@ A foundation-model planner and a reinforcement-learning agent are different lear
 **Interview.** Say what the model is good for, a proposed decomposition, and what it is not, a search that respects preconditions. Show a plan that names a tool you did not offer, and say the allow-list rejects it. Contrast a PDDL-style planner, sound relative to a model you must write, with a ticket whose goal is in the customer's words. Put the guarantee in the checker. Decline "the model planned it" as the reason a charge was legal.
 
 **Recap.** Foundation models draft plausible plans and do not search an action model. They invent tools, skip preconditions, and describe wished-for steps as completed. A classical planner is sound only for the formal model you give it. The practical split is a model that proposes and a program that accepts. A plan that names `issue_refund` when that tool was not offered is already illegal, before any argument is checked.
+
+![Foundation models as planners](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-18-models-as-planners.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 18.*
 
 ## Plan generation and control flow
 
@@ -492,6 +564,10 @@ With nothing done, the order lookup and the policy read are both ready, so they 
 
 **Recap.** The model proposes a tool call in a structured form, the pattern of function-calling APIs since June 2023. Toolformer finetunes that habit into the weights and still does not know today's wiki. MCP, from November 2024, lets a separate server advertise those tools and does not by itself make them safe. Sequence, parallelism, branches, and loops belong to the host. Independent lookups can run together. A draft waits on their results. A retry has a cap.
 
+![Plan generation and control flow](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-19-plan-generation-control-flow.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 19.*
+
 ## Reflection and error correction
 
 Reflection is the agent looking at a failed step and changing the next step. Error correction is the program giving the failure back in a form the model can use, once, rather than hoping the next sample guesses better.
@@ -523,6 +599,10 @@ Changing the order id after a failed lookup is a repair. Issuing the same call a
 
 **Recap.** Reflection changes the next step after a failure. ReAct feeds the tool's real observation back into the next decision. Reflexion stores a verbal note and tries again, and the note can be wrong. A changed argument is a repair. An identical call is a repeat the host should stop. Errors given back to the model should be the messages you trust, and the number of tries should be capped.
 
+![Reflection and error correction](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-20-reflection.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 20.*
+
 ## Tool selection
 
 Tool selection is the model's choice of which offered tool to call. The choice is only as good as the set you offered and the descriptions you wrote.
@@ -539,6 +619,10 @@ Two published systems treat the choice as more than one independent pick. Chamel
 
 **Recap.** The model selects a tool from the list and the descriptions you sent. Vague descriptions match everything. A description names when to use the tool and when not to. Fewer tools on a specific entry point beat a catalog of overlapping ones. Ablation, removing the tool and rerunning the task, is how you tell a necessary tool from a way to pick wrong.
 
+![Tool selection](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-21-tool-selection.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 21.*
+
 ## Planning failures
 
 A planning failure is a step that is illegal, aimed at the wrong goal, or never ends. The tool does not have to run for the failure to be real. The plan already contains it.
@@ -551,6 +635,10 @@ The model names `force_push` when that tool was not offered. The GitHub issue sa
 
 **Recap.** Planning failures are illegal steps, steps aimed at the wrong goal, and loops that do not stop. The tool does not have to run for the plan to be wrong. An allow-list, a plan checker, and a step cap are the fixes, and a model's approval of its own plan is not one of them. A thought that claims success without a tool observation is a planning failure in the log.
 
+![Planning failures](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-22-planning-failures.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 22.*
+
 ## Tool failures
 
 A tool failure is a call that was allowed and is still wrong. The tool exists, the arguments match the schema, and the outcome is not the outcome the task needed.
@@ -562,6 +650,10 @@ The host offered `comment_on_issue`. The model comments on GitHub issue 10 while
 **Interview.** Separate this class from planning. The tool was offered and the call was well typed. Give the wrong issue id, the timeout, the stale index, and the instruction inside the tool result as four mechanisms with four fixes. Point injection at Prompt Engineering and the idempotency key at the payment topic. Say a green schema check is not evidence you touched the right record.
 
 **Recap.** Tool failures are allowed calls that still do the wrong thing. The arguments can name the wrong record, the call can time out, the index can be stale, and the result can contain an instruction. A schema check is necessary and not sufficient. Recompute the arguments that matter, bound the call, and do not feed an untrusted body back as if it were an observation you wrote.
+
+![Tool failures](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-23-tool-failures.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 23.*
 
 ## Efficiency failures
 
@@ -602,6 +694,10 @@ The six inputs sum to 10,800 tokens and the six outputs sum to 720. Per task tha
 
 **Recap.** Efficiency failures are legal plans that cost too much. At the exercise prices, the six-step loop is $684.00 per 100,000 tasks, against $140.00 for a single retrieve-then-answer call. Each earlier reply is paid as output and then, with the tool observation, as input on later steps. Fewer model calls shrink that bill. A step cap bounds it and does not by itself notice that a repeated call added no information.
 
+![Efficiency failures](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-24-efficiency-failures.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 24.*
+
 ## Compounding error in agents
 
 Compounding error is the drop in end-to-end success when each step has to be right and a later step does not repair an earlier miss. Per-step accuracy multiplies.
@@ -624,6 +720,10 @@ Stakes rise when a step is a write. A wrong lookup can be repaired by the next c
 **Interview.** Compute `0.95^10` and say the result is about 0.599 when each later step stays at 0.95 after a correct prefix and a miss is not repaired. Then say what you would change: a stronger model, fewer model calls, a verifier that is not the same sample, a checkpoint, and a person on the write. Distinguish a failed read, which reflection can repair, from a failed write, which approval should have stopped. If someone quotes a 95 percent tool-call demo as the agent's reliability, multiply, and say the demo was not the conditional rate inside the trace. A repair is what beats the product. The product is already the case where a miss is final.
 
 **Recap.** Per-step accuracy compounds. Ten steps at 0.95 succeed about 0.599 of the time when each later step stays at that rate and a miss is not repaired, ten at 0.99 about 0.904, and ten at 0.90 about 0.349. Agents need a stronger model and a shorter plan than a one-shot call, and a write makes a wrong step expensive rather than retryable. Verification, checkpoints, human approval, and reflection on failed reads are how a task beats that product. A 95 percent demo on one clean call is not the reliability of the loop.
+
+![Compounding error in agents](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-25-compounding-error.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 25.*
 
 ## Agent evaluation
 
@@ -652,6 +752,10 @@ Pass^3 is 0.1786 and pass@3 is 0.9821. A leaderboard that quotes the second numb
 
 **Recap.** Agents are evaluated on their steps and on the state they leave behind. SWE-bench uses repository tests, and SWE-bench Verified is the 500-instance human-filtered subset. WebArena uses website state. τ-bench uses the database after a policy-bound conversation. GAIA uses a short answer. pass^k requires every trial to succeed, unlike pass@k. On an exercise of 5 successes in 8 trials, pass^3 is 0.1786 and pass@3 is 0.9821. The τ-bench paper's gpt-4o agent was near 61 percent once on retail, near 35 percent once on airline, and near 25 percent across eight retail repeats. Your launch number is still your tasks.
 
+![Agent evaluation](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-26-agent-evaluation.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 26.*
+
 ## What an agent remembers
 
 Agent memory is state that survives a step. Some of it is in the weights, some of it is in the current context, and some of it is in a store outside the model.
@@ -665,6 +769,10 @@ Memory is there for two jobs that a longer prompt does not reliably do. It keeps
 **Interview.** Name the three stores and the operation that updates each: a training run for the weights, the next request for the window, and a write to the store for long-term memory. Give ChatGPT memory and a MemGPT-style page store as the external examples, and say Letta is the continuation of MemGPT. A fact in the weights does not update when the article does. A fact in the window does not survive the session. A fact in the store can be wrong, and the person has to be able to see it and delete it.
 
 **Recap.** Memory is weights, the context window, or an external store. Weights lag the wiki. The window is the session, it costs input tokens, and then it is gone. ChatGPT memory and MemGPT-style paging, continued as Letta, persist facts across sessions and can persist the wrong ones. A stored memory is not by itself a permission. What stays in the budget, what gets compressed, and what happens when two facts disagree is the next card.
+
+![What an agent remembers](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-27-agent-memory.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 27.*
 
 ## Managing agent memory
 
@@ -712,3 +820,7 @@ The three memories use 950 tokens against a budget of 800. Evicting the oldest k
 **Interview.** Give summarization, eviction, and conflicts as the three management problems. On the 800-token exercise, say oldest-first eviction drops the allergy, a pin keeps it, and pinning everything leaves the prompt over budget at 950 rather than dropping the constraint. A conflict between two diet notes is resolved by asking before a booking, not by averaging the sentences. Structured fields outrank a summary when the tool will act on the value.
 
 **Recap.** Managing memory is compression, eviction, and conflicts. A summary can drop the field a tool will act on, so that field stays structured. On an 800-token budget, evicting the oldest item drops a 200-token allergy and keeps small talk and a trip. A pin keeps the allergy. If the pins themselves exceed the budget, they stay and the budget is exceeded. Two conflicting values are asked about before a write tool uses them.
+
+![Managing agent memory](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents-28-managing-memory.png)
+
+*Source: [`diagrams/rag-and-agents.drawio`](/content/10_AI_Engineering/06_RAG_and_Agents/diagrams/rag-and-agents.drawio), page 28.*
