@@ -41,6 +41,10 @@ print(broken_two_pass([], 0), repaired_two_pass([-2, 7, 1], 5))
 # None (0, 1)
 ```
 
+![The second pass returns the same index](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-1-second-pass-same-index.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 1.*
+
 ## Two strings, one pattern
 
 The exercise strings `"loop"` and `"beek"` follow one pattern: a character, then a different character twice, then a fourth character. `"boot"` and `"care"` do not. Decide whether two strings follow one pattern. What do `"ab"` and `"aa"` return, and what do the empty strings return?
@@ -73,6 +77,10 @@ print(same_pattern("", ""), same_pattern("a", "b"), same_pattern("abc", "de"))
 # True True False
 ```
 
+![Two strings, one pattern](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-2-two-strings-one-pattern.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 2.*
+
 ## A repeat in the last k readings
 
 The exercise readings are `[8, 1, 8, 4, 4]`. Return the indexes of the first value that repeats at a distance of at most `k`. What do `k = 2` and `k = 1` return?
@@ -102,6 +110,10 @@ print(close_repeat([8, 1, 8, 4, 4], 0), close_repeat([], 3), close_repeat([4], 5
 # (0, 2) (3, 4)
 # None None None
 ```
+
+![A repeat in the last k readings](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-3-repeat-in-last-k.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 3.*
 
 ## Pairs a fixed gap apart
 
@@ -135,6 +147,10 @@ print(gap_pairs([1, 1, 1], 0), gap_pairs([1], 0), gap_pairs([], 2))
 # (1, 3) (0, 0) (0, 0)
 ```
 
+![Pairs a fixed gap apart](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-4-pairs-a-fixed-gap-apart.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 4.*
+
 ## Which block holds this cell
 
 On a 9 by 9 grid the blocks are 3 by 3. On a 16 by 16 grid the blocks are 4 by 4. Which block contains each exercise cell, and what does a cell outside the grid return?
@@ -158,6 +174,10 @@ print((3 // 3) * (9 // 3) + (5 // 3))
 # (1, 1) (3, 3) None
 # 4
 ```
+
+![Which block holds this cell](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-5-which-block-holds-this-cell.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 5.*
 
 ## Zeroing the cell you just wrote
 
@@ -204,6 +224,10 @@ print(zero_as_you_go([[0]]), zero_after_recording([[4]]), zero_after_recording([
 # [[0]] [[4]] []
 ```
 
+![Zeroing the cell you just wrote](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-6-zeroing-the-cell-you-just-wrote.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 6.*
+
 ## First letter that appears once
 
 In the exercise string `"stress"`, which index holds the first character that appears once? What do `"aabb"`, `"a"`, and `""` return?
@@ -226,6 +250,10 @@ print(first_once("aab"), first_once("Stress"))
 # 1 None 0 None
 # 2 0
 ```
+
+![First letter that appears once](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-7-first-letter-that-appears-once.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 7.*
 
 ## Map, set, array, or sort
 
@@ -258,6 +286,10 @@ print(choose("ordered-values"))
 # ('map-sorted-key', 'expected O(n k log k) time')
 # ('sort', 'O(n log n) time, O(n) extra for sorted()')
 ```
+
+![Map, set, array, or sort](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-8-map-set-array-or-sort.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 8.*
 
 ## Visits from the middle of a run
 
@@ -297,3 +329,7 @@ print(walk_counts([-2, -1, 0, 5]))
 # (0, 0, 0) (1, 1, 1) (1, 1, 1)
 # (7, 4, 3)
 ```
+
+![Visits from the middle of a run](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills-9-visits-from-the-middle-of-a-run.png)
+
+*Source: [`diagrams/hash-maps-and-sets-drills.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-drills.drawio), page 9.*

@@ -37,6 +37,10 @@ The result list, not the set, carries the order. The set answers "already kept."
 
 **Recap.** A hash map is a key to a payload, and a hash set is the keys alone. Lookup, insert, and delete are expected constant time and linear in the worst case when every key collides. The pattern fits frequency, membership, and grouping. A sort, two pointers, and a small array win when the constraint is order, constant memory, or a dense integer key.
 
+![Hash maps and sets: lookup by a key](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-1-lookup-by-a-key.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 1.*
+
 ## Complement lookup
 
 A complement lookup stores values it has already passed and asks, for the current value, whether the partner the formula names is already there.
@@ -72,6 +76,10 @@ The pass is expected O(n) time and O(n) extra memory, and O(n^2) time if every k
 **Interview.** Say the three steps out loud: every pair, then sort and move an end, then a hash if the array is unsorted or the original indexes matter. Say "check, then insert," and give the single `6` with target `12` as the case the reversed order gets wrong. The drill on this topic is the two-pass last-index version of that mistake. The one-pass version is the [Seen-set pair sum: spot the bug](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) drill.
 
 **Recap.** For each value, ask whether its partner is already stored, then store the value. The check-before-insert rule is what stops a value from pairing with itself. A set answers yes or no. A map from value to index answers where. Sorting plus two pointers is the constant-memory alternative once the indexes are allowed to move.
+
+![Complement lookup](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-2-complement-lookup.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 2.*
 
 ## Counting with a map
 
@@ -115,6 +123,10 @@ The build is expected O(n) for a hash and worst-case O(n) for the array, with O(
 
 **Recap.** One pass writes a count under each key. A second lookup, or a second pass over the original order, answers the question. Use an array when the keys are a small dense range, and a hash when they are not. `uniq` can count too, after the lines have been made adjacent.
 
+![Counting with a map](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-3-counting-with-a-map.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 3.*
+
 ## Designing the key
 
 The key is the definition of "same." Design it before the loop. A lookup can only find what that definition treats as equal.
@@ -150,6 +162,10 @@ Sorting each word of length `k` makes the build expected O(n k log k) time, with
 
 **Recap.** The key is the equality the lookup will use. A block index groups cells, a sorted word groups anagrams, and the value itself groups a complement with its partner. A key that drops part of that equality still runs quickly and groups the wrong items. Tuples and frozensets can be keys. Lists cannot.
 
+![Designing the key](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-4-designing-the-key.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 4.*
+
 ## Marks stored in the input
 
 Sometimes the table you would allocate is already sitting in the input, in cells the rest of the algorithm can rebuild.
@@ -180,6 +196,10 @@ The original grid has a zero in the first row and none in the first column. Afte
 **Interview.** Repeat "in place" if the statement says it. Name the two flags before any write. Say the order: flags, marks from the interior, clear the interior from the marks, then clear the first row and the first column from the flags. Give one matrix where a zero created during the scan would zero an extra row if you acted immediately.
 
 **Recap.** Record every original zero before you write any new one. The first row and the first column can hold those marks, and two flags remember whether those lines were already due to be cleared. A sign can be a mark only when the data is known to be positive. Sets of indexes are the same record-then-mutate idea with memory proportional to the two dimensions.
+
+![Marks stored in the input](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-5-marks-stored-in-the-input.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 5.*
 
 ## Pair Sum in an Unsorted Array (LeetCode-style: Two Sum)
 
@@ -221,6 +241,10 @@ Inserting before the check makes `[6]` and target `12` return `(0, 0)`. A two-pa
 **Interview.** Walk brute force, then sort plus two pointers, then the hash, and name the cost that changed at each step. Ask whether any one pair is enough and whether the indexes are into the original array. State the check-before-insert rule with the single half-target value. Say the empty result is this card's choice. LeetCode 1 will not ask for it.
 
 **Recap.** One pass looks up `target - value` and then stores the current index. The pair comes back with the stored index first, and that index is always smaller than the current one. A lone value whose double is the target is not a pair. The expected cost is linear time and linear extra memory. The sorted twin of this problem moves two indexes and does not need the map.
+
+![Pair Sum in an Unsorted Array (LeetCode-style: Two Sum)](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-6-pair-sum-unsorted.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 6.*
 
 ## Valid Digit Grid (LeetCode-style: Valid Sudoku)
 
@@ -283,6 +307,10 @@ The fixed board has 81 cells, so the time and the extra memory are O(1). Each se
 **Interview.** Say "valid, not solvable" before you code. Write the block formula and test a cell in column 3, which starts the next block. Ask what an empty cell looks like. Mention that a boolean array fits digits 1 through 9 if the interviewer wants the collision case gone. Give the all-blank grid as valid.
 
 **Recap.** One pass adds each filled digit to its row set, its column set, and its block set, and rejects a digit that is already there. Dots are ignored. The block key is integer division by 3. The fixed grid is constant work. A passing grid has no repeated digit in those groups, and it may still be impossible to fill.
+
+![Valid Digit Grid (LeetCode-style: Valid Sudoku)](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-7-valid-digit-grid.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 7.*
 
 ## Zero a Row and a Column (LeetCode-style: Set Matrix Zeroes)
 
@@ -375,6 +403,10 @@ Both versions are O(m n) time. The sets use O(m + n) extra memory. The markers u
 
 **Recap.** Original zeros name the rows and columns that will be cleared. Sets remember those indexes. The first row, the first column, and two flags remember them with constant extra memory, if the flags are taken first and the marker row is cleared last. A zero written too early is read as input and clears a row that did not contain one.
 
+![Zero a Row and a Column (LeetCode-style: Set Matrix Zeroes)](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-8-zero-a-row-and-a-column.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 8.*
+
 ## Longest Run of Consecutive Values (LeetCode-style: Longest Consecutive Sequence)
 
 Given integers in any order, return the length of the longest run of values that differ by one. Duplicates do not extend the run. Order in the list does not matter. An empty list has length 0.
@@ -434,6 +466,10 @@ The set version is expected O(n) time and O(n) extra memory, and O(n^2) time if 
 **Interview.** Say "only start at a value whose predecessor is missing," and say why that makes the inner walks add up to n. Give the duplicate and the empty list. Mention the sort as the guaranteed alternative. Say a span from the smallest value to the largest is the wrong size if the values are sparse.
 
 **Recap.** A set answers "is the neighbor present?" in expected constant time. Walks begin only at the bottom of a run, so each distinct value is visited by an inner walk at most once. Duplicates collapse in the set and do not add length. Sorting and scanning neighbors is the guaranteed O(n log n) version of the same length.
+
+![Longest Run of Consecutive Values (LeetCode-style: Longest Consecutive Sequence)](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-9-longest-consecutive-run.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 9.*
 
 ## Triplets at a Fixed Ratio (HackerRank-style: Count Triplets)
 
@@ -515,6 +551,10 @@ The scan is expected O(n) time and O(n) extra memory, and O(n^2) time if every k
 
 **Recap.** Each value is a middle. The number of triplets is the earlier count of `value / ratio` times the later count of `value * ratio`, after the middle has been removed from the later counts and only when the division is exact. Ratio `0` counts every earlier value against later zeros, with a middle of zero. The expected cost is linear time and linear extra memory.
 
+![Triplets at a Fixed Ratio (HackerRank-style: Count Triplets)](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-10-triplets-at-a-fixed-ratio.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 10.*
+
 ## A hash map, an array, a sort, or two pointers
 
 The choice follows the constraint you can point at: a complement or a count, a dense integer key, sorted order, original indexes, or a worst-case guarantee.
@@ -574,3 +614,7 @@ The other problems in this topic are not pair searches, so two pointers are not 
 **Interview.** Start from the sentence, not from a favorite structure. Unsorted complement or count: hash, and say expected linear plus the collision case. Tiny integer keys: array. Need the keys in order, or a guaranteed bound: sort or a tree map. Sorted pair, tight memory: two pointers, and name which end moves. Then give both costs, time and extra memory, including a sort if you introduced one. Offer the nested loop as the check on a tiny input.
 
 **Recap.** A hash map is the expected-linear lookup when the question is a partner, a count, or a group. An array is that lookup with a worst-case bound when the keys are a small range. A sort is the guaranteed, ordered alternative. Two pointers are the constant-memory scan once the data is sorted or symmetric. The nested loop is the baseline you name first.
+
+![A hash map, an array, a sort, or two pointers](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets-11-hash-map-array-sort-or-two-pointers.png)
+
+*Source: [`diagrams/hash-maps-and-sets.drawio`](/content/11_Coding_Problems/10_Hash_Maps_and_Sets/diagrams/hash-maps-and-sets.drawio), page 11.*
