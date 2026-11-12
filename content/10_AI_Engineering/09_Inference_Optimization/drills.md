@@ -77,7 +77,7 @@ for peak in PEAKS:
 
 ## The Overnight Queue
 
-A support desk in the class of Zendesk summarizes tickets that nobody is waiting on, and it also summarizes the ticket an agent has open. The exercise volume is 250,000 overnight tickets and 4,000 tickets that are open right now. Each ticket is 2,200 input tokens and 180 output tokens. The exercise synchronous rates are $0.80 per million input tokens and $3.20 per million output tokens. The batch path is half of those rates, the published shape of OpenAI's Batch API and Anthropic's Message Batches, not a contract you skip rereading. The overnight job can land the next morning. The open ticket cannot.
+A support desk in the class of Zendesk summarizes tickets that nobody is waiting on, and it also summarizes the ticket an agent has open. The exercise volume is 250,000 overnight tickets and 4,000 tickets that are open right now. Each ticket is 2,200 input tokens and 180 output tokens. The exercise synchronous rates are $0.80 per million input tokens and $3.20 per million output tokens. The batch path is half of those rates, the 50 percent shape both OpenAI's Batch API and Anthropic's Message Batches documented on 12 November 2026, not a contract you skip rereading. The overnight job can land the next morning. The open ticket cannot.
 
 What do you send to the batch API, and what is the bill?
 
@@ -264,34 +264,35 @@ print(f"{untaxed_ms:.1f} {SLO_MS / untaxed_ms:.2f}")
 # 10.5 2.37
 ```
 
-## Eight Tokens a Second
+## Four Tokens a Second
 
-A vLLM process on one H100 SXM5 is serving the untied Llama 3 8B in BF16, 8,030,261,248 parameters. An exercise snapshot, not a vLLM benchmark, shows 7.4 tokens a second and 4.0 GiB resident on the GPU. The HBM ceiling is the weight-only roof from the memory card, using the datasheet's 3.35 TB/s. The other ceiling uses the same datasheet's PCIe Gen5 figure of 128 GB/s, the line printed next to NVLink. Someone on the review wants a new fused kernel.
+A vLLM process on one H100 SXM5 is serving the untied Llama 3 8B in BF16, 8,030,261,248 parameters. An exercise snapshot, not a vLLM benchmark, shows 3.6 tokens a second and 4.0 GiB resident on the GPU. The HBM ceiling is the weight-only roof from the memory card, using the datasheet's 3.35 TB/s. The other ceiling is the one-way reading of that datasheet's PCIe Gen5 line. The line prints 128 GB/s next to NVLink, and that total is bidirectional, so the planning ceiling is 64 GB/s. Someone on the review wants a new fused kernel.
 
 What is the bottleneck, and what do you change?
 
 ```python
-MEASURED_TPS = 7.4  # Exercise rate, not a vLLM benchmark.
+MEASURED_TPS = 3.6  # Exercise rate, not a vLLM benchmark.
 RESIDENT_GIB = 4.0  # Exercise residency, not a memory profile.
 ```
 
-**Answer:** The weights are not on the GPU, and a fused kernel will not fix that. The BF16 weights are 14.96 GiB. The snapshot shows 4.0 GiB resident, so the checkpoint is streaming from the host. The HBM roof is 208.6 tokens a second. The PCIe roof, at the datasheet's 128 GB/s, is 8.0 tokens a second. The measured 7.4 is 0.93 of the PCIe roof and 0.035 of the HBM roof. You are close to saturating the bus you are actually using. Dividing 7.4 by 208.6 and calling it a bad matmul sends you into a kernel project that cannot move bytes across PCIe any faster. Load the weights into HBM, confirm residency near 14.96 GiB plus runtime, and only then remeasure model bandwidth utilization against the 208.6 roof. If that second measurement is still far below the roof, the kernel and the launch overhead become the question. They are not the question in this snapshot.
+**Answer:** The weights are not on the GPU, and a fused kernel will not fix that. The BF16 weights are 14.96 GiB. The snapshot shows 4.0 GiB resident, so the checkpoint is streaming from the host. The HBM roof is 208.6 tokens a second. The one-way PCIe ceiling, at 64 GB/s, is 4.0 tokens a second. Dividing the same weights by the printed 128 GB/s produces 8.0, and that reading treats both directions as if they carried the weights. The measured 3.6 is 0.90 of the one-way ceiling and 0.017 of the HBM roof. You are close to saturating the bus you are actually using. Dividing 3.6 by 208.6 and calling it a bad matmul sends you into a kernel project that cannot move bytes across PCIe any faster. Load the weights into HBM, confirm residency near 14.96 GiB plus runtime, and only then remeasure model bandwidth utilization against the 208.6 roof. If that second measurement is still far below the roof, the kernel and the launch overhead become the question. They are not the question in this snapshot.
 
 ```python
 PARAMS = 8_030_261_248
 WEIGHTS = PARAMS * 2
 HBM = 3.35e12
-PCIE = 128 * 10**9
-MEASURED_TPS = 7.4
+PCIE_ONE_WAY = 64 * 10**9
+MEASURED_TPS = 3.6
 RESIDENT_GIB = 4.0
 hbm_ceiling = HBM / WEIGHTS
-pcie_ceiling = PCIE / WEIGHTS
+pcie_ceiling = PCIE_ONE_WAY / WEIGHTS
+printed_both_ways = (128 * 10**9) / WEIGHTS
 print(f"{WEIGHTS / 1024**3:.2f}")
-print(f"{hbm_ceiling:.1f} {pcie_ceiling:.1f}")
+print(f"{hbm_ceiling:.1f} {pcie_ceiling:.1f} {printed_both_ways:.1f}")
 print(f"{MEASURED_TPS / hbm_ceiling:.3f} {MEASURED_TPS / pcie_ceiling:.2f}")
 print(RESIDENT_GIB < WEIGHTS / 1024**3)
 # 14.96
-# 208.6 8.0
-# 0.035 0.93
+# 208.6 4.0 8.0
+# 0.017 0.90
 # True
 ```
