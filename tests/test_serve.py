@@ -571,6 +571,7 @@ CODING_PROBLEMS_TOPICS = (
     "09_Two_Pointers",
     "10_Hash_Maps_and_Sets",
     "11_Linked_Lists",
+    "12_Fast_and_Slow_Pointers",
 )
 
 
@@ -597,6 +598,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Two Pointers",
         "Hash Maps and Sets",
         "Linked Lists",
+        "Fast and Slow Pointers",
     ]
 
 
@@ -958,6 +960,37 @@ def test_linked_lists_topic_exposes_drills() -> None:
     assert "reverse_iter" in notes
 
 
+def test_fast_and_slow_pointers_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "12_Fast_and_Slow_Pointers")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Fast and Slow Pointers"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "12_Fast_and_Slow_Pointers"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Fast and slow pointers",
+        "## Why the faster pointer meets the slower one",
+        "## Does This List Loop? (LeetCode-style: Linked List Cycle)",
+        "## The Node Where the Cycle Starts (LeetCode-style: Linked List Cycle II)",
+        "## Which middle the loop stops on",
+        "## The Middle Node (LeetCode-style: Middle of the Linked List)",
+        "## A sequence of next values is a linked list",
+        "## Reaching One by Squaring Digits (LeetCode-style: Happy Number)",
+        "## Two speeds, or a set of seen values",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "cycle_start" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -972,11 +1005,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "09_Two_Pointers",
         "10_Hash_Maps_and_Sets",
         "11_Linked_Lists",
+        "12_Fast_and_Slow_Pointers",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[10:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[11:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
