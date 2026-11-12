@@ -176,7 +176,7 @@ print(before[1] < after[0], f"{difference_z(BEFORE, AFTER):.2f}")
 
 ## They Asked for Another
 
-On 1,000 exercise conversations in a support draft, 220 click regenerate. Of those, 150 accept the second draft and 70 abandon the thread. The product is the draft, not a gallery. Midjourney's "give me another grid" is the comparison you should not mix into this rate. Copilot has no regenerate control. This is not the semantic-cache or thumb-interval arithmetic.
+On 1,000 exercise conversations in a support draft, 220 click regenerate. Of those, 150 accept the second draft and 70 abandon the thread. The product is the draft, not a gallery. Midjourney's "give me another grid" is the comparison you should not mix into this rate. Copilot's inline suggestion is accepted or cycled, and Copilot Chat on GitHub can reload a response. Neither control is this rate. This is not the semantic-cache or thumb-interval arithmetic.
 
 What is the regenerate rate, what share of regenerators leave, and is regenerate a quality miss in this product?
 
@@ -188,7 +188,7 @@ ABANDON = 70
 # Exercise counts, not a ChatGPT or Midjourney statistic.
 ```
 
-**Answer:** The regenerate rate is 0.22 of conversations. Of the people who regenerated, 0.6818 take the second draft and 0.3182 leave. In a support draft, regenerate is a miss on the first answer: the person had to spend another turn, and about a third of those threads end anyway. It is not a factual label by itself. Some of the 150 wanted a different tone. You still graph it, because a model change that lifts thumbs and lifts regenerate has not obviously gotten better. You do not average it with Midjourney, where another sample is the product, or with Copilot, which records acceptance rather than a second draw. The denominator is conversations that offered the button. A raw count of 220 is not the rate.
+**Answer:** The regenerate rate is 0.22 of conversations. Of the people who regenerated, 0.6818 take the second draft and 0.3182 leave. In a support draft, regenerate is a miss on the first answer: the person had to spend another turn, and about a third of those threads end anyway. It is not a factual label by itself. Some of the 150 wanted a different tone. You still graph it, because a model change that lifts thumbs and lifts regenerate has not obviously gotten better. You do not average it with Midjourney, where another sample is the product, or with Copilot, whose inline suggestion is accepted or cycled and whose chat on GitHub can reload a response. Those controls are not this draft's regenerate rate. The denominator is conversations that offered the button. A raw count of 220 is not the rate.
 
 ```python
 CONVERSATIONS = 1_000
