@@ -2,32 +2,32 @@
 
 Practice for the retrieval and agent decisions in this chapter. Each card is one exercise: commit to an answer, then check it. The products are real. Ranks, prices, latencies, token counts, and scores are assumptions for the arithmetic. A launch uses a measured index, the current rate card, and the eval you actually run.
 
-## SKU or Description
+## Symbol or Question
 
-A Shopify catalog search box receives two kinds of queries. Some are product codes, such as `SKU-1042`. Some are descriptions, such as "warm wool socks." On an exercise set of 20 code queries and 20 description queries, which is not a published Shopify metric, the number of queries whose intended product appears in the top 5 is below. Pure vector search, pure BM25, and a hybrid of the two are the three systems.
+GitHub code search receives two kinds of queries. Some are symbols, such as `json.Unmarshal`. Some are questions, such as "where do we cap retries." On an exercise set of 20 symbol queries and 20 question queries, which is not a published GitHub metric, the number of queries whose intended file appears in the top 5 is below. Pure vector search, pure BM25, and a hybrid of the two are the three systems.
 
 Which system do you ship for a box that receives both kinds of query, and when would you skip the vector index?
 
 ```python
-CODE = 20
-DESC = 20
-# Exercise top-5 hits, not a Shopify metric.
+SYMBOLS = 20
+QUESTIONS = 20
+# Exercise top-5 hits, not a GitHub metric.
 HITS = {
-    "vector": {"code": 8, "desc": 16},
-    "bm25": {"code": 17, "desc": 11},
-    "hybrid": {"code": 18, "desc": 17},
+    "vector": {"symbol": 7, "question": 18},
+    "bm25": {"symbol": 18, "question": 10},
+    "hybrid": {"symbol": 18, "question": 17},
 }
 ```
 
-**Answer:** Ship the hybrid. On codes it hits 18 of 20, recall 0.90, against the vector index's 8 of 20, recall 0.40. On descriptions it hits 17 of 20, recall 0.85, against BM25's 11 of 20, recall 0.55. Pure vector search is the wrong system for a product code, because nearby descriptions outrank the exact token. Pure BM25 is the wrong system for "warm wool socks," because the catalog does not share those words. The hybrid's extra code hit over BM25, 18 against 17, is small. The description gap is not. If the box received only product codes, BM25 at 17 of 20 would be enough and the vector index would be an update path you could skip. This box receives both, so you pay for both lists. These counts are not the rank fusion on the concept card, and they are not a Shopify dashboard. Recompute them on your own queries before you buy the second index.
+**Answer:** Ship the hybrid. On symbols it hits 18 of 20, recall 0.90, the same as BM25, and well above the vector index's 7 of 20, recall 0.35. On questions it hits 17 of 20, recall 0.85, against BM25's 10 of 20, recall 0.50. Pure vector search is the wrong system for `json.Unmarshal`, because nearby prose outranks the exact token. Pure BM25 is the weaker system for "where do we cap retries," because the file that implements the cap may not share those words. The hybrid adds no symbol hits over BM25. The question gap is the whole reason to pay for the second index. If the box received only symbols, BM25 at 18 of 20 would match the hybrid and the vector index would be an update path you could skip. This box receives both. These counts are not the rank fusion on the concept card, and they are not a GitHub dashboard. Recompute them on your own queries before you buy the second index.
 
 ```python
-CODE = 20
-DESC = 20
+SYMBOLS = 20
+QUESTIONS = 20
 HITS = {
-    "vector": {"code": 8, "desc": 16},
-    "bm25": {"code": 17, "desc": 11},
-    "hybrid": {"code": 18, "desc": 17},
+    "vector": {"symbol": 7, "question": 18},
+    "bm25": {"symbol": 18, "question": 10},
+    "hybrid": {"symbol": 18, "question": 17},
 }
 
 
@@ -35,12 +35,12 @@ def recall(system: str, kind: str, n: int) -> float:
     return HITS[system][kind] / n
 
 
-print(f"{recall('vector', 'code', CODE):.2f} {recall('hybrid', 'code', CODE):.2f}")
-print(f"{recall('bm25', 'desc', DESC):.2f} {recall('hybrid', 'desc', DESC):.2f}")
-print(HITS["hybrid"]["code"] - HITS["bm25"]["code"])
-# 0.40 0.90
-# 0.55 0.85
-# 1
+print(f"{recall('vector', 'symbol', SYMBOLS):.2f} {recall('hybrid', 'symbol', SYMBOLS):.2f}")
+print(f"{recall('bm25', 'question', QUESTIONS):.2f} {recall('hybrid', 'question', QUESTIONS):.2f}")
+print(HITS["hybrid"]["symbol"] - HITS["bm25"]["symbol"])
+# 0.35 0.90
+# 0.50 0.85
+# 0
 ```
 
 ## Fork Secrets
@@ -124,9 +124,9 @@ print(miss)
 # [('rerank 80', 320)]
 ```
 
-## Refunded Cents
+## Merged Pull Requests
 
-A text-to-SQL assistant sits on a sales warehouse. The question, asked on 12 November 2026, is how many cents were refunded in the seven days ending that day, 5 November through 12 November inclusive. The model proposes two statements. The first filters `orders.refunded_at`. The second sums `orders.total_cents` for rows whose status is `refunded`. The schema and the fixture below are an exercise, not a Shopify export.
+A text-to-SQL assistant sits on a GitHub-style warehouse. The question, asked on 12 November 2026, is how many pull requests were merged in the seven days ending that day. Seven days ending 12 November, counted inclusively, is 6 November through 12 November. The model proposes two statements. The first filters `pull_requests.closed_at`. The second counts `reviews` submitted in that window. The schema and the fixture below are an exercise, not a GitHub export.
 
 What do you run, what do you answer, and which statement never reaches the warehouse?
 
@@ -134,39 +134,47 @@ What do you run, what do you answer, and which statement never reaches the wareh
 from datetime import date
 
 AS_OF = date(2026, 11, 12)
-START = date(2026, 11, 5)
+START = date(2026, 11, 6)
 SCHEMA = {
-    "orders": {"id", "created_at", "status", "total_cents"},
-    "refunds": {"id", "order_id", "refunded_at", "amount_cents"},
+    "pull_requests": {"id", "opened_at", "merged_at", "author"},
+    "reviews": {"id", "pull_request_id", "submitted_at"},
 }
-ORDERS = (
-    {"id": 1001, "created_at": date(2026, 11, 1), "status": "paid", "total_cents": 8000},
-    {"id": 1002, "created_at": date(2026, 11, 10), "status": "paid", "total_cents": 4000},
+PULLS = (
+    {"id": 401, "opened_at": date(2026, 11, 1), "merged_at": date(2026, 11, 7)},
+    {"id": 402, "opened_at": date(2026, 11, 2), "merged_at": date(2026, 11, 8)},
+    {"id": 403, "opened_at": date(2026, 11, 3), "merged_at": date(2026, 11, 12)},
+    {"id": 404, "opened_at": date(2026, 11, 11), "merged_at": None},
 )
-REFUNDS = (
-    {"id": 1, "order_id": 1001, "refunded_at": date(2026, 11, 8), "amount_cents": 1000},
-    {"id": 2, "order_id": 1001, "refunded_at": date(2026, 11, 11), "amount_cents": 1500},
+REVIEWS = (
+    {"id": 1, "pull_request_id": 401, "submitted_at": date(2026, 11, 8)},
+    {"id": 2, "pull_request_id": 402, "submitted_at": date(2026, 11, 9)},
+    {"id": 3, "pull_request_id": 403, "submitted_at": date(2026, 11, 10)},
+    {"id": 4, "pull_request_id": 404, "submitted_at": date(2026, 11, 11)},
 )
 ```
 
-**Answer:** `orders.refunded_at` is not in the schema, so that statement is rejected before it runs. The status filter is legal SQL and answers a different question. No order has status `refunded`, so the sum is 0, while the refund table holds 2,500 cents in the window, both rows on order 1001. The answer is 2,500 cents. Counting refund rows would say 2, and summing the order total would say 8,000. Neither is what was asked. Execution on the fixture catches the status query. A string match against one gold query would also reject another statement that sums `refunds.amount_cents` with a different alias and the same rows. The functional-correctness card is why the result, not the spelling, is the score, and why the statement still has to be one read. Show the 2,500 with the query that produced it. Do not let the model say "no refunds" because a bad filter returned empty.
+**Answer:** `pull_requests.closed_at` is not in the schema, so that statement is rejected before it runs. Counting reviews is legal SQL and answers a different question: 4 reviews were submitted in the window. Counting pull requests by `opened_at` is also the wrong event: only 404 was opened in the window, so that count is 1. The question asked for merges. Pull requests 401, 402, and 403 have `merged_at` inside 6 November through 12 November, and 404 was never merged. The answer is 3. The window is seven dates, not eight: 12 November minus 6 November is 6 days apart, and both ends count. Execution on the fixture is what separates 3 from 4 and from 1. A string match against one gold query would also reject another statement that counts the same merged rows with a different alias. The functional-correctness card is why the result, not the spelling, is the score, and why the statement still has to be one read. Show the 3 with the query that produced it. Do not let the model say "one pull request" because it filtered the day the pull request was opened.
 
 ```python
 from datetime import date
 
 AS_OF = date(2026, 11, 12)
-START = date(2026, 11, 5)
+START = date(2026, 11, 6)
 SCHEMA = {
-    "orders": {"id", "created_at", "status", "total_cents"},
-    "refunds": {"id", "order_id", "refunded_at", "amount_cents"},
+    "pull_requests": {"id", "opened_at", "merged_at", "author"},
+    "reviews": {"id", "pull_request_id", "submitted_at"},
 }
-ORDERS = (
-    {"id": 1001, "created_at": date(2026, 11, 1), "status": "paid", "total_cents": 8000},
-    {"id": 1002, "created_at": date(2026, 11, 10), "status": "paid", "total_cents": 4000},
+PULLS = (
+    {"id": 401, "opened_at": date(2026, 11, 1), "merged_at": date(2026, 11, 7)},
+    {"id": 402, "opened_at": date(2026, 11, 2), "merged_at": date(2026, 11, 8)},
+    {"id": 403, "opened_at": date(2026, 11, 3), "merged_at": date(2026, 11, 12)},
+    {"id": 404, "opened_at": date(2026, 11, 11), "merged_at": None},
 )
-REFUNDS = (
-    {"id": 1, "order_id": 1001, "refunded_at": date(2026, 11, 8), "amount_cents": 1000},
-    {"id": 2, "order_id": 1001, "refunded_at": date(2026, 11, 11), "amount_cents": 1500},
+REVIEWS = (
+    {"id": 1, "pull_request_id": 401, "submitted_at": date(2026, 11, 8)},
+    {"id": 2, "pull_request_id": 402, "submitted_at": date(2026, 11, 9)},
+    {"id": 3, "pull_request_id": 403, "submitted_at": date(2026, 11, 10)},
+    {"id": 4, "pull_request_id": 404, "submitted_at": date(2026, 11, 11)},
 )
 
 
@@ -174,22 +182,28 @@ def known(table: str, column: str) -> bool:
     return column in SCHEMA.get(table, set())
 
 
-def refunded_cents() -> int:
-    return sum(row["amount_cents"] for row in REFUNDS if START <= row["refunded_at"] <= AS_OF)
+def in_window(day: date | None) -> bool:
+    return day is not None and START <= day <= AS_OF
 
 
-def status_total() -> int:
-    return sum(
-        row["total_cents"]
-        for row in ORDERS
-        if row["status"] == "refunded" and START <= row["created_at"] <= AS_OF
-    )
+def merged_count() -> int:
+    return sum(1 for row in PULLS if in_window(row["merged_at"]))
 
 
-print(known("orders", "refunded_at"), known("refunds", "amount_cents"))
-print(refunded_cents(), status_total(), len(REFUNDS))
+def opened_count() -> int:
+    return sum(1 for row in PULLS if in_window(row["opened_at"]))
+
+
+def review_count() -> int:
+    return sum(1 for row in REVIEWS if in_window(row["submitted_at"]))
+
+
+print((AS_OF - START).days + 1)
+print(known("pull_requests", "closed_at"), known("pull_requests", "merged_at"))
+print(merged_count(), opened_count(), review_count())
+# 7
 # False True
-# 2500 0 2
+# 3 1 4
 ```
 
 ## The Same Search
@@ -279,8 +293,9 @@ def gate(name: str, person_confirmed: bool) -> str:
     return "run"
 
 
-chat_said_book_it = False
-decisions = {name: gate(name, chat_said_book_it) for name in TOOLS}
+# "Book it" in the chat is not this flag. The flag is a recorded confirmation.
+person_confirmed = False
+decisions = {name: gate(name, person_confirmed) for name in TOOLS}
 print(sorted(name for name, choice in decisions.items() if choice == "run"))
 print(sorted(name for name, choice in decisions.items() if choice == "wait"))
 print(gate("charge_card", True))
@@ -289,41 +304,41 @@ print(gate("charge_card", True))
 # run
 ```
 
-## Four Tools or Twenty-Four
+## Three Tools or Fifteen
 
-A Shopify support agent on the "where is my package" page can be given 4 tools or 24. On an exercise set of 20 tracking questions, which is not a Shopify metric, the 4-tool list calls the tracking tool on 18 questions. The 24-tool list calls it on 11. Of the 9 misses, 6 call the refund tool. The refund tool is the right tool on a different page, where the customer is asking for money back.
+Google Calendar's "find a time" page can be given 3 tools or 15. On an exercise set of 20 scheduling questions, which is not a Google metric, the 3-tool list calls the scheduling tool on 16 questions. The 15-tool list calls it on 8. Of the 12 misses, 7 call the tool that sends mail. Sending mail is a real action on a different surface. It is not how this page finds a time.
 
-What do you offer on the tracking page, and what do you do with the refund tool?
+What do you offer on the find-a-time page, and what do you do with the mail tool?
 
 ```python
 QUESTIONS = 20
-# Exercise tool-selection hits, not a Shopify metric.
-HITS = {"four": 18, "twenty_four": 11}
-REFUND_MISROUTES = 6
+# Exercise tool-selection hits, not a Google metric.
+HITS = {"three": 16, "fifteen": 8}
+MAIL_MISROUTES = 7
 ```
 
-**Answer:** Offer the four tracking tools on this page. Exact tool match is 0.90 against 0.55. Six of the nine misses are the refund tool, which means the extra tools are not a harmless menu. They are a way to move money on a question about a package. Keep the refund tool on the refund flow, behind the write-tool checks, and off this list. Ablation is this comparison: removing the other twenty tools raised tracking selection from 11 to 18 and removed the refund misroutes on this page. It does not tell you to delete refund from the product. On a general inbox where both tools must be available, the descriptions have to say when not to use each one, and you measure the misroutes again. The concept card argued for a short list. These counts are the measurement, and they are exercise counts. A different model can mis-route a different tool. Run the ablation on the model you serve.
+**Answer:** Offer the three scheduling tools on this page. Exact tool match is 0.80 against 0.40. Seven of the twelve misses send mail, which means the extra tools are not a harmless menu. They are a way to email someone from a page that was only supposed to propose a time. Keep send-mail on the compose flow, behind the write-tool checks, and off this list. Ablation is this comparison: removing the other twelve tools raised scheduling selection from 8 to 16 and removed the mail misroutes on this page. It does not tell you to delete mail from the product. On a general assistant where both tools must be available, the descriptions have to say when not to use each one, and you measure the misroutes again. These counts are exercise counts. A different model can mis-route a different tool. Run the ablation on the model you serve.
 
 ```python
 QUESTIONS = 20
-HITS = {"four": 18, "twenty_four": 11}
-REFUND_MISROUTES = 6
+HITS = {"three": 16, "fifteen": 8}
+MAIL_MISROUTES = 7
 
 
 def rate(hits: int) -> float:
     return hits / QUESTIONS
 
 
-misses = QUESTIONS - HITS["twenty_four"]
-print(f"{rate(HITS['four']):.2f} {rate(HITS['twenty_four']):.2f}")
-print(misses, REFUND_MISROUTES, misses - REFUND_MISROUTES)
-# 0.90 0.55
-# 9 6 3
+misses = QUESTIONS - HITS["fifteen"]
+print(f"{rate(HITS['three']):.2f} {rate(HITS['fifteen']):.2f}")
+print(misses, MAIL_MISROUTES, misses - MAIL_MISROUTES)
+# 0.80 0.40
+# 12 7 5
 ```
 
-## Berlin or Lisbon
+## Seven in the Morning
 
-A personal assistant in the style of ChatGPT memory has three saved notes. On 10 January 2026 the user lived in Berlin and had a shellfish allergy. On 2 August 2026 a note says the user moved to Lisbon. Nothing has updated the allergy. The user asks the assistant to book a seafood dinner "in my city."
+A personal assistant in the style of ChatGPT memory has three saved notes. On 1 March 2026 the timezone was `America/Los_Angeles` and the earliest meeting was `09:00` local. On 14 September 2026 a note says the timezone is now `Europe/London`. Nothing has updated the earliest time. The user asks the assistant to book a `07:00` breakfast "in my timezone."
 
 What may the assistant assume, what must it still avoid, and which tool waits?
 
@@ -331,22 +346,24 @@ What may the assistant assume, what must it still avoid, and which tool waits?
 from datetime import date
 
 MEMORIES = (
-    (date(2026, 1, 10), "city", "Berlin"),
-    (date(2026, 8, 2), "city", "Lisbon"),
-    (date(2026, 1, 10), "allergy", "shellfish"),
+    (date(2026, 3, 1), "timezone", "America/Los_Angeles"),
+    (date(2026, 9, 14), "timezone", "Europe/London"),
+    (date(2026, 3, 1), "earliest", "09:00"),
 )
+REQUESTED = "07:00"
 ```
 
-**Answer:** The city key conflicts. The latest value is Lisbon, dated 2 August, and the earlier value is Berlin, dated 10 January. A suggestion can show both dates. A reservation tool does not run until the user confirms the city. Newest-wins is not an authorization to book. The allergy key has one value, shellfish, and it still constrains the dinner. Resolving the city must not drop it, and a seafood restaurant contradicts it even in the confirmed city. The eviction exercise on the concept card was about which fact to delete under a token budget. This exercise is about two live values of one key, plus a second key that is not in conflict. Store the fields with dates. Do not collapse them into a summary that says "lives in Lisbon and likes seafood."
+**Answer:** The timezone key conflicts. The latest value is `Europe/London`, dated 14 September, and the earlier value is `America/Los_Angeles`, dated 1 March. A suggestion can show both dates. A calendar write does not run until the user confirms the timezone. Newest-wins is not an authorization to book. The earliest key has one value, `09:00`, and `07:00` is before it, so the breakfast is refused even after the timezone is confirmed. Resolving the timezone must not drop that constraint. The eviction exercise on the managing-memory card was about which fact to delete under a token budget. This exercise is about two live values of one key, plus a second key that blocks the requested time. Store the fields with dates. Do not collapse them into a summary that says "lives in London and likes early breakfasts."
 
 ```python
 from datetime import date
 
 MEMORIES = (
-    (date(2026, 1, 10), "city", "Berlin"),
-    (date(2026, 8, 2), "city", "Lisbon"),
-    (date(2026, 1, 10), "allergy", "shellfish"),
+    (date(2026, 3, 1), "timezone", "America/Los_Angeles"),
+    (date(2026, 9, 14), "timezone", "Europe/London"),
+    (date(2026, 3, 1), "earliest", "09:00"),
 )
+REQUESTED = "07:00"
 
 
 def resolve(memories: tuple[tuple[date, str, str], ...]) -> tuple[dict[str, tuple[date, str]], list[str]]:
@@ -360,8 +377,9 @@ def resolve(memories: tuple[tuple[date, str, str], ...]) -> tuple[dict[str, tupl
 
 
 latest, conflicts = resolve(MEMORIES)
-print(conflicts, latest["city"][1], latest["allergy"][1])
-print("book" if not conflicts else "wait")
-# ['city'] Lisbon shellfish
+too_early = REQUESTED < latest["earliest"][1]
+print(conflicts, latest["timezone"][1], latest["earliest"][1], too_early)
+print("book" if not conflicts and not too_early else "wait")
+# ['timezone'] Europe/London 09:00 True
 # wait
 ```
