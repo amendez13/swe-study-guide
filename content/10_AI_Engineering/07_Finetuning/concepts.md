@@ -12,6 +12,10 @@ Transfer is only as good as the start and the examples. Pretraining has already 
 
 **Recap.** Finetuning continues training from weights you already have, which is transfer learning applied to a foundation model. A new head, a full update, and a small adapter are the three degrees, and the full update is the expensive one. The examples you train on are the ceiling. Prompting and retrieval remain the earlier levers.
 
+![What finetuning is](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-1-what-finetuning-is.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 1.*
+
 ## Finetuning objectives
 
 A finetuning objective is which loss you keep training. The three objectives product teams actually choose are continued pretraining, supervised finetuning, and a preference loss.
@@ -29,6 +33,10 @@ The order follows the gap. Continued pretraining when the domain language is mis
 **Interview.** Name the three losses and the order. Continued pretraining is still next-token training on new text. Supervised finetuning is prompt and answer, with the loss on the answer, and the details stay on that card. Preference finetuning is a ranking, PPO or DPO, and it comes after the model can answer. Say which one you would run for a label set, for a code domain, and for a model that answers but pads.
 
 **Recap.** Continued pretraining keeps the next-token loss and changes the corpus, which is what Code Llama did on top of Llama 2. Supervised finetuning teaches replies from demonstrations, and the loss mask and the ceiling are the earlier card. Preference finetuning ranks answers the model can already produce, through a reward model or a direct loss such as DPO. The help center still does not move into the weights.
+
+![Finetuning objectives](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-2-objectives.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 2.*
 
 ## Reasons to finetune
 
@@ -54,6 +62,10 @@ You should already have tried the prompt. Finetuning is the lever you add when t
 
 **Recap.** Finetune when a behavior survives a serious prompt, you have demonstrations, and the behavior should apply without those demonstrations in every request. Volume and a smaller student model are the cost reasons. A changing fact, a syntax error, and an unmeasured prompt are not.
 
+![Reasons to finetune](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-3-reasons-to-finetune.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 3.*
+
 ## Reasons not to finetune
 
 A reason not to finetune is a gap a cheaper lever still owns, or a constraint the weights cannot meet.
@@ -72,6 +84,10 @@ None of these forbid a finetune later. They forbid it as the first spend, and th
 
 **Recap.** Do not finetune facts you need to update or delete, syntax a mask can forbid, or a task you have not yet tried to prompt. Do not finetune on a handful of noisy examples, on a target that changes weekly, or under a license that forbids the derivative. A finetune you cannot score is a checkpoint you cannot promote. A finetune that was scored only on the new task can still be a regression, which is the next card.
 
+![Reasons not to finetune](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-4-reasons-not-to-finetune.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 4.*
+
 ## Catastrophic forgetting and task interference
 
 Catastrophic forgetting is a finetune that learns the new task and loses capabilities the base model had. Task interference is the same collision when two tasks pull one set of weights in different directions.
@@ -89,6 +105,10 @@ Simultaneous and sequential are the two ways to show the model more than one tas
 **Interview.** Define catastrophic forgetting as the new task overwriting capabilities the checkpoint had, and name sequential training as the schedule that does it on purpose. Say how you would detect it: a held-out general eval, before and after, that is not the training file. Then give the mitigations in the order you would try them. LoRA or another parameter-efficient update, replay of general data, a lower learning rate, a merge back toward the base, and separate adapters when the tasks can be routed. Refuse a single refund accuracy as the launch gate.
 
 **Recap.** Finetuning on one task can degrade the others, and training tasks one after another forgets the earlier ones. You see it by re-running a held-out general-capability eval, not by watching the new task's loss. LoRA and other parameter-efficient updates, mixed or replayed general data, a lower learning rate, merging back toward the base, and a separate adapter per task are the mitigations. Simultaneous training shows every task to the same run. Sequential training is the schedule that overwrites.
+
+![Catastrophic forgetting and task interference](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-5-forgetting-and-interference.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 5.*
 
 ## Finetuning and RAG
 
@@ -113,6 +133,10 @@ Ovadia, Brief, Mishaeli, and Elisha compared the two levers as ways to inject kn
 **Interview.** Sort the failure into information or behavior before you pick the project. Give the combination: retrieve the current article, finetune the habit of quoting it and of abstaining. Say that the training examples have to include the retrieved text, or the model learns to ignore the index. A single accuracy number that mixes retrieval misses and bad tone is the number you refuse to optimize.
 
 **Recap.** Retrieval supplies information at request time. Finetuning changes behavior. A changing policy stays in the index. A stable habit of tone, format, quoting, or abstaining can go in the weights. The usual system does both, and the finetune's examples include the passage so the model keeps reading the index.
+
+![Finetuning and RAG](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-6-finetuning-and-rag.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 6.*
 
 ## Backpropagation and trainable parameters
 
@@ -150,6 +174,10 @@ Sixteen million parameters is a small slice of a 7B model. The factor of eight i
 **Interview.** Walk the 16 bytes: BF16 weight, BF16 gradient, FP32 master, two FP32 moments. Say the 18-byte row on the Parameters, tokens, and FLOPs card is the same list with an FP32 gradient. Say freezing drops the update state, and it drops a layer's internal activations only when that layer sits before every trainable parameter. Contrast a head, where the walk stops, with adapters in every block, where it does not. The 32 MiB versus 256 MiB on a 4096 by 4096 matrix is the figure to put on the board.
 
 **Recap.** Backpropagation stores a gradient for each trainable parameter, and AdamW stores an FP32 master copy and two moments. The usual mixed-precision total is 16 bytes, against 2 bytes to serve the weight in BF16. A 4096 by 4096 matrix is 32 MiB to serve and 256 MiB to train. Storing the gradient in FP32 instead is 18 bytes and 288 MiB for that same matrix. Frozen weights skip the update state. They still cost activations when the backward has to walk through them to reach an earlier trainable parameter.
+
+![Backpropagation and trainable parameters](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-7-backprop-and-trainable-params.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 7.*
 
 ## Inference memory
 
@@ -190,6 +218,10 @@ Activations are the third term, and they behave differently from the cache. Duri
 **Interview.** Separate the three terms and say which one the question is about. Compute the Llama 2 7B cache from the formula rather than quoting a screenshot: 512 KiB a token, 2 GiB at 4,096 tokens, 14.6 GiB with the BF16 weights, 28.6 GiB at eight of those requests. Say quantization changes the weight bytes and a grouped-query model changes the cache bytes. Activations spike at prefill and shrink at decode.
 
 **Recap.** Inference memory is weights plus KV cache plus forward activations. The untied Llama 2 7B layout is 6,738,415,616 parameters and 12.6 GiB in BF16. Its cache is 512 KiB a token, 2 GiB at 4,096 tokens, so one request is 14.6 GiB before activations and eight requests are 28.6 GiB. The weights are paid once. The cache is paid per live request.
+
+![Inference memory](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-8-inference-memory.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 8.*
 
 ## Training memory
 
@@ -251,6 +283,10 @@ print(f"{(LINEARS * BITS / 8 + (EMBED + NORMS) * 2 + LORA * BYTES) / 1024**3:.2f
 
 **Recap.** Full mixed-precision AdamW is 16 bytes a trainable parameter: BF16 weight, BF16 gradient, FP32 master, and two FP32 moments. That is 104.3 GiB for a whiteboard 7B and 100.4 GiB for Llama 2 7B, before activations. FP32 gradients, the 18-byte row on the Parameters, tokens, and FLOPs card, make the same layout 113.0 GiB. The 100.4 GiB does not fit one 80 GiB GPU. ZeRO stage 1 shards the optimizer and brings an 8-GPU share to about 34.5 GiB of model state per card. Query and value LoRA at rank 8 adds 64 MiB of optimizer state, so the floor is 12.61 GiB on a BF16 base. A QLoRA floor that leaves the embeddings in BF16 is 3.66 GiB. The activations the backward still needs sit on top of all of these.
 
+![Training memory](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-9-training-memory.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 9.*
+
 ## Numerical representations
 
 A numerical representation is how a weight, an activation, or a gradient is written in bits: how many bits, how they split between range and precision, and which real numbers exist at all.
@@ -289,6 +325,10 @@ The other formats you will be asked to place sit around that pair. TF32 is a ten
 
 **Recap.** Range comes from the exponent and precision from the mantissa. FP16 tops out at 65,504 and its smallest positive normal is about 6.1e-5, so training in FP16 needs loss scaling. BF16 reaches about 3.4e38, the FP32 range, with a shorter mantissa, which is why it became the LLM compute format on Ampere and later. TF32 keeps that range and a 10-bit mantissa inside the matmul, and the stored value stays FP32. FP8 E4M3 tops out at 448 and is the weight and activation format. FP8 E5M2 tops out at 57,344 and is the gradient format. INT8 has 256 codes and INT4 has 16, plus a scale. NF4 moves those 16 codes to the quantiles of a normal.
 
+![Numerical representations](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-10-numerical-representations.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 10.*
+
 ## Inference quantization
 
 Inference quantization rewrites a trained model's numbers into a cheaper representation after training, so serving stores less and moves less.
@@ -306,6 +346,10 @@ The accuracy cost is not uniform. Chat can look unchanged while arithmetic, code
 **Interview.** Separate PTQ from a training run, and weight-only from weight-and-activation. Name GPTQ and AWQ as calibrated weight-only methods, and say what each uses: a Hessian compensation, and activation-aware scales. Put bitsandbytes 4-bit on the weight-only side and LLM.int8() on the activation side, with the outlier columns left in 16-bit. Describe SmoothQuant as a per-channel scale moved from the activation into the weight. Then say you would score math and extraction beside chat, and that the embedding and the output projection are the matrices you quantize last and measure first.
 
 **Recap.** Inference quantization is a post-training rewrite of the checkpoint into fewer bits. GPTQ, AWQ, and bitsandbytes 4-bit quantize weights with a calibration set, to INT8 or INT4, and leave activations in 16-bit. Quantizing activations as well needs an outlier strategy. LLM.int8() keeps the outlier channels in 16-bit. SmoothQuant moves that difficulty into the weights with a per-channel scale so both sides can be INT8. INT4 is the memory win that most often moves arithmetic and exact tokens, so those tasks are part of the decision to ship it.
+
+![Inference quantization](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-11-inference-quantization.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 11.*
 
 ## Training quantization
 
@@ -340,6 +384,10 @@ bitsandbytes is the library that implements NF4, double quantization, and the pa
 
 **Recap.** Training quantization means mixed precision, quantization-aware training, or a quantized base. Mixed precision computes in BF16 or FP16 and keeps FP32 master weights and moments. QAT learns weights that survive rounding by training through a fake quantizer. QLoRA stores a frozen base in NF4, double-quantizes the scales from 0.5 bits to about 0.127, trains LoRA adapters in BF16, and pages optimizer spikes to CPU memory. The paper's 65B comparison is more than 780 GB down to under 48 GB. The 3.66 GiB floor, embeddings left in BF16, is not that measurement.
 
+![Training quantization](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-12-training-quantization.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 12.*
+
 ## Parameter-efficient finetuning
 
 Parameter-efficient finetuning trains a small added or selected set of parameters and leaves the pretrained weights frozen.
@@ -355,6 +403,10 @@ Freezing the base removes the base's gradient and optimizer state. It does not r
 **Interview.** Define PEFT as training a small set while the base stays frozen, and tie it to the 100.4 GiB you are not storing. Name the two families, adapters inside the block and soft prompts at the input, and say Hugging Face PEFT is where those configs live. Then say freezing removes optimizer state, and the backward still costs activations on the path from the loss to the earliest trainable parameter. Offer LoRA as the default you would measure, not as a law.
 
 **Recap.** Parameter-efficient finetuning freezes the pretrained weights and trains a small added set, which is how you avoid a 100.4 GiB model state. Adapter methods put that set inside the block. Soft-prompt methods put it on the input. PEFT is the library. The backward still costs activations on every layer it has to walk to reach a trainable parameter.
+
+![Parameter-efficient finetuning](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-13-peft.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 13.*
 
 ## Adapters, prefixes, and rescaling
 
@@ -378,6 +430,10 @@ You pick among them when LoRA is a poor fit for the constraint. A prefix is a le
 **Interview.** Draw the Houlsby bottleneck, down and up with a residual, after attention and after the feed-forward, and give the 33.6 million parameter count for rank 64 on the 7B shape. Separate prefix tuning, at every layer's keys and values, from prompt tuning, at the input only. Say IA3 is a learned rescale. Then say which of them add serve-time work, and why a merged low-rank update does not.
 
 **Recap.** A Houlsby adapter is a down-up bottleneck with a residual after attention and after the feed-forward. At rank 64 on a 32-layer, 4,096-wide model that is 33,554,432 parameters, and it remains an extra branch at serve time. Prefix tuning adds learned keys and values at each layer. Prompt tuning adds virtual tokens only at the input. IA3 multiplies activations by a learned vector. None of these is a matrix you simply add back into the weight.
+
+![Adapters, prefixes, and rescaling](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-14-adapters-prefixes-rescaling.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 14.*
 
 ## LoRA
 
@@ -427,6 +483,10 @@ Serving one adapter is the merge. `W_merged` has the original shape, so latency 
 
 **Recap.** LoRA trains `B` and `A` beside a frozen `W`, scaled by `alpha / r`, and can add that product back into `W` for a single behavior. A 4096 by 4096 matrix at rank 8 is 65,536 trainable parameters. Query and value across Llama 2 7B's 32 layers are 4,194,304 parameters, an 8 MiB BF16 file, and 64 MiB of 16-byte optimizer state. Hu and coauthors kept alpha at the first rank they tried. A common setting of rank 8 and alpha 16 scales the branch by 2, and the QLoRA LLaMA runs used rank 64 and alpha 16, which scales it by 0.25. On their LLaMA 7B Alpaca ablation, covering every linear layer mattered more than raising the rank. Many adapters on one base are the next card but one. Why a low rank is enough is the next card.
 
+![LoRA](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-15-lora.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 15.*
+
 ## Why LoRA works
 
 LoRA works because the useful change in the weights during adaptation is low-rank. You do not need a free parameter for every entry of `W` to move the model onto a new task.
@@ -443,6 +503,10 @@ Low-rank pretraining has not replaced dense pretraining, and the reason is the u
 
 **Recap.** LoRA is justified by the low intrinsic dimension of finetuning. Aghajanyan and coauthors measured that dimension in a 2020 preprint, published at ACL 2021, and found it far below the parameter count, and lower for larger models after the same amount of pretraining. Hu and coauthors, in the 2021 preprint published at ICLR 2022, constrained the update to a low-rank product. Pretraining is a different change. ReLoRA stacks many low-rank updates by merging them, and GaLore projects gradients, because one rank-8 step is not a pretraining run.
 
+![Why LoRA works](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-16-why-lora-works.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 16.*
+
 ## Serving many adapters
 
 Multi-adapter serving keeps one frozen base in memory and applies a different low-rank update on each request, instead of merging every tenant into one matrix.
@@ -456,6 +520,10 @@ Three systems are the ones to name. Punica, from Chen and coauthors in 2023, bat
 **Interview.** Say when you refuse to merge: the requests need different behaviors, and the server can apply the branches. Name Punica's segmented kernel, S-LoRA's paging of adapters beside the KV cache, and vLLM as the server whose current rank and module limits you would read before you promise a batch. Separate adapter bytes from cache bytes. If a single tenant later gets a merged deploy, the merge still includes `alpha / r`.
 
 **Recap.** Many LoRAs stay unmerged on one base, and each request applies its own scaled `BA`. Punica batches those different low-rank products. S-LoRA pages the adapter weights with the KV cache. vLLM is the serving stack you configure, and its current limits on rank and target modules decide what can share a batch. The cache is still paid per live request. Merging the adapters into one matrix would erase the difference you stored them to keep.
+
+![Serving many adapters](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-17-serving-many-adapters.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 17.*
 
 ## Model merging
 
@@ -474,6 +542,10 @@ Merging is not training. If the merged model loses a skill, the fixes are a diff
 **Interview.** State the constraint first: same architecture, and for task arithmetic the same base. Give the three goals, multi-task, on-device, and federated averaging. Name summing, layer stacking, and concatenation as different tensor operations, not as three names for an average. Say mergekit is where you would run the experiment, and that the eval has to score each skill. A merged model you only scored on chat has not kept the code skill.
 
 **Recap.** Model merging combines checkpoints that share an architecture, without the training data. Summing adds aligned weights. Layer stacking adds depth. Concatenation adds width. The reasons are a single multi-task model, a single on-device file, and a federated average such as FedAvg. The merge still has to pass an eval on every skill you meant to keep.
+
+![Model merging](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-18-model-merging.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 18.*
 
 ## Summing weights
 
@@ -503,6 +575,10 @@ The base has to be the base of both finetunes. Adding `θ_code − θ_llama` to 
 
 **Recap.** Summing averages aligned checkpoints, as in a model soup, or adds task vectors, the finetuned weights minus the shared base. Overlapping edits cancel, which is the interference TIES addresses by trimming and electing a sign, and DARE addresses by dropping entries and rescaling the rest. SLERP interpolates two models on an arc. The result is one ordinary checkpoint, and it needs the same base the task vectors were built from.
 
+![Summing weights](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-19-summing-weights.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 19.*
+
 ## Layer stacking
 
 Layer stacking merges by depth. Blocks from one or more checkpoints are placed in a sequence, and the result is a deeper model of the same hidden size.
@@ -524,6 +600,10 @@ The Apache 2.0 SOLAR checkpoint is a useful existence proof that a depth splice 
 
 **Recap.** Layer stacking places transformer blocks in a deeper sequence. The blocks have to share a hidden size. SOLAR 10.7B builds 48 layers from a 32-layer Mistral-initialized model by dropping 8 layers from each end of a duplicated pair, then continues pretraining. A splice without that continued training is a frankenmerge, and mergekit can assemble it. The stack is a starting checkpoint, not yet a model you serve.
 
+![Layer stacking](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-20-layer-stacking.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 20.*
+
 ## Concatenation
 
 Concatenation merges by width. Parameters are placed side by side so a layer gets wider, or so several copies of a layer become experts that a router mixes back down to the hidden size.
@@ -541,6 +621,10 @@ You reach for concatenation when the product you want is a wider model or a mixt
 **Interview.** Separate width from depth. Stacking keeps the hidden size and adds layers. Concatenation changes a dimension, so a projection or a router has to restore the residual. Give sparse upcycling as the concrete method: copy the feed-forward into experts, add a router, keep training. Say an average of two models' logits is an ensemble, not a merged checkpoint. Then say a code skill plus a chat skill is the wrong job for this operation.
 
 **Recap.** Concatenation places parameters side by side and makes a model wider. Unlike a sum, it changes a dimension, so the next layer has to be widened or a router has to mix the new width back down. Sparse upcycling does the practical version: copy a feed-forward into experts, add a router, and continue training. An average of two models' outputs is an ensemble that still stores both models. A pair of same-shaped finetunes is a summing problem, not a width problem.
+
+![Concatenation](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-21-concatenation.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 21.*
 
 ## Multi-task finetuning and merging
 
@@ -560,6 +644,10 @@ A negative task vector, subtracting a behavior, is the merging operation people 
 
 **Recap.** Multi-task finetuning trains one model on the combined demonstrations and is the quality path when the data can be together. Merging adds task vectors when the data cannot move and one file is required. Separate LoRA adapters keep every skill when requests can be routed. Each skill needs its own number. An average that hides a regression is not a launch metric.
 
+![Multi-task finetuning and merging](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-22-multi-task-and-merging.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 22.*
+
 ## Finetuning frameworks
 
 A finetuning framework is the trainer that owns the data, the trainable parameters, the optimizer, and the checkpoint you will actually load.
@@ -575,6 +663,10 @@ The choice follows the constraint you already computed. One GPU, a 7B or 13B beh
 **Interview.** Map the constraint to the tool. Weights on one GPU, QLoRA in PEFT, TRL, Axolotl, or Unsloth. A sharded full finetune, torchtune or FSDP, and say whether you need stage 1 or stage 3. No weights wanted, the OpenAI fine-tuning API or Vertex AI Gemini tuning: examples in, a hosted id out. Say you would pin the version and the template. Mention that a falling loss under the wrong template is not a trained chat model.
 
 **Recap.** PEFT and TRL are the Hugging Face stack for adapters and for SFT or DPO. Axolotl is a config-driven recipe around that stack. Unsloth is a kernel-optimized LoRA and QLoRA trainer. torchtune is the PyTorch-native and distributed option. The OpenAI fine-tuning API and Vertex AI's Gemini tuning take examples and return a hosted model, not weights. The template that shipped with the base is part of the training data.
+
+![Finetuning frameworks](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-23-frameworks.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 23.*
 
 ## Choosing a base model
 
@@ -595,6 +687,10 @@ Size is the serving number and the training number together. The Inference memor
 **Interview.** Walk the progression: prompt, then retrieval if the gap is a fact, then PEFT on the smallest model you can serve, then distillation if a teacher already does the task, then full finetuning or continued pretraining if PEFT plateaued. Name the license check. Separate an instruct start from a base start by what the product must keep. Give DistilBERT as the classic student and a teacher's demonstrations as the LLM version. Refuse a base you can train and cannot serve.
 
 **Recap.** Start by prompting, then retrieve facts, then parameter-efficiently finetune the smallest base you can also serve. Distill a teacher into a student when the large model already has the behavior, the way DistilBERT was trained from BERT. Full finetuning and continued pretraining come after a PEFT plateau, on a checkpoint the license allows. An instruct base keeps chat. A raw base is the cleaner start for a narrow label. The serving size is part of the choice.
+
+![Choosing a base model](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-24-choosing-a-base.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 24.*
 
 ## Finetuning hyperparameters
 
@@ -627,3 +723,7 @@ A longer context is a hyperparameter that changes the architecture, not only the
 **Interview.** Define effective batch as microbatch times accumulation times GPUs, and say memory tracks the microbatch. Give the 1 by 8 by 4 example, effective batch 32. Place the learning-rate bands as starting sweeps, `10^-5` for a full update and `10^-4` for LoRA, and say the curve decides. Explain the prompt loss weight with the 100-and-20 split, and tie a weight of 0 to the answer-only mask. Stop on the held-out eval, not on the training loss.
 
 **Recap.** The learning rate is swept, around `10^-5` for a full finetune and around `10^-4` for LoRA, and a spike or a flat line is a reason to change it. Effective batch size is microbatch times accumulation steps times GPUs. One, eight, and four make 32, while the GPU holds one example. A prompt loss weight of 0 trains on the answer only. On a 100-token prompt and a 20-token answer, a weight of 1 lets the prompt dominate. Stop when the held-out loss rises, which is often after a small number of epochs.
+
+![Finetuning hyperparameters](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-25-hyperparameters.png)
+
+*Source: [`diagrams/finetuning.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning.drawio), page 25.*

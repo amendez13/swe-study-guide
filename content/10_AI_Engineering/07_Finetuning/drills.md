@@ -42,6 +42,10 @@ print(ACCURACY["finetune"] > ACCURACY["few_shot"] > ACCURACY["zero_shot"])
 # True
 ```
 
+![Indemnity or liability](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-1-indemnity-or-liability.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 1.*
+
 ## The 4090
 
 You will QLoRA-finetune the Llama 2 13B shape on one RTX 4090, sold as 24 GB. The layout is the public one: 40 layers, hidden size 5,120, intermediate size 13,824, vocabulary 32,000, untied embeddings, no biases. The adapters are rank 16 on every linear layer of the block, and they use the 16-byte AdamW accounting: BF16 weight, BF16 gradient, FP32 master, and two FP32 moments. The base is packed at the QLoRA paper's double-quantized width, 4.126953 bits for every parameter, including the embeddings. Two activation peaks below are exercise measurements from a profiler, not a published 4090 benchmark. The budget used here is 24 GiB.
@@ -90,6 +94,10 @@ for name, peak in PEAKS:
 # 25.19 False
 ```
 
+![The 4090](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-2-the-4090.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 2.*
+
 ## Rank against coverage
 
 A GitHub issue triager labels an issue bug, feature, or question. You are choosing a LoRA on the Llama 2 13B shape: 40 layers, hidden size 5,120, intermediate size 13,824. The three candidate adapters are below. The macro-F1 figures are exercise scores on your held-out issues, not a GitHub metric and not the QLoRA paper's table.
@@ -130,6 +138,10 @@ print(best, COUNTS[1] > COUNTS[2], SCORES[1] < SCORES[2])
 # 2 True True
 ```
 
+![Rank against coverage](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-3-rank-against-coverage.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 3.*
+
 ## Fifty customers
 
 A support platform serves one Llama 2 7B base and one LoRA per customer, the serving pattern vLLM's multi-LoRA support and S-LoRA are built for. Each adapter is rank 8 on all seven linear layers. The base is the untied Llama 2 7B layout in BF16, 32 layers, hidden size 4,096, intermediate size 11,008. Fifty customers are the exercise tenancy, not a published vLLM limit. You also have to hold the KV cache for the live requests. A 2,048-token request on this shape is the cache you should compute. The card is sold as 24 GB, and the budget used here is 24 GiB.
@@ -168,6 +180,10 @@ for live in (8, 16):
 # 22.41 True
 # 30.41 False
 ```
+
+![Fifty customers](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-4-fifty-customers.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 4.*
 
 ## The skill that left
 
@@ -208,6 +224,10 @@ print(ships(FULL), ships(LORA_MIX))
 # False True
 ```
 
+![The skill that left](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-5-the-skill-that-left.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 5.*
+
 ## Code plus chat
 
 You trained two finetunes from the same Llama 2 7B base. One saw code demonstrations. One saw support-chat demonstrations. They do not share their training data anymore. The product wants both skills. The scores below are exercise scores on your coding set and your chat set, not HumanEval and not a published merge paper. A single weight file is optional. vLLM can load both adapters.
@@ -247,6 +267,10 @@ print(SCORES["sum at lambda 1"][0] < SCORES["TIES"][0])
 # True
 ```
 
+![Code plus chat](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-6-code-plus-chat.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 6.*
+
 ## NaN and a third epoch
 
 An Axolotl QLoRA run is training Llama 2 7B to draft replies to GitHub issues. Two exercise loss curves are below. They are not an Axolotl log. Run A records train and eval loss at the end of three epochs. Run B's training loss is NaN at step 80.
@@ -274,6 +298,10 @@ print(run_b_step_80 != run_b_step_80)
 # True
 # True
 ```
+
+![NaN and a third epoch](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-7-nan-and-a-third-epoch.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 7.*
 
 ## The size that fits
 
@@ -315,3 +343,7 @@ print(0.93 >= 0.90, serve_7 <= 24, serve_13 <= 24, 0.84 >= 0.90)
 # 13.05 25.03
 # True True False False
 ```
+
+![The size that fits](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills-8-the-size-that-fits.png)
+
+*Source: [`diagrams/finetuning-drills.drawio`](/content/10_AI_Engineering/07_Finetuning/diagrams/finetuning-drills.drawio), page 8.*
