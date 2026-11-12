@@ -12,6 +12,10 @@ The order is the rest of the topic. Decide what behavior the rows should teach, 
 
 **Recap.** Dataset engineering builds the rows a model learns from and decides what those rows teach. Data-centric AI spends the next effort on the data while the architecture stays fixed, which is the situation an application team is in with a hosted model or a Llama finetune. Public crawls such as C4 and FineWeb are the same discipline at larger scale. The task set still has to be acquired, checked, deduplicated, and formatted, and the held-out eval stays out of it.
 
+![What dataset engineering is](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-1-what-dataset-engineering-is.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 1.*
+
 ## What the data teaches
 
 A curation goal is the behavior you want at inference, named tightly enough that you can look at a row and say whether the row teaches it.
@@ -25,6 +29,10 @@ Multi-turn is a behavior too. Zhou and coauthors' LIMA model, a 65B Llama finetu
 **Interview.** Ask what the product must do on Tuesday, then ask which field of the training row contains that behavior. Chain-of-thought, a tool call, and a second turn each have to appear in the targets if they are supposed to appear in production. Cite LIMA's 30 dialogues as the small addition that changed multi-turn, and Orca as the public case for training on the explanation rather than the final line. A row that does not contain the behavior does not teach it.
 
 **Recap.** The rows teach the behavior that is actually written in the targets. A trace has to be in the file to get chain-of-thought, which is what Orca trained on, and a tool call has to be in the file to get tool use. Multi-turn is the same kind of gap: LIMA's 1,000 examples contained no dialogue, and 30 hand-crafted chains were what improved it. Preference pairs teach a ranking. A convenient export teaches the export.
+
+![What the data teaches](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-2-what-the-data-teaches.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 2.*
 
 ## Data quality
 
@@ -48,6 +56,10 @@ Quality is not polish. A short, blunt, correct refund decision can be a high-qua
 **Interview.** Walk the six checks on one ticket and say which check failed. Separate a wrong label from a duplicate and from a row you are not allowed to train on. Say that fluency is not one of the six. Offer the repair that matches the failure: a guideline, a parser, a dedup pass, or a drop.
 
 **Recap.** A row is high quality when it is relevant, the target matches the task, raters would agree, the format parses, the row is not a copy, and the license and the privacy rules allow it. Fluency is not a substitute for any of those. Each failure has a different repair, so one "quality" score is not yet a decision.
+
+![Data quality](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-3-data-quality.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 3.*
 
 ## Data coverage
 
@@ -78,6 +90,10 @@ Ten thousand exercise rows at those shares give 500 Spanish rows, 1,000 long row
 **Interview.** Ask for the grid, not the average. Task type, length, language, and topic are the axes, and the intersection is the cell you are on the hook for. Use the 10,000-row exercise mix: 500 Spanish and 1,000 long does not mean any long Spanish. Say what you would do with an empty cell. Collect it, synthesize it and verify it, or tell the product owner the model has no evidence there. Mention the pretraining mix only to point at the earlier card.
 
 **Recap.** Coverage is the share of real situations that appear in the file, across task types, lengths, languages, and topics. Margins can look healthy while a cell is empty. In the exercise mix, 500 Spanish rows and 1,000 long rows do not produce a long Spanish tool-calling refusal unless you built that cell. Upsampling fills a cell and changes the distribution, so the eval has to be weighted the way traffic is weighted.
+
+![Data coverage](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-4-data-coverage.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 4.*
 
 ## Data quantity
 
@@ -116,6 +132,10 @@ Start the plot with a pilot on the order of fifty examples. Fifty is a planning 
 
 **Recap.** Quantity helps while new rows add new correct cases, and it flattens when they repeat. LIMA showed that 1,000 diverse, consistent demonstrations could align a 65B Llama, under a hypothesis that pretraining already held the capability. In the exercise curve, the first 900 diverse rows buy 0.22 and the next 15,000 buy 0.03, while a curve made of copies gains 0.03 and stalls. Run that experiment on your task before you treat 1,000, or 16,000, as the answer.
 
+![Data quantity](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-5-data-quantity.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 5.*
+
 ## Acquiring data
 
 Data acquisition is where a training row comes from: a public set, your own traffic, a vendor, or a generator.
@@ -143,6 +163,10 @@ That is 300 second reads, 200 redraws, 2,500 labels, and $3,125.00 at the exerci
 
 **Recap.** Rows come from public sets, from consented traffic, from a vendor such as Scale AI, from a queue such as Label Studio, or from a generator. A flywheel of thumbs and edits is biased toward the users who respond. At the exercise rate, 2,000 comparisons plus a 15 percent second read and a 10 percent redraw cost $3,125.00. The guideline those raters apply is the next card. The eval set is a different purchase and is not added to the file.
 
+![Acquiring data](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-6-acquiring-data.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 6.*
+
 ## Annotation guidelines and agreement
 
 An annotation guideline is the written rule a rater applies. Inter-annotator agreement is the check that two careful raters, using that rule, make the same decision.
@@ -165,6 +189,10 @@ print(AGREED, LABELED - AGREED, f"{AGREED / LABELED:.2f}")
 
 **Recap.** Annotation is a written rule plus a person. The rule needs a decision, an example of each label, and the edge you already fought about. On the exercise slice, 64 agreements out of 80 is a percent of 0.80, and that percent is not the number you ship, because kappa is what subtracts the base rate. The sixteen disagreements are the next revision. Rows labeled under the old wording do not silently become the new policy.
 
+![Annotation guidelines and agreement](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-7-annotation-guidelines.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 7.*
+
 ## Why synthesize data
 
 Synthesis is the creation of training rows by a procedure, a simulator, or a model, when you cannot collect enough real rows that teach the behavior.
@@ -178,6 +206,10 @@ Llama 3's report uses synthesis inside post-training rather than as a substitute
 **Interview.** Give the five reasons and a public example for each you can defend. Alpaca for quantity, with the 175 seeds and the under-$500 generation bill. An empty language or tool cell for coverage. Phi-1 for quality, a 1.3B model and the reported 50.6 percent HumanEval pass@1, plus the paper's own contamination study. A stand-in ticket for privacy, with the scrub still required. A student model for distillation, and then stop, because the terms live on the distillation card. Mention Llama 3's rejection sampling, typically 10 to 30 samples, and Nemotron-4 340B's generate-then-reward-filter loop as the production shape.
 
 **Recap.** You synthesize data to get more rows, to fill a cell you could not collect, to raise the quality of what a small model sees, to avoid copying a private ticket, or to transfer a teacher's behavior. Alpaca, Phi-1, Llama 3's rejection sampling, and Nemotron-4 340B are public versions of those bets. Every one of them still needs a filter, and the teacher's license can forbid the bet entirely.
+
+![Why synthesize data](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-8-why-synthesize.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 8.*
 
 ## Rule-based synthesis
 
@@ -209,6 +241,10 @@ The paraphrase keeps the label `review`. The 14-day row is `refuse`. Copying the
 **Interview.** Define the label as a function of the fields you filled, and give the window example: a paraphrase of "damaged" stays `review`, and a window of 14 becomes `refuse`. Say that copying the old label onto the new row is the bug. Place templates where the rule is real, and send open-ended judgment to people or to a verified model. Mention that random deletion is not augmentation when the deleted word is the negation.
 
 **Recap.** Rule-based synthesis fills a template from a trusted table or perturbs a row you already believe. The label has to be recomputed from the fields. In the example, a paraphrase of a damaged order stays a review, and shortening the window to 14 days is a refusal. The copied label fails that check. Templates cover the regular cases well and only those cases.
+
+![Rule-based synthesis](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-9-rule-based-synthesis.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 9.*
 
 ## Simulation
 
@@ -255,6 +291,10 @@ The good trace looks up order 1001 and refunds the 4800 cents the lookup returne
 
 **Recap.** Simulation creates rows by running rules you control, in a robotics simulator such as Isaac Sim, a driving simulator such as CARLA, or a tool sandbox that executes the call. The trace is data because the process returned a result. In the example, a refund of the looked-up 4800 cents is kept, and both an invented amount and a story without a result are dropped. The remaining risk is that the simulator is not the world.
 
+![Simulation](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-10-simulation.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 10.*
+
 ## AI-powered synthesis
 
 AI-powered synthesis uses a model to create or rewrite training rows. The model is not, by itself, a reason to trust the row.
@@ -268,6 +308,10 @@ Translation as augmentation is the coverage tool for a language you are short on
 **Interview.** Separate "a model wrote it" from "a check accepted it." Give self-play its missing piece, the external score, and point Constitutional AI at the Reward models card. Point back-translation at the next card: Sennrich's method is one translation onto real monolingual text, and a round trip is a different paraphrase. Say a paraphrase with a high Jaccard to the source is a duplicate, not a new row. Leave the instruction bootstraps to the instruction-synthesis card.
 
 **Recap.** AI-powered synthesis has a model write or rewrite rows, and the row still needs a score that is not the model's own fluency. Self-play works when the rules, a sandbox, or a constitution scores the result. Paraphrase and a translation round trip add wording and can drop a negation or repeat the source. Translation fills a missing language only as a bridge, and the label is rechecked after the trip. Sennrich's back-translation is not that trip.
+
+![AI-powered synthesis](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-11-ai-powered-synthesis.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 11.*
 
 ## Back-translation
 
@@ -300,6 +344,10 @@ For a language the model barely writes, back-translation is the synthesis path, 
 
 **Recap.** Back-translation in machine translation pairs a synthetic sentence with a real one, in one direction. A round trip is a paraphrase generator, and the label is rechecked because the trip can drop a negation or a condition. In the example, "leave the charge in place" is still a refusal and "refund the order" is not. Instruction backtranslation writes a prompt for a human document and then curates. None of the three is a license to copy the old label onto text you have not read.
 
+![Back-translation](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-12-back-translation.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 12.*
+
 ## Instruction data synthesis
 
 Instruction data synthesis is the loop that creates the prompts and the answers for supervised finetuning, starting from a small seed or from unlabeled text.
@@ -313,6 +361,10 @@ Reverse instruction starts from the answer. Li and coauthors, in the 2023 instru
 **Interview.** Walk Self-Instruct's loop: 175 seeds, generate, filter, repeat, with 52,445 instructions as the published yield. Separate Alpaca as the same loop with a stronger teacher. Describe Evol-Instruct as rewriting toward difficulty, and instruction backtranslation as labeling a human document with a generated prompt. Say the curation pass is the method, not an optional cleanup, because the backtranslation paper's unfiltered pairs were the weak version. That method has Sennrich's shape, a human document with a generated prompt, not a round trip. For long context, require a real source and a checkable answer, and leave the 0.1 percent mix to the next card. Multi-turn synthesis has to be consistent across turns or it teaches a second turn that ignores the first.
 
 **Recap.** Instruction synthesis builds prompt and answer pairs from a seed, from a harder rewrite, or from a human document that still needs a prompt. Self-Instruct turned 175 seeds into 52,445 instructions. Evol-Instruct raises difficulty. Instruction backtranslation writes the prompt for an existing document and then has to curate, because the raw pairs were the weak version. Long-context rows are the next card. Multi-turn sets such as UltraChat teach conversation only when the turns actually follow.
+
+![Instruction data synthesis](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-13-instruction-synthesis.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 13.*
 
 ## Long-context synthesis
 
@@ -341,6 +393,10 @@ print(grounded(CONTRACT, "there is no restocking fee"))
 **Interview.** Say the source has to be real and the answer has to be checkable. Give Llama 3's setting: synthetic question-answering, summarization, and repository reasoning, mixed at 0.1 percent in the ablation that kept short and long benchmarks, and say you would measure that fraction on your own task before copying it. Then the two prints. The window is in the contract. The restocking fee is not. Point the buried-span failure at the Context length and context efficiency card instead of re-deriving it.
 
 **Recap.** Long-context pairs start from a real long source. Llama 3 generated them because people do not annotate those lengths, and one ablation used a 0.1 percent mix. A pair survives when the answer is a span or a check you can run. In the example, "30 days from delivery" stays and "there is no restocking fee" goes. A paraphrase that is true but not a literal span is a sample for a person, not an automatic keep.
+
+![Long-context synthesis](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-14-long-context-synthesis.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 14.*
 
 ## Verifying synthetic data
 
@@ -388,6 +444,10 @@ The parsed call with a numeric order id is kept. The call with `abc`, and the se
 
 **Recap.** A synthetic row is kept only when a check accepts it. Functional checks parse and execute. Heuristics catch cheap failures such as a repeated phrase. A judge grades what remains, with the calibration from the evaluation topic, and does not outvote a failed execution. The tool call with a numeric order id survives the parser. The prose and the repeated "please wait" do not.
 
+![Verifying synthetic data](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-15-verifying-synthetic-data.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 15.*
+
 ## Limits of AI-generated data
 
 The limits of AI-generated data are the ways a large synthetic set still makes the next model worse, or makes it something you are not allowed to ship.
@@ -404,6 +464,10 @@ Lineage is the fourth limit, and it has its own card. A synthetic row's facts ca
 
 **Recap.** AI-generated rows can be numerous and still be wrong, stylistic, illegally reused, or the beginning of a narrower and narrower distribution. Model collapse, as Shumailov and coauthors describe it, is what recursive replacement does to the tails. One verified synthetic slice mixed with human data is a different regime. The teacher's unknown corpus and the teacher's contract remain attached to every row the teacher wrote.
 
+![Limits of AI-generated data](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-16-limits-of-ai-data.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 16.*
+
 ## Data lineage
 
 Data lineage is the record of where a row came from, what produced it, and which filters let it through, so a later audit can tell a human ticket from a teacher's invention.
@@ -417,6 +481,10 @@ The license is part of the lineage, not a footer. A row can be factually right a
 **Interview.** Say what you would write down for a human row and for a synthetic row. The synthetic list is teacher, version, date, seed, prompt, filter, and license. Cite Phi-1's omission of some synthetic-generation details as the reason a public textbook is not a known-clean corpus, and say you still run the contamination screen from the earlier topic. A datasheet without those fields is a filename.
 
 **Recap.** Lineage records where a row came from and what was allowed to touch it. Human rows need a source, a window, and consent. Synthetic rows need the teacher, the version, the seed, the filter, and the license. Phi-1 omits some of that generation detail for proprietary reasons, which is why the student file still gets a contamination check. The datasheet is that record, and a later training run is not a substitute for it.
+
+![Data lineage](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-17-data-lineage.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 17.*
 
 ## Model distillation
 
@@ -456,6 +524,10 @@ The contract is independent of the loss. OpenAI's consumer Terms of Use, effecti
 
 **Recap.** Distillation trains a student on a teacher. Soft targets at a high temperature carry the teacher's uncertainty, which is how DistilBERT was trained from BERT. An API teacher usually forces you to train on the text alone. A reasoning student needs the trace in that text, which is the next card, and the 800,000-sample mix is not all traces. OpenAI's consumer terms and the January 1, 2026 Services Agreement forbid using outputs to train a competing model. The exception, in the Services Agreement, is a non-distributed classifier or OpenAI's own fine-tuning. Ownership of the output is not that permission.
 
+![Model distillation](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-18-model-distillation.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 18.*
+
 ## Reasoning-trace distillation
 
 Reasoning-trace distillation is sequence-level distillation in which the training text includes the intermediate steps, not only the final answer.
@@ -483,6 +555,10 @@ A student that copies the teacher's opening and then keeps the bad product has i
 
 **Recap.** A reasoning student needs the steps in the training text. Orca trained on GPT-4's explanations. DeepSeek-R1's published students are Qwen and Llama models from 1.5B to 70B, supervised on about 800,000 samples, about 600,000 of them reasoning trajectories. The report's finding that distillation beat large-scale reinforcement learning is the 32B comparison. A trace that multiplies 48 by 2 and writes 100 is dropped, even when the prose around it sounds like the teacher.
 
+![Reasoning-trace distillation](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-19-reasoning-trace-distillation.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 19.*
+
 ## Inspecting a dataset
 
 Inspecting a dataset is computing the distribution of the file and reading rows until the statistics and the text tell the same story.
@@ -506,6 +582,10 @@ Hygiene is part of the inspection. Run the trainer on a slice before you run it 
 **Interview.** Say you would compute length, labels, languages, duplicates, and parser failures, and then read four samples: random, longest, rare labels, and near-rejects. Give the exercise figure, a mean of 191.7 against a median of 40.5, and say which rows you would open. Mention a datasheet as the record that lets the next person know what you filtered. Refuse to treat a falling training loss as the inspection.
 
 **Recap.** Inspection is a distribution plus a read. In the exercise sample the mean length is 191.7 and the median is 40.5, because two long rows pull the mean. The long rows, the rare labels, and the rows a filter almost dropped are the ones you open. A datasheet records the source, the filters, and the license so the file is not reused blindly.
+
+![Inspecting a dataset](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-20-inspecting-a-dataset.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 20.*
 
 ## Deduplicating data
 
@@ -648,6 +728,10 @@ Three shared 8-grams is a training row that has already given away the eval item
 
 **Recap.** Exact dedup drops identical normalized documents. MinHash estimates Jaccard, and LSH limits the pairs you compare. The refund sentences have Jaccard 0.7143. Eight hashes estimate 0.3750 on this run and 128 hashes estimate 0.7109. The eight-document file falls from 8 to 5 to 4 once a 0.65 near-dup threshold drops "screen" versus "page." Contamination uses a long n-gram against the eval set, and the overlapping row leaves the training file, not the eval. Paraphrases that share no shingles are the next card.
 
+![Deduplicating data](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-21-deduplicating-data.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 21.*
+
 ## Semantic deduplication
 
 Semantic deduplication removes rows that mean the same thing even when they share few shingles, so a paraphrase does not survive the MinHash pass and then dominate the gradient.
@@ -682,6 +766,10 @@ At this exercise threshold the screen vector is close enough to drop and the ord
 **Interview.** Separate shingle overlap from meaning. Define SemDeDup as embed, cluster, drop neighbors above a cosine threshold, and keep one. Name Abbas and coauthors, 2023. Say the 50 percent of LAION is that paper's image result, not your deletion quota. Then Llama 3's dialogue version: RoBERTa clusters, quality times difficulty deciding the order, and a cosine threshold deciding what remains. Give the exercise vectors, 0.9600 against 0.0000, and say you would read the borderline pair before deleting a topic you only had twice.
 
 **Recap.** Semantic dedup drops paraphrases that share a meaning and few words. SemDeDup embeds, clusters, and removes neighbors that are too close in cosine. On a LAION subset the paper removed 50 percent with little loss, which is not a quota. Llama 3 runs a version of the method on post-training dialogues. In the exercise, a cosine of 0.9600 is over a 0.9 threshold and 0.0000 is not. The threshold can merge a topic you meant to keep, so the borderline pairs are a reading list.
+
+![Semantic deduplication](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-22-semantic-deduplication.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 22.*
 
 ## Cleaning and filtering
 
@@ -718,6 +806,10 @@ Replacing a match with a placeholder such as `[PHONE]` is a training decision. Y
 
 **Recap.** Filters drop junk, the wrong language, private strings, and toxicity you have defined. C4's rules are heuristics, and its bad-word list also removed medical and legal text, non-offensive identity mentions, and African American English and Hispanic-aligned English at higher rates. FineWeb-Edu learns a quality score. CCNet ranks pages by Wikipedia perplexity. Both still need a human sample. A phone regex catches `555-010-0142` and misses the same number in words. The rows you reject are part of the dataset's datasheet.
 
+![Cleaning and filtering](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-23-cleaning-and-filtering.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 23.*
+
 ## Selecting which rows to keep
 
 Selection decides which surviving rows earn a person or a training slot. Filtering has already removed junk. Selection spends a limited budget on the rows that will change the model.
@@ -745,6 +837,10 @@ Distribution matching is the other selector, and it does not need the model to b
 **Interview.** Separate filtering from selection. Filtering rejects junk. Selection spends the remaining budget. Walk the exercise: 5,000 unlabeled, 700 unsure, 650 of them one pattern, so you label 100 plus 50 plus a random floor of 150, which is 300, and you leave 550. Say why the random floor exists. Mention DSIR as resampling toward a trusted target, which is a different lever from uncertainty. A top-quartile quality cut is a quota, and it becomes active learning when a person labels the next round.
 
 **Recap.** Selection spends a limited labeling or training budget on rows that still add information. In the exercise, a 5,000-row pool with 700 unsure rows yields 300 labels: 100 from the dominant pattern, 50 other unsure rows, and a random floor of 150. The other 550 copies of that pattern wait. Uncertainty sampling, a random floor, and resampling toward a trusted target answer different biases, and none of them replaces the guideline.
+
+![Selecting which rows to keep](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-24-selecting-rows.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 24.*
 
 ## Formatting training data
 
@@ -814,3 +910,7 @@ With the special token registered, `Tuesday.<|eot_id|>` is 9 pieces. Without it,
 **Interview.** Walk a row from JSON messages to the template string to the loss mask. Say the template has to be the one shipped with the weights, and give the two false comparisons: ChatML is a different string, and a missing blank line is a different string. Then the unregistered special token, 18 pieces instead of 9. Separate a supervised messages file from a chosen-and-rejected preference file, and say which tokens each loss sees. Point the mask's arithmetic at the Finetuning hyperparameters card, where 0.167 is the answer's share and not the share spent copying the user, and point the header tokens at the System prompt, user prompt, and chat templates card.
 
 **Recap.** Training rows are messages for supervised finetuning and chosen-plus-rejected pairs for a preference loss. The chat template that shipped with the checkpoint is part of the row. A ChatML wrapping and a missing blank line are different strings from Llama 3's template, so a loss on them is a loss on a task you will not serve. An unregistered `<|eot_id|>` splits one boundary into many pieces. In the stand-in tokenizer, `Tuesday.<|eot_id|>` is 9 pieces when the token is registered and 18 when it is not.
+
+![Formatting training data](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-25-formatting-training-data.png)
+
+*Source: [`diagrams/dataset-engineering.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering.drawio), page 25.*

@@ -50,6 +50,10 @@ print(f"{uniform * RATE:.2f} {stratified * RATE:.2f} {(stratified + second) * RA
 # 4000.00 480.00 576.00
 ```
 
+![Labels for the rare intent](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-1-labels-for-the-rare-intent.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 1.*
+
 ## SQL that has to run
 
 You are synthesizing text-to-SQL pairs for a Shopify support analyst. The schema and the four rows below are an exercise written for this drill. Three candidate pairs came back from the generator. A pair is kept only when executing its SQL returns the result the question asked for.
@@ -114,6 +118,10 @@ print(miss)
 # (0, 0)
 ```
 
+![SQL that has to run](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-2-sql-that-has-to-run.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 2.*
+
 ## The same complaint twice
 
 A Gmail-to-Zendesk export will be the training file for a tone finetune. Exact hashing has already run. The two emails below survived it. The counts after that are an exercise result from the export, not a published corpus: 12,000 emails, 1,200 removed as exact copies, 2,700 more removed by a near-duplicate pass at Jaccard 0.8, and 3,600 of the original 12,000 belonging to this one crushed-box wording. Held-out macro-F1 on other complaint types is an exercise 0.61. Training accuracy on the un-deduped file is an exercise 0.97.
@@ -156,6 +164,10 @@ print(remain, f"{remain / EMAILS:.3f}", f"{FAMILY / EMAILS:.2f}")
 # 8100 0.675 0.30
 ```
 
+![The same complaint twice](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-3-the-same-complaint-twice.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 3.*
+
 ## The leaked eval
 
 A private support eval has 250 prompts. After you normalize the training file, 70 of those prompts are present verbatim and a long n-gram screen flags 30 more. The exercise assumption is that the contaminated model answered all 100 leaked prompts correctly and answered 90 of the other 150 correctly. The n-gram length and the GPT-3 13-word filter stay on the contamination card in [Evaluate AI Systems](../04_Evaluate_AI_Systems/).
@@ -185,6 +197,10 @@ print(f"{full_correct / EVAL_N:.2f} {CLEAN_CORRECT / clean:.2f}")
 # 0.76 0.60
 ```
 
+![The leaked eval](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-4-the-leaked-eval.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 4.*
+
 ## Outputs you do not get to train on
 
 You want a support assistant you will host and sell. The plan is to call the OpenAI API for 50,000 demonstrations, then finetune a Llama student on that file. The clause in front of you assigns ownership of the output to the customer. The public wording in front of you is the consumer Terms of Use and the Services Agreement, both effective January 1, 2026. The May 1, 2025 business terms are the previous page and use the same exception. The account you would actually call may be on a later page or an order form. The 50,000 is the size of this plan, not a public dataset.
@@ -213,6 +229,10 @@ print(allowed("general support assistant", True, True))
 # True
 # True
 ```
+
+![Outputs you do not get to train on](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-5-outputs-you-do-not-train-on.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 5.*
 
 ## The ranking of two wrappers
 
@@ -252,6 +272,10 @@ print(int(6400 * 0.5))
 # 3200
 ```
 
+![The ranking of two wrappers](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-6-ranking-of-two-wrappers.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 6.*
+
 ## The fluent wrong amount
 
 A frontier teacher wrote refund demonstrations for a smaller student. The damaged-item rule is half the order total. Order 7781 totals 4800 cents, so the refund is 2400 cents. In an exercise batch of 200 rows, a program finds 36 wrong amounts. A style judge, asked only whether the reply sounds like the teacher, accepts 34 of those 36 and accepts all 164 correct rows. The judge's biases stay on the judge cards in [Evaluation Methodology](../03_Evaluation_Methodology/).
@@ -281,6 +305,10 @@ print(correct, judge_kept, f"{JUDGE_KEEPS_WRONG / WRONG_AMOUNT:.3f}", f"{JUDGE_K
 # 164 198 0.944 0.172
 ```
 
+![The fluent wrong amount](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-7-the-fluent-wrong-amount.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 7.*
+
 ## The label the filter deleted
 
 A moderation classifier for Zendesk is supposed to learn the toxic class, which a person has already labeled. An exercise batch has 1,000 rows, and 180 of them are toxic. A bad-word list, the kind Dodge and coauthors documented on C4, drops 140 of the toxic rows and 25 non-toxic rows whose topic is a medication. The counts are an exercise, not a C4 statistic. Jigsaw's Perspective API is a public toxicity score with the same shape of mistake. The phone regex on the cleaning card is a different pass and is not rerun here.
@@ -308,3 +336,7 @@ print(f"{DROPPED_TOXIC / TOXIC:.3f} {TOXIC / ROWS:.3f} {kept_toxic / remain:.3f}
 # 835 40
 # 0.778 0.180 0.048
 ```
+
+![The label the filter deleted](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills-8-the-label-the-filter-deleted.png)
+
+*Source: [`diagrams/dataset-engineering-drills.drawio`](/content/10_AI_Engineering/08_Dataset_Engineering/diagrams/dataset-engineering-drills.drawio), page 8.*
