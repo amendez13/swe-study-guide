@@ -10,6 +10,10 @@ The work exists because a small number of general models can now do many tasks t
 
 **Recap.** AI engineering builds products on models someone else already trained. The job is choosing the task, adapting the model, evaluating open-ended output, and operating the feature. The base-model training run is a different job, and most teams buy it as an API.
 
+![AI engineering](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-1-ai-engineering.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 1.*
+
 ## Language models in product terms
 
 A language model scores possible continuations of a piece of text. In a product, that shows up as a completion: you send a prompt, and the model appends one likely next piece, then another, until it stops.
@@ -34,6 +38,10 @@ A useful completion is "frustrated, time-sensitive." The model is finishing the 
 
 **Recap.** A product language model finishes a prompt one piece at a time. Masked models fill a gap using both sides and mostly serve understanding tasks. Autoregressive models write the chat, code, and draft features people ship. Tokens are the unit of context, latency, and price.
 
+![Language models in product terms](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-2-language-models.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 2.*
+
 ## Self-supervision
 
 Self-supervision is training a model on labels that the data already contains. For an autoregressive language model, the label for a prefix of a document is the next piece of that same document.
@@ -52,6 +60,10 @@ next piece to predict: "manager"
 
 **Recap.** The model learns by predicting a piece the document already holds, so nobody labels every example. That is what made internet-scale language models possible. The application still has to supply the task, the private facts, and the check on the answer.
 
+![Self-supervision](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-3-self-supervision.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 3.*
+
 ## Foundation models
 
 A foundation model is a large model trained on broad data, usually with self-supervision, and then adapted to many downstream tasks. A large language model is the text case. The term is wider than text.
@@ -66,6 +78,10 @@ Multimodal input is worth it when the user's artifact is not text. A bug report 
 
 **Recap.** Foundation models are broad bases you adapt, and language models are the text-shaped ones. Images, audio, and video are the same product pattern with different cost and review. The application chooses the modality. It does not retrain the base for every task.
 
+![Foundation models](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-4-foundation-models.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 4.*
+
 ## Why AI engineering became practical
 
 AI engineering became a normal software job when three conditions arrived together: the models became useful on open-ended tasks, a developer could call them as an API, and investment followed the products people could see.
@@ -79,6 +95,10 @@ The practical consequence is where time goes. An application team spends it on t
 **Interview.** Answer "why now" with the three conditions, capability, access, and investment, and say which one your design depends on. If the design dies when the API raises prices or changes behavior, say how you will pin a model version and what would push you to self-host.
 
 **Recap.** Useful models, model APIs, and the investment those products attracted showed up together. That is when building on a foundation model became ordinary engineering. The new center of effort is adaptation, evaluation, and the product around the call.
+
+![Why AI engineering became practical](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-5-why-practical.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 5.*
 
 ## Prompting, RAG, and finetuning
 
@@ -102,6 +122,10 @@ Finetune when the gap is behavior that a prompt does not hold, and you have exam
 
 **Recap.** Prompting steers a single request. Retrieval inserts facts at request time. Finetuning writes a behavior into the weights. Use them in that order, and keep the earlier lever when you add the next.
 
+![Prompting, RAG, and finetuning](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-6-prompt-rag-finetune.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 6.*
+
 ## Coding and writing
 
 Coding assistants and writing assistants are generation features: the model drafts, and a person decides what ships. GitHub Copilot and Cursor suggest code in the editor. ChatGPT and Claude take a pasted error or a function and propose a change. Notion AI, Gemini in Gmail, and Grammarly draft and rewrite prose the user already has in front of them.
@@ -115,6 +139,10 @@ Writing suggestions are a strong fit when the facts are already in the document:
 **Interview.** Say what the model may emit (a diff or a draft), what checks it (tests, a send button, a reviewer), and what context it must see (the open file, the error, the style notes). If the design jumps to a custom code model before the relevant file is in the prompt, the cheaper lever was skipped.
 
 **Recap.** Copilot, Cursor, Notion AI, and Gmail drafts all generate a first version a person accepts. Code gets a partial automatic check from the compiler and the tests. Prose usually does not. The human who ships the result owns it.
+
+![Coding and writing](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-7-coding-and-writing.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 7.*
 
 ## Image, video, and tutoring
 
@@ -132,6 +160,10 @@ Duolingo's conversation practice and Khan Academy's Khanmigo are the education s
 
 **Recap.** Image tools fit a person choosing among variations. Video adds render cost and a watch-before-publish review. Tutoring fits low-stakes practice on material you retrieved, and it stays off any decision that changes a credential by itself.
 
+![Image, video, and tutoring](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-8-image-video-tutoring.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 8.*
+
 ## Bots and information aggregation
 
 A conversational bot talks with a person. An information product compresses sources into something the person can check. Both are foundation-model interfaces, and both fail when a fluent paragraph is treated as the source.
@@ -146,6 +178,10 @@ Perplexity and NotebookLM aggregate sources and show them. Gmail's thread summar
 
 **Recap.** ChatGPT-style bots are the product. Intercom and Zendesk bots sit on a desk that already has people and articles. Perplexity, NotebookLM, and Gmail summaries are useful when each claim is one step from its source. A fluent paragraph with no source is the failure mode.
 
+![Bots and information aggregation](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-9-bots-and-aggregation.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 9.*
+
 ## Extraction and workflow automation
 
 Extraction turns an unstructured document into fields. Workflow automation lets the model choose an action in a system that can change something. The first one wants a schema and a validator. The second one wants a short list of tools and a rule for side effects.
@@ -159,6 +195,10 @@ Zapier-style agents, and similar tool-using flows in automation products, are th
 **Interview.** Draw the boundary at side effects. List the read-only tools, the writes, and the ones that need a confirmation. Say that the reconciliation after extraction is ordinary code. That combination, a model plus a deterministic check plus a person on the irreversible step, is the design.
 
 **Recap.** Receipt and invoice tools should emit fields that code can validate and a person can compare to the document. Automation agents should start with drafts and read-only tools. Writes that move money or send on behalf of the company wait for a person.
+
+![Extraction and workflow automation](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-10-extraction-and-automation.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 10.*
 
 ## Task-level use case fit
 
@@ -179,6 +219,10 @@ Apply that at the task, inside products you can name. Summarizing a Gmail thread
 **Interview.** Evaluate one task, not a department. State the input, the output, the check, and the cost of a wrong answer. Mention the 50 percent time cut as the public definition of exposure, and say clearly that exposure is a time claim about tasks. Then give your own go, draft-for-a-human, or skip for the feature in front of you.
 
 **Recap.** Judge the task. Language in, a reviewable draft out, and a cheap mistake are the strong-fit signs. Exact, irreversible, or already-solved tasks stay with ordinary software. Exposure numbers say where a model can save time. The occupation can remain.
+
+![Task-level use case fit](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-11-task-fit.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 11.*
 
 ## Critical, reactive, and human roles
 
@@ -205,6 +249,10 @@ The human role is the automation boundary. A person edits the Copilot suggestion
 
 **Recap.** Critical or complementary sets how bad an outage is. Reactive or proactive sets how polished an unasked suggestion must be. Static or dynamic sets the shape of the eval. The human role sets who may cause a side effect.
 
+![Critical, reactive, and human roles](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-12-product-roles.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 12.*
+
 ## Expectations, thresholds, and metrics
 
 A usefulness threshold is the quality below which people turn the feature off. It is specific to the task and to the alternative the user already has. Latency and unit cost have thresholds of their own, and a feature has to clear all three.
@@ -221,6 +269,10 @@ Cost last, counted per successful task. You pay for the suggestions people rejec
 
 **Recap.** A feature has to be good enough to beat the user's current alternative, fast enough for the interaction, and cheap enough per success. Those bars differ for Copilot, ChatGPT, and a support bot. Average accuracy is the wrong summary of an open-ended task.
 
+![Expectations, thresholds, and metrics](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-13-thresholds-and-metrics.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 13.*
+
 ## Milestones from demo to production
 
 A milestone plan is the sequence of evidence between a curated demo and a feature customers can trust. The last mile is the gap in the middle: real traffic, the tail, latency, cost, guardrails, and a way to notice when the model changes.
@@ -236,6 +288,10 @@ A practical sequence for a Zendesk or Intercom bot:
 | Shadow | Agents see the draft. Customers do not. You learn the edit rate without the harm. |
 | Limited send | Only intents under the policy bar are sent, the rest go to a person, and a kill switch exists. |
 | Production | A pinned model, a regression set, a latency and cost watch, and an on-call path for a bad day. |
+
+![Milestones from demo to production](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-14-demo-to-production.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 14.*
 
 The same sequence fits other products with different evidence. Copilot's shadow is "suggestion shown, acceptance logged, nothing merges by itself." An invoice extractor's limited send is "fields filled, payment still needs the clerk." Skipping from the demo to production skips the only steps that look at your distribution.
 
@@ -259,6 +315,10 @@ Operate it like a dependency you do not control. Pin a model id. Keep the regres
 
 **Recap.** Models, prompts, prices, and users change under a shipped feature. Pin the model, re-run the eval, and recompute the bill from input and output tokens. Take an upgrade when it clears the same bars you launched with.
 
+![Maintenance under a moving model](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-15-moving-model.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 15.*
+
 ## The three-layer AI stack
 
 The AI stack has three layers. Application development decides what the product does with a model. Model development changes the model. Infrastructure runs the compute, the storage, and the serving.
@@ -270,6 +330,10 @@ Model development changes weights or the model artifact. Training, finetuning, t
 Infrastructure serves the model and keeps the platform up: GPUs, orchestration, storage, request logs, autoscaling, and the metrics pipeline for latency and spend. The process that holds an embedding index is infrastructure. The decision of which passages to fetch and how to phrase them is application. vLLM and similar servers are serving infrastructure. The quantization choice that made the model fit the GPU is model development.
 
 You start at the top and move down when a measurement says you have to. A hosted API means someone else runs the lower two layers, which is the right architecture until privacy, quality, latency, or unit cost cannot be met there.
+
+![The three-layer AI stack](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-16-three-layer-stack.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 16.*
 
 | Work | Layer | Example |
 | --- | --- | --- |
@@ -299,6 +363,10 @@ The boundary is porous, and that is useful to say out loud. Finetuning, training
 
 **Recap.** ML engineering's default is a task model you train, with labels and a scalar metric. AI engineering's default is a general model you adapt, with a context you build and an open-ended output you have to judge. Large-model latency and token cost show up immediately. The same team often does some of each.
 
+![AI engineering versus ML engineering](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-17-vs-ml-engineering.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 17.*
+
 ## AI engineering versus full-stack engineering
 
 Full-stack engineering is the interface, the API, the data, the auth, and the deploy. An AI feature needs all of that, and it adds a component that is slow, billed per token, and willing to return the wrong answer with a 200 status.
@@ -312,3 +380,7 @@ The program itself grows a new kind of source code. The prompt, the retrieval po
 **Interview.** Describe the feature as a normal service plus one probabilistic dependency. Say what you unit-test (auth, schema, tool permissions), what you eval (faithfulness, policy, acceptance), and what the fallback is when the eval would have failed. Mention that prompts are reviewed like code. If you hear "it is just an API call," agree that the transport is an API call, and describe the latency, the bill, and the 200-status failure that the call can still produce.
 
 **Recap.** The app around the model is full-stack work. The model adds token cost, a slower call, prompts that act like code, and wrong answers that look successful. Tests cover the deterministic shell. An eval set and a fallback cover the generation.
+
+![AI engineering versus full-stack engineering](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-18-vs-full-stack.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 18.*

@@ -98,7 +98,7 @@ print(
 - `concepts.md` is a study set of 18 cards: the rise from language models to AI engineering, the use-case landscape, task fit and the four product roles, expectations, milestones, maintenance, the three-layer stack, and the comparisons with ML engineering and full-stack engineering.
 - `drills.md` has eight worked drills. The site sets `hasDrills` from the file, so this topic shows a Drills tab.
 - Language-model architecture, sampling, and training stay brief here. They belong to Understanding Foundation Models.
-- The study cards do not embed images. Draw.io sources remain under `diagrams/` and are not linked from the cards.
+- Each of the 18 concept cards and each of the 8 drill cards embeds a PNG exported from draw.io. Concept pages are in `diagrams/ai-engineering-intro.drawio`. Drill pages are in `diagrams/ai-engineering-intro-drills.drawio`.
 
 ## See also
 
