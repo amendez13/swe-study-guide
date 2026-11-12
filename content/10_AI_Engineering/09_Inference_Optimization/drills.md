@@ -39,6 +39,10 @@ for name, sample in (("quiet", QUIET), ("loaded", LOADED)):
 # 2.336 41.7 False True False
 ```
 
+![The Stall in the Stream](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-1-stall-in-the-stream.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 1.*
+
 ## Thirty-Two Thousand Tokens
 
 You have one H100 SXM5, sold as 80 GB, and this topic treats that label as 80 GiB. You want a 32,768-token context. The 8B candidate is the untied Llama 3 8B shape: 8,030,261,248 parameters, 32 layers, 8 key-value heads, head dimension 128, BF16 weights at 2 bytes. The 70B candidate uses the figures from Understanding Foundation Models: 131.4 GiB of BF16 weights, 65.7 GiB at INT8, and 320 KiB of BF16 cache per token. Two activation peaks below are exercise profiler readings for the INT8 70B prefill, not a published H100 trace.
@@ -75,6 +79,10 @@ for peak in PEAKS:
 # 83.7 False
 ```
 
+![Thirty-Two Thousand Tokens](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-2-thirty-two-thousand-tokens.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 2.*
+
 ## The Overnight Queue
 
 A support desk in the class of Zendesk summarizes tickets that nobody is waiting on, and it also summarizes the ticket an agent has open. The exercise volume is 250,000 overnight tickets and 4,000 tickets that are open right now. Each ticket is 2,200 input tokens and 180 output tokens. The exercise synchronous rates are $0.80 per million input tokens and $3.20 per million output tokens. The batch path is half of those rates, the 50 percent shape both OpenAI's Batch API and Anthropic's Message Batches documented on 12 November 2026, not a contract you skip rereading. The overnight job can land the next morning. The open ticket cannot.
@@ -107,6 +115,10 @@ print(f"{bill(OVERNIGHT + URGENT):.2f} {mixed:.2f}")
 # 584.00 292.00 9.34
 # 593.34 301.34
 ```
+
+![The Overnight Queue](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-3-overnight-queue.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 3.*
 
 ## One Hundred Forty Tokens
 
@@ -146,6 +158,10 @@ print(f"{1 / SLO_TPS * 1e3:.1f}")
 # 7.1
 ```
 
+![One Hundred Forty Tokens](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-4-one-hundred-forty-tokens.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 4.*
+
 ## Which Draft
 
 A self-hosted completion server can attach one of three drafts to a target it already serves. The acceptance rates, draft lengths, and cost coefficients are exercise values for this traffic, not a number from Leviathan and coauthors. Their formula is the one the speculative-decoding card uses. A draft of γ tokens at acceptance rate α and cost c has expected speedup `(1 − α^(γ+1)) / ((1 − α)(γc + 1))`. Draft B is also being offered at γ = 8 with the same α and c. The tokenizer is already shared. A speedup below 1 is a slowdown.
@@ -184,6 +200,10 @@ for name, alpha, gamma, cost in (
 # 1.43 0.82 False
 # 2.47 2.13 True
 ```
+
+![Which Draft](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-5-which-draft.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 5.*
 
 ## The Tool List First
 
@@ -229,6 +249,10 @@ print(f"{twice_plain:.4f} {twice_cached:.4f} {twice_plain - twice_cached:.4f}")
 # 0.0720 0.0486 0.0234
 ```
 
+![The Tool List First](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-6-tool-list-first.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 6.*
+
 ## Four GPUs, One Suggestion
 
 You have four H100 SXM5 GPUs and the Llama 3 70B checkpoint from Understanding Foundation Models, 70,553,706,496 parameters, 131.4 GiB in BF16. Inline suggestions, the latency class of Copilot, need a TPOT at or under 25 ms for a single request. Ignore the KV cache in the step time. This drill's question is the bandwidth roof, not a profile. Pipeline parallelism runs the stages one after another, so one request takes the full weight bytes divided by 3.35 TB/s. Tensor parallelism splits the weights four ways and adds an exercise collective tax of 25 percent on that shorter step. The tax stands in for collective latency. The 0.018-microsecond NVLink payload on the parallelism card is not this tax. A 32,768-token cache on this shape is part of the fit check only.
@@ -264,6 +288,10 @@ print(f"{untaxed_ms:.1f} {SLO_MS / untaxed_ms:.2f}")
 # 10.5 2.37
 ```
 
+![Four GPUs, One Suggestion](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-7-four-gpus-one-suggestion.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 7.*
+
 ## Four Tokens a Second
 
 A vLLM process on one H100 SXM5 is serving the untied Llama 3 8B in BF16, 8,030,261,248 parameters. An exercise snapshot, not a vLLM benchmark, shows 3.6 tokens a second and 4.0 GiB resident on the GPU. The HBM ceiling is the weight-only roof from the memory card, using the datasheet's 3.35 TB/s. The other ceiling is the one-way reading of that datasheet's PCIe Gen5 line. The line prints 128 GB/s next to NVLink, and that total is bidirectional, so the planning ceiling is 64 GB/s. Someone on the review wants a new fused kernel.
@@ -296,3 +324,7 @@ print(RESIDENT_GIB < WEIGHTS / 1024**3)
 # 0.017 0.90
 # True
 ```
+
+![Four Tokens a Second](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-8-four-tokens-a-second.png)
+
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 8.*

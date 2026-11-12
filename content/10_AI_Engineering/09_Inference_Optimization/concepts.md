@@ -12,6 +12,10 @@ The model half compresses weights, drafts extra tokens, shrinks attention state,
 
 **Recap.** Inference optimization makes a trained model serve tokens inside a latency, throughput, and cost budget without giving up measured quality. Training pays the backward pass. Serving pays a forward pass on every request. The model half changes weights, drafts, attention state, and kernels. The service half changes batching, phase placement, prefix reuse, and how many accelerators hold the model. A faster answer that fails the eval is not the goal.
 
+![What inference optimization is](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-1-what-inference-optimization-is.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 1.*
+
 ## Prefill and decode
 
 Prefill and decode are the two phases of one generated reply. Prefill reads the prompt and writes the KV cache. Decode appends one new token at a time and reads that cache back.
@@ -25,6 +29,10 @@ vLLM, TensorRT-LLM, and the hosted APIs all schedule these phases, whether or no
 **Interview.** Define the two phases from the causal mask, not from a profiler screenshot. Prefill consumes the prompt in parallel and writes keys and values. Decode is serial in the generated tokens and reads those keys and values. Say which product symptom maps to which phase. Then say the next question is arithmetic intensity, because "the GPU is at 100 percent" does not tell you which ceiling you hit.
 
 **Recap.** Prefill reads the whole prompt and builds the KV cache. Decode walks the generation one token at a time because each token depends on the one before it. Time to first token is mostly queue plus prefill. The later gaps are decode. A long prompt and a long answer stress different ceilings, and a fix for one phase does not move the other.
+
+![Prefill and decode](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-2-prefill-and-decode.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 2.*
 
 ## Arithmetic intensity and the roofline
 
@@ -67,6 +75,10 @@ This is one linear layer, with its input, weight, and output counted, and with n
 
 **Recap.** Arithmetic intensity is FLOPs per byte moved. The roofline's ridge is peak FLOPs divided by peak bandwidth. On an H100 SXM5 that ridge is 295.3 FLOPs per byte for dense BF16 and the datasheet's 3.35 TB/s. A 4,096-wide BF16 projection at one token has intensity 1.00 and is bandwidth-bound. At 4,096 tokens it has intensity 1,365.3 and is compute-bound. The crossover is about 345 tokens for that layer alone. The H200 SXM ridge is 206.1, because the bandwidth rose and the sparse BF16 line did not. Prefill of a long prompt is the compute side. Decode of one token is the bandwidth side.
 
+![Arithmetic intensity and the roofline](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-3-roofline.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 3.*
+
 ## Online and batch inference APIs
 
 An online inference API returns tokens inside an interactive wait. A batch inference API accepts a pile of requests and returns them later, at a lower price per token.
@@ -103,6 +115,10 @@ The provider can run that pile when the interactive fleet has room, on hardware 
 
 **Recap.** Online APIs answer inside an interactive latency budget. On the docs checked 12 November 2026, OpenAI's Batch API and Anthropic's Message Batches both charge 50 percent of the synchronous price. OpenAI documents a 24-hour completion window. Anthropic expires unfinished work at 24 hours and says most batches finish within an hour, which is not an SLO. On the exercise rates, 100,000 documents of 6,000 input tokens and 500 output tokens cost $1,200 online and $600 in batch. The discount is payment for a loose deadline. A chat turn does not have that deadline. A later price page replaces the 50 percent.
 
+![Online and batch inference APIs](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-4-online-and-batch-apis.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 4.*
+
 ## TTFT, TPOT, and inter-token latency
 
 Time to first token, time per output token, and inter-token latency are three clocks on one generation.
@@ -135,6 +151,10 @@ Sampling settings from the temperature card do not appear in this formula, and t
 
 **Recap.** TTFT waits for the first server token, including queue and prefill. TPOT is the average gap after that, and ITL is a single gap, including the bad one. An 80-token reply at 1.20 seconds and 0.040 seconds takes 4.36 seconds, which is a 25 token-per-second decode and an 18.35 token-per-second end-to-end rate. Gaps of 0.030, 0.035, and 0.090 seconds average to 0.052 and still contain a 0.090 stall. The formula matches Evaluate AI Systems. A different vendor definition of TPOT has to be converted before the numbers are compared.
 
+![TTFT, TPOT, and inter-token latency](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-5-ttft-tpot-itl.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 5.*
+
 ## Throughput and goodput
 
 Throughput counts finished requests. Goodput counts the finished requests that met every latency objective you wrote down.
@@ -161,6 +181,10 @@ The minute above is a worked window, not a DistServe table and not the one-secon
 **Interview.** Define throughput as finished requests and goodput as the finished requests that met every written latency cap. Give the minute: 1,200 finished and 900 inside is attainment 0.75, and 1,800 finished and 720 inside is attainment 0.40. Mention DistServe's variant, the maximum rate at which a percentile still meets TTFT and TPOT, and say you would name which definition the page uses. The 10-and-16 example in Evaluate AI Systems is the same idea on a one-second window. Do not mix the two windows.
 
 **Recap.** Throughput counts every finished request. Goodput counts the ones that met every latency objective, and attainment is that count divided by throughput. In the worked minute, 900 of 1,200 is attainment 0.75, and 720 of 1,800 is attainment 0.40. The busier configuration finished more and satisfied fewer. DistServe uses goodput for the highest rate that still holds a TTFT and TPOT percentile. Say which definition you are quoting.
+
+![Throughput and goodput](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-6-throughput-and-goodput.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 6.*
 
 ## Model FLOPs utilization
 
@@ -194,6 +218,10 @@ Raising the batch raises intensity and can raise MFU, until the step crosses the
 
 **Recap.** MFU divides the model's analytical FLOPs per second by the accelerator's peak. PaLM 540B reached 46.2 percent MFU on 6,144 TPU v4 chips, against 57.8 percent hardware FLOPs utilization once rematerialization is counted. A BF16 Llama 3 8B decode that saturates the H100 SXM5's 3.35 TB/s moves 208.6 tokens a second and uses 0.339 percent of the 989.4 TFLOPS dense peak. That decode figure is low because the chip is waiting on memory. PaLM's figure is a training run. They are not a before-and-after on the same job.
 
+![Model FLOPs utilization](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-7-mfu.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 7.*
+
 ## Model bandwidth utilization
 
 Model bandwidth utilization, MBU, is the fraction of an accelerator's peak memory bandwidth that the model actually used.
@@ -221,6 +249,10 @@ The KV cache belongs in the byte count once the sequence is long. The memory car
 
 **Recap.** MBU is the fraction of peak HBM bandwidth the model used. On a weight-only BF16 Llama 3 8B decode, the H100 SXM5 roof is 208.6 tokens a second, and that roof is MBU 1. A lower measured rate is unused bandwidth. High MBU with low MFU means the step is honestly bandwidth-bound. Low MBU means the bytes are not coming from HBM at the rate the datasheet allows, which is a residency, launch, or accounting problem before it is a math problem.
 
+![Model bandwidth utilization](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-8-mbu.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 8.*
+
 ## What an accelerator is
 
 An accelerator is a chip built to apply the same numeric operation to a large grid of values at once, which is what a neural-network layer does.
@@ -241,6 +273,10 @@ Training chips and inference chips spend that area differently. A training part 
 **Interview.** Define an accelerator as a chip that spends its area on parallel numeric work rather than on branchy control. Contrast a GPU's tensor cores with a TPU's systolic array, and name the software: CUDA and TensorRT-LLM on one side, XLA on the other. Give one published peak with the chip attached, such as 275 TFLOPS for a TPU v4 or 989.4 TFLOPS dense BF16 for an H100 SXM5. Say the ridge is peak FLOPs over bandwidth on whichever chip you picked. The TPU v4's is 229 FLOPs per byte.
 
 **Recap.** An accelerator is a parallel numeric chip. NVIDIA GPUs use tensor cores. Google TPUs use systolic arrays, and a TPU v4 chip peaks at 275 TFLOPS of BF16 or INT8 with a ridge of 229 FLOPs per byte. PaLM trained on TPU v4. vLLM and TensorRT-LLM target GPUs. FP8 is a Hopper feature, not an A100 feature. The roofline is the same picture on all of these chips. The datasheet you read has to be the chip you are holding.
+
+![What an accelerator is](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-9-what-an-accelerator-is.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 9.*
 
 ## FLOPs and number formats
 
@@ -285,6 +321,10 @@ print(f"{(1979 / 2) / 4.8:.1f}")
 
 **Recap.** FLOP peaks are per format and per SKU. The H100 SXM5 architecture paper lists 989.4 TFLOPS dense BF16 and 1,978.9 with 2:4 sparsity. The product datasheet rounds the sparse line to 1,979 and halves it when sparsity is off. The H100 PCIe card is 756 TFLOPS dense BF16 in that paper, 2 TB/s, and 300 to 350 W. The H200 SXM table keeps the 1,979 sparse line, lists 141 GB of HBM3e at 4.8 TB/s, and is still marked preliminary. Half of 1,979 over 4.8 TB/s is a ridge of 206.1 FLOPs per byte. The A100 80GB SXM is 312 TFLOPS dense BF16, 2,039 GB/s, 400 W, and has no FP8 tensor core. The SXM5's dense BF16 peak is 3.17 times that A100's, and its bandwidth is 1.64 times. The PCIe H100's bandwidth is 0.98 times that A100's.
 
+![FLOPs and number formats](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-10-flops-and-number-formats.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 10.*
+
 ## Memory size and bandwidth
 
 Memory size is how much state stays on the accelerator. Memory bandwidth is how many bytes per second can move between that memory and the compute units.
@@ -328,6 +368,10 @@ print(f"{4.8e12 / WEIGHTS:.1f}")
 
 **Recap.** HBM capacity holds the weights and the KV cache. HBM bandwidth sets the decode roof. On an H100 SXM5, 3.35 TB/s over the Llama 3 8B's 14.96 GiB of BF16 weights is 208.6 tokens a second, or 4.79 ms a token, and 195.5 tokens a second once an 8,192-token cache is also read. The on-chip cache is tens of megabytes, so it does not keep the model. The datasheet's PCIe Gen5 line of 128 GB/s is bidirectional. A one-way host-to-GPU stream at half of that, 64 GB/s, is 4.0 tokens a second for these weights. The H100 PCIe module's 2 TB/s HBM is 124.5, and the H200 SXM's 4.8 TB/s is 298.9, on a table still marked preliminary. A measured rate above the roof of the link you are actually using is an accounting error. A measured rate far below it is the MBU card.
 
+![Memory size and bandwidth](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-11-memory-size-and-bandwidth.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 11.*
+
 ## Power
 
 Power is the watts an accelerator is allowed to draw, and it is the constraint that turns a FLOP peak into a facilities problem.
@@ -352,6 +396,10 @@ Google Cloud's TPU v4 page lists measured power as 90 W minimum, 170 W mean, and
 **Interview.** Call TDP a cap. Give the H100 SXM5 as up to 700 W and the A100 80GB SXM standard configuration as 400 W. Compute dense BF16 per watt, 1.41 against 0.78, and HBM per watt, 4.79 GB/s against 5.10. Say which one a decode buys. Point at the 11.5 megawatt Llama 3 training nameplate as the cluster form of the same cap, and say it excludes cooling. Refuse a TPU comparison that divides peak FLOPs by the 170 W measured mean and ranks it against a TDP ratio.
 
 **Recap.** Power is the cap under the peaks. The H100 SXM5 is up to 700 W. The standard A100 80GB SXM is 400 W. Dense BF16 peak per nameplate watt is 1.41 TFLOPS against 0.78, a ratio of 1.81. HBM bandwidth per watt is 4.79 GB/s against 5.10, because bandwidth grew 1.64 times while nameplate watts grew 1.75 times. Decode buys bandwidth. Prefill buys the arithmetic per watt. TDP is not an average draw, and a TPU v4's measured 170 W mean is not a TDP you can rank against these ratios. The 11.5 megawatt figure in Understanding Foundation Models is this cap times a training cluster, before cooling.
+
+![Power](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-12-power.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 12.*
 
 ## Quantization
 
@@ -389,6 +437,10 @@ FP8 on an H100 is the other cut. The weights are 1 byte and the tensor cores run
 
 **Recap.** Quantization stores weights in fewer bits. Weight-only 4-bit with a group-128 FP16 scale is 0.515625 bytes per parameter, 3.86 GiB for Llama 3 8B, and an H100 SXM5 decode roof of 809.1 tokens a second against 208.6 in BF16, which is 3.88×. MFU moves from 0.339 percent to 1.31 percent and the step is still bandwidth-bound. A 2-byte zero-point per group makes the factor 3.76×. FP8 on Hopper changes bytes and the tensor-core peak together. A kernel that materializes BF16 weights moves the wide bytes anyway. The accuracy decision stays in Finetuning.
 
+![Quantization](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-13-quantization.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 13.*
+
 ## Pruning
 
 Pruning deletes weights so the checkpoint contains zeros, and it speeds serving only when the kernel stops loading those zeros.
@@ -407,6 +459,10 @@ The product consequence is which peak you are allowed to put in an MFU denominat
 **Interview.** Separate unstructured pruning from 2:4 sparsity. Name SparseGPT and Wanda as unstructured methods that can zero weights without shrinking the load. Say the starred 1,979 TFLOPS line requires the structured pattern and a kernel that uses it, and that 1,979 / 989.4 is 2.00 only in that case. Refuse a sparse peak in the denominator of a dense matmul. Quantization is the byte-width card. This card is whether the zeros move.
 
 **Recap.** Pruning deletes weights. Unstructured sparsity, including SparseGPT and Wanda, can leave a kernel that still loads the dense tensor, so the BF16 decode roof does not move. NVIDIA's 2:4 pattern is what the starred tensor-core peak assumes, and 1,979 is 2.00 times the 989.4 dense BF16 peak only when that kernel runs. A 50 percent sparse checkpoint in any other pattern does not get the line. The zeros have to disappear from the HBM read before the token rate changes.
+
+![Pruning](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-14-pruning.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 14.*
 
 ## Distillation at serving time
 
@@ -428,6 +484,10 @@ You remeasure the task. A cheaper model that misses the slice is the finetuning 
 **Interview.** Point the training and the license at Dataset Engineering, including DistilBERT's published summary, and do not rederive them. Then give the serving ratio you can defend: Llama 3 8B against Llama 3 70B is 131.4 / 14.96 = 8.78× fewer weight bytes and 320 / 128 = 2.50× fewer cache bytes per token. Say the cache ratio is the attention shape, not an automatic consequence of "smaller." Say you would score the task slice on the student you intend to serve.
 
 **Recap.** Distillation's serving effect is a smaller model. The training contract, DistilBERT's summary, and the license stay in Dataset Engineering. Weight bytes fall with the parameter count. Cache bytes fall only when layers or key-value heads fall. Llama 3 8B against Llama 3 70B is 8.78× fewer BF16 weight bytes and 2.50× fewer cache bytes per token. That is a different checkpoint from a quantized 70B. The task slice still has to pass.
+
+![Distillation at serving time](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-15-distillation-at-serving.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 15.*
 
 ## Speculative decoding
 
@@ -459,6 +519,10 @@ The worked case accepts 2.77 tokens per target step. If the draft were free, tha
 
 **Recap.** Speculative decoding lets a small draft propose tokens that the target verifies in one step. Leviathan and coauthors and Chen and coauthors give rejection rules that preserve the target distribution. With their independent-acceptance assumption, one target step yields `(1 − α^(γ+1)) / (1 − α)` tokens. At a worked α of 0.7 and γ of 4, that is 2.77 tokens. With their cost model at a worked c of 0.05, and with verification counted as one target step, the speedup is 2.31× rather than 2.77×. A draft that is too slow or too wrong makes decoding slower. The tokenizer has to match.
 
+![Speculative decoding](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-16-speculative-decoding.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 16.*
+
 ## Medusa, lookahead, and prompt lookup
 
 Medusa, lookahead decoding, and prompt lookup propose several future tokens without a second full language model.
@@ -481,6 +545,10 @@ The speculative-decoding card's formula still describes the verify step. What ch
 **Interview.** Name the four proposal sources: a draft model, extra heads, a Jacobi n-gram pool, and a span copied from the prompt. Say which ones preserve the baseline. Residual rejection sampling does. Greedy verification keeps the greedy string. A typical-acceptance rule needs a measurement. Give the product fit. Prompt lookup for a quoting RAG bot, speculative decoding when you have a matched small model, Medusa when you can train heads and you have checked the acceptance rule. Say that a miss still costs a verification step.
 
 **Recap.** Medusa, lookahead decoding, and prompt lookup draft tokens without a second full model. Medusa uses extra heads and a tree of candidates. Lookahead uses n-grams from the same model. Prompt lookup copies a span from the prompt and is useful when the answer repeats the source. The target still verifies. Residual rejection sampling preserves the distribution. A looser acceptance rule can move it. A proposal that always misses makes the decode slower, just as a bad draft model does.
+
+![Medusa, lookahead, and prompt lookup](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-17-medusa-lookahead-prompt-lookup.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 17.*
 
 ## KV cache size
 
@@ -534,6 +602,10 @@ The 70B shape in Understanding Foundation Models is the other worked point: 320 
 
 **Recap.** KV-cache bytes are two tensors times layers times key-value heads times head dimension times bytes times tokens. The untied Llama 3 8B shape is 8,030,261,248 parameters and 14.96 GiB in BF16. Its cache is 128 KiB a token, 1 GiB at 8,192 tokens, and 16 GiB at 131,072 tokens. One 128k request is 30.96 GiB with the weights. Four are 78.96 GiB before activations. Five are 94.96 GiB and miss an 80 GiB GPU. The 70B cache figures stay in Understanding Foundation Models. The weights are paid once, and the cache is paid per live request.
 
+![KV cache size](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-18-kv-cache-size.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 18.*
+
 ## KV cache quantization and offloading
 
 KV cache quantization stores keys and values in fewer bytes. KV cache offloading keeps those bytes in host memory and reads them back over the bus for each new token.
@@ -565,6 +637,10 @@ print(f"{16 * 1024**3 / ONE_WAY * 1e3:.1f}")
 **Interview.** Separate three byte cuts. Quantizing weights is the quantization card. Quantizing the cache halves the 128 KiB to 64 KiB before scales, and 131,072 tokens fall from 16 GiB to 8 GiB. Offloading the cache at the one-way 64 GB/s ceiling costs 16.8 ms for an 8,192-token BF16 cache and 268.4 ms for 16 GiB. Say weight offload is a fixed 4.0 tokens a second on the memory card, and cache offload gets worse as the prompt grows. Name FP8 in vLLM or TensorRT-LLM as the common 1-byte path, KIVI as a 2-bit method, and KVQuant as a low-bit method. Then say you would remeasure the slice.
 
 **Recap.** KV cache quantization stores keys and values in fewer bits. A 1-byte packing of the Llama 3 8B layout is 64 KiB a token, 8 GiB at 131,072 tokens, before scales. Four such caches plus the BF16 weights are 46.96 GiB. FP8 in vLLM and TensorRT-LLM is the usual 1-byte path. KIVI is a 2-bit method and KVQuant is a low-bit method, and the quality hit is measured. Offloading keeps the full cache on the host. At 64 GB/s one way, an 8,192-token cache takes 16.8 ms to read and a 16 GiB cache takes 268.4 ms. Weight offload does not grow with the prompt. Cache offload does.
+
+![KV cache quantization and offloading](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-19-kv-cache-quant-offload.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 19.*
 
 ## Multi-query, grouped-query, and sliding-window attention
 
@@ -603,6 +679,10 @@ print(f"{32768 * PER_TOKEN / 1024**3:.1f}")
 
 **Recap.** Multi-query attention uses one key-value head. Grouped-query attention shares one key-value head across a group of query heads. On Llama 3 8B, 8 heads instead of 32 cut the cache from 512 KiB a token to 128 KiB, and from 64 GiB to 16 GiB at 131,072 tokens. Mistral 7B's window of 4,096 keeps a rolling cache at 0.5 GiB, which is half of the full 8,192-token cache and an eighth of a full 32,768-token cache. The 70B version of the same head-count argument stays in Understanding Foundation Models. You give up key-value diversity, or a direct lookup of older tokens, in exchange for those bytes.
 
+![Multi-query, grouped-query, and sliding-window attention](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-20-mqa-gqa-sliding-window.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 20.*
+
 ## FlashAttention
 
 FlashAttention is an attention kernel that computes the weighted sum in on-chip tiles and does not write the score matrix out to HBM.
@@ -630,6 +710,10 @@ The prefill of a long prompt is where the score matrix would have dominated. A b
 
 **Recap.** FlashAttention computes attention in on-chip tiles and does not write the score matrix to HBM. One head at 8,192 tokens would otherwise write 128 MiB of BF16 scores against 6 MiB of Q, K, and V, which is 21.3 times, and 32 heads together would be 4 GiB. The 1 GiB Llama 3 8B KV cache at that length stays. FlashAttention-2 and the Hopper-oriented FlashAttention-3 are later kernels with the same limit. Paging the cache is a different paper.
 
+![FlashAttention](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-21-flashattention.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 21.*
+
 ## PagedAttention
 
 PagedAttention is a KV-cache allocator that stores each request's keys and values in fixed-size blocks so a request does not reserve its maximum length up front.
@@ -653,6 +737,10 @@ FlashAttention is the kernel you want during prefill, so the score matrix stays 
 **Interview.** Define PagedAttention as vLLM's block allocator, from Kwon and coauthors in 2023. Ten Llama 3 8B requests reserved at 8,192 and used at 1,024 are 10.00 GiB reserved and 1.25 GiB live, so 8.75 GiB is empty and stuck. Say a block of 16 is a common page and the live token is still 128 KiB. Say what it does not do: it does not delete the score-matrix problem, and it does not shrink a token that is actually live.
 
 **Recap.** PagedAttention stores the KV cache in reusable blocks so a request does not reserve its maximum length. Ten Llama 3 8B requests reserved at 8,192 tokens and using 1,024 cost 10.00 GiB of reservations and 1.25 GiB of real cache, which leaves 8.75 GiB unusable until you page. A block of 16 tokens is a common page. The live token still costs 128 KiB in BF16. Paging recovers fragmentation. FlashAttention is the kernel that avoids writing scores. This card is the allocator.
+
+![PagedAttention](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-22-pagedattention.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 22.*
 
 ## Kernels and compilers
 
@@ -682,6 +770,10 @@ PyTorch's `torch.compile` traces the model and, by default, hands the graph to I
 
 **Recap.** Kernels are the accelerator programs behind each layer, and compilers fuse them so activations are not written to HBM between every op. An unfused Llama feed-forward epilogue moves 159,744 activation bytes against 36,864 for a fused one, a 4.33× difference and a 120 KiB saving, while one gate weight is 112 MiB. Batch-1 decode is still dominated by the weights. `torch.compile`, Triton, and TensorRT-LLM are the tools. A handwritten kernel is for the fusion or the layout the compiler missed. The weight-byte roof does not move just because the epilogue got shorter.
 
+![Kernels and compilers](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-23-kernels-and-compilers.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 23.*
+
 ## The cost of structured outputs
 
 The serving cost of a structured output is the extra work that keeps each token inside a schema, on top of the ordinary prefill and decode.
@@ -695,6 +787,10 @@ Providers that bill output tokens do not add a second meter for the mask unless 
 **Interview.** Point at Understanding Foundation Models for JSON mode versus a schema mask versus a tool call. Then put the cost on the clocks. Compilation sits in TTFT. The per-token mask sits in TPOT, next to a 4.79 ms weight roof that a slow mask can exceed. Speculation and the grammar share one acceptance rule, so a draft the schema forbids does not count. Say you would measure the same prompt with and without the schema before you blame the model. Say the output token price does not grow just because the sampler wore a mask, and that you would re-read the rate card anyway.
 
 **Recap.** Structured output costs serving time because each token has to stay inside a grammar. Outlines, XGrammar, and llguidance build that mask, and vLLM can apply it. The compile shows up in time to first token. A slow mask shows up in the gap between tokens, which on this 8B and an H100 SXM5 is otherwise a 4.79 ms weight roof. Speculative drafts that the grammar rejects lower the acceptance rate. The token price is still the token price unless the rate card says otherwise. A valid object can still hold the wrong total, so the parser from Understanding Foundation Models stays.
+
+![The cost of structured outputs](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-24-structured-output-cost.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 24.*
 
 ## Static, dynamic, and continuous batching
 
@@ -723,6 +819,10 @@ Continuous batching, which Orca, from Yu and coauthors at OSDI 2022, introduced 
 
 **Recap.** Batching reuses a weight load across requests. Static batching pads and waits for the longest request. Four decode lengths of 40, 80, 120, and 400 use 0.40 of their slots, and four prefills padded to 4,096 use 0.336 of their positions. Dynamic batching adds a timeout so TTFT stays bounded. Continuous batching, from Orca, joins and leaves at token boundaries, which is what vLLM and TensorRT-LLM schedule. The short request no longer waits for the long one. A prefill that lands in the same step can still stall every decode, which batching alone does not fix.
 
+![Static, dynamic, and continuous batching](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-25-batching.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 25.*
+
 ## Disaggregated prefill and decode
 
 Disaggregated prefill and decode run the two phases on separate accelerator pools so a long prompt does not stall token generation.
@@ -749,6 +849,10 @@ DistServe, from Zhong and coauthors, puts prefill and decode on separate GPUs an
 **Interview.** Explain the interference with the two roofs: a 2,048-token Llama 3 8B prefill is 33.2 ms at the H100 SXM5 dense BF16 peak, and a decode step is 4.79 ms at the bandwidth roof, so an inline prefill blows a 20 ms gap. Name DistServe and Splitwise as the systems that split the pools, and chunked prefill as the option that stays on one pool. Say the KV cache has to move to the decode workers. Then say you would size the pools for goodput under the product's TTFT and TPOT caps, not for aggregate tokens.
 
 **Recap.** Prefill and decode contend when they share a GPU, because a compute-bound prompt lands in a bandwidth-bound token loop. At the H100 SXM5 roofs, a 2,048-token Llama 3 8B prefill is 33.2 ms and a weight-only decode step is 4.79 ms, so a 20 ms gap fails if the prefill runs inline. DistServe and Splitwise put the phases on separate pools and optimize goodput under TTFT and TPOT caps. Chunked prefill keeps one pool and limits how long the prompt may hold the GPU. The cache has to be transferred, and a slow link can replace the stall you just removed.
+
+![Disaggregated prefill and decode](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-26-disaggregated-prefill-decode.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 26.*
 
 ## Prompt caching
 
@@ -790,6 +894,10 @@ A write that costs more than a normal input token is a loss when the prefix is u
 
 **Recap.** Prompt caching reuses the KV cache of an identical prefix so the server does not prefill it again. A 4,096-token prefix on Llama 3 8B is 0.50 GiB. At the exercise rates, one million calls with a 512-token question and 250 output tokens cost $7,010 uncached and $2,402 with the prefix cached, a saving of $4,608. The cached portion has to be a prefix. Implicit caching can apply to that prefix on its own. Explicit caching writes only at a breakpoint, and writes nothing when the breakpoint is missing. As checked 12 Nov 2026, check provider docs, a typical short-lived write is about 1.25 times uncached input, a longer TTL is about 2 to 2.5 times, and a typical read is about 0.1 times. A write that costs more than a normal input token makes a prefix used once the wrong thing to cache. A later price page replaces the multipliers.
 
+![Prompt caching](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-27-prompt-caching.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 27.*
+
 ## Replica parallelism
 
 Replica parallelism serves several full copies of one model and sends each request to one copy.
@@ -803,6 +911,10 @@ Prompt caching cares which copy the request lands on. The KV state for a prefix 
 **Interview.** Define a replica as a full copy that does not all-reduce. Contrast it with data-parallel training, which does. Say four 8B copies raise throughput and do not shorten one suggestion. Say four copies of a 131.4 GiB checkpoint do not create a GPU that can hold it. Mention sticky routing if the product reuses a prefix. Tensor, pipeline, and context parallelism are the cards you pick when one request does not fit or one GPU is too slow for that request.
 
 **Recap.** Replica parallelism runs full independent copies and routes each request to one of them. Training data parallelism all-reduces gradients. These replicas do not. Throughput scales with the copies. One request's latency does not, and a model that does not fit on one GPU still does not fit. A sticky router keeps a prompt-cache prefix on the GPU that built it. A random router prefills it again. Idle copies still draw power.
+
+![Replica parallelism](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-28-replica-parallelism.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 28.*
 
 ## Tensor parallelism
 
@@ -840,6 +952,10 @@ print(f"{131_072 * PER_TOKEN / 1024**3:.0f}")
 
 **Recap.** Tensor parallelism splits every layer across GPUs and ends the layer with a collective. A Llama 3 70B activation is 16 KiB. On an H100 SXM that is 0.018 microseconds at the printed 900 GB/s of NVLink and 0.036 microseconds at half of it, plus the collective's latency. Two H100 SXM5 GPUs hold the 131.4 GiB weights with 28.6 GiB spare, and a 40 GiB cache at 131,072 tokens does not fit in that spare. The split gives the weights a home. It does not give the long cache a free 40 GiB.
 
+![Tensor parallelism](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-29-tensor-parallelism.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 29.*
+
 ## Pipeline parallelism
 
 Pipeline parallelism assigns consecutive layers to different accelerators, and a token walks those stages in order.
@@ -861,6 +977,10 @@ The same 70B can be staged instead of tensor-split. Each GPU holds some of the l
 
 **Recap.** Pipeline parallelism splits the model by layers, and a token visits the stages in order. The idle fraction of pipeline slots is `(P − 1) / (M + P − 1)`. Four stages with four microbatches idle 0.43 of the slots. Four stages with 32 microbatches idle 0.086. One chat request pays the bubble. A saturated batch can hide it. The stage-to-stage send is an activation. The wait you feel is the stages adding up.
 
+![Pipeline parallelism](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-30-pipeline-parallelism.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 30.*
+
 ## Context parallelism and sequence parallelism
 
 Context parallelism and sequence parallelism both cut a sequence across GPUs, and they cut different tensors.
@@ -874,3 +994,7 @@ Megatron's sequence parallelism, from Korthikanti and coauthors in 2022, is a di
 **Interview.** Give one sentence each. Context parallelism shards the sequence so attention is distributed, and ring attention is the 2023 schedule that passes key and value blocks. Megatron sequence parallelism shards activations that tensor parallelism would have replicated, and it comes from Korthikanti and coauthors in 2022. Say which one you would turn on for a 40 GiB cache that missed the spare on the tensor-parallelism card. The answer is context parallelism, not the Megatron activation shard, and not another replica.
 
 **Recap.** Context parallelism splits a long sequence so each GPU holds part of the attention state. Ring attention, from Liu, Zaharia, and Abbeel in 2023, passes those blocks around a ring. Megatron sequence parallelism, from Korthikanti and coauthors in 2022, shards activations beside tensor parallelism so they are not copied on every GPU. One fits a long cache. The other saves activation memory. They are not two names for the same split.
+
+![Context parallelism and sequence parallelism](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-31-context-and-sequence-parallelism.png)
+
+*Source: [`diagrams/inference-optimization.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization.drawio), page 31.*

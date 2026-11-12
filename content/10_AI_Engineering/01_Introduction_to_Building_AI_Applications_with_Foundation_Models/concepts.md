@@ -412,3 +412,7 @@ Public products show the split without a private scoreboard. Cursor and GitHub C
 **Interview.** Name which of the three you actually have. "We call the API with a careful prompt" is a feature. Ask what happens when the provider ships that feature, or when a suite the user already opens adds it. Point a data advantage at the Feedback and the data flywheel card: feedback becomes training data only through that loop, including consent and the eval the new rows cannot rewrite. Point distribution at the surface, the editor, the inbox, the document, or the ticket queue. A technology advantage has to be something you can show a competitor cannot buy per token.
 
 **Recap.** A foundation model anyone can call is not a moat. Technology, data, and distribution are the advantages that can be. The data flywheel, on the Feedback and the data flywheel card, is how usage becomes the next model without the new rows grading themselves. The risk is that the product is a feature a platform will absorb. A prompt on a rented model, with no corpus and no place in the workflow, is that feature.
+
+![AI product defensibility](/content/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-19-defensibility.png)
+
+*Source: [`diagrams/ai-engineering-intro.drawio`](/content/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro.drawio), page 19.*
