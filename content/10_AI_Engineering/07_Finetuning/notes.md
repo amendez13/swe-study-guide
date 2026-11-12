@@ -108,7 +108,7 @@ A 4096 by 4096 matrix at rank 8 is 65,536 trainable parameters. FP16 overflows a
 ## See also
 
 - [Introduction to Building AI Applications with Foundation Models](../01_Introduction_to_Building_AI_Applications_with_Foundation_Models/) — prompting, retrieval, and finetuning as the three levers, in that order.
-- [Understanding Foundation Models](../02_Understanding_Foundation_Models/) — the 18-byte FP32-gradient variant of the memory count, the KV-cache formula, supervised finetuning, preference finetuning, and finetuning as the fourth rung of structured output.
+- [Understanding Foundation Models](../02_Understanding_Foundation_Models/) — the 16-byte BF16-gradient AdamW row and the 18-byte FP32-gradient variant, the KV-cache formula, supervised finetuning, preference finetuning, and finetuning as the fourth rung of structured output.
 - [Evaluate AI Systems](../04_Evaluate_AI_Systems/) — the held-out pipeline a checkpoint has to pass, and the license on the base weights.
 - [Prompt Engineering](../05_Prompt_Engineering/) — the prompt you score before you train, the few-shot tax a finetune can remove, and the chat template the trainer has to apply.
 - [RAG and Agents](../06_RAG_and_Agents/) — the index for facts that change, and the calculator a quantized model should call instead of inventing a digit.
