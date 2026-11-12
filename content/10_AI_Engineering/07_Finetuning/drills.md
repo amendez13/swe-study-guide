@@ -169,29 +169,43 @@ for live in (8, 16):
 # 30.41 False
 ```
 
-## A wrong total
+## The skill that left
 
-You serve Llama 2 13B in vLLM with GPTQ INT4 weights, for practice problems of the kind a tutoring product such as Khanmigo has to get right. The prose looks fine. On an exercise slice of 200 arithmetic items, the BF16 checkpoint answers 156 correctly and the INT4 checkpoint answers 97. An exercise chat rating stays at 0.90 for both. Neither figure is a Khanmigo score or a published GPTQ table.
+A support team full-finetunes Llama 2 7B on refund-intent labels, and a second run trains a LoRA on the same labels mixed with a slice of general instruction rows. The scores below are an exercise. They are not a published finetune and not a Zendesk benchmark. Refund accuracy is the new task. The general slice and the coding slice are held out. They were not in the training file. The launch bar on refunds is 0.88. A skill you still ship may fall by at most 0.05.
 
-What do you change, and why did the chat rating miss it?
+Which checkpoint do you ship, and what would a refund-only score have hidden?
 
 ```python
-ITEMS = 200
-BF16_CORRECT = 156
-INT4_CORRECT = 97
-CHAT_RATING = 0.90
+# Exercise scores, not a published finetune.
+BEFORE = {"refund": 0.71, "general": 0.81, "code": 0.44}
+FULL = {"refund": 0.93, "general": 0.62, "code": 0.29}
+LORA_MIX = {"refund": 0.90, "general": 0.78, "code": 0.41}
 ```
 
-**Answer:** Keep INT4 off the arithmetic path. The BF16 model gets 0.780 of the exercise items and the INT4 model gets 0.485, so this is a quantization failure, not proof that the base cannot do the step. INT4 has 16 codes in the group, and a chat rating of 0.90 on both checkpoints will never see a dropped digit. The repairs, in the order you would try them, are a calculator tool for the arithmetic, the capability-tool pattern, and a higher-precision copy on this route. INT8, or BF16, on the requests that contain a quantity. A finer group size and a calibration set that includes worked arithmetic are the quantizer-side experiments if you must stay in 4 bits. Leaving the output projection in BF16 is the matrix to protect first, because a rounding error there changes the token. Do not wait for the chat rating to fall. Score the arithmetic slice the way the eval pipeline scores a domain task separately from a preference.
+**Answer:** Ship the mixed LoRA. Refund accuracy clears 0.88 on both runs, 0.93 for the full update and 0.90 for the LoRA, so the new-task number cannot see the failure. The full update drops the held-out general slice by 0.19, from 0.81 to 0.62, and the coding slice by 0.15, from 0.44 to 0.29. Both exceed the 0.05 cap. That is catastrophic forgetting: the refund gradient moved weights the other skills were using, and the refund loss still fell. The mixed LoRA drops general by 0.03 and code by 0.03, inside the cap, because the base stayed frozen and the general rows were still in the gradient. Those two moves are parameter-efficient finetuning and replay. They are not a promise that every LoRA is safe. A higher rank, or a mix that is only refund rows, can still move the held-out numbers, which is why you re-run this eval rather than cite the method. Sequential training, refunds and then a later coding finetune on the same full weights, would be the schedule that forgets the refunds next. Separate adapters would keep both skills only if the requests can be routed. A merge back toward the base is the repair when you already shipped the full checkpoint and the general slice is the regression you are reading now. The refund training loss is not that reading.
 
 ```python
-ITEMS = 200
-print(f"{156 / ITEMS:.3f} {97 / ITEMS:.3f}")
-print(round(156 / ITEMS - 97 / ITEMS, 3))
-print(0.90 == 0.90)
-# 0.780 0.485
-# 0.295
-# True
+BEFORE = {"refund": 0.71, "general": 0.81, "code": 0.44}
+FULL = {"refund": 0.93, "general": 0.62, "code": 0.29}
+LORA_MIX = {"refund": 0.90, "general": 0.78, "code": 0.41}
+BAR = 0.88
+CAP = 0.05
+
+
+def drop(after: dict[str, float], skill: str) -> float:
+    return round(BEFORE[skill] - after[skill], 2)
+
+
+def ships(after: dict[str, float]) -> bool:
+    return after["refund"] >= BAR and drop(after, "general") <= CAP and drop(after, "code") <= CAP
+
+
+print(f"{drop(FULL, 'general'):.2f} {drop(FULL, 'code'):.2f}")
+print(f"{drop(LORA_MIX, 'general'):.2f} {drop(LORA_MIX, 'code'):.2f}")
+print(ships(FULL), ships(LORA_MIX))
+# 0.19 0.15
+# 0.03 0.03
+# False True
 ```
 
 ## Code plus chat
