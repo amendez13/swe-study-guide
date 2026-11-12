@@ -59,6 +59,10 @@ print(delete_held(only), to_list(only))
 # False [8]
 ```
 
+![Delete the node you are holding](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-1-delete-the-node-you-are-holding.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 1.*
+
 ## Drop every value that repeats
 
 The exercise list `4 -> 4 -> 5 -> 7 -> 7 -> 7 -> 9` is sorted. Remove every value that appears more than once, so a value that appears once stays and a value that repeats is gone entirely. What remains? What do `4 -> 4`, a single `5`, an empty list, and `4 -> 4 -> 5 -> 5` become?
@@ -123,6 +127,10 @@ for values in samples:
 # [1, 2, 3]
 # []
 ```
+
+![Drop every value that repeats](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-2-drop-every-value-that-repeats.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 2.*
 
 ## Add two reversed digit lists
 
@@ -189,6 +197,10 @@ for left, right in pairs:
 # [8, 1]
 ```
 
+![Add two reversed digit lists](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-3-add-two-reversed-digit-lists.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 3.*
+
 ## Partition around a pivot and keep order
 
 Partition the exercise list `5 -> 1 -> 8 -> 3 -> 8 -> 2` around 5. Nodes less than 5 come first. Nodes greater than or equal to 5 follow them. Keep the original relative order inside each side. What does the list become? What do an empty list, `5 -> 5`, and `-1 -> 5 -> -3` around 0 become?
@@ -251,6 +263,10 @@ for values, pivot in cases:
 # []
 # [-1, -3, 5]
 ```
+
+![Partition around a pivot and keep order](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-4-partition-around-a-pivot.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 4.*
 
 ## Recency after each get and put
 
@@ -342,6 +358,10 @@ print(LRUCache(2).get(10))
 # [10, 40]
 # None
 ```
+
+![Recency after each get and put](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-5-recency-after-each-get-and-put.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 5.*
 
 ## The evicted key is still in the map
 
@@ -435,6 +455,10 @@ print(repaired.order(), repaired.get(5), sorted(repaired.nodes))
 # [6, 1] None [1, 6]
 ```
 
+![The evicted key is still in the map](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-6-evicted-key-still-in-the-map.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 6.*
+
 ## Equal values are not a shared node
 
 List A is `3 -> 8 -> 5` and list B is `3 -> 8 -> 5`, built from different nodes. A second pair shares a tail: A is `3 -> 8 -> 5`, B is `8 -> 5`, and the final `5` is one node object. A search that remembers values, and a search that remembers node identity, each return a tag. Which tags come back? What do two empty lists return?
@@ -481,6 +505,10 @@ print(by_value(None, None), by_identity(None, None), by_value(joined_a, None), b
 # ('a8', 'b8') shared
 # None None None None
 ```
+
+![Equal values are not a shared node](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-7-equal-values-are-not-a-shared-node.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 7.*
 
 ## Reverse in groups of three
 
@@ -548,6 +576,10 @@ print(to_list(reverse_groups(from_list(values), 0)), to_list(reverse_groups(from
 # [6, 1, 4, 9, 2, 8, 3] [4, 1, 6, 9]
 ```
 
+![Reverse in groups of three](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-8-reverse-in-groups-of-three.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 8.*
+
 ## The gap that stops one node late
 
 This removal advances a leader k steps, then keeps moving while the leader itself is not `None`. The repaired loop moves while the leader's `next` is not `None`. On the exercise list `8 -> 3 -> 5 -> 1 -> 9`, what does each version return for k = 2, k = 5, and k = 1? What does k = 6 do?
@@ -610,3 +642,7 @@ print(attempt([], 1, True), attempt([], 1, False))
 # [8, 3, 5, 1, 9] [8, 3, 5, 1, 9]
 # [] []
 ```
+
+![The gap that stops one node late](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills-9-gap-that-stops-one-node-late.png)
+
+*Source: [`diagrams/linked-lists-drills.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-drills.drawio), page 9.*

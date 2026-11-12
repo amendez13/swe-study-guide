@@ -40,6 +40,10 @@ print(trace([1, 4, 6, 9, 12], 2)[0])
 # None
 ```
 
+![Pairs the scan never checks](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-1-pairs-the-scan-never-checks.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 1.*
+
 ## A skip loop that runs off the end
 
 This check is supposed to ignore characters outside ASCII letters and digits. On the exercise string `"!!!"` it raises `IndexError`. Why, and what does the repaired check return for `"!!!"` and for `"ab!"`?
@@ -107,6 +111,10 @@ print(broken_result, repaired("!!!"), repaired("ab!"))
 # IndexError True False
 ```
 
+![A skip loop that runs off the end](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-2-skip-loop-off-the-end.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 2.*
+
 ## Collapse a sorted log in place
 
 A sorted exercise log is `[2, 2, 2, 5, 8, 8]`. Drop repeated readings in place and return the new length. What is that length, what does the kept prefix hold, and what does the rest of the list still contain?
@@ -134,6 +142,10 @@ print(collapse_sorted([7]))
 # 0
 # 1
 ```
+
+![Collapse a sorted log in place](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-3-collapse-sorted-log.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 3.*
 
 ## Closest pair sum
 
@@ -173,6 +185,10 @@ print(closest_pair([-5, -1, 2, 4], 0))
 # (-5, 4, -1)
 ```
 
+![Closest pair sum](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-4-closest-pair-sum.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 4.*
+
 ## Three readings closest to a target
 
 The exercise readings are `[4, -1, 2, 7]`. Choose three of them whose sum is as close as possible to 6. What sum do you return?
@@ -206,6 +222,10 @@ print(three_closest([1, 2], 0))
 # None
 ```
 
+![Three readings closest to a target](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-5-three-readings-closest.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 5.*
+
 ## Reverse the vowels only
 
 Reverse the vowels in the exercise string `"studio"`. Treat `a`, `e`, `i`, `o`, `u` and their capitals as vowels. Leave `y` in place. What does `"rhythm"` become, and what does `"Ae"` become?
@@ -234,6 +254,10 @@ print([reverse_vowels(""), reverse_vowels("y"), reverse_vowels("a")])
 # stodiu rhythm eA
 # ['', 'y', 'a']
 ```
+
+![Reverse the vowels only](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-6-reverse-the-vowels.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 6.*
 
 ## Fill spare slots from the back
 
@@ -267,6 +291,10 @@ print(merge_from_back([0, 0, 0], 0, [1, 2, 3]))
 # [1, 2, 3]
 ```
 
+![Fill spare slots from the back](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-7-fill-spare-slots-from-the-back.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 7.*
+
 ## Which move is it
 
 Name the move for each exercise prompt: inward, reader-writer, staged, or hash-map.
@@ -298,6 +326,10 @@ print(choose("unsorted-pair"))
 # staged
 # hash-map
 ```
+
+![Which move is it](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-8-which-move-is-it.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 8.*
 
 ## Moving the taller side
 
@@ -334,3 +366,7 @@ def area_moving_shorter(heights: list[int]) -> int:
 print(area_moving_taller([2, 7, 4, 3, 8]), area_moving_shorter([2, 7, 4, 3, 8]))
 # 8 21
 ```
+
+![Moving the taller side](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills-9-moving-the-taller-side.png)
+
+*Source: [`diagrams/two-pointers-drills.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-drills.drawio), page 9.*

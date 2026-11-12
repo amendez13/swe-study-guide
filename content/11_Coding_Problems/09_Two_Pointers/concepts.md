@@ -14,6 +14,10 @@ You reach for it when the data is linear and either already ordered, symmetric, 
 
 **Recap.** A second index lets one pass compare two positions and discard everything that position can no longer be part of. The move is safe only when the input is sorted, symmetric, or being written in a single direction. Inward, reader and writer, and staged are the three shapes. A hash map, a sort, and a nested loop are the alternatives, and each one wins on a different constraint.
 
+![Two pointers: what a second index buys](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-1-what-a-second-index-buys.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 1.*
+
 ## Inward traversal
 
 Inward traversal starts one index at the left end and one at the right end, and each step moves exactly one of them toward the middle.
@@ -53,6 +57,10 @@ The [Sort, then scan](../06_Moderate_Problems/) card is the neighboring tool whe
 
 **Recap.** Inward traversal keeps a window on a sorted or symmetric sequence and shrinks it from the end that cannot hold the answer. Because the ends are the extreme values, one comparison deletes every pair that used the rejected index. The loop stops when the indexes meet, and it never uses one index as both members of a pair.
 
+![Inward traversal](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-2-inward-traversal.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 2.*
+
 ## Reader and writer on one pass
 
 A reader and a writer are two indexes that move in the same direction. The reader scans every slot. The writer marks the next slot that is allowed to keep a value.
@@ -88,6 +96,10 @@ A second same-direction shape walks two already sorted sequences and advances th
 
 **Recap.** The reader walks the whole sequence once. The writer lags behind and records only the values that stay, so the prefix before the writer is the finished result. The pass is linear and uses a constant amount of extra memory. Order is preserved because kept values are written in the order the reader sees them.
 
+![Reader and writer on one pass](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-3-reader-and-writer.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 3.*
+
 ## Staged traversal
 
 Staged traversal splits the job into a find and an act. The first scan locates the index where the structure breaks. The second scan does the work from there, using whatever the first scan proved about the rest of the sequence.
@@ -120,6 +132,10 @@ print(pivot_and_successor(list("1322")), pivot_and_successor(list("cba")))
 **Interview.** Tell the interviewer you are about to walk the sequence from the right, and say what you will know when that walk stops. Then write the second scan. If the first scan finds nothing, say the fallback out loud before you code it. A staged problem is usually lost in the first minute by people who start swapping before they have named the pivot.
 
 **Recap.** The first pass only finds the break. The second pass acts on that index and is allowed to use what the first pass proved about the suffix. Next permutation is the shape: find the rightmost ascent, then swap and reverse. A sequence with no ascent reverses as a whole, back to the first arrangement.
+
+![Staged traversal](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-4-staged-traversal.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 4.*
 
 ## Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)
 
@@ -162,6 +178,10 @@ The scan is O(n) time and O(1) extra memory. The sort is not part of the bill, b
 **Interview.** Repeat the sorted guarantee back, and ask whether any one pair is enough. State `left < right` as the guard against using one index twice. Walk `1 + 12`, then the move, on a list you can add in your head, before you write the loop. If the interviewer says the array might be unsorted, switch to the hash map and say the memory cost.
 
 **Recap.** On a sorted array, the pair search moves the left index when the sum is short and the right index when the sum is too high. Each move drops every pair that used the rejected end. The result is one index pair or an empty result, in linear time and constant extra memory. The same index is never used twice.
+
+![Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-5-pair-sum-sorted.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 5.*
 
 ## Zero-Sum Triplets (LeetCode-style: 3Sum)
 
@@ -215,6 +235,10 @@ The inner scan is linear and it runs once per index, so the time is O(n^2). `sor
 **Interview.** Say "sort, then two-sum for the complement" before you write code. Call out three skips: the repeated fixed value, and both inner neighbors after a hit. Say you move both inner indexes on a hit. Mention the early stop, and say it depends on the target being zero. Give the time as quadratic and the extra memory as the sort, with the output excluded.
 
 **Recap.** Sorting turns three-sum into a linear pair search for each fixed value, which is quadratic overall. Adjacent duplicates are skipped at the fixed index and on both inner indexes after a hit, so each value triplet is emitted once. A positive fixed value ends the search when the target is zero. The sort, not the pointer scan, is the extra memory.
+
+![Zero-Sum Triplets (LeetCode-style: 3Sum)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-6-zero-sum-triplets.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 6.*
 
 ## Palindrome Check That Skips Punctuation (LeetCode-style: Valid Palindrome)
 
@@ -273,6 +297,10 @@ Python's `str.isalnum` is a different predicate. It is true for Unicode letters 
 
 **Recap.** Two ends walk toward the middle, passing over characters the predicate rejects, and compare the characters it keeps after case-folding. The check is linear and uses constant extra memory. The inner loops have to stop when the indexes meet. The empty string and a string with nothing to keep are palindromes under this rule.
 
+![Palindrome Check That Skips Punctuation (LeetCode-style: Valid Palindrome)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-7-palindrome-skips-punctuation.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 7.*
+
 ## Largest Container (LeetCode-style: Container With Most Water)
 
 You are given the heights of vertical lines, one per index, standing on a shared baseline. Pick two lines. The container they form has width equal to the distance between their indexes and height equal to the shorter line. Return the largest area. The heights below are exercise numbers, not a surveyed dock.
@@ -307,6 +335,10 @@ Moving the taller side is the usual bug. That taller side might be the short sid
 **Interview.** Define the area as width times the shorter height before any code. Say why the shorter side is the one that moves, and say the equal-height tie in the same breath. Give the one-line and empty inputs as 0. Separate this problem from trapping rain water if the interviewer says "water" without drawing the rectangle.
 
 **Recap.** The best container is an inward scan that always abandons the shorter line, because that line cannot do better with a narrower partner. Equal heights can move either side. The scan is linear and uses constant extra memory. The answer is one rectangle, not the sum of water trapped above every index.
+
+![Largest Container (LeetCode-style: Container With Most Water)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-8-largest-container.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 8.*
 
 ## Shift Zeros to the End (LeetCode-style: Move Zeroes)
 
@@ -353,6 +385,10 @@ The pass is O(n) time and O(1) extra memory. A list that is all zeros, or that c
 
 **Recap.** A reader scans every slot and a writer receives the nonzeros in the order they appear. Zeros end up behind the writer. The pass is linear and uses constant extra memory. Swapping from the two ends also gathers the zeros, and it does not keep the other values in order.
 
+![Shift Zeros to the End (LeetCode-style: Move Zeroes)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-9-shift-zeros.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 9.*
+
 ## Next Lexicographical Sequence (LeetCode-style: Next Permutation)
 
 Rearrange the characters of a string into the next arrangement in dictionary order. If the string is already the last arrangement, return the first one, the characters in nondecreasing order.
@@ -394,6 +430,10 @@ The scans are O(n). A Python string is immutable, so the function copies it into
 
 **Recap.** The next arrangement is the one that increases the rightmost position that can still increase, then leaves the suffix in the smallest order. Find that pivot from the right, swap it with the rightmost strictly larger successor, and reverse the suffix. If there is no pivot, reverse the whole string. The work is linear, plus a list copy when the input is a Python string.
 
+![Next Lexicographical Sequence (LeetCode-style: Next Permutation)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-10-next-lexicographical-sequence.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 10.*
+
 ## Skipping duplicates after a sort
 
 After a sort, equal values sit next to each other, so a duplicate is a neighbor comparison instead of a search.
@@ -427,6 +467,10 @@ The same neighbor rule is how the pattern grows past three values. Sort once. To
 **Interview.** Say "duplicates are adjacent, so I skip equals as I go" rather than "I will unique it at the end." Name the sites you skip. Say the positive-value stop is about the target, not about duplicates. If the interviewer asks about four values, describe the extra fixed index and the same inner pair scan, and give the time as O(n^3) after the sort.
 
 **Recap.** Sorting puts copies side by side, so uniqueness is a neighbor test at the fixed index and at both inner indexes after a hit. A set of tuples also deduplicates, and it hides the cost. The same reduction, fix one value and scan the rest, is how the pair scan answers sums of more than three values. The sort's extra list is the memory, and the scans dominate the time.
+
+![Skipping duplicates after a sort](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-11-skipping-duplicates.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 11.*
 
 ## Two pointers, a hash map, or brute force
 
@@ -484,3 +528,7 @@ Some problems in this topic are not pair-sum problems, so the hash map is not a 
 **Interview.** Start from the constraint in the sentence, not from a favorite loop. Sorted, or safe to sort, and constant memory: two pointers, and say which end moves. Unsorted, original indexes, pair complement: hash map, and say you insert after the check. Contiguous sum: sliding window. Cycle in a list: Floyd. Then give both costs, time and extra memory, including the sort if you introduced one. Offer the nested loop as the check you would run on a tiny input.
 
 **Recap.** Two pointers are the linear, constant-memory scan when order or symmetry lets a move delete whole groups of candidates. A hash map is the linear, extra-memory scan when the question is an unsorted complement and the original indexes matter. A nested loop is the correct baseline you name first. Palindromes, containers, compaction, and next arrangements stay on two pointers even though a hash map solves pair sums, because those problems are not complement lookups.
+
+![Two pointers, a hash map, or brute force](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-12-two-pointers-hash-map-or-brute-force.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 12.*
