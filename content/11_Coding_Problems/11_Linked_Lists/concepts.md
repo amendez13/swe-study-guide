@@ -48,6 +48,10 @@ print(save_then_cut(from_list([4, 1, 7])))
 
 **Recap.** The work is following or rewriting links, and a link you overwrite without saving is gone. Random access is a walk. Inserting after a node you hold is a few assignments, and deleting that node is a few assignments when it has `prev`. Copying into a list buys indexes and spends linear memory. The mechanics of the node itself stay on the Data Structures cards linked above.
 
+![Linked-list problems are pointer rewiring](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-1-pointer-rewiring.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 1.*
+
 ## A dummy head when the head can change
 
 A dummy head is an extra node placed in front of the real first node, so the head is no longer a special case.
@@ -103,6 +107,10 @@ Index 0 removes `4` and the returned head is `1`. Index 2 removes `7` through th
 **Interview.** Say "the head might change, so I want every node to have a predecessor." Write the return of `dummy.next` before the loop. Give the empty list, the one-node list, and a removal of the first node as the three inputs that justify the dummy. If the head cannot change, say so and skip the allocation.
 
 **Recap.** A dummy node stands in front of the list so unlinking the first node is the same assignment as unlinking any other node. The value the caller needs is `dummy.next`. Empty in, empty out, and a removal of the only node, both fall out of that return.
+
+![A dummy head when the head can change](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-2-dummy-head.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 2.*
 
 ## A fixed gap between two node pointers
 
@@ -177,6 +185,10 @@ For k = 2 the predecessor is `5` and the target is `1`, from either the gap or t
 
 **Recap.** Keep two references k nodes apart. When the leader sits on the last node, the trailer sits on the predecessor of the kth-last node. Counting the length and walking `length - k` lands on that same predecessor in a second walk. k equal to the length means the predecessor is the dummy.
 
+![A fixed gap between two node pointers](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-3-fixed-gap.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 3.*
+
 ## A hash map plus a doubly linked list
 
 A hash map plus a doubly linked list is the pairing you use when one structure cannot answer every operation in constant time.
@@ -237,6 +249,10 @@ Unlink `4` first, then append it in front of the tail sentinel. The assignments 
 **Interview.** Say the sentence "the map finds the node, the list orders it." Name the two sentinels before you write `prev.next`. Say that an update moves and overwrites and does not evict, and that the evicted key has to leave the map in the same step that unlinks the node. Offer `OrderedDict.move_to_end` as the library version, then write the links if the interviewer wants them.
 
 **Recap.** A map gives key-to-node lookup. A doubly linked list with sentinels gives unlink and move-to-recent once the node is in hand. Together they are an exact LRU. Either structure alone scans. The key and the node are removed together.
+
+![A hash map plus a doubly linked list](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-4-hash-map-plus-doubly-linked-list.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 4.*
 
 ## Reverse a Singly Linked List (LeetCode-style: Reverse Linked List)
 
@@ -326,6 +342,10 @@ Both correct forms turn `4, 1, 7` into `7, 1, 4`. The empty list and the single 
 
 **Recap.** Save `next`, point the current node at the reversed prefix, and advance. The new head is the old tail. Recursion reverses the tail first and has to clear the old forward link, or the two nodes cycle. Iteration uses constant extra memory. Recursion uses a frame per node and can hit the default recursion limit on a list the published problem still allows.
 
+![Reverse a Singly Linked List (LeetCode-style: Reverse Linked List)](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-5-reverse-singly-linked-list.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 5.*
+
 ## Remove the Kth Last Node (LeetCode-style: Remove Nth Node From End of List)
 
 Remove the kth node from the end of a singly linked list and return the head. The head you return may be a different node from the one you were given.
@@ -404,6 +424,10 @@ k = 2 removes `1`, the second node from the end. k = 5 removes the head `8`, and
 **Interview.** Ask whether k is inside the list. Write the dummy, then the leader's k steps, then the joint walk that stops while `lead.next` exists. Say out loud what k = length does: the trailer never leaves the dummy, and the returned head changes. Walk k = 2 on a five-node list you can draw. If the interviewer asks for one pass, the gap is that pass. Offer the length count as the explanation of the same predecessor.
 
 **Recap.** A leader that starts k nodes ahead, and stops on the last node, leaves the trailer on the predecessor of the kth-last node. The dummy is that predecessor when the head itself is removed. Counting the length first finds the same node in a second walk. k outside the list is a question to ask. The published problem promises it will not happen.
+
+![Remove the Kth Last Node (LeetCode-style: Remove Nth Node From End of List)](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-6-remove-kth-last-node.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 6.*
 
 ## The Node Two Lists Share (LeetCode-style: Intersection of Two Linked Lists)
 
@@ -529,6 +553,10 @@ The switch and the length alignment are O(n + m) time and O(1) extra memory in t
 
 **Recap.** Two references that switch lists at the end cover the same number of nodes and meet at the shared node, or at `None`. A length difference followed by a lockstep walk, and a set of node identities, return that same node. Equal values are a different question. Replacing `None` with the other head before the loop sees it keeps the walk running.
 
+![The Node Two Lists Share (LeetCode-style: Intersection of Two Linked Lists)](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-7-node-two-lists-share.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 7.*
+
 ## Least-Recently-Used Cache (LeetCode-style: LRU Cache)
 
 Build a cache with a fixed capacity. `get(key)` returns the stored value, or `None` if the key is absent, and marks the key as just used. `put(key, value)` inserts or overwrites. When a new key would exceed the capacity, the key that was used least recently is evicted. Both operations run in expected constant time.
@@ -633,6 +661,10 @@ Each call is expected O(1) time. The collision worst case is O(capacity). Memory
 
 **Recap.** The map finds the node and the doubly linked sentinels order it. Get and an overwrite move the node to the newest end and do not evict. A new key over capacity unlinks the oldest node and deletes its key. The miss is `None`. A library ordered dict hides the same links.
 
+![Least-Recently-Used Cache (LeetCode-style: LRU Cache)](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-8-lru-cache.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 8.*
+
 ## A List That Reads the Same Both Ways (LeetCode-style: Palindrome Linked List)
 
 Decide whether the values of a singly linked list read the same from the head and from the tail.
@@ -708,6 +740,10 @@ print(check([4]), check([]), check([4, 4]), check([4, 1]), check([-1, 0, -1]))
 **Interview.** Offer the array first and state the memory. If the interviewer asks for constant extra memory, name middle, reverse, compare, restore. Say where the slow reference lands on an odd length and on an even length. Ask whether the list must come back unchanged. Give the empty list and the single node as true.
 
 **Recap.** The constant-memory check reverses the second half, compares it with the first, and reverses it back. The middle finder puts the center on the reversed side for an odd length, and the compare stops at the end of that side. The array version is linear memory and the same answer. The caller's order survives only if you restore it.
+
+![A List That Reads the Same Both Ways (LeetCode-style: Palindrome Linked List)](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-9-palindrome-linked-list.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 9.*
 
 ## Flatten Child Lists One Level at a Time
 
@@ -805,6 +841,10 @@ The deep structure is `10 -> 20 -> 30`, with `40 -> 50` under `10`, `70` under `
 
 **Recap.** Appending each child chain at the current tail, then scanning into that chain, emits one level after another and clears `child`. Inserting the child between a node and its `next` emits the depth-first order LeetCode 430 asks for, and that problem also keeps `prev` consistent. Both walks are linear and use constant extra memory. The three-node shape is enough to see which order you implemented.
 
+![Flatten Child Lists One Level at a Time](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-10-flatten-child-lists-by-level.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 10.*
+
 ## A rewiring, a gap, a map, or a copy
 
 The choice follows the operation the statement actually asks for, and the memory it allows.
@@ -901,3 +941,7 @@ The five-node removal really does advance 5 times in the gap and 8 times in the 
 **Interview.** Start from the sentence, not from a favorite loop. Head might change: dummy. K from the end: gap, or length if you want the arithmetic visible. Same node: switch or identities, and say you compared objects. O(1) get and put: map plus doubly linked sentinels. Palindrome with constant memory: middle, reverse, compare, restore. Then give empty, one node, and the operation on the head. Mention the cycle you create if a reversed `next` is left pointing forward.
 
 **Recap.** Copying to a list is the linear-memory baseline. A dummy and a rewiring stay in place when the head can change. A gap and a length count both find the kth-last predecessor in linear time. A shared node is identity, and a cache is a map plus a doubly linked list. Empty, one node, and removing the head are the inputs that check the return value.
+
+![A rewiring, a gap, a map, or a copy](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-11-rewiring-gap-map-or-copy.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 11.*
