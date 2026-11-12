@@ -39,9 +39,9 @@ for name, sample in (("quiet", QUIET), ("loaded", LOADED)):
 # 2.336 41.7 False True False
 ```
 
-![The Stall in the Stream](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-1-stall-in-the-stream.png)
+![The Stall in the Stream](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-1-stall-in-the-stream.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 1.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 1.*
 
 ## Thirty-Two Thousand Tokens
 
@@ -79,9 +79,9 @@ for peak in PEAKS:
 # 83.7 False
 ```
 
-![Thirty-Two Thousand Tokens](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-2-thirty-two-thousand-tokens.png)
+![Thirty-Two Thousand Tokens](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-2-thirty-two-thousand-tokens.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 2.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 2.*
 
 ## The Overnight Queue
 
@@ -116,9 +116,9 @@ print(f"{bill(OVERNIGHT + URGENT):.2f} {mixed:.2f}")
 # 593.34 301.34
 ```
 
-![The Overnight Queue](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-3-overnight-queue.png)
+![The Overnight Queue](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-3-overnight-queue.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 3.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 3.*
 
 ## One Hundred Forty Tokens
 
@@ -158,9 +158,9 @@ print(f"{1 / SLO_TPS * 1e3:.1f}")
 # 7.1
 ```
 
-![One Hundred Forty Tokens](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-4-one-hundred-forty-tokens.png)
+![One Hundred Forty Tokens](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-4-one-hundred-forty-tokens.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 4.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 4.*
 
 ## Which Draft
 
@@ -201,9 +201,9 @@ for name, alpha, gamma, cost in (
 # 2.47 2.13 True
 ```
 
-![Which Draft](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-5-which-draft.png)
+![Which Draft](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-5-which-draft.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 5.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 5.*
 
 ## The Tool List First
 
@@ -249,9 +249,9 @@ print(f"{twice_plain:.4f} {twice_cached:.4f} {twice_plain - twice_cached:.4f}")
 # 0.0720 0.0486 0.0234
 ```
 
-![The Tool List First](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-6-tool-list-first.png)
+![The Tool List First](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-6-tool-list-first.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 6.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 6.*
 
 ## Four GPUs, One Suggestion
 
@@ -288,9 +288,9 @@ print(f"{untaxed_ms:.1f} {SLO_MS / untaxed_ms:.2f}")
 # 10.5 2.37
 ```
 
-![Four GPUs, One Suggestion](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-7-four-gpus-one-suggestion.png)
+![Four GPUs, One Suggestion](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-7-four-gpus-one-suggestion.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 7.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 7.*
 
 ## Four Tokens a Second
 
@@ -325,6 +325,6 @@ print(RESIDENT_GIB < WEIGHTS / 1024**3)
 # True
 ```
 
-![Four Tokens a Second](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-8-four-tokens-a-second.png)
+![Four Tokens a Second](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills-8-four-tokens-a-second.png)
 
-*Source: [`diagrams/inference-optimization-drills.drawio`](/content/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 8.*
+*Source: [`diagrams/inference-optimization-drills.drawio`](/content/10_AI_Engineering/09_Inference_Optimization/diagrams/inference-optimization-drills.drawio), page 8.*

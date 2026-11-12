@@ -34,9 +34,9 @@ print(COSINE >= THRESHOLD, serve_cached(COSINE, CACHED, ASKED))
 # True False
 ```
 
-![The Other Order](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-1-the-other-order.png)
+![The Other Order](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-1-the-other-order.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 1.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 1.*
 
 ## Already on the Screen
 
@@ -74,9 +74,9 @@ print(seen, finished, guard_done, guard_done - seen)
 # 1670 4070 4270 2600
 ```
 
-![Already on the Screen](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-2-already-on-the-screen.png)
+![Already on the Screen](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-2-already-on-the-screen.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 2.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 2.*
 
 ## The Easy Label
 
@@ -106,9 +106,9 @@ print(TO_SMALL + TO_LARGE == HARD, f"{delivered:.4f}", f"{LARGE_SCORE:.2f}")
 # True 0.4765 0.91
 ```
 
-![The Easy Label](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-3-the-easy-label.png)
+![The Easy Label](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-3-the-easy-label.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 3.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 3.*
 
 ## The Provider Is Down
 
@@ -137,9 +137,9 @@ print(parsed, malformed, automatic_refunds, status_answered)
 # 310 190 0 800
 ```
 
-![The Provider Is Down](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-4-the-provider-is-down.png)
+![The Provider Is Down](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-4-the-provider-is-down.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 4.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 4.*
 
 ## Thumbs Moved, the Eval Did Not
 
@@ -190,9 +190,9 @@ print(before[1] < after[0], f"{difference_z(BEFORE, AFTER):.2f}")
 # True 12.89
 ```
 
-![Thumbs Moved, the Eval Did Not](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-5-thumbs-moved-eval-did-not.png)
+![Thumbs Moved, the Eval Did Not](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-5-thumbs-moved-eval-did-not.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 5.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 5.*
 
 ## They Asked for Another
 
@@ -221,9 +221,9 @@ print(f"{REGENERATE / CONVERSATIONS:.2f} {ACCEPT_SECOND / REGENERATE:.4f} {ABAND
 # 0.22 0.6818 0.3182
 ```
 
-![They Asked for Another](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-6-they-asked-for-another.png)
+![They Asked for Another](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-6-they-asked-for-another.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 6.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 6.*
 
 ## The Thumb Likes Agreement
 
@@ -250,9 +250,9 @@ print(AGREE_AFTER > AGREE_BEFORE)
 # True
 ```
 
-![The Thumb Likes Agreement](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-7-the-thumb-likes-agreement.png)
+![The Thumb Likes Agreement](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-7-the-thumb-likes-agreement.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 7.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 7.*
 
 ## Where the Second Went
 
@@ -294,6 +294,6 @@ print(
 # 1265 0.5059 0.3004 0.6719
 ```
 
-![Where the Second Went](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-8-where-the-second-went.png)
+![Where the Second Went](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills-8-where-the-second-went.png)
 
-*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 8.*
+*Source: [`diagrams/ai-engineering-architecture-drills.drawio`](/content/10_AI_Engineering/10_AI_Engineering_Architecture_and_User_Feedback/diagrams/ai-engineering-architecture-drills.drawio), page 8.*
