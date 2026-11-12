@@ -8,7 +8,7 @@ On one array the same idea shows up in three shapes. Inward traversal puts an in
 
 You reach for it when the data is linear and either already ordered, symmetric, or being compacted in place, or when the answer is a pair (or a pair plus one fixed value). A nested loop is the honest first answer: compare every pair, which is proportional to the square of the length. Two pointers replace that nest only when a move has a proof that the skipped pairs are useless. Floyd's cycle scan, on the [Cycle detection with Floyd's algorithm](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card, and the [Sliding window](../06_Moderate_Problems/) card are also two indexes, with different rules. They are separate patterns.
 
-**Trade-offs.** Two indexes use a constant amount of extra memory and one pass, once the order or the symmetry is real. Sorting first, so that the discard becomes legal, costs the sort. A hash map answers an unsorted pair question in one pass and keeps the original indexes, and it spends memory proportional to the input. The nested loop spends no extra memory and needs no order, and it does not scale. On a pair search, moving both indexes after one comparison can drop a pair the rule has not rejected.
+**Trade-offs.** Two indexes use a constant amount of extra memory and one pass, once the order or the symmetry is real. Sorting first, so that the discard becomes legal, costs the sort. A hash map answers an unsorted pair question in one expected linear pass and keeps the original indexes, and it spends memory proportional to the input. The nested loop spends no extra memory and needs no order, and it does not scale. On a pair search, moving both indexes after a miss can drop a pair the rule has not rejected.
 
 **Interview.** Say "index" before you say "pointer," so nobody thinks you mean a C address. Name which shape you are using, inward, reader and writer, or staged, and say the sentence that makes a move safe. If the input is not sorted and the problem does not give you symmetry, say so and switch to the [Unsorted pair-sum with a hash set](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card or to a sort you account for. Mention that a sliding window and a fast/slow cycle check are neighboring patterns, then stay on the one this problem is.
 
@@ -49,7 +49,7 @@ The [Sort, then scan](../06_Moderate_Problems/) card is the neighboring tool whe
 
 **Trade-offs.** The scan itself is O(n) time and O(1) extra memory. If the array is not sorted yet, the sort dominates: O(n log n) time, and `sorted` builds a second list, so the extra memory grows with the input. A hash map is the better pair search when the array is unsorted and you need the original indexes. Inward traversal is the better pair search when the array is already sorted and extra memory is tight.
 
-**Interview.** Write `left < right` before the body. Then say which comparison moves which index, and name one pair the move deletes. Equal sums are a hit; do not move both indexes unless the problem asked for every pair and you have a duplicate rule. If the interviewer removes the sorted guarantee, stop and change the algorithm.
+**Interview.** Write `left < right` before the body. Then say which comparison moves which index, and name one pair the move deletes. An equal sum is a hit. Return it when any one pair is enough. When the problem wants every pair, move both indexes after the hit, and skip equal neighbors when values can repeat. Moving both indexes on a miss can drop a pair you have not rejected. If the interviewer removes the sorted guarantee, stop and change the algorithm.
 
 **Recap.** Inward traversal keeps a window on a sorted or symmetric sequence and shrinks it from the end that cannot hold the answer. Because the ends are the extreme values, one comparison deletes every pair that used the rejected index. The loop stops when the indexes meet, and it never uses one index as both members of a pair.
 
@@ -73,10 +73,12 @@ def keep_at_least(values: list[int], floor: int) -> list[int]:
 
 
 print(keep_at_least([1, 4, 2, 8, 3], 3))
+print(keep_at_least([1, 2], 3))
 # [4, 8, 3]
+# []
 ```
 
-`4`, `8`, and `3` stay in the order the reader met them. `1` and `2` never get a write. Deleting the tail makes the list's length match the number of kept values. If you return the length and leave the tail in place, the caller has to ignore it; the write-pointer drill on the arrays topic is that leftover.
+`4`, `8`, and `3` stay in the order the reader met them. `1` and `2` never get a write. Deleting the tail makes the list's length match the number of kept values. If no value passes the test, the writer stays at 0 and the deletion empties the list. If you return the length and leave the tail in place, the caller has to ignore it. The [Write pointer: what is left behind?](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) drill is that leftover.
 
 A second same-direction shape walks two already sorted sequences and advances the side whose current value is smaller. That is the merge `comm` and a PostgreSQL merge join are doing, and it is the [Merging two sorted lists](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card for nodes. When the destination is the first array and it has spare slots at the end, both indexes start at the back so a write cannot cover a value that has not been read. That variant is a drill on this topic.
 
@@ -143,15 +145,17 @@ print(pair_sum_sorted([1, 3, 4, 7, 9, 12], 11))
 print(pair_sum_sorted([1, 3, 4, 7, 9, 12], 2))
 print(pair_sum_sorted([1, 4, 4, 9], 8))
 print(pair_sum_sorted([4], 8))
+print(pair_sum_sorted([5, 5], 10), pair_sum_sorted([-5, -2, 0, 3, 6], 1), pair_sum_sorted([], 0))
 # (2, 3)
 # ()
 # (1, 2)
 # ()
+# (0, 1) (0, 4) ()
 ```
 
-`4 + 7` is the hit, at indexes 2 and 3. Target 2 never hits, because the smallest sum in that list is `1 + 3`. `[4, 4]` may contribute both indexes to a target of 8: they are different positions, even though the values match. A one-element list cannot, because `left < right` fails immediately. The same guard answers a target of `10` on `[5, 5]` with `(0, 1)`, and it refuses `[5]` with a target of `10`.
+`4 + 7` is the hit, at indexes 2 and 3. Target 2 never hits, because the smallest sum in that list is `1 + 3`. `[4, 4]` may contribute both indexes to a target of 8: they are different positions, even though the values match. A one-element list cannot, because `left < right` fails immediately. The same guard answers a target of `10` on `[5, 5]` with `(0, 1)`, and it refuses `[5]` with a target of `10`. An empty list returns an empty result the same way. The moves follow sorted order, so negatives and zero are legal. On the exercise list `[-5, -2, 0, 3, 6]`, target `1` is `-5 + 6` at indexes `(0, 4)`. LeetCode 167, Two Sum II, is this search with 1-based indexes and a promise that one pair exists. This card stays 0-based and returns an empty result when none does.
 
-The scan is O(n) time and O(1) extra memory. The sort is not part of the bill, because the problem handed you a sorted array. A hash map still works and still takes one pass, and it spends extra memory proportional to the length, which throws away the only hint the statement gave you.
+The scan is O(n) time and O(1) extra memory. The sort is not part of the bill, because the problem handed you a sorted array. A hash map still works and still takes one expected linear pass, and it spends extra memory proportional to the length, which throws away the only hint the statement gave you. Python's `int` grows, so the sum stays exact. A fixed-width addition can wrap, which is the [Overflow-safe arithmetic](../06_Moderate_Problems/) card.
 
 **Trade-offs.** Two pointers use the sorted order and a constant amount of memory. A hash map uses more memory and does not need the order, so it is the tool on the unsorted card, not this one. A double loop is fine for a dozen elements and is the thing you name before you optimize. Returning indexes into a freshly sorted copy is a different problem: those indexes are not the caller's indexes.
 
@@ -195,12 +199,14 @@ def zero_sum_triplets(values: list[int]) -> list[tuple[int, int, int]]:
 print(zero_sum_triplets([-4, -1, -1, 0, 1, 2, 2]))
 print(zero_sum_triplets([0, 0, 0]))
 print(zero_sum_triplets([1, 2, 3]))
+print(zero_sum_triplets([]), zero_sum_triplets([-3, -2, -1]))
 # [(-4, 2, 2), (-1, -1, 2), (-1, 0, 1)]
 # [(0, 0, 0)]
 # []
+# [] []
 ```
 
-Once the fixed value is greater than zero, stop. The array is sorted, so everything to its right is at least that large, and three positive numbers cannot add to zero. Do not stop on zero itself: `[0, 0, 0]` is a real triplet. `[1, 2, 3]` stops on the first value.
+Once the fixed value is greater than zero, stop. The array is sorted, so everything to its right is at least that large, and three positive numbers cannot add to zero. Do not stop on zero itself: `[0, 0, 0]` is a real triplet. `[1, 2, 3]` stops on the first value. Fewer than three values returns an empty list. So does a list that is entirely negative, such as the exercise list `[-3, -2, -1]`, because every sum stays negative. Python's `int` grows. A fixed-width sum of three values can wrap even when each input fits, which is the same overflow caveat as the pair-sum card.
 
 The inner scan is linear and it runs once per index, so the time is O(n^2). `sorted` allocates a new list, so the extra memory is O(n) before you count the output. The output itself can grow with the square of the input when many distinct triplets hit zero. A set of tuples would also remove duplicates, and it hides a hash cost plus storage for every accepted triplet. The adjacent skips do the same filtering while the scan is already walking the sorted list.
 
@@ -251,11 +257,13 @@ def unicode_palindrome(text: str) -> bool:
 
 print(is_palindrome("7, level, 7"), is_palindrome("ab!"), is_palindrome("!!!"), is_palindrome(""))
 print(is_palindrome("A b, a"), is_palindrome("éa"), unicode_palindrome("éa"))
+print(is_palindrome("a"), is_palindrome("!a!"))
 # True False True True
 # True True False
+# True True
 ```
 
-`"7, level, 7"` compares `7` with `7`, `l` with `l`, `e` with `e`, and `v` with itself. `"ab!"` compares `a` with `b` and rejects. `"!!!"` and the empty string never find a mismatch, so they count as palindromes: there is no pair of kept characters that disagrees. The inner skips also test `left < right`. Without that test, a string of punctuation walks `left` off the end and raises `IndexError`.
+`"7, level, 7"` compares `7` with `7`, `l` with `l`, `e` with `e`, and `v` with itself. `"ab!"` compares `a` with `b` and rejects. `"!!!"` and the empty string never find a mismatch, so they count as palindromes: there is no pair of kept characters that disagrees. A single kept character, as in `"a"` or `"!a!"`, is a palindrome for the same reason. The inner skips also test `left < right`. Without that test, a string of punctuation walks `left` off the end and raises `IndexError`.
 
 Python's `str.isalnum` is a different predicate. It is true for Unicode letters such as `"é"`. On the exercise string `"éa"`, the ASCII test ignores `é` and sees a single `a`, which is a palindrome. The Unicode test keeps both characters, and `"é"` does not equal `"a"`. Ask which alphabet you are supposed to keep before you call `isalnum`. Also ask about case. This card folds with `str.lower`. A problem that treats `"A"` and `"a"` as different is a one-line change, and it is a change you want to confirm.
 
@@ -286,11 +294,11 @@ def largest_container(heights: list[int]) -> int:
     return best
 
 
-print(largest_container([2, 7, 4, 3, 8]), largest_container([1, 1]), largest_container([5]))
-# 21 1 0
+print(largest_container([2, 7, 4, 3, 8]), largest_container([1, 1]), largest_container([5]), largest_container([]))
+# 21 1 0 0
 ```
 
-On `[2, 7, 4, 3, 8]`, the ends are height 2 and height 8, four units apart, area 8. The left line is shorter, so it moves. The next pair is 7 and 8, three apart, area 21. Every later pair is smaller. A brute-force check of the same list also returns 21. Two lines of height 1, one unit apart, hold area 1. One line cannot form a container, so the result is 0.
+On `[2, 7, 4, 3, 8]`, the ends are height 2 and height 8, four units apart, area 8. The left line is shorter, so it moves. The next pair is 7 and 8, three apart, area 21. Every later pair in the scan is smaller. A brute-force check of the same list also returns 21. Two lines of height 1, one unit apart, hold area 1. One line cannot form a container, and neither can an empty list, so both results are 0. Heights in this problem are non-negative, which is also the constraint on LeetCode 11. `best` starts at 0, so a list of zeros returns 0. A negative height is outside the problem: its area is negative and would lose to that initial 0. Python's product grows. A fixed-width product of the width and the height can wrap, which is the [Overflow-safe arithmetic](../06_Moderate_Problems/) card.
 
 Moving the taller side is the usual bug. That taller side might be the short side of a wider pair you have not finished with. Trapping rain water is a different quantity: it asks how much water sits above every position, given taller lines somewhere on both sides, not the single rectangle between the two chosen lines.
 
@@ -329,13 +337,15 @@ def push_zeros_from_the_ends(values: list[int]) -> list[int]:
 
 print(shift_zeros([4, 0, 0, 2, 0, 5]))
 print(push_zeros_from_the_ends([4, 0, 0, 2, 0, 5]))
+print(shift_zeros([-1, 0, -2, 0, 3]), shift_zeros([0, 0]), shift_zeros([]))
 # [4, 2, 5, 0, 0, 0]
 # [4, 5, 2, 0, 0, 0]
+# [-1, -2, 3, 0, 0] [0, 0] []
 ```
 
 The reader/writer result keeps `4`, `2`, `5` in that order. The inward swap also ends with the zeros at the end, and it puts `5` before `2`. That is a legal compaction only if the problem does not care about order. This problem does. A new list with the nonzeros followed by the right number of zeros is easier, and it is not in place.
 
-The pass is O(n) time and O(1) extra memory. A list that is all zeros, or that contains no zeros, is unchanged. Swapping an element with itself, when the reader and the writer sit on the same nonzero, is a no-op in Python, so a leading nonzero is safe.
+The pass is O(n) time and O(1) extra memory. A list that is all zeros, or that contains no zeros, is unchanged. Only an exact zero moves. On the exercise list `[-1, 0, -2, 0, 3]`, the kept order is `-1`, `-2`, `3`. Swapping an element with itself, when the reader and the writer sit on the same nonzero, is a no-op in Python, so a leading nonzero is safe. An empty list stays empty.
 
 **Trade-offs.** The in-place swap keeps order and uses constant extra memory. A second list keeps order and uses memory proportional to the length, which fails an in-place constraint. An inward swap uses constant memory and scrambles the nonzeros. Overwriting the tail with zeros in a second loop, instead of swapping, also keeps order; the swap version does that work inside the same pass because the displaced zero stays behind the writer.
 
@@ -370,11 +380,11 @@ def next_sequence(text: str) -> str:
     return "".join(chars)
 
 
-print(next_sequence("bac"), next_sequence("cba"), next_sequence("1322"), next_sequence("a"))
-# bca abc 2123 a
+print(next_sequence("bac"), next_sequence("cba"), next_sequence("1322"), next_sequence("a"), next_sequence("aA"), repr(next_sequence("")))
+# bca abc 2123 a Aa ''
 ```
 
-`"1322"` shows the duplicate trap. The pivot is the leading `1`. The rightmost character larger than `1` is the final `2`, not the `3`. Swap to `"2321"`, then reverse the suffix to `"2123"`. Swapping with the `3` and then reversing the suffix produces `"3221"`, which skips `"2123"`. A string with no pivot, such as `"cba"`, reverses as a whole. A one-character string is already both the first and the last arrangement.
+`"1322"` shows the duplicate trap. The pivot is the leading `1`. The rightmost character larger than `1` is the final `2`, not the `3`. Swap to `"2321"`, then reverse the suffix to `"2123"`. Swapping with the `3` and then reversing the suffix produces `"3221"`, which skips `"2123"`. A string with no pivot, such as `"cba"`, reverses as a whole. A one-character string is already both the first and the last arrangement. An empty string stays empty. LeetCode 31, Next Permutation, runs these steps in place on an array of integers. This card returns a new string because a Python string cannot be edited in place. The order is character-code order. Digits, and letters in a single case, match ordinary dictionary order. Mixed case follows the codes, so `"A"` comes before `"a"`.
 
 The scans are O(n). A Python string is immutable, so the function copies it into a list, which is O(n) extra memory. The same steps on a list the caller owns can mutate that list with O(1) extra memory.
 
@@ -465,7 +475,7 @@ print(comparisons([1, 2, 4, 7, 11, 16, 22, 29], 31))
 # (2, 13, 8)
 ```
 
-On this list the inward scan adds twice, the double loop adds 13 times, and the hash map looks at 8 values before it sees 29. A different target moves those counts around. The bounds do not: linear for the inward scan on sorted input, quadratic for the nested loop, expected linear for the hash map. Sorting an unsorted array so you can run the inward scan costs O(n log n) time and, with `sorted`, a new list. It also changes indexes unless you sort `(value, index)` pairs and return the stored indexes. If you needed those original indexes, the hash map was the direct tool.
+On this list the inward scan adds twice and stops on `2 + 29`. The double loop also stops at the first hit, after 13 additions. Eight values have 28 pairs, and this run stops early. The hash map examines 8 values, and the eighth is 29, whose complement 2 is already stored. A different target moves those counts around. The bounds do not: linear for the inward scan on sorted input, quadratic for the nested loop, expected linear for the hash map. Sorting an unsorted array so you can run the inward scan costs O(n log n) time and, with `sorted`, a new list. It also changes indexes unless you sort `(value, index)` pairs and return the stored indexes. If you needed those original indexes, the hash map was the direct tool.
 
 Some problems in this topic are not pair-sum problems, so the hash map is not a competitor. The palindrome check needs symmetry. The container needs index distance, and sorting the heights would throw the widths away. The zero shift needs a writer. The next arrangement needs the staged suffix proof. A sliding window, on the [Sliding window](../06_Moderate_Problems/) card, is the right tool when the answer is a contiguous segment with a monotone sum. Floyd's scan is the right tool when the structure is a linked list and the question is a cycle.
 

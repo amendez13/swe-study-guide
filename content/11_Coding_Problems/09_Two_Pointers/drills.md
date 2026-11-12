@@ -6,13 +6,13 @@ Original drills for the three ways of moving two indexes: inward, reader and wri
 
 The sorted exercise list is `[1, 4, 6, 9, 12]`, and the target is 15. An inward scan returns one pair. Which index pairs does it actually add, which index pairs does it never look at, and why is skipping them safe?
 
-**Answer:** The scan adds `(0, 4)` as `1 + 12 = 13`, then `(1, 4)` as `4 + 12 = 16`, then `(1, 3)` as `4 + 9 = 13`, then `(2, 3)` as `6 + 9 = 15`. It returns indexes `(2, 3)`. The six pairs it never adds are `(0, 1)`, `(0, 2)`, `(0, 3)`, `(1, 2)`, `(2, 4)`, and `(3, 4)`. After `1 + 12` comes up short, index 0 is finished, because 12 is its largest possible partner. After `4 + 12` comes up high, index 4 is finished, because 4 is its smallest possible partner. After `4 + 9` comes up short, index 1 is finished the same way. The [Two-pointer technique](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card is the general discard. This drill is the list of pairs that discard removes. Time is O(n). Extra memory is O(1) besides the explanation you print.
+**Answer:** The scan adds `(0, 4)` as `1 + 12 = 13`, then `(1, 4)` as `4 + 12 = 16`, then `(1, 3)` as `4 + 9 = 13`, then `(2, 3)` as `6 + 9 = 15`. It returns indexes `(2, 3)`. The six pairs it never adds are `(0, 1)`, `(0, 2)`, `(0, 3)`, `(1, 2)`, `(2, 4)`, and `(3, 4)`. After `1 + 12` comes up short, index 0 is finished, because 12 is its largest possible partner. After `4 + 12` comes up high, index 4 is finished, because 4 is its smallest possible partner. After `4 + 9` comes up short, index 1 is finished the same way. A target with no pair, such as 2 on this same exercise list, returns `None`. `(0, 0)` would be the same index twice, and `left < right` never selects it. The [Two pointers: which pairs get skipped?](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) drill stops after the first move. This drill lists every pair the rest of the scan never adds. The [Two-pointer technique](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card is the general discard. Time is O(n). Extra memory is O(1) besides the explanation you print.
 
 ```python
-def trace(values: list[int], target: int) -> tuple[tuple[int, int], list[tuple[int, int, int]], list[tuple[int, int]]]:
+def trace(values: list[int], target: int) -> tuple[tuple[int, int] | None, list[tuple[int, int, int]], list[tuple[int, int]]]:
     compared: list[tuple[int, int, int]] = []
     left, right = 0, len(values) - 1
-    found = (0, 0)
+    found: tuple[int, int] | None = None
     while left < right:
         total = values[left] + values[right]
         compared.append((left, right, total))
@@ -33,9 +33,11 @@ found, compared, skipped = trace([1, 4, 6, 9, 12], 15)
 print(found)
 print(compared)
 print(skipped)
+print(trace([1, 4, 6, 9, 12], 2)[0])
 # (2, 3)
 # [(0, 4, 13), (1, 4, 16), (1, 3, 13), (2, 3, 15)]
 # [(0, 1), (0, 2), (0, 3), (1, 2), (2, 4), (3, 4)]
+# None
 ```
 
 ## A skip loop that runs off the end
@@ -109,7 +111,7 @@ print(broken_result, repaired("!!!"), repaired("ab!"))
 
 A sorted exercise log is `[2, 2, 2, 5, 8, 8]`. Drop repeated readings in place and return the new length. What is that length, what does the kept prefix hold, and what does the rest of the list still contain?
 
-**Answer:** The length is 3 and the prefix is `[2, 5, 8]`. The writer starts at 1, because the first reading is always kept. The reader copies a value only when it differs from the last kept one. The tail is stale: the full list is `[2, 5, 8, 5, 8, 8]`, and only the prefix of the returned length is the answer. That leftover is the same kind of tail the write-pointer drill on [Arrays, Strings, and Hash Tables](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) already shows; the [In-place array manipulation](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card is the pattern. An empty log returns 0. Time is O(n). Extra memory is O(1). A new list of unique values is fine when the caller did not ask for in place.
+**Answer:** The length is 3 and the prefix is `[2, 5, 8]`. The writer starts at 1, because the first reading is always kept. The reader copies a value only when it differs from the last kept one. The tail is stale: the full list is `[2, 5, 8, 5, 8, 8]`, and only the prefix of the returned length is the answer. That leftover is the same kind of tail as the [Write pointer: what is left behind?](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) drill. The [In-place array manipulation](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card is the pattern. An empty log returns 0. A one-element log returns 1 and leaves that element in place. Time is O(n). Extra memory is O(1). A new list of unique values is fine when the caller did not ask for in place.
 
 ```python
 def collapse_sorted(values: list[int]) -> int:
@@ -127,18 +129,22 @@ data = [2, 2, 2, 5, 8, 8]
 length = collapse_sorted(data)
 print(length, data[:length], data)
 print(collapse_sorted([]))
+print(collapse_sorted([7]))
 # 3 [2, 5, 8] [2, 5, 8, 5, 8, 8]
 # 0
+# 1
 ```
 
 ## Closest pair sum
 
 The sorted exercise list is `[1, 3, 5, 8, 12]`. Which two values have a sum closest to 18, and which pair do you keep when the target is 16 and two sums are equally close?
 
-**Answer:** For 18 the pair is 5 and 12, summing to 17. For 16 both `3 + 12 = 15` and `5 + 12 = 17` are one away from the target. Keep the first pair whose absolute difference is strictly smaller than the best so far, so 15 stays and 17 does not replace it. The scan is the inward pair search with a best-so-far. A sum under the target still moves the left index, and a sum over the target still moves the right index, because that is the move that can get closer. An exact hit can stop. Time is O(n) on a sorted list, or O(n log n) if you had to sort first. Extra memory is O(1) after the sort. A double loop finds the same pair and is the check on a short list.
+**Answer:** For 18 the pair is 5 and 12, summing to 17. For 16 both `3 + 12 = 15` and `5 + 12 = 17` are one away from the target. Keep the first pair whose absolute difference is strictly smaller than the best so far, so 15 stays and 17 does not replace it. The scan is the inward pair search with a best-so-far. A sum under the target still moves the left index, and a sum over the target still moves the right index, because that is the move that can get closer. An exact hit can stop. The list has to be sorted. Negatives use the same moves, because the proof is the sorted order. On the exercise list `[-5, -1, 2, 4]` with target 0, the scan keeps `(-5, 4, -1)`. Fewer than two values has no pair, so the function returns `None`. A one-element list is the case that would otherwise pair a value with itself. Time is O(n) on a sorted list, or O(n log n) if you had to sort first. Extra memory is O(1) after the sort. A double loop finds the same pair and is the check on a short list. Python's sum grows. A fixed-width sum can wrap, which is the overflow note on the pair-sum card.
 
 ```python
-def closest_pair(values: list[int], target: int) -> tuple[int, int, int]:
+def closest_pair(values: list[int], target: int) -> tuple[int, int, int] | None:
+    if len(values) < 2:
+        return None
     left, right = 0, len(values) - 1
     best = (values[left], values[right], values[left] + values[right])
     best_diff = abs(best[2] - target)
@@ -159,18 +165,24 @@ def closest_pair(values: list[int], target: int) -> tuple[int, int, int]:
 
 print(closest_pair([1, 3, 5, 8, 12], 18))
 print(closest_pair([1, 3, 5, 8, 12], 16))
+print(closest_pair([5], 10), closest_pair([], 0))
+print(closest_pair([-5, -1, 2, 4], 0))
 # (5, 12, 17)
 # (3, 12, 15)
+# None None
+# (-5, 4, -1)
 ```
 
 ## Three readings closest to a target
 
 The exercise readings are `[4, -1, 2, 7]`. Choose three of them whose sum is as close as possible to 6. What sum do you return?
 
-**Answer:** 5, from `-1 + 2 + 4`. Sort first, then fix one reading and run the inward closest-pair scan on the suffix, keeping the best sum. This is the triplet card's shape with a different goal: a closest sum, not every unique zero triplet, so duplicate skips are unnecessary. Sorting is O(n log n) time and O(n) extra memory for `sorted`. The scans are O(n^2). An exact hit can return immediately. A triple loop is the check. Do not stop early just because a fixed value is positive; that stop belongs to a zero target.
+**Answer:** 5, from `-1 + 2 + 4`. Sort first, then fix one reading and run the inward closest-pair scan on the suffix, keeping the best sum. This is the triplet card's shape with a different goal: a closest sum, not every unique zero triplet, so duplicate skips are unnecessary. Sorting is O(n log n) time and O(n) extra memory for `sorted`. The scans are O(n^2). An exact hit can return immediately. Fewer than three readings returns `None`. A triple loop is the check. The positive-fixed-value stop belongs to a zero target, so this scan keeps going while values remain.
 
 ```python
-def three_closest(values: list[int], target: int) -> int:
+def three_closest(values: list[int], target: int) -> int | None:
+    if len(values) < 3:
+        return None
     ordered = sorted(values)
     best = ordered[0] + ordered[1] + ordered[2]
     for i in range(len(ordered)):
@@ -189,14 +201,16 @@ def three_closest(values: list[int], target: int) -> int:
 
 
 print(three_closest([4, -1, 2, 7], 6))
+print(three_closest([1, 2], 0))
 # 5
+# None
 ```
 
 ## Reverse the vowels only
 
 Reverse the vowels in the exercise string `"studio"`. Treat `a`, `e`, `i`, `o`, `u` and their capitals as vowels. Leave `y` in place. What does `"rhythm"` become, and what does `"Ae"` become?
 
-**Answer:** `"studio"` becomes `"stodiu"`: the vowels were `u`, `i`, `o`, and they reverse to `o`, `i`, `u` while the consonants stay put. `"rhythm"` has no vowel under this rule, so it stays `"rhythm"`. `"Ae"` swaps the two ends and becomes `"eA"`, with the capitals staying on the characters that moved. The scan is inward, and each end skips non-vowels with the same `left < right` bound the punctuation check needs. Time is O(n). A Python string is immutable, so the extra memory is the character list, O(n). Swapping consonants, or treating `y` as a vowel, answers a different rule.
+**Answer:** `"studio"` becomes `"stodiu"`: the vowels were `u`, `i`, `o`, and they reverse to `o`, `i`, `u` while the consonants stay put. `"rhythm"` has no vowel under this rule, so it stays `"rhythm"`. `"Ae"` swaps the two ends and becomes `"eA"`, with the capitals staying on the characters that moved. The scan is inward, and each end skips non-vowels with the same `left < right` bound the punctuation check needs. An empty string and a single vowel stay as they are. Time is O(n). A Python string is immutable, so the extra memory is the character list, O(n). Swapping consonants, or treating `y` as a vowel, answers a different rule.
 
 ```python
 def reverse_vowels(text: str) -> str:
@@ -216,14 +230,16 @@ def reverse_vowels(text: str) -> str:
 
 
 print(reverse_vowels("studio"), reverse_vowels("rhythm"), reverse_vowels("Ae"))
+print([reverse_vowels(""), reverse_vowels("y"), reverse_vowels("a")])
 # stodiu rhythm eA
+# ['', 'y', 'a']
 ```
 
 ## Fill spare slots from the back
 
 The first exercise list is `[1, 4, 7, 0, 0, 0]`. Its real prefix has length 3. The second sorted list is `[2, 5, 8]`. Merge them into the first list's spare slots. A second check is `[4, 5, 6, 0, 0]` with prefix length 3 and extra values `[1, 2]`.
 
-**Answer:** The results are `[1, 2, 4, 5, 7, 8]` and `[1, 2, 4, 5, 6]`. Write from the last spare slot backward. Each step copies the larger of the two values that have not been placed yet. Starting at the front would overwrite a prefix value before it is read. When the extra list runs out, the leftover prefix is already in the right place, so the loop can stop. Time is O(m + n). Extra memory is O(1). The slot count has to be the sum of the two lengths; a short destination writes off the end. The [Merging two sorted lists](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card is the same "advance the smaller side" idea on nodes, with a sentinel instead of spare slots.
+**Answer:** The results are `[1, 2, 4, 5, 7, 8]` and `[1, 2, 4, 5, 6]`. Write from the last spare slot backward. Each step copies the larger of the two values that have not been placed yet. Starting at the front would overwrite a prefix value before it is read. When the extra list runs out, the leftover prefix is already in the right place, so the loop can stop. An empty extra list leaves the prefix in place. A prefix length of 0 writes the extra list from the back. Time is O(m + n). Extra memory is O(1). The slot count has to be the sum of the two lengths; a short destination writes off the end. Both inputs have to be sorted. The [Merging two sorted lists](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card is the same advance-the-smaller-side idea on nodes, with a sentinel instead of spare slots.
 
 ```python
 def merge_from_back(dest: list[int], prefix: int, extra: list[int]) -> list[int]:
@@ -243,8 +259,12 @@ def merge_from_back(dest: list[int], prefix: int, extra: list[int]) -> list[int]
 
 print(merge_from_back([1, 4, 7, 0, 0, 0], 3, [2, 5, 8]))
 print(merge_from_back([4, 5, 6, 0, 0], 3, [1, 2]))
+print(merge_from_back([1, 2, 3], 3, []))
+print(merge_from_back([0, 0, 0], 0, [1, 2, 3]))
 # [1, 2, 4, 5, 7, 8]
 # [1, 2, 4, 5, 6]
+# [1, 2, 3]
+# [1, 2, 3]
 ```
 
 ## Which move is it

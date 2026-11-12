@@ -8,12 +8,12 @@ Two pointers are two indexes that move under a rule. On a sorted or symmetric se
 - **Inward traversal** — start at the two ends of a sorted or symmetric sequence. Move the end that cannot hold the answer. `left < right` keeps one index from pairing with itself.
 - **Reader and writer on one pass** — the reader sees every slot, the writer stores what stays, and the prefix before the writer is final. Order follows the reader.
 - **Staged traversal** — the first scan finds the break. The second scan uses what the first scan proved. Next arrangement is find the pivot, then swap and reverse.
-- **Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)** — a short sum moves the left index, a large sum moves the right index. Any one pair, or an empty result. Linear time, constant extra memory.
+- **Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)** — a short sum moves the left index, a large sum moves the right index. Any one pair, or an empty result, using 0-based indexes. LeetCode 167 is 1-based and promises one pair. Negatives are legal because the array is sorted. Linear time, constant extra memory. Python's sum grows; a fixed-width sum can wrap.
 - **Zero-Sum Triplets (LeetCode-style: 3Sum)** — sort, fix one value, inward-scan the complement, skip adjacent duplicates. Quadratic time. The sort is the extra list. Stop when the fixed value is positive and the target is zero.
 - **Palindrome Check That Skips Punctuation (LeetCode-style: Valid Palindrome)** — skip rejected characters from both ends inside the loop. The inner loops need `left < right`. Ask about case and about ASCII versus Unicode.
-- **Largest Container (LeetCode-style: Container With Most Water)** — width times the shorter height. Move the shorter side. One rectangle, not trapped rain over every index.
+- **Largest Container (LeetCode-style: Container With Most Water)** — width times the shorter height, for non-negative heights. Move the shorter side. Empty and one line are 0. One rectangle, not trapped rain over every index. A fixed-width product can wrap.
 - **Shift Zeros to the End (LeetCode-style: Move Zeroes)** — swap each nonzero into the writer slot. An inward swap gathers the zeros and scrambles the rest.
-- **Next Lexicographical Sequence (LeetCode-style: Next Permutation)** — rightmost ascent, rightmost strictly larger successor, reverse the suffix. No ascent means reverse the whole string. A Python string pays for a list copy.
+- **Next Lexicographical Sequence (LeetCode-style: Next Permutation)** — rightmost ascent, rightmost strictly larger successor, reverse the suffix. No ascent means reverse the whole string. LeetCode 31 mutates an int array in place. A Python string pays for a list copy. The order is character-code order.
 - **Skipping duplicates after a sort** — copies are neighbors, so uniqueness is a neighbor test. A set of tuples also deduplicates and hides the cost. The same reduction extends past three values.
 - **Two pointers, a hash map, or brute force** — sorted and tight memory favors two pointers. An unsorted complement with original indexes favors a hash map. The nested loop is the baseline you name first.
 
