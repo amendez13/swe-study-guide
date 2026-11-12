@@ -12,6 +12,10 @@ A prompt is the first adaptation lever from [Introduction to Building AI Applica
 
 **Recap.** A prompt is everything the model is allowed to read on this call. Chat and completion products differ in how that text is packaged, and the model still samples the next token from it. The instruction steers the sample. It does not bind the model the way a type checker binds a program, and it cannot supply a fact you left out.
 
+![What a prompt is](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-1-what-a-prompt-is.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 1.*
+
 ## Zero-shot and few-shot
 
 Zero-shot prompting asks the model to do a task with instructions and no examples. Few-shot prompting puts a handful of worked examples in the prompt and asks the model to continue the pattern. Neither one updates the weights.
@@ -57,6 +61,10 @@ At those exercise prices, one million few-shot calls cost $476 and one million z
 
 **Recap.** Zero-shot is an instruction with no examples. Few-shot places a handful of input-output pairs in the prompt and does not change the weights. The GPT-3 paper is the public demonstration that this works better as models get larger. The examples teach the pattern you wrote, including its mistakes, and at the exercise prices above they are $360 of a $476 bill per million classifications. Keep them when a measured eval says the lift is worth the tokens.
 
+![Zero-shot and few-shot](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-2-zero-and-few-shot.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 2.*
+
 ## System prompt, user prompt, and chat templates
 
 A system prompt is the application's instruction. A user prompt is the person's turn. A chat template is the encoding that marks which span of tokens belongs to which role, so the model can tell the instruction from the person and from its own earlier replies.
@@ -100,6 +108,10 @@ Rejecting or stripping those tokens in user text, retrieved pages, and tool outp
 
 **Recap.** The system prompt carries the application's instruction, the user prompt carries the person's turn, and the chat template marks which tokens are which. Llama 3 uses header tokens and `<|eot_id|>`. Other checkpoints, including early Mistral Instruct and ChatML models, use a different wrapper, and the wrapper has to match the weights. A structured API keeps the user from forging a role. It still passes along any instruction the user, or a retrieved page, wrote in plain text.
 
+![System prompt, user prompt, and chat templates](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-3-system-user-templates.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 3.*
+
 ## Context length and context efficiency
 
 Context length is the maximum number of tokens the model will take in one request. Context efficiency is how many of those tokens you spend, and whether the tokens you spent are the ones the answer actually depends on.
@@ -125,6 +137,10 @@ Prompt caching cuts the bill on a repeated prefix and it constrains the order. O
 **Interview.** Separate the window from the attention. Give the U-shape from Liu and coauthors, and say a needle test can pass while a pile of similar documents fails. Name RULER as the 2024 check that turns that gap into an effective length, and refuse to quote a 2024 row as the model you would call now. Then put the cache in front of the design: stable tokens first, variable tokens last, and name the current price page as the source of the discount. If the proposal is "the window is a million tokens, paste the mailbox," answer with the input bill and with the middle of the mailbox, not with the headline length.
 
 **Recap.** Context length is a token cap that moves and that you pay for in memory, latency, and input tokens. Context efficiency means spending that cap on the spans the answer needs. Lost-in-the-middle results show a U-shape, stronger at the ends than in the middle, and a needle test can hide that. RULER is the benchmark that caught models whose claimed length was far ahead of the length they could use. A prompt cache discounts an identical prefix and wants the stable instruction first and the changing question last.
+
+![Context length and context efficiency](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-4-context-length.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 4.*
 
 ## Clear and explicit instructions
 
@@ -152,6 +168,10 @@ Specificity has a limit. A 2,000-token policy manual pasted as "the instructions
 
 **Recap.** A clear instruction names the task, the constraints, the source of the facts, and the action to take when the input is insufficient. "Be helpful" leaves those choices to the sample. An instruction you can grade is the one worth shipping, and a second person should be able to apply it to a ticket without asking what you meant.
 
+![Clear and explicit instructions](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-5-clear-instructions.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 5.*
+
 ## Personas
 
 A persona is an instruction that assigns the model a role, such as a support agent, a copy editor, or a reviewer who only comments on security.
@@ -168,6 +188,10 @@ A persona can also be the wrong product. Copilot ghost text does not need a char
 
 **Recap.** A persona tells the model which role to write from. It can change the voice of a support draft, and the evidence says it does not reliably make factual answers better. Zheng and coauthors found no accuracy gain from 162 personas on 2,410 factual questions, and some personas made the answers worse. It is not a source of policy or a boundary the user cannot talk over. Attacker personas, including the early DAN jailbreaks, try to replace that role with an unrestricted one. Use a short job description when a person will read the reply, and skip it when the consumer is code.
 
+![Personas](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-6-personas.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 6.*
+
 ## Examples
 
 Examples in a prompt are input-output pairs that show the behavior you want on this task, including the cases where the right behavior is to abstain or to ask a question.
@@ -183,6 +207,10 @@ Examples rot. The day the return window moves from 30 days to 14, every example 
 **Interview.** Ask to see the example that matches the failure you are debugging. If the set has no abstention, say the model has been shown only answers. If the set has eight of one class, say the prior is in the prompt. Mention that examples are training data with a context window for a memory, so they need the same review as a label, and that a schema mask still beats an example when the failure is syntax.
 
 **Recap.** Examples show the input and the output you want, including abstentions and the classes you will grade. They teach whatever pattern is actually in them, so a skewed or stale set teaches a skewed or stale policy. One example of a missing order id is worth more than five paraphrases of a refund. Keep the set next to the code and regenerate it when the policy changes.
+
+![Examples](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-7-examples.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 7.*
 
 ## Specifying the output format
 
@@ -216,6 +244,10 @@ Format instructions leak. Models wrap JSON in a markdown fence, add a sentence b
 
 **Recap.** Specifying the output format means naming a shape the consumer can parse, showing one example of it, and preferring fields an exact check can accept or reject. A quote that must appear in the source is that kind of field. The prompt asks for the shape. A schema mask and a parser, covered with structured outputs in the foundation-model topic, are what make the shape reliable. A valid object can still contain a false window, so the value check stays.
 
+![Specifying the output format](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-8-output-format.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 8.*
+
 ## Sufficient context
 
 Sufficient context is the set of facts the answer is allowed to depend on, placed in the prompt because the model will not fetch them for you.
@@ -231,6 +263,10 @@ More context is not the same as sufficient context. The entire help center is su
 **Interview.** List the fields the answer depends on and where each one enters the prompt. Order, policy, today's date, the user's question. Then say what the model must do if one is missing, and how you will detect an answer that used a fact from outside the paste. Mention precedence when two pages disagree. If the design says the model "knows the policy," send it back to retrieval or to the prompt. The weights are the wrong store for a window that changed on Monday.
 
 **Recap.** Sufficient context means the policy, the record, and the question are in the prompt, together with an instruction to abstain when they do not support an answer. The model will otherwise complete a plausible answer from training. Restricting the reply to the context is measurable and still only an instruction. Too much context hides the useful span, and two sources that disagree need an explicit precedence or a handoff to a person.
+
+![Sufficient context](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-9-sufficient-context.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 9.*
 
 ## Decomposing tasks and prompt chains
 
@@ -266,6 +302,10 @@ Not every task wants a chain. Copilot ghost text is one short decode because the
 
 **Recap.** Decomposition turns one prompt into subtasks a program can check. A prompt chain runs those subtasks as separate calls and stops when a step fails. On the exercise token counts, one hundred thousand Zendesk tickets cost $41.50 more through a three-step chain than through one call, and the extra spend buys an intermediate object you can reject. A chain that never rejects is just a more expensive sample. Keep one call when the task is one judgment under a tight latency budget.
 
+![Decomposing tasks and prompt chains](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-10-prompt-chains.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 10.*
+
 ## Giving the model time to think
 
 Giving the model time to think means spending extra tokens, or an extra call, on intermediate reasoning before the answer you keep.
@@ -291,6 +331,10 @@ print(round(CALLS * 60 / 1_000_000 * OUTPUT_PER_M, 2), round(CALLS * 400 / 1_000
 
 **Recap.** Time to think is extra tokens spent on intermediate steps before the answer. Wei's chain-of-thought and Kojima's "Let's think step by step" are prompt techniques. Self-critique is another call from the same model, so it shares the drafter's blind spots. Reasoning models such as o1 and DeepSeek-R1 spend the tokens inside the product, which the test-time compute card already prices, and the prompt's job is the task and the check. At the exercise output price, one million 400-token traces cost $800 against $120 for a 60-token reply. Spend the trace when a checker can use it and the user can wait.
 
+![Giving the model time to think](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-11-time-to-think.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 11.*
+
 ## Iterating on prompts
 
 Iterating on a prompt means changing the instruction against a fixed evaluation, one change at a time, and keeping the change only when the score you ship on moves.
@@ -308,6 +352,10 @@ Structure is part of what you perturb, and it is not an attack. Reorder the sect
 **Interview.** Describe the loop: frozen items, one change, exact checks, a calibrated judge for the residue, a holdout you did not edit against. Say that a ticket which failed in production becomes an eval row, not an automatic new example. Mention prompt sensitivity so you do not rewrite the items between runs. If a score moved, say you would slice it. Offer to revert when the order-id check falls and the judge rises.
 
 **Recap.** Iterating on a prompt is a controlled experiment. Freeze the eval, change one thing, and keep the change only when the checks you ship on improve, including on a holdout you did not tune on. Exact fields come before a judge. A production miss joins the eval set rather than being pasted into the prompt as a permanent example. Save the prompt with the score, because an unsaved edit is not a result you can roll back.
+
+![Iterating on prompts](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-12-iterating.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 12.*
 
 ## Prompt engineering tools
 
@@ -345,6 +393,10 @@ The search can overfit the slice it was allowed to see, the same way a hand edit
 
 **Recap.** Prompt engineering tools search instructions and examples against a metric. APE, OPRO, and DSPy are public versions of that search, and DSPy is the one that looks like a program you compile. TextGrad's gradient is another model's critique, so each step is more calls rather than a free derivative. The exercise search was 20,000 calls and $50, while the longer compiled prompt was $0.90 on a small week of traffic. Log the hidden calls, freeze the winner, and run the holdout you would demand for a hand edit. The optimizer will exploit whatever the metric rewards.
 
+![Prompt engineering tools](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-13-prompt-tools.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 13.*
+
 ## Organizing and versioning prompts
 
 Organizing prompts means storing each instruction as an artifact with an owner, a template, a model id, and the evaluation that justified the text now in production.
@@ -363,6 +415,10 @@ The metadata that makes the catalog traceable is small and easy to skip. Record 
 
 **Recap.** Versioned prompts are templates with named slots, reviewed like code, and served only as an id that records the template, the examples, the model, the decoding settings, and the eval score. LangSmith, PromptLayer, and Braintrust can hold that record. Git can hold it too. A hot edit that does not create a new scored id is an untested deploy. When the model changes, the score is stale until you run the eval again.
 
+![Organizing and versioning prompts](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-14-versioning-prompts.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 14.*
+
 ## Proprietary prompts and reverse prompt engineering
 
 A proprietary prompt is the hidden instruction a product relies on and does not show the user. Reverse prompt engineering is recovering that instruction, or a prompt that behaves like it, from what the model will say.
@@ -378,6 +434,10 @@ Treat the system prompt as public product copy that happens to be inconvenient t
 **Interview.** Tell the Sydney story in one sentence and draw the conclusion: the system prompt is in the context window, so it is extractable. Say what you would never put there. Separate verbatim extraction from behavioral reconstruction. Offer a canary and logging as detection, and the secret store as the actual place for a key. If the interviewer wants a jailbreak you would run in production, move the conversation to the safety eval and to the system controls, not to a recital of the attack.
 
 **Recap.** Proprietary prompts are hidden instructions, and they are still in the model's context. The February 2023 Bing Chat leak, found by Kevin Liu and confirmed by Microsoft, showed the codename Sydney because the model could quote its own instructions. Assume a leak. Keep secrets and unreleased policy out of the prompt. Reverse engineering can also imitate the behavior from inputs and outputs alone, so secrecy of the wording was never the control.
+
+![Proprietary prompts and reverse prompt engineering](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-15-proprietary-prompts.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 15.*
 
 ## Jailbreaking and prompt injection
 
@@ -406,6 +466,10 @@ Direct injection is text the user typed into your box. Indirect injection is tex
 
 **Recap.** A jailbreak tries to defeat the model's safety policy. A prompt injection, in Willison's definition, is untrusted text concatenated with the application's trusted prompt, whether the user typed it or a retrieved page carried it. OWASP LLM01:2025 uses prompt injection as the umbrella and treats jailbreaking as the safety-policy case. The severity depends on the tools behind the model. A refused joke and a refund issued from a retrieved page are not the same incident.
 
+![Jailbreaking and prompt injection](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-16-jailbreak-vs-injection.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 16.*
+
 ## Direct manual prompt hacking
 
 Direct manual prompt hacking is a person typing an attack into the conversation, trying by hand to override the system instruction or the safety policy.
@@ -424,6 +488,10 @@ What you build is detection and a limit on blast radius, not a cleverer system s
 
 **Recap.** Direct manual hacking is a person typing an override into your product. The usual shapes are an instruction to ignore the rules, a replacement persona, an encoding, a multi-turn setup, and a request to print the hidden prompt. They work because the user turn is part of the context the model was trained to follow. A phrase list catches the lazy version. The tool the model is allowed to call is what decides whether a success is a rude paragraph or a refund.
 
+![Direct manual prompt hacking](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-17-direct-prompt-hacking.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 17.*
+
 ## Automated attacks
 
 An automated attack generates the malicious prompt with a search procedure or with another model, so the text does not have to look like an instruction a person would write.
@@ -439,6 +507,10 @@ Automated attacks change the safety eval. A set of ten hand-written overrides is
 **Interview.** Name GCG as a suffix search that needs gradients, PAIR as an attacker model with a budget of about twenty queries, and TAP as PAIR plus branching and pruning. Say the shared lesson: the attack text will not be on your phrase list. Do not quote TAP's "more than 80 percent" as the jailbreak rate of a current model. It is that paper's AdvBench result on the models they named. Say you would refresh generated attacks inside the safety eval, against a staging model with no live tools, and you would score whether the tool would have run.
 
 **Recap.** Automated attacks write the prompt for the attacker. GCG searches for an adversarial suffix, and the 2023 paper reported that some suffixes transferred from open models to hosted models of that time. PAIR lets an attacker model revise the prompt over a small number of queries. TAP grows a tree of those revisions and prunes the off-topic branches, and on the models in that paper it beat PAIR while still getting past Llama Guard often enough to matter. Phrase filters miss all three. A safety eval has to include generated attacks, scored on the tool they would have triggered, and a published suffix is a test for that era's models rather than a standing master key.
+
+![Automated attacks](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-18-automated-attacks.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 18.*
 
 ## Indirect prompt injection
 
@@ -471,6 +543,10 @@ Agents are why this stops being a bad paragraph. A mail assistant that can read 
 
 **Recap.** Indirect prompt injection hides the instruction in retrieved text, email, web pages, or tool output. Greshake and coauthors showed it against real applications in 2023, and PromptArmor showed the same victim switch against Slack AI in August 2024. The user is often the victim. Delimiters mark the untrusted span and do not stop the model from reading it. The danger jumps when an agent has a tool that can forward mail, move money, or run a command, because the injected sentence can ask for that tool.
 
+![Indirect prompt injection](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-19-indirect-injection.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 19.*
+
 ## Information extraction
 
 Information extraction, in this chapter, is the model emitting text it was not supposed to reveal: memorized training data, personal data, a long copyrighted span, or a secret that was only in the prompt.
@@ -489,6 +565,10 @@ Personal data has a second door that extraction from the weights does not cover.
 
 **Recap.** Information extraction is the model revealing training text, personal data, copyrighted spans, or prompt secrets. Carlini and coauthors showed training-data extraction on GPT-2 in 2021. Nasr, Carlini, and coauthors showed that asking gpt-3.5-turbo to repeat an ordinary word could make it leave the chat task and emit memorized text, 27,171 verbatim spans against their proxy index for about $200, and they wrote that this particular attack was later patched. The request you send and the logs you keep are a separate leak that needs ordinary data handling. A system prompt is a bad place to hide a secret the model can be asked to read back.
 
+![Information extraction](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-20-information-extraction.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 20.*
+
 ## Model-level defenses
 
 Model-level defenses are training and alignment that make the model prefer some instructions over others and refuse some harmful requests. They change the model's defaults. They are not a boundary you can put a security review on by themselves.
@@ -504,6 +584,10 @@ The two rates that belong on the same slide are the violation rate and the false
 **Interview.** Walk the priority: system or developer, then user, then tool output. Cite the 2024 instruction hierarchy as training toward that priority. Give the paper's own bounds: up to 63 percent on its main tests, more than 30 percent on a held-out jailbreak set, comparable capability scores, worse over-refusal on two checks, and the authors' statement that strong attacks still get through. Then say the classifier and the tool boundary are the next card and the one after it, because training is not the control you can audit on a Friday incident.
 
 **Recap.** Model-level defense is safety training plus a hierarchy that prefers the application instruction over the user and the user over retrieved text. OpenAI's 2024 instruction-hierarchy work trained that preference into GPT-3.5 Turbo and reported large gains on its attack tests, along with more over-refusal and an explicit warning that powerful attacks remain. The priority is the right design. It is not a guarantee for the model you call, and it does not replace the system controls.
+
+![Model-level defenses](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-21-model-level-defenses.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 21.*
 
 ## Prompt-level defenses
 
@@ -535,6 +619,10 @@ The attacker's closing tag is now text. Your closing tag is the one the program 
 
 **Recap.** Prompt-level defense is an explicit rule, a repeated rule after the untrusted span, and a spotlight that marks untrusted text as data. Hines and coauthors' delimiting, datamarking, and encoding are that spotlight, and delimiting is the weak one. Escaping the marker is a real string boundary. The sentence inside the fence can still be followed. The boundary that holds is outside the prompt.
 
+![Prompt-level defenses](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-22-prompt-level-defenses.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 22.*
+
 ## System-level defenses
 
 System-level defenses are the controls outside the model: which process it runs in, which tools it can call, which actions require a person, which classifier scores the input and the output, and which signals you monitor.
@@ -564,3 +652,7 @@ Assume the model will sometimes follow the untrusted text. The system is finishe
 **Interview.** Start from the action, not the prompt. List the tools. Say which ones can move money or mail, and put a person and a recomputed amount on those. Then describe the dual-LLM split, and say why it is not enough: the quarantined model can change an argument, so you want a capability check in the style of CaMeL, with the paper's 77 percent against 84 percent as a benchmark result rather than a promise. Then add classifiers as a layer you do not trust alone. Llama Guard labels a prompt or a response against the safety taxonomy in [Evaluate AI Systems](../04_Evaluate_AI_Systems/). Prompt Guard 2 labels an input string benign or malicious, with a published 512-token window, so a long email is segmented. An exact check sits beside both. Mention the canary and the safety eval rerun on every prompt and model change. Close with the assumption: the model will obey the email one day, and the tool list is what makes that a logged event rather than a transfer.
 
 **Recap.** System-level defense assumes the prompt and the safety training will sometimes lose. Isolation keeps secrets out of the model. A dual-LLM split keeps raw untrusted text away from the planner, and CaMeL-style capabilities stop that text from choosing the tool argument. Least privilege keeps send, pay, and shell off the call unless a separate program allows them. A person approves irreversible actions. Llama Guard, Prompt Guard, and exact policy checks score the text, and monitoring plus a safety eval tell you when they miss. A classifier that says the input was benign does not get to call Stripe.
+
+![System-level defenses](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering-23-system-level-defenses.png)
+
+*Source: [`diagrams/prompt-engineering.drawio`](/content/10_AI_Engineering/05_Prompt_Engineering/diagrams/prompt-engineering.drawio), page 23.*
