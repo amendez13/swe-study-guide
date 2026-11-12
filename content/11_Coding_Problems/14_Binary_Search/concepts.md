@@ -28,6 +28,10 @@ Each step that halves the remaining interval spends a constant amount of work to
 
 **Recap.** Binary search discards half of an ordered candidate set after one comparison. The candidates can be array indexes, the commits reachable from a bad commit and not from a good one, or the integers in a range whose feasibility flips once. `bisect_left`, `git bisect`, and PostgreSQL's page search are that idea in a library, a history walk, and a B-tree page. The loop is logarithmic in the size of the space and uses constant extra memory when it is written with indexes rather than recursion.
 
+![Binary search over a search space](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-1-search-space.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 1.*
+
 ## Four decisions that define the loop
 
 Every binary search in this topic is four decisions: which candidates are still possible, which side of the midpoint is discarded, when the loop stops, and which candidate is returned.
@@ -72,6 +76,10 @@ The midpoint formula and the two boundary loops are the next two cards. They cha
 **Interview.** State the four decisions out loud before you write the `while`. Point at the invariant on a two-element list. Say what an empty list does, because the right edge starts at -1 and the body must not read it. If the interviewer changes the question from "where is it" to "where would it go," change the search space before you change the comparisons.
 
 **Recap.** An exact search uses a closed interval from the first index through the last, excludes the midpoint on every miss, stops when the interval is empty, and returns the matching index or -1. The invariant is that a present target still sits inside `[left, right]`. A different question keeps the same four slots and fills them in differently. The loop is logarithmic and uses constant extra memory.
+
+![Four decisions that define the loop](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-2-four-decisions.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 2.*
 
 ## The midpoint, overflow, and the upper midpoint
 
@@ -137,6 +145,10 @@ The `+ 1` in the upper midpoint can overflow in a fixed-width type when `right` 
 **Interview.** Write `left + (right - left) // 2` and say why the add of the two ends is the dangerous one. Then say which update your loop uses. If the update is `left = mid`, switch to the upper midpoint before you run a two-element example. Name the two-element case as the one you will trace, because that is where the bias becomes a single index.
 
 **Recap.** `left + (right - left) // 2` stays inside a signed 32-bit range when the endpoints are nonnegative and in range. Adding the endpoints first can wrap, and the wrapped midpoint of 1500000000 and 1500000020 is negative. The lower midpoint of two adjacent indexes is the left one, and `left = mid` then fails to shrink. The upper midpoint is the right one, and it is the midpoint to use when a feasible `mid` becomes the new left edge.
+
+![The midpoint, overflow, and the upper midpoint](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-3-midpoint-and-overflow.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 3.*
 
 ## Lower bound and upper bound
 
@@ -211,6 +223,10 @@ The last-index loop is the one that needs the upper midpoint. Its interval is cl
 
 **Recap.** `lower_bound` is the first index greater than or equal to the target, and `first_greater` is the first index strictly greater. Both use a half-open interval that starts at `[0, n)` and a lower midpoint. The last index at most the target is `first_greater - 1`, and the direct loop for that index uses an upper midpoint because it sets `left = mid`. `bisect_left` and `bisect_right` match the two half-open searches. An absent target makes the two bounds equal.
 
+![Lower bound and upper bound](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-4-lower-and-upper-bound.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 4.*
+
 ## A monotone predicate, searched for the boundary
 
 Binary search on the answer searches a range of candidate numbers, not an array. The check is a yes/no predicate that is false on one side of a threshold and true on the other.
@@ -271,6 +287,10 @@ LeetCode 278, First Bad Version, is this first-true search. There is at least on
 
 **Recap.** A predicate that flips once turns a range of numbers into a search space. The first true value uses the half-open lower-bound loop and a lower midpoint. The last true value is the first false minus one, or a loop that sets `left = mid` and therefore uses the upper midpoint. On versions 1 through 16 with the first bad version at 11, the loop returns 11 after 4 predicate calls. LeetCode 278 is this search, and its `n` can be the top of a signed 32-bit integer. The Python interval ends at `n + 1`. The 32-bit loop keeps `right` at `n`, because a bad version is guaranteed and `n + 1` does not fit.
 
+![A monotone predicate, searched for the boundary](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-5-monotone-predicate.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 5.*
+
 ## The index where a value would be inserted (LeetCode-style: Search Insert Position)
 
 Given a sorted list of distinct numbers and a target, return the index of the target if it occurs, and otherwise return the index where it would be inserted so the list stays sorted.
@@ -316,6 +336,10 @@ LeetCode 35, Search Insert Position, is this index. The list contains distinct v
 **Interview.** Say "first index greater than or equal to the target" and say that `n` is included. Trace a target larger than the last value down to the return of `n`. Mention that distinct values make a hit return the only matching index. Ask what an empty list should return before you special-case it. The contract above starts at length 1.
 
 **Recap.** The insertion index is the lower bound on a half-open interval `[0, n)`. A present distinct target returns its index. An absent target returns the slot that keeps the list sorted, including the slot after the last value. The search is logarithmic and uses constant extra memory. LeetCode 35 promises distinct values and a length of at least 1. This function also returns 0 for an empty list.
+
+![The index where a value would be inserted (LeetCode-style: Search Insert Position)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-6-search-insert-position.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 6.*
 
 ## The first and last index of a value (LeetCode-style: Find First and Last Position of Element in Sorted Array)
 
@@ -374,6 +398,10 @@ LeetCode 34, Find First and Last Position of Element in Sorted Array, returns th
 **Interview.** Say "two bounds" in the first sentence, and say what you compare at the lower bound before you index it. Trace a run of three equal values and an absent target that sits between two neighbors. A one-element hit, a one-element miss, and an empty list are the three traces that catch the off-by-one. The published length starts at 0, so the empty list is part of the contract.
 
 **Recap.** The first index of a target is the lower bound, and the last index is one before the first strictly greater value. If the lower bound is off the list or holds a different value, the result is `[-1, -1]`. The work is two logarithmic searches and constant extra memory. LeetCode 34 allows an empty list and a run that fills the list. Expanding from one hit is linear on that run.
+
+![The first and last index of a value (LeetCode-style: Find First and Last Position of Element in Sorted Array)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-7-first-and-last-index.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 7.*
 
 ## The highest blade that still yields the wood
 
@@ -452,6 +480,10 @@ LeetCode 875, Koko Eating Bananas, is the same last-or-first feasible integer wi
 
 **Recap.** The wood above a blade only shrinks as the blade rises, so the highest blade that still meets a quota is a last-true binary search. The range is 0 through the tallest trunk, the midpoint is biased upward, and each check is a linear scan. The checks cost O(n log (M + 1)), and finding the tallest trunk is a linear pass on top of that. The extra memory is constant. A requirement of 0 returns the tallest trunk. A requirement above the total, or an empty stand, returns -1. The lower midpoint sticks on the last two heights. LeetCode 875 searches a speed with a different check.
 
+![The highest blade that still yields the wood](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-8-highest-blade.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 8.*
+
 ## A target in a rotated sorted array (LeetCode-style: Search in Rotated Sorted Array)
 
 A sorted array of distinct values was cut at an unknown index and the left piece was moved to the right. Return the index of a target, or -1 when it is absent.
@@ -524,6 +556,10 @@ LeetCode 33, Search in Rotated Sorted Array, is this search for distinct values.
 
 **Recap.** On a rotated array of distinct values, one side of every midpoint is sorted, and the target is kept only when it falls inside that side. The left-side test is `values[left] <= values[mid]`, because the midpoint can be the left index. The search is logarithmic and uses constant extra memory. A strict `<` misses 1 in `[3, 1]`. Repeated values can make both ends equal on a side that is not sorted, and `[2, 3, 2, 2, 2]` then misses 3. LeetCode 33 requires distinct values. LeetCode 81 allows duplicates and gives up the logarithmic worst case.
 
+![A target in a rotated sorted array (LeetCode-style: Search in Rotated Sorted Array)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-9-rotated-sorted-array.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 9.*
+
 ## The median of two sorted arrays (LeetCode-style: Median of Two Sorted Arrays)
 
 Return the median of the sequence you would get by merging two sorted arrays. Do it without building the merged sequence.
@@ -583,6 +619,10 @@ LeetCode 4, Median of Two Sorted Arrays, asks for this median and states an O(lo
 **Interview.** Say "cut the shorter array" first. Draw the left half's size, including the `+ 1` that puts the odd median on the left. Then name the two comparisons, and say what infinity stands in for. Walk one odd total and one even total. An empty array beside a non-empty array is the case that forces the sentinel. State the merge as the O(m + n) baseline before you claim the log.
 
 **Recap.** The median of two sorted arrays is the middle of the merge, found by binary-searching a cut in the shorter array. The left half holds `(m + n + 1) // 2` values, and the cut is legal when each left edge is at most the other array's right edge. An empty side of the cut compares as infinity. The search is O(log(min(m, n))) time and constant extra memory. LeetCode 4 allows either array to be empty and requires a logarithmic bound. The merge is the linear baseline.
+
+![The median of two sorted arrays (LeetCode-style: Median of Two Sorted Arrays)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-10-median-of-two-sorted-arrays.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 10.*
 
 ## A matrix sorted in row-major order (LeetCode-style: Search a 2D Matrix)
 
@@ -698,6 +738,10 @@ LeetCode 74, Search a 2D Matrix, is the row-major search. Both dimensions are fr
 
 **Recap.** A matrix whose rows are sorted, and whose next row starts strictly above the previous row's end, is one sorted sequence in row-major order. Flat index `i` is row `i // cols` and column `i % cols`, and the search is logarithmic in the number of cells. Using the row count as the stride reports 16 absent on the exercise matrix and maps index 7 to a different cell. When only rows and columns are sorted, the flattened list is not sorted, the flat search misses 8, and a top-right staircase walk finds it in O(rows + cols). LeetCode 74 is the flat search. LeetCode 240 is the staircase.
 
+![A matrix sorted in row-major order (LeetCode-style: Search a 2D Matrix)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-11-row-major-matrix.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 11.*
+
 ## Any index that is a local peak (LeetCode-style: Find Peak Element)
 
 Return any index whose value is strictly greater than both of its neighbors. A neighbor that would fall off the array counts as smaller than every value, so an endpoint can be a peak, and a one-element array is a peak.
@@ -737,6 +781,10 @@ LeetCode 162, Find Peak Element, returns any peak index. The length is from 1 th
 **Interview.** Say the outside neighbor counts as smaller, so an endpoint qualifies. Then say the rule: a rise keeps the right side, a fall keeps the midpoint and the left side. Trace `[2, 6, 8, 5, 1]` and name the indexes you discard. A one-element array, a strictly increasing array, and a strictly decreasing array are the three edges. Mention that two peaks make either index legal, and that equal neighbors are outside the contract.
 
 **Recap.** A local peak is a value greater than both neighbors, and the ends are compared with an imaginary smaller neighbor. If the midpoint is below the next value, a peak remains to the right. Otherwise a peak remains at the midpoint or to the left. The loop uses a lower midpoint, runs in logarithmic time, and uses constant extra memory. It returns one valid peak when several exist. LeetCode 162 requires distinct neighbors and a length of at least 1.
+
+![Any index that is a local peak (LeetCode-style: Find Peak Element)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-12-local-peak.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 12.*
 
 ## A pick whose chance follows the weight (LeetCode-style: Random Pick with Weight)
 
@@ -790,6 +838,10 @@ LeetCode 528, Random Pick with Weight, is this picker. The length is from 1 thro
 **Interview.** Build the prefix on the board and mark the range of draws for each index before you write the search. Say the draw is the inclusive range 1 through the total, and the search is the first prefix greater than or equal to the draw. Show the 0-through-total-minus-one map as the bug, with the stolen count. A zero weight and a zero total are the contract questions. LeetCode 528 excludes both by requiring positive weights.
 
 **Recap.** Prefix totals turn a weighted pick into a lower bound on a sorted array. An integer draw from 1 through the total hits index `i` for exactly `weights[i]` values of the draw. Drawing from 0 through the total minus one, with the same comparison, moves one outcome from the last weight onto the first. Setup is linear. Each pick is logarithmic. A zero weight is skipped. A zero total is not a draw. LeetCode 528 uses positive weights only. CPython 3.12's `random.choices` uses a float draw and a capped `bisect` instead of this integer range.
+
+![A pick whose chance follows the weight (LeetCode-style: Random Pick with Weight)](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-13-random-pick-with-weight.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 13.*
 
 ## What to run before you trust the loop
 
@@ -894,3 +946,7 @@ The same idea applies to a predicate. Check the smallest candidate, the largest 
 **Interview.** Say the edge list before the interviewer asks. Empty, where the contract allows it. One element, hit and miss. Two elements. All equal. Absent below, above, and between. Both ends. Every cut of a four-element rotation if the array is rotated. Then offer the linear scan as the comparison, and `bisect` when the question is a bound. A loop you have not run on two elements is a guess.
 
 **Recap.** Trust the loop after it agrees with a linear scan or with `bisect` on an empty list, a one-element list, a two-element list, an all-equal list, and targets that are absent below, between, and above the data. A rotated array needs every cut of one short sorted input, including the unrotated cut. The exercise checker above reports 0 mismatches on that set. A step cap turns an infinite loop into a failed check instead of a hang.
+
+![What to run before you trust the loop](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-14-what-to-run-before-trusting.png)
+
+*Source: [`diagrams/binary-search.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search.drawio), page 14.*
