@@ -25,13 +25,11 @@ PRODUCTS = (
     ("support-refund", True, True, True),
 )
 
-
 def placement(works_without_model: bool, user_invoked: bool, moves_money: bool) -> tuple[str, str, str]:
     criticality = "complementary" if works_without_model else "critical"
     timing = "reactive" if user_invoked else "proactive"
     human = "person confirms" if moves_money else "person can ignore"
     return (criticality, timing, human)
-
 
 for name, works, invoked, money in PRODUCTS:
     print(name, placement(works, invoked, money))
@@ -39,10 +37,6 @@ for name, works, invoked, money in PRODUCTS:
 # chatgpt ('critical', 'reactive', 'person can ignore')
 # support-refund ('complementary', 'reactive', 'person confirms')
 ```
-
-![Compose or Refund](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-1-compose-or-refund.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 1.*
 
 ## Use or Skip
 
@@ -69,7 +63,6 @@ TASKS = (
     ("maps-route", False, True, True, False, True),
 )
 
-
 def verdict(
     language_heavy: bool,
     reviewable: bool,
@@ -87,7 +80,6 @@ def verdict(
         return "model can take the task"
     return "ordinary software"
 
-
 for name, language, reviewable, exact, irreversible, algorithm in TASKS:
     print(name, verdict(language, reviewable, exact, irreversible, algorithm))
 # duolingo-practice model can take the task
@@ -95,10 +87,6 @@ for name, language, reviewable, exact, irreversible, algorithm in TASKS:
 # receipt-fields model drafts, a person commits
 # maps-route ordinary software
 ```
-
-![Use or Skip](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-2-use-or-skip.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 2.*
 
 ## Which Lever
 
@@ -141,7 +129,6 @@ CASES = {
     },
 }
 
-
 def levers(facts_change_outside: bool, prompt_cannot_hold_behavior: bool) -> tuple[str, ...]:
     chosen = ["prompt"]
     if facts_change_outside:
@@ -150,17 +137,12 @@ def levers(facts_change_outside: bool, prompt_cannot_hold_behavior: bool) -> tup
         chosen.append("finetune")
     return tuple(chosen)
 
-
 for name, case in CASES.items():
     print(name, levers(case["facts_change_outside"], case["prompt_cannot_hold_behavior"]))
 # gmail-thread-summary ('prompt',)
 # notion-wiki-qa ('prompt', 'rag')
 # shopify-house-style ('prompt', 'finetune')
 ```
-
-![Which Lever](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-3-which-lever.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 3.*
 
 ## Repo or File
 
@@ -187,20 +169,14 @@ OUTPUT_USD_PER_MILLION = 2.00
 WHOLE_REPO = 80_000
 OPEN_FILE = 3_500
 
-
 def daily_usd(input_tokens: int) -> float:
     input_cost = QUESTIONS_PER_DAY * input_tokens / 1_000_000 * INPUT_USD_PER_MILLION
     output_cost = QUESTIONS_PER_DAY * OUTPUT_TOKENS / 1_000_000 * OUTPUT_USD_PER_MILLION
     return input_cost + output_cost
 
-
 print(daily_usd(WHOLE_REPO), daily_usd(OPEN_FILE))
 # 2040.0 127.5
 ```
-
-![Repo or File](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-4-repo-or-file.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 4.*
 
 ## Demo Milestone
 
@@ -221,7 +197,6 @@ POLICY_BAR = 0.01
 DEMO = {"has_eval": False, "shadow_ran": False, "policy_error": 0.0}
 MEASURED = {"has_eval": True, "shadow_ran": True, "policy_error": 0.05}
 
-
 def next_milestone(has_eval: bool, shadow_ran: bool, policy_error: float, policy_bar: float) -> str:
     if not has_eval:
         return "eval set"
@@ -231,16 +206,11 @@ def next_milestone(has_eval: bool, shadow_ran: bool, policy_error: float, policy
         return "human on policy replies"
     return "limited send"
 
-
 print(next_milestone(**DEMO, policy_bar=POLICY_BAR))
 print(next_milestone(**MEASURED, policy_bar=POLICY_BAR))
 # eval set
 # human on policy replies
 ```
-
-![Demo Milestone](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-5-demo-milestone.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 5.*
 
 ## Eighty Percent
 
@@ -268,10 +238,6 @@ rewrite_per_day = DAILY_TICKETS * (100 - SENDABLE_PCT - POLICY_PCT) // 100
 print(DEMO_TICKETS, policy_per_day, rewrite_per_day)
 # 25 500 1500
 ```
-
-![Eighty Percent](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-6-eighty-percent.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 6.*
 
 ## Stack Map
 
@@ -316,10 +282,6 @@ for name, layer in WORK.items():
 # infrastructure: the process that stores the embedding index
 ```
 
-![Stack Map](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-7-stack-map.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 7.*
-
 ## Pinned Snapshot
 
 A Notion-style summarizer calls a floating "latest" model. The previous snapshot, `model-2026-03-01`, scores 0.93 faithfulness on your regression set. The new snapshot scores 0.81. Your bar is 0.90. Input price falls from $5.00 to $0.50 per million tokens. Output stays $15.00 per million. You run 1,000,000 summaries. Each summary sends 2,000 input tokens. The old snapshot writes 200 output tokens. The new one writes 1,200.
@@ -345,25 +307,18 @@ BAR = 0.90
 OLD = {"faithfulness": 0.93, "output_tokens": 200, "input_usd_per_million": 5.00}
 NEW = {"faithfulness": 0.81, "output_tokens": 1_200, "input_usd_per_million": 0.50}
 
-
 def bill(output_tokens: int, input_usd_per_million: float) -> float:
     input_cost = CALLS * INPUT_TOKENS / 1_000_000 * input_usd_per_million
     output_cost = CALLS * output_tokens / 1_000_000 * OUT_USD_PER_MILLION
     return input_cost + output_cost
-
 
 def choice(faithfulness: float, bar: float) -> str:
     if faithfulness < bar:
         return "pin model-2026-03-01"
     return "move to the new snapshot"
 
-
 old_bill = bill(OLD["output_tokens"], OLD["input_usd_per_million"])
 new_bill = bill(NEW["output_tokens"], NEW["input_usd_per_million"])
 print(choice(NEW["faithfulness"], BAR), old_bill, new_bill, new_bill > old_bill)
 # pin model-2026-03-01 13000.0 19000.0 True
 ```
-
-![Pinned Snapshot](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills-8-pinned-snapshot.png)
-
-*Source: [`diagrams/ai-engineering-intro-drills.drawio`](/content/10_AI_Engineering/01_Introduction_to_Building_AI_Applications_with_Foundation_Models/diagrams/ai-engineering-intro-drills.drawio), page 8.*
