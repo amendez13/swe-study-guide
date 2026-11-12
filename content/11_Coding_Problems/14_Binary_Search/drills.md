@@ -32,6 +32,10 @@ print(last_at_most([], 15), last_at_most([8], 8), last_at_most([8], 9))
 # -1 0 0
 ```
 
+![The four decisions for the last index](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-1-four-decisions-for-the-last-index.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 1.*
+
 ## The minimum after a rotation
 
 The exercise list `[6, 8, 11, 2, 3, 4]` is a sorted list of distinct values, cut and restacked. Return the minimum value. Also return the minimum of the unrotated list `[2, 3, 4, 6, 8, 11]`, of every cut of that list, of `[13]`, of `[6, 1]`, and of `[1, 6]`.
@@ -62,6 +66,10 @@ print(find_min([2, 2, 2, 0, 2]), min([2, 2, 2, 0, 2]))
 # 13 1 1
 # 2 0
 ```
+
+![The minimum after a rotation](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-2-minimum-after-a-rotation.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 2.*
 
 ## The slowest speed that finishes in time
 
@@ -94,6 +102,10 @@ print(min_speed([5, 8, 10], 3), min_speed([5, 8, 10], 2), min_speed([5, 8, 10], 
 # 7 5
 # 10 -1 1
 ```
+
+![The slowest speed that finishes in time](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-3-slowest-speed-that-finishes.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 3.*
 
 ## The first bad build in a thousand versions
 
@@ -145,6 +157,10 @@ print(counts.count(9), counts.count(10))
 # [501, 751, 626, 689, 720, 705, 697, 701, 699, 700]
 # 22 978
 ```
+
+![The first bad build in a thousand versions](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-4-first-bad-build.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 4.*
 
 ## The insertion index that cannot land past the end
 
@@ -204,6 +220,10 @@ print(insert_closed([], 4), insert_index([], 4))
 # 0 0
 ```
 
+![The insertion index that cannot land past the end](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-5-insertion-index-past-the-end.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 5.*
+
 ## A matrix binary search that walks off the sorted order
 
 The exercise matrix below has every row and every column sorted. It is not one sorted sequence in row-major order, because 10 is followed by 3. A flattened binary search for 3 returns -1. A staircase walk finds 3. What does each method return for 11?
@@ -255,6 +275,10 @@ print(flatten_search(matrix, 11), staircase(matrix, 11))
 # -1 False
 ```
 
+![A matrix binary search that walks off the sorted order](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-6-matrix-search-off-sorted-order.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 6.*
+
 ## Which weight the draw lands in
 
 The exercise weights are `[3, 6, 1]`. Build the prefix totals. For each integer draw from 1 through the total, which index wins? How many draws does each index receive?
@@ -292,6 +316,10 @@ print([picks.count(i) for i in range(len(prefix))])
 # [3, 6, 1]
 ```
 
+![Which weight the draw lands in](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-7-which-weight-the-draw-lands-in.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 7.*
+
 ## The half a peak search throws away
 
 On the exercise list `[3, 5, 4, 2, 1]`, adjacent values differ. Walk the peak search. At each step, name the midpoint, which side you discard, and why a peak remains in the side you keep. Which index does the loop return?
@@ -316,6 +344,10 @@ def peak_trace(values: list[int]) -> tuple[list[tuple[int, str, int, int]], int]
 print(peak_trace([3, 5, 4, 2, 1]))
 # ([(2, 'left', 0, 2), (1, 'left', 0, 1), (0, 'right', 1, 1)], 1)
 ```
+
+![The half a peak search throws away](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-8-half-a-peak-search-throws-away.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 8.*
 
 ## Repeated values hide the sorted half
 
@@ -356,3 +388,7 @@ print(search_rotated([4, 1, 4, 4, 4], 0), linear_index([4, 1, 4, 4, 4], 0))
 # 2 0
 # -1 -1
 ```
+
+![Repeated values hide the sorted half](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills-9-repeated-values-hide-the-sorted-half.png)
+
+*Source: [`diagrams/binary-search-drills.drawio`](/content/11_Coding_Problems/14_Binary_Search/diagrams/binary-search-drills.drawio), page 9.*
