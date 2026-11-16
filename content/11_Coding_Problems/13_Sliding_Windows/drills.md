@@ -155,7 +155,7 @@ print(repr(smallest_cover("", "ab")), repr(smallest_cover("abc", "")))
 
 ## The jump that walks backwards
 
-This unique-character scan stores the last index of each character. On the exercise string `abba` it returns 3. The true length is 2. Why does the left edge move backward, and what does the repaired scan return for `abba`, `success`, an empty string, and `aaaa`?
+This unique-character scan stores the last index of each character. On the exercise string `abba` it returns 3. The true length is 2. `deed` is the same shape: one letter, a different letter twice, then the first letter again. Why does the left edge move backward, and what does the repaired scan return for `abba`, `deed`, an empty string, and `bbbb`?
 
 ```python
 def buggy_jump(text: str) -> int:
@@ -328,7 +328,7 @@ print(label("maximum of every block of 4 samples"))
 
 ## A zero that is still in the dictionary
 
-This anagram count compares two plain dicts. On the exercise text `cab` and the pattern `ab` it returns 0. The true count is 1, the block `ab`. Why does the compare miss, and what do a dict that deletes a zero key and a 26-slot array return for `cab` / `ab` and for `bcaacb` / `abc`?
+This anagram count compares two plain dicts. On the exercise text `cab` and the pattern `ab` it returns 0. The true count is 1, the block `ab`. Why does the compare miss, and what do a dict that deletes a zero key and a 26-slot array return for `cab` / `ab` and for `wxyz` / `xyz`?
 
 ```python
 def broken_anagrams(text: str, pattern: str) -> int:
