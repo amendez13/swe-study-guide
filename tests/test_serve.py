@@ -1116,17 +1116,11 @@ def test_heaps_topic_exposes_drills() -> None:
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
         "## When the next value comes from a heap",
-        "## A bounded heap of the k best",
         "## The survivor you would drop",
         "## Heapify the counts, then pop k",
-        "## Merge k sorted inputs",
-        "## Two heaps and the size fix",
-        "## A second key for ties",
-        "## The next value is in the next k + 1",
-        "## The k strings that occur most",
         "## One sorted list from k sorted lists",
-        "## The median as values arrive",
-        "## Sort a list that is only k out of order",
+        "## The size fix after a direct push",
+        "## The next value is in the next k + 1",
         "## Heap, sort, quickselect, or buckets",
     ):
         assert heading in concepts

@@ -1,12 +1,12 @@
 # Heaps — Drills
 
-Original drills for a bounded heap, a smash simulation, a join cost, a range across lists, a tie that points the wrong way, a grid merge, meeting rooms, and the choice between a heap and something simpler. Each answer has an approach, a cost, and Python. The numbers are exercise numbers. None of these repeats the leaderboard cutoff, the merged logs, the median balance trace, the dict tie that crashes, the three coldest hours, or the median after 1, 8, 3, and 6.
+Original drills for a size-k heap, a smash, a join cost, a range across lists, a tie that points the wrong way, a row-sorted grid, meeting rooms, and the choice between a heap and something simpler. Each answer has an approach, a cost, and Python. The numbers are exercise numbers.
 
 ## The k closest points
 
 The exercise points are `(1, 2)`, `(3, 0)`, `(-1, 1)`, `(4, 4)`, and `(0, 1)`. Return the 2 closest to the origin, closest first. Distance is the square of the coordinates, so the square root is never required. Also answer a k of 0, an empty list, and `[(1, 1)]` with k of 3.
 
-**Answer:** The squares are 5, 9, 2, 32, and 1. The two closest are `(0, 1)` and `(-1, 1)`. Keep a max-heap of size k, stored as negated squares so `heapq` can hold it. The root is the farthest point still kept. A closer point replaces it. Sort the survivors by square at the end. Each point costs O(log k), so the scan is O(n log k) time and O(k) memory. A k of 0 returns nothing. An empty list returns nothing. A k larger than the list returns every point. Equal squares on the boundary can keep either point. This input has no such tie. One closest point is the minimum square, and a heap is more structure than that question needs.
+**Answer:** The squares are 5, 9, 2, 32, and 1. The two closest are `(0, 1)` and `(-1, 1)`, closest first. Keep a max-heap of size k, stored as negated squares so `heapq` can hold it. The root is the farthest point still kept. A strictly closer point replaces it. An equal square leaves the point already kept. Sort the survivors by square at the end. Each point costs O(log k), so the scan is O(n log k) time and O(k) memory. A k of 0 returns nothing. An empty list returns nothing. A k larger than the list returns every point. This input has no distance tie. One closest point is the minimum square, and a heap is more structure than that question needs.
 
 ```python
 import heapq
@@ -38,7 +38,7 @@ print(k_closest([(1, 1)], 3))
 
 The exercise weights are `[9, 3, 6, 1]`. While two or more stones remain, smash the two heaviest. If they differ, the difference goes back. What weight remains? Also answer `[2, 2]`, an empty list, and `[7]`.
 
-**Answer:** Smash 9 with 6 and put 3 back. The stones are then 3, 3, and 1. The two 3s cancel. The 1 remains. A max-heap of negated weights pops the heaviest twice per smash. Each smash is O(log n), and there are fewer than n smashes, so the time is O(n log n) and the memory is O(n). `[2, 2]` cancels to 0. An empty list is 0. One stone is that stone, with no smash. Sorting a fresh list on every smash is the slow version of the same rule.
+**Answer:** Smash 9 with 6 and put 3 back. The stones are then 3, 3, and 1. The two 3s cancel. The 1 remains. A max-heap of negated weights pops the heaviest twice per smash. Each smash is O(log n). There are at most n - 1 smashes, because each one reduces the count by at least one, so the time is O(n log n) and the memory is O(n). `[2, 2]` cancels to 0. An empty list is 0. One stone is that stone, with no smash. Sorting a fresh list on every smash is the slow version of the same rule.
 
 ```python
 import heapq
@@ -87,9 +87,9 @@ print(join_cost([4, 3, 2, 6]), join_cost([1]), join_cost([]), join_cost([1, 2]))
 
 ## Smallest range across the lists
 
-The exercise lists are `[4, 10, 15]`, `[0, 9, 12]`, and `[5, 18]`. Each list is sorted. Find the shortest inclusive window that contains at least one value from each list. Report the start and end the scan keeps. Also answer one list, `[1, 3]`, and an empty collection of lists.
+The exercise lists are `[4, 10, 15]`, `[0, 9, 12]`, and `[5, 18]`. Each list is sorted and non-empty. Find the shortest inclusive window that contains at least one value from each list. Report the start and end the scan keeps. Also answer one list, `[1, 3]`, and an empty collection of lists.
 
-**Answer:** The window is 0 through 5. Its length is 5. Other windows of that length exist, including 4 through 9. The scan keeps the first minimum it sees. Put the first value of each list in a min-heap, and remember the largest value currently in the heap. The heap's root and that largest value are a candidate window. Pop the root and push the next value from the same list, updating the largest. Stop when a list runs out, because a later window would miss that list. Each value is pushed once, the heap holds one value per list, and the time is O(N log k) with O(k) extra memory. One sorted list is the window from its first value to itself. No lists means there is no window.
+**Answer:** The window is 0 through 5. Its length is 5. Another window of that length is 4 through 9. The scan keeps the first shortest window, because a later window replaces it only when the length is strictly smaller. Put the first value of each list in a min-heap, and remember the largest value currently in the heap. The heap's root and that largest value are a candidate window. Pop the root and push the next value from the same list, updating the largest. Stop when a list runs out, because a later window would miss that list. Each value is pushed once, the heap holds one value per list, and the time is O(N log k) with O(k) extra memory. One sorted list is the window from its first value to itself. No lists means there is no window. An empty list inside the collection is outside this contract.
 
 ```python
 import heapq
@@ -176,7 +176,7 @@ print(wrong(counts, 2), right(counts, 2))
 
 ## k-th smallest in a sorted grid
 
-Each row of the exercise grid is sorted, left to right. The grid is `[[1, 5, 9], [4, 8, 12], [11, 13, 15]]`. What is the 4th smallest value, counting from 1? Also answer k of 1 and k of 9.
+Each row of the exercise grid is non-empty and sorted left to right. The grid is `[[1, 5, 9], [4, 8, 12], [11, 13, 15]]`. What is the 4th smallest value, counting from 1? Also answer k of 1 and k of 9. k here runs from 1 through the number of cells.
 
 **Answer:** The 4th smallest is 8. The sorted values are 1, 4, 5, 8, 9, 11, 12, 13, 15. Treat each row as a sorted list and run a k-way merge from the first column. The heap starts with `(row[0], row index, column 0)` for every row. Pop k times. After each pop, push the next column of that same row when one remains. The row index is the tie-break, so equal values do not compare the rows themselves. Heapify is O(rows). k pops are O(k log rows). The extra memory is O(rows). The first pop is 1. The ninth pop is 15. A column that is also sorted is not what this scan uses. It only needs each row to be sorted.
 
@@ -204,7 +204,7 @@ print(kth_smallest(grid, 4), kth_smallest(grid, 1), kth_smallest(grid, 9))
 
 The exercise meetings are `(1, 4)`, `(2, 5)`, `(3, 6)`, and `(7, 9)`. A meeting occupies a room from its start up to, but not including, its end, so a meeting that ends at t frees the room for one that starts at t. How many rooms are needed at once? Also answer `(1, 2)` followed by `(2, 3)`, `(1, 3)` followed by `(2, 4)`, and an empty list.
 
-**Answer:** Three rooms. Sorted by start, the first three meetings overlap, and the meeting at 7 reuses the room that freed at 4. A min-heap of end times holds the rooms in use. If the earliest end is at or before the new start, replace that end. Otherwise push a new end. The heap's length after the last meeting is the number of rooms. Sorting is O(n log n), and each meeting does one heap operation, so the time stays O(n log n). The heap holds one end per room, O(n) when every meeting overlaps. `(1, 2)` then `(2, 3)` needs one room. `(1, 3)` then `(2, 4)` needs two. An empty list needs none. Merging overlapping spans, on the [Merge intervals](../06_Moderate_Problems/) card, tells you the occupied blocks. It does not count how many meetings share an instant.
+**Answer:** Three rooms. Sorted by start, the first three meetings overlap, and the meeting at 7 reuses the room that freed at 4. A min-heap of end times holds the rooms in use. If the earliest end is at or before the new start, replace that end. Otherwise push a new end. A freed room is replaced, not removed, so the heap's length only stays or grows, and the length after the last meeting is the number of rooms. Sorting is O(n log n), and each meeting does one heap operation, so the time stays O(n log n). The heap holds one end per room, O(n) when every meeting overlaps. `(1, 2)` then `(2, 3)` needs one room. `(1, 3)` then `(2, 4)` needs two. An empty list needs none. Merging overlapping spans, on the [Merge intervals](#11_Coding_Problems/06_Moderate_Problems/concepts/merge-intervals) card, tells you the occupied blocks. It does not count how many meetings share an instant.
 
 ```python
 import heapq
