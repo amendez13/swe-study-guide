@@ -13,6 +13,10 @@ print(pending, pending[0])
 # [1, 3, 7, 4] 1
 ```
 
+![When the next value comes from a heap](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-1-next-value-from-a-heap.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 1.*
+
 ## The survivor you would drop
 
 The root of a size-k heap is the survivor you would drop, so the heap's order is the reverse of the report. "Higher count, then the earlier word" drops a lower count, then a later word. The scan is [A heap for top-k](#11_Coding_Problems/07_Hard_Problems/concepts/a-heap-for-top-k) and [Top-K with a bounded heap](#07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/concepts/top-k-with-a-bounded-heap): O(n log k) time and O(k) extra memory. `(count, word)` gets the tie wrong. A later word compares greater, so it replaces the earlier one. On the exercise counts apple 2, fig 2, and pear 2, in that order, with k of 2, pear replaces apple. The reversed pops are pear then fig.
@@ -65,6 +69,10 @@ print(wrongly(pairs, 2), keep(pairs, 2))
 # ['pear', 'fig'] ['apple', 'fig']
 ```
 
+![The survivor you would drop](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-2-survivor-you-would-drop.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 2.*
+
 ## Heapify the counts, then pop k
 
 Count the words, then heapify `(-count, word)`. The minus sign pops the higher count first. An equal count pops the earlier word, so nothing is reversed. N strings become U pairs in O(N) time and O(U) memory. `heapify` is O(U) ([Bottom-up heapify](#07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/concepts/bottom-up-heapify)), not U pushes. k pops are O(k log U). The total is O(N + U + k log U).
@@ -90,6 +98,10 @@ print(top_k_words([], 2), top_k_words(["fig", "pear"], 5))
 # ['fig', 'apple'] ['fig', 'apple', 'pear'] []
 # [] ['fig', 'pear']
 ```
+
+![Heapify the counts, then pop k](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-3-heapify-then-pop-k.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 3.*
 
 ## One sorted list from k sorted lists
 
@@ -118,6 +130,10 @@ print(merge_k([]), merge_k([[], []]), merge_k([[4]]))
 # [1, 2, 2, 3, 4, 7, 8]
 # [] [] [4]
 ```
+
+![One sorted list from k sorted lists](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-4-k-way-merge.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 4.*
 
 ## The size fix after a direct push
 
@@ -156,6 +172,10 @@ print(medians([1, 9]), -stuck[0], medians([]))
 # [1.0, 5.0] 9 []
 ```
 
+![The size fix after a direct push](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-5-size-fix-after-direct-push.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 5.*
+
 ## The next value is in the next k + 1
 
 If each value sits at most k indexes from its sorted index, the next output is the min of the next `k + 1` unread values. A value for that slot cannot start more than k places further right. Heapify the window, write the root, and push the next unread value. Every value enters once: O(n log k) time and O(k) extra memory. Without the promise, a full sort is O(n log n).
@@ -190,6 +210,10 @@ print(sort_k_away([], 2), sort_k_away([4], 3), sort_k_away([1, 2, 3], 0))
 # [] [4] [1, 2, 3]
 ```
 
+![The next value is in the next k + 1](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-6-next-k-plus-one.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 6.*
+
 ## Heap, sort, quickselect, or buckets
 
 One extreme is `min` or `max`: one pass, O(1) extra memory. The whole order, once, is `sorted`, O(n log n). The k best, with k well below n or on a stream you will not store, is a size-k heap: O(n log k) time and O(k) extra memory. The k-th value alone, in a list you may reorder, is [Quickselect](#07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/concepts/quickselect): expected O(n), worst case O(n^2). Scores from 0 through 100 are counting buckets, O(n + range), on [Counting sort](#07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/concepts/counting-sort). The longer table is [When not to use a heap](#07_Data_Structures_and_Algorithms/06_Heaps_and_Tries/concepts/when-not-to-use-a-heap). [A heap for top-k](#11_Coding_Problems/07_Hard_Problems/concepts/a-heap-for-top-k) is the coldest-hours case of the size-k row.
@@ -203,3 +227,7 @@ scores = [4, 9, 2, 8, 7]
 print(min(scores), heapq.nlargest(2, scores), sorted(scores))
 # 2 [9, 8] [2, 4, 7, 8, 9]
 ```
+
+![Heap, sort, quickselect, or buckets](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-7-heap-sort-quickselect-buckets.png)
+
+*Source: [`diagrams/heaps.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps.drawio), page 7.*

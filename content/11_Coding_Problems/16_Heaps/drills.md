@@ -34,6 +34,10 @@ print(k_closest([(1, 1)], 3))
 # [(1, 1)]
 ```
 
+![The k closest points](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-1-k-closest-points.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 1.*
+
 ## The last stone
 
 The exercise weights are `[9, 3, 6, 1]`. While two or more stones remain, smash the two heaviest. If they differ, the difference goes back. What weight remains? Also answer `[2, 2]`, an empty list, and `[7]`.
@@ -58,6 +62,10 @@ def last_stone(weights: list[int]) -> int:
 print(last_stone([9, 3, 6, 1]), last_stone([2, 2]), last_stone([]), last_stone([7]))
 # 1 0 0 7
 ```
+
+![The last stone](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-2-last-stone.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 2.*
 
 ## Cost of joining the ropes
 
@@ -84,6 +92,10 @@ def join_cost(lengths: list[int]) -> int:
 print(join_cost([4, 3, 2, 6]), join_cost([1]), join_cost([]), join_cost([1, 2]))
 # 29 0 0 3
 ```
+
+![Cost of joining the ropes](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-3-joining-ropes.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 3.*
 
 ## Smallest range across the lists
 
@@ -121,6 +133,10 @@ print(smallest_range([[1, 3]]), smallest_range([]))
 # (0, 5)
 # (1, 1) None
 ```
+
+![Smallest range across the lists](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-4-smallest-range.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 4.*
 
 ## The tie that keeps the later word
 
@@ -174,6 +190,10 @@ print(wrong(counts, 2), right(counts, 2))
 # ['oak', 'elm'] ['ash', 'elm']
 ```
 
+![The tie that keeps the later word](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-5-tie-keeps-later-word.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 5.*
+
 ## k-th smallest in a sorted grid
 
 Each row of the exercise grid is non-empty and sorted left to right. The grid is `[[1, 5, 9], [4, 8, 12], [11, 13, 15]]`. What is the 4th smallest value, counting from 1? Also answer k of 1 and k of 9. k here runs from 1 through the number of cells.
@@ -200,6 +220,10 @@ print(kth_smallest(grid, 4), kth_smallest(grid, 1), kth_smallest(grid, 9))
 # 8 1 15
 ```
 
+![k-th smallest in a sorted grid](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-6-kth-smallest-sorted-grid.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 6.*
+
 ## Rooms for the meetings
 
 The exercise meetings are `(1, 4)`, `(2, 5)`, `(3, 6)`, and `(7, 9)`. A meeting occupies a room from its start up to, but not including, its end, so a meeting that ends at t frees the room for one that starts at t. How many rooms are needed at once? Also answer `(1, 2)` followed by `(2, 3)`, `(1, 3)` followed by `(2, 4)`, and an empty list.
@@ -225,6 +249,10 @@ print(rooms([(1, 2), (2, 3)]), rooms([(1, 3), (2, 4)]), rooms([]))
 # 3
 # 1 2 0
 ```
+
+![Rooms for the meetings](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-7-meeting-rooms.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 7.*
 
 ## Heap, sort, selection, or buckets
 
@@ -256,3 +284,7 @@ print(choose("scores from 0 through 100"))
 # one variable
 # counting buckets
 ```
+
+![Heap, sort, selection, or buckets](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills-8-heap-sort-selection-buckets.png)
+
+*Source: [`diagrams/heaps-drills.drawio`](/content/11_Coding_Problems/16_Heaps/diagrams/heaps-drills.drawio), page 8.*
