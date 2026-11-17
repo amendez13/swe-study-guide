@@ -1,147 +1,38 @@
-## Two pointers: what a second index buys
+## Two indexes
 
-A pointer here is an index into a sequence. Two pointers are two indexes that move under a rule, so each comparison can throw away many pairs instead of one.
+A pointer here is an index: a position in a sequence. One index can visit every element. The second index is what compares two ends, or holds the write position behind the reader. Inward starts at both ends and moves the end that cannot hold the answer, so one comparison drops every pair that used the rejected end. A reader and a writer travel the same way. The reader sees every slot, and the prefix before the writer is final. A staged scan finds a break, then a second scan acts on what the first scan proved. [Two-pointer technique](#07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/concepts/two-pointer-technique) and [Two pointers](#07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/concepts/two-pointers) name the moves. [Two pointers](#11_Coding_Problems/06_Moderate_Problems/concepts/two-pointers) is the inward scan on kayak weights. POSIX `comm` walks two files that are already ordered. A PostgreSQL merge join walks two inputs ordered by the join key, and it sorts a side first when that order is missing. Call the position an index. A C pointer is an address.
 
-One index can visit every element. It cannot, by itself, compare two ends or keep a read position and a write position apart. The second index is what makes that comparison possible. POSIX `comm` already uses the idea on text: it compares two files that should be ordered in the current collating sequence, and it walks those files together. PostgreSQL can plan a merge join on inputs ordered by the join key, and it sorts a side first when that order is missing. The order is what tells the scan which side may advance.
-
-On one array the same idea shows up in three shapes. Inward traversal puts an index at each end and moves the end that cannot contain the answer. Same-direction traversal uses a fast reader and a slower writer, so the writer marks the next slot that is allowed to keep a value. Staged traversal uses the first scan only to find a break in the structure, then a second scan does the work from that break. The [Two-pointer technique](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card and the [Two pointers](../../07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/) card name the pattern. The [Two pointers](../06_Moderate_Problems/) card in Moderate Problems is the kayak-packing version of the inward scan. This topic is how to recognize each move and how to apply it.
-
-You reach for it when the data is linear and either already ordered, symmetric, or being compacted in place, or when the answer is a pair (or a pair plus one fixed value). A nested loop is the honest first answer: compare every pair, which is proportional to the square of the length. Two pointers replace that nest only when a move has a proof that the skipped pairs are useless. Floyd's cycle scan, on the [Cycle detection with Floyd's algorithm](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card, and the [Sliding window](../06_Moderate_Problems/) card are also two indexes, with different rules. They are separate patterns.
-
-**Trade-offs.** Two indexes use a constant amount of extra memory and one pass, once the order or the symmetry is real. Sorting first, so that the discard becomes legal, costs the sort. A hash map answers an unsorted pair question in one expected linear pass and keeps the original indexes, and it spends memory proportional to the input. The nested loop spends no extra memory and needs no order, and it does not scale. On a pair search, moving both indexes after a miss can drop a pair the rule has not rejected.
-
-**Interview.** Say "index" before you say "pointer," so nobody thinks you mean a C address. Name which shape you are using, inward, reader and writer, or staged, and say the sentence that makes a move safe. If the input is not sorted and the problem does not give you symmetry, say so and switch to the [Unsorted pair-sum with a hash set](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card or to a sort you account for. Mention that a sliding window and a fast/slow cycle check are neighboring patterns, then stay on the one this problem is.
-
-**Recap.** A second index lets one pass compare two positions and discard everything that position can no longer be part of. The move is safe only when the input is sorted, symmetric, or being written in a single direction. Inward, reader and writer, and staged are the three shapes. A hash map, a sort, and a nested loop are the alternatives, and each one wins on a different constraint.
-
-![Two pointers: what a second index buys](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-1-what-a-second-index-buys.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 1.*
-
-## Inward traversal
-
-Inward traversal starts one index at the left end and one at the right end, and each step moves exactly one of them toward the middle.
-
-It is the right shape when the sequence is sorted, or when it is symmetric, so the ends mean something. A sorted price list is the everyday case. You want two different prices that add to a budget. Look at the cheapest remaining item and the most expensive remaining item. If they add to more than the budget, the expensive item cannot be saved by a different partner: every other remaining partner costs at least as much as the cheap end, so the sum stays over the budget. Drop the expensive item. If they add to less than the budget, the cheap item cannot be saved either: every other remaining partner costs no more than the expensive end, so the sum stays under the budget. Drop the cheap item. Each step deletes every pair that used the rejected end. That is why the scan is linear after the array is sorted.
-
-The loop invariant is the sentence you should be able to say out loud: every pair that used an index outside the current `[left, right]` window has already been rejected, and any pair still inside is still possible. The condition is `left < right`, so a value is never paired with itself. When the two indexes meet, the window is empty.
+Use the moves on an ordered sequence, a symmetric one, an in-place compaction, or a pair plus at most one fixed value. The direct pair loop is the O(n^2) baseline ([Optimize brute force in steps](#11_Coding_Problems/07_Hard_Problems/concepts/optimize-brute-force-in-steps)). Replace it when a move has a proof that the skipped pairs are useless: the scan is then O(n) time and O(1) extra memory, and it checks at most n - 1 pairs. A sort that makes the discard legal costs O(n log n), and `sorted` builds a new list whose indexes are not the caller's. [Unsorted pair-sum with a hash set](#07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/concepts/unsorted-pair-sum-with-a-hash-set) is expected linear time, O(n) memory, and it keeps the original indexes. Moving both indexes on a miss drops a pair the rule has not rejected. On `[1, 4, 8, 11, 15]` and target 19, `1 + 15` is 16, so index 0 is finished: `(0, 1)`, `(0, 2)`, and `(0, 3)` replace 15 with something smaller. The scan checks two pairs. Five values have ten. [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm) and [Sliding window](#11_Coding_Problems/06_Moderate_Problems/concepts/sliding-window) are two indexes with different rules.
 
 ```python
-def inward_hit(values: list[int], target: int) -> list[tuple[int, int, int]]:
-    """Exercise numbers. Record each end pair the scan actually adds."""
+def pairs_checked(values: list[int], target: int) -> list[tuple[int, int]]:
     left, right = 0, len(values) - 1
-    seen: list[tuple[int, int, int]] = []
+    checked: list[tuple[int, int]] = []
     while left < right:
+        checked.append((left, right))
         total = values[left] + values[right]
-        seen.append((left, right, total))
         if total == target:
             break
         if total < target:
             left += 1
         else:
             right -= 1
-    return seen
+    return checked
 
 
-print(inward_hit([1, 4, 8, 11, 15], 19))
-# [(0, 4, 16), (1, 4, 19)]
+print(pairs_checked([1, 4, 8, 11, 15], 19), 5 * 4 // 2)
+# [(0, 4), (1, 4)] 10
 ```
 
-On this exercise list, `1 + 15` is 16, which is short of 19, so index 0 is finished: 15 is the largest legal partner, and a smaller partner would be even shorter. The next comparison is `4 + 15`, which hits. The pairs `(0, 1)`, `(0, 2)`, and `(0, 3)` were never added. They are safe to skip because each of them replaces 15 with something smaller.
+![Two indexes](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-1-what-a-second-index-buys.png)
 
-The [Sort, then scan](../06_Moderate_Problems/) card is the neighboring tool when the question is about neighbors after sorting rather than about two ends. Sorting is what makes the discard legal. If you sort a copy, the indexes you return are indexes into the copy, not into the caller's original order.
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 1.*
 
-**Trade-offs.** The scan itself is O(n) time and O(1) extra memory. If the array is not sorted yet, the sort dominates: O(n log n) time, and `sorted` builds a second list, so the extra memory grows with the input. A hash map is the better pair search when the array is unsorted and you need the original indexes. Inward traversal is the better pair search when the array is already sorted and extra memory is tight.
+## Pair sum in a sorted array
 
-**Interview.** Write `left < right` before the body. Then say which comparison moves which index, and name one pair the move deletes. An equal sum is a hit. Return it when any one pair is enough. When the problem wants every pair, move both indexes after the hit, and skip equal neighbors when values can repeat. Moving both indexes on a miss can drop a pair you have not rejected. If the interviewer removes the sorted guarantee, stop and change the algorithm.
+On a sorted array the left end is the smallest value still in range and the right end is the largest. A sum that is too high drops the right end: every other partner is at least the left end, so the sum stays high. A sum that is too low drops the left end: every other partner is at most the right end, so the sum stays low. On a miss, each step moves exactly one end and rejects every pair that used the dropped index. The invariant is that every pair using an index outside `[left, right]` is already rejected, and any pair still inside might hit. [Two-pointer technique](#07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/concepts/two-pointer-technique) is this scan. [Sort, then scan](#11_Coding_Problems/06_Moderate_Problems/concepts/sort-then-scan) is the neighboring tool when the question is about neighbors after a sort.
 
-**Recap.** Inward traversal keeps a window on a sorted or symmetric sequence and shrinks it from the end that cannot hold the answer. Because the ends are the extreme values, one comparison deletes every pair that used the rejected index. The loop stops when the indexes meet, and it never uses one index as both members of a pair.
-
-![Inward traversal](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-2-inward-traversal.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 2.*
-
-## Reader and writer on one pass
-
-A reader and a writer are two indexes that move in the same direction. The reader scans every slot. The writer marks the next slot that is allowed to keep a value.
-
-This is how you compact a sequence in place. C++ `std::remove` does it for a value you want to drop: it shifts the elements you are keeping toward the front, preserves their relative order, and returns the new logical end. The container's size does not change until you erase from that end to the physical end, which is the erase-remove idiom. The writer is the slow index. Everything before it is final. The reader is the fast index. It is allowed to see values the writer has not dealt with yet, and it must not move backward. The [In-place array manipulation](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card shows the same split on a sorted duplicate-removal.
-
-The template keeps values that pass a test, then drops the stale tail. The numbers below are exercise numbers.
-
-```python
-def keep_at_least(values: list[int], floor: int) -> list[int]:
-    write = 0
-    for value in values:
-        if value >= floor:
-            values[write] = value
-            write += 1
-    del values[write:]
-    return values
-
-
-print(keep_at_least([1, 4, 2, 8, 3], 3))
-print(keep_at_least([1, 2], 3))
-# [4, 8, 3]
-# []
-```
-
-`4`, `8`, and `3` stay in the order the reader met them. `1` and `2` never get a write. Deleting the tail makes the list's length match the number of kept values. If no value passes the test, the writer stays at 0 and the deletion empties the list. If you return the length and leave the tail in place, the caller has to ignore it. The [Write pointer: what is left behind?](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) drill is that leftover.
-
-A second same-direction shape walks two already sorted sequences and advances the side whose current value is smaller. That is the merge `comm` and a PostgreSQL merge join are doing, and it is the [Merging two sorted lists](../../07_Data_Structures_and_Algorithms/03_Linked_Lists/) card for nodes. When the destination is the first array and it has spare slots at the end, both indexes start at the back so a write cannot cover a value that has not been read. That variant is a drill on this topic.
-
-**Trade-offs.** The compaction is O(n) time and O(1) extra memory, and it keeps the order of the values you retain. Building a second list is easier to read and uses memory proportional to the output. Swapping from both ends, the inward habit, is the wrong tool when order matters: the right end is not "the next kept value," it is just the other end. A writer that runs ahead of the reader will copy a value that has already been overwritten.
-
-**Interview.** Say the invariant before the loop: every slot before `write` is final, and `read` has seen everything before it. Name what you do with the tail. If the problem says "in place," a new list fails that constraint even when the values are right. If the problem also says "keep the original order," say why an inward swap breaks it.
-
-**Recap.** The reader walks the whole sequence once. The writer lags behind and records only the values that stay, so the prefix before the writer is the finished result. The pass is linear and uses a constant amount of extra memory. Order is preserved because kept values are written in the order the reader sees them.
-
-![Reader and writer on one pass](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-3-reader-and-writer.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 3.*
-
-## Staged traversal
-
-Staged traversal splits the job into a find and an act. The first scan locates the index where the structure breaks. The second scan does the work from there, using whatever the first scan proved about the rest of the sequence.
-
-You can hear it in the problem statement. The interesting position is defined by a neighbor relationship, often read from the right, and the work after that position is a different operation: a swap, a reverse, a copy. One loop that tries to find and rewrite at the same time tends to destroy the evidence the second step needed. `std::next_permutation` states the contract for the letter-rearrangement problem later in this topic: rearrange into the next permutation in lexicographic order, and if the sequence is already the last one, rearrange it into the first. The library specifies that result. A linear way to produce it is staged. The first scan finds the rightmost place where a value is strictly smaller than its right neighbor. That proof is "the suffix after this place is non-increasing." The second scan is allowed to trust that, so it can find a successor from the right end and then reverse the suffix instead of sorting it.
-
-The numbers in `"1322"` are exercise characters, not a measurement. The pivot is index 0 (the value `1`, because `3`, `2`, `2` is already non-increasing). The successor is index 3, the rightmost value strictly larger than `1`.
-
-```python
-def pivot_and_successor(chars: list[str]) -> tuple[int | None, int | None]:
-    pivot = len(chars) - 2
-    while pivot >= 0 and chars[pivot] >= chars[pivot + 1]:
-        pivot -= 1
-    if pivot < 0:
-        return None, None
-    successor = len(chars) - 1
-    while chars[successor] <= chars[pivot]:
-        successor -= 1
-    return pivot, successor
-
-
-print(pivot_and_successor(list("1322")), pivot_and_successor(list("cba")))
-# (0, 3) (None, None)
-```
-
-`"cba"` has no ascent, so there is no pivot. The whole string is the non-increasing suffix, and the act stage is "reverse everything," which produces the first arrangement. The full swap-and-reverse is the next-sequence card. This card is only the split between the two scans.
-
-**Trade-offs.** Two short linear scans are still O(n), and they keep the invariant visible. Folding both jobs into one loop saves no asymptotic time and makes the proof harder to say. Sorting the suffix instead of reversing it is correct and costs O(n log n) on that piece. Reversing is legal only because the first scan proved the suffix was non-increasing, and the successor swap preserves that.
-
-**Interview.** Tell the interviewer you are about to walk the sequence from the right, and say what you will know when that walk stops. Then write the second scan. If the first scan finds nothing, say the fallback out loud before you code it. A staged problem is usually lost in the first minute by people who start swapping before they have named the pivot.
-
-**Recap.** The first pass only finds the break. The second pass acts on that index and is allowed to use what the first pass proved about the suffix. Next permutation is the shape: find the rightmost ascent, then swap and reverse. A sequence with no ascent reverses as a whole, back to the first arrangement.
-
-![Staged traversal](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-4-staged-traversal.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 4.*
-
-## Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)
-
-Given integers that are already sorted from low to high, and a target, return the indexes of any two different positions that add up to the target. If no pair exists, return an empty result. A value may not be paired with itself.
-
-This is inward traversal with the price-list rule. The array is sorted, so the left end is the smallest remaining value and the right end is the largest. A sum that is too small can only be raised by moving the left index. A sum that is too large can only be lowered by moving the right index. The list below is exercise numbers.
+`left < right` refuses a self-pair. Return on a hit when one pair is enough. When the problem wants every pair, move both ends after the hit and skip equal neighbors. Moving both on a miss drops a pair you have not rejected. The scan is O(n) time and O(1) extra memory. The sort is not part of the bill, because the array was handed over already sorted. A hash map still works and spends O(n) memory, which ignores that hint. Indexes into a freshly sorted copy belong to the copy. On `[1, 3, 4, 7, 9, 12]` and target 11, `1 + 12` is high and the hit is `4 + 7` at `(2, 3)`. `[4, 4]` may contribute both indexes to a target of 8. One element and an empty list return nothing. The same moves work for negatives: `-5 + 6` is target 1 at `(0, 4)`. LeetCode 167 is 1-based and promises a pair. This card is 0-based and returns empty when none exists. A fixed-width sum can wrap ([Overflow-safe arithmetic](#11_Coding_Problems/06_Moderate_Problems/concepts/overflow-safe-arithmetic)). If the array is not sorted, stop and switch algorithms.
 
 ```python
 def pair_sum_sorted(values: list[int], target: int) -> tuple[int, int] | tuple[()]:
@@ -169,25 +60,87 @@ print(pair_sum_sorted([5, 5], 10), pair_sum_sorted([-5, -2, 0, 3, 6], 1), pair_s
 # (0, 1) (0, 4) ()
 ```
 
-`4 + 7` is the hit, at indexes 2 and 3. Target 2 never hits, because the smallest sum in that list is `1 + 3`. `[4, 4]` may contribute both indexes to a target of 8: they are different positions, even though the values match. A one-element list cannot, because `left < right` fails immediately. The same guard answers a target of `10` on `[5, 5]` with `(0, 1)`, and it refuses `[5]` with a target of `10`. An empty list returns an empty result the same way. The moves follow sorted order, so negatives and zero are legal. On the exercise list `[-5, -2, 0, 3, 6]`, target `1` is `-5 + 6` at indexes `(0, 4)`. LeetCode 167, Two Sum II, is this search with 1-based indexes and a promise that one pair exists. This card stays 0-based and returns an empty result when none does.
-
-The scan is O(n) time and O(1) extra memory. The sort is not part of the bill, because the problem handed you a sorted array. A hash map still works and still takes one expected linear pass, and it spends extra memory proportional to the length, which throws away the only hint the statement gave you. Python's `int` grows, so the sum stays exact. A fixed-width addition can wrap, which is the [Overflow-safe arithmetic](../06_Moderate_Problems/) card.
-
-**Trade-offs.** Two pointers use the sorted order and a constant amount of memory. A hash map uses more memory and does not need the order, so it is the tool on the unsorted card, not this one. A double loop is fine for a dozen elements and is the thing you name before you optimize. Returning indexes into a freshly sorted copy is a different problem: those indexes are not the caller's indexes.
-
-**Interview.** Repeat the sorted guarantee back, and ask whether any one pair is enough. State `left < right` as the guard against using one index twice. Walk `1 + 12`, then the move, on a list you can add in your head, before you write the loop. If the interviewer says the array might be unsorted, switch to the hash map and say the memory cost.
-
-**Recap.** On a sorted array, the pair search moves the left index when the sum is short and the right index when the sum is too high. Each move drops every pair that used the rejected end. The result is one index pair or an empty result, in linear time and constant extra memory. The same index is never used twice.
-
-![Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-5-pair-sum-sorted.png)
+![Pair sum in a sorted array](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-5-pair-sum-sorted.png)
 
 *Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 5.*
 
-## Zero-Sum Triplets (LeetCode-style: 3Sum)
+## Shift zeros to the end
 
-Return every unique triplet of values that adds to zero. The same value may appear more than once in the input. Report each triplet of values once, even if several index combinations would produce it.
+A reader scans every slot. A writer, moving the same way, marks the next slot that may keep a value, so the prefix before the writer is final. The reader does not move backward. The writer stays behind the reader, because a writer that runs ahead copies a value already overwritten. [In-place array manipulation](#07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/concepts/in-place-array-manipulation) uses that split to drop duplicates from a sorted array. C++ `std::remove` shifts the kept values forward, preserves their order, and returns the new logical end. The size does not change until you erase from that end. Returning only the length leaves a stale tail. Deleting from the writer down makes the length match. The same writer can copy any value that passes a test, then drop the tail. Here each nonzero is swapped into the writer slot and the writer advances. The displaced zero stays behind the writer, and the nonzero order follows the reader. The pass is O(n) time and O(1) extra memory.
 
-Sort, then the problem is the pair search repeated. After the sort, pick a fixed value at index `i`. The other two values have to sum to the negation of that fixed value, and they have to sit strictly to its right, so the same position is not reused. That inner search is the inward scan from the pair-sum card. Duplicates are adjacent after the sort, which is the fact the skip rules use. Skip a fixed value that equals the one before it. After a hit, move both inner indexes, and keep moving either of them while it sits on a copy of the value you just used. The input below is exercise numbers.
+An inward swap on `[4, 0, 0, 2, 0, 5]` also finishes with the zeros at the back, and it places 5 before 2. Keep that swap when order does not matter. A second list keeps order and spends O(n) memory, and it fails an in-place constraint. Overwriting the tail with zeros in a second loop also keeps order. The swap does that work in the same pass, because the displaced zero stays behind the writer. All zeros, no zeros, and an empty list stay put. Only an exact zero moves, so `-1`, `-2`, `3` keep that order. A swap of a slot with itself, both indexes on a leading nonzero, changes nothing. Two already sorted inputs are a different same-direction walk: advance the side whose current value is smaller ([Merging two sorted lists](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/merging-two-sorted-lists)). When the destination is the first array and the spare slots are at the end, both indexes start at the back so a write cannot cover a value that has not been read.
+
+```python
+def shift_zeros(values: list[int]) -> list[int]:
+    write = 0
+    for read, value in enumerate(values):
+        if value != 0:
+            values[write], values[read] = values[read], values[write]
+            write += 1
+    return values
+
+
+def push_zeros_from_the_ends(values: list[int]) -> list[int]:
+    left, right = 0, len(values) - 1
+    while left < right:
+        if values[left] == 0:
+            values[left], values[right] = values[right], values[left]
+            right -= 1
+        else:
+            left += 1
+    return values
+
+
+print(shift_zeros([4, 0, 0, 2, 0, 5]))
+print(push_zeros_from_the_ends([4, 0, 0, 2, 0, 5]))
+print(shift_zeros([-1, 0, -2, 0, 3]), shift_zeros([0, 0]), shift_zeros([]))
+# [4, 2, 5, 0, 0, 0]
+# [4, 5, 2, 0, 0, 0]
+# [-1, -2, 3, 0, 0] [0, 0] []
+```
+
+![Shift zeros to the end](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-9-shift-zeros.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 9.*
+
+## Next permutation
+
+The next arrangement is the next permutation in lexicographic order, the same contract as C++ `std::next_permutation`. If this arrangement is already the last one, the result is the first arrangement. After `bac` comes `bca`. After `cba` the order wraps to `abc`. Find the rightmost index with `s[i] < s[i + 1]`. The suffix after that pivot is non-increasing, and the second scan is allowed to trust that. Finding the pivot and rewriting the suffix in one loop saves no asymptotic time and wipes the proof. Listing every permutation and picking the next one is factorial, and it answers a different question.
+
+Swap the pivot with the rightmost suffix character strictly larger than it, then reverse the suffix. That successor is the smallest increase that still sits as far right as possible. The swap leaves the suffix non-increasing, so the reverse is its smallest order. Sorting the suffix is also correct and adds a log factor on that piece. On `1322` the pivot is index 0, the character `1`, and the successor is index 3, the final `2`. Swap to `2321`, then reverse to `2123`. Swapping with the `3` produces `3221` and skips `2123`. No ascent reverses the whole string, so `cba` becomes `abc`. One character is already first and last. An empty string stays empty. The two scans are O(n). A Python string is immutable, so the list copy is O(n) extra memory. The same steps on a caller-owned list mutate it in O(1). Order is character-code order, so `A` precedes `a`. LeetCode 31 does this in place on integers.
+
+```python
+def next_sequence(text: str) -> str:
+    chars = list(text)
+    pivot = len(chars) - 2
+    while pivot >= 0 and chars[pivot] >= chars[pivot + 1]:
+        pivot -= 1
+    if pivot >= 0:
+        successor = len(chars) - 1
+        while chars[successor] <= chars[pivot]:
+            successor -= 1
+        chars[pivot], chars[successor] = chars[successor], chars[pivot]
+    left, right = pivot + 1, len(chars) - 1
+    while left < right:
+        chars[left], chars[right] = chars[right], chars[left]
+        left += 1
+        right -= 1
+    return "".join(chars)
+
+
+print(next_sequence("bac"), next_sequence("cba"), next_sequence("1322"), next_sequence("a"), next_sequence("aA"), repr(next_sequence("")))
+# bca abc 2123 a Aa ''
+```
+
+![Next permutation](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-10-next-lexicographical-sequence.png)
+
+*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 10.*
+
+## Zero-sum triplets
+
+Sort, then each fixed value needs two later values that sum to its negation. That inner search is the inward scan. Equal values sit together after the sort, so a duplicate is a neighbor comparison. [Sort, then scan](#11_Coding_Problems/06_Moderate_Problems/concepts/sort-then-scan) is that fact. Unix `uniq` only collapses duplicates that are already adjacent, which is why the sort comes first. Skip a fixed value equal to the one before it. After a hit, move both inner indexes, and keep moving either while it copies the value just used. Those are the three skip sites. On `[-4, -1, -1, 0, 1, 2, 2]` the second `-1` is index 2 and is skipped, and a positive value is never the fixed position. On `[-2, 0, 0, 2]`, moving only the left index after `(-2, 0, 2)` lands on the second `0` and emits that triplet twice. An input of all distinct values will not catch a missed skip. A set of answer tuples also dedupes. It can store a quadratic number of them, and it hides the hash cost. A hash lookup for the third value is the same O(n^2) class, spends more memory, and makes it easy to reuse one index.
+
+Stop when the fixed value is positive. The suffix is at least that large, so three positives cannot sum to zero. `[0, 0, 0]` is a real triplet, so zero itself stays in play. Fewer than three values, all positives, and all negatives return nothing. Time is O(n^2). The sort's O(n log n) sits inside that bound. `sorted` costs O(n) extra memory, and the output can be quadratic too. The positive stop is only valid for a zero target. For k values, fix one and repeat on the suffix until the question is a pair. After the sort, k values cost O(n^{k-1}). Four values are O(n^3). A fixed-width sum of three values can wrap ([Overflow-safe arithmetic](#11_Coding_Problems/06_Moderate_Problems/concepts/overflow-safe-arithmetic)).
 
 ```python
 def zero_sum_triplets(values: list[int]) -> list[tuple[int, int, int]]:
@@ -226,25 +179,15 @@ print(zero_sum_triplets([]), zero_sum_triplets([-3, -2, -1]))
 # [] []
 ```
 
-Once the fixed value is greater than zero, stop. The array is sorted, so everything to its right is at least that large, and three positive numbers cannot add to zero. Do not stop on zero itself: `[0, 0, 0]` is a real triplet. `[1, 2, 3]` stops on the first value. Fewer than three values returns an empty list. So does a list that is entirely negative, such as the exercise list `[-3, -2, -1]`, because every sum stays negative. Python's `int` grows. A fixed-width sum of three values can wrap even when each input fits, which is the same overflow caveat as the pair-sum card.
-
-The inner scan is linear and it runs once per index, so the time is O(n^2). `sorted` allocates a new list, so the extra memory is O(n) before you count the output. The output itself can grow with the square of the input when many distinct triplets hit zero. A set of tuples would also remove duplicates, and it hides a hash cost plus storage for every accepted triplet. The adjacent skips do the same filtering while the scan is already walking the sorted list.
-
-**Trade-offs.** The sort-plus-inward approach makes the duplicate rule local: you compare a value with its neighbor. A hash-based three-sum exists and is easier to get wrong around duplicates and around reusing one index. The double loop over pairs, with the third value looked up in a set, is the same complexity class and spends more memory. For a nonzero target the early stop at "fixed value > 0" is false; that stop is special to a target of zero.
-
-**Interview.** Say "sort, then two-sum for the complement" before you write code. Call out three skips: the repeated fixed value, and both inner neighbors after a hit. Say you move both inner indexes on a hit. Mention the early stop, and say it depends on the target being zero. Give the time as quadratic and the extra memory as the sort, with the output excluded.
-
-**Recap.** Sorting turns three-sum into a linear pair search for each fixed value, which is quadratic overall. Adjacent duplicates are skipped at the fixed index and on both inner indexes after a hit, so each value triplet is emitted once. A positive fixed value ends the search when the target is zero. The sort, not the pointer scan, is the extra memory.
-
-![Zero-Sum Triplets (LeetCode-style: 3Sum)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-6-zero-sum-triplets.png)
+![Zero-sum triplets](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-6-zero-sum-triplets.png)
 
 *Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 6.*
 
-## Palindrome Check That Skips Punctuation (LeetCode-style: Valid Palindrome)
+## Palindrome skipping punctuation
 
-Decide whether a string reads the same forward and backward after you ignore characters that are not ASCII letters or digits, and after you treat uppercase and lowercase as the same letter.
+Ends walk inward. A kept character is compared, case-folded, with the kept character at the other end. Anything else is skipped by the end sitting on it. This predicate keeps ASCII letters and digits. A cleaned copy is easier to explain and uses O(n) extra memory. Skipping inside the loop is O(n) time and O(1) extra memory. The inner loops also stop at `left < right`. Without that bound, a string of punctuation walks off the end and raises `IndexError`.
 
-The string is symmetric around its middle, so the indexes start at the two ends. A letter or digit is compared, case-folded, with the letter or digit at the other end. Anything else is skipped by the end that is sitting on it. Building a cleaned copy is correct and spends memory proportional to the length. Skipping inside the loop keeps the extra memory constant. The phrases below are exercise strings.
+Empty, `"!!!"`, `"a"`, and `"!a!"` are palindromes: no kept pair disagrees. `"7, level, 7"` meets on `v`. `"ab!"` compares `a` with `b` and rejects. `"A b, a"` passes after the case fold. Dropping `.lower()` makes that string fail. `str.isalnum` also accepts `"é"`. On `"éa"` the ASCII rule ignores `é` and keeps a single `a`, so it passes. The Unicode rule keeps both characters and fails. Confirm what is ignored, whether case differs, and whether an empty or all-punctuation string should pass, before calling `isalnum`. A mismatch rejects the string. Allowing one deletion is a separate budget.
 
 ```python
 def is_ascii_alnum(ch: str) -> bool:
@@ -287,25 +230,15 @@ print(is_palindrome("a"), is_palindrome("!a!"))
 # True True
 ```
 
-`"7, level, 7"` compares `7` with `7`, `l` with `l`, `e` with `e`, and `v` with itself. `"ab!"` compares `a` with `b` and rejects. `"!!!"` and the empty string never find a mismatch, so they count as palindromes: there is no pair of kept characters that disagrees. A single kept character, as in `"a"` or `"!a!"`, is a palindrome for the same reason. The inner skips also test `left < right`. Without that test, a string of punctuation walks `left` off the end and raises `IndexError`.
-
-Python's `str.isalnum` is a different predicate. It is true for Unicode letters such as `"é"`. On the exercise string `"éa"`, the ASCII test ignores `é` and sees a single `a`, which is a palindrome. The Unicode test keeps both characters, and `"é"` does not equal `"a"`. Ask which alphabet you are supposed to keep before you call `isalnum`. Also ask about case. This card folds with `str.lower`. A problem that treats `"A"` and `"a"` as different is a one-line change, and it is a change you want to confirm.
-
-**Trade-offs.** The inward skip is O(n) time and O(1) extra memory. A cleaned string is easier to explain and uses O(n) extra memory. Filtering to ASCII avoids a surprise on accented letters and rejects letters an international name would want kept. Comparing before case-folding fails `"A b, a"`, which is a palindrome under the rule this card stated.
-
-**Interview.** Ask three questions: what is ignored, whether case matters, and whether the empty string and an all-punctuation string should pass. Then write both inner loops with the same `left < right` bound as the outer loop. Say that you are not deleting a mismatched letter; a problem that allows one deletion is a different state machine. Walk a string that starts with punctuation so the skip is visible.
-
-**Recap.** Two ends walk toward the middle, passing over characters the predicate rejects, and compare the characters it keeps after case-folding. The check is linear and uses constant extra memory. The inner loops have to stop when the indexes meet. The empty string and a string with nothing to keep are palindromes under this rule.
-
-![Palindrome Check That Skips Punctuation (LeetCode-style: Valid Palindrome)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-7-palindrome-skips-punctuation.png)
+![Palindrome skipping punctuation](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-7-palindrome-skips-punctuation.png)
 
 *Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 7.*
 
-## Largest Container (LeetCode-style: Container With Most Water)
+## Largest container
 
-You are given the heights of vertical lines, one per index, standing on a shared baseline. Pick two lines. The container they form has width equal to the distance between their indexes and height equal to the shorter line. Return the largest area. The heights below are exercise numbers, not a surveyed dock.
+Width is the gap between the indexes. Height is the shorter line. Area is the product. A closer partner of the shorter line has less width and cannot exceed that line, so move the shorter side. On a tie either side is a cap, and this scan moves the left one. Time is O(n) and extra memory is O(1). Checking every pair is O(n^2), and it is the check to run on a short list while the move is still in doubt. Sorting the heights discards the widths, which are index distances. A hash map has nothing to look up.
 
-The area is `width * min(left height, right height)`. The shorter line is the limit. Every container that still uses that shorter line and a closer partner has a smaller width, and its height cannot exceed the shorter line, so its area cannot beat the area you just measured. Move the shorter side. When the heights are equal, each of them is a limiting side, so moving either one is safe. The code below moves the left side in that tie.
+Moving the taller side can abandon the short side of a wider pair that is still open. On `[2, 7, 4, 3, 8]` the ends hold area 8, then heights 7 and 8, three apart, hold 21, and every later pair in the scan is smaller. Checking every pair on that list also returns 21. `[1, 1]` holds 1. One line and an empty list hold 0. Heights are non-negative, and `best` starts at 0, so a list of zeros returns 0. A negative height is outside the problem: its area is negative and loses to that 0. A fixed-width product can wrap ([Overflow-safe arithmetic](#11_Coding_Problems/06_Moderate_Problems/concepts/overflow-safe-arithmetic)). Trapping rain water sums the water above every index. This card returns one rectangle.
 
 ```python
 def largest_container(heights: list[int]) -> int:
@@ -326,159 +259,15 @@ print(largest_container([2, 7, 4, 3, 8]), largest_container([1, 1]), largest_con
 # 21 1 0 0
 ```
 
-On `[2, 7, 4, 3, 8]`, the ends are height 2 and height 8, four units apart, area 8. The left line is shorter, so it moves. The next pair is 7 and 8, three apart, area 21. Every later pair in the scan is smaller. A brute-force check of the same list also returns 21. Two lines of height 1, one unit apart, hold area 1. One line cannot form a container, and neither can an empty list, so both results are 0. Heights in this problem are non-negative, which is also the constraint on LeetCode 11. `best` starts at 0, so a list of zeros returns 0. A negative height is outside the problem: its area is negative and would lose to that initial 0. Python's product grows. A fixed-width product of the width and the height can wrap, which is the [Overflow-safe arithmetic](../06_Moderate_Problems/) card.
-
-Moving the taller side is the usual bug. That taller side might be the short side of a wider pair you have not finished with. Trapping rain water is a different quantity: it asks how much water sits above every position, given taller lines somewhere on both sides, not the single rectangle between the two chosen lines.
-
-**Trade-offs.** The inward scan is O(n) time and O(1) extra memory. Checking every pair is O(n^2) and also correct, and it is the right check on a short list while you are still unsure which side to move. There is no hash-map version worth reaching for, because the constraint is geometric, not a complement. Sorting the heights would destroy the widths, which are index distances.
-
-**Interview.** Define the area as width times the shorter height before any code. Say why the shorter side is the one that moves, and say the equal-height tie in the same breath. Give the one-line and empty inputs as 0. Separate this problem from trapping rain water if the interviewer says "water" without drawing the rectangle.
-
-**Recap.** The best container is an inward scan that always abandons the shorter line, because that line cannot do better with a narrower partner. Equal heights can move either side. The scan is linear and uses constant extra memory. The answer is one rectangle, not the sum of water trapped above every index.
-
-![Largest Container (LeetCode-style: Container With Most Water)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-8-largest-container.png)
+![Largest container](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-8-largest-container.png)
 
 *Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 8.*
 
-## Shift Zeros to the End (LeetCode-style: Move Zeroes)
-
-Move every zero to the end of the list without allocating a second list. Keep the relative order of the nonzero values.
-
-This is the reader and the writer. The reader walks the list. Each nonzero is swapped into the writer slot, and the writer then advances. Everything before the writer is a nonzero in its final position. Zeros drift toward the end because the swap parks them in the slot the reader just left. The list below is exercise numbers.
-
-```python
-def shift_zeros(values: list[int]) -> list[int]:
-    write = 0
-    for read, value in enumerate(values):
-        if value != 0:
-            values[write], values[read] = values[read], values[write]
-            write += 1
-    return values
-
-
-def push_zeros_from_the_ends(values: list[int]) -> list[int]:
-    left, right = 0, len(values) - 1
-    while left < right:
-        if values[left] == 0:
-            values[left], values[right] = values[right], values[left]
-            right -= 1
-        else:
-            left += 1
-    return values
-
-
-print(shift_zeros([4, 0, 0, 2, 0, 5]))
-print(push_zeros_from_the_ends([4, 0, 0, 2, 0, 5]))
-print(shift_zeros([-1, 0, -2, 0, 3]), shift_zeros([0, 0]), shift_zeros([]))
-# [4, 2, 5, 0, 0, 0]
-# [4, 5, 2, 0, 0, 0]
-# [-1, -2, 3, 0, 0] [0, 0] []
-```
-
-The reader/writer result keeps `4`, `2`, `5` in that order. The inward swap also ends with the zeros at the end, and it puts `5` before `2`. That is a legal compaction only if the problem does not care about order. This problem does. A new list with the nonzeros followed by the right number of zeros is easier, and it is not in place.
-
-The pass is O(n) time and O(1) extra memory. A list that is all zeros, or that contains no zeros, is unchanged. Only an exact zero moves. On the exercise list `[-1, 0, -2, 0, 3]`, the kept order is `-1`, `-2`, `3`. Swapping an element with itself, when the reader and the writer sit on the same nonzero, is a no-op in Python, so a leading nonzero is safe. An empty list stays empty.
-
-**Trade-offs.** The in-place swap keeps order and uses constant extra memory. A second list keeps order and uses memory proportional to the length, which fails an in-place constraint. An inward swap uses constant memory and scrambles the nonzeros. Overwriting the tail with zeros in a second loop, instead of swapping, also keeps order; the swap version does that work inside the same pass because the displaced zero stays behind the writer.
-
-**Interview.** Repeat "in place" and "keep the order of the other values." Name the writer invariant. Show one input where an end-swap changes that order, so the interviewer can see you chose the same-direction scan on purpose. State the all-zeros input.
-
-**Recap.** A reader scans every slot and a writer receives the nonzeros in the order they appear. Zeros end up behind the writer. The pass is linear and uses constant extra memory. Swapping from the two ends also gathers the zeros, and it does not keep the other values in order.
-
-![Shift Zeros to the End (LeetCode-style: Move Zeroes)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-9-shift-zeros.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 9.*
-
-## Next Lexicographical Sequence (LeetCode-style: Next Permutation)
-
-Rearrange the characters of a string into the next arrangement in dictionary order. If the string is already the last arrangement, return the first one, the characters in nondecreasing order.
-
-"Next" means the next permutation in lexicographic order, the same contract as C++ `std::next_permutation`: the following arrangement of these same characters, or the first arrangement if this one is the last. Walk an example before coding. For the exercise string `"bac"`, the arrangements in order are `abc`, `acb`, `bac`, `bca`, `cab`, `cba`. The next one after `bac` is `bca`. After `cba` there is nothing later, so the answer wraps to `abc`.
-
-The algorithm is the staged scan. Find the rightmost index `i` with `s[i] < s[i + 1]`. That is the pivot. The suffix after it is non-increasing, which is why it was not chosen. Swap the pivot with the rightmost suffix character that is strictly larger than the pivot. That successor is the smallest increase that still sits as far right as possible, which matters when the suffix has duplicates. Then reverse the suffix. The reverse is the smallest order of a non-increasing run. Sorting the suffix would also work and would cost an extra log factor on that piece.
-
-```python
-def next_sequence(text: str) -> str:
-    chars = list(text)
-    pivot = len(chars) - 2
-    while pivot >= 0 and chars[pivot] >= chars[pivot + 1]:
-        pivot -= 1
-    if pivot >= 0:
-        successor = len(chars) - 1
-        while chars[successor] <= chars[pivot]:
-            successor -= 1
-        chars[pivot], chars[successor] = chars[successor], chars[pivot]
-    left, right = pivot + 1, len(chars) - 1
-    while left < right:
-        chars[left], chars[right] = chars[right], chars[left]
-        left += 1
-        right -= 1
-    return "".join(chars)
-
-
-print(next_sequence("bac"), next_sequence("cba"), next_sequence("1322"), next_sequence("a"), next_sequence("aA"), repr(next_sequence("")))
-# bca abc 2123 a Aa ''
-```
-
-`"1322"` shows the duplicate trap. The pivot is the leading `1`. The rightmost character larger than `1` is the final `2`, not the `3`. Swap to `"2321"`, then reverse the suffix to `"2123"`. Swapping with the `3` and then reversing the suffix produces `"3221"`, which skips `"2123"`. A string with no pivot, such as `"cba"`, reverses as a whole. A one-character string is already both the first and the last arrangement. An empty string stays empty. LeetCode 31, Next Permutation, runs these steps in place on an array of integers. This card returns a new string because a Python string cannot be edited in place. The order is character-code order. Digits, and letters in a single case, match ordinary dictionary order. Mixed case follows the codes, so `"A"` comes before `"a"`.
-
-The scans are O(n). A Python string is immutable, so the function copies it into a list, which is O(n) extra memory. The same steps on a list the caller owns can mutate that list with O(1) extra memory.
-
-**Trade-offs.** The staged scan is linear. Generating every permutation and picking the next one is factorial and answers a different question, "list them all." Sorting the suffix is easier to remember and slower by a log factor. Taking the leftmost larger successor instead of the rightmost one skips arrangements whenever more than one suffix character is larger than the pivot.
-
-**Interview.** Define "next" with four arrangements of a three-letter exercise string, including the wrap from the last arrangement to the first. Name the pivot, then the rightmost larger successor, then the reverse. Say what you do when the first scan falls off the left end. Mention the string copy if the input is immutable.
-
-**Recap.** The next arrangement is the one that increases the rightmost position that can still increase, then leaves the suffix in the smallest order. Find that pivot from the right, swap it with the rightmost strictly larger successor, and reverse the suffix. If there is no pivot, reverse the whole string. The work is linear, plus a list copy when the input is a Python string.
-
-![Next Lexicographical Sequence (LeetCode-style: Next Permutation)](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-10-next-lexicographical-sequence.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 10.*
-
-## Skipping duplicates after a sort
-
-After a sort, equal values sit next to each other, so a duplicate is a neighbor comparison instead of a search.
-
-That is why the triplet scan can promise unique results without a set. A fixed value that equals the value at the previous index is the same start you already ran. An inner value that equals the one you just used would rebuild the same triplet with a different index. Unix `uniq` is the same observation on text: it collapses adjacent duplicate lines, so a file has to be sorted first if duplicates that were not already neighbors should collapse too. The [Sort, then scan](../06_Moderate_Problems/) card is the general "neighbors become meaningful" idea. This card is the skip you add when the scan would otherwise emit the same answer again.
-
-The early stop at a positive fixed value is a separate fact, and it is only valid for a target of zero. The indexes below are the fixed positions the triplet scan is willing to use on one exercise list.
-
-```python
-def fixed_indexes_to_use(ordered: list[int]) -> list[int]:
-    use: list[int] = []
-    for i, value in enumerate(ordered):
-        if value > 0:
-            break
-        if i > 0 and value == ordered[i - 1]:
-            continue
-        use.append(i)
-    return use
-
-
-print(fixed_indexes_to_use([-4, -1, -1, 0, 1, 2, 2]))
-# [0, 1, 3]
-```
-
-Index 2 is the second `-1`, and it is skipped. Indexes of the positive values are never used as the fixed position. On `[-2, 0, 0, 2]`, a hit at `(-2, 0, 2)` has to move both inner indexes. Moving only the left one lands on the second `0` and emits the same values again.
-
-The same neighbor rule is how the pattern grows past three values. Sort once. To find k values that sum to a target, fix one value and ask the same question for k - 1 values in the suffix, until the question is a pair and the inward scan can finish it. The pair scan is linear, so three values are quadratic, and each extra value adds another factor of n. The sort is O(n log n), which is smaller than that for three or more values, and in this Python it is still an extra list.
-
-**Trade-offs.** Neighbor skips cost a few comparisons and no extra memory. A set of answer tuples is shorter to write, hashes every answer, and can store a quadratic number of them. It also lets a buggy inner loop look correct. Skipping is easy to forget at one of the three sites, and the tests that catch it are inputs with repeated values, not inputs with all distinct values.
-
-**Interview.** Say "duplicates are adjacent, so I skip equals as I go" rather than "I will unique it at the end." Name the sites you skip. Say the positive-value stop is about the target, not about duplicates. If the interviewer asks about four values, describe the extra fixed index and the same inner pair scan, and give the time as O(n^3) after the sort.
-
-**Recap.** Sorting puts copies side by side, so uniqueness is a neighbor test at the fixed index and at both inner indexes after a hit. A set of tuples also deduplicates, and it hides the cost. The same reduction, fix one value and scan the rest, is how the pair scan answers sums of more than three values. The sort's extra list is the memory, and the scans dominate the time.
-
-![Skipping duplicates after a sort](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-11-skipping-duplicates.png)
-
-*Source: [`diagrams/two-pointers.drawio`](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers.drawio), page 11.*
-
 ## Two pointers, a hash map, or brute force
 
-The choice follows the constraint you can point at: sorted order, original indexes, extra memory, or a structure that is not a pair at all.
+The constraint picks the tool. A nested pair loop is the baseline: it works unsorted, uses O(1) extra memory, and takes O(n^2). Name it, run it on a short list until the faster scan agrees, then replace it ([Optimize brute force in steps](#11_Coding_Problems/07_Hard_Problems/concepts/optimize-brute-force-in-steps)). A proved inward move on a sorted array is O(n) time and O(1) extra memory. [Unsorted pair-sum with a hash set](#07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/concepts/unsorted-pair-sum-with-a-hash-set) handles an unsorted complement in expected O(n) time and O(n) memory. Check `target - value` before inserting, or one copy pairs with itself. Use the inward scan when you can say which end the comparison finishes. Without that sentence the skipped pairs are still possible.
 
-A nested loop is the baseline. It uses constant extra memory, it works unsorted, and its time grows with the square of the length. Say it, give that cost, and then replace it. Two pointers replace it when a move has a proof. On a sorted array the proof is the inward one, and the pair scan becomes linear with constant extra memory. A hash map replaces it when the array is unsorted and you want a complement: for each value, ask whether `target - value` is already stored, then store the value. That is one expected linear pass and extra memory proportional to the length, and it is written out on the [Unsorted pair-sum with a hash set](../../07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/) card. Check the map before you insert, or a single copy of a number will look like a pair with itself.
-
-The counts below are for one exercise list, not a benchmark. The target 31 has one pair, indexes 1 and 7, values 2 and 29.
+On `[1, 2, 4, 7, 11, 16, 22, 29]` and target 31 the one pair is indexes 1 and 7, the values `2` and `29`. The inward scan stops after 2 additions. The double loop stops after 13. The map examines all 8 values, and the eighth is 29, whose complement 2 is already stored. Eight values have 28 pairs. Another target changes the counts. The bounds stay put: O(n) for the inward scan on sorted input, O(n^2) for the nested loop, expected O(n) for the hash map. Sorting an unsorted array so the inward scan is legal costs O(n log n) and, with `sorted`, a new list. The indexes then belong to that list unless each value carries its original index. A palindrome, a container, a zero shift, and a next arrangement stay on two pointers, because they are not complement lookups. [Sliding window](#11_Coding_Problems/06_Moderate_Problems/concepts/sliding-window) is a contiguous segment whose sum is monotone. [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm) is a cycle in a linked list.
 
 ```python
 def comparisons(values: list[int], target: int) -> tuple[int, int, int]:
@@ -518,16 +307,6 @@ def comparisons(values: list[int], target: int) -> tuple[int, int, int]:
 print(comparisons([1, 2, 4, 7, 11, 16, 22, 29], 31))
 # (2, 13, 8)
 ```
-
-On this list the inward scan adds twice and stops on `2 + 29`. The double loop also stops at the first hit, after 13 additions. Eight values have 28 pairs, and this run stops early. The hash map examines 8 values, and the eighth is 29, whose complement 2 is already stored. A different target moves those counts around. The bounds do not: linear for the inward scan on sorted input, quadratic for the nested loop, expected linear for the hash map. Sorting an unsorted array so you can run the inward scan costs O(n log n) time and, with `sorted`, a new list. It also changes indexes unless you sort `(value, index)` pairs and return the stored indexes. If you needed those original indexes, the hash map was the direct tool.
-
-Some problems in this topic are not pair-sum problems, so the hash map is not a competitor. The palindrome check needs symmetry. The container needs index distance, and sorting the heights would throw the widths away. The zero shift needs a writer. The next arrangement needs the staged suffix proof. A sliding window, on the [Sliding window](../06_Moderate_Problems/) card, is the right tool when the answer is a contiguous segment with a monotone sum. Floyd's scan is the right tool when the structure is a linked list and the question is a cycle.
-
-**Trade-offs.** Two pointers buy linear time and constant extra memory when the discard is real, and they are simply wrong when it is not. A hash map buys expected linear time on unsorted pair searches and spends memory. Sorting first buys the discard and spends the sort. The nested loop buys an obvious correct answer and spends quadratic time. Using a set to clean up duplicates after the fact buys shorter code and hides both time and memory.
-
-**Interview.** Start from the constraint in the sentence, not from a favorite loop. Sorted, or safe to sort, and constant memory: two pointers, and say which end moves. Unsorted, original indexes, pair complement: hash map, and say you insert after the check. Contiguous sum: sliding window. Cycle in a list: Floyd. Then give both costs, time and extra memory, including the sort if you introduced one. Offer the nested loop as the check you would run on a tiny input.
-
-**Recap.** Two pointers are the linear, constant-memory scan when order or symmetry lets a move delete whole groups of candidates. A hash map is the linear, extra-memory scan when the question is an unsorted complement and the original indexes matter. A nested loop is the correct baseline you name first. Palindromes, containers, compaction, and next arrangements stay on two pointers even though a hash map solves pair sums, because those problems are not complement lookups.
 
 ![Two pointers, a hash map, or brute force](/content/11_Coding_Problems/09_Two_Pointers/diagrams/two-pointers-12-two-pointers-hash-map-or-brute-force.png)
 
