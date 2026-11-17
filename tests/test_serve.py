@@ -1142,13 +1142,13 @@ def test_intervals_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Closed, open, or half-open",
-        "## The shared span",
-        "## The end you keep is the later one",
-        "## A sweep of starts and ends",
-        "## Overlaps between two sorted lists",
-        "## Insert one interval into a sorted list",
-        "## How many fit, and how many shots",
+        "## Closed and half-open intervals",
+        "## Intersection of two intervals",
+        "## Insert an interval",
+        "## Overlaps between two lists",
+        "## Count overlapping intervals",
+        "## Minimum intervals to remove",
+        "## Minimum arrows",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
