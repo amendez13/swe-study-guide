@@ -914,16 +914,14 @@ def test_hash_maps_and_sets_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Hash maps and sets: lookup by a key",
-        "## Complement lookup",
-        "## Counting with a map",
-        "## Designing the key",
-        "## Marks stored in the input",
-        "## Pair Sum in an Unsorted Array (LeetCode-style: Two Sum)",
-        "## Valid Digit Grid (LeetCode-style: Valid Sudoku)",
-        "## Zero a Row and a Column (LeetCode-style: Set Matrix Zeroes)",
-        "## Longest Run of Consecutive Values (LeetCode-style: Longest Consecutive Sequence)",
-        "## Triplets at a Fixed Ratio (HackerRank-style: Count Triplets)",
+        "## Lookup by a key",
+        "## Pair sum in an unsorted array",
+        "## A second pass for arrival order",
+        "## A grouping key",
+        "## A valid digit grid",
+        "## Zero a row and a column",
+        "## Longest consecutive run",
+        "## Triplets at a fixed ratio",
         "## A hash map, an array, a sort, or two pointers",
     ):
         assert heading in concepts
