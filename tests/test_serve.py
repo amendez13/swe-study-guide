@@ -882,17 +882,13 @@ def test_two_pointers_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Two pointers: what a second index buys",
-        "## Inward traversal",
-        "## Reader and writer on one pass",
-        "## Staged traversal",
-        "## Pair Sum in a Sorted Array (LeetCode-style: Two Sum II)",
-        "## Zero-Sum Triplets (LeetCode-style: 3Sum)",
-        "## Palindrome Check That Skips Punctuation (LeetCode-style: Valid Palindrome)",
-        "## Largest Container (LeetCode-style: Container With Most Water)",
-        "## Shift Zeros to the End (LeetCode-style: Move Zeroes)",
-        "## Next Lexicographical Sequence (LeetCode-style: Next Permutation)",
-        "## Skipping duplicates after a sort",
+        "## What a second index buys",
+        "## A short sum moves the left end",
+        "## Nonzeros keep the order the reader saw",
+        "## The rightmost ascent, then the smallest suffix",
+        "## A zero-sum triplet skips the copy beside it",
+        "## Skip the characters a palindrome will not compare",
+        "## Move the shorter line",
         "## Two pointers, a hash map, or brute force",
     ):
         assert heading in concepts
