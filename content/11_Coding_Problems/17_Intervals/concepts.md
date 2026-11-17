@@ -18,6 +18,10 @@ print(overlaps((1, 3), (2, 2), False), (1 < 2 and 2 < 3))
 # False True
 ```
 
+![Closed and half-open intervals](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-1-closed-and-half-open.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 1.*
+
 ## Intersection of two intervals
 
 The shared span is `[max(starts), min(ends)]`. It is a real closed interval when that start is at or before the end, and a real half-open interval when the start is strictly before the end. A pair built after the test has failed runs backwards. A later scan that treats every pair as a span will keep it. The test is symmetric, so swapping the arguments does not change the span. Build the span from the two numbers the comparison already computed. A second walk that only asks whether the intervals overlap has thrown those numbers away.
@@ -38,6 +42,10 @@ print(shared((3, 5), (1, 3), True), shared((6, 6), (6, 6), False))
 # (3, 3) None
 # (3, 3) None
 ```
+
+![Intersection of two intervals](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-2-intersection-of-two-intervals.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 2.*
 
 ## Insert an interval
 
@@ -71,6 +79,10 @@ print(insert([(1, 3)], (3, 5)), insert([(1, 3)], (3, 5), True))
 # [(1, 2), (3, 5), (6, 8)] [(0, 10)] [(2, 5)]
 # [(1, 3), (3, 5)] [(1, 5)]
 ```
+
+![Insert an interval](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-3-insert-an-interval.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 3.*
 
 ## Overlaps between two lists
 
@@ -119,6 +131,10 @@ print(pair_overlaps([(1, 3)], [(3, 5)]), pair_overlaps([(1, 3)], [(3, 5)], True)
 # [] [(3, 3)]
 ```
 
+![Overlaps between two lists](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-4-overlaps-between-two-lists.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 4.*
+
 ## Count overlapping intervals
 
 Split each interval into `+1` at the start and `-1` at the end. Sort by time. For half-open ranges, process the end before the start when the time ties: an interval that ends at t does not cover t, so a start at t must see it already closed. Add the delta after each event. The maximum of the running count is the largest overlap, which is also the number of rooms. Sorting the 2n events is O(n log n) time and O(n) memory. The scan is O(n). Two sorted arrays, starts and ends, compute the same half-open peak in one pass after those sorts: take a start while it is strictly before the next end, and drop one when an end is due. A min-heap of end times answers the same half-open count. That version is the Rooms for the meetings drill on the Heaps topic. [Merge intervals](#11_Coding_Problems/06_Moderate_Problems/concepts/merge-intervals) writes the occupied blocks. It does not count how many intervals share an instant.
@@ -149,6 +165,10 @@ print(peak([(4, 4)], True), peak([(4, 4)], False))
 # 2 3 0 1
 # 0 1
 ```
+
+![Count overlapping intervals](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-5-count-overlapping-intervals.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 5.*
 
 ## Minimum intervals to remove
 
@@ -185,6 +205,10 @@ print(removals(line), removals(line, False), removals([]), removals([(4, 7)]))
 # 0 1 0 0
 ```
 
+![Minimum intervals to remove](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-6-minimum-intervals-to-remove.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 6.*
+
 ## Minimum arrows
 
 A closed balloon contains both ends, and an arrow is one point. The arrow bursts every balloon that contains that point. Sort by end. The balloon that ends first must be hit somewhere in its span. An arrow at its end hits it, and it hits every other balloon that overlaps it: that other balloon ends no earlier, and an overlap puts its start at or before this end, so the closed point is inside it. A point earlier than the end can miss a balloon that starts exactly here. One arrow is necessary for this balloon and enough for every balloon that overlaps it. Drop the balloons that contain the point and repeat. The next shot is the first start strictly after the point. [Greedy choice](#07_Data_Structures_and_Algorithms/11_Problem_Solving_Patterns/concepts/greedy-choice) names the pattern. The exchange is the argument above. [Minimum intervals to remove](#11_Coding_Problems/17_Intervals/concepts/minimum-intervals-to-remove) sorts the same way and keeps a half-open interval when `start >= last end`.
@@ -208,3 +232,7 @@ print(arrows([(8, 8)]), arrows([]), arrows([(2, 4)]))
 # [5, 10] [5, 8, 10]
 # [8] [] [4]
 ```
+
+![Minimum arrows](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-7-minimum-arrows.png)
+
+*Source: [`diagrams/intervals.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals.drawio), page 7.*
