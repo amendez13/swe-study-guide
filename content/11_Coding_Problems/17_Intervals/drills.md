@@ -31,6 +31,10 @@ print(pair_overlaps([(1, 20)], [(2, 5), (6, 8)]))
 # [(2, 5), (6, 8)]
 ```
 
+![Two sorted lists](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-1-two-sorted-lists.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 1.*
+
 ## Insert into a sorted list
 
 The exercise list is half-open, sorted, and non-overlapping: `(0, 2)`, `(3, 6)`, `(9, 11)`. Insert `(5, 10)`. Also insert `(12, 14)` into that same list, insert `(1, 2)` into an empty list, and insert `(2, 4)` into `(0, 2)`, `(5, 7)` under both rules.
@@ -64,6 +68,10 @@ print(insert([(0, 2), (5, 7)], (2, 4)), insert([(0, 2), (5, 7)], (2, 4), True))
 # [(0, 2), (3, 6), (9, 11), (12, 14)] [(1, 2)]
 # [(0, 2), (2, 4), (5, 7)] [(0, 4), (5, 7)]
 ```
+
+![Insert into a sorted list](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-2-insert-into-a-sorted-list.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 2.*
 
 ## Intervals to remove
 
@@ -100,6 +108,10 @@ print(removals([(4, 7)]), removals([]))
 # 0 1
 # 0 0
 ```
+
+![Intervals to remove](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-3-intervals-to-remove.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 3.*
 
 ## Free gaps
 
@@ -142,6 +154,10 @@ print(free_gaps([[(20, 22)]], (0, 5)))
 # [(0, 5)]
 ```
 
+![Free gaps](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-4-free-gaps.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 4.*
+
 ## Touching endpoints
 
 The exercise intervals are `(4, 8)` and `(8, 11)`. Merge them if the question is a shared point and the intervals are closed. Merge them if the question is a shared point and the intervals are half-open. Also merge a single closed `(4, 8)`, and merge an empty list.
@@ -166,6 +182,10 @@ print(merge([(4, 8)], True), merge([], True))
 # [(4, 11)] [(4, 8), (8, 11)]
 # [(4, 8)] []
 ```
+
+![Touching endpoints](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-5-touching-endpoints.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 5.*
 
 ## Nested interval
 
@@ -193,6 +213,10 @@ print(merge(apart, False), merge(apart, True), merge([], False))
 # [(0, 3), (4, 5)] [(0, 9)]
 # [(0, 2), (3, 5)] [(0, 2), (3, 5)] []
 ```
+
+![Nested interval](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-6-nested-interval.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 6.*
 
 ## Peak overlap
 
@@ -225,6 +249,10 @@ print(peak([(3, 3)], True), peak([(3, 3)], False))
 # 0 1
 ```
 
+![Peak overlap](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-7-peak-overlap.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 7.*
+
 ## Arrows through balloons
 
 The exercise balloons are closed `[1, 5]`, `[2, 3]`, `[3, 7]`, `[6, 9]`, and `[10, 12]`. An arrow at a point bursts every balloon that contains that point. Which points does the earliest-end scan shoot? Also answer the touch `[0, 4]`, `[4, 8]` under the closed test and under `start >= last`, the single point `[8, 8]`, and an empty list.
@@ -249,3 +277,7 @@ print(arrows([(8, 8)]), arrows([]))
 # [4] [4, 8]
 # [8] []
 ```
+
+![Arrows through balloons](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills-8-arrows-through-balloons.png)
+
+*Source: [`diagrams/intervals-drills.drawio`](/content/11_Coding_Problems/17_Intervals/diagrams/intervals-drills.drawio), page 8.*
