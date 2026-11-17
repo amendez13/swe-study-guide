@@ -4,16 +4,14 @@ A hash map stores a payload under a key. A hash set stores the keys alone. The l
 
 ## Key Points
 
-- **Hash maps and sets: lookup by a key** — a map carries a payload, a set carries membership. Python's `dict` keeps insertion order. A `set` does not promise an order. Expected O(1) per operation, O(n) when every key collides. The hash, the collisions, and the resize stay on the arrays cards.
-- **Complement lookup** — for each value, ask whether `target - value` is already stored, then store the value. A set answers yes or no. Inserting first lets one value pair with itself.
-- **Counting with a map** — one pass writes counts. An array of 26 is the same idea when the key is a lowercase letter, with a worst-case bound. `uniq -c` counts adjacent lines and wants a sort first.
-- **Designing the key** — the key is the definition of "same." A block index groups cells. Sorted letters group anagrams. A key that drops counts answers a different question at the same speed.
-- **Marks stored in the input** — record original zeros before writing new ones. Two flags remember the first row and the first column. A sign is a legal mark only when every value is positive.
-- **Pair Sum in an Unsorted Array (LeetCode-style: Two Sum)** — store the index after the check. Return the earlier index first, or an empty result. LeetCode 1 promises one pair and a length of at least 2. The sorted twin is two pointers.
-- **Valid Digit Grid (LeetCode-style: Valid Sudoku)** — one pass, three families of sets, block index `(r // 3) * 3 + c // 3`. Dots are ignored. A pass is validity, not a completed grid. LeetCode 36 promises the alphabet and the 9 by 9 shape.
-- **Zero a Row and a Column (LeetCode-style: Set Matrix Zeroes)** — sets of indexes are O(m + n) extra memory. Marks in the first row and column are O(1), if the marker row is cleared after the interior. LeetCode 73 starts at 1 by 1 and allows negatives.
-- **Longest Run of Consecutive Values (LeetCode-style: Longest Consecutive Sequence)** — walk only from a missing predecessor, so the inner walks add up to n. Duplicates do not extend the run. A sort is the guaranteed O(n log n).
-- **Triplets at a Fixed Ratio (HackerRank-style: Count Triplets)** — each value is the middle. Multiply the earlier partner count by the later one, after dropping the middle from the later map. Ratio 0, ratio 1, and a non-exact division are the edges. HackerRank stays positive.
+- **Lookup by a key** — a map carries a payload, a set carries membership. Python's `dict` keeps insertion order. A `set` does not promise an order. Expected O(1) per operation, O(n) when every key collides. The hash, the collisions, and the resize stay on the arrays cards.
+- **Pair sum in an unsorted array** — look up `target - value`, then store the index. A set that checks before the insert answers yes or no. A set of the whole array cannot tell one copy from two. LeetCode 1 promises one pair and a length of at least 2. The sorted twin is two pointers.
+- **A second pass for arrival order** — one pass writes counts. The second pass over the original string returns the first singleton in arrival order. An array of 26 is the same idea for a lowercase letter, with a worst-case bound. `uniq -c` counts adjacent lines and wants a sort first.
+- **A grouping key** — the key is the definition of "same." A block index groups cells. Sorted letters group anagrams. A `frozenset` of letters drops counts and answers a different question at the same speed.
+- **A valid digit grid** — one pass, three families of sets, block index `(r // 3) * 3 + c // 3`. Dots are ignored. A pass is validity, not a completed grid. LeetCode 36 promises the alphabet and the 9 by 9 shape.
+- **Zero a row and a column** — sets of indexes are O(m + n) extra memory. Marks in the first row and column are O(1), if the flags are taken first and the marker row is cleared after the interior. A sign is a legal mark only when every value is positive. LeetCode 73 starts at 1 by 1 and allows negatives.
+- **Longest consecutive run** — walk only from a missing predecessor, so the inner walks add up to n. Duplicates do not extend the run. A sort is the guaranteed O(n log n).
+- **Triplets at a fixed ratio** — each value is the middle. Multiply the earlier partner count by the later one, after dropping the middle from the later map. Ratio 0, ratio 1, and a non-exact division are the edges. HackerRank stays positive.
 - **A hash map, an array, a sort, or two pointers** — a complement or a count wants a hash. A dense range wants an array. Order or a guarantee wants a sort. A sorted pair with tight memory wants two pointers.
 
 ## Example
