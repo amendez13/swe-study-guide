@@ -1,7 +1,7 @@
-## Save the next link
-Overwriting `next` drops every node that pointer was the only path to. Save the successor, then assign. On `4 → 1 → 7` the save leaves `[4]` and `[1, 7]`. A one-node list has no rest to save. An empty list has no node to cut. The node, `prev`, and index cost are [Singly linked list: nodes chained by next pointers](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/singly-linked-list-nodes-chained-by-next-pointers), [Doubly linked list: bidirectional traversal](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/doubly-linked-list-bidirectional-traversal), and [Arrays vs. linked lists: choosing the right structure](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/arrays-vs-linked-lists-choosing-the-right-structure). Those cards name the field `data`. These snippets use `val`. `collections.deque` is the production block list on [Edge cases and test helpers](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/edge-cases-and-test-helpers).
+## Pointer rewiring
+Overwriting `next` drops every node that pointer was the only path to. Save the successor, then assign. On `4 → 1 → 7` that leaves `[4]` and `[1, 7]`. Skip the save and `1` and `7` are unreachable. A one-node list has no rest to save. An empty list has no node to cut. There is no `values[i]`. The kth node is k links away. [Singly linked list: nodes chained by next pointers](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/singly-linked-list-nodes-chained-by-next-pointers), [Doubly linked list: bidirectional traversal](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/doubly-linked-list-bidirectional-traversal), and [Arrays vs. linked lists: choosing the right structure](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/arrays-vs-linked-lists-choosing-the-right-structure) name the field `data`. These snippets use `val`. `collections.deque` is on [Edge cases and test helpers](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/edge-cases-and-test-helpers).
 
-Linux `list_head` (`include/linux/list.h`) deletes a held entry by rewiring the neighbors it already points at, with no scan. The kth node is still k links away. Insert after a held node, or delete its successor, in a few assignments. Deleting the node itself needs `prev`. On a singly linked list the predecessor has to be in hand, unless you copy the successor and skip it, and the tail has no successor to copy. A Python list buys indexes at O(n) memory. Recursion spends a frame per node against CPython's default limit of 1000 ([Recursive list processing](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/recursive-list-processing)). The reversal loop is [Iterative in-place reversal](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/iterative-in-place-reversal).
+Linux `list_head` (`include/linux/list.h`) deletes a held entry by rewiring neighbors it already points at. Insert after a held node, or delete its successor, is a few assignments. Deleting the held node needs `prev`. Copy the successor and skip it only when a successor exists, so the tail cannot be deleted that way. A Python list buys indexes at O(n) memory. Recursion spends a frame per node against the default limit of 1000 ([Recursive list processing](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/recursive-list-processing)). The loop is [Iterative in-place reversal](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/iterative-in-place-reversal).
 
 ```python
 class ListNode:
@@ -25,12 +25,12 @@ print(to_list(head), to_list(saved), to_list(ListNode(4)))
 # [4] [1, 7] [4]
 ```
 
-![Save the next link](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-1-pointer-rewiring.png)
+![Pointer rewiring](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists-1-pointer-rewiring.png)
 
 *Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 1.*
 
 ## Dummy head
-[Sentinel (dummy) head node](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/sentinel-dummy-head-node) puts one throwaway node in front of the real head, so the first node has a predecessor and the head branch disappears. The caller needs `dummy.next`. It may be a different node from the head that was passed in, or `None` when the list is empty. Returning the old head leaves the caller on a removed node. Use a dummy when the first node might go, or when a result is built before its first node is known. [Merging two sorted lists](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/merging-two-sorted-lists) uses it that second way. Two dummies, one per side, cover a partition that does not know which side is first.
+[Sentinel (dummy) head node](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/sentinel-dummy-head-node) puts one throwaway node in front of the real head, so the first node has a predecessor and the head branch disappears. The caller needs `dummy.next`. It may be a different node, or `None` when the list is empty. Returning the old head, or assigning a local `head`, leaves the caller holding the removed node. Use a dummy when the first node might go, or when a result is built before its first node is known. [Merging two sorted lists](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/merging-two-sorted-lists) uses it that second way. Two dummies, one per side, cover a partition that does not know which side is first. If the head cannot change, skip the allocation.
 
 Deleting at an index, including 0, is that same unlink. A list has no indexes, so the loop walks. Index 0 on `[4, 1, 7]` returns `[1, 7]`. Index 2 returns `[4, 1]`. The only node becomes empty, so the caller must keep the returned reference. An empty list stays empty. An index past the end stops when `prev.next` is missing and leaves the list alone. The dummy's value is not in the result. The walk is O(n). The extra memory is that one node.
 
@@ -81,7 +81,7 @@ print(to_list(delete_at(from_list([4]), 0)), to_list(delete_at(from_list([]), 0)
 ## Reverse a linked list
 [Iterative in-place reversal](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/iterative-in-place-reversal) uses three references. `prev` starts at `None`. Save `nxt` before overwriting `curr.next`, point `curr` at the reversed prefix, and step both. When `curr` is `None`, `prev` is the new head: the old tail was the last node turned. On `4 → 1 → 7` the first step saves `1`, points `4` at `None`, and leaves `curr` on `1`. Empty and one node come back unchanged. Values are never read, so `-2, 0` becomes `0, -2`. Time is O(n) and extra memory is O(1). A stack or a reversed copy also reverses and spends O(n) memory.
 
-[Recursive list processing](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/recursive-list-processing) reverses the tail, points the old successor back, and sets `next` to `None`. Skip that assignment and the two nodes point at each other. A bounded walk of `4, 1` reports a cycle. Recursion is O(n) time and O(n) frames. On CPython 3.12 the default limit is 1000. From a module this reverse returns on 998 nodes and raises `RecursionError` on 999. One extra caller returns on 997 and raises on 998, because frames already on the stack count. LeetCode 206 allows an empty list, 0 to 5000 nodes, values from -5000 to 5000, and both forms, so 5000 nodes is past the default limit.
+[Recursive list processing](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/recursive-list-processing) reverses the tail, points the old successor back, and sets `next` to `None`. Skip that assignment and the two nodes point at each other. A bounded walk of `4, 1` reports a cycle. Recursion is O(n) time and O(n) frames. CPython's default limit is 1000. From a module this reverse returns on 999 nodes and raises `RecursionError` on 1000. One extra caller returns on 998 and raises on 999, because frames already on the stack count. LeetCode 206 allows an empty list, 0 to 5000 nodes, and values from -5000 to 5000, so 5000 nodes is past that limit.
 
 ```python
 class ListNode:
@@ -160,9 +160,9 @@ print(walk_cap(forget_none(from_list([4, 1])), 6))
 *Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 5.*
 
 ## Remove the kth last node
-A fixed gap keeps two node references k links apart, one step each. [Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique) moves two links per slow step. [Two indexes](#11_Coding_Problems/09_Two_Pointers/concepts/two-indexes) moves indexes. A [Dummy head](#11_Coding_Problems/11_Linked_Lists/concepts/dummy-head) is the predecessor when k equals the length. Advance the leader k steps from the dummy, then both while `lead.next` exists. The trailer's `next` is the node to drop. Stopping once `lead` is `None` is one node late: the unlink takes the neighbor, or reads `next` of `None` on the tail. `k - 1` or `k + 1` steps from the dummy is still linear and removes a neighbor.
+A fixed gap keeps two references k links apart, one step each. [Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique) moves two links per slow step. [Two indexes](#11_Coding_Problems/09_Two_Pointers/concepts/two-indexes) moves indexes. A [Dummy head](#11_Coding_Problems/11_Linked_Lists/concepts/dummy-head) is the predecessor when k equals the length. Advance the leader k steps from the dummy, then both while `lead.next` exists, so the leader stops on the last node and the trailer, k behind, is the predecessor. Stopping when `lead` is `None` parks the trailer on the target: the unlink takes the neighbor, or reads `next` of `None`. `k - 1` or `k + 1` is still linear and removes a neighbor.
 
-The length, then `length - k` steps from the dummy, finds that predecessor. Both are O(n) time and O(1) extra memory. Storing the nodes spends O(n). On `[8, 3, 5, 1, 9]`, k = 2 removes `1`, k = 5 removes the head through `dummy.next`, and k = 1 removes the tail. The gap advances 5 times and the length pass 8, five to count and three to the predecessor. Both leave `[8, 3, 5, 9]`. k below 1 or past the end leaves the list. LeetCode 19 requires `1 <= n <= sz` on a non-empty list of at most 30 nodes. Empty stays empty, and one node with k = 1 becomes empty.
+Counting the length, then walking `length - k`, finds that predecessor in a second pass. Both are O(n) time and O(1) extra memory. An array of the nodes is O(n). On `[8, 3, 5, 1, 9]`, k = 2, 5, and 1 leave the trailer on `5`, the dummy, and `1`, dropping `1`, the head, and the tail. k below 1 or past the end leaves the list. LeetCode 19 requires `1 <= n <= sz` on a non-empty list of at most 30 nodes. Empty stays empty. One node with k = 1 becomes empty.
 
 ```python
 class ListNode:
@@ -234,9 +234,9 @@ print(show([8, 3, 5, 1, 9], 6), show([8, 3, 5, 1, 9], 0), show([], 1), show([8],
 *Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 6.*
 
 ## Intersection of two lists
-Sharing is one node object, not equal values. Each walk falls off its list and continues at the other head. Both cover the sum of the lengths, so they meet on the shared node or on `None`. The step is one expression, the next node or the other head, so `None` is visible. Replacing `None` before the test hides that pair, and the loop does not end. A length difference, then lockstep, meets there in constant memory. A set of values is a different question from a set of node identities.
+Sharing is one node object, not equal values. Each pointer walks its list, then the other. Both routes have length n + m, so they meet on the shared node or on `None`. The step is one expression, the next node or the other head, so `None` is visible. Replacing `None` before the test hides that pair and the loop does not end. A length difference, then lockstep, meets there in constant memory. A set of identities does too, in linear memory, or O(n * m) time in one bucket. A set of values is a different question.
 
-Separate nodes with the same values return `None`. The junction is the shared object, not the equal value ahead of it. Heads already on that node meet at once. Empty with empty, or a list with empty, is `None`. The switch and the alignment are O(n + m) time and O(1) memory. The identity set is expected O(n + m) and O(n) memory, or O(n * m) in one bucket. Do not reverse or splice if the lists must stay. A cycle does not end the switch ([Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm)). LeetCode 160 allows up to 30,000 nodes, repeating values from 1 to 100,000, no cycles, and the original links. `intersectVal` 0 means none shared. An empty head is allowed here.
+On `2 → 9 → 6` and `9 → 6` the `9`s are different nodes. A value search returns a `9`. The junction is the shared `6`. Heads already on that node meet at once, and a longer prefix still meets there. Empty with empty, or a list with empty, is `None`. The switch and the alignment are O(n + m) time and O(1) memory. Do not reverse or splice the lists. A cycle does not end the switch ([Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm)). LeetCode 160 allows 30,000 nodes, repeating values from 1 to 100,000, no cycles, and the original links. `intersectVal` 0 means none shared. An empty head is allowed here.
 
 ```python
 class ListNode:
@@ -290,6 +290,18 @@ def by_ids(a: ListNode | None, b: ListNode | None) -> ListNode | None:
     return None
 
 
+def first_shared_value(a: ListNode | None, b: ListNode | None) -> str | None:
+    seen: set[int] = set()
+    while a is not None:
+        seen.add(a.val)
+        a = a.next
+    while b is not None:
+        if b.val in seen:
+            return b.tag
+        b = b.next
+    return None
+
+
 def broken_switch(a: ListNode | None, b: ListNode | None, limit: int) -> str:
     first, second = a, b
     steps = 0
@@ -315,17 +327,22 @@ def chain(*nodes: ListNode) -> ListNode:
 separate_a = chain(ListNode(4, tag="a4"), ListNode(1, tag="a1"))
 separate_b = chain(ListNode(4, tag="b4"), ListNode(1, tag="b1"))
 shared = ListNode(6, tag="shared")
-joined_a = chain(ListNode(2, tag="a2"), shared)
+joined_a = chain(ListNode(2, tag="a2"), ListNode(9, tag="a9"), shared)
 joined_b = chain(ListNode(9, tag="b9"), shared)
 head_join = ListNode(6, tag="head-join")
 prefix = chain(ListNode(2, tag="pre"), head_join)
 print(tag_of(intersection(separate_a, separate_b)), tag_of(by_length(separate_a, separate_b)), tag_of(by_ids(separate_a, separate_b)))
-print(tag_of(intersection(joined_a, joined_b)), tag_of(by_length(joined_a, joined_b)), tag_of(by_ids(joined_a, joined_b)))
+print(
+    tag_of(intersection(joined_a, joined_b)),
+    tag_of(by_length(joined_a, joined_b)),
+    tag_of(by_ids(joined_a, joined_b)),
+    first_shared_value(joined_a, joined_b),
+)
 print(tag_of(intersection(head_join, head_join)), tag_of(intersection(prefix, head_join)), tag_of(by_ids(prefix, head_join)))
 print(tag_of(intersection(None, None)), tag_of(intersection(joined_a, None)))
 print(broken_switch(separate_a, separate_b, 8))
 # None None None
-# shared shared shared
+# shared shared shared b9
 # head-join head-join head-join
 # None None
 # still going after 8
@@ -336,9 +353,9 @@ print(broken_switch(separate_a, separate_b, 8))
 *Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 7.*
 
 ## Least recently used cache
-`get` returns the value or `None` and marks the key used. `put` inserts or overwrites. A new key past capacity drops the least recently used key. The map finds the node ([Lookup by a key](#11_Coding_Problems/10_Hash_Maps_and_Sets/concepts/lookup-by-a-key)). Sentinels order it ([Doubly linked list with sentinels: O(1) unlink](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/doubly-linked-list-with-sentinels-o-1-unlink)): every real node has neighbors, so one pair of assignments unlinks the oldest or the middle, in both directions. A singly linked predecessor is a walk, so that constant bound is false. Either end can be recent. This card appends before the newest sentinel. [Eviction Policies](#09_System_Design_Interview/05_Caching/concepts/eviction-policies) is not a TTL. FIFO ignores a later get.
+`get` returns the value or `None`. `put` inserts or overwrites and counts as a use. A new key past capacity drops the least recently used key. The map finds the node ([Lookup by a key](#11_Coding_Problems/10_Hash_Maps_and_Sets/concepts/lookup-by-a-key)). Sentinels order it ([Doubly linked list with sentinels: O(1) unlink](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/doubly-linked-list-with-sentinels-o-1-unlink)): both directions, for the oldest node or the middle. Writing only `next` or only `prev` leaves those directions in disagreement. A singly linked predecessor is a walk. `order` is oldest to newest. It appends before the newest sentinel. Either end can be recent. [Eviction Policies](#09_System_Design_Interview/05_Caching/concepts/eviction-policies) is not a TTL. FIFO ignores a later get.
 
-A hit and an overwrite move the node and do not evict. A new key over capacity unlinks the oldest node and deletes its key in that step. A key left in the map is still a hit. A second unlink, while the detached node's old neighbors stay joined, does nothing and the append grows the cache. After they move, that unlink cuts a live edge. Access-ordered `LinkedHashMap` runs `removeEldestEntry` on insert, not on overwrite, and `get` counts. `OrderedDict.move_to_end` with `popitem(last=False)`, and `d[key] = d.pop(key)` with `next(iter(d))`, are that order. The dict is amortized constant time and reorders less cheaply. CPython 3.13 `lru_cache` stores `prev` and `next`. Expected O(1), collision O(capacity), memory O(capacity). LeetCode 146 uses `-1` for a miss because values are at least 0. Here the miss is `None`, so `-1` can be stored, and capacity is at least 1.
+An overwrite moves and does not evict. Over capacity, unlink the oldest and delete its key together. A leftover key stays a hit. While its old neighbors stay joined, re-unlinking does nothing and the append grows the cache. After they move, that unlink cuts a live edge. `LinkedHashMap.removeEldestEntry` runs on insert, not on overwrite, and `get` counts. `OrderedDict.move_to_end` with `popitem(last=False)`, and `d[key] = d.pop(key)` with `next(iter(d))`, are that order. A dict reorders less cheaply. CPython 3.13 `lru_cache` stores `prev` and `next`. Expected O(1), collision O(capacity), memory O(capacity). LeetCode 146 returns `-1` because values are at least 0. Here a miss is `None`, so `-1` is a hit. Capacity is at least 1.
 
 ```python
 class DNode:
@@ -500,9 +517,9 @@ print(check([4]), check([]), check([4, 4]), check([4, 1]), check([-1, 0, -1]))
 *Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 9.*
 
 ## Flatten child lists
-A node has `next` and `child`. A child heads another list of the same kind. Level order emits one level, then the next, and clears `child` after appending that chain. A tail is the committed end. On a child, append its `next` chain, walk the tail to the new end, and clear `child`. Grandchildren stay on `child` until the scan reaches them, a level later. Each node is visited once and the tail only advances: O(n) time, O(1) memory. A queue of child heads is that order at O(width). A `child` left set is a second path `next` already has.
+A node has `next` and `child`. A child heads another list. Level order emits one level, then the next, and clears `child`. Append the child's `next` chain at the tail, walk the tail to the new end, and clear `child`. A `next` sibling is the same level. A grandchild stays on `child` until the scan reaches it. One visit per node, and the tail only advances: O(n) time, O(1) memory. A queue of the child heads is the same order at O(width). Leaving `child` set keeps a second path.
 
-LeetCode 430 splices the child before the old `next` and repeats inside it, so a grandchild precedes the neighbor. Nodes are doubly linked, at most 1000, values 1 to 100,000, `child` cleared, and `prev` matched to `next`. `10 → 20` with child `30` is `10, 20, 30` by level and `10, 30, 20` by the splice. On the deep shape in the block, level order finishes `10, 20, 30` before `40`, and the splice emits `70` before `20` because the scan is still inside `50`. Both clear `child`. Empty stays empty. This splice writes no `prev`. A doubly linked level join sets only the child head's `prev`.
+LeetCode 430 splices the child before the old `next`, so a grandchild precedes the neighbor. The nodes are doubly linked. `child` is cleared and `prev` matches `next`. At most 1000 nodes, values 1 to 100,000. `10 → 20` with child `30` is `10, 20, 30` by level and `10, 30, 20` by the splice. On the deep shape, `50` is `next` of `40`, `60` is the child of `30`, and `70` is the child of `50`: level order is `10, 20, 30`, then `40, 50, 60`, then `70`. The splice emits `70` before `20`, still inside `50`. Empty stays empty. This splice writes no `prev`. A level join sets only the child head's `prev`, to the old tail.
 
 ```python
 class ChildNode:
@@ -588,9 +605,9 @@ print(flatten_level(None), flatten_between(None))
 *Source: [`diagrams/linked-lists.drawio`](/content/11_Coding_Problems/11_Linked_Lists/diagrams/linked-lists.drawio), page 10.*
 
 ## Rewire, copy, gap, or map
-Recounting from the head for every index is quadratic ([Optimize brute force in steps](#11_Coding_Problems/07_Hard_Problems/concepts/optimize-brute-force-in-steps)). A Python list buys indexes at O(n) memory for a palindrome, a kth-last removal, or a reverse. A dummy stays in place when the head can change ([Dummy head](#11_Coding_Problems/11_Linked_Lists/concepts/dummy-head)). A fixed gap is one pass for k from the end. A length count is the second ([Remove the kth last node](#11_Coding_Problems/11_Linked_Lists/concepts/remove-the-kth-last-node)). On `[8, 3, 5, 1, 9]` and k = 2 the block counts 5 gap advances against 8 on the length pass, five to count and three to the predecessor, and both leave `[8, 3, 5, 9]`. The class stays linear. The fast/slow middle is the wrong distance ([Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique)).
+Recounting from the head for every index is quadratic ([Optimize brute force in steps](#11_Coding_Problems/07_Hard_Problems/concepts/optimize-brute-force-in-steps)). A Python list buys indexes at O(n) memory. A dummy stays when the head can change ([Dummy head](#11_Coding_Problems/11_Linked_Lists/concepts/dummy-head)). A fixed gap is one pass for k from the end, and a length count is the second ([Remove the kth last node](#11_Coding_Problems/11_Linked_Lists/concepts/remove-the-kth-last-node)). On `[8, 3, 5, 1, 9]` and k = 2 the block counts 5 leader steps against 8 on the length pass, five to count and three to the predecessor. The trailer also steps on those last three. Both leave `[8, 3, 5, 9]`. That difference is not a new complexity class. The fast/slow middle is the wrong distance ([Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique)).
 
-A shared node is the switch, the length alignment, or identities ([Intersection of two lists](#11_Coding_Problems/11_Linked_Lists/concepts/intersection-of-two-lists)), not values. Expected O(1) get and put is the map plus sentinels ([Least recently used cache](#11_Coding_Problems/11_Linked_Lists/concepts/least-recently-used-cache)). Middles and cycles are [Fast and slow pointers](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/fast-and-slow-pointers) and [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm). This topic borrows the middle and does not find cycles. Sorted lists merge on [Merging two sorted lists](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/merging-two-sorted-lists). [Edge cases and test helpers](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/edge-cases-and-test-helpers) names empty, one node, two nodes, and the ends. k equal to the length removes the head. A recursive reverse that leaves `next` set cycles. Empty, the only node, and a k past the end are in the block.
+A shared node is the switch, the length alignment, or identities ([Intersection of two lists](#11_Coding_Problems/11_Linked_Lists/concepts/intersection-of-two-lists)), not values. Expected O(1) get and put is the map plus sentinels ([Least recently used cache](#11_Coding_Problems/11_Linked_Lists/concepts/least-recently-used-cache)). Middles and cycles are [Fast and slow pointers](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/fast-and-slow-pointers) and [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm). This topic borrows the middle and does not find cycles. Sorted lists merge on [Merging two sorted lists](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/merging-two-sorted-lists). [Edge cases and test helpers](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/edge-cases-and-test-helpers) names empty, one node, two nodes, and the ends. k equal to the length removes the head. A recursive reverse that leaves `next` set cycles.
 
 ```python
 class ListNode:

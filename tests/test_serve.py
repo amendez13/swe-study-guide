@@ -945,7 +945,7 @@ def test_linked_lists_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Save the next link",
+        "## Pointer rewiring",
         "## Dummy head",
         "## Reverse a linked list",
         "## Remove the kth last node",
