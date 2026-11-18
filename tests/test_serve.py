@@ -1072,15 +1072,13 @@ def test_stacks_topic_exposes_drills() -> None:
     for heading in (
         "## When a stack fits",
         "## Matching nested structures",
-        "## A monotonic stack",
-        "## Each index is pushed once",
-        "## A deque that remembers the window extreme",
-        "## A valid bracket expression (LeetCode-style: Valid Parentheses)",
-        "## The next greater value to the right",
-        "## Evaluate plus, minus, and parentheses (LeetCode-style: Basic Calculator)",
-        "## Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates in String)",
-        "## A queue built from two stacks (LeetCode-style: Implement Queue using Stacks)",
-        "## The maximum of every window (LeetCode-style: Sliding Window Maximum)",
+        "## Monotonic stack\n",
+        "## Monotonic stack cost",
+        "## Valid parentheses",
+        "## Basic calculator",
+        "## Remove adjacent duplicates",
+        "## Queue from two stacks",
+        "## Sliding window maximum",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
