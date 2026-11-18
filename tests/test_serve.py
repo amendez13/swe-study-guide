@@ -1013,7 +1013,7 @@ def test_sliding_windows_topic_exposes_drills() -> None:
         "## Window state",
         "## Longest substring without repeats",
         "## Repeating character replacement",
-        "## Non-monotone spans",
+        "## When a shrink is not legal",
         "## Window, two pointers, or prefix sums",
     ):
         assert heading in concepts
