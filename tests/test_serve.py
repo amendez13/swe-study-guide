@@ -1070,17 +1070,16 @@ def test_stacks_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## When a stack fits",
-        "## Matching nested structures",
-        "## A monotonic stack",
+        "## Last-in, first-out order",
+        "## Indentation and open tags",
+        "## Next and previous greater or smaller",
         "## Each index is pushed once",
-        "## A deque that remembers the window extreme",
-        "## A valid bracket expression (LeetCode-style: Valid Parentheses)",
-        "## The next greater value to the right",
-        "## Evaluate plus, minus, and parentheses (LeetCode-style: Basic Calculator)",
-        "## Delete adjacent equal pairs (LeetCode-style: Remove All Adjacent Duplicates in String)",
-        "## A queue built from two stacks (LeetCode-style: Implement Queue using Stacks)",
-        "## The maximum of every window (LeetCode-style: Sliding Window Maximum)",
+        "## Valid parentheses",
+        "## Next greater element",
+        "## Basic calculator",
+        "## Remove adjacent duplicates",
+        "## Queue from two stacks",
+        "## Sliding window maximum",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
