@@ -1006,17 +1006,15 @@ def test_sliding_windows_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Sliding window: a range that only moves forward",
-        "## Fixed window: the length is part of the problem",
-        "## Longest valid window: shrink while the span is over budget",
-        "## Shortest valid window: shrink while the span still qualifies",
-        "## Window state: a sum, a count, or a matches counter",
-        "## Count of Anagram Windows (LeetCode-style: Find All Anagrams in a String)",
-        "## Longest Stretch With No Repeated Character (LeetCode-style: Longest Substring Without Repeating Characters)",
-        "## Jump the left edge to one past the previous copy",
-        "## Longest Run You Can Make Uniform (LeetCode-style: Longest Repeating Character Replacement)",
-        "## When a sliding window is the wrong tool",
-        "## A window, two pointers, or prefix sums",
+        "## Sliding window",
+        "## Fixed-size window",
+        "## Longest window under a budget",
+        "## Shortest window to a target",
+        "## Window state",
+        "## Longest substring without repeats",
+        "## Repeating character replacement",
+        "## When a shrink is not legal",
+        "## Window, two pointers, or prefix sums",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
