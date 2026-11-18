@@ -1037,19 +1037,17 @@ def test_binary_search_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Search space",
-        "## Exact match",
-        "## Lower and upper midpoint",
+        "## Binary search",
+        "## Exact match in a sorted array",
         "## Lower and upper bound",
-        "## Ends of a run",
-        "## First index that passes a test",
-        "## Highest blade",
+        "## First and last index of a value",
+        "## Smallest value that passes a monotone test",
+        "## Largest cut height that still yields enough",
         "## Search a rotated sorted array",
         "## Median of two sorted arrays",
         "## Search a row-major matrix",
-        "## Local peak",
-        "## Weighted pick",
-        "## Short inputs",
+        "## Any index greater than its neighbors",
+        "## Random pick by weight",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
