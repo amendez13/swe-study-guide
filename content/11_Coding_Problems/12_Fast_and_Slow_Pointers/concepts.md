@@ -1,7 +1,7 @@
 ## Fast and slow pointers
 A fast and slow pointer pair is two variables on one chain, almost always one step and two steps. A pointer holds a node or `None`. Each value has one next value, so there is no index. Both start on the head. Move, then compare with `is`. [Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique) is the middle. [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm) is the cycle. Indexes that close on each other are [Two indexes](#11_Coding_Problems/09_Two_Pointers/concepts/two-indexes). A fixed gap, both pointers taking one step, is [Remove the kth last node](#11_Coding_Problems/11_Linked_Lists/concepts/remove-the-kth-last-node).
 
-A cycle, an entrance, a middle of a list with no length, and a value fed back into the same rule are the shapes. Time is O(n) and extra memory is O(1): the fast pointer follows at most twice as many links as there are nodes. A set of identities is expected linear time, O(n) memory, and quadratic on collisions. Pollard's rho uses this schedule on x → (x² + 1) mod n. The original polynomial was (x² − 1) mod n. A gcd of the two copies' difference and n is a factor when it is neither 1 nor n ([GCD and LCM](#11_Coding_Problems/01_Math_and_Logic_Puzzles/concepts/gcd-and-lcm)). Linux pathname lookup returns `ELOOP` at `MAXSYMLINKS`, 40, in `include/linux/namei.h`. That cap also stops a long chain that is not a loop.
+A cycle, a middle with no length field, and a value fed back into the same rule are the shapes. Time is O(n) and extra memory is O(1): the fast pointer follows at most twice as many links as there are nodes. A set of identities is expected linear time, O(n) memory, and quadratic on collisions. Pollard's rho uses this schedule on x → (x² + 1) mod n. The original polynomial was (x² − 1) mod n. A gcd of the two copies' difference and n is a factor when it is neither 1 nor n ([GCD and LCM](#11_Coding_Problems/01_Math_and_Logic_Puzzles/concepts/gcd-and-lcm)). Linux pathname lookup returns `ELOOP` at `MAXSYMLINKS`, 40, in `include/linux/namei.h`. That cap also stops a long chain that is not a loop.
 
 ```python
 class ListNode:
@@ -46,9 +46,9 @@ print(first_meeting(chain([8, 1, 4, 6, 2, 9, 3], 3)))
 *Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 1.*
 
 ## Meeting on a cycle
-Once both pointers are on a cycle, steps of 1 and 2 shrink the forward distance from the fast pointer to the slow pointer by 1 each iteration. The relative speed is 1, so the fast pointer cannot jump the slow one, and 1 divides every cycle length. With no cycle the fast pointer reaches a `next` of `None`. The block's distance falls by 1 until the pointers meet.
+Once both pointers are on a cycle, steps of 1 and 2 shrink the forward distance from the fast pointer to the slow pointer by 1 each iteration. That gap is at most λ − 1, so they meet within one lap. Relative speed 1 cannot jump the slow pointer, and 1 divides every cycle length. With no cycle the fast pointer reaches a `next` of `None`. The block's distance falls 5, 4, 3, 2, 1, 0.
 
-A fast step h > 1 also meets when both start on the head. After k iterations the positions agree once λ divides k·(h − 1). That k is λ / gcd(h − 1, λ), and a large enough multiple is past the stem. The lead is a multiple of (h − 1) before the modulo, so the reduced gap can close even when it does not look like a multiple of (h − 1). Stem 2, cycle 5, and a fast step of 4 leave a gap of 1, and they meet. Opposite starts on a 2-cycle, fast step 3, gain 2 against a gap of 1 and never meet. The reset on [Find the start of a cycle](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/find-the-start-of-a-cycle) is proved for steps 1 and 2. A fast step of 3 can meet and miss it.
+A fast step h > 1 also meets when both start on the head, once both are on the cycle: λ divides k·(h − 1). The smallest positive k is λ / gcd(h − 1, λ), and a multiple of that k is past the stem. For stem 2, cycle 5, and a fast step of 4, a multiple of 3 reduces to a gap of 1, and the pointers still meet. On a 2-cycle a fast step of 3 gains 2 against a gap of 1, and 2 does not divide 1, so they never meet. The reset on [Find the start of a cycle](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/find-the-start-of-a-cycle) needs that slow step count to be a multiple of λ. Steps 1 and 2 guarantee it. A fast step of 3 can meet and miss the entrance.
 
 ```python
 class ListNode:
@@ -128,7 +128,7 @@ print(separated_step3())
 ## Detect a cycle
 Return true when following `next` reaches a node again, and false when the tail is `None`. Both pointers start on the head, move one step and two, then compare with `is`. Equal values on different nodes are not a cycle. On `4 → 1 → 4 → 1 → 4` with no link back, `.val` reports a cycle and `is` does not. Why they can meet is [Meeting on a cycle](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/meeting-on-a-cycle). [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm) is this boolean.
 
-Name the node before `next`. `while fast.next and fast` reads `next` of `None` and raises `AttributeError` on an empty list, and on the even list `8 → 3` after one double step. The odd list `8 → 3 → 5` stops with `next` of `None`, and the reversed guard returns. A cycle hides that bug. LeetCode 141 allows 0 to 10,000 nodes and values from −100,000 to 100,000. The constant-memory follow-up is two speeds: worst-case O(n), no hash table. A set of identities is expected O(n) time and O(n) memory. An empty list and a node whose `next` is `None` are not cycles. A self-loop meets on step 1. A link back to the head, and a self-loop on the tail, are cycles.
+Name the node before `next`. `while fast.next and fast` reads `next` of `None` and raises `AttributeError` on an empty list, and on the even list `8 → 3` after one double step. The odd list `8 → 3 → 5` stops with `next` of `None`, so the reversed guard returns. A cycle hides that bug, because `fast` never becomes `None`. LeetCode 141 allows 0 to 10,000 nodes and values from −100,000 to 100,000. That walk is the O(1)-memory follow-up, worst-case O(n). A set of identities is expected O(n) time and O(n) memory. Empty, one node, a self-loop, a straight list, a cycle through the head, and a tail self-loop are the edges.
 
 ```python
 class ListNode:
@@ -180,11 +180,11 @@ def unsafe_scan(head: ListNode | None) -> str:
 
 repeated = chain([4, 1, 4, 1, 4], None)
 print(has_cycle(None), has_cycle(chain([4], None)), has_cycle(chain([6], 0)))
-print(has_cycle(chain([5, 7, 1, 3], 0)), has_cycle(chain([4, 1, 9], 2)))
+print(has_cycle(chain([8, 1, 4], None)), has_cycle(chain([5, 7, 1, 3], 0)), has_cycle(chain([4, 1, 9], 2)))
 print(has_cycle(repeated), values_look_cyclic(repeated))
 print(unsafe_scan(chain([8, 3], None)), unsafe_scan(chain([8, 3, 5], None)), unsafe_scan(None))
 # False False True
-# True True
+# False True True
 # False True
 # AttributeError returned AttributeError
 ```
@@ -194,9 +194,9 @@ print(unsafe_scan(chain([8, 3], None)), unsafe_scan(chain([8, 3, 5], None)), uns
 *Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 3.*
 
 ## Find the start of a cycle
-The entrance is the first cycle node. Return it, or `None` when there is no cycle. [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm) shows the reset. Let the stem hold μ nodes before the entrance and the cycle hold λ. At the meeting the slow pointer has taken t steps and the fast pointer 2t. Before the entrance there is one path from the head, so the meeting is on the cycle and t ≥ μ. Cancel the shared stem. The distances t − μ and 2t − μ end on one node, so t = mλ. Extra laps, when m is at least 2, cancel modulo λ. The offset is (t − μ) mod λ = (−μ) mod λ.
+The entrance is the first cycle node, or `None` when there is no cycle. [Cycle detection with Floyd's algorithm](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/cycle-detection-with-floyd-s-algorithm) shows the reset. Let the stem hold μ nodes and the cycle λ. At the meeting, slow has taken t steps and fast 2t. A stem node has one path from the head, so the meeting is on the cycle and t ≥ μ. On the cycle the distances t − μ and 2t − μ differ by t, so t = mλ. The offset is (t − μ) mod λ = (−μ) mod λ. Laps with m ≥ 2 cancel in that mod.
 
-Send one pointer to the head and move both one step. Until step μ the head pointer is off the cycle, so touching the entrance early is not a meeting. μ steps from the offset reach 0. A longer stem still walks every stem step. μ = 0, a tail self-loop, and no cycle are in the block. The short list meets at `2` and the entrance is `6`. Each reset pointer takes one step, so the walk needs t = mλ. A fast step of 3 only makes 2t a multiple of λ: the 4-cycle misses and the 3-cycle hits. Another lap counts λ. LeetCode 142 allows an empty list. Time is O(n) and extra memory is O(1).
+Send one pointer to the head and move both one step. The head pointer is off the cycle until step μ, so they cannot meet early. μ steps from offset (−μ) mod λ land on the entrance, and the head pointer arrives on that step. A longer stem still takes every stem step: the extra steps are laps. The short list meets at `2` and the entrance is `6`. A cycle through the head takes 0 reset steps. A tail self-loop has length 1. Steps 1 and 2 make t a multiple of λ, so one step each meets the entrance, including when m ≥ 2. A fast step of 3 only makes 2t a multiple of λ: the 4-cycle misses and the 3-cycle hits. Time is O(n) and extra memory is O(1).
 
 ```python
 class ListNode:
@@ -277,9 +277,9 @@ print(fast3(4), fast3(3))
 *Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 4.*
 
 ## Middle of a linked list
-The middle is the node at index n // 2, the second middle on an even length. Version A starts both pointers on the head and moves one and two while the fast pointer has a successor ([Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique)). On `4 → 9` that node is `9`. One node stays. Empty stays `None`. An odd length has one middle. The even-length middle drill on the linked-list topic calls this version A.
+The middle is the node at index n // 2, the second middle on an even length. Version A starts both pointers on the head and moves one and two while the fast pointer has a successor ([Runner (two-pointer) technique](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/runner-two-pointer-technique)). On `4 → 9` that node is `9`, and on `1 → 2 → 3 → 4` it is `3`. One node stays. Empty stays `None`. An odd length has one middle. The even-length middle drill calls this version A.
 
-Version B starts the fast pointer one node ahead and, on an even length, stops on the first middle. [Split, reverse, and weave](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/split-reverse-and-weave) cuts there with `slow.next = None`. [Palindrome linked list](#11_Coding_Problems/11_Linked_Lists/concepts/palindrome-linked-list) reverses from version A's node. LeetCode 876 asks for the second middle, length 1 to 100, values 1 to 100. This card returns `None` for empty and accepts 200. State which middle an even list means. A count, then n // 2 steps, matches version A in O(n) time and O(1) extra memory. An array copy is O(n) memory. The other version returns the neighbor. The unlink drill in this topic uses version A.
+Version B starts the fast pointer one node ahead and, on an even length, stops on the first middle: `4` and `2` on those lists. [Split, reverse, and weave](#07_Data_Structures_and_Algorithms/03_Linked_Lists/concepts/split-reverse-and-weave) cuts there with `slow.next = None`. A top-down merge sort uses that cut. [Palindrome linked list](#11_Coding_Problems/11_Linked_Lists/concepts/palindrome-linked-list) reverses from version A's node. LeetCode 876 asks for the second middle, length 1 to 100, values 1 to 100. This card returns `None` for empty and accepts 200. A count, then n // 2 steps, matches version A in O(n) time and O(1) extra memory. An array copy is O(n) memory. Version B returns the neighbor. The unlink drill uses version A.
 
 ```python
 class ListNode:
@@ -320,10 +320,10 @@ def show(values: list[int]) -> tuple[int | None, int | None, int | None]:
     return (version_a(head), version_b(head), counted)
 
 
-print(show([]), show([4]), show([4, 9]))
+print(show([]), show([4]), show([4, 9]), show([1, 2, 3, 4]))
 print(show([8, 3, 5, 1]), show([8, 3, 5, 1, 9]), show([200, 3, 5, 1]))
 print(show([7, 8, 9, 1, 2, 6]))
-# (None, None, None) (4, 4, 4) (9, 4, 9)
+# (None, None, None) (4, 4, 4) (9, 4, 9) (3, 2, 3)
 # (5, 3, 5) (5, 5, 5) (5, 3, 5)
 # (1, 9, 1)
 ```
@@ -337,9 +337,9 @@ print(show([7, 8, 9, 1, 2, 6]))
 *Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 6.*
 
 ## Duplicate in 1 through n
-A function with one next value is a linked list, a stem into a cycle. The array has n + 1 integers in 1 through n, exactly one value repeats, and the array stays unchanged. LeetCode 287 requires O(1) extra memory, takes n from 1 to 100,000, and allows more than two copies.
+A function with one next value is a linked list, a stem into a cycle. The array has length n + 1. Each value is in 1 through n, exactly one value appears more than once, and the others appear at most once. The array stays unchanged. LeetCode 287 requires O(1) extra memory, takes n from 1 to 100,000, and allows more than two copies of that value. Index i points at `nums[i]`. Nothing stores 0, so index 0 is a stem. The repeated value is the only index with more than one incoming link, so it is the cycle entrance. The reset on [Find the start of a cycle](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/find-the-start-of-a-cycle), from 0, returns it. Compare indexes with `==`. `[2, 5, 1, 4, 3, 2]` walks `0 → 2 → 1 → 5 → 2`.
 
-Index i points at `nums[i]`. Nothing stores 0, so index 0 is a stem. The cycle entrance is the repeated value, the node with two incoming links. The reset on [Find the start of a cycle](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/find-the-start-of-a-cycle), from 0, returns it. `[2, 5, 1, 4, 3, 2]` walks `0 → 2 → 1 → 5 → 2`. That walk is O(n) time and O(1) memory. Counting entries at most m is the other constant-memory method: a count above m puts the repeat in 1 through m. It uses the single-repeat contract and takes O(n log n) time. A set is expected linear time and O(n) memory ([Lookup by a key](#11_Coding_Problems/10_Hash_Maps_and_Sets/concepts/lookup-by-a-key)). Sorting a copy spends linear memory. Sorting the caller's array modifies it. Three copies are still that entrance.
+That walk is O(n) time and O(1) memory. Counting entries at most m is the other constant-memory method: a count above m puts the repeat in 1 through m. It needs the single-repeat contract and takes O(n log n). A set is expected linear time and O(n) memory ([Lookup by a key](#11_Coding_Problems/10_Hash_Maps_and_Sets/concepts/lookup-by-a-key)). Sorting a copy spends linear memory. Sorting in place modifies the array. Three copies still meet at that entrance.
 
 ```python
 def find_duplicate(nums: list[int]) -> int:
@@ -383,9 +383,9 @@ print(show([2, 1, 2]), show([1, 4, 6, 3, 2, 5, 4]))
 *Source: [`diagrams/fast-and-slow-pointers.drawio`](/content/11_Coding_Problems/12_Fast_and_Slow_Pointers/diagrams/fast-and-slow-pointers.drawio), page 7.*
 
 ## Happy number
-A non-negative integer is happy when the sum of the squares of its digits reaches 1, and 1 maps to 1. The sequence is the linked list on [Duplicate in 1 through n](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/duplicate-in-1-through-n). Move before comparing. `while slow != fast` never runs while both variables hold n, so it calls 23 unhappy. Happy means they meet at 1. 15 meets at 42, on the cycle through 4, and 42 is not the first repeat, 16. LeetCode 202 runs from 1 to 2³¹ − 1. 0 maps to 0. `divmod` on a negative does not peel digits ([Modular arithmetic](#11_Coding_Problems/01_Math_and_Logic_Puzzles/concepts/modular-arithmetic), [Digits, not the whole number](#11_Coding_Problems/06_Moderate_Problems/concepts/digits-not-the-whole-number)).
+A non-negative integer is happy when repeated sums of squared digits reach 1. The successor of 1 is 1, so the speeds meet at 1 exactly on that cycle. The sequence is the linked list on [Duplicate in 1 through n](#11_Coding_Problems/12_Fast_and_Slow_Pointers/concepts/duplicate-in-1-through-n). Move before comparing. `while slow != fast` never moves, and it calls 23 unhappy. 15 meets at 42; the first repeat is 16. LeetCode 202 runs from 1 to 2³¹ − 1. 0 maps to 0. `divmod` on a negative does not peel digits ([Modular arithmetic](#11_Coding_Problems/01_Math_and_Logic_Puzzles/concepts/modular-arithmetic), [Digits, not the whole number](#11_Coding_Problems/06_Moderate_Problems/concepts/digits-not-the-whole-number)). The quotient of −23 stays −1, so that loop never ends. Require n ≥ 0.
 
-A d-digit value is at least 10^(d − 1) and the digit-square sum is at most 81d. From 4 digits up, 81d < 10^(d − 1): 9999 steps to 324. Under the cap the next value is at most 810. The largest sum on that range is 211, from 799, and on 0 through 243 it is 163, from 199, so a value at most 243 stays there. The only cycles are 0 → 0, 1 → 1, and the cycle through 4. 2³¹ − 1 steps to 260, then 40, and is not happy, after 11 seen values. 10^18, past the cap, steps to 1. The digit pass is O(log n) and the cap makes the rest constant, so the check is O(log n) with O(1) integers. Shrinking one digit at a time is O((log n)^2). Before the cap, a seen set reads as O(log n) memory.
+A d-digit value is at least 10^(d − 1), and one step is at most 81d. For d ≥ 4, 81d < 10^(d − 1): 9999 steps to 324. Under the cap the next value is at most 810, then 211, from 799, then inside 0 through 243, where the largest step is 163, from 199. The walk enters a finite set and must repeat, so the check terminates. The only cycles are 0 → 0, 1 → 1, and the cycle through 4. Happy means the cycle is 1. 2³¹ − 1 steps to 260, then 40, and is not happy. Time is O(log n) and extra memory is O(1).
 
 ```python
 def digit_square_sum(number: int) -> int:
@@ -449,23 +449,24 @@ def cycles(limit: int) -> list[tuple[int, ...]]:
 
 
 capped = 2**31 - 1
-print(meeting(23) == 1, meeting(15), meeting(0), meeting(7) == 1)
+unhappy = chain_until_repeat(15)
+print(meeting(23) == 1, meeting(15), digit_square_sum(unhappy[-1]), meeting(0), meeting(7) == 1)
 print(happy_if_already_equal(23), meeting(23) == 1)
 print(digit_square_sum(9999), digit_square_sum(capped), digit_square_sum(260))
-print(max(digit_square_sum(value) for value in range(811)))
-print(max(digit_square_sum(value) for value in range(244)))
+print(max(range(811), key=digit_square_sum), max(digit_square_sum(value) for value in range(811)))
+print(max(range(244), key=digit_square_sum), max(digit_square_sum(value) for value in range(244)))
 print([81 * digits < 10 ** (digits - 1) for digits in range(1, 7)])
-print(len(chain_until_repeat(capped)), meeting(capped) == 1, digit_square_sum(10**18))
+print(len(chain_until_repeat(capped)), meeting(capped) == 1, meeting(10**18) == 1)
 print(quotients(23))
 print(quotients(-23))
 print(cycles(243))
-# True 42 0 True
+# True 42 16 0 True
 # False True
 # 324 260 40
-# 211
-# 163
+# 799 211
+# 199 163
 # [False, False, False, True, True, True]
-# 11 False 1
+# 11 False True
 # [(23, 3, 2), (2, 2, 0)]
 # [(-23, 7, -3), (-3, 7, -1), (-1, 9, -1), (-1, 9, -1)]
 # [(0,), (1,), (4, 16, 37, 58, 89, 145, 42, 20)]
