@@ -1037,20 +1037,19 @@ def test_binary_search_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Binary search over a search space",
-        "## Four decisions that define the loop",
-        "## The midpoint, overflow, and the upper midpoint",
-        "## Lower bound and upper bound",
-        "## A monotone predicate, searched for the boundary",
-        "## The index where a value would be inserted (LeetCode-style: Search Insert Position)",
-        "## The first and last index of a value (LeetCode-style: Find First and Last Position of Element in Sorted Array)",
-        "## The highest blade that still yields the wood",
-        "## A target in a rotated sorted array (LeetCode-style: Search in Rotated Sorted Array)",
-        "## The median of two sorted arrays (LeetCode-style: Median of Two Sorted Arrays)",
-        "## A matrix sorted in row-major order (LeetCode-style: Search a 2D Matrix)",
-        "## Any index that is a local peak (LeetCode-style: Find Peak Element)",
-        "## A pick whose chance follows the weight (LeetCode-style: Random Pick with Weight)",
-        "## What to run before you trust the loop",
+        "## Search space",
+        "## Exact match",
+        "## Lower and upper midpoint",
+        "## Lower and upper bound",
+        "## Ends of a run",
+        "## First index that passes a test",
+        "## Highest blade",
+        "## Search a rotated sorted array",
+        "## Median of two sorted arrays",
+        "## Search a row-major matrix",
+        "## Local peak",
+        "## Weighted pick",
+        "## Short inputs",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
