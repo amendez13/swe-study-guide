@@ -1070,12 +1070,11 @@ def test_stacks_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Last-in, first-out order",
-        "## Indentation and open tags",
-        "## Next and previous greater or smaller",
-        "## Each index is pushed once",
+        "## When a stack fits",
+        "## Matching nested structures",
+        "## Monotonic stack\n",
+        "## Monotonic stack cost",
         "## Valid parentheses",
-        "## Next greater element",
         "## Basic calculator",
         "## Remove adjacent duplicates",
         "## Queue from two stacks",
