@@ -945,17 +945,15 @@ def test_linked_lists_topic_exposes_drills() -> None:
     drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
-        "## Linked-list problems are pointer rewiring",
-        "## A dummy head when the head can change",
-        "## A fixed gap between two node pointers",
-        "## A hash map plus a doubly linked list",
-        "## Reverse a Singly Linked List (LeetCode-style: Reverse Linked List)",
-        "## Remove the Kth Last Node (LeetCode-style: Remove Nth Node From End of List)",
-        "## The Node Two Lists Share (LeetCode-style: Intersection of Two Linked Lists)",
-        "## Least-Recently-Used Cache (LeetCode-style: LRU Cache)",
-        "## A List That Reads the Same Both Ways (LeetCode-style: Palindrome Linked List)",
-        "## Flatten Child Lists One Level at a Time",
-        "## A rewiring, a gap, a map, or a copy",
+        "## Pointer rewiring",
+        "## Dummy head",
+        "## Reverse a linked list",
+        "## Remove the kth last node",
+        "## Intersection of two lists",
+        "## Least recently used cache",
+        "## Palindrome linked list",
+        "## Flatten child lists",
+        "## Rewire, copy, gap, or map",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]

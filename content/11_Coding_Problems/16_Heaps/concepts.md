@@ -107,7 +107,7 @@ print(top_k_words([], 2), top_k_words(["fig", "pear"], 5))
 
 A min-heap holds one head from each sorted list. Pop the smallest, write it, and push that list's next value. The heap never holds more than k items. Each of the N values is pushed once and popped once: O(N log k) time and O(k) extra memory. Concatenate-and-sort is O(N log N). A balanced pairwise merge is the same O(N log k), one pass per round. [Merging sorted sequences](#07_Data_Structures_and_Algorithms/09_Sorting_and_Searching/concepts/merging-sorted-sequences) is the two-list case. `heapq.merge` is this heap as a generator and skips an empty input.
 
-On a linked list the third field is the node, with the list index in front of it. Comparing two nodes raises `TypeError`. Skip an empty list, or the push reads `None.val`. A dummy node's `next` is the answer, and it is `None` when every input was empty ([A dummy head when the head can change](#11_Coding_Problems/11_Linked_Lists/concepts/a-dummy-head-when-the-head-can-change)). The block stores a column instead of a node. The exercise lists are `1, 4, 7`, `2, 2`, an empty list, and `3, 8`.
+On a linked list the third field is the node, with the list index in front of it. Comparing two nodes raises `TypeError`. Skip an empty list, or the push reads `None.val`. A dummy node's `next` is the answer, and it is `None` when every input was empty ([Dummy head](#11_Coding_Problems/11_Linked_Lists/concepts/dummy-head)). The block stores a column instead of a node. The exercise lists are `1, 4, 7`, `2, 2`, an empty list, and `3, 8`.
 
 ```python
 import heapq
