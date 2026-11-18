@@ -977,14 +977,13 @@ def test_fast_and_slow_pointers_topic_exposes_drills() -> None:
     notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
     for heading in (
         "## Fast and slow pointers",
-        "## Why the faster pointer meets the slower one",
-        "## Does This List Loop? (LeetCode-style: Linked List Cycle)",
-        "## The Node Where the Cycle Starts (LeetCode-style: Linked List Cycle II)",
-        "## Which middle the loop stops on",
-        "## The Middle Node (LeetCode-style: Middle of the Linked List)",
-        "## A sequence of next values is a linked list",
-        "## Reaching One by Squaring Digits (LeetCode-style: Happy Number)",
-        "## Two speeds, or a set of seen values",
+        "## Meeting on a cycle",
+        "## Detect a cycle",
+        "## Find the start of a cycle",
+        "## Middle of a linked list",
+        "## Duplicate in 1 through n",
+        "## Happy number",
+        "## Two speeds or a set",
     ):
         assert heading in concepts
     answers = drills.split("**Answer:**")[1:]
