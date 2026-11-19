@@ -26,6 +26,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0)
 
+![Configuration keys and provider precedence](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-1-configuration-keys-and-provider-precedence.png)
+
+*Source: [`diagrams/configuration.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration.drawio), page 1.*
+
 ## Default sources and hosting environments
 
 `WebApplication.CreateBuilder` establishes the hosting environment before it loads environment-specific settings. With the default providers, later sources usually override earlier ones in this order from lowest to highest precedence: base JSON, environment JSON, Development user secrets, environment variables, and command-line arguments.
@@ -40,6 +44,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0)
+
+![Default sources and hosting environments](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-2-default-sources-and-hosting-environments.png)
+
+*Source: [`diagrams/configuration.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration.drawio), page 2.*
 
 ## Development secrets and production overrides
 
@@ -57,6 +65,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0)
+
+![Development secrets and production overrides](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-3-development-secrets-and-production-overrides.png)
+
+*Source: [`diagrams/configuration.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration.drawio), page 3.*
 
 ## Bind and validate typed options
 
@@ -80,6 +92,10 @@ sealed class BulletinOptions { public int PageSize { get; set; } = 10; }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-10.0)
 
+![Bind and validate typed options](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-4-bind-and-validate-typed-options.png)
+
+*Source: [`diagrams/configuration.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration.drawio), page 4.*
+
 ## Configuration reload and options lifetimes
 
 A provider has to support change notifications for the app to observe file edits. `IOptions<T>` keeps its first value, `IOptionsSnapshot<T>` computes and caches a value within each scope, and `IOptionsMonitor<T>` exposes the latest value and can notify subscribers. Inject the monitor into a singleton that needs to react to updates.
@@ -100,6 +116,10 @@ sealed class BulletinOptions { public string Heading { get; set; } = "News"; }
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-10.0)
+
+![Configuration reload and options lifetimes](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-5-configuration-reload-and-options-lifetimes.png)
+
+*Source: [`diagrams/configuration.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration.drawio), page 5.*
 
 ## Explicit null in JSON settings
 
@@ -123,3 +143,7 @@ sealed class BulletinOptions
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/compatibility/extensions/10.0/configuration-null-values-preserved)
+
+![Explicit null in JSON settings](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-6-explicit-null-in-json-settings.png)
+
+*Source: [`diagrams/configuration.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration.drawio), page 6.*

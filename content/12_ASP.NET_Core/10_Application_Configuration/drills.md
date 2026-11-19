@@ -50,3 +50,7 @@ sealed class ArchiveService(IOptions<ArchiveOptions> options)
 **Answer**
 
 It uses `IOptions<ArchiveOptions>` and retains the first bound options instance. Use `IOptionsMonitor<ArchiveOptions>.CurrentValue` at the point of access when the provider can reload. `IOptionsSnapshot<T>` is scoped and does not belong in a singleton.
+
+![Choose options for a long-lived service](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-drills-1-choose-options-for-a-long-lived-service.png)
+
+*Source: [`diagrams/configuration-drills.drawio`](/content/12_ASP.NET_Core/10_Application_Configuration/diagrams/configuration-drills.drawio), page 1.*
