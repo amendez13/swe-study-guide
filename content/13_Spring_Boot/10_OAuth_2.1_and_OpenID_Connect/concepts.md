@@ -31,6 +31,10 @@ class PkceConfig {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html#oauth2-client-authorization-code)
 
+![OAuth 2.1 roles and the code flow](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc-1-oauth-2-1-roles-and-the-code-flow.png)
+
+*Source: [`diagrams/oauth-oidc.drawio`](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc.drawio), page 1.*
+
 ## OAuth 2.0 and OpenID Connect
 
 OAuth is about authorization: an access token says what the client may do, not who the user is. OpenID Connect (OIDC) is an identity layer on top of OAuth 2.0. When the client requests the `openid` scope, the provider also returns an ID token, a signed JWT whose claims identify the user, such as `sub`, `email`, and `name`, and it exposes a UserInfo endpoint for more claims.
@@ -59,6 +63,10 @@ class MeApi {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/oauth2/login/core.html)
 
+![OAuth 2.0 and OpenID Connect](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc-2-oauth-2-0-and-openid-connect.png)
+
+*Source: [`diagrams/oauth-oidc.drawio`](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc.drawio), page 2.*
+
 ## Register a Google client
 
 In the Google Cloud console, create an OAuth client ID of type web application. Set the authorized redirect URI to `http://localhost:8080/login/oauth2/code/google`, which is Spring Security's default pattern `{baseUrl}/login/oauth2/code/{registrationId}`. Google then issues a client ID and a client secret.
@@ -72,6 +80,10 @@ spring.security.oauth2.client.registration.google.scope=openid,profile,email
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/web/spring-security.html#web.security.oauth2.client)
+
+![Register a Google client](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc-3-register-a-google-client.png)
+
+*Source: [`diagrams/oauth-oidc.drawio`](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc.drawio), page 3.*
 
 ## Sign in with oauth2Login
 
@@ -101,6 +113,10 @@ class LoginConfig {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/oauth2/login/core.html)
+
+![Sign in with oauth2Login](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc-4-sign-in-with-oauth2login.png)
+
+*Source: [`diagrams/oauth-oidc.drawio`](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc.drawio), page 4.*
 
 ## Call an OAuth 2 API
 
@@ -140,3 +156,7 @@ class GoogleProfileApi {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorized-clients.html#oauth2-client-rest-client)
+
+![Call an OAuth 2 API](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc-5-call-an-oauth-2-api.png)
+
+*Source: [`diagrams/oauth-oidc.drawio`](/content/13_Spring_Boot/10_OAuth_2.1_and_OpenID_Connect/diagrams/oauth-oidc.drawio), page 5.*
