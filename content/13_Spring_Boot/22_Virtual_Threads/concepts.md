@@ -21,6 +21,10 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
 [OpenJDK JEP 444](https://openjdk.org/jeps/444)
 
+![Understand virtual threads](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-1-understand-virtual-threads.png)
+
+*Source: [`diagrams/virtual-threads.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads.drawio), page 1.*
+
 ## Virtual threads in a Spring Boot app
 
 One property switches a Spring Boot app to virtual threads: `spring.threads.virtual.enabled=true`. Tomcat and Jetty then handle each request on a new virtual thread instead of a pooled platform thread. The same applies to the task executor used by `@Async`, the scheduler for `@Scheduled`, and listener containers for Kafka and RabbitMQ.
@@ -46,6 +50,10 @@ class ThreadInfo {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/spring-application.html#features.spring-application.virtual-threads)
+
+![Virtual threads in a Spring Boot app](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-2-virtual-threads-in-a-spring-boot-app.png)
+
+*Source: [`diagrams/virtual-threads.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads.drawio), page 2.*
 
 ## Integrate with the TaskExecutor
 
@@ -79,6 +87,10 @@ class CoverService {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/task-execution-and-scheduling.html)
+
+![Integrate with the TaskExecutor](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-3-integrate-with-the-taskexecutor.png)
+
+*Source: [`diagrams/virtual-threads.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads.drawio), page 3.*
 
 ## Fan out work concurrently
 
@@ -114,6 +126,10 @@ class DashboardService {
 
 [OpenJDK JEP 505](https://openjdk.org/jeps/505)
 
+![Fan out work concurrently](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-4-fan-out-work-concurrently.png)
+
+*Source: [`diagrams/virtual-threads.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads.drawio), page 4.*
+
 ## Handle errors in concurrent tasks
 
 An exception thrown inside an asynchronous task does not reach the caller's `try`/`catch`. It is stored in the future and rethrown, wrapped in a `CompletionException`, when the caller calls `join`. Decide per call what a failure means: fail the whole request, or fall back to a default with `exceptionally` and `orTimeout`.
@@ -130,6 +146,10 @@ var price = CompletableFuture.supplyAsync(() -> backends.price(isbn), executor)
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/integration/scheduling.html#scheduling-annotation-support-exception)
+
+![Handle errors in concurrent tasks](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-5-handle-errors-in-concurrent-tasks.png)
+
+*Source: [`diagrams/virtual-threads.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads.drawio), page 5.*
 
 ## Choose virtual threads or WebFlux
 
