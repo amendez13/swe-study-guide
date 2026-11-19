@@ -18,6 +18,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0)
 
+![Built-in OpenAPI document generation](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi-1-built-in-openapi-document-generation.png)
+
+*Source: [`diagrams/openapi.drawio`](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi.drawio), page 1.*
+
 ## Operation descriptions and response metadata
 
 The OpenAPI generator uses endpoint metadata to describe what callers can send and receive. Typed result unions let the generator infer multiple outcomes. Use `Produces` to describe additional responses, such as an error produced outside the handler. Metadata describes the contract but does not change runtime behavior.
@@ -44,6 +48,10 @@ record Room(int Id, string Name);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/include-metadata?view=aspnetcore-10.0)
 
+![Operation descriptions and response metadata](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi-2-operation-descriptions-and-response-metadata.png)
+
+*Source: [`diagrams/openapi.drawio`](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi.drawio), page 2.*
+
 ## Interactive API documentation
 
 The generated document describes the API. An interactive UI reads it and lets a learner enter parameter values and send requests. Scalar can use the built-in document endpoint directly. Swagger UI can also display a separately generated OpenAPI document.
@@ -66,6 +74,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/using-openapi-documents?view=aspnetcore-10.0)
+
+![Interactive API documentation](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi-3-interactive-api-documentation.png)
+
+*Source: [`diagrams/openapi.drawio`](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi.drawio), page 3.*
 
 ## XML comments in generated documents
 
@@ -93,6 +105,10 @@ public static class DeskEndpoints
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/openapi-comments?view=aspnetcore-10.0)
 
+![XML comments in generated documents](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi-4-xml-comments-in-generated-documents.png)
+
+*Source: [`diagrams/openapi.drawio`](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi.drawio), page 4.*
+
 ## Generate and refresh a typed client
 
 NSwag can generate a C# client from the OpenAPI document. Check generator settings such as namespace, JSON serializer, and base URL behavior into the client project when generation becomes a team workflow. Regenerate after reviewing contract changes, then compile and test consumers against the updated service.
@@ -119,6 +135,10 @@ record Branch(int Id, string Name);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0)
 
+![Generate and refresh a typed client](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi-5-generate-and-refresh-a-typed-client.png)
+
+*Source: [`diagrams/openapi.drawio`](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi.drawio), page 5.*
+
 ## Document contract limits
 
 OpenAPI can describe the shape of a request or response and related constraints. Runtime policies, such as a catalogue switching to read-only mode, still need tests and clear explanations. Generated clients are tied to the generator's type mappings, settings, and supported specification versions.
@@ -141,3 +161,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/include-metadata?view=aspnetcore-10.0)
+
+![Document contract limits](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi-6-document-contract-limits.png)
+
+*Source: [`diagrams/openapi.drawio`](/content/12_ASP.NET_Core/11_OpenAPI/diagrams/openapi.drawio), page 6.*
