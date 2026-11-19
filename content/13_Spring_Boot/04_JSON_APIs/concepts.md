@@ -41,6 +41,10 @@ class BookApi {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann.html)
 
+![A REST controller](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-1-a-rest-controller.png)
+
+*Source: [`diagrams/json-apis.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis.drawio), page 1.*
+
 ## Create a resource from a JSON body
 
 `@RequestBody` reads the request body with the converter that matches `Content-Type`. For `application/json`, Jackson creates the record through its canonical constructor. Unknown properties are ignored by default, and malformed JSON results in a 400 response before the handler runs.
@@ -90,6 +94,10 @@ class BookApi {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/requestbody.html)
 
+![Create a resource from a JSON body](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-2-create-a-resource-from-a-json-body.png)
+
+*Source: [`diagrams/json-apis.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis.drawio), page 2.*
+
 ## Validate request records
 
 Add Jakarta Bean Validation constraints to the record components and annotate the parameter with `@Valid`. Spring MVC validates the object after deserialization. A violation raises `MethodArgumentNotValidException`, which Spring MVC turns into a 400 response, so the handler only runs with valid input.
@@ -129,6 +137,10 @@ class BookApi {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-validation.html)
+
+![Validate request records](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-3-validate-request-records.png)
+
+*Source: [`diagrams/json-apis.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis.drawio), page 3.*
 
 ## Jackson 3 in Spring Boot 4
 
@@ -172,6 +184,10 @@ class LoanApi {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/json.html)
+
+![Jackson 3 in Spring Boot 4](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-4-jackson-3-in-spring-boot-4.png)
+
+*Source: [`diagrams/json-apis.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis.drawio), page 4.*
 
 ## Errors as problem details
 
@@ -231,3 +247,7 @@ class ApiErrors {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-ann-rest-exceptions.html)
+
+![Errors as problem details](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-5-errors-as-problem-details.png)
+
+*Source: [`diagrams/json-apis.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis.drawio), page 5.*

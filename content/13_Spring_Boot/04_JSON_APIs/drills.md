@@ -28,6 +28,10 @@ class BookApi {
 
 200, and `create` runs with the blank title. Constraints on a record do nothing until something validates it. Annotate the parameter with `@Valid` (and add `spring-boot-starter-validation`) to get a 400 before the handler runs, as in [validate request records](#13_Spring_Boot/04_JSON_APIs/concepts/validate-request-records).
 
+![Predict the validation outcome](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-drills-1-predict-the-validation-outcome.png)
+
+*Source: [`diagrams/json-apis-drills.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-drills.drawio), page 1.*
+
 ## Migrate a Jackson 2 customizer
 
 This configuration compiled against Spring Boot 3. Which names change for Boot 4, and which import stays the same?
@@ -55,3 +59,7 @@ record Member(String name, @JsonIgnore String passwordHash) {
 **Answer**
 
 The customizer type is now `JsonMapperBuilderCustomizer`, and `SerializationFeature` moved to `tools.jackson.databind`. The `@JsonIgnore` import stays in `com.fasterxml.jackson.annotation`, because Jackson 3 kept the annotations package. The code above is the migrated form. See [Jackson 3 in Spring Boot 4](#13_Spring_Boot/04_JSON_APIs/concepts/jackson-3-in-spring-boot-4).
+
+![Migrate a Jackson 2 customizer](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-drills-2-migrate-a-jackson-2-customizer.png)
+
+*Source: [`diagrams/json-apis-drills.drawio`](/content/13_Spring_Boot/04_JSON_APIs/diagrams/json-apis-drills.drawio), page 2.*
