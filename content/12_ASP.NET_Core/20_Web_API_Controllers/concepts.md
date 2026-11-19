@@ -30,6 +30,10 @@ public class BooksController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-10.0)
 
+![A web API controller](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-1-a-web-api-controller.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 1.*
+
 ## Typed action results
 
 An action can return a plain object, an `IActionResult`, or `ActionResult<T>`. A plain object becomes a 200 with a formatted body, but a `null` object becomes 204 No Content, which is rarely what a client expects for a missing item. `ActionResult<T>` lets one signature return either a `T` or a result such as `NotFound()`. It also tells OpenAPI the success type.
@@ -70,6 +74,10 @@ public class BooksController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-10.0)
 
+![Typed action results](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-2-typed-action-results.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 2.*
+
 ## Attribute routes and token replacement
 
 With attribute routing, a `[Route]` on the controller acts as a prefix, and each action's template is appended to it. A template that starts with `/` or `~/` ignores the prefix. Tokens in square brackets are replaced with names, so `[controller]` becomes the controller name without `Controller`, and `[action]` becomes the method name. This keeps templates short but ties URLs to class names, so a rename changes the public API.
@@ -99,6 +107,10 @@ public class BranchesController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-10.0#token-replacement-in-route-templates-controller-action-area)
 
+![Attribute routes and token replacement](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-3-attribute-routes-and-token-replacement.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 3.*
+
 ## HTTP verb attributes
 
 `[HttpGet]`, `[HttpPost]`, `[HttpPut]`, `[HttpPatch]`, and `[HttpDelete]` each restrict an action to one method and can carry a route template. Several actions can share a template if their verbs differ, which is the usual REST shape. `[Route]` on an action matches any verb, so APIs should use verb attributes.
@@ -125,6 +137,10 @@ public class HoldsController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-10.0#http-verb-templates)
+
+![HTTP verb attributes](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-4-http-verb-attributes.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 4.*
 
 ## ApiController conventions
 
@@ -155,6 +171,10 @@ public class LoansController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-10.0#apicontroller-attribute)
 
+![ApiController conventions](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-5-apicontroller-conventions.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 5.*
+
 ## Output formatters and XML
 
 Output formatters write an action's return value in a media type. `AddControllers` includes formatters for JSON (System.Text.Json), plain text for `string` results, and 204 for `null`. `AddXmlSerializerFormatters()` adds XML input and output with `XmlSerializer`, and `AddXmlDataContractSerializerFormatters()` uses `DataContractSerializer` instead. Configure the JSON formatter with `AddJsonOptions`.
@@ -182,6 +202,10 @@ public class ShelvesController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/formatting?view=aspnetcore-10.0)
 
+![Output formatters and XML](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-6-output-formatters-and-xml.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 6.*
+
 ## Content negotiation
 
 Content negotiation picks a formatter from the request's `Accept` header. If no formatter supports any requested type, MVC falls back to the first formatter that can write the object, usually JSON. Set `ReturnHttpNotAcceptable = true` to return 406 instead. Browsers send `*/*` in `Accept`, and MVC ignores that header unless `RespectBrowserAcceptHeader` is true.
@@ -208,6 +232,10 @@ public class VisitsController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/web-api/advanced/formatting?view=aspnetcore-10.0#content-negotiation)
+
+![Content negotiation](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-7-content-negotiation.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 7.*
 
 ## Controllers or Minimal APIs
 
@@ -237,3 +265,7 @@ public class CountController(Catalog catalog) : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/apis?view=aspnetcore-10.0)
+
+![Controllers or Minimal APIs](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-8-controllers-or-minimal-apis.png)
+
+*Source: [`diagrams/web-api-controllers.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers.drawio), page 8.*

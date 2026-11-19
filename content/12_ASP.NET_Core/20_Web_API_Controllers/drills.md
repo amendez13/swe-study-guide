@@ -36,6 +36,10 @@ public class LooseController : ControllerBase
 
 `/api/strict` returns 400 with a `ValidationProblemDetails` body listing the `Copies` error, and the action never runs. `/api/loose` returns 200 with `printing 0, valid: False`. Without `[ApiController]`, the action must check `ModelState` itself. It also needs `[FromBody]` because the source isn't inferred.
 
+![Compare validation with and without ApiController](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-drills-1-compare-validation-with-and-without-apicontroller.png)
+
+*Source: [`diagrams/web-api-controllers-drills.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-drills.drawio), page 1.*
+
 ## Predict the negotiated format
 
 The app registers XML formatters. Predict the `Content-Type` for requests with `Accept: application/xml`, `Accept: text/csv`, and no `Accept` header. What changes if you set `ReturnHttpNotAcceptable = true`?
@@ -62,3 +66,7 @@ public class BranchController : ControllerBase
 **Answer**
 
 XML is honored with `application/xml; charset=utf-8`. The CSV request falls back to the first formatter that can write the object, which is JSON, and so does the request with no `Accept` header. With `ReturnHttpNotAcceptable = true`, the CSV request gets 406, and the other two are unchanged.
+
+![Predict the negotiated format](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-drills-2-predict-the-negotiated-format.png)
+
+*Source: [`diagrams/web-api-controllers-drills.drawio`](/content/12_ASP.NET_Core/20_Web_API_Controllers/diagrams/web-api-controllers-drills.drawio), page 2.*
