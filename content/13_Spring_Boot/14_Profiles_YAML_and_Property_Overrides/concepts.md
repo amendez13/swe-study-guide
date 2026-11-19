@@ -24,6 +24,10 @@ record CatalogProperties(@NotBlank String branchName,
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties)
 
+![Custom properties per environment](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides-1-custom-properties-per-environment.png)
+
+*Source: [`diagrams/profiles-and-overrides.drawio`](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides.drawio), page 1.*
+
 ## Profile-specific property files
 
 A profile is a named set of configuration, such as `dev` or `prod`. When a profile is active, Boot loads `application-{profile}.properties` after `application.properties`, so the profile's values win. Activate profiles with `spring.profiles.active`, usually from an environment variable or a command-line argument, so the jar stays the same everywhere.
@@ -58,6 +62,10 @@ class DevData {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/profiles.html)
 
+![Profile-specific property files](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides-2-profile-specific-property-files.png)
+
+*Source: [`diagrams/profiles-and-overrides.drawio`](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides.drawio), page 2.*
+
 ## Switch to YAML
 
 Boot reads `application.yaml` (or `.yml`) as well as `.properties`. YAML nests keys by indentation and writes lists as items, which keeps large groups of settings readable. Use one format per application. If both files exist in the same location, `.properties` takes precedence.
@@ -86,6 +94,10 @@ study:
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.yaml)
 
+![Switch to YAML](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides-3-switch-to-yaml.png)
+
+*Source: [`diagrams/profiles-and-overrides.drawio`](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides.drawio), page 3.*
+
 ## Environment variables
 
 Container platforms pass settings as environment variables. Boot maps them to property names: replace dots with underscores, remove dashes, and use uppercase. `STUDY_CATALOG_BRANCHNAME` sets `study.catalog.branch-name`. A number between underscores addresses a list index, so `STUDY_LIBRARY_WINGS_0_` sets the first wing.
@@ -101,6 +113,10 @@ java -jar target/study-0.0.1-SNAPSHOT.jar
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.relaxed-binding.environment-variables)
+
+![Environment variables](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides-4-environment-variables.png)
+
+*Source: [`diagrams/profiles-and-overrides.drawio`](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides.drawio), page 4.*
 
 ## The order of property overrides
 
@@ -123,3 +139,7 @@ java -jar target/study-0.0.1-SNAPSHOT.jar --study.catalog.branch-name="From the 
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html)
+
+![The order of property overrides](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides-5-the-order-of-property-overrides.png)
+
+*Source: [`diagrams/profiles-and-overrides.drawio`](/content/13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides/diagrams/profiles-and-overrides.drawio), page 5.*
