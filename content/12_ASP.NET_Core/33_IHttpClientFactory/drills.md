@@ -34,6 +34,10 @@ public class TagHandler(string name) : DelegatingHandler
 
 `/proxy` returns `A,B`. The log shows `A out`, `B out`, `B back`, `A back`. Handlers added first are outermost, so A sees the request first and the response last, like middleware.
 
+![Handler order](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-drills-1-handler-order.png)
+
+*Source: [`diagrams/http-client-factory-drills.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-drills.drawio), page 1.*
+
 ## How many upstream calls?
 
 `/flaky` fails with 503 on its first two calls and succeeds on the third. What does one request to `/proxy` return, and roughly how long does it take? The example needs the `Microsoft.Extensions.Http.Resilience` package.
@@ -53,3 +57,7 @@ app.Run();
 **Answer**
 
 It returns 200 with `"call 3"`. The standard handler retries 503 up to three times with exponential backoff and jitter, starting from a two-second base delay. Two retries take several seconds in all. Without the resilience handler, `GetStringAsync` would throw on the first 503 and the proxy would return 500.
+
+![How many upstream calls?](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-drills-2-how-many-upstream-calls.png)
+
+*Source: [`diagrams/http-client-factory-drills.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-drills.drawio), page 2.*
