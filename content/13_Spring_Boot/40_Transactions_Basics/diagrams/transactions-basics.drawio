@@ -1,0 +1,85 @@
+<mxfile host="drawio">
+  <diagram id="tb1" name="What a transaction guarantees">
+    <mxGraphModel dx="900" dy="372" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="372" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="tb1-1" value="What a transaction guarantees" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="tb1-2" value="Several changes complete entirely or not at all" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="tb1-3" value="begin" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="140" width="120" height="50" as="geometry"/></mxCell>
+<mxCell id="tb1-4" value="insert into loan (7, 42)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="220" y="110" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="tb1-5" value="update book available - 1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="220" y="180" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="tb1-6" value="commit: both changes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="100" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="tb1-7" value="rollback: neither change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="180" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="tb1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb1-3" target="tb1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="tb1-4" target="tb1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb1-10" value="all succeeded" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb1-5" target="tb1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb1-11" value="anything failed" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb1-5" target="tb1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb1-12" value="Atomicity&lt;br&gt;all or nothing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="260" width="190" height="60" as="geometry"/></mxCell>
+<mxCell id="tb1-13" value="Consistency&lt;br&gt;constraints hold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250.0" y="260" width="190" height="60" as="geometry"/></mxCell>
+<mxCell id="tb1-14" value="Isolation&lt;br&gt;no half-done work seen" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="260" width="190" height="60" as="geometry"/></mxCell>
+<mxCell id="tb1-15" value="Durability&lt;br&gt;survives a crash" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670.0" y="260" width="190" height="60" as="geometry"/></mxCell>
+<mxCell id="tb1-16" value="Spring starts, commits, and rolls back around your code: no manual connection handling" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="tb2" name="@Transactional">
+    <mxGraphModel dx="900" dy="376" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="376" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="tb2-1" value="@Transactional" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="tb2-2" value="The transaction proxy wraps one business operation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="tb2-3" value="caller" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="140" width="140" height="60" as="geometry"/></mxCell>
+<mxCell id="tb2-4" value="transaction proxy: begin · bind connection to the thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="240" y="95" width="460" height="200" as="geometry"/></mxCell>
+<mxCell id="tb2-5" value="@Transactional LendingService.lend(bookId, memberId)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="140" width="420" height="50" as="geometry"/></mxCell>
+<mxCell id="tb2-6" value="books.decrementAvailable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="215" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="tb2-7" value="loans.save(new Loan)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="215" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="tb2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="tb2-3" target="tb2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb2-9" value="commit&lt;br&gt;on return" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="760" y="140" width="100" height="60" as="geometry"/></mxCell>
+<mxCell id="tb2-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="tb2-4" target="tb2-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb2-11" value="Same connection for every repository call in the method · on service methods, not controllers or single repository calls · Boot configures the JDBC/JPA transaction manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="tb3" name="When a transaction rolls back">
+    <mxGraphModel dx="900" dy="384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="384" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="tb3-1" value="When a transaction rolls back" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="tb3-2" value="Default: roll back on unchecked exceptions only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="tb3-3" value="@Transactional&lt;br&gt;method" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="tb3-4" value="returns normally → commit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="95" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="tb3-5" value="RuntimeException or Error → rollback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="151" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="tb3-6" value="checked exception → commit (surprise)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="207" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="tb3-7" value="exception caught and not rethrown → commit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="263" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="tb3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb3-3" target="tb3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb3-3" target="tb3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb3-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb3-3" target="tb3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb3-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="tb3-3" target="tb3-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb3-12" value="@Transactional(rollbackFor = PaymentDeclinedException.class): roll back on the checked exception too" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="tb4" name="Read-only transactions and propagation">
+    <mxGraphModel dx="900" dy="374" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="374" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="tb4-1" value="Read-only transactions and propagation" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="tb4-2" value="REQUIRED joins; REQUIRES_NEW runs separately and commits on its own" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="tb4-3" value="caller&#x27;s transaction (REQUIRED)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="480" height="190" as="geometry"/></mxCell>
+<mxCell id="tb4-4" value="service method" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="140" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="tb4-5" value="called method&lt;br&gt;joins" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="140" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="tb4-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="tb4-4" target="tb4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb4-7" value="whole chain commits or rolls back together" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="215" width="440" height="50" as="geometry"/></mxCell>
+<mxCell id="tb4-8" value="REQUIRES_NEW" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="640" y="95" width="220" height="190" as="geometry"/></mxCell>
+<mxCell id="tb4-9" value="AuditService.record&lt;br&gt;separate transaction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="655" y="140" width="190" height="60" as="geometry"/></mxCell>
+<mxCell id="tb4-10" value="commits even if the&lt;br&gt;caller rolls back" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="655" y="215" width="190" height="50" as="geometry"/></mxCell>
+<mxCell id="tb4-11" value="suspends caller" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="tb4-5" target="tb4-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="tb4-12" value="@Transactional(readOnly = true) on the class (CatalogService) · plain @Transactional on writing methods&lt;br&gt;readOnly: JPA skips change checks · REQUIRES_NEW needs a second connection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

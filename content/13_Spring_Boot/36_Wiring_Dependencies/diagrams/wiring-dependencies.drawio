@@ -1,0 +1,88 @@
+<mxfile host="drawio">
+  <diagram id="wd1" name="Constructor injection">
+    <mxGraphModel dx="900" dy="320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="320" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="wd1-1" value="Constructor injection" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="wd1-2" value="Required dependencies as constructor parameters in final fields" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="wd1-3" value="BookRepository bean" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="wd1-4" value="FeePolicy bean" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="wd1-5" value="LoanService(BookRepository books,&lt;br&gt;FeePolicy fees)&lt;br&gt;final fields · one constructor:&lt;br&gt;no annotation needed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="120" width="300" height="110" as="geometry"/></mxCell>
+<mxCell id="wd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd1-3" target="wd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd1-4" target="wd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd1-8" value="never half-built&lt;br&gt;tests: new + fakes&lt;br&gt;records: canonical&lt;br&gt;constructor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="120" width="160" height="110" as="geometry"/></mxCell>
+<mxCell id="wd1-9" value="A constructor with many parameters warns that the class has too many jobs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="wd2" name="@Autowired, field and setter injection">
+    <mxGraphModel dx="900" dy="310" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="310" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="wd2-1" value="@Autowired, field and setter injection" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="wd2-2" value="Spring fills fields and setters after creating the object" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="wd2-3" value="constructor&lt;br&gt;required dependencies&lt;br&gt;@Autowired only with&lt;br&gt;several constructors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="250" height="80" as="geometry"/></mxCell>
+<mxCell id="wd2-4" value="@Autowired field&lt;br&gt;MailSender mail&lt;br&gt;hidden · no final ·&lt;br&gt;hard to test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="110" width="250" height="80" as="geometry"/></mxCell>
+<mxCell id="wd2-5" value="@Autowired(required = false)&lt;br&gt;setFormatter(...)&lt;br&gt;optional · keeps&lt;br&gt;PlainFormatter default" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="110" width="250" height="80" as="geometry"/></mxCell>
+<mxCell id="wd2-6" value="preferred  →  avoid  →  optional with a default" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="820" height="22" as="geometry"/></mxCell>
+<mxCell id="wd2-7" value="Spring&#x27;s own test classes are the common place where @Autowired fields remain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="wd3" name="Several candidates: @Primary and @Qualifier">
+    <mxGraphModel dx="900" dy="374" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="374" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="wd3-1" value="Several candidates: @Primary and @Qualifier" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="wd3-2" value="@Primary is the default; @Qualifier names the exception" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="wd3-3" value="EmailNotifier&lt;br&gt;@Primary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="wd3-4" value="SmsNotifier&lt;br&gt;@Component(&quot;sms&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="wd3-5" value="OverdueService(&lt;br&gt;Notifier usual,&lt;br&gt;@Qualifier(&quot;sms&quot;) Notifier urgent)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="130" width="460" height="120" as="geometry"/></mxCell>
+<mxCell id="wd3-6" value="usual" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.35;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd3-3" target="wd3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd3-7" value="urgent" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd3-4" target="wd3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd3-8" value="neither: &quot;expected single matching bean&lt;br&gt;but found 2&quot; at startup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="wd3-9" value="@Qualifier overrides @Primary · a parameter name&lt;br&gt;equal to a bean name is only a fallback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="300" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="wd4" name="Inject every candidate">
+    <mxGraphModel dx="900" dy="320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="320" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="wd4-1" value="Inject every candidate" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="wd4-2" value="List&amp;lt;LoanRule&amp;gt; receives every matching bean, in @Order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="wd4-3" value="NoOverdueBooksRule @Order(1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="wd4-4" value="LoanLimitRule @Order(2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="wd4-5" value="new rule = new bean" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;dashed=1;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="wd4-6" value="LoanChecker(&lt;br&gt;List&amp;lt;LoanRule&amp;gt; rules)&lt;br&gt;rules.forEach(check)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="150" width="260" height="100" as="geometry"/></mxCell>
+<mxCell id="wd4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd4-3" target="wd4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd4-4" target="wd4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd4-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd4-5" target="wd4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd4-10" value="Map&amp;lt;String, LoanRule&amp;gt;:&lt;br&gt;keyed by bean name&lt;br&gt;&lt;br&gt;no rules → empty list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="150" width="160" height="100" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="wd5" name="Optional and lazy dependencies with ObjectProvider">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="wd5-1" value="Optional and lazy dependencies with ObjectProvider" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="wd5-2" value="Inject a handle; the bean is fetched only when you ask" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="wd5-3" value="CheckoutService(&lt;br&gt;ObjectProvider&amp;lt;LoyaltyProgram&amp;gt;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="130" width="260" height="80" as="geometry"/></mxCell>
+<mxCell id="wd5-4" value="getIfAvailable(): the bean, or null / a default" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="100" width="480" height="40" as="geometry"/></mxCell>
+<mxCell id="wd5-5" value="getIfUnique(): one only when unambiguous" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="154" width="480" height="40" as="geometry"/></mxCell>
+<mxCell id="wd5-6" value="stream(): all candidates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="208" width="480" height="40" as="geometry"/></mxCell>
+<mxCell id="wd5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd5-3" target="wd5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd5-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd5-3" target="wd5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="wd5-3" target="wd5-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wd5-10" value="points(fee): program == null ? 0 : program.points(fee)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="wd5-11" value="Optional integrations · startup-order problems · a fresh prototype per call · Boot applies customizers only when they exist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

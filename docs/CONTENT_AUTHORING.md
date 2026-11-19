@@ -26,7 +26,7 @@ Rules:
 
 - Both technology and topic directories are prefixed with a zero-padded integer (`01_`, `02_`, …) which controls sort order in the sidebar.
 - The directory name after the prefix becomes the rendered title (underscores → spaces).
-- A technology can declare `topic_groups.json` as an object mapping group labels to arrays of integer topic prefixes, for example `{"Introduction": [1], "Part 1": [2, 3]}`. Assign each topic number to at most one group. The content index exposes a `group` on matching topics. The sidebar and technology landing page show a heading when the group changes in numeric topic order. Planned numbers may be listed before their topic folders exist.
+- A technology can declare `topic_groups.json` as an object mapping group labels to arrays of integer topic prefixes, for example `{"Introduction": [1], "Part 1": [2, 3]}`. Assign each topic number to at most one group. The content index exposes a `group` on matching topics. Grouped topics are listed in the order of the groups in the file, then by topic number, and ungrouped topics follow in numeric order. That lets a group added later, with higher numbers, be listed first. The sidebar and technology landing page show a heading when the group changes. Planned numbers may be listed before their topic folders exist.
 - `concepts.md` is the per-topic source of truth for the Concepts tab; `notes.md` is the source for the Notes tab.
 - `drills.md` is optional. When the file exists, `/api/content` sets `hasDrills: true` for that topic and the site adds a **Drills** tab. Topics without the file keep today's Notes and Concepts tabs only.
 - `serve.py` never treats `concepts.md` or `drills.md` as the notes document when `notes.md` is missing.
