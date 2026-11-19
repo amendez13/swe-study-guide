@@ -20,6 +20,10 @@ app.Run();
 
 The CORS services reject the combination of `AllowAnyOrigin` and `AllowCredentials` with an `InvalidOperationException` when the policy is built. Allowing it would let any website make cookie-authenticated calls and read the responses. List the real front-end origins with `WithOrigins(...)` and keep `AllowCredentials`. Or drop cookies and use bearer tokens.
 
+![Review a CORS policy](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-drills-1-review-a-cors-policy.png)
+
+*Source: [`diagrams/security-hardening-drills.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-drills.drawio), page 1.*
+
 ## Spot the injection
 
 Which of these three endpoints can be exploited with `?sort=Title; DROP TABLE Books` or `?title=x' OR '1'='1`? How would you fix it?
@@ -47,3 +51,7 @@ public class LibraryDb(DbContextOptions<LibraryDb> options) : DbContext(options)
 **Answer**
 
 `/a` and `/b` are safe: LINQ and `FromSql` both send the title as a parameter. `/c` is injectable. C# interpolation builds the SQL string before `FromSqlRaw` sees it, and a column name can't be a parameter anyway. Map `sort` to a fixed set of LINQ orderings, such as `"title" => OrderBy(b => b.Title)`, and reject anything else.
+
+![Spot the injection](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-drills-2-spot-the-injection.png)
+
+*Source: [`diagrams/security-hardening-drills.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-drills.drawio), page 2.*

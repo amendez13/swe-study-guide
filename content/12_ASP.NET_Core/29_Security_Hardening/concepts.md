@@ -23,6 +23,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/cross-site-scripting?view=aspnetcore-10.0)
 
+![Cross-site scripting](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-1-cross-site-scripting.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 1.*
+
 ## Cross-site request forgery
 
 Cross-site request forgery (CSRF) tricks a signed-in user's browser into sending a request to your app from another site. The browser attaches your cookies automatically. Any app that authenticates with cookies is exposed. Antiforgery tokens stop it: the app sends a token in a cookie and in the form, and checks on each unsafe request that the two match. A cross-site page can't read the form token.
@@ -48,6 +52,10 @@ public class LoansController : Controller
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-10.0)
 
+![Cross-site request forgery](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-2-cross-site-request-forgery.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 2.*
+
 ## Cross-origin requests and CORS
 
 Browsers apply the same-origin policy: script on `https://app.example.org` can't read responses from `https://api.example.org` unless the API allows it. Cross-Origin Resource Sharing (CORS) is how the server allows it. The browser sends an `Origin` header, and for non-simple requests a preflight `OPTIONS` request first. It exposes the response to the script only if the API answers with matching `Access-Control-Allow-*` headers.
@@ -65,6 +73,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-10.0)
+
+![Cross-origin requests and CORS](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-3-cross-origin-requests-and-cors.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 3.*
 
 ## CORS policies per endpoint
 
@@ -90,6 +102,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-10.0#enable-cors-with-endpoint-routing)
 
+![CORS policies per endpoint](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-4-cors-policies-per-endpoint.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 4.*
+
 ## Open redirects
 
 Apps often redirect to a `returnUrl` after sign-in. If the app redirects to any URL it receives, an attacker can send a link to your real login page that ends up on a look-alike site. The user trusts the link because it starts with your domain. That's an open redirect.
@@ -109,6 +125,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/preventing-open-redirects?view=aspnetcore-10.0)
+
+![Open redirects](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-5-open-redirects.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 5.*
 
 ## SQL injection
 
@@ -139,6 +159,10 @@ public class LibraryDb(DbContextOptions<LibraryDb> options) : DbContext(options)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/querying/sql-queries)
 
+![SQL injection](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-6-sql-injection.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 6.*
+
 ## Insecure direct object references
 
 An insecure direct object reference lets a user reach someone else's data by changing an identifier in the URL, such as `/loans/41` to `/loans/42`. Authentication alone doesn't prevent it: the attacker is a real, signed-in user. Every handler that loads data by id must also check that the current user may see it.
@@ -166,6 +190,10 @@ public record Loan(int Id, string Member, string Title);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-10.0)
 
+![Insecure direct object references](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-7-insecure-direct-object-references.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 7.*
+
 ## Protect passwords and sensitive data
 
 Never store passwords, even encrypted. Store a slow, salted hash. Identity's `PasswordHasher<TUser>` uses PBKDF2 with a per-password salt and a format version, so the work factor can be raised later and old hashes are upgraded at sign-in. Prefer Identity or an external provider over writing your own credential storage.
@@ -189,3 +217,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/introduction?view=aspnetcore-10.0)
+
+![Protect passwords and sensitive data](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening-8-protect-passwords-and-sensitive-data.png)
+
+*Source: [`diagrams/security-hardening.drawio`](/content/12_ASP.NET_Core/29_Security_Hardening/diagrams/security-hardening.drawio), page 8.*
