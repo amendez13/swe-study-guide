@@ -20,6 +20,10 @@ Book lend(long id) {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/aop.html)
 
+![Cross-cutting concerns](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop-1-cross-cutting-concerns.png)
+
+*Source: [`diagrams/proxies-and-aop.drawio`](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop.drawio), page 1.*
+
 ## How Spring proxies work
 
 When a bean needs extra behavior, Spring does not change your class. After creating the bean, it wraps it in a proxy, an object of the same type that intercepts each call, runs the extra behavior, and forwards to your real object. Other beans receive the proxy, not the original.
@@ -42,6 +46,10 @@ System.out.println(loanService.getClass().getName());
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/aop/proxying.html)
+
+![How Spring proxies work](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop-2-how-spring-proxies-work.png)
+
+*Source: [`diagrams/proxies-and-aop.drawio`](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop.drawio), page 2.*
 
 ## The self-invocation trap
 
@@ -70,6 +78,10 @@ class CatalogService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/aop/proxying.html#aop-understanding-aop-proxies)
+
+![The self-invocation trap](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop-3-the-self-invocation-trap.png)
+
+*Source: [`diagrams/proxies-and-aop.drawio`](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop.drawio), page 3.*
 
 ## Write an aspect
 
@@ -109,6 +121,10 @@ class TimingAspect {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/aop/ataspectj.html)
+
+![Write an aspect](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop-4-write-an-aspect.png)
+
+*Source: [`diagrams/proxies-and-aop.drawio`](/content/13_Spring_Boot/39_Proxies_and_AOP/diagrams/proxies-and-aop.drawio), page 4.*
 
 ## Proxy limits to remember
 
