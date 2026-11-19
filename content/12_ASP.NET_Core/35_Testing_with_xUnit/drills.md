@@ -28,6 +28,10 @@ public class FeeDrill
 
 Four tests: three theory rows and one fact. One fails, the `60` row, because the cap makes the fee 10, not 15. Each `InlineData` row is a separate test case, so the first two rows still pass and the failure message names the row's arguments.
 
+![Count the test results](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-drills-1-count-the-test-results.png)
+
+*Source: [`diagrams/xunit-testing-drills.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-drills.drawio), page 1.*
+
 ## Throws and a derived exception
 
 `LateFees.For(-1)` throws `ArgumentOutOfRangeException`, which derives from `ArgumentException`. Which tests pass?
@@ -49,3 +53,7 @@ public class ThrowsDrill
 **Answer**
 
 Only `Any` passes. `Assert.Throws<T>` requires the exact type, so `Exact` fails and reports that it expected `ArgumentException` but got `ArgumentOutOfRangeException`. `Assert.ThrowsAny<T>` accepts `T` or any type derived from it.
+
+![Throws and a derived exception](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-drills-2-throws-and-a-derived-exception.png)
+
+*Source: [`diagrams/xunit-testing-drills.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-drills.drawio), page 2.*

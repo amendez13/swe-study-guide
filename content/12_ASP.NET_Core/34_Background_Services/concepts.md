@@ -34,6 +34,10 @@ public class HeartbeatService(ILogger<HeartbeatService> logger) : BackgroundServ
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0)
 
+![Run work with IHostedService](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-1-run-work-with-ihostedservice.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 1.*
+
 ## Run tasks on a timer
 
 `PeriodicTimer` is the simplest timer for async loops. `await timer.WaitForNextTickAsync(token)` returns true at each tick and false once the timer is disposed. It never runs ticks in parallel: if the work takes longer than the period, the next tick fires as soon as the work ends.
@@ -72,6 +76,10 @@ public class RateRefresher(RateCache cache, ILogger<RateRefresher> logger) : Bac
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0#timed-background-tasks)
 
+![Run tasks on a timer](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-2-run-tasks-on-a-timer.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 2.*
+
 ## Use scoped services in background tasks
 
 Hosted services are singletons, so they can't take scoped services such as a `DbContext` in the constructor. Inject `IServiceScopeFactory` instead and create a scope for each unit of work, such as each tick or each message. Resolve the scoped services from `scope.ServiceProvider` and dispose the scope when the work is done.
@@ -108,6 +116,10 @@ public class OverdueScanner(IServiceScopeFactory scopes, ILogger<OverdueScanner>
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-10.0#consuming-a-scoped-service-in-a-background-task)
 
+![Use scoped services in background tasks](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-3-use-scoped-services-in-background-tasks.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 3.*
+
 ## Worker services
 
 A worker service is an app with hosted services and no HTTP server. `dotnet new worker` creates one with `Host.CreateApplicationBuilder`, a `Worker` class that derives from `BackgroundService`, and the usual configuration and logging. Use it for queue consumers, schedulers, and other jobs that should run separately from the web app, so they can scale and fail independently.
@@ -135,6 +147,10 @@ public class QueueWorker(ILogger<QueueWorker> logger) : BackgroundService
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/workers)
+
+![Worker services](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-4-worker-services.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 4.*
 
 ## Run workers in production
 
@@ -164,6 +180,10 @@ public class ReportWorker(ILogger<ReportWorker> logger) : BackgroundService
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/workers#deployment-considerations)
+
+![Run workers in production](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-5-run-workers-in-production.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 5.*
 
 ## Install Quartz.NET
 
@@ -196,6 +216,10 @@ public class WarmCacheJob(ILogger<WarmCacheJob> logger) : IJob
 ```
 
 [Quartz.NET](https://www.quartz-scheduler.net/documentation/quartz-3.x/packages/hosted-services-integration.html)
+
+![Install Quartz.NET](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-6-install-quartznet.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 6.*
 
 ## Schedule a job with Quartz.NET
 
@@ -231,6 +255,10 @@ public class OverdueReportJob(ILogger<OverdueReportJob> logger) : IJob
 ```
 
 [Quartz.NET](https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html)
+
+![Schedule a job with Quartz.NET](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-7-schedule-a-job-with-quartznet.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 7.*
 
 ## Cluster scheduled jobs
 
@@ -270,3 +298,7 @@ public class NightlyReportJob(ILogger<NightlyReportJob> logger) : IJob
 ```
 
 [Quartz.NET](https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/advanced-enterprise-features.html)
+
+![Cluster scheduled jobs](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services-8-cluster-scheduled-jobs.png)
+
+*Source: [`diagrams/background-services.drawio`](/content/12_ASP.NET_Core/34_Background_Services/diagrams/background-services.drawio), page 8.*
