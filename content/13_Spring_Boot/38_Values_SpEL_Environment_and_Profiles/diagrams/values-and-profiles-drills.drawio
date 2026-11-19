@@ -1,0 +1,38 @@
+<mxfile host="drawio">
+  <diagram id="vapd1" name="Predict the injected value">
+    <mxGraphModel dx="900" dy="260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="260" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vapd1-1" value="Predict the injected value" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vapd1-2" value="Command line &amp;gt; environment variables &amp;gt; application.properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vapd1-3" value="--library.loan-days=14" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd1-4" value="LIBRARY_LOANDAYS=28" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd1-5" value="library.loan-days=21" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd1-6" value="${library.loan-days} → days = 14" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="vapd1-7" value="wins" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vapd1-3" target="vapd1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vapd1-8" value="&quot;library.loan-days&quot; (no ${}) → literal text" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="170" width="380" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vapd2" name="Pick the mail sender">
+    <mxGraphModel dx="900" dy="312" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="312" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vapd2-1" value="Pick the mail sender" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vapd2-2" value="!prod matches whenever prod is not active" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vapd2-3" value="no profile" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd2-4" value="ConsoleMailSender" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="100" width="420" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd2-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vapd2-3" target="vapd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vapd2-6" value="dev" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="154" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd2-7" value="ConsoleMailSender" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="154" width="420" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vapd2-6" target="vapd2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vapd2-9" value="prod,dev" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="208" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd2-10" value="SmtpMailSender only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="208" width="420" height="40" as="geometry"/></mxCell>
+<mxCell id="vapd2-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vapd2-9" target="vapd2-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vapd2-12" value="exactly one MailSender bean in every case: injection is never ambiguous" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -34,6 +34,10 @@ class LoanPolicy {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/value-annotations.html)
 
+![Inject a setting with @Value](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles-1-inject-a-setting-with-value.png)
+
+*Source: [`diagrams/values-and-profiles.drawio`](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles.drawio), page 1.*
+
 ## Property placeholders and SpEL
 
 `${...}` is a property placeholder: it is replaced by the property's text. `#{...}` is a Spring Expression Language (SpEL) expression, evaluated when the bean is created. SpEL can do arithmetic, call methods, read other beans by name, and combine with placeholders, as in `#{${library.loan-days} * 24}`.
@@ -55,6 +59,10 @@ class LoanLimits {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/expressions.html)
+
+![Property placeholders and SpEL](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles-2-property-placeholders-and-spel.png)
+
+*Source: [`diagrams/values-and-profiles.drawio`](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles.drawio), page 2.*
 
 ## The Environment
 
@@ -81,6 +89,10 @@ class FeatureFlags {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/environment.html)
+
+![The Environment](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles-3-the-environment.png)
+
+*Source: [`diagrams/values-and-profiles.drawio`](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles.drawio), page 3.*
 
 ## Profiles
 
@@ -117,6 +129,10 @@ SPRING_PROFILES_ACTIVE=prod java -jar target/study-0.0.1-SNAPSHOT.jar
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/profiles.html)
 
+![Profiles](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles-4-profiles.png)
+
+*Source: [`diagrams/values-and-profiles.drawio`](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles.drawio), page 4.*
+
 ## Keep secrets out of the code
 
 Properties files are committed with the code, so they must not hold passwords, API keys, or tokens. Reference them with placeholders and supply the values at run time through environment variables, a mounted config tree, or a secret manager. The placeholder fails startup when the value is missing, which is better than running with an empty password.
@@ -129,3 +145,7 @@ library.isbn-api.key=${ISBN_API_KEY}
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html)
+
+![Keep secrets out of the code](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles-5-keep-secrets-out-of-the-code.png)
+
+*Source: [`diagrams/values-and-profiles.drawio`](/content/13_Spring_Boot/38_Values_SpEL_Environment_and_Profiles/diagrams/values-and-profiles.drawio), page 5.*
