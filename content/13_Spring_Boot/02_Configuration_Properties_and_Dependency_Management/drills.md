@@ -36,6 +36,10 @@ record DeskProperties(String name) {
 
 `Lobby`, because command-line arguments override environment variables and both override the packaged file. Without the argument it prints `Annex`. See [externalized configuration and overrides](#13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/concepts/externalized-configuration-and-overrides).
 
+![Predict the winning value](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-drills-1-predict-the-winning-value.png)
+
+*Source: [`diagrams/configuration-properties-drills.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-drills.drawio), page 1.*
+
 ## Fail fast on a bad setting
 
 An operator sets `study.fines.daily-rate=-1`. The app starts and charges negative fines. Change the properties type so startup fails instead, and say which dependency the check needs.
@@ -52,3 +56,7 @@ record FineProperties(BigDecimal dailyRate) {
 **Answer**
 
 Add `@Validated` to the record and `@PositiveOrZero` (or `@DecimalMin("0.00")`) to `dailyRate`, and add `spring-boot-starter-validation`. Boot then validates during binding and reports `study.fines.daily-rate` in the startup failure. The pattern is in [validate settings at startup](#13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/concepts/validate-settings-at-startup).
+
+![Fail fast on a bad setting](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-drills-2-fail-fast-on-a-bad-setting.png)
+
+*Source: [`diagrams/configuration-properties-drills.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-drills.drawio), page 2.*

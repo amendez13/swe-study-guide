@@ -44,6 +44,10 @@ record LibraryProperties(String name, Duration loanPeriod, List<String> wings,
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties)
 
+![Typed custom properties](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-1-typed-custom-properties.png)
+
+*Source: [`diagrams/configuration-properties.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties.drawio), page 1.*
+
 ## Validate settings at startup
 
 A misspelled or missing setting is cheaper to find at startup than at the first request that uses it. Annotate the properties type with `@Validated` and add Jakarta Bean Validation constraints. With `spring-boot-starter-validation` on the classpath, Boot validates the bound object and stops startup with a report that names the property and the violated rule.
@@ -76,6 +80,10 @@ record LoanProperties(@Min(1) @Max(20) int maxPerMember, @NotBlank String desk) 
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.validation)
 
+![Validate settings at startup](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-2-validate-settings-at-startup.png)
+
+*Source: [`diagrams/configuration-properties.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties.drawio), page 2.*
+
 ## Externalized configuration and overrides
 
 Boot reads properties from many sources and gives each a precedence. The packaged `application.properties` holds defaults. Operating system environment variables override it, Java system properties override environment variables, and command-line arguments override all three. The same jar can therefore run in several environments with different settings and no rebuild.
@@ -89,6 +97,10 @@ STUDY_LIBRARY_NAME="East Branch" java -jar target/study-0.0.1-SNAPSHOT.jar --stu
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/external-config.html)
+
+![Externalized configuration and overrides](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-3-externalized-configuration-and-overrides.png)
+
+*Source: [`diagrams/configuration-properties.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties.drawio), page 3.*
 
 ## Property-based beans
 
@@ -139,6 +151,10 @@ record ReminderService(Duration leadTime) {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html#features.developing-auto-configuration.condition-annotations.property-conditions)
 
+![Property-based beans](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-4-property-based-beans.png)
+
+*Source: [`diagrams/configuration-properties.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties.drawio), page 4.*
+
 ## Configuration metadata
 
 Add `spring-boot-configuration-processor` as an optional, annotation-processor dependency. During compilation it reads your `@ConfigurationProperties` types and writes `META-INF/spring-configuration-metadata.json`. IDEs use that file to complete property names, show types and defaults, and flag unknown keys in `application.properties`.
@@ -154,6 +170,10 @@ Javadoc on a record component becomes the property's description. The processor 
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/specification/configuration-metadata/annotation-processor.html)
+
+![Configuration metadata](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-5-configuration-metadata.png)
+
+*Source: [`diagrams/configuration-properties.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties.drawio), page 5.*
 
 ## Dependency management with the Boot BOM
 
@@ -175,3 +195,7 @@ To move one library to a different version, override its version property instea
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/maven-plugin/using.html)
+
+![Dependency management with the Boot BOM](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties-6-dependency-management-with-the-boot-bom.png)
+
+*Source: [`diagrams/configuration-properties.drawio`](/content/13_Spring_Boot/02_Configuration_Properties_and_Dependency_Management/diagrams/configuration-properties.drawio), page 6.*
