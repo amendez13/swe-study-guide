@@ -24,6 +24,10 @@ public static class LateFees
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices)
 
+![Kinds of tests](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-1-kinds-of-tests.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 1.*
+
 ## Create a test project
 
 Tests live in a separate project so they never ship with the app. `dotnet new xunit` creates a test project that references xUnit, its Visual Studio runner, and `Microsoft.NET.Test.Sdk`. Put the app and its tests in one solution, so one command builds and tests both. In .NET 10, `dotnet new sln` creates the XML-based `.slnx` format by default.
@@ -45,6 +49,10 @@ public class UnitTest1
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-csharp-with-xunit)
 
+![Create a test project](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-2-create-a-test-project.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 2.*
+
 ## Run tests with dotnet test
 
 `dotnet test` builds the projects, discovers tests, runs them, and prints a summary with the failures. Run it in the solution folder for every test project, or point it at one project. `--filter` selects tests by name, class, or trait. `--logger "console;verbosity=detailed"` shows each test as it runs. A non-zero exit code on failure makes the command work as a CI gate.
@@ -63,6 +71,10 @@ public class SmokeTests
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test)
+
+![Run tests with dotnet test](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-3-run-tests-with-dotnet-test.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 3.*
 
 ## Reference the app from the test project
 
@@ -87,6 +99,10 @@ public class LateFeeTests
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-csharp-with-xunit#create-a-test-project)
+
+![Reference the app from the test project](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-4-reference-the-app-from-the-test-project.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 4.*
 
 ## Facts
 
@@ -122,6 +138,10 @@ public class LateFeeFacts
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-csharp-with-xunit#add-more-features)
 
+![Facts](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-5-facts.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 5.*
+
 ## Theories
 
 A `[Theory]` is a parameterized test. Each `[InlineData]` row runs as a separate test case with its own result, so one failing row doesn't hide the others. Use theories when the same behavior should hold for several inputs, such as boundaries around a cap.
@@ -153,6 +173,10 @@ public class LateFeeTheories
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-csharp-with-xunit#add-more-features)
 
+![Theories](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-6-theories.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 6.*
+
 ## Test failure conditions
 
 Error paths need tests too. `Assert.Throws<T>` runs a delegate and passes only when it throws exactly `T`, then returns the exception so you can check its details. `Assert.ThrowsAny<T>` also accepts derived types. For async code, use `Assert.ThrowsAsync<T>` and await it.
@@ -182,3 +206,7 @@ public class LateFeeErrors
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices)
+
+![Test failure conditions](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing-7-test-failure-conditions.png)
+
+*Source: [`diagrams/xunit-testing.drawio`](/content/12_ASP.NET_Core/35_Testing_with_xUnit/diagrams/xunit-testing.drawio), page 7.*

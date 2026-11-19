@@ -1,0 +1,153 @@
+<mxfile host="drawio">
+  <diagram id="bs1" name="Run work with IHostedService">
+    <mxGraphModel dx="900" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="330" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs1-1" value="Run work with IHostedService" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs1-2" value="The host starts hosted services with the app and stops them at shutdown" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs1-3" value="host starts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="bs1-4" value="await each&lt;br&gt;StartAsync&lt;br&gt;(keep it short)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="207.5" y="110" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="bs1-5" value="server begins&lt;br&gt;accepting requests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="110" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="bs1-6" value="Ctrl+C:&lt;br&gt;StopAsync&lt;br&gt;(graceful shutdown)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="542.5" y="110" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="bs1-7" value="app exits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710.0" y="110" width="150" height="70" as="geometry"/></mxCell>
+<mxCell id="bs1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs1-3" target="bs1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs1-4" target="bs1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs1-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs1-5" target="bs1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs1-6" target="bs1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs1-12" value="BackgroundService.ExecuteAsync(stoppingToken)&lt;br&gt;HeartbeatService: log every 5 s until the token is cancelled&lt;br&gt;.NET 10: all of ExecuteAsync runs in the background" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="500" height="80" as="geometry"/></mxCell>
+<mxCell id="bs1-13" value="starts" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.2;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs1-4" target="bs1-12"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs1-14" value="cancels token" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.9;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs1-6" target="bs1-12"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs1-15" value="AddHostedService&amp;lt;T&amp;gt;()&lt;br&gt;registers a singleton" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="230" width="280" height="80" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs2" name="Run tasks on a timer">
+    <mxGraphModel dx="900" dy="352" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="352" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs2-1" value="Run tasks on a timer" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs2-2" value="PeriodicTimer ticks never overlap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs2-3" value="PeriodicTimer(10 s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="bs2-4" value="refresh RateCache&lt;br&gt;lateFeePerDay · at" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="bs2-5" value="await&lt;br&gt;WaitForNextTickAsync" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="bs2-6" value="/rates reads&lt;br&gt;cache.Current" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="bs2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs2-3" target="bs2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs2-4" target="bs2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs2-9" value="true → loop" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs2-5" target="bs2-4"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="553" y="210"/><mxPoint x="318" y="210"/></Array></mxGeometry></mxCell>
+<mxCell id="bs2-10" value="shared singleton" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs2-4" target="bs2-6"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="318" y="95"/><mxPoint x="768" y="95"/></Array></mxGeometry></mxCell>
+<mxCell id="bs2-11" value="work slower than the period:&lt;br&gt;next tick fires as soon as it ends" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="bs2-12" value="catch exceptions in the loop: since .NET 6 an&lt;br&gt;unhandled one stops the whole host" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="240" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="bs2-13" value="TimeProvider makes timers testable" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs3" name="Use scoped services in background tasks">
+    <mxGraphModel dx="900" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="330" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs3-1" value="Use scoped services in background tasks" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs3-2" value="A singleton service creates a scope per unit of work" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs3-3" value="OverdueScanner&lt;br&gt;(singleton)&lt;br&gt;IServiceScopeFactory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="80" as="geometry"/></mxCell>
+<mxCell id="bs3-4" value="tick 1: await using CreateAsyncScope()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="330" y="95" width="250" height="150" as="geometry"/></mxCell>
+<mxCell id="bs3-5" value="LoanQueries (scoped)&lt;br&gt;new Id per scope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="345" y="135" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="bs3-6" value="disposed after the work" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="345" y="190" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="bs3-7" value="tick 2: await using CreateAsyncScope()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="600" y="95" width="250" height="150" as="geometry"/></mxCell>
+<mxCell id="bs3-8" value="LoanQueries (scoped)&lt;br&gt;new Id per scope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="135" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="bs3-9" value="disposed after the work" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="615" y="190" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="bs3-10" value="every 5 s" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs3-3" target="bs3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs3-11" value="next tick" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs3-4" target="bs3-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs3-12" value="Matches what ASP.NET Core does per request: each tick gets a fresh DbContext with no tracked entities from the last" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs4" name="Worker services">
+    <mxGraphModel dx="900" dy="315" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="315" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs4-1" value="Worker services" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs4-2" value="Hosted services without an HTTP server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs4-3" value="dotnet new worker · Microsoft.NET.Sdk.Worker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="200" as="geometry"/></mxCell>
+<mxCell id="bs4-4" value="Host.CreateApplicationBuilder(args)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="135" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="bs4-5" value="AddHostedService&amp;lt;QueueWorker&amp;gt;()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="185" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="bs4-6" value="loop: &quot;Processed message {Number}&quot; every 1 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="235" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="bs4-7" value="queue consumers · schedulers · jobs&lt;br&gt;separate from the web app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="380" height="80" as="geometry"/></mxCell>
+<mxCell id="bs4-8" value="scale and fail independently&lt;br&gt;no dependency on ASP.NET Core" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="210" width="380" height="80" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs5" name="Run workers in production">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs5-1" value="Run workers in production" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs5-2" value="A supervisor starts the worker at boot and restarts it after a crash" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs5-3" value="worker&lt;br&gt;AddSystemd()&lt;br&gt;AddWindowsService(...)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="200" height="90" as="geometry"/></mxCell>
+<mxCell id="bs5-4" value="Linux · systemd: readiness + log format" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="bs5-5" value="Windows service &quot;Library Worker&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="170" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="bs5-6" value="container orchestrator: console logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="240" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="bs5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs5-3" target="bs5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs5-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs5-3" target="bs5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bs5-3" target="bs5-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs5-10" value="calls do nothing&lt;br&gt;when not under&lt;br&gt;that service manager:&lt;br&gt;one build&lt;br&gt;everywhere" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="680" y="100" width="180" height="190" as="geometry"/></mxCell>
+<mxCell id="bs5-11" value="HostOptions.ShutdownTimeout: how long StopAsync gets before exit (30 s default; 15 s in the example)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs6" name="Install Quartz.NET">
+    <mxGraphModel dx="900" dy="359" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="359" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs6-1" value="Install Quartz.NET" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs6-2" value="Jobs, triggers, and a scheduler hosted inside the app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs6-3" value="AddQuartz" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="520" height="200" as="geometry"/></mxCell>
+<mxCell id="bs6-4" value="job WarmCacheJob : IJob&lt;br&gt;key &quot;warm-cache&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="135" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="bs6-5" value="trigger ForJob(key)&lt;br&gt;StartNow()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="135" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="bs6-6" value="fires" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs6-5" target="bs6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs6-7" value="scheduler runs jobs on a thread pool · jobs created from DI per execution" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="220" width="480" height="50" as="geometry"/></mxCell>
+<mxCell id="bs6-8" value="AddQuartzHostedService&lt;br&gt;WaitForJobsToComplete = true" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="110" width="260" height="80" as="geometry"/></mxCell>
+<mxCell id="bs6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs6-3" target="bs6-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs6-10" value="beyond BackgroundService: cron expressions · missed-run handling · history · package Quartz.Extensions.Hosting" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="305" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs7" name="Schedule a job with Quartz.NET">
+    <mxGraphModel dx="900" dy="314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="314" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs7-1" value="Schedule a job with Quartz.NET" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs7-2" value="The trigger carries the schedule; job data travels with it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs7-3" value="trigger &quot;every-10-seconds&quot;&lt;br&gt;WithCronSchedule(&quot;0/10 * * * * ?&quot;)&lt;br&gt;(seconds field first)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="80" as="geometry"/></mxCell>
+<mxCell id="bs7-4" value="[DisallowConcurrentExecution] OverdueReportJob&lt;br&gt;branch = MergedJobDataMap.GetString(&quot;branch&quot;)&lt;br&gt;→ &quot;Central&quot; (UsingJobData)&lt;br&gt;logs next run time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="100" width="440" height="100" as="geometry"/></mxCell>
+<mxCell id="bs7-5" value="fires" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs7-3" target="bs7-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs7-6" value="&quot;0 0 2 * * ?&quot; = 02:00 every day&lt;br&gt;WithSimpleSchedule: fixed interval" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="240" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="bs7-7" value="misfire policy after downtime:&lt;br&gt;run once now or skip missed runs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="240" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bs8" name="Cluster scheduled jobs">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bs8-1" value="Cluster scheduled jobs" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bs8-2" value="A shared database store lets each trigger fire on exactly one node" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bs8-3" value="instance A&lt;br&gt;SchedulerId &quot;AUTO&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="bs8-4" value="instance B&lt;br&gt;SchedulerId &quot;AUTO&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="bs8-5" value="PostgreSQL&lt;br&gt;Quartz tables&lt;br&gt;jobs + triggers + locks&lt;br&gt;CheckinInterval 10 s" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="120" width="240" height="160" as="geometry"/></mxCell>
+<mxCell id="bs8-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;startArrow=block;startSize=6;" edge="1" parent="1" source="bs8-3" target="bs8-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs8-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;startArrow=block;startSize=6;" edge="1" parent="1" source="bs8-4" target="bs8-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs8-8" value="&quot;nightly-report&quot;&lt;br&gt;0 0 2 * * ?&lt;br&gt;fires on one node" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="120" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="bs8-9" value="node dies → another&lt;br&gt;picks up its work" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="210" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="bs8-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bs8-5" target="bs8-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bs8-11" value="Without clustering every in-memory scheduler fires alone: the report is written twice · UsePersistentStore · UseSystemTextJsonSerializer · UseClustering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
