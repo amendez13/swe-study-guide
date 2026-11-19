@@ -47,6 +47,10 @@ class BookApi {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/web/servlet.html#web.servlet.spring-mvc.api-versioning)
 
+![Versioned request mappings](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-1-versioned-request-mappings.png)
+
+*Source: [`diagrams/api-versioning.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning.drawio), page 1.*
+
 ## Choose a version resolution strategy
 
 A request can carry its version in a header, a query parameter, a media type parameter such as `application/json;version=2.0`, or a path segment such as `/api/v2/books`. Pick one strategy per API and document it. A header keeps URLs stable. A path segment is visible in logs and caches, but every route then needs the segment.
@@ -96,6 +100,10 @@ class StatusApi {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-config/api-version.html)
 
+![Choose a version resolution strategy](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-2-choose-a-version-resolution-strategy.png)
+
+*Source: [`diagrams/api-versioning.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning.drawio), page 2.*
+
 ## Baseline versions
 
 A version followed by `+`, such as `1.1+`, is a baseline. The mapping handles that version and every later supported version until another mapping declares a higher version. This lets a handler carry forward through minor releases. You add a new handler only for the version where the contract changes.
@@ -136,6 +144,10 @@ class CatalogApi {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html#mvc-ann-requestmapping-version)
 
+![Baseline versions](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-3-baseline-versions.png)
+
+*Source: [`diagrams/api-versioning.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning.drawio), page 3.*
+
 ## Announce deprecated versions
 
 Clients need advance notice before a version disappears. `StandardApiVersionDeprecationHandler` adds the `Deprecation` and `Sunset` response headers (RFC 9745 and RFC 8594), plus `Link` headers that point to migration notes, to responses for the versions you configure. Boot passes an `ApiVersionDeprecationHandler` bean to the Spring MVC configuration.
@@ -165,6 +177,10 @@ class Deprecations {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc-versioning.html#mvc-versioning-deprecation-handler)
+
+![Announce deprecated versions](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-4-announce-deprecated-versions.png)
+
+*Source: [`diagrams/api-versioning.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning.drawio), page 4.*
 
 ## Call a versioned API
 
@@ -196,6 +212,10 @@ class BookClientConfig {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html)
+
+![Call a versioned API](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-5-call-a-versioned-api.png)
+
+*Source: [`diagrams/api-versioning.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning.drawio), page 5.*
 
 ## Null safety with JSpecify
 
@@ -231,3 +251,7 @@ class TitleLookup {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/null-safety.html)
+
+![Null safety with JSpecify](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-6-null-safety-with-jspecify.png)
+
+*Source: [`diagrams/api-versioning.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning.drawio), page 6.*

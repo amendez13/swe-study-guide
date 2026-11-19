@@ -28,6 +28,10 @@ class HoursApi {
 
 No header uses the default and returns `9-17`. `2.0` returns the JSON string. `3.0` is not a supported version, so the request fails with 400 before any handler runs. Supported versions are detected from the mappings unless you list them yourself.
 
+![Predict the selected version](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-drills-1-predict-the-selected-version.png)
+
+*Source: [`diagrams/api-versioning-drills.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-drills.drawio), page 1.*
+
 ## Make a null visible
 
 The package is `@NullMarked`. `findShelf` returns `null` for an unknown code, and a caller later fails with a `NullPointerException`. Change the declaration so tools warn the caller, and handle the missing case.
@@ -53,3 +57,7 @@ class ShelfLookup {
 **Answer**
 
 Declare the return type as `@Nullable String` (from `org.jspecify.annotations`). The declaration then matches the behavior, and a checker such as NullAway flags `findShelf(code).length()`. Handle the absent case, for example `var shelf = findShelf(code); return shelf == null ? 0 : shelf.length();`. See [null safety with JSpecify](#13_Spring_Boot/05_API_Versioning_and_Null_Safety/concepts/null-safety-with-jspecify).
+
+![Make a null visible](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-drills-2-make-a-null-visible.png)
+
+*Source: [`diagrams/api-versioning-drills.drawio`](/content/13_Spring_Boot/05_API_Versioning_and_Null_Safety/diagrams/api-versioning-drills.drawio), page 2.*
