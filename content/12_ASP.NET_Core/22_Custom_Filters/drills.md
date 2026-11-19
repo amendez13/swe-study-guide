@@ -51,6 +51,10 @@ public class ReportController : ControllerBase
 
 With the key, the response is 200 with both `X-Stamp` and `X-Trace`. Without it, the authorization filter short-circuits with 401. Ordinary result filters are skipped, so only `X-Trace` appears, from the `IAlwaysRunResultFilter`.
 
+![Which headers survive a rejection?](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-drills-1-which-headers-survive-a-rejection.png)
+
+*Source: [`diagrams/custom-filters-drills.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-drills.drawio), page 1.*
+
 ## Where does the exception go?
 
 An exception filter on the controller turns exceptions into 418 responses. Predict `/api/teapot/action` and `/api/teapot/result`.
@@ -87,3 +91,7 @@ public class TeapotController : ControllerBase
 **Answer**
 
 `/api/teapot/action` returns 418, because the exception filter covers the action. `/api/teapot/result` returns 500. The action succeeded and the exception came from executing the result, which exception filters don't cover, so it reaches the server's default handling. Exception middleware would catch both.
+
+![Where does the exception go?](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-drills-2-where-does-the-exception-go.png)
+
+*Source: [`diagrams/custom-filters-drills.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-drills.drawio), page 2.*

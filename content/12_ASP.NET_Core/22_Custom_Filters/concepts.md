@@ -34,6 +34,10 @@ public class StatsController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#authorization-filters)
 
+![Authorization filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-1-authorization-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 1.*
+
 ## Resource filters
 
 A resource filter wraps everything after authorization, including model binding, so it can skip that work entirely. Short-circuit by setting `context.Result` in `OnResourceExecuting`. Typical uses are a feature switch, a cache that serves a stored response on a hit, or turning off form binding for large streamed uploads.
@@ -70,6 +74,10 @@ public class LoansController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#resource-filters)
+
+![Resource filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-2-resource-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 2.*
 
 ## Action filters
 
@@ -108,6 +116,10 @@ public class PrintController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#action-filters)
 
+![Action filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-3-action-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 3.*
+
 ## Exception filters
 
 An exception filter runs when page or controller creation, model binding, an action filter, or the action throws. It can set `context.Result` or mark `ExceptionHandled` to stop the exception from spreading. It doesn't see exceptions from resource filters, result filters, or result execution, such as a view that fails to render. Those reach middleware.
@@ -145,6 +157,10 @@ public class HoldsController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#exception-filters)
+
+![Exception filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-4-exception-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 4.*
 
 ## Result filters
 
@@ -196,6 +212,10 @@ public class CatalogController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#result-filters)
 
+![Result filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-5-result-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 5.*
+
 ## Page filters
 
 A page filter implements `IPageFilter` or `IAsyncPageFilter` and runs around Razor Page handlers. `OnPageHandlerSelectionAsync` runs before model binding, so it can change which handler runs or prepare state. `OnPageHandlerExecutionAsync` runs after binding, where it can read `HandlerArguments`, check `ModelState`, or short-circuit with `context.Result`. Register it globally through `MvcOptions.Filters` or for a folder through a page convention.
@@ -237,6 +257,10 @@ public class HoursModel : PageModel { public void OnGet() { } }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/filter?view=aspnetcore-10.0)
 
+![Page filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-6-page-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 6.*
+
 ## Short-circuiting the pipeline
 
 Setting `context.Result` in a before method short-circuits the pipeline from that stage on. What still runs depends on the stage. After an authorization or resource filter short-circuits, model binding, action filters, and the action are skipped. Ordinary result filters are skipped too, and only `IAlwaysRunResultFilter` filters run. After an action filter short-circuits, inner action filters and the action are skipped, but result filters do run.
@@ -273,6 +297,10 @@ public class GateController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#cancellation-and-short-circuiting)
 
+![Short-circuiting the pipeline](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-7-short-circuiting-the-pipeline.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 7.*
+
 ## Dependency injection in filters
 
 Filter attributes are created by the compiler, so their constructors can't receive services. There are three ways to get DI into a filter. `[ServiceFilter<T>]` resolves `T` from the container, so `T` must be registered and its lifetime applies. `[TypeFilter<T>]` creates `T` with constructor injection without a registration, and `Arguments` can pass extra constructor values. An attribute that implements `IFilterFactory` builds the filter itself from the `IServiceProvider`.
@@ -305,3 +333,7 @@ public class AuditedController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#dependency-injection)
+
+![Dependency injection in filters](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters-8-dependency-injection-in-filters.png)
+
+*Source: [`diagrams/custom-filters.drawio`](/content/12_ASP.NET_Core/22_Custom_Filters/diagrams/custom-filters.drawio), page 8.*
