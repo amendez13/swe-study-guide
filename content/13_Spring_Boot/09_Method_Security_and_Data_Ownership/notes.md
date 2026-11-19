@@ -15,7 +15,9 @@ Move from "is this user signed in?" to "may this user touch this record?".
 
 Run the [base example](#13_Spring_Boot/09_Method_Security_and_Data_Ownership/concepts/record-the-owner-of-data) with the [owner-scoped read](#13_Spring_Boot/09_Method_Security_and_Data_Ownership/concepts/scope-queries-to-the-owner). Use the [route rules](#13_Spring_Boot/08_Spring_Security_Foundations/concepts/secure-routes-and-http-verbs) so `/api/**` accepts Basic credentials without CSRF tokens.
 
+Enter the password for the corresponding in-memory example user when curl prompts.
+
 ```sh
-curl -s -u ada:reading-room http://localhost:8080/api/notes -H 'Content-Type: application/json' -d '{"text":"Chapter 3 notes"}'
-curl -i -u grace:front-desk http://localhost:8080/api/notes/1
+curl -s --user ada http://localhost:8080/api/notes -H 'Content-Type: application/json' -d '{"text":"Chapter 3 notes"}'
+curl -i --user grace http://localhost:8080/api/notes/1
 ```
