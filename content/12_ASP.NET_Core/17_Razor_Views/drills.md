@@ -27,6 +27,10 @@ app.Run();
 
 The first paragraph is encoded as `&lt;i&gt;Ada&lt;/i&gt;`, so the tags show as text. The second sends `<i>Ada</i>` unchanged, so the browser renders italics. Any visitor-supplied script would run there. The third shows `@who.Length@who.Length` as plain text. Razor reads it as an email-like pattern rather than code. Write `@(who.Length)@(who.Length)` to get `1010`.
 
+![Predict the page source](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-drills-1-predict-the-page-source.png)
+
+*Source: [`diagrams/razor-views-drills.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-drills.drawio), page 1.*
+
 ## Diagnose a section error
 
 The layout requires a `Notices` section. What does `/Hours` return, and what are two ways to fix it?
@@ -54,3 +58,7 @@ app.Run();
 **Answer**
 
 It returns 500. Rendering throws `InvalidOperationException` because the page doesn't define the required `Notices` section. Either add `@section Notices { ... }` to the page, or make the slot optional with `RenderSection("Notices", required: false)`.
+
+![Diagnose a section error](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-drills-2-diagnose-a-section-error.png)
+
+*Source: [`diagrams/razor-views-drills.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-drills.drawio), page 2.*

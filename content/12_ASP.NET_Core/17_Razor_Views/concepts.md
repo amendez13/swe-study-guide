@@ -26,6 +26,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-10.0)
 
+![Razor templates](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-1-razor-templates.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 1.*
+
 ## Pass data to a view
 
 `@model` makes a view strongly typed, so `Model` has the page model's or view model's type and IntelliSense and the compiler check every member. `ViewData` is a string-keyed dictionary for data that isn't part of the model. The most common use is the page title, which a layout reads. Marking a page-model property with `[ViewData]` copies it into `ViewData` under the property's name.
@@ -61,6 +65,10 @@ public class BranchModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/overview?view=aspnetcore-10.0#pass-data-to-views)
 
+![Pass data to a view](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-2-pass-data-to-a-view.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 2.*
+
 ## C# expressions and encoding
 
 An implicit expression is `@` followed by a C# expression with no spaces, such as `@title.Length`. Use the explicit form `@( ... )` when the expression has spaces, operators, or generics, or when text follows straight after it. `@@` writes a literal `@`. Razor treats a pattern like `ada@example.org` as text, not code.
@@ -84,6 +92,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-10.0#razor-syntax)
+
+![C# expressions and encoding](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-3-c-expressions-and-encoding.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 3.*
 
 ## Loops and conditionals
 
@@ -130,6 +142,10 @@ public class LoansModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/razor?view=aspnetcore-10.0#control-structures)
 
+![Loops and conditionals](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-4-loops-and-conditionals.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 4.*
+
 ## Raw HTML output
 
 `@Html.Raw(value)` writes a string without encoding. So does any `IHtmlContent`, such as `HtmlString`. Use it only for markup you produced or sanitized yourself, such as HTML rendered from trusted Markdown. Raw user input lets a visitor run script in other users' browsers.
@@ -160,6 +176,10 @@ public class NoticeModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/cross-site-scripting?view=aspnetcore-10.0)
+
+![Raw HTML output](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-5-raw-html-output.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 5.*
 
 ## Layouts and sections
 
@@ -194,6 +214,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-10.0)
+
+![Layouts and sections](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-6-layouts-and-sections.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 6.*
 
 ## Partial views
 
@@ -233,6 +257,10 @@ public class ShelfModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/partial?view=aspnetcore-10.0)
 
+![Partial views](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-7-partial-views.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 7.*
+
 ## _ViewStart and _ViewImports
 
 `_ViewStart.cshtml` runs before every page or view in its folder and subfolders. The templates use it for one line, `@{ Layout = "_Layout"; }`, so pages don't each set a layout. `_ViewImports.cshtml` holds directives shared by every view below it: `@using`, `@addTagHelper`, `@namespace`, `@model`, and `@inject`. Razor applies every `_ViewImports` from the root down to the view's folder. A deeper file adds to the ones above it.
@@ -262,3 +290,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-10.0#importing-shared-directives)
+
+![_ViewStart and _ViewImports](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views-8-viewstart-and-viewimports.png)
+
+*Source: [`diagrams/razor-views.drawio`](/content/12_ASP.NET_Core/17_Razor_Views/diagrams/razor-views.drawio), page 8.*
