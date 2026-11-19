@@ -22,6 +22,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0#razor-pages-routing)
 
+![Routes for Razor Page files](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-1-routes-for-razor-page-files.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 1.*
+
 ## Conventional and attribute routing
 
 ASP.NET Core supports two routing styles for MVC. Conventional routing defines one URL pattern for many controllers, such as `{controller=Home}/{action=Index}/{id?}`, and fills it from class and method names. Attribute routing writes the template on each controller or action. Razor Pages works like conventional routing. The folder layout supplies a default template for every page, and the `@page` directive can change it.
@@ -52,6 +56,10 @@ public class StatusController : Controller
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-10.0)
+
+![Conventional and attribute routing](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-2-conventional-and-attribute-routing.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 2.*
 
 ## Add segments to a page route
 
@@ -84,6 +92,10 @@ public class DetailsModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/razor-pages-conventions?view=aspnetcore-10.0)
 
+![Add segments to a page route](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-3-add-segments-to-a-page-route.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 3.*
+
 ## Replace a page route
 
 A template that starts with `/` replaces the file-based route completely. The page keeps its name for link generation, `/Books/Details` here, but only the new URL reaches it. Use this for short public URLs, or to keep an old URL working after you move a file.
@@ -114,6 +126,10 @@ public class DetailsModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/razor-pages-conventions?view=aspnetcore-10.0)
+
+![Replace a page route](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-4-replace-a-page-route.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 4.*
 
 ## Generate URLs to pages and controllers
 
@@ -160,6 +176,10 @@ public class LibraryController : Controller
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0#url-generation-concepts)
 
+![Generate URLs to pages and controllers](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-5-generate-urls-to-pages-and-controllers.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 5.*
+
 ## Generate URLs with LinkGenerator
 
 `LinkGenerator` is a singleton service that generates links anywhere, including Minimal API handlers, middleware, and background services. `GetPathByPage` and `GetPathByAction` take the same page or controller names that `Url.Page` and `Url.Action` use. Passing the current `HttpContext` lets the generator reuse the request's path base and ambient route values.
@@ -182,6 +202,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0#url-generation-with-linkgenerator)
+
+![Generate URLs with LinkGenerator](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-6-generate-urls-with-linkgenerator.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 6.*
 
 ## Page route conventions
 
@@ -207,3 +231,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/razor-pages-conventions?view=aspnetcore-10.0)
+
+![Page route conventions](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing-7-page-route-conventions.png)
+
+*Source: [`diagrams/razor-pages-routing.drawio`](/content/12_ASP.NET_Core/14_Razor_Pages_Routing/diagrams/razor-pages-routing.drawio), page 7.*
