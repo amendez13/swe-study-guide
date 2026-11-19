@@ -24,6 +24,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0)
 
+![Razor Pages in a web app](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-1-razor-pages-in-a-web-app.png)
+
+*Source: [`diagrams/razor-pages.drawio`](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages.drawio), page 1.*
+
 ## Page models and handlers
 
 A page can declare a `PageModel` subclass with `@model`. The model's handler methods run before the markup renders. The verb selects the method, so a GET runs `OnGet` or `OnGetAsync`. Handlers set properties on the model, and the markup reads them through `Model`. The template puts the class in a code-behind file such as `Shelf.cshtml.cs`. Any public class works, so these examples keep it in `Program.cs`.
@@ -63,6 +67,10 @@ public class ShelfModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0)
+
+![Page models and handlers](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-2-page-models-and-handlers.png)
+
+*Source: [`diagrams/razor-pages.drawio`](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages.drawio), page 2.*
 
 ## The MVC pattern in Razor Pages
 
@@ -108,6 +116,10 @@ public class BookModel(Catalog catalog) : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-10.0)
+
+![The MVC pattern in Razor Pages](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-3-the-mvc-pattern-in-razor-pages.png)
+
+*Source: [`diagrams/razor-pages.drawio`](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages.drawio), page 3.*
 
 ## A complete Razor Page request
 
@@ -157,3 +169,7 @@ public class SignModel(Guestbook book) : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/razor-pages-start?view=aspnetcore-10.0)
+
+![A complete Razor Page request](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-4-a-complete-razor-page-request.png)
+
+*Source: [`diagrams/razor-pages.drawio`](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages.drawio), page 4.*

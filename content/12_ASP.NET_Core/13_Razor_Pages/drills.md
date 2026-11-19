@@ -29,6 +29,10 @@ app.Run();
 
 `/Hours` returns 200 with its paragraph. `/Closed` returns 404. Without `@page`, the file compiles as a view that a page can use as a partial or a layout, but `MapRazorPages` creates no endpoint for it.
 
+![Find the missing endpoint](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-drills-1-find-the-missing-endpoint.png)
+
+*Source: [`diagrams/razor-pages-drills.drawio`](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-drills.drawio), page 1.*
+
 ## Trace a failed form post
 
 This is a trimmed version of the [complete request example](#12_ASP.NET_Core/13_Razor_Pages/concepts/a-complete-razor-page-request). In a browser, a visitor submits the form with an empty name, then submits `Ada`. What status does each POST return, and what does the browser show?
@@ -65,3 +69,7 @@ public class SignModel : PageModel
 **Answer**
 
 The empty submission returns 200 and the same page, with the required-field message beside the input. No redirect happens. The second submission returns 302 to the page's own URL, and the browser follows it with a GET. Refreshing then repeats only that GET.
+
+![Trace a failed form post](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-drills-2-trace-a-failed-form-post.png)
+
+*Source: [`diagrams/razor-pages-drills.drawio`](/content/12_ASP.NET_Core/13_Razor_Pages/diagrams/razor-pages-drills.drawio), page 2.*
