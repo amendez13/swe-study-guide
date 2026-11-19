@@ -20,6 +20,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient-guidelines)
 
+![The problem with HttpClient](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-1-the-problem-with-httpclient.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 1.*
+
 ## Create clients with IHttpClientFactory
 
 `AddHttpClient()` registers `IHttpClientFactory`. Each `CreateClient()` call returns a new, cheap `HttpClient` that wraps a pooled `HttpMessageHandler`. The factory keeps each handler for two minutes by default and then switches new clients to a fresh one, which picks up DNS changes. Old handlers are disposed once no client uses them.
@@ -40,6 +44,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-10.0)
+
+![Create clients with IHttpClientFactory](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-2-create-clients-with-ihttpclientfactory.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 2.*
 
 ## Named clients
 
@@ -66,6 +74,10 @@ static class Clients { public const string Catalog = "catalog"; }
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-10.0#named-clients)
+
+![Named clients](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-3-named-clients.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 3.*
 
 ## Typed clients
 
@@ -95,6 +107,10 @@ public class CatalogClient(HttpClient http)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-10.0#typed-clients)
 
+![Typed clients](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-4-typed-clients.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 4.*
+
 ## Handle transient errors with resilience handlers
 
 Remote calls fail for short-lived reasons: a restart, a timeout, a 503 under load. Retrying with backoff hides most of these. The book-era approach used `Microsoft.Extensions.Http.Polly`. Since .NET 8, the recommended package is `Microsoft.Extensions.Http.Resilience`, built on Polly 8. `AddStandardResilienceHandler()` adds a tested pipeline: a rate limiter, a total timeout, retries with exponential backoff and jitter, a circuit breaker, and a per-attempt timeout.
@@ -114,6 +130,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience)
+
+![Handle transient errors with resilience handlers](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-5-handle-transient-errors-with-resilience-handlers.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 5.*
 
 ## Build a custom resilience pipeline
 
@@ -148,6 +168,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience#add-custom-resilience-handlers)
 
+![Build a custom resilience pipeline](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-6-build-a-custom-resilience-pipeline.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 6.*
+
 ## A custom DelegatingHandler
 
 Every `HttpClient` sends requests through a chain of `HttpMessageHandler`s, ending in the one that does the network I/O. A `DelegatingHandler` sits in that chain. It can change the request, call `base.SendAsync` to pass it on, and inspect the response on the way back. That makes it the place for API keys, correlation ids, and logging that every call needs.
@@ -177,6 +201,10 @@ public class ApiKeyHandler(IConfiguration configuration) : DelegatingHandler
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-10.0#outgoing-request-middleware)
 
+![A custom DelegatingHandler](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-7-a-custom-delegatinghandler.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 7.*
+
 ## Defaults for every client
 
 Since .NET 8, `ConfigureHttpClientDefaults` applies settings to every client the factory creates: named, typed, and unnamed. Use it for policies that should never be forgotten, such as a resilience handler, a user agent, or a correlation handler. Per-client registrations can still add to or override them.
@@ -203,3 +231,7 @@ public class EchoClient(HttpClient http)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience#add-resilience-to-all-http-clients)
+
+![Defaults for every client](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory-8-defaults-for-every-client.png)
+
+*Source: [`diagrams/http-client-factory.drawio`](/content/12_ASP.NET_Core/33_IHttpClientFactory/diagrams/http-client-factory.drawio), page 8.*
