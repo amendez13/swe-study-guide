@@ -15,6 +15,10 @@ server.forward-headers-strategy=native
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/endpoints.html#actuator.endpoints.kubernetes-probes)
 
+![Production settings and health endpoints](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling-1-production-settings-and-health-endpoints.png)
+
+*Source: [`diagrams/production-scaling.drawio`](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling.drawio), page 1.*
+
 ## Graceful shutdown
 
 During a deployment the platform stops old instances. With graceful shutdown, the embedded server stops accepting new requests and lets in-flight requests finish before the application context closes. Graceful shutdown is on by default in current Boot versions. `spring.lifecycle.timeout-per-shutdown-phase` caps how long each shutdown phase may wait.
@@ -39,6 +43,10 @@ class ExportQueue {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/web/graceful-shutdown.html)
+
+![Graceful shutdown](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling-2-graceful-shutdown.png)
+
+*Source: [`diagrams/production-scaling.drawio`](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling.drawio), page 2.*
 
 ## Stateless instances
 
@@ -65,6 +73,10 @@ class VisitCounter {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/web/spring-session.html)
 
+![Stateless instances](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling-3-stateless-instances.png)
+
+*Source: [`diagrams/production-scaling.drawio`](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling.drawio), page 3.*
+
 ## A shared database with migrations
 
 Instances share one database, and its schema must change in step with each release. Hibernate's schema generation is not safe for that. Use a migration tool such as Flyway, which applies versioned SQL scripts once and records them in a history table. Changed in Boot 4: Flyway autoconfiguration needs `spring-boot-starter-flyway` instead of just the Flyway library.
@@ -89,6 +101,10 @@ spring.jpa.hibernate.ddl-auto=validate
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.migration-tool.flyway)
+
+![A shared database with migrations](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling-4-a-shared-database-with-migrations.png)
+
+*Source: [`diagrams/production-scaling.drawio`](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling.drawio), page 4.*
 
 ## Run the stack with Docker Compose
 
@@ -122,3 +138,7 @@ services:
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/dev-services.html#features.dev-services.docker-compose)
+
+![Run the stack with Docker Compose](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling-5-run-the-stack-with-docker-compose.png)
+
+*Source: [`diagrams/production-scaling.drawio`](/content/13_Spring_Boot/16_Running_and_Scaling_in_Production/diagrams/production-scaling.drawio), page 5.*
