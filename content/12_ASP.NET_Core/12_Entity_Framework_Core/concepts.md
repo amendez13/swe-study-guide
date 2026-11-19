@@ -25,6 +25,10 @@ sealed class Room { public int Id { get; set; } public string Name { get; set; }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/providers/)
 
+![Entities and database providers](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-1-entities-and-database-providers.png)
+
+*Source: [`diagrams/ef-core.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core.drawio), page 1.*
+
 ## Define and apply migrations
 
 A migration records a schema change from the model snapshot. Generate the initial migration, then add a property and generate a second one. Inspect the generated operations before applying them, especially for renames, data conversions, or removal of columns.
@@ -50,6 +54,10 @@ sealed class Room { public int Id { get; set; } public string Name { get; set; }
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/)
+
+![Define and apply migrations](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-2-define-and-apply-migrations.png)
+
+*Source: [`diagrams/ef-core.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core.drawio), page 2.*
 
 ## Insert a record and return its identifier
 
@@ -88,6 +96,10 @@ sealed class Room { public int Id { get; set; } public string Name { get; set; }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/saving/basic)
 
+![Insert a record and return its identifier](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-3-insert-a-record-and-return-its-identifier.png)
+
+*Source: [`diagrams/ef-core.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core.drawio), page 3.*
+
 ## Read and project records
 
 Build a LINQ query to filter, order, and project rows before materializing the results. A projection that selects just the fields an endpoint needs cuts down the amount of data read. For read-only entity results, `AsNoTracking` avoids creating tracking entries.
@@ -115,6 +127,10 @@ sealed class Room { public int Id { get; set; } public string Name { get; set; }
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/performance/efficient-querying)
+
+![Read and project records](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-4-read-and-project-records.png)
+
+*Source: [`diagrams/ef-core.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core.drawio), page 4.*
 
 ## Update a tracked entity
 
@@ -151,6 +167,10 @@ sealed class Room { public int Id { get; set; } public string Name { get; set; }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/saving/basic)
 
+![Update a tracked entity](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-5-update-a-tracked-entity.png)
+
+*Source: [`diagrams/ef-core.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core.drawio), page 5.*
+
 ## Database configuration and production migrations
 
 Supply connections through [application configuration](#12_ASP.NET_Core/10_Application_Configuration/concepts/default-sources-and-hosting-environments) and keep credentials outside source control. A `DbContext` represents a unit of work. Keep it scoped and await each operation before using it again; a context does not support concurrent operations.
@@ -173,3 +193,7 @@ sealed class LibraryDb(DbContextOptions<LibraryDb> options) : DbContext(options)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying)
+
+![Database configuration and production migrations](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-6-database-configuration-and-production-migrations.png)
+
+*Source: [`diagrams/ef-core.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core.drawio), page 6.*

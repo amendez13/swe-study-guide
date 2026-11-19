@@ -34,6 +34,10 @@ sealed class StudyRow { public int Id { get; set; } }
 
 `Add` marks the entity as pending insertion. `SaveChangesAsync` sends the insert and fills in the generated key. The in-memory SQLite database in this exercise disappears when its connection closes.
 
+![Predict when the row exists](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-drills-1-predict-when-the-row-exists.png)
+
+*Source: [`diagrams/ef-core-drills.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-drills.drawio), page 1.*
+
 ## Apply a revised schema
 
 The migration-managed database currently has only `Id` and `Name`. When you add `OpenCapacity`, does rebuilding the app add the column? Which steps make the following query valid?
@@ -63,3 +67,7 @@ sealed class Room
 **Answer**
 
 A build changes the C# model. Generate and review a migration that adds the column and sets the desired value for existing rows, then apply it. Follow the workflow in [define and apply migrations](#12_ASP.NET_Core/12_Entity_Framework_Core/concepts/define-and-apply-migrations).
+
+![Apply a revised schema](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-drills-2-apply-a-revised-schema.png)
+
+*Source: [`diagrams/ef-core-drills.drawio`](/content/12_ASP.NET_Core/12_Entity_Framework_Core/diagrams/ef-core-drills.drawio), page 2.*
