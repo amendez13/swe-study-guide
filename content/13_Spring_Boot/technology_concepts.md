@@ -20,6 +20,7 @@ The app listens on `http://localhost:8080`. Call the sample URLs with a browser 
 
 ## Course plan
 
+- [Part 0 · Spring fundamentals](#13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup), topics 33–40: project anatomy and startup, beans and dependency injection, wiring, scopes and lifecycle, configuration values and profiles, proxies and AOP, transactions
 - [Part 1 · Basics](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration), chapter 1
 - [Part 2 · Building an application](#13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates), chapters 2–5
 - [Part 3 · Releasing](#13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides), chapters 6–8: configuration profiles, containers, native images and the AOT cache
@@ -29,7 +30,7 @@ The app listens on `http://localhost:8080`. Call the sample URLs with a browser 
 - [Part 7 · What's new in Spring Boot 4](#13_Spring_Boot/31_Whats_New_in_Spring_Boot_4), chapter 15: every change since Boot 3 and how to migrate
 - [Beyond the book](#13_Spring_Boot/32_Beyond_the_Book) · Spring Modulith, Spring Batch, GraphQL, WebSocket, Spring Cloud basics, and CRaC
 
-Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). The whole course, Parts 1 to 7 and Beyond the book (topics 1–32), is available. Chapters 2 to 5, 7 to 9, and 11 to 14 are split into several topics each.
+New to Spring? Start with [Part 0](#13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup), which covers the Spring Framework basics the book assumes. Otherwise start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). The whole course, Part 0, Parts 1 to 7, and Beyond the book (topics 1–40), is available. Chapters 2 to 5, 7 to 9, and 11 to 14 are split into several topics each.
 
 ## Changes since Spring Boot 3
 

@@ -1,0 +1,89 @@
+<mxfile host="drawio">
+  <diagram id="pa1" name="Spring Framework and Spring Boot">
+    <mxGraphModel dx="900" dy="352" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="352" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa1-1" value="Spring Framework and Spring Boot" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa1-2" value="A Boot app is a Spring app with sensible defaults" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa1-3" value="Your code&lt;br&gt;beans that hold the business logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="820" height="60" as="geometry"/></mxCell>
+<mxCell id="pa1-4" value="Spring Boot&lt;br&gt;starters · autoconfiguration · embedded server · executable jar · Actuator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="170" width="820" height="60" as="geometry"/></mxCell>
+<mxCell id="pa1-5" value="Spring Framework&lt;br&gt;container · dependency injection · AOP · MVC · transactions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="820" height="60" as="geometry"/></mxCell>
+<mxCell id="pa1-6" value="Boot picks compatible versions and configures infrastructure from the classpath; every Spring idea applies unchanged" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pa2" name="Project layout">
+    <mxGraphModel dx="900" dy="396" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="396" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa2-1" value="Project layout" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa2-2" value="Component scanning starts from the main class&#x27;s package" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa2-3" value="com.example.study (root package)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="460" height="220" as="geometry"/></mxCell>
+<mxCell id="pa2-4" value="StudyApplication.java (main class)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="140" width="420" height="40" as="geometry"/></mxCell>
+<mxCell id="pa2-5" value="catalog/BookService.java → scanned" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="195" width="420" height="40" as="geometry"/></mxCell>
+<mxCell id="pa2-6" value="this package and below" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="250" width="420" height="40" as="geometry"/></mxCell>
+<mxCell id="pa2-7" value="com.example.other" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="560" y="95" width="300" height="220" as="geometry"/></mxCell>
+<mxCell id="pa2-8" value="a class here is&lt;br&gt;silently ignored" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="580" y="160" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="pa2-9" value="pom.xml: Boot parent manages versions + starters · src/main/java · src/main/resources (application.properties, templates) · src/test/java · mvnw pins the Maven version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pa3" name="The main class">
+    <mxGraphModel dx="900" dy="350" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa3-1" value="The main class" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa3-2" value="@SpringBootApplication combines three annotations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa3-3" value="@SpringBootApplication&lt;br&gt;StudyApplication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="130" width="260" height="100" as="geometry"/></mxCell>
+<mxCell id="pa3-4" value="@SpringBootConfiguration: source of bean definitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="100" width="500" height="44" as="geometry"/></mxCell>
+<mxCell id="pa3-5" value="@EnableAutoConfiguration: Boot&#x27;s autoconfiguration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="158" width="500" height="44" as="geometry"/></mxCell>
+<mxCell id="pa3-6" value="@ComponentScan: this package and below" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="216" width="500" height="44" as="geometry"/></mxCell>
+<mxCell id="pa3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa3-3" target="pa3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa3-3" target="pa3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa3-3" target="pa3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa3-10" value="main → SpringApplication.run(StudyApplication.class, args) → ConfigurableApplicationContext&lt;br&gt;(the embedded server keeps the JVM alive after main returns)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pa4" name="How an app starts">
+    <mxGraphModel dx="900" dy="414" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="414" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa4-1" value="How an app starts" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa4-2" value="SpringApplication.run works through a fixed sequence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa4-3" value="prepare Environment&lt;br&gt;properties · env vars · args" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="260" height="76" as="geometry"/></mxCell>
+<mxCell id="pa4-4" value="create&lt;br&gt;ApplicationContext" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320.0" y="110" width="260" height="76" as="geometry"/></mxCell>
+<mxCell id="pa4-5" value="load bean definitions&lt;br&gt;scanning · @Bean ·&lt;br&gt;autoconfiguration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600.0" y="110" width="260" height="76" as="geometry"/></mxCell>
+<mxCell id="pa4-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pa4-3" target="pa4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pa4-4" target="pa4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa4-8" value="refresh: create singletons ·&lt;br&gt;inject · init ·&lt;br&gt;start web server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="240" width="260" height="76" as="geometry"/></mxCell>
+<mxCell id="pa4-9" value="call ApplicationRunner /&lt;br&gt;CommandLineRunner beans" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320.0" y="240" width="260" height="76" as="geometry"/></mxCell>
+<mxCell id="pa4-10" value="publish&lt;br&gt;ApplicationReadyEvent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600.0" y="240" width="260" height="76" as="geometry"/></mxCell>
+<mxCell id="pa4-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pa4-8" target="pa4-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa4-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pa4-9" target="pa4-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa4-13" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="pa4-5" target="pa4-8"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="730" y="213"/><mxPoint x="170" y="213"/></Array></mxGeometry></mxCell>
+<mxCell id="pa4-14" value="any step fails (e.g. a missing bean) → failure report, process exits before taking traffic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="350" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pa5" name="Run code at startup">
+    <mxGraphModel dx="900" dy="280" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="280" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa5-1" value="Run code at startup" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa5-2" value="Runners run after the context has fully started" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa5-3" value="context started" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="pa5-4" value="ApplicationRunner (parsed args)&lt;br&gt;CommandLineRunner (raw String[])&lt;br&gt;ordered with @Order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="pa5-5" value="@EventListener(&lt;br&gt;ApplicationReadyEvent)&lt;br&gt;ready for requests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="pa5-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pa5-3" target="pa5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pa5-4" target="pa5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="pa5-8" value="Keep startup work short: slow runners delay readiness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

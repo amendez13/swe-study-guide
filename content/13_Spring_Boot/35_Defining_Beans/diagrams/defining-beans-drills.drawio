@@ -1,0 +1,22 @@
+<mxfile host="drawio">
+  <diagram id="dbd1" name="Predict the second counter">
+    <mxGraphModel dx="900" dy="344" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="344" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dbd1-1" value="Predict the second counter" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dbd1-2" value="proxyBeanMethods = false: each direct counter() call creates a new object" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dbd1-3" value="@Bean counter()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="dbd1-4" value="reporter() → counter()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="154" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="dbd1-5" value="auditor() → counter()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="208" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="dbd1-6" value="Counter #1 (the bean)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="100" width="440" height="40" as="geometry"/></mxCell>
+<mxCell id="dbd1-7" value="Counter #2 → Reporter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="154" width="440" height="40" as="geometry"/></mxCell>
+<mxCell id="dbd1-8" value="Counter #3 → Auditor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="208" width="440" height="40" as="geometry"/></mxCell>
+<mxCell id="dbd1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dbd1-3" target="dbd1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dbd1-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dbd1-4" target="dbd1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dbd1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dbd1-5" target="dbd1-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dbd1-12" value="fix: Reporter reporter(Counter counter) · the container injects the one singleton" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
