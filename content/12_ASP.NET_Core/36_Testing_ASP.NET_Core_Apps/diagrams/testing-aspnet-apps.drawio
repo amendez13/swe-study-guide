@@ -1,0 +1,123 @@
+<mxfile host="drawio">
+  <diagram id="taa1" name="Unit test custom middleware">
+    <mxGraphModel dx="900" dy="290" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="290" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa1-1" value="Unit test custom middleware" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa1-2" value="Call InvokeAsync directly with a DefaultHttpContext and a fake next" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa1-3" value="new DefaultHttpContext()&lt;br&gt;Request.Path = &quot;/ping&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="taa1-4" value="Response.Body =&lt;br&gt;new MemoryStream()&lt;br&gt;(default is Stream.Null)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="taa1-5" value="PingMiddleware(next →&lt;br&gt;nextCalled = true)&lt;br&gt;.InvokeAsync(context)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="taa1-6" value="rewind · read body == &quot;pong&quot;&lt;br&gt;Assert.False(nextCalled)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="taa1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa1-3" target="taa1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa1-4" target="taa1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa1-5" target="taa1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa1-10" value="No server needed · other paths: the fake next runs instead" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taa2" name="Unit test Minimal API handlers and controllers">
+    <mxGraphModel dx="900" dy="366" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="366" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa2-1" value="Unit test Minimal API handlers and controllers" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa2-2" value="Move handlers into named methods; assert on concrete result types" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa2-3" value="BookHandlers.GetById(1)&lt;br&gt;Results&amp;lt;Ok&amp;lt;Book&amp;gt;, NotFound&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="taa2-4" value="Assert.IsType&amp;lt;Ok&amp;lt;Book&amp;gt;&amp;gt;(... .Result)&lt;br&gt;ok.Value!.Title == &quot;Atlas&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="taa2-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa2-3" target="taa2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa2-6" value="new BooksController().Get(99)&lt;br&gt;IActionResult" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="taa2-7" value="Assert.IsType&amp;lt;NotFoundResult&amp;gt;(...)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="210" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="taa2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa2-6" target="taa2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa2-9" value="Lambdas in Program.cs can&#x27;t be called from tests · controller unit tests don&#x27;t run filters, model binding, or validation: those need integration tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taa3" name="Integration tests with TestServer">
+    <mxGraphModel dx="900" dy="356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="356" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa3-1" value="Integration tests with TestServer" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa3-2" value="Requests go straight into an in-memory pipeline: no sockets or ports" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa3-3" value="host.GetTestClient()&lt;br&gt;.GetStringAsync(&quot;/ping&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="80" as="geometry"/></mxCell>
+<mxCell id="taa3-4" value="new HostBuilder().ConfigureWebHost(UseTestServer())" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="320" y="95" width="380" height="170" as="geometry"/></mxCell>
+<mxCell id="taa3-5" value="PingMiddleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="135" width="340" height="44" as="geometry"/></mxCell>
+<mxCell id="taa3-6" value="app.Run → &quot;fallthrough&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="340" y="195" width="340" height="44" as="geometry"/></mxCell>
+<mxCell id="taa3-7" value="other paths" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa3-5" target="taa3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa3-8" value="&quot;pong&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="740" y="120" width="120" height="60" as="geometry"/></mxCell>
+<mxCell id="taa3-9" value="in memory" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa3-3" target="taa3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa3-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa3-5" target="taa3-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa3-11" value="Routing, middleware, filters, serialization run for real · fast and parallel without port clashes · use the generic host builder (.NET 10 marks WebHostBuilder obsolete)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taa4" name="Test the whole app with WebApplicationFactory">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa4-1" value="Test the whole app with WebApplicationFactory" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa4-2" value="Your real Program.cs on a TestServer, shared by a test class" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa4-3" value="WebApplicationFactory&amp;lt;Program&amp;gt;&lt;br&gt;IClassFixture: one app instance&lt;br&gt;per test class · Development" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="260" height="100" as="geometry"/></mxCell>
+<mxCell id="taa4-4" value="real app: services · configuration · middleware&lt;br&gt;MapGet(&quot;/books/{id:int}&quot;, BookHandlers.GetById)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="100" width="420" height="100" as="geometry"/></mxCell>
+<mxCell id="taa4-5" value="runs on TestServer" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa4-3" target="taa4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa4-6" value="CreateClient() GET /books/1 → Title &quot;Atlas&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="taa4-7" value="CreateClient() GET /books/99 → 404 NotFound" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="240" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="taa4-8" value="TEntryPoint is usually Program · .NET 10 generates a public Program class, so &lt;font face=&quot;Courier New&quot;&gt;public partial class Program { }&lt;/font&gt; is no longer needed" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taa5" name="Replace dependencies in WebApplicationFactory">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa5-1" value="Replace dependencies in WebApplicationFactory" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa5-2" value="ConfigureTestServices runs after the app&#x27;s registrations, so it wins" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa5-3" value="app: AddSingleton(TimeProvider.System)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="60" as="geometry"/></mxCell>
+<mxCell id="taa5-4" value="WithWebHostBuilder →&lt;br&gt;ConfigureTestServices:&lt;br&gt;AddSingleton&amp;lt;TimeProvider&amp;gt;(&lt;br&gt;new FixedTime(2030-01-02))" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="300" height="80" as="geometry"/></mxCell>
+<mxCell id="taa5-5" value="replaced by" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa5-3" target="taa5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa5-6" value="GET /today&lt;br&gt;→ &quot;2030-01-02&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="420" y="210" width="260" height="80" as="geometry"/></mxCell>
+<mxCell id="taa5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa5-4" target="taa5-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa5-8" value="UseSetting:&lt;br&gt;configuration&lt;br&gt;&lt;br&gt;UseEnvironment:&lt;br&gt;environment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="110" width="140" height="180" as="geometry"/></mxCell>
+<mxCell id="taa5-9" value="Each customized factory starts its own app instance: one per scenario, not per test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taa6" name="A custom WebApplicationFactory">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa6-1" value="A custom WebApplicationFactory" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa6-2" value="Shared test customizations in one subclass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa6-3" value="LibraryAppFactory : WebApplicationFactory&amp;lt;Program&amp;gt;&lt;br&gt;override ConfigureWebHost" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="480" height="200" as="geometry"/></mxCell>
+<mxCell id="taa6-4" value="UseEnvironment(&quot;Testing&quot;) · appsettings.Testing.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="145" width="440" height="38" as="geometry"/></mxCell>
+<mxCell id="taa6-5" value="UseSetting(&quot;Library:Name&quot;, &quot;Test branch&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="191" width="440" height="38" as="geometry"/></mxCell>
+<mxCell id="taa6-6" value="ConfigureTestServices: FixedTime(Today)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="237" width="440" height="38" as="geometry"/></mxCell>
+<mxCell id="taa6-7" value="TodayWithFactoryTests&lt;br&gt;IClassFixture&amp;lt;LibraryAppFactory&amp;gt;&lt;br&gt;/today → 2030-01-02" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="130" width="280" height="100" as="geometry"/></mxCell>
+<mxCell id="taa6-8" value="fixture" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taa6-3" target="taa6-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taa6-9" value="Expose helpers such as an authenticated client so tests read as scenarios, not setup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taa7" name="Isolate the database in tests">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taa7-1" value="Isolate the database in tests" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taa7-2" value="Swap the DbContext registration for an isolated database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taa7-3" value="EF Core in-memory provider" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="taa7-4" value="easiest · not relational: no constraints, transactions, raw SQL&lt;br&gt;can pass tests that fail on a real database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="100" width="560" height="50" as="geometry"/></mxCell>
+<mxCell id="taa7-5" value="SQLite in memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="164" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="taa7-6" value="real relational engine in process · better default&lt;br&gt;lives while its connection is open" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="164" width="560" height="50" as="geometry"/></mxCell>
+<mxCell id="taa7-7" value="real engine in a container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="228" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="taa7-8" value="production parity per test run" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="228" width="560" height="50" as="geometry"/></mxCell>
+<mxCell id="taa7-9" value="SqliteLibraryFactory: open one SqliteConnection(&quot;Data Source=:memory:&quot;) · RemoveAll&amp;lt;DbContextOptions&amp;lt;LibraryDb&amp;gt;&amp;gt;()&lt;br&gt;→ AddDbContext&amp;lt;LibraryDb&amp;gt;(UseSqlite(_connection)) · dispose the connection with the factory" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

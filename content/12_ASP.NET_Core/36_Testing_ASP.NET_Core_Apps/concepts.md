@@ -51,6 +51,10 @@ public class PingMiddlewareTests
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/test/middleware?view=aspnetcore-10.0)
 
+![Unit test custom middleware](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-1-unit-test-custom-middleware.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 1.*
+
 ## Unit test Minimal API handlers and controllers
 
 Handlers that are lambdas inside `Program.cs` can't be called from a test. Move them into static methods and map those methods instead. Return `TypedResults` with a `Results<T1, T2>` return type. The test can then check the concrete result type and its value instead of parsing JSON.
@@ -110,6 +114,10 @@ public class BookTests
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/test-min-api?view=aspnetcore-10.0)
 
+![Unit test Minimal API handlers and controllers](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-2-unit-test-minimal-api-handlers-and-controllers.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 2.*
+
 ## Integration tests with TestServer
 
 `TestServer`, from the `Microsoft.AspNetCore.TestHost` package, runs an ASP.NET Core pipeline in memory. Requests from its `HttpClient` go straight into the pipeline without sockets or ports, so integration tests are fast and run in parallel without port clashes. Routing, middleware, filters, and serialization all run for real.
@@ -148,6 +156,10 @@ public class TestServerTests
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/test/middleware?view=aspnetcore-10.0)
 
+![Integration tests with TestServer](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-3-integration-tests-with-testserver.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 3.*
+
 ## Test the whole app with WebApplicationFactory
 
 `WebApplicationFactory<TEntryPoint>`, from `Microsoft.AspNetCore.Mvc.Testing`, starts your real app on a `TestServer`. It runs `Program.cs` with its services, configuration, and middleware, and gives you an `HttpClient` from `CreateClient()`. Use it as an xUnit class fixture so all tests in a class share one app instance.
@@ -183,6 +195,10 @@ public class BooksApiTests(WebApplicationFactory<Program> factory) : IClassFixtu
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0)
+
+![Test the whole app with WebApplicationFactory](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-4-test-the-whole-app-with-webapplicationfactory.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 4.*
 
 ## Replace dependencies in WebApplicationFactory
 
@@ -227,6 +243,10 @@ public class TodayTests(WebApplicationFactory<Program> factory) : IClassFixture<
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0#inject-mock-services)
 
+![Replace dependencies in WebApplicationFactory](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-5-replace-dependencies-in-webapplicationfactory.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 5.*
+
 ## A custom WebApplicationFactory
 
 When many test classes need the same customizations, put them in a subclass of `WebApplicationFactory<Program>`. Override `ConfigureWebHost` to set the environment, override configuration, and replace services in one place. Test classes then use the subclass as their fixture.
@@ -269,6 +289,10 @@ public class TodayWithFactoryTests(LibraryAppFactory factory) : IClassFixture<Li
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0#customize-webapplicationfactory)
 
+![A custom WebApplicationFactory](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-6-a-custom-webapplicationfactory.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 6.*
+
 ## Isolate the database in tests
 
 Integration tests that share a real database interfere with each other and leave data behind. Swap the `DbContext` registration in the factory for an isolated database. EF Core's in-memory provider is the easiest option, but it isn't relational. It doesn't enforce relational constraints, doesn't support transactions or raw SQL, and can pass tests that would fail against a real database.
@@ -310,3 +334,7 @@ public class SqliteLibraryFactory : WebApplicationFactory<Program>
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/ef/core/testing/choosing-a-testing-strategy)
+
+![Isolate the database in tests](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-7-isolate-the-database-in-tests.png)
+
+*Source: [`diagrams/testing-aspnet-apps.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps.drawio), page 7.*

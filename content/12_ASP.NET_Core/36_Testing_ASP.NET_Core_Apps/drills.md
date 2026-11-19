@@ -32,6 +32,10 @@ public class PingBodyDrill
 
 It fails. A `DefaultHttpContext` starts with `Stream.Null` as its response body, so the middleware's write is discarded and the reader returns an empty string. Setting `Position` on `Stream.Null` is allowed and does nothing. Assign `context.Response.Body = new MemoryStream()` before calling the middleware.
 
+![The empty response body](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-drills-1-the-empty-response-body.png)
+
+*Source: [`diagrams/testing-aspnet-apps-drills.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-drills.drawio), page 1.*
+
 ## Duplicate ISBNs in two providers
 
 `LibraryDb` has a unique index on `Book.Isbn`. The same test runs once with the EF Core in-memory provider and once with SQLite in memory. What happens on `SaveChanges` in each?
@@ -59,3 +63,7 @@ db.SaveChanges();
 **Answer**
 
 With the in-memory provider, `SaveChanges` succeeds and stores both rows, because that provider isn't relational and doesn't enforce unique indexes. With SQLite, it throws a `DbUpdateException` from the UNIQUE constraint. A test suite on the in-memory provider would miss the bug that production hits. That's why SQLite in memory, or the real engine, is the better choice.
+
+![Duplicate ISBNs in two providers](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-drills-2-duplicate-isbns-in-two-providers.png)
+
+*Source: [`diagrams/testing-aspnet-apps-drills.drawio`](/content/12_ASP.NET_Core/36_Testing_ASP.NET_Core_Apps/diagrams/testing-aspnet-apps-drills.drawio), page 2.*
