@@ -50,6 +50,11 @@ def build_content_index() -> dict:
         tech_title = match.group(2).replace("_", " ")
 
         has_technology_concepts = (tech_dir / "technology_concepts.md").exists()
+        groups_file = tech_dir / "topic_groups.json"
+        topic_groups = {}
+        if groups_file.is_file():
+            groups = json.loads(groups_file.read_text(encoding="utf-8"))
+            topic_groups = {num: title for title, numbers in groups.items() for num in numbers}
 
         topics = []
         topic_dirs = sorted(
@@ -77,16 +82,17 @@ def build_content_index() -> dict:
             has_concepts = (topic_dir / "concepts.md").exists()
             has_drills = (topic_dir / "drills.md").exists()
 
-            topics.append(
-                {
-                    "num": topic_num,
-                    "dir": topic_dir.name,
-                    "title": topic_title,
-                    "notesFile": notes_file,
-                    "hasConcepts": has_concepts,
-                    "hasDrills": has_drills,
-                }
-            )
+            topic = {
+                "num": topic_num,
+                "dir": topic_dir.name,
+                "title": topic_title,
+                "notesFile": notes_file,
+                "hasConcepts": has_concepts,
+                "hasDrills": has_drills,
+            }
+            if topic_num in topic_groups:
+                topic["group"] = topic_groups[topic_num]
+            topics.append(topic)
 
         technologies.append(
             {

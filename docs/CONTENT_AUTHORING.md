@@ -10,6 +10,7 @@ Study content lives under `content/`:
 content/
 └── <NN>_<Technology>/                # e.g. 01_FastAPI, 02_Java
     ├── technology_concepts.md         # optional: overview at the tech level
+    ├── topic_groups.json              # optional: group labels for navigation
     ├── research/                      # optional: course outlines, distilled concepts
     │   ├── course_outlines.md
     │   └── concepts.md
@@ -25,6 +26,7 @@ Rules:
 
 - Both technology and topic directories are prefixed with a zero-padded integer (`01_`, `02_`, …) which controls sort order in the sidebar.
 - The directory name after the prefix becomes the rendered title (underscores → spaces).
+- A technology can declare `topic_groups.json` as an object mapping group labels to arrays of integer topic prefixes, for example `{"Introduction": [1], "Part 1": [2, 3]}`. Assign each topic number to at most one group. The content index exposes a `group` on matching topics. The sidebar and technology landing page show a heading when the group changes in numeric topic order. Planned numbers may be listed before their topic folders exist.
 - `concepts.md` is the per-topic source of truth for the Concepts tab; `notes.md` is the source for the Notes tab.
 - `drills.md` is optional. When the file exists, `/api/content` sets `hasDrills: true` for that topic and the site adds a **Drills** tab. Topics without the file keep today's Notes and Concepts tabs only.
 - `serve.py` never treats `concepts.md` or `drills.md` as the notes document when `notes.md` is missing.
