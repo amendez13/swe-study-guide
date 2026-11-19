@@ -1,0 +1,155 @@
+<mxfile host="drawio">
+  <diagram id="hcf1" name="The problem with HttpClient">
+    <mxGraphModel dx="900" dy="347" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="347" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf1-1" value="The problem with HttpClient" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf1-2" value="Per-call clients exhaust sockets; one static client never sees DNS changes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf1-3" value="using var client = new HttpClient()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="260" height="200" as="geometry"/></mxCell>
+<mxCell id="hcf1-4" value="dispose closes the connection&lt;br&gt;socket stays in TIME_WAIT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="55" y="135" width="230" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf1-5" value="under load: out of sockets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="55" y="215" width="230" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf1-6" value="one static HttpClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="320" y="95" width="260" height="200" as="geometry"/></mxCell>
+<mxCell id="hcf1-7" value="reuses connections well" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="335" y="135" width="230" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf1-8" value="keeps them open indefinitely:&lt;br&gt;misses DNS changes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="335" y="215" width="230" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf1-9" value="good answers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="600" y="95" width="260" height="200" as="geometry"/></mxCell>
+<mxCell id="hcf1-10" value="IHttpClientFactory&lt;br&gt;pools + recycles handlers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="135" width="230" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf1-11" value="long-lived client with&lt;br&gt;SocketsHttpHandler&lt;br&gt;PooledConnectionLifetime = 2 min" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="215" width="230" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf1-12" value="the example&#x27;s /proxy calls /books through the shared client (second approach)" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="305" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf2" name="Create clients with IHttpClientFactory">
+    <mxGraphModel dx="900" dy="326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="326" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf2-1" value="Create clients with IHttpClientFactory" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf2-2" value="Cheap clients over pooled handlers that rotate every two minutes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf2-3" value="IHttpClientFactory&lt;br&gt;AddHttpClient()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="80" as="geometry"/></mxCell>
+<mxCell id="hcf2-4" value="CreateClient() → new HttpClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="100" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="hcf2-5" value="CreateClient() → new HttpClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="142" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="hcf2-6" value="CreateClient() → new HttpClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="184" width="200" height="34" as="geometry"/></mxCell>
+<mxCell id="hcf2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf2-3" target="hcf2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf2-3" target="hcf2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf2-3" target="hcf2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf2-10" value="pooled HttpMessageHandler (current)&lt;br&gt;shared by new clients" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="100" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="hcf2-11" value="after 2 min: fresh handler · DNS changes picked up&lt;br&gt;old handler disposed once unused" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="170" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="hcf2-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="hcf2-4" target="hcf2-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf2-13" value="rotation" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf2-10" target="hcf2-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf2-14" value="No need to dispose factory clients · don&#x27;t hold one in a singleton (defeats rotation) · SetHandlerLifetime changes the interval" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf3" name="Named clients">
+    <mxGraphModel dx="900" dy="300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="300" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf3-1" value="Named clients" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf3-2" value="Per-service settings in one registration, created by name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf3-3" value="AddHttpClient(Clients.Catalog, ...)&lt;br&gt;BaseAddress ← Catalog:BaseUrl&lt;br&gt;UserAgent &quot;StudyApi/1.0&quot;&lt;br&gt;Timeout 5 s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;fontStyle=1;fontFamily=Courier New;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="330" height="110" as="geometry"/></mxCell>
+<mxCell id="hcf3-4" value="factory.CreateClient(Clients.Catalog)&lt;br&gt;.GetStringAsync(&quot;/books&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="hcf3-5" value="GET /books echoes the agent: StudyApi/1.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="170" width="380" height="40" as="geometry"/></mxCell>
+<mxCell id="hcf3-6" value="shared config +&lt;br&gt;handler pool" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf3-3" target="hcf3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf3-4" target="hcf3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf3-8" value="The name is a string: keep it in a constant (static class Clients { const string Catalog = &quot;catalog&quot;; })" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf4" name="Typed clients">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf4-1" value="Typed clients" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf4-2" value="A class that wraps one remote API around an injected HttpClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf4-3" value="AddHttpClient&amp;lt;CatalogClient&amp;gt;(&lt;br&gt;BaseAddress 127.0.0.1:5080)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf4-4" value="CatalogClient(HttpClient http)&lt;br&gt;GetAvailableAsync()&lt;br&gt;(transient)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="100" width="240" height="80" as="geometry"/></mxCell>
+<mxCell id="hcf4-5" value="GET /books&lt;br&gt;Atlas 3 · Primer 0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="700" y="110" width="160" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf4-6" value="configures" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf4-3" target="hcf4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf4-4" target="hcf4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf4-8" value="/proxy → [Atlas] (Copies &amp;gt; 0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="210" width="240" height="44" as="geometry"/></mxCell>
+<mxCell id="hcf4-9" value="don&#x27;t inject into a singleton:&lt;br&gt;it would keep one handler forever" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="290" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="hcf4-10" value="AddHttpClient&amp;lt;ICatalogClient, CatalogClient&amp;gt;()&lt;br&gt;swap in a fake for tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="290" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf5" name="Handle transient errors with resilience handlers">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf5-1" value="Handle transient errors with resilience handlers" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf5-2" value="AddStandardResilienceHandler: a tested Polly 8 pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf5-3" value="rate limiter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="hcf5-4" value="total timeout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="207.5" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="hcf5-5" value="retry&lt;br&gt;exponential backoff&lt;br&gt;+ jitter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="hcf5-6" value="circuit breaker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="542.5" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="hcf5-7" value="per-attempt&lt;br&gt;timeout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710.0" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="hcf5-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf5-3" target="hcf5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf5-4" target="hcf5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf5-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf5-5" target="hcf5-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf5-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf5-6" target="hcf5-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf5-12" value="outer → inner · retries 5xx, 408, 429, network errors, attempt timeouts" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="182" width="820" height="20" as="geometry"/></mxCell>
+<mxCell id="hcf5-13" value="call 1 → 503" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="hcf5-14" value="retry → 503" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="230" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="hcf5-15" value="retry → 200 &quot;ok on call 3&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="600" y="230" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="hcf5-16" value="/flaky fails twice, then succeeds · options.Retry.MaxRetryAttempts = 3 · /proxy returns 200 after a few seconds" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="22" as="geometry"/></mxCell>
+<mxCell id="hcf5-17" value="Microsoft.Extensions.Http.Resilience (.NET 8+) replaces the book-era Microsoft.Extensions.Http.Polly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf6" name="Build a custom resilience pipeline">
+    <mxGraphModel dx="900" dy="334" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="334" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf6-1" value="Build a custom resilience pipeline" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf6-2" value="AddResilienceHandler composes Polly strategies, outer to inner" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf6-3" value="AddResilienceHandler(&quot;upstream-pipeline&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="560" height="140" as="geometry"/></mxCell>
+<mxCell id="hcf6-4" value="AddRetry(HttpRetryStrategyOptions)&lt;br&gt;MaxRetryAttempts 4 · Exponential&lt;br&gt;Delay 200 ms · UseJitter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="130" width="250" height="80" as="geometry"/></mxCell>
+<mxCell id="hcf6-5" value="AddTimeout(2 s)&lt;br&gt;(inner, per attempt)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="330" y="130" width="250" height="80" as="geometry"/></mxCell>
+<mxCell id="hcf6-6" value="wraps" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf6-4" target="hcf6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf6-7" value="/flaky: 503 until&lt;br&gt;every 4th call →&lt;br&gt;retries visible in&lt;br&gt;the log quickly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="100" width="220" height="130" as="geometry"/></mxCell>
+<mxCell id="hcf6-8" value="careful with non-idempotent requests (POST): a retry after a lost response repeats the action&lt;br&gt;standard options: DisableForUnsafeHttpMethods() · HttpCircuitBreakerStrategyOptions for a breaker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf7" name="A custom DelegatingHandler">
+    <mxGraphModel dx="900" dy="306" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="306" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf7-1" value="A custom DelegatingHandler" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf7-2" value="A handler in the chain can change the request and inspect the response" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf7-3" value="CreateClient&lt;br&gt;(&quot;partner&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="140" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf7-4" value="ApiKeyHandler : DelegatingHandler&lt;br&gt;adds X-Api-Key&lt;br&gt;(Partner:ApiKey or &quot;dev-key&quot;)&lt;br&gt;base.SendAsync(...)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="100" width="260" height="100" as="geometry"/></mxCell>
+<mxCell id="hcf7-5" value="network&lt;br&gt;handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="120" width="140" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf7-6" value="/echo&lt;br&gt;&quot;X-Api-Key:&lt;br&gt;dev-key&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="740" y="120" width="120" height="60" as="geometry"/></mxCell>
+<mxCell id="hcf7-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf7-3" target="hcf7-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf7-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf7-4" target="hcf7-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf7-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf7-5" target="hcf7-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf7-10" value="Register as transient + AddHttpMessageHandler&amp;lt;ApiKeyHandler&amp;gt;() · handlers run in the order added: first added is outermost · API keys, correlation ids, logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hcf8" name="Defaults for every client">
+    <mxGraphModel dx="900" dy="306" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="306" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="hcf8-1" value="Defaults for every client" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="hcf8-2" value="ConfigureHttpClientDefaults applies to named, typed, and unnamed clients (.NET 8+)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="hcf8-3" value="ConfigureHttpClientDefaults&lt;br&gt;UserAgent StudyApi/1.0&lt;br&gt;AddStandardResilienceHandler()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="90" as="geometry"/></mxCell>
+<mxCell id="hcf8-4" value="named clients" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="90" width="380" height="34" as="geometry"/></mxCell>
+<mxCell id="hcf8-5" value="typed: EchoClient → /echo returns StudyApi/1.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="132" width="380" height="34" as="geometry"/></mxCell>
+<mxCell id="hcf8-6" value="unnamed clients" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="174" width="380" height="34" as="geometry"/></mxCell>
+<mxCell id="hcf8-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf8-3" target="hcf8-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf8-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf8-3" target="hcf8-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf8-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="hcf8-3" target="hcf8-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="hcf8-10" value="Per-client registrations can add to or override · don&#x27;t add the same resilience handler both by default and on one client: the strategies would nest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
