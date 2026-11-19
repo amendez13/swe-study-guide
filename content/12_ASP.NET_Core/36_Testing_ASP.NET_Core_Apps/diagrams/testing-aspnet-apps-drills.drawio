@@ -1,0 +1,34 @@
+<mxfile host="drawio">
+  <diagram id="taad1" name="The empty response body">
+    <mxGraphModel dx="900" dy="284" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="284" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taad1-1" value="The empty response body" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taad1-2" value="DefaultHttpContext starts with Stream.Null as the response body" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taad1-3" value="PingMiddleware writes &quot;pong&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="250" height="64" as="geometry"/></mxCell>
+<mxCell id="taad1-4" value="Stream.Null discards it&lt;br&gt;(Position = 0 does nothing)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="110" width="250" height="64" as="geometry"/></mxCell>
+<mxCell id="taad1-5" value="reader returns &quot;&quot;&lt;br&gt;test fails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="110" width="250" height="64" as="geometry"/></mxCell>
+<mxCell id="taad1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taad1-3" target="taad1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taad1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taad1-4" target="taad1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taad1-8" value="fix: context.Response.Body = new MemoryStream() before calling the middleware" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="taad2" name="Duplicate ISBNs in two providers">
+    <mxGraphModel dx="900" dy="294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="294" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="taad2-1" value="Duplicate ISBNs in two providers" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="taad2-2" value="Only the relational provider enforces the unique index" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="taad2-3" value="two Books with Isbn&lt;br&gt;&quot;9780000000001&quot; · SaveChanges()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="60" as="geometry"/></mxCell>
+<mxCell id="taad2-4" value="in-memory provider: succeeds, stores both rows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="100" width="460" height="44" as="geometry"/></mxCell>
+<mxCell id="taad2-5" value="SQLite in memory: DbUpdateException (UNIQUE constraint)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="160" width="460" height="44" as="geometry"/></mxCell>
+<mxCell id="taad2-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taad2-3" target="taad2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taad2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="taad2-3" target="taad2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="taad2-8" value="A suite on the in-memory provider would miss the bug that production hits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
