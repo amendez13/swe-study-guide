@@ -36,11 +36,11 @@ find Pages Views -name '*.cshtml' ! -name _ViewImports.cshtml -delete
 - Part 1 · Minimal APIs, chapters 2–7
 - [Part 2 · Complete applications](#12_ASP.NET_Core/08_Dependency_Injection), chapters 8–12
 - [Part 3 · Razor Pages and MVC](#12_ASP.NET_Core/13_Razor_Pages), chapters 13–22
-- Part 4 · Security and deployment, chapters 23–29
+- [Part 4 · Security and deployment](#12_ASP.NET_Core/23_Identity), chapters 23–29
 - Part 5 · Advanced ASP.NET Core, chapters 30–36
 - Beyond the book · Blazor, SignalR, gRPC, Native AOT, HybridCache, output caching, and rate limiting
 
-Start with [chapter 1](#12_ASP.NET_Core/01_Getting_Started). Chapters 1–22 are available now. The Notes tabs in chapters 11 and 12 list the extra packages and tools their examples need.
+Start with [chapter 1](#12_ASP.NET_Core/01_Getting_Started). Chapters 1–29 are available now. The Notes tabs in chapters 11, 12, 23, 25, and 27 list the extra packages and tools their examples need.
 
 ## Changes since .NET 7
 
@@ -55,4 +55,9 @@ Start with [chapter 1](#12_ASP.NET_Core/01_Getting_Started). Chapters 1–22 are
 - Chapter 17 uses Hot Reload because ASP.NET Core 10 marks Razor runtime compilation obsolete. [Breaking changes in ASP.NET Core 10](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/overview?view=aspnetcore-10.0)
 - Chapter 20 uses `dotnet new webapi --use-controllers`, because the .NET 10 template creates Minimal APIs by default. In .NET 10, `[ApiController]` endpoints protected by cookie authentication return 401 or 403 instead of redirecting. [ASP.NET Core 10 changes](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0?view=aspnetcore-10.0)
 - Chapter 22 points app-wide error handling to exception middleware with `IExceptionHandler`, added in .NET 8. [Handle errors](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0)
-- Later chapters will cover the Identity API endpoints added in .NET 8. [Identity endpoints](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-10.0)
+- Chapter 23 uses the Identity API endpoints added in .NET 8 (`AddIdentityApiEndpoints` and `MapIdentityApi`). In .NET 10, Identity also supports passkeys. [Identity endpoints](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-10.0)
+- Chapter 24 uses `AddAuthorizationBuilder`, added in .NET 7. It also covers the .NET 10 change that returns 401 and 403 instead of cookie login redirects for API endpoints. [Cookie redirects for API endpoints](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints?view=aspnetcore-10.0)
+- Chapter 25 describes bearer authentication with a document transformer in the built-in OpenAPI generator instead of Swashbuckle. In .NET 10 that generator uses OpenAPI.NET 2 types from the `Microsoft.OpenApi` namespace. [Customize OpenAPI documents](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/customize-openapi?view=aspnetcore-10.0)
+- Chapter 26 uses `[LoggerMessage]` source-generated logging and the JSON console formatter in place of a third-party structured logging setup. [Compile-time logging](https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator)
+- Chapter 27 covers `dotnet publish` defaulting to Release (.NET 8), `ASPNETCORE_HTTP_PORTS` and SDK container publishing (.NET 8), Ubuntu-based images (.NET 10), and `KnownIPNetworks` replacing the obsolete `KnownNetworks` (.NET 10). [Breaking changes in ASP.NET Core 10](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/overview?view=aspnetcore-10.0)
+- Chapter 29 relies on the antiforgery middleware that Minimal API form endpoints use since .NET 8. [Antiforgery](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-10.0)
