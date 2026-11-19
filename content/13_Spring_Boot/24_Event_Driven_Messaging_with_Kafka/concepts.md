@@ -16,6 +16,10 @@ kafka.send("employee-events", employee.id(), new EmployeeHired(employee.id(), em
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/)
 
+![Synchronous and asynchronous communication](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka-1-synchronous-and-asynchronous-communication.png)
+
+*Source: [`diagrams/kafka.drawio`](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka.drawio), page 1.*
+
 ## Events and messages
 
 An event records a fact that already happened, named in the past tense: `EmployeeHired`, `OrderShipped`. The producer does not know or care who reacts. A command message asks one specific receiver to do something: `SendWelcomeEmail`. Events keep services loosely coupled; commands keep a direct dependency, only over a broker.
@@ -35,6 +39,10 @@ record EmployeeHired(UUID eventId, Instant occurredAt, long employeeId, String n
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/kafka/serdes.html)
 
+![Events and messages](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka-2-events-and-messages.png)
+
+*Source: [`diagrams/kafka.drawio`](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka.drawio), page 2.*
+
 ## Delivery semantics
 
 At-most-once delivery may lose a message but never repeats it. At-least-once never loses a message but may deliver it twice, for example when a consumer crashes after processing but before committing its offset. Exactly-once processing is possible inside Kafka with transactions, but any side effect outside Kafka, such as an email or a database write, still needs care.
@@ -48,6 +56,10 @@ In practice, aim for at-least-once delivery with idempotent consumers. Producers
 | Exactly once | No | No, within Kafka | Kafka-to-Kafka stream processing |
 
 [Apache Kafka docs](https://kafka.apache.org/documentation/#semantics)
+
+![Delivery semantics](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka-3-delivery-semantics.png)
+
+*Source: [`diagrams/kafka.drawio`](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka.drawio), page 3.*
 
 ## Kafka fundamentals
 
@@ -65,6 +77,10 @@ services:
 ```
 
 [Apache Kafka docs](https://kafka.apache.org/documentation/#intro_concepts_and_terms)
+
+![Kafka fundamentals](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka-4-kafka-fundamentals.png)
+
+*Source: [`diagrams/kafka.drawio`](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka.drawio), page 4.*
 
 ## Produce events with KafkaTemplate
 
@@ -108,6 +124,10 @@ class EmployeeEvents {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/messaging/kafka.html)
 
+![Produce events with KafkaTemplate](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka-5-produce-events-with-kafkatemplate.png)
+
+*Source: [`diagrams/kafka.drawio`](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka.drawio), page 5.*
+
 ## Consume events with a Kafka listener
 
 A `@KafkaListener` method receives each message from its topics. Boot creates the listener container, which polls Kafka, deserializes values, calls the method, and commits offsets. The `groupId` names the consumer group; two services with different group ids each get every event.
@@ -134,3 +154,7 @@ class WelcomeNotifier {
 ```
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/listener-annotation.html)
+
+![Consume events with a Kafka listener](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka-6-consume-events-with-a-kafka-listener.png)
+
+*Source: [`diagrams/kafka.drawio`](/content/13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/diagrams/kafka.drawio), page 6.*
