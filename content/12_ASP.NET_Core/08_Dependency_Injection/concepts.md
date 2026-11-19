@@ -22,6 +22,10 @@ sealed class PrintEstimate(IPageRate rate)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
 
+![Explicit dependencies](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection-1-explicit-dependencies.png)
+
+*Source: [`diagrams/dependency-injection.drawio`](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection.drawio), page 1.*
+
 ## The application service container
 
 Register the dependency graph in `builder.Services`. ASP.NET Core builds a service provider from those registrations and uses it to construct services, recursively resolving their constructor arguments. The consumer only declares what it needs.
@@ -42,6 +46,10 @@ sealed class LoanEstimate(ILoanPolicy policy) { public int Days => policy.Days; 
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
+
+![The application service container](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection-2-the-application-service-container.png)
+
+*Source: [`diagrams/dependency-injection.drawio`](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection.drawio), page 2.*
 
 ## Framework and feature services
 
@@ -66,6 +74,10 @@ sealed class ReadingEndpoints;
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
 
+![Framework and feature services](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection-3-framework-and-feature-services.png)
+
+*Source: [`diagrams/dependency-injection.drawio`](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection.drawio), page 3.*
+
 ## Service access at the composition root
 
 Constructor or handler injection keeps dependencies apparent to readers and tests. Some startup work runs outside a request and needs explicit access to services. Treat that access as composition code so application classes can continue to declare specific dependencies.
@@ -85,3 +97,7 @@ record BranchName(string Value);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
+
+![Service access at the composition root](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection-4-service-access-at-the-composition-root.png)
+
+*Source: [`diagrams/dependency-injection.drawio`](/content/12_ASP.NET_Core/08_Dependency_Injection/diagrams/dependency-injection.drawio), page 4.*
