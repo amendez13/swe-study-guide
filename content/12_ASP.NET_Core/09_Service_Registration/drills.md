@@ -21,6 +21,10 @@ record Label(string Name);
 
 The single service resolves to `Online`. The collection contains `Print` then `Online` because both registrations are included in registration order.
 
+![Predict the selected registration](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-drills-1-predict-the-selected-registration.png)
+
+*Source: [`diagrams/service-registration-drills.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-drills.drawio), page 1.*
+
 ## Repair a captive dependency
 
 The correct app below creates a new `Batch` per request. A teammate changes `RequestReport` to singleton. With scope validation enabled, what fails and where should the lifetime be fixed?
@@ -40,3 +44,7 @@ sealed class RequestReport(Batch batch) { public Guid BatchId => batch.Id; }
 **Answer**
 
 Scope validation rejects the singleton report's scoped constructor dependency. Keep the report scoped if it captures a request batch. If long-lived work needs a batch outside a request, create and dispose a scope for each operation.
+
+![Repair a captive dependency](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-drills-2-repair-a-captive-dependency.png)
+
+*Source: [`diagrams/service-registration-drills.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-drills.drawio), page 2.*

@@ -21,6 +21,10 @@ record Banner(string Text);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
 
+![Type, instance, and factory registrations](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-1-type-instance-and-factory-registrations.png)
+
+*Source: [`diagrams/service-registration.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration.drawio), page 1.*
+
 ## Multiple registrations and TryAdd
 
 Registering the same service type multiple times makes all implementations available through `IEnumerable<T>` in registration order. A single `T` resolves to the last registration. Declare a collection when every implementation must participate.
@@ -43,6 +47,10 @@ record RoomLabel(string Text);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
+
+![Multiple registrations and TryAdd](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-2-multiple-registrations-and-tryadd.png)
+
+*Source: [`diagrams/service-registration.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration.drawio), page 2.*
 
 ## Transient, scoped, and singleton lifetimes
 
@@ -69,6 +77,10 @@ sealed class AppStamp { public Guid Id { get; } = Guid.NewGuid(); }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
 
+![Transient, scoped, and singleton lifetimes](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-3-transient-scoped-and-singleton-lifetimes.png)
+
+*Source: [`diagrams/service-registration.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration.drawio), page 3.*
+
 ## Captive dependencies
 
 A singleton that captures a scoped service keeps it beyond the intended scope. That can mix per-request state or retain a database context across requests. Scope validation can reject a singleton that depends on a scoped service or a scoped service resolved from the root provider.
@@ -88,6 +100,10 @@ sealed class Report(RequestStamp stamp) { public Guid Id => stamp.Id; }
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
+
+![Captive dependencies](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-4-captive-dependencies.png)
+
+*Source: [`diagrams/service-registration.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration.drawio), page 4.*
 
 ## Scoped services outside requests
 
@@ -112,6 +128,10 @@ sealed class Preparation { public string Room => "Maps"; }
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
 
+![Scoped services outside requests](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-5-scoped-services-outside-requests.png)
+
+*Source: [`diagrams/service-registration.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration.drawio), page 5.*
+
 ## Keyed services
 
 Since .NET 8, the built-in container can register a service under an explicit key. For example, a Minimal API can request a named strategy with `[FromKeyedServices]`. This makes the selection visible when several implementations share the same type.
@@ -131,3 +151,7 @@ record SearchIndex(string Name);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0#keyed-services)
+
+![Keyed services](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration-6-keyed-services.png)
+
+*Source: [`diagrams/service-registration.drawio`](/content/12_ASP.NET_Core/09_Service_Registration/diagrams/service-registration.drawio), page 6.*
