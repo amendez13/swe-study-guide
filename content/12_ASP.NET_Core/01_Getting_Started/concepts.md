@@ -33,7 +33,7 @@ app.Run();
 
 An HTTP request carries a method, target, headers, and sometimes a body. A response carries a status code, headers, and an optional body. Query strings send inputs in the target; the response media type tells a client how to interpret its body.
 
-Run this with `curl -i 'http://127.0.0.1:5080/status?wing=east'`. The URL supplies a query value, the handler adds a response header, and the HTTP result sends JSON with status 200. Follow the [Kestrel card](#12_ASP.NET_Core/02_Understanding_ASP.NET_Core/concepts/kestrel-and-the-request-context) for the server side of that exchange.
+Run this with `curl -i 'http://127.0.0.1:5080/status?wing=east'`. The server receives the request, middleware runs, and routing selects a handler for the method and path. The handler receives the query value, adds a header, and returns JSON with status 200. Follow the [Kestrel card](#12_ASP.NET_Core/02_Understanding_ASP.NET_Core/concepts/kestrel-and-the-request-context) for the server side of that exchange.
 
 ```csharp
 var app = WebApplication.CreateBuilder(args).Build();

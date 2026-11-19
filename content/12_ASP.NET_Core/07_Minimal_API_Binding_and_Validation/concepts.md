@@ -98,7 +98,7 @@ record CatalogLabel(string Name);
 
 ## Multipart uploads and antiforgery
 
-Use `IFormFile` to bind an upload from a `multipart/form-data` field. The field name matches the handler parameter. Since ASP.NET Core 8, form-bound Minimal API endpoints such as this one require antiforgery validation by default. Register antiforgery, add its middleware, and send the request token with the corresponding cookie.
+Use `IFormFile` to bind one upload from a `multipart/form-data` field whose name matches the handler parameter. Use `IFormFileCollection` to receive the files in the form. Since ASP.NET Core 8, form-bound Minimal API endpoints such as this one require antiforgery validation by default. Register antiforgery, add its middleware, and send the request token with the corresponding cookie.
 
 First request `/upload-token` and retain its antiforgery cookie. Send the returned text in the `RequestVerificationToken` header and attach a small test file under the field `file`. The endpoint returns the uploaded length; a real upload feature also needs explicit limits and content handling.
 

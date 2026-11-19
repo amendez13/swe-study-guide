@@ -48,7 +48,7 @@ app.Run();
 
 ## Incremental migration from ASP.NET
 
-Modern ASP.NET Core on .NET uses different hosting and request APIs from classic ASP.NET on .NET Framework. For a new service, target the current .NET stack. For an existing application, inventory its dependencies on `System.Web`, session, authentication, and shared data before selecting a migration path.
+ASP.NET Core introduced a cross-platform host and a composable middleware pipeline for .NET web apps. For a new service, target the current .NET stack. For a classic ASP.NET application on .NET Framework, inventory its dependencies on `System.Web`, session, authentication, and shared data before selecting a migration path.
 
 A large migration can introduce a new ASP.NET Core host, proxy remaining paths to the legacy app, and move one route at a time. This small replacement endpoint illustrates the contract to retain on a migrated route. Verify the old and new status, content type, and payload before switching traffic.
 

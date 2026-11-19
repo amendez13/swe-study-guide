@@ -22,7 +22,7 @@ record ReadingItem(string Title);
 
 ## Typed HTTP results and other response bodies
 
-A string return value produces plain text. An ordinary object is serialized as JSON. `IResult` represents an HTTP result that can explicitly set status, headers, or media type. `TypedResults` returns concrete result types that expose response metadata and are straightforward to assert in tests.
+A string return value produces plain text. An ordinary object is serialized as JSON. `IResult` represents an HTTP result that can set status, headers, or media type. The `Results` helpers return `IResult`. `TypedResults` returns concrete result types that expose response metadata and are straightforward to assert in tests.
 
 Use `Results<T1, T2>` to express multiple permitted concrete results from one handler. Try `/loan/1` and `/loan/2`. Other helpers handle downloads, redirects, or custom text, such as the CSV response below.
 
