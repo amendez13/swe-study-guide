@@ -95,6 +95,21 @@ def test_build_content_index_drills_only_topic_has_no_notes_file(monkeypatch, tm
     assert topic["hasConcepts"] is False
 
 
+def test_aspnet_core_exposes_the_intro_and_part_one_in_chapter_order() -> None:
+    index = serve_module.build_content_index()
+    tech = next(tech for tech in index["technologies"] if tech["dir"] == "12_ASP.NET_Core")
+    topics = tech["topics"][:7]
+
+    assert tech["title"] == "ASP.NET Core"
+    assert tech["hasTechnologyConcepts"] is True
+    assert [topic["num"] for topic in topics] == list(range(1, 8))
+    assert [topic["group"] for topic in topics] == ["Introduction"] + ["Part 1 · Minimal APIs"] * 6
+    assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in topics)
+
+    ungrouped = next(tech for tech in index["technologies"] if tech["dir"] == "10_AI_Engineering")
+    assert all("group" not in topic for topic in ungrouped["topics"])
+
+
 def test_algorithmic_complexity_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
