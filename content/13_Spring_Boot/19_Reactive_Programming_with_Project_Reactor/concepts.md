@@ -17,6 +17,10 @@ later.subscribe(b -> System.out.println("Got " + b.length() + " chars"));
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webflux/new-framework.html)
 
+![Blocking and non-blocking execution](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor-1-blocking-and-non-blocking-execution.png)
+
+*Source: [`diagrams/project-reactor.drawio`](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor.drawio), page 1.*
+
 ## The Reactive Streams contract
 
 Reactive Streams is a small specification with four interfaces: `Publisher`, `Subscriber`, `Subscription`, and `Processor`. A subscriber subscribes to a publisher and receives a subscription. It then calls `request(n)` to say how many items it can take. The publisher sends at most that many through `onNext`, then ends with `onComplete` or `onError`.
@@ -44,6 +48,10 @@ Flux.range(1, 100).subscribe(new BaseSubscriber<Integer>() {
 
 [Reactive Streams specification](https://www.reactive-streams.org/)
 
+![The Reactive Streams contract](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor-2-the-reactive-streams-contract.png)
+
+*Source: [`diagrams/project-reactor.drawio`](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor.drawio), page 2.*
+
 ## Mono and Flux
 
 Project Reactor is the Reactive Streams library behind Spring WebFlux. It has two publisher types: `Mono<T>` emits zero or one item, and `Flux<T>` emits zero to many. Both may end with an error instead. Operators such as `map`, `filter`, `flatMap`, and `zip` build a pipeline that returns a new publisher at each step.
@@ -63,6 +71,10 @@ count.subscribe(n -> System.out.println(n + " long titles"));
 ```
 
 [Reactor reference](https://projectreactor.io/docs/core/release/reference/coreFeatures/flux.html)
+
+![Mono and Flux](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor-3-mono-and-flux.png)
+
+*Source: [`diagrams/project-reactor.drawio`](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor.drawio), page 3.*
 
 ## Compose asynchronous calls
 
@@ -89,6 +101,10 @@ Mono<Offer> offer(String isbn) {
 
 [Reactor reference](https://projectreactor.io/docs/core/release/reference/apdx-operatorChoice.html)
 
+![Compose asynchronous calls](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor-4-compose-asynchronous-calls.png)
+
+*Source: [`diagrams/project-reactor.drawio`](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor.drawio), page 4.*
+
 ## Schedulers and blocking code
 
 Reactor does not choose threads by itself: a pipeline runs on whichever thread delivers its signals, usually a Netty event-loop thread in WebFlux. Blocking that thread, with `Thread.sleep`, JDBC, or a blocking client, stalls every connection it serves. `block()` is not allowed on those threads and fails with an exception.
@@ -106,3 +122,7 @@ Mono<String> legacyReport(long id) {
 ```
 
 [Reactor reference](https://projectreactor.io/docs/core/release/reference/coreFeatures/schedulers.html)
+
+![Schedulers and blocking code](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor-5-schedulers-and-blocking-code.png)
+
+*Source: [`diagrams/project-reactor.drawio`](/content/13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor/diagrams/project-reactor.drawio), page 5.*
