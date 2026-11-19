@@ -42,6 +42,10 @@ public class StagesController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#how-filters-work)
 
+![The MVC filter pipeline](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-1-the-mvc-filter-pipeline.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 1.*
+
 ## The Razor Pages filter pipeline
 
 Razor Pages has the same authorization, resource, exception, and result stages, but action filters don't run. Page filters take their place. `OnPageHandlerSelected` runs once a handler is chosen and before model binding. `OnPageHandlerExecuting` runs after binding and before the handler. `OnPageHandlerExecuted` runs after the handler returns. Page filters can be registered globally or on a page model class, but not on individual handler methods.
@@ -78,6 +82,10 @@ public class DeskModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/filter?view=aspnetcore-10.0)
+
+![The Razor Pages filter pipeline](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-2-the-razor-pages-filter-pipeline.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 2.*
 
 ## Filters or middleware
 
@@ -116,6 +124,10 @@ public class CopiesController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#use-middleware-in-the-filter-pipeline)
 
+![Filters or middleware](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-3-filters-or-middleware.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 3.*
+
 ## A simple filter
 
 The quickest custom filter derives from a built-in attribute base class: `ActionFilterAttribute`, `ResultFilterAttribute`, or `ExceptionFilterAttribute`. Each filter stage has a synchronous interface with before and after methods, and an async interface with one method that calls `next()`. Implement one or the other for a stage, not both. If a class has both, MVC calls only the async one.
@@ -153,6 +165,10 @@ public class SlowController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#implementation)
+
+![A simple filter](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-4-a-simple-filter.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 4.*
 
 ## Add filters to actions and pages
 
@@ -194,6 +210,10 @@ public class ScopedController : ControllerBase
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#applying-filters)
 
+![Add filters to actions and pages](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-5-add-filters-to-actions-and-pages.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 5.*
+
 ## Default filter order
 
 Within one stage, scope sets the default order. Global filters wrap controller or page filters, which wrap action filters. The before methods run outside-in and the after methods run inside-out, like nested middleware. A controller derived from `Controller` is itself a filter around all of these. Its `OnActionExecuting` override runs before every other action filter, and its `OnActionExecuted` runs after them.
@@ -229,6 +249,10 @@ public class OrderController : Controller
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#filter-scopes-and-order-of-execution)
 
+![Default filter order](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-6-default-filter-order.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 6.*
+
 ## Override order with IOrderedFilter
 
 A filter that implements `IOrderedFilter` has an `Order` number that outranks scope. Filters sort by `Order` first, ascending, and only filters with equal `Order` fall back to scope. A lower number runs its before code earlier and its after code later. The default is 0, and the built-in attribute base classes expose `Order` as a settable property.
@@ -259,3 +283,7 @@ public class EarlyController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-10.0#override-the-default-order)
+
+![Override order with IOrderedFilter](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-7-override-order-with-iorderedfilter.png)
+
+*Source: [`diagrams/filter-pipeline.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline.drawio), page 7.*

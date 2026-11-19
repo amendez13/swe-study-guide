@@ -33,6 +33,10 @@ public class RankController : ControllerBase
 
 `global before`, `controller before`, `method before`, then `method after`, `controller after`, `global after`. The global and controller filters both have `Order` 0, so scope orders them, and `Order = 5` places the method filter innermost. The result matches the default here, but a global filter with `Order = 10` would now run inside the method filter.
 
+![Order three action filters](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-drills-1-order-three-action-filters.png)
+
+*Source: [`diagrams/filter-pipeline-drills.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-drills.drawio), page 1.*
+
 ## An action filter on a page model
 
 A teammate puts an `ActionFilterAttribute` on a page model. `ActionFilterAttribute` also implements the result filter interface. Which of the two overridden methods run on `/Shelf`?
@@ -69,3 +73,7 @@ public class ShelfModel : PageModel { }
 **Answer**
 
 Only `OnResultExecuting` runs, so the response has `X-Mark: result`. Razor Pages runs no action filters, but it does run result filters. For logic around a page handler, implement `IPageFilter` or override the page model's handler methods.
+
+![An action filter on a page model](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-drills-2-an-action-filter-on-a-page-model.png)
+
+*Source: [`diagrams/filter-pipeline-drills.drawio`](/content/12_ASP.NET_Core/21_Filter_Pipeline/diagrams/filter-pipeline-drills.drawio), page 2.*
