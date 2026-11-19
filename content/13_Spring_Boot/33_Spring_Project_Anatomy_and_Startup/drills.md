@@ -22,6 +22,10 @@ class PingController {
 
 404. Component scanning starts at `com.example.study`, and `com.example.api` is outside it, so the controller is never registered. Move it to `com.example.study.api`, or below. Widening the scan with `scanBasePackages` also works but hides a layout problem. See [project layout](#13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/concepts/project-layout).
 
+![Predict the missing controller](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills-1-predict-the-missing-controller.png)
+
+*Source: [`diagrams/project-anatomy-drills.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills.drawio), page 1.*
+
 ## Order the startup output
 
 The app below prints three lines. In which order, and why?
@@ -51,3 +55,7 @@ class StartupConfig {
 **Answer**
 
 A, then B, then C. Beans are created during the context refresh. Runners are called after the refresh, and `ApplicationReadyEvent` is published last, once the runners have finished. See [how an app starts](#13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/concepts/how-an-app-starts).
+
+![Order the startup output](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills-2-order-the-startup-output.png)
+
+*Source: [`diagrams/project-anatomy-drills.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills.drawio), page 2.*

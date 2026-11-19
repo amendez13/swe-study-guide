@@ -14,6 +14,10 @@ So a Boot app is a Spring app with sensible defaults. Every Spring idea in this 
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/index.html)
 
+![Spring Framework and Spring Boot](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-1-spring-framework-and-spring-boot.png)
+
+*Source: [`diagrams/project-anatomy.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy.drawio), page 1.*
+
 ## Project layout
 
 A generated Maven project has a fixed shape. `pom.xml` declares the Boot parent, which manages dependency versions, and the starters you need. Java code lives in `src/main/java`, configuration and templates in `src/main/resources`, and tests in `src/test/java`. `mvnw` is the Maven wrapper, so builds use the same Maven version everywhere.
@@ -37,6 +41,10 @@ study/
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/using/structuring-your-code.html)
 
+![Project layout](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-2-project-layout.png)
+
+*Source: [`diagrams/project-anatomy.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy.drawio), page 2.*
+
 ## The main class
 
 `@SpringBootApplication` combines three annotations. `@SpringBootConfiguration` marks the class as a source of bean definitions. `@EnableAutoConfiguration` turns on Boot's autoconfiguration. `@ComponentScan` finds annotated classes in this package and below.
@@ -57,6 +65,10 @@ public class StudyApplication {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/using/using-the-springbootapplication-annotation.html)
 
+![The main class](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-3-the-main-class.png)
+
+*Source: [`diagrams/project-anatomy.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy.drawio), page 3.*
+
 ## How an app starts
 
 `SpringApplication.run` works through a fixed sequence. It prepares the `Environment` from properties files, environment variables, and arguments. It creates the application context and loads bean definitions from your classes and from autoconfiguration. It then refreshes the context: it creates every singleton bean, injects dependencies, and runs initialization callbacks. A web app starts its embedded server during the refresh.
@@ -74,6 +86,10 @@ run()
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/spring-application.html)
+
+![How an app starts](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-4-how-an-app-starts.png)
+
+*Source: [`diagrams/project-anatomy.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy.drawio), page 4.*
 
 ## Run code at startup
 
@@ -103,3 +119,7 @@ class StartupConfig {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/spring-application.html#features.spring-application.command-line-runner)
+
+![Run code at startup](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-5-run-code-at-startup.png)
+
+*Source: [`diagrams/project-anatomy.drawio`](/content/13_Spring_Boot/33_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy.drawio), page 5.*
