@@ -46,6 +46,10 @@ class PageFixer {
 
 Only `fixInTransaction` saves its change. The entity stays managed until the method's transaction commits, and Hibernate flushes the dirty field. In `fixWithoutTransaction`, the repository's own transaction ends inside `findById`, so the returned entity is detached and the change is lost. See [transactions and change tracking](#13_Spring_Boot/06_Spring_Data_JPA_Basics/concepts/transactions-and-change-tracking).
 
+![Predict whether the change is saved](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-drills-1-predict-whether-the-change-is-saved.png)
+
+*Source: [`diagrams/spring-data-jpa-basics-drills.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-drills.drawio), page 1.*
+
 ## Stop leaking a column
 
 A new `internalNotes` field on the entity suddenly appears in the public JSON. What change keeps it out of the API without touching the entity?
@@ -73,3 +77,7 @@ class BookApi {
 **Answer**
 
 Return a DTO, for example a `BookView(long id, String title)` record, and map each entity to it. The response then contains only the fields the record declares. This is the pattern in [entities, DTOs, and POJOs](#13_Spring_Boot/06_Spring_Data_JPA_Basics/concepts/entities-dtos-and-pojos).
+
+![Stop leaking a column](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-drills-2-stop-leaking-a-column.png)
+
+*Source: [`diagrams/spring-data-jpa-basics-drills.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-drills.drawio), page 2.*

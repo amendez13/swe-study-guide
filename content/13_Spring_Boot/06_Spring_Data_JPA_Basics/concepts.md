@@ -25,6 +25,10 @@ spring.jpa.open-in-view=false
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.jpa-and-spring-data)
 
+![Add Spring Data JPA](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-1-add-spring-data-jpa.png)
+
+*Source: [`diagrams/spring-data-jpa-basics.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics.drawio), page 1.*
+
 ## Map an entity
 
 An entity is a class whose instances Hibernate stores as table rows. It needs `@Entity`, an `@Id`, and a no-argument constructor that Hibernate can call; make it `protected` so application code uses the real constructor. `@GeneratedValue` lets the database assign the identifier on insert. By default the table and columns take the class and field names.
@@ -64,6 +68,10 @@ public class Book {
 ```
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/jpa/entity-persistence.html)
+
+![Map an entity](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-2-map-an-entity.png)
+
+*Source: [`diagrams/spring-data-jpa-basics.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics.drawio), page 2.*
 
 ## Repositories
 
@@ -118,6 +126,10 @@ interface BookRepository extends ListCrudRepository<Book, Long> {
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/repositories/core-concepts.html)
 
+![Repositories](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-3-repositories.png)
+
+*Source: [`diagrams/spring-data-jpa-basics.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics.drawio), page 3.*
+
 ## Entities, DTOs, and POJOs
 
 An entity represents persistent state and is tracked by the persistence context. A data transfer object (DTO) is a plain shape for crossing a boundary, such as a JSON response; a record suits it. A POJO is any ordinary Java object without framework requirements, such as a calculation helper. Keep each in its role.
@@ -152,6 +164,10 @@ class BookApi {
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/repositories/projections.html)
 
+![Entities, DTOs, and POJOs](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-4-entities-dtos-and-pojos.png)
+
+*Source: [`diagrams/spring-data-jpa-basics.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics.drawio), page 4.*
+
 ## Transactions and change tracking
 
 Inside a transaction, an entity loaded through JPA is managed. Hibernate compares its state with the loaded snapshot at commit and writes an `UPDATE` for changed fields, so no explicit `save` call is needed. Put `@Transactional` on a service method so the load, the change, and the flush form one unit that commits or rolls back together.
@@ -179,3 +195,7 @@ class BookService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)
+
+![Transactions and change tracking](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics-5-transactions-and-change-tracking.png)
+
+*Source: [`diagrams/spring-data-jpa-basics.drawio`](/content/13_Spring_Boot/06_Spring_Data_JPA_Basics/diagrams/spring-data-jpa-basics.drawio), page 5.*
