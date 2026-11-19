@@ -21,6 +21,10 @@ spring.ssl.bundle.pem.web.keystore.private-key=file:certs/server.key
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/ssl.html)
 
+![HTTPS with an SSL bundle](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-1-https-with-an-ssl-bundle.png)
+
+*Source: [`diagrams/data-protection.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection.drawio), page 1.*
+
 ## Reload rotated certificates
 
 Certificates expire, and short-lived ones are rotated often. With `reload-on-update` set on a bundle, Boot watches the bundle's files and applies a new certificate and key without a restart. Changes are picked up after a quiet period, ten seconds by default, so a renewal tool can finish writing both files first.
@@ -36,6 +40,10 @@ spring.ssl.bundle.watch.file.quiet-period=10s
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/ssl.html#features.ssl.reloading)
+
+![Reload rotated certificates](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-2-reload-rotated-certificates.png)
+
+*Source: [`diagrams/data-protection.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection.drawio), page 2.*
 
 ## Trust a private certificate authority
 
@@ -70,6 +78,10 @@ class PartnerCatalog {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/io/rest-client.html#io.rest-client.restclient.ssl)
 
+![Trust a private certificate authority](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-3-trust-a-private-certificate-authority.png)
+
+*Source: [`diagrams/data-protection.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection.drawio), page 3.*
+
 ## Require HTTPS in the browser
 
 When a load balancer or the app itself also accepts plain HTTP, send browsers to HTTPS before they submit anything. `redirectToHttps` in Spring Security redirects insecure requests to the HTTPS equivalent. For secure requests, Spring Security also writes the `Strict-Transport-Security` header by default. That HSTS header tells the browser to use only HTTPS for the host in later requests.
@@ -97,6 +109,10 @@ class HttpsConfig {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/exploits/http.html)
+
+![Require HTTPS in the browser](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-4-require-https-in-the-browser.png)
+
+*Source: [`diagrams/data-protection.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection.drawio), page 4.*
 
 ## Encrypt sensitive columns
 
@@ -147,3 +163,7 @@ class Member {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/features/integrations/cryptography.html)
+
+![Encrypt sensitive columns](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-5-encrypt-sensitive-columns.png)
+
+*Source: [`diagrams/data-protection.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection.drawio), page 5.*
