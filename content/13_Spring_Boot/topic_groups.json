@@ -1,11 +1,11 @@
 {
-  "Part 0 · Spring fundamentals": [33, 34, 35, 36, 37, 38, 39, 40],
-  "Part 1 · Basics": [1, 2],
-  "Part 2 · Building an application": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-  "Part 3 · Releasing": [14, 15, 16, 17, 18],
-  "Part 4 · Scaling": [19, 20, 21, 22, 23, 24, 25],
-  "Part 5 · Observability": [26, 27],
-  "Part 6 · Spring AI": [28, 29, 30],
-  "Part 7 · What's new": [31],
-  "Beyond the book": [32]
+  "Part 0 · Spring fundamentals": [1, 2, 3, 4, 5, 6, 7, 8],
+  "Part 1 · Basics": [9, 10],
+  "Part 2 · Building an application": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
+  "Part 3 · Releasing": [22, 23, 24, 25, 26],
+  "Part 4 · Scaling": [27, 28, 29, 30, 31, 32, 33],
+  "Part 5 · Observability": [34, 35],
+  "Part 6 · Spring AI": [36, 37, 38],
+  "Part 7 · What's new": [39],
+  "Beyond the book": [40]
 }

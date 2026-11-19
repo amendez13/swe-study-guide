@@ -117,9 +117,9 @@ def test_spring_boot_exposes_parts_one_and_two_in_chapter_order() -> None:
 
     assert tech["title"] == "Spring Boot"
     assert tech["hasTechnologyConcepts"] is True
-    book_topics = [topic for topic in topics if topic["num"] <= 13]
+    book_topics = [topic for topic in topics if 9 <= topic["num"] <= 21]
 
-    assert [topic["num"] for topic in book_topics] == list(range(1, 14))
+    assert [topic["num"] for topic in book_topics] == list(range(9, 22))
     assert [topic["group"] for topic in book_topics] == ["Part 1 · Basics"] * 2 + ["Part 2 · Building an application"] * 11
     assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in book_topics)
 
@@ -129,7 +129,7 @@ def test_spring_boot_lists_fundamentals_before_part_one() -> None:
     tech = next(tech for tech in index["technologies"] if tech["dir"] == "13_Spring_Boot")
     topics = tech["topics"]
 
-    assert [topic["num"] for topic in topics[:9]] == list(range(33, 41)) + [1]
+    assert [topic["num"] for topic in topics[:9]] == list(range(1, 10))
     assert [topic["group"] for topic in topics[:9]] == ["Part 0 · Spring fundamentals"] * 8 + ["Part 1 · Basics"]
     assert all(topic["hasConcepts"] and topic["hasDrills"] for topic in topics[:8])
 
