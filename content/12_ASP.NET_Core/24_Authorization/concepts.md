@@ -24,6 +24,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/simple?view=aspnetcore-10.0)
 
+![Require an authenticated user](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-1-require-an-authenticated-user.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 1.*
+
 ## Secure by default with a fallback policy
 
 Adding `RequireAuthorization` to each endpoint is easy to forget. A fallback policy applies to every endpoint that has no authorization metadata of its own, so new endpoints start protected and public ones opt out with `AllowAnonymous`. A default policy is different. It is what a bare `[Authorize]` or `RequireAuthorization()` means, and it doesn't apply to unmarked endpoints.
@@ -46,6 +50,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?view=aspnetcore-10.0#require-authenticated-users)
 
+![Secure by default with a fallback policy](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-2-secure-by-default-with-a-fallback-policy.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 2.*
+
 ## Challenge and forbid
 
 A failed authorization check produces one of two outcomes. If the caller isn't authenticated, the scheme challenges: a bearer scheme returns 401, and a cookie scheme redirects to its login path. If the caller is authenticated but lacks permission, the scheme forbids: 403, or a redirect to the access-denied path for cookies. `Results.Challenge()` and `Results.Forbid()` trigger the same responses from handler code.
@@ -67,6 +75,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/cookie-authentication-api-endpoints?view=aspnetcore-10.0)
+
+![Challenge and forbid](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-3-challenge-and-forbid.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 3.*
 
 ## Policies from claims and roles
 
@@ -91,6 +103,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/claims?view=aspnetcore-10.0)
+
+![Policies from claims and roles](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-4-policies-from-claims-and-roles.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 4.*
 
 ## Custom requirements and handlers
 
@@ -132,6 +148,10 @@ public class MembershipAgeHandler(TimeProvider clock) : AuthorizationHandler<Mem
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/policies?view=aspnetcore-10.0)
+
+![Custom requirements and handlers](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-5-custom-requirements-and-handlers.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 5.*
 
 ## Resource-based authorization
 
@@ -176,6 +196,10 @@ public class HoldOwnerHandler : AuthorizationHandler<OperationAuthorizationRequi
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/resourcebased?view=aspnetcore-10.0)
 
+![Resource-based authorization](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-6-resource-based-authorization.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 6.*
+
 ## Hide UI the user can't use
 
 Pages and views can ask the same authorization questions as endpoints. Inject `IAuthorizationService` with `@inject` and call `AuthorizeAsync` before rendering a link or button, so users don't see actions that would fail. Use the same policy names as the endpoints so the UI and the rules stay in step.
@@ -209,3 +233,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/views?view=aspnetcore-10.0)
+
+![Hide UI the user can't use](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization-7-hide-ui-the-user-can-t-use.png)
+
+*Source: [`diagrams/authorization.drawio`](/content/12_ASP.NET_Core/24_Authorization/diagrams/authorization.drawio), page 7.*
