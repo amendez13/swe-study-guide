@@ -24,6 +24,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0)
 
+![Logging in a production app](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-1-logging-in-a-production-app.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 1.*
+
 ## Log levels
 
 Each message has a level: `Trace`, `Debug`, `Information`, `Warning`, `Error`, or `Critical`, in increasing severity. `None` is used only in filters, to turn a category off. Use `Information` for normal events worth keeping, `Warning` for unexpected but handled situations, and `Error` for failures of the current operation. `Critical` is for failures that take down the app or lose data.
@@ -52,6 +56,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0#log-level)
 
+![Log levels](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-2-log-levels.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 2.*
+
 ## Log categories
 
 Every logger has a category, a string that names where messages come from. `ILogger<T>` uses the full name of `T`, such as `LoanService` or `Microsoft.AspNetCore.Routing.EndpointMiddleware`. `ILoggerFactory.CreateLogger("Name")` sets one explicitly. Filters match categories by prefix, so namespace-style names let you change verbosity for a whole area at once.
@@ -77,6 +85,10 @@ public class LoanService(ILogger<LoanService> logger)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0#log-category)
 
+![Log categories](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-3-log-categories.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 3.*
+
 ## Message templates and structured data
 
 Log calls take a message template with named placeholders and the values as separate arguments: `LogInformation("Renewed loan {LoanId} for {Days} days", id, days)`. Arguments fill placeholders by position, not by name. Structured providers keep each value as a named property, so you can search for every event where `LoanId` is 42 rather than matching text.
@@ -95,6 +107,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0#log-message-template)
+
+![Message templates and structured data](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-4-message-templates-and-structured-data.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 4.*
 
 ## Compile-time logging methods
 
@@ -121,6 +137,10 @@ static partial class LoanLog
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator)
 
+![Compile-time logging methods](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-5-compile-time-logging-methods.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 5.*
+
 ## Logging providers
 
 `WebApplication.CreateBuilder` adds the Console, Debug, and EventSource providers, plus EventLog on Windows. Call `builder.Logging.ClearProviders()` and add the ones you want. `AddJsonConsole()` writes one JSON object per line, which log collectors in containers can parse. Third-party libraries such as Serilog and NLog plug in as providers and add sinks for files and log services. OpenTelemetry's logging provider exports logs alongside traces and metrics.
@@ -146,6 +166,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0#logging-providers)
+
+![Logging providers](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-6-logging-providers.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 6.*
 
 ## Filter log verbosity
 
@@ -184,6 +208,10 @@ public class LoanService(ILogger<LoanService> logger)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-10.0#configure-logging)
 
+![Filter log verbosity](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-7-filter-log-verbosity.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 7.*
+
 ## Log scopes
 
 A scope attaches properties to every message logged inside it. `using (logger.BeginScope(new Dictionary<string, object> { ["LoanId"] = id }))` adds `LoanId` to each message in the block, including messages from services the block calls. ASP.NET Core already opens a scope per request with `RequestId`, `RequestPath`, and the trace and span ids.
@@ -213,3 +241,7 @@ public class Notifier(ILogger<Notifier> logger)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/logging#log-scopes)
+
+![Log scopes](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-8-log-scopes.png)
+
+*Source: [`diagrams/logging.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging.drawio), page 8.*

@@ -43,6 +43,10 @@ public class LoanService(ILogger<LoanService> logger)
 
 Only `Counted loans` appears. `Endpoint hit` is in the `Program` category, which falls back to `Default` at `Warning`. `Querying store` is `Debug`, below the `Information` minimum set for `LoanService`.
 
+![Which lines appear?](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-drills-1-which-lines-appear.png)
+
+*Source: [`diagrams/logging-drills.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-drills.drawio), page 1.*
+
 ## Fix a log call
 
 A teammate writes the call below. What two problems does it have, and how should it be written?
@@ -65,3 +69,7 @@ app.Run();
 **Answer**
 
 Interpolation builds the string even when the level is disabled, and it flattens `id` into text, so structured providers can't search for it. Passing the exception inside the message also loses its structured type and stack trace fields. Write `logger.LogError(ex, "Loan {LoanId} failed", id);`.
+
+![Fix a log call](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-drills-2-fix-a-log-call.png)
+
+*Source: [`diagrams/logging-drills.drawio`](/content/12_ASP.NET_Core/26_Logging/diagrams/logging-drills.drawio), page 2.*
