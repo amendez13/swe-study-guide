@@ -20,6 +20,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-10.0)
 
+![Middleware execution order](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-1-middleware-execution-order.png)
+
+*Source: [`diagrams/middleware.drawio`](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware.drawio), page 1.*
+
 ## Short-circuit a request
 
 A middleware component short-circuits a request when it writes the response and omits the next call. This is useful for local maintenance pages or when a component can finish the entire HTTP exchange itself.
@@ -44,6 +48,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-10.0)
 
+![Short-circuit a request](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-2-short-circuit-a-request.png)
+
+*Source: [`diagrams/middleware.drawio`](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware.drawio), page 2.*
+
 ## Build-time and runtime static files
 
 Create `wwwroot/notice.txt` before building, then request `/notice.txt`. `MapStaticAssets` maps endpoints from the build or publish manifest and enables optimized asset delivery, including fingerprinted URLs and compression for supported assets.
@@ -57,6 +65,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-10.0)
+
+![Build-time and runtime static files](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-3-build-time-and-runtime-static-files.png)
+
+*Source: [`diagrams/middleware.drawio`](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware.drawio), page 3.*
 
 ## Exception handling by environment
 
@@ -78,3 +90,7 @@ static string Fail() => throw new InvalidOperationException("Catalog unavailable
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0)
+
+![Exception handling by environment](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-4-exception-handling-by-environment.png)
+
+*Source: [`diagrams/middleware.drawio`](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware.drawio), page 4.*

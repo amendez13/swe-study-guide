@@ -28,6 +28,10 @@ app.Run();
 
 `A in`, `B in`, `B out`, `A out`. The endpoint runs between `B in` and `B out`.
 
+![Trace two middleware components](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-drills-1-trace-two-middleware-components.png)
+
+*Source: [`diagrams/middleware-drills.drawio`](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-drills.drawio), page 1.*
+
 ## Keep the endpoint reachable
 
 Why does `GET /ready` return 503, and how would you keep that endpoint reachable?
@@ -46,3 +50,7 @@ app.Run();
 **Answer**
 
 The terminal middleware completes every request that reaches it. Use a conditional `app.Use` and call `next(context)` for `/ready`, as in the [short-circuit example](#12_ASP.NET_Core/04_Middleware/concepts/short-circuit-a-request).
+
+![Keep the endpoint reachable](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-drills-2-keep-the-endpoint-reachable.png)
+
+*Source: [`diagrams/middleware-drills.drawio`](/content/12_ASP.NET_Core/04_Middleware/diagrams/middleware-drills.drawio), page 2.*
