@@ -19,6 +19,10 @@ app.Run();
 
 `/a` returns `false` and `/b` returns `true`. An identity is authenticated only when it has an authentication type, which a scheme supplies. Claims alone don't make a caller authenticated.
 
+![Authenticated or not?](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-drills-1-authenticated-or-not.png)
+
+*Source: [`diagrams/identity-drills.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-drills.drawio), page 1.*
+
 ## Read the login response
 
 The app maps the Identity API endpoints. A registered user posts valid credentials to `/account/login` and to `/account/login?useCookies=true`. What does each response contain, and how should the client call `/books` afterward?
@@ -45,3 +49,7 @@ public class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext(options)
 **Answer**
 
 The plain login returns JSON with `tokenType`, `accessToken`, `expiresIn`, and `refreshToken`. The client sends `Authorization: Bearer <accessToken>` and later posts the refresh token to `/account/refresh`. The cookie login returns an empty 200 with a `Set-Cookie` header, so a browser sends the cookie automatically. Without either, `/books` returns 401.
+
+![Read the login response](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-drills-2-read-the-login-response.png)
+
+*Source: [`diagrams/identity-drills.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-drills.drawio), page 2.*

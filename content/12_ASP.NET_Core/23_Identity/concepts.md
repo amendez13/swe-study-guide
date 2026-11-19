@@ -30,6 +30,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/?view=aspnetcore-10.0)
 
+![Users, claims, and principals](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-1-users-claims-and-principals.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 1.*
+
 ## Authentication schemes and middleware
 
 `AddAuthentication` registers authentication services and names a default scheme. Each scheme is a handler, such as cookies or JWT bearer, that can authenticate a request, challenge an anonymous caller, and forbid an authenticated one. The authentication middleware runs the default scheme's authenticate step and sets `HttpContext.User`. Authorization later uses that principal.
@@ -55,6 +59,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/?view=aspnetcore-10.0#authentication-scheme)
+
+![Authentication schemes and middleware](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-2-authentication-schemes-and-middleware.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 2.*
 
 ## ASP.NET Core Identity
 
@@ -84,6 +92,10 @@ public class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext(options)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-10.0)
 
+![ASP.NET Core Identity](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-3-aspnet-core-identity.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 3.*
+
 ## Identity API endpoints
 
 Since .NET 8, Identity can expose JSON endpoints instead of Razor pages, for single-page apps and mobile clients. `AddIdentityApiEndpoints<TUser>()` registers Identity with a cookie scheme and a bearer token scheme. `MapIdentityApi<TUser>()` maps `/register`, `/login`, `/refresh`, `/confirmEmail`, `/forgotPassword`, `/resetPassword`, and `/manage/info`, among others.
@@ -110,6 +122,10 @@ public class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext(options)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-10.0)
+
+![Identity API endpoints](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-4-identity-api-endpoints.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 4.*
 
 ## The Identity data model and managers
 
@@ -144,6 +160,10 @@ public class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext(options)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-10.0)
+
+![The Identity data model and managers](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-5-the-identity-data-model-and-managers.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 5.*
 
 ## Add Identity to an existing app
 
@@ -186,6 +206,10 @@ else
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-10.0)
 
+![Add Identity to an existing app](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-6-add-identity-to-an-existing-app.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 6.*
+
 ## Customize a default UI page
 
 A page in your app at the same path as a library page overrides it, so you can replace one Identity page without forking the rest. The scaffolder copies the pages you choose into `Areas/Identity/Pages/Account`, including their page models, and leaves the rest in the library. Edit the copy, for example to add a field to registration or change wording.
@@ -213,6 +237,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-10.0)
+
+![Customize a default UI page](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-7-customize-a-default-ui-page.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 7.*
 
 ## Custom user data
 
@@ -254,3 +282,7 @@ public class LibraryClaimsFactory(UserManager<LibraryUser> users, IOptions<Ident
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/add-user-data?view=aspnetcore-10.0)
+
+![Custom user data](/content/12_ASP.NET_Core/23_Identity/diagrams/identity-8-custom-user-data.png)
+
+*Source: [`diagrams/identity.drawio`](/content/12_ASP.NET_Core/23_Identity/diagrams/identity.drawio), page 8.*
