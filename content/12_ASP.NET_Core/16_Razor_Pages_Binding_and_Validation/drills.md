@@ -36,6 +36,10 @@ public class ItemModel : PageModel
 
 The GET shows 5, because route values come before the query string. The POST shows 7, because form fields are checked first. Add `[FromRoute]` to the parameter to always use the path.
 
+![Resolve a name that appears twice](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-drills-1-resolve-a-name-that-appears-twice.png)
+
+*Source: [`diagrams/razor-binding-drills.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-drills.drawio), page 1.*
+
 ## Fix a search box that ignores input
 
 `GET /Lookup?Term=atlas` always shows `nothing`. Why, and what is the smallest fix?
@@ -66,3 +70,7 @@ public class LookupModel : PageModel
 **Answer**
 
 `[BindProperty]` skips GET requests by default, so `Term` stays null. Use `[BindProperty(SupportsGet = true)]`, or take `term` as an `OnGet` parameter. Opting in keeps a GET from changing posted state unless you choose to allow it.
+
+![Fix a search box that ignores input](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-drills-2-fix-a-search-box-that-ignores-input.png)
+
+*Source: [`diagrams/razor-binding-drills.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-drills.drawio), page 2.*

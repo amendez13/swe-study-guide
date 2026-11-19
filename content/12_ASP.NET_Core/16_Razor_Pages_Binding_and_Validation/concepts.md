@@ -43,6 +43,10 @@ public class FindModel(Catalog catalog) : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-10.0)
 
+![Models in a Razor Page](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-1-models-in-a-razor-page.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 1.*
+
 ## Simple type binding and model state
 
 Model binding fills handler parameters and bound properties from value providers, matching by name. It checks form fields first, then route values, then the query string, and takes the first match. Strings, numbers, dates, enums, and any type with a `TryParse` method bind from a single value.
@@ -75,6 +79,10 @@ public class CopiesModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-10.0#sources)
+
+![Simple type binding and model state](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-2-simple-type-binding-and-model-state.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 2.*
 
 ## Complex types and BindProperty
 
@@ -120,6 +128,10 @@ public class Donation
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-10.0#complex-types)
 
+![Complex types and BindProperty](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-3-complex-types-and-bindproperty.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 3.*
+
 ## Choose a binding source
 
 Source attributes override the default search order. `[FromQuery]`, `[FromRoute]`, `[FromForm]`, and `[FromHeader]` read from one place, and their `Name` property can map a different incoming name. `[FromBody]` reads the request body with an input formatter such as JSON. Razor Pages rarely uses it, because browsers post forms. `[FromServices]` injects a service.
@@ -154,6 +166,10 @@ public class CardModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-10.0#attributes-for-complex-type-targets)
+
+![Choose a binding source](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-4-choose-a-binding-source.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 4.*
 
 ## Server-side validation
 
@@ -207,6 +223,10 @@ public class Booking
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0)
 
+![Server-side validation](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-5-server-side-validation.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 5.*
+
 ## Client-side validation
 
 The Input Tag Helper turns each validation attribute into `data-val-*` attributes on the rendered input. The jQuery Unobtrusive Validation library reads those attributes and checks the form in the browser before it is submitted. The `webapp` template ships the scripts under `wwwroot/lib` and includes them on a page through `<partial name="_ValidationScriptsPartial" />`. This example loads the same libraries from a CDN.
@@ -245,6 +265,10 @@ public class RenewCardModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0#client-side-validation)
+
+![Client-side validation](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-6-client-side-validation.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 6.*
 
 ## Organize binding models
 
@@ -288,3 +312,7 @@ public class JoinModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/crud?view=aspnetcore-10.0#overposting)
+
+![Organize binding models](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding-7-organize-binding-models.png)
+
+*Source: [`diagrams/razor-binding.drawio`](/content/12_ASP.NET_Core/16_Razor_Pages_Binding_and_Validation/diagrams/razor-binding.drawio), page 7.*
