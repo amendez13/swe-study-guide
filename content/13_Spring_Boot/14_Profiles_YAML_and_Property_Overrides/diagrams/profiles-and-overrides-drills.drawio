@@ -1,0 +1,34 @@
+<mxfile host="drawio">
+  <diagram id="pod1" name="Predict the active value">
+    <mxGraphModel dx="900" dy="260" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="260" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pod1-1" value="Predict the active value" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pod1-2" value="Environment variables override every packaged config file" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pod1-3" value="application.properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="340" height="40" as="geometry"/></mxCell>
+<mxCell id="pod1-4" value="cache-ttl=30s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="400" y="100" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="pod1-5" value="application-prod.properties (prod active)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="340" height="40" as="geometry"/></mxCell>
+<mxCell id="pod1-6" value="cache-ttl=5m" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="150" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="pod1-7" value="STUDY_CATALOG_CACHETTL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="340" height="40" as="geometry"/></mxCell>
+<mxCell id="pod1-8" value="10m" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="200" width="200" height="40" as="geometry"/></mxCell>
+<mxCell id="pod1-9" value="prints PT10M" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="100" width="220" height="90" as="geometry"/></mxCell>
+<mxCell id="pod1-10" value="without the variable: PT5M" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="200" width="220" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pod2" name="Fix a profile document that never applies">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pod2-1" value="Fix a profile document that never applies" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pod2-2" value="Without --- it is one document with a duplicate study key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pod2-3" value="study:&lt;br&gt;&amp;nbsp;&amp;nbsp;catalog:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;branch-name: Local branch&lt;br&gt;spring:&lt;br&gt;&amp;nbsp;&amp;nbsp;config:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;activate:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;on-profile: prod&lt;br&gt;study:&lt;br&gt;&amp;nbsp;&amp;nbsp;catalog:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;branch-name: West Branch" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=left;fontStyle=1;fontFamily=Courier New;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="200" as="geometry"/></mxCell>
+<mxCell id="pod2-4" value="duplicate key → parse error at startup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="pod2-5" value="study:&lt;br&gt;&amp;nbsp;&amp;nbsp;catalog:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;branch-name: Local branch&lt;br&gt;---&lt;br&gt;spring:&lt;br&gt;&amp;nbsp;&amp;nbsp;config:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;activate:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;on-profile: prod&lt;br&gt;study:&lt;br&gt;&amp;nbsp;&amp;nbsp;catalog:&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;branch-name: West Branch" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;fontStyle=1;fontFamily=Courier New;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="500" y="100" width="360" height="200" as="geometry"/></mxCell>
+<mxCell id="pod2-6" value="add ---" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="pod2-3" target="pod2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
