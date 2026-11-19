@@ -22,14 +22,14 @@ The app listens on `http://localhost:8080`. Call the sample URLs with a browser 
 
 - [Part 1 · Basics](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration), chapter 1
 - [Part 2 · Building an application](#13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates), chapters 2–5
-- Part 3 · Releasing, chapters 6–8: configuration profiles, containers, native images and the AOT cache
+- [Part 3 · Releasing](#13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides), chapters 6–8: configuration profiles, containers, native images and the AOT cache
 - Part 4 · Scaling, chapters 9–12: reactive web and data, virtual threads and HTTP service clients, messaging with Kafka
 - Part 5 · Observability, chapter 13
 - Part 6 · Spring AI, chapter 14
 - Part 7 · What's new in Spring Boot 4, chapter 15
 - Beyond the book · Spring Modulith, Spring Batch, GraphQL, WebSocket, Spring Cloud basics, and CRaC
 
-Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 and 2 (topics 1–13) are available now. Chapters 2 to 5 are split into several topics each.
+Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 3 (topics 1–18) are available now. Chapters 2 to 5, 7 and 8 are split into several topics each.
 
 ## Changes since Spring Boot 3
 
@@ -39,3 +39,5 @@ Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Pa
 - Topic 6: Spring Data JPA runs on Hibernate 7 and Jakarta Persistence 3.2. [SQL databases](https://docs.spring.io/spring-boot/reference/data/sql.html)
 - Topics 8–10: Spring Security 7 requires the lambda DSL, and the OAuth client starter is `spring-boot-starter-security-oauth2-client`. [Spring Security 7](https://docs.spring.io/spring-security/reference/7.0/whats-new.html)
 - Topics 12–13: JUnit 6, `@MockitoBean` instead of `@MockBean`, `RestTestClient`, per-technology test starters, and Testcontainers 2. [Testing](https://docs.spring.io/spring-boot/reference/testing/index.html)
+- Topics 15–16: the embedded launch script and the classic jar loader are removed, liveness and readiness probes are on by default, and Flyway needs `spring-boot-starter-flyway`. [Migration guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
+- Topic 18: Java 25 makes the JVM AOT cache easier to create and adds method profiles. [JEP 514](https://openjdk.org/jeps/514)
