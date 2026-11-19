@@ -27,6 +27,10 @@ com.example.study
 
 [Spring Modulith docs](https://docs.spring.io/spring-modulith/reference/fundamentals.html)
 
+![Modular monoliths with Spring Modulith](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-1-modular-monoliths-with-spring-modulith.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 1.*
+
 ## Events between Modulith modules
 
 Modules should talk through events rather than direct calls, the in-process version of [event-driven messaging](#13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/concepts/events-and-messages). Publish a Spring application event and let other modules react with `@ApplicationModuleListener`, which runs after the publishing transaction commits, asynchronously, in its own transaction.
@@ -68,6 +72,10 @@ class LoanNotifications {
 
 [Spring Modulith docs](https://docs.spring.io/spring-modulith/reference/events.html)
 
+![Events between Modulith modules](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-2-events-between-modulith-modules.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 2.*
+
 ## Batch jobs with Spring Batch
 
 Spring Batch processes large volumes of records in jobs: import a nightly file, recalculate fees, export a report. A job has steps; a chunk-oriented step reads items, processes them, and writes them in chunks, committing one transaction per chunk. If a job fails, a restart continues from the last committed chunk instead of starting over.
@@ -104,6 +112,10 @@ class FeeJobConfig {
 ```
 
 [Spring Batch docs](https://docs.spring.io/spring-batch/reference/)
+
+![Batch jobs with Spring Batch](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-3-batch-jobs-with-spring-batch.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 3.*
 
 ## GraphQL APIs with Spring for GraphQL
 
@@ -153,6 +165,10 @@ class BookGraphController {
 
 [Spring for GraphQL docs](https://docs.spring.io/spring-graphql/reference/)
 
+![GraphQL APIs with Spring for GraphQL](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-4-graphql-apis-with-spring-for-graphql.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 4.*
+
 ## WebSocket messaging with STOMP
 
 HTTP is request and response; WebSocket keeps one connection open in both directions, so the server can push updates such as live availability or chat messages. Spring's WebSocket support usually runs STOMP over it, a simple messaging protocol with destinations, so controllers can handle messages like HTTP requests.
@@ -198,6 +214,10 @@ class AvailabilityController {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/websocket/stomp.html)
 
+![WebSocket messaging with STOMP](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-5-websocket-messaging-with-stomp.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 5.*
+
 ## Spring Cloud basics
 
 Spring Cloud adds building blocks for systems of many services. Spring Cloud Gateway routes external requests to services and applies cross-cutting filters such as rate limiting and authentication. Spring Cloud Config serves configuration from a Git repository to every instance. Service discovery, with Eureka or the Kubernetes API, lets clients find instances by name instead of fixed URLs.
@@ -219,6 +239,10 @@ spring:
 ```
 
 [Spring Cloud docs](https://spring.io/projects/spring-cloud)
+
+![Spring Cloud basics](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-6-spring-cloud-basics.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 6.*
 
 ## Fast restarts with CRaC
 
