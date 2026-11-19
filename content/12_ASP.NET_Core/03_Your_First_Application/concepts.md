@@ -14,6 +14,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
 
+![The Web SDK project](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application-1-the-web-sdk-project.png)
+
+*Source: [`diagrams/first-application.drawio`](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application.drawio), page 1.*
+
 ## Build and run the application
 
 `WebApplication.CreateBuilder(args)` initializes configuration, logging, and services. `Build()` produces the application, after which you configure its pipeline and map endpoints. The parameterless `Run()` starts the host and waits for shutdown.
@@ -28,6 +32,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
+
+![Build and run the application](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application-2-build-and-run-the-application.png)
+
+*Source: [`diagrams/first-application.drawio`](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application.drawio), page 2.*
 
 ## Register and consume a service
 
@@ -47,6 +55,10 @@ record SiteLabel(string Name);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0)
 
+![Register and consume a service](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application-3-register-and-consume-a-service.png)
+
+*Source: [`diagrams/first-application.drawio`](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application.drawio), page 3.*
+
 ## Configure request handling in Program.cs
 
 The host setup is the place to assemble request-wide behavior and endpoint-specific behavior. Register shared middleware with `Use`, and associate a handler with a method and path using `MapGet` or another mapping method.
@@ -65,3 +77,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
+
+![Configure request handling in Program.cs](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application-4-configure-request-handling-in-program-cs.png)
+
+*Source: [`diagrams/first-application.drawio`](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application.drawio), page 4.*

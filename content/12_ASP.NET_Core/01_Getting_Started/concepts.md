@@ -14,6 +14,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
 
+![ASP.NET Core and .NET](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started-1-aspnet-core-and-net.png)
+
+*Source: [`diagrams/getting-started.drawio`](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started.drawio), page 1.*
+
 ## Web application shapes
 
 A program can serve a browser page, a JSON API, or both. ASP.NET Core provides Razor Pages and MVC for server-rendered HTML, controllers and Minimal APIs for HTTP APIs, and Blazor for component-based web UI.
@@ -28,6 +32,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
+
+![Web application shapes](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started-2-web-application-shapes.png)
+
+*Source: [`diagrams/getting-started.drawio`](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started.drawio), page 2.*
 
 ## HTTP request and response
 
@@ -46,3 +54,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses?view=aspnetcore-10.0)
+
+![HTTP request and response](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started-3-http-request-and-response.png)
+
+*Source: [`diagrams/getting-started.drawio`](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started.drawio), page 3.*

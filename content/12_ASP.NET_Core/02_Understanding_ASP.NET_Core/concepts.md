@@ -14,6 +14,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
 
+![What a web framework provides](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core-1-what-a-web-framework-provides.png)
+
+*Source: [`diagrams/understanding-aspnet-core.drawio`](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core.drawio), page 1.*
+
 ## Kestrel and the request context
 
 Kestrel is ASP.NET Core’s cross-platform web server. It receives HTTP traffic and passes each request to the application, which sees an `HttpContext` with the request, response, cancellation signal, and other per-request state.
@@ -28,6 +32,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-10.0)
+
+![Kestrel and the request context](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core-2-kestrel-and-the-request-context.png)
+
+*Source: [`diagrams/understanding-aspnet-core.drawio`](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core.drawio), page 2.*
 
 ## Application styles
 
@@ -46,6 +54,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/?view=aspnetcore-10.0)
 
+![Application styles](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core-3-application-styles.png)
+
+*Source: [`diagrams/understanding-aspnet-core.drawio`](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core.drawio), page 3.*
+
 ## Incremental migration from ASP.NET
 
 ASP.NET Core introduced a cross-platform host and a composable middleware pipeline for .NET web apps. For a new service, target the current .NET stack. For a classic ASP.NET application on .NET Framework, inventory its dependencies on `System.Web`, session, authentication, and shared data before selecting a migration path.
@@ -59,3 +71,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/migration/fx-to-core/?view=aspnetcore-10.0)
+
+![Incremental migration from ASP.NET](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core-4-incremental-migration-from-aspnet.png)
+
+*Source: [`diagrams/understanding-aspnet-core.drawio`](/content/12_ASP.NET_Core/02_Understanding_ASP.NET_Core/diagrams/understanding-aspnet-core.drawio), page 4.*

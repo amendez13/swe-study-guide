@@ -20,6 +20,10 @@ record SiteLabel(string Name);
 
 Keep the registration above `Build()`. The application services are built at that point and the collection becomes read-only; adding the registration afterwards throws during startup.
 
+![Move the registration](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application-drills-1-move-the-registration.png)
+
+*Source: [`diagrams/first-application-drills.drawio`](/content/12_ASP.NET_Core/03_Your_First_Application/diagrams/first-application-drills.drawio), page 1.*
+
 ## Choose the startup URL
 
 Run this app using the course command with port 5080. Then stop it and run it with port 5090. Which file needs to change?

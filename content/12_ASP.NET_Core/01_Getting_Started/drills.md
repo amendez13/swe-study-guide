@@ -16,6 +16,10 @@ app.Run();
 
 Expect 200 and a JSON media type. With the default web JSON settings, the body is `{"freeDesks":3}`. The anonymous C# object is serialized into the response.
 
+![Identify the response](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started-drills-1-identify-the-response.png)
+
+*Source: [`diagrams/getting-started-drills.drawio`](/content/12_ASP.NET_Core/01_Getting_Started/diagrams/getting-started-drills.drawio), page 1.*
+
 ## Choose an application shape
 
 The team needs a browser page for volunteers and a machine-readable room count. Which endpoint is suitable for a script, and what would you use to grow the page into a multi-form site?
