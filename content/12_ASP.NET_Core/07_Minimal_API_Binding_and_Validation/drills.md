@@ -38,3 +38,7 @@ public sealed class PrintRequest
 **Answer**
 
 Zero binds to an integer, then fails the range rule. The malformed JSON fails during binding before validation can check any attributes. Neither invokes the handler.
+
+![Diagnose two bad requests](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-drills-1-diagnose-two-bad-requests.png)
+
+*Source: [`diagrams/minimal-api-binding-drills.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-drills.drawio), page 1.*

@@ -17,6 +17,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
 
+![Binding sources](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-1-binding-sources.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 1.*
+
 ## JSON request bodies
 
 On a typical POST route an unregistered complex parameter is inferred as a JSON body, and `[FromBody]` can make the contract explicit. GET, HEAD, OPTIONS, and DELETE handlers do not infer a JSON body. A handler can read one body model and group multiple related fields inside it.
@@ -34,6 +38,10 @@ record Journal(string Title, int Pages);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
+
+![JSON request bodies](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-2-json-request-bodies.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 2.*
 
 ## Array parameters
 
@@ -55,6 +63,10 @@ record ReadingEntry(string Title);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
 
+![Array parameters](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-3-array-parameters.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 3.*
+
 ## Optional and default parameters
 
 A nullable handler parameter can represent an omitted route or query input. A parameter default supplies a concrete value on omission. If the client sends a malformed value for a typed parameter, conversion still fails.
@@ -69,6 +81,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
+
+![Optional and default parameters](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-4-optional-and-default-parameters.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 4.*
 
 ## Services and request objects
 
@@ -96,6 +112,10 @@ record CatalogLabel(string Name);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
 
+![Services and request objects](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-5-services-and-request-objects.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 5.*
+
 ## Multipart uploads and antiforgery
 
 Use `IFormFile` to bind one upload from a `multipart/form-data` field whose name matches the handler parameter. Use `IFormFileCollection` to receive the files in the form. Since ASP.NET Core 8, form-bound Minimal API endpoints such as this one require antiforgery validation by default. Register antiforgery, add its middleware, and send the request token with the corresponding cookie.
@@ -118,6 +138,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
+
+![Multipart uploads and antiforgery](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-6-multipart-uploads-and-antiforgery.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 6.*
 
 ## Custom binding with BindAsync
 
@@ -142,6 +166,10 @@ record Branch(string Value)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
 
+![Custom binding with BindAsync](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-7-custom-binding-with-bindasync.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 7.*
+
 ## Group handler parameters with AsParameters
 
 `[AsParameters]` gives related arguments a name and lets ASP.NET Core bind their members as separate handler parameters. The members can come from distinct sources, including route, query, and registered services.
@@ -160,6 +188,10 @@ record struct TitleQuery([FromRoute] int Branch, [FromQuery] string? Prefix);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/parameter-binding?view=aspnetcore-10.0)
+
+![Group handler parameters with AsParameters](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-8-group-handler-parameters-with-asparameters.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 8.*
 
 ## Automatic Minimal API validation
 
@@ -184,3 +216,7 @@ public sealed class Reservation
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/validation?view=aspnetcore-10.0)
+
+![Automatic Minimal API validation](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding-9-automatic-minimal-api-validation.png)
+
+*Source: [`diagrams/minimal-api-binding.drawio`](/content/12_ASP.NET_Core/07_Minimal_API_Binding_and_Validation/diagrams/minimal-api-binding.drawio), page 9.*
