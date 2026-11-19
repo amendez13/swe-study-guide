@@ -1,0 +1,95 @@
+<mxfile host="drawio">
+  <diagram id="ac1" name="The Java AOT cache">
+    <mxGraphModel dx="900" dy="356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="356" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ac1-1" value="The Java AOT cache" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ac1-2" value="Classes loaded and linked once in a training run are reused on every start" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ac1-3" value="java -XX:AOTCacheOutput=app.aot&lt;br&gt;-jar app.jar (training run)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="320" height="50" as="geometry"/></mxCell>
+<mxCell id="ac1-4" value="app.aot&lt;br&gt;loaded + linked classes&lt;br&gt;method profiles (JEP 515)" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="95" width="180" height="80" as="geometry"/></mxCell>
+<mxCell id="ac1-5" value="java -XX:AOTCache=app.aot&lt;br&gt;-jar app.jar" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="690" y="110" width="170" height="50" as="geometry"/></mxCell>
+<mxCell id="ac1-6" value="writes" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac1-3" target="ac1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac1-7" value="mapped at&lt;br&gt;startup" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac1-4" target="ac1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac1-8" value="JDK 24 · JEP 483&lt;br&gt;AOT cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="250" height="54" as="geometry"/></mxCell>
+<mxCell id="ac1-9" value="Java 25 · JEP 514&lt;br&gt;simpler creation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="210" width="250" height="54" as="geometry"/></mxCell>
+<mxCell id="ac1-10" value="Java 25 · JEP 515&lt;br&gt;profiles: JIT optimizes sooner" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="210" width="250" height="54" as="geometry"/></mxCell>
+<mxCell id="ac1-11" value="Valid only with the same JDK build and classpath as the training run → create it from the extracted jar · still a full JVM: dynamic loading, reflection, peak JIT · no code changes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ac2" name="Enable the AOT cache for a Boot app">
+    <mxGraphModel dx="900" dy="342" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="342" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ac2-1" value="Enable the AOT cache for a Boot app" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ac2-2" value="Train by starting the context and exiting as soon as it refreshes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ac2-3" value="extract&lt;br&gt;-Djarmode=tools&lt;br&gt;--destination application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac2-4" value="training run&lt;br&gt;-XX:AOTCacheOutput=app.aot&lt;br&gt;spring.context.exit=onRefresh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac2-5" value="context refreshes&lt;br&gt;every startup class loaded&lt;br&gt;then exits · no traffic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac2-6" value="start with&lt;br&gt;-XX:AOTCache=app.aot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac2-3" target="ac2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac2-4" target="ac2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac2-5" target="ac2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac2-10" value="training needs what startup needs:&lt;br&gt;a database used at startup must be reachable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ac2-11" value="recreate the cache when the application,&lt;br&gt;its dependencies, or the JDK change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="230" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ac2-12" value="same workflow is documented for Class Data Sharing, the predecessor" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ac3" name="The AOT cache in a container image">
+    <mxGraphModel dx="900" dy="375" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="375" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ac3-1" value="The AOT cache in a container image" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ac3-2" value="The image freezes the JDK and classpath the cache depends on" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ac3-3" value="Dockerfile final stage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="260" as="geometry"/></mxCell>
+<mxCell id="ac3-4" value="COPY extracted layers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="130" width="360" height="54" as="geometry"/></mxCell>
+<mxCell id="ac3-5" value="RUN training step → app.aot&lt;br&gt;(one more layer per build)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="200" width="360" height="54" as="geometry"/></mxCell>
+<mxCell id="ac3-6" value="ENTRYPOINT ... -XX:AOTCache=app.aot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="270" width="360" height="54" as="geometry"/></mxCell>
+<mxCell id="ac3-7" value="buildpacks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="480" y="95" width="380" height="260" as="geometry"/></mxCell>
+<mxCell id="ac3-8" value="&amp;lt;BP_JVM_AOTCACHE_ENABLED&amp;gt;true&lt;br&gt;&amp;lt;/BP_JVM_AOTCACHE_ENABLED&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="130" width="340" height="54" as="geometry"/></mxCell>
+<mxCell id="ac3-9" value="Paketo Java buildpack runs the&lt;br&gt;training step during the build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="200" width="340" height="54" as="geometry"/></mxCell>
+<mxCell id="ac3-10" value="training runs in the build container:&lt;br&gt;no external calls at startup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="270" width="340" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ac4" name="Spring AOT on the JVM">
+    <mxGraphModel dx="900" dy="310" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="310" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ac4-1" value="Spring AOT on the JVM" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ac4-2" value="Generated bean registration replaces scanning and condition evaluation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ac4-3" value="build: process-aot goal&lt;br&gt;(spring-boot-maven-plugin)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="ac4-4" value="generated bean&lt;br&gt;registration code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="ac4-5" value="java -Dspring.aot.enabled=true&lt;br&gt;-jar target/study-0.0.1-SNAPSHOT.jar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="ac4-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac4-3" target="ac4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac4-4" target="ac4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac4-8" value="bean set and active profiles&lt;br&gt;fixed when the build runs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ac4-9" value="combine with the AOT cache for a larger gain&lt;br&gt;everything else stays dynamic JVM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="230" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ac5" name="Checkpoint and restore with CRaC">
+    <mxGraphModel dx="900" dy="304" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="304" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ac5-1" value="Checkpoint and restore with CRaC" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ac5-2" value="Snapshot a started JVM; restore it warm in milliseconds" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ac5-3" value="java -XX:CRaCCheckpointTo=&lt;br&gt;./checkpoint&lt;br&gt;spring.context.checkpoint=&lt;br&gt;onRefresh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac5-4" value="Spring closes sockets&lt;br&gt;and pools · snapshot&lt;br&gt;of process memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac5-5" value="java -XX:CRaCRestoreFrom=&lt;br&gt;./checkpoint" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac5-6" value="restored: started and&lt;br&gt;warm · Spring reopens&lt;br&gt;sockets and pools" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="80" as="geometry"/></mxCell>
+<mxCell id="ac5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac5-3" target="ac5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac5-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac5-4" target="ac5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ac5-5" target="ac5-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ac5-10" value="CRaC-enabled JDK (some Azul or BellSoft builds)&lt;br&gt;Linux · org.crac:crac dependency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="ac5-11" value="secrets loaded before the checkpoint are in it:&lt;br&gt;load them after restore · protect checkpoint files" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="230" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
