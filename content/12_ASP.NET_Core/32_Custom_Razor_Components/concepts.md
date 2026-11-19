@@ -40,6 +40,10 @@ public class SystemInfoTagHelper(IWebHostEnvironment env) : TagHelper
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/authoring?view=aspnetcore-10.0)
 
+![A custom Tag Helper](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-1-a-custom-tag-helper.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 1.*
+
 ## Hide elements conditionally
 
 A Tag Helper can target an attribute instead of an element. `[HtmlTargetElement(Attributes = "if")]` matches any element that has an `if` attribute. When the bound value is false, `output.SuppressOutput()` removes the element and its content from the page. Razor removes bound attributes from the output, so `if` never reaches the browser.
@@ -78,6 +82,10 @@ public class IfTagHelper : TagHelper
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/authoring?view=aspnetcore-10.0#condition-tag-helper)
+
+![Hide elements conditionally](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-2-hide-elements-conditionally.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 2.*
 
 ## Render Markdown with a Tag Helper
 
@@ -122,6 +130,10 @@ public class MarkdownTagHelper : TagHelper
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/authoring?view=aspnetcore-10.0#inspect-and-retrieve-child-content)
 
+![Render Markdown with a Tag Helper](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-3-render-markdown-with-a-tag-helper.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 3.*
+
 ## View components
 
 A view component is a partial view with its own logic. It's a class that derives from `ViewComponent`, takes services in its constructor, and has an `Invoke` or `InvokeAsync` method that returns a view. It suits a sidebar, a cart summary, or a login panel: pieces that load their own data on many pages, where a partial would need every page model to supply that data.
@@ -164,6 +176,10 @@ public class RecentLoansViewComponent(LoanStore store) : ViewComponent
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/view-components?view=aspnetcore-10.0)
 
+![View components](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-4-view-components.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 4.*
+
 ## A custom validation attribute
 
 When the built-in attributes don't express a rule, derive from `ValidationAttribute` and override `IsValid(object? value, ValidationContext context)`. Return `ValidationResult.Success` or a `ValidationResult` with a message and the member name. The context gives the display name, the whole object being validated, and `GetService` for services the rule needs.
@@ -200,6 +216,10 @@ public class ReturnsController : ControllerBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0#custom-attributes)
+
+![A custom validation attribute](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-5-a-custom-validation-attribute.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 5.*
 
 ## DataAnnotations or FluentValidation
 
@@ -243,6 +263,10 @@ public class LoanValidator : AbstractValidator<PlainLoan>
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0)
 
+![DataAnnotations or FluentValidation](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-6-dataannotations-or-fluentvalidation.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 6.*
+
 ## Add FluentValidation to an app
 
 Register validators in DI as `IValidator<T>`, one by one or with `AddValidatorsFromAssemblyContaining<T>()` from the `FluentValidation.DependencyInjectionExtensions` package. Inject the validator into the handler, page, or controller, and call `ValidateAsync`. Return the errors as a validation problem so clients get the same shape as built-in validation.
@@ -275,3 +299,7 @@ public class NewLoanValidator : AbstractValidator<NewLoan>
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/handle-errors?view=aspnetcore-10.0)
+
+![Add FluentValidation to an app](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-7-add-fluentvalidation-to-an-app.png)
+
+*Source: [`diagrams/custom-razor-components.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components.drawio), page 7.*
