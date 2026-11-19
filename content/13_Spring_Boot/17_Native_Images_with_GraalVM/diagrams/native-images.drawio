@@ -1,0 +1,118 @@
+<mxfile host="drawio">
+  <diagram id="ni1" name="What a native image is">
+    <mxGraphModel dx="900" dy="414" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="414" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ni1-1" value="What a native image is" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ni1-2" value="Ahead-of-time compilation keeps only the code reachable from the entry point" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ni1-3" value="application +&lt;br&gt;dependencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni1-4" value="reachability analysis&lt;br&gt;from the entry point" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni1-5" value="./mvnw -Pnative&lt;br&gt;native:compile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni1-6" value="target/study&lt;br&gt;OS + CPU specific" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni1-3" target="ni1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni1-4" target="ni1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni1-5" target="ni1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni1-10" value="gains" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="400" height="140" as="geometry"/></mxCell>
+<mxCell id="ni1-11" value="starts in tens of milliseconds" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="250" width="360" height="28" as="geometry"/></mxCell>
+<mxCell id="ni1-12" value="far less memory than a JVM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="284" width="360" height="28" as="geometry"/></mxCell>
+<mxCell id="ni1-13" value="no class loading or JIT at run time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="318" width="360" height="28" as="geometry"/></mxCell>
+<mxCell id="ni1-14" value="costs (closed world)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="460" y="220" width="400" height="140" as="geometry"/></mxCell>
+<mxCell id="ni1-15" value="reflection, resources, proxies, serialization declared at build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="250" width="360" height="28" as="geometry"/></mxCell>
+<mxCell id="ni1-16" value="builds take minutes and GBs of memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="284" width="360" height="28" as="geometry"/></mxCell>
+<mxCell id="ni1-17" value="peak throughput can trail a warmed-up JVM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="318" width="360" height="28" as="geometry"/></mxCell>
+<mxCell id="ni1-18" value="suits scale-to-zero services, CLI tools, dense deployments · long-running services: often the AOT cache" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="372" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ni2" name="Spring AOT processing">
+    <mxGraphModel dx="900" dy="414" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="414" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ni2-1" value="Spring AOT processing" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ni2-2" value="Spring&#x27;s startup discovery moves into the build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ni2-3" value="JVM: at startup&lt;br&gt;scan classes · evaluate conditions · reflective proxies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="40.0" y="100" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ni2-4" value="native: during the build&lt;br&gt;AOT engine starts the context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="100" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ni2-5" value="evaluate @Conditional&lt;br&gt;and @Profile decisions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="200" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="ni2-6" value="generate Java source that&lt;br&gt;registers bean definitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="200" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="ni2-7" value="write GraalVM hints for&lt;br&gt;known reflection + resources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="200" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="ni2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni2-5" target="ni2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni2-6" target="ni2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni2-10" value="@ConditionalOnBooleanProperty(&quot;study.export.enabled&quot;)&lt;br&gt;exporter(): decided at build time" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ni2-11" value="bean set fixed at build · properties that beans&lt;br&gt;read at run time can still change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="300" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ni2-12" value="replaced Spring Native in Boot 3; Boot 4 continues it" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="372" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ni3" name="Build a native executable">
+    <mxGraphModel dx="900" dy="310" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="310" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ni3-1" value="Build a native executable" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ni3-2" value="The native profile runs AOT during package, then native:compile builds the executable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ni3-3" value="GraalVM for Java 25&lt;br&gt;active JDK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni3-4" value="native-maven-plugin&lt;br&gt;(version from Boot&#x27;s parent)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni3-5" value="-Pnative package&lt;br&gt;Spring AOT processing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni3-6" value="native:compile&lt;br&gt;→ target/&amp;lt;artifact&amp;gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni3-3" target="ni3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni3-4" target="ni3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni3-5" target="ni3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni3-10" value="specific to the build machine&#x27;s OS and CPU&lt;br&gt;a macOS build doesn&#x27;t run in a Linux container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="ni3-11" value="buildpacks produce Linux images&lt;br&gt;from any machine" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="230" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ni4" name="A native container image with buildpacks">
+    <mxGraphModel dx="900" dy="290" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="290" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ni4-1" value="A native container image with buildpacks" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ni4-2" value="The native build runs inside the Paketo builder; no local GraalVM needed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ni4-3" value="./mvnw -Pnative&lt;br&gt;spring-boot:build-image" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni4-4" value="Docker · Paketo builder&lt;br&gt;native build inside&lt;br&gt;(≥ 8 GB for Docker Desktop)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni4-5" value="image study:native&lt;br&gt;executable on a minimal base&lt;br&gt;no JVM" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni4-6" value="docker run --rm&lt;br&gt;-p 8080:8080 study:native" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="ni4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni4-3" target="ni4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni4-4" target="ni4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni4-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni4-5" target="ni4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni4-10" value="Small image, near-instant start · Linux on the builder&#x27;s architecture · same environment variables as the JVM image" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ni5" name="Runtime hints for reflection and resources">
+    <mxGraphModel dx="900" dy="400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ni5-1" value="Runtime hints for reflection and resources" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ni5-2" value="AOT can&#x27;t see reflection in your code; a missing hint only fails at run time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ni5-3" value="ClassNotFoundException" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="ni5-4" value="missing resource" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="152" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="ni5-5" value="empty JSON object" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="204" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="ni5-6" value="CatalogHints implements RuntimeHintsRegistrar&lt;br&gt;resources().registerPattern(&quot;catalog/*.csv&quot;)&lt;br&gt;reflection().registerType(PluginFormatter.class,&lt;br&gt;&amp;nbsp;&amp;nbsp;MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=left;fontStyle=1;fontFamily=Courier New;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="360" y="100" width="500" height="80" as="geometry"/></mxCell>
+<mxCell id="ni5-7" value="@ImportRuntimeHints(CatalogHints.class) on NativeConfig" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="360" y="200" width="500" height="40" as="geometry"/></mxCell>
+<mxCell id="ni5-8" value="@RegisterReflectionForBinding(PartnerTitle.class)&lt;br&gt;reflection Jackson needs for serialized-only types" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="360" y="260" width="500" height="50" as="geometry"/></mxCell>
+<mxCell id="ni5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ni5-6" target="ni5-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ni5-10" value="Records returned from Spring MVC handlers are detected automatically · prefer focused hints to broad reflection configuration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ni6" name="Libraries and native tests">
+    <mxGraphModel dx="900" dy="327" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="327" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ni6-1" value="Libraries and native tests" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ni6-2" value="Check library support; run tests as a native image in CI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ni6-3" value="GraalVM reachability metadata repository&lt;br&gt;downloaded by Native Build Tools&lt;br&gt;(or metadata shipped in the library jar)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="380" height="70" as="geometry"/></mxCell>
+<mxCell id="ni6-4" value="check each dependency, especially dynamic&lt;br&gt;class loading or run-time bytecode generation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="400" height="70" as="geometry"/></mxCell>
+<mxCell id="ni6-5" value="./mvnw -PnativeTest test&lt;br&gt;JUnit tests compiled to a native executable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="ni6-6" value="@SpringBootTest @DisabledInAotMode&lt;br&gt;@MockitoBean not supported in AOT mode" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="460" y="220" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="ni6-7" value="slow to build: run in CI, not on every local change" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="285" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

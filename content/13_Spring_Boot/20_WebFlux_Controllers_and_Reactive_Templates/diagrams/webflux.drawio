@@ -1,0 +1,115 @@
+<mxfile host="drawio">
+  <diagram id="w1" name="Create a reactive Spring Boot application">
+    <mxGraphModel dx="900" dy="400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w1-1" value="Create a reactive Spring Boot application" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w1-2" value="spring-boot-starter-webflux starts Reactor Netty with a few event-loop threads" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w1-3" value="which web starters&lt;br&gt;are on the classpath?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="110" as="geometry"/></mxCell>
+<mxCell id="w1-4" value="webflux only → Reactor Netty · event loops · WebFlux" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="100" width="480" height="50" as="geometry"/></mxCell>
+<mxCell id="w1-5" value="both → Spring MVC (unless spring.main.web-application-type=reactive)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="170" width="480" height="50" as="geometry"/></mxCell>
+<mxCell id="w1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w1-3" target="w1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w1-3" target="w1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w1-8" value="same model: @RestController · @GetMapping&lt;br&gt;@RequestBody · validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="260" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="w1-9" value="handlers return Mono / Flux&lt;br&gt;nothing in the request path may block" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="260" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="w1-10" value="Pays off when the app mostly waits on other services and the whole chain, down to the database driver, is non-blocking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="w2" name="Serve data with a reactive GET">
+    <mxGraphModel dx="900" dy="382" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="382" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w2-1" value="Serve data with a reactive GET" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w2-2" value="The media type decides whether a Flux is collected or streamed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w2-3" value="GET /api/books · application/json" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-4" value="Flux collected into one JSON array, then written" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="100" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w2-3" target="w2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w2-6" value="GET /api/books/live · APPLICATION_NDJSON_VALUE" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="158" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-7" value="each book written as it is emitted (every 500 ms)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="158" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w2-6" target="w2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w2-9" value="GET /api/books/{isbn} found" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="216" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-10" value="store.find(isbn).map(ResponseEntity::ok) → 200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="216" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w2-9" target="w2-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w2-12" value="GET /api/books/{isbn} Mono.empty()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="274" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-13" value="defaultIfEmpty(ResponseEntity.notFound().build()) → 404" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="274" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="w2-14" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w2-12" target="w2-13"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w2-15" value="text/event-stream also streams · switchIfEmpty is the alternative to defaultIfEmpty" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="w3" name="Consume data with a reactive POST">
+    <mxGraphModel dx="900" dy="294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="294" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w3-1" value="Consume data with a reactive POST" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w3-2" value="A Mono&amp;lt;Book&amp;gt; body is decoded only when the pipeline subscribes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w3-3" value="POST /api/books&lt;br&gt;JSON body" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="w3-4" value="@Valid @RequestBody&lt;br&gt;Mono&amp;lt;Book&amp;gt; body&lt;br&gt;(decoded on subscribe)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="w3-5" value="body.flatMap(store::save)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="w3-6" value="201 Created&lt;br&gt;Location: /api/books/{isbn}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="w3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w3-3" target="w3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w3-4" target="w3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w3-5" target="w3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w3-10" value="validation failure → WebExchangeBindException&lt;br&gt;→ 400" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="w3-11" value="Flux&amp;lt;Book&amp;gt; body: a JSON array or a stream of&lt;br&gt;objects, saved one by one as they arrive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="220" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="w4" name="Serve a reactive Thymeleaf template">
+    <mxGraphModel dx="900" dy="340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="340" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w4-1" value="Serve a reactive Thymeleaf template" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w4-2" value="WebFlux resolves reactive model attributes before rendering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w4-3" value="Rendering.view(&quot;books&quot;)&lt;br&gt;.modelAttribute(&quot;books&quot;, store.findAll())&lt;br&gt;.modelAttribute(&quot;count&quot;, store.findAll().count())" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="80" as="geometry"/></mxCell>
+<mxCell id="w4-4" value="resolve each Mono / Flux attribute&lt;br&gt;→ template sees a plain list and a number" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="100" width="400" height="80" as="geometry"/></mxCell>
+<mxCell id="w4-5" value="books.html: &amp;lt;span th:text=&quot;${count}&quot;&amp;gt;&lt;br&gt;&amp;lt;li th:each=&quot;book : ${books}&quot;&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="460" y="210" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="w4-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w4-3" target="w4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w4-4" target="w4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w4-8" value="ReactiveDataDriverContextVariable&lt;br&gt;streams a large list in chunks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="360" height="60" as="geometry"/></mxCell>
+<mxCell id="w4-9" value="one data-driver variable per template, iterated with th:each" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="360" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="w5" name="Test with WebTestClient">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w5-1" value="Test with WebTestClient" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w5-2" value="@WebFluxTest starts only the WebFlux layer for the named controller" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w5-3" value="@WebFluxTest(BookController.class)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="200" as="geometry"/></mxCell>
+<mxCell id="w5-4" value="BookController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="130" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="w5-5" value="@MockitoBean BookStore store" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="180" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="w5-6" value="given(store.find(&quot;x&quot;)).willReturn(Mono.empty())" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="230" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="w5-7" value="client.get().uri(&quot;/api/books/x&quot;)&lt;br&gt;.exchange()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="120" width="360" height="60" as="geometry"/></mxCell>
+<mxCell id="w5-8" value="expectStatus().isNotFound()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="210" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="w5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w5-7" target="w5-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w5-10" value="Streaming endpoints: read the body as a Flux and check it with StepVerifier · Boot 4: spring-boot-starter-webflux-test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="w6" name="Create hypermedia reactively">
+    <mxGraphModel dx="900" dy="342" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="342" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="w6-1" value="Create hypermedia reactively" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="w6-2" value="WebFluxLinkBuilder returns a Mono&amp;lt;Link&amp;gt; because links need request data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="w6-3" value="store.find(isbn) → Mono&amp;lt;Book&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="w6-4" value="linkTo(methodOn(BookHalController.class)&lt;br&gt;.hal(isbn)).withSelfRel().toMono()&lt;br&gt;→ Mono&amp;lt;Link&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="300" height="70" as="geometry"/></mxCell>
+<mxCell id="w6-5" value="Mono.zip(book, self,&lt;br&gt;EntityModel::of)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="150" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="w6-6" value="HAL JSON&lt;br&gt;book fields + _links.self" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="660" y="150" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="w6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w6-3" target="w6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w6-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w6-4" target="w6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="w6-5" target="w6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="w6-10" value="spring-boot-starter-hateoas · request data such as host and context path go into the link" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

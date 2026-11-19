@@ -14,6 +14,10 @@ curl -s https://start.spring.io/starter.zip -d type=maven-project -d javaVersion
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/web/reactive.html)
 
+![Create a reactive Spring Boot application](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux-1-create-a-reactive-spring-boot-application.png)
+
+*Source: [`diagrams/webflux.drawio`](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux.drawio), page 1.*
+
 ## Serve data with a reactive GET
 
 A handler that returns `Flux<Book>` lets WebFlux subscribe and write the items as they come. For `application/json`, the framework collects the flux into a JSON array before writing it. For a streaming media type such as `text/event-stream` or `application/x-ndjson`, it writes each item as soon as it is emitted, so a client sees the first rows before the last ones exist.
@@ -59,6 +63,10 @@ class BookController {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/return-types.html)
 
+![Serve data with a reactive GET](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux-2-serve-data-with-a-reactive-get.png)
+
+*Source: [`diagrams/webflux.drawio`](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux.drawio), page 2.*
+
 ## Consume data with a reactive POST
 
 A `@RequestBody` parameter can be the plain type or a `Mono<Book>`. With `Mono<Book>`, the body is decoded only when the pipeline subscribes, so reading and saving form one non-blocking chain. `@Valid` works with both; a validation failure arrives as a `WebExchangeBindException`, which WebFlux turns into a 400 response.
@@ -81,6 +89,10 @@ Mono<ResponseEntity<Book>> create(@Valid @RequestBody Mono<Book> body) {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webflux/controller/ann-methods/requestbody.html)
+
+![Consume data with a reactive POST](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux-3-consume-data-with-a-reactive-post.png)
+
+*Source: [`diagrams/webflux.drawio`](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux.drawio), page 3.*
 
 ## Serve a reactive Thymeleaf template
 
@@ -126,6 +138,10 @@ class BookPages {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webflux-view.html#webflux-view-thymeleaf)
 
+![Serve a reactive Thymeleaf template](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux-4-serve-a-reactive-thymeleaf-template.png)
+
+*Source: [`diagrams/webflux.drawio`](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux.drawio), page 4.*
+
 ## Test with WebTestClient
 
 `WebTestClient` is the reactive counterpart of `MockMvcTester`. `@WebFluxTest` starts only the WebFlux layer for the named controller and provides a client bound to it; collaborators are replaced with `@MockitoBean`. Assertions chain on the response: status, headers, and the body as JSON or as decoded objects.
@@ -160,6 +176,10 @@ class BookControllerTests {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.spring-webflux-tests)
 
+![Test with WebTestClient](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux-5-test-with-webtestclient.png)
+
+*Source: [`diagrams/webflux.drawio`](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux.drawio), page 5.*
+
 ## Create hypermedia reactively
 
 Hypermedia responses carry links that tell the client what it can do next, such as a book's own URL and its author's. Spring HATEOAS supports WebFlux with `WebFluxLinkBuilder`. Building a link may need request data such as the host and context path, so the builder returns a `Mono<Link>` instead of a link.
@@ -184,3 +204,7 @@ Mono<EntityModel<Book>> hal(@PathVariable String isbn) {
 ```
 
 [Spring HATEOAS docs](https://docs.spring.io/spring-hateoas/docs/current/reference/html/#server.link-builder.webflux)
+
+![Create hypermedia reactively](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux-6-create-hypermedia-reactively.png)
+
+*Source: [`diagrams/webflux.drawio`](/content/13_Spring_Boot/20_WebFlux_Controllers_and_Reactive_Templates/diagrams/webflux.drawio), page 6.*
