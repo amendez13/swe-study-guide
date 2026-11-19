@@ -23,13 +23,13 @@ The app listens on `http://localhost:8080`. Call the sample URLs with a browser 
 - [Part 1 · Basics](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration), chapter 1
 - [Part 2 · Building an application](#13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates), chapters 2–5
 - [Part 3 · Releasing](#13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides), chapters 6–8: configuration profiles, containers, native images and the AOT cache
-- Part 4 · Scaling, chapters 9–12: reactive web and data, virtual threads and HTTP service clients, messaging with Kafka
+- [Part 4 · Scaling](#13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor), chapters 9–12: reactive web and data, virtual threads and HTTP service clients, messaging with Kafka
 - Part 5 · Observability, chapter 13
 - Part 6 · Spring AI, chapter 14
 - Part 7 · What's new in Spring Boot 4, chapter 15
 - Beyond the book · Spring Modulith, Spring Batch, GraphQL, WebSocket, Spring Cloud basics, and CRaC
 
-Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 3 (topics 1–18) are available now. Chapters 2 to 5, 7 and 8 are split into several topics each.
+Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 4 (topics 1–25) are available now. Chapters 2 to 5, 7 to 9, 11 and 12 are split into several topics each.
 
 ## Changes since Spring Boot 3
 
@@ -41,3 +41,6 @@ Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Pa
 - Topics 12–13: JUnit 6, `@MockitoBean` instead of `@MockBean`, `RestTestClient`, per-technology test starters, and Testcontainers 2. [Testing](https://docs.spring.io/spring-boot/reference/testing/index.html)
 - Topics 15–16: the embedded launch script and the classic jar loader are removed, liveness and readiness probes are on by default, and Flyway needs `spring-boot-starter-flyway`. [Migration guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
 - Topic 18: Java 25 makes the JVM AOT cache easier to create and adds method profiles. [JEP 514](https://openjdk.org/jeps/514)
+- Topics 20–22: WebFlux tests use `spring-boot-starter-webflux-test`, and Boot combines several `TaskDecorator` beans. [Task execution](https://docs.spring.io/spring-boot/reference/features/task-execution-and-scheduling.html)
+- Topic 23: `@ImportHttpServices` registers HTTP service clients configured under `spring.http.serviceclient.*`, and Spring Framework 7 adds `@Retryable` and `@ConcurrencyLimit` to the core. [HTTP service clients](https://docs.spring.io/spring-boot/reference/io/rest-client.html#io.rest-client.httpservice) · [Resilience](https://docs.spring.io/spring-framework/reference/core/resilience.html)
+- Topics 24–25: Kafka needs `spring-boot-starter-kafka`, and Spring Kafka 4 serializes JSON with Jackson 3. [Kafka](https://docs.spring.io/spring-boot/reference/messaging/kafka.html)
