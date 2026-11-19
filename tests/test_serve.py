@@ -142,6 +142,17 @@ def test_aspnet_core_exposes_part_four_in_chapter_order() -> None:
     assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in topics)
 
 
+def test_aspnet_core_exposes_part_five_and_beyond_in_chapter_order() -> None:
+    index = serve_module.build_content_index()
+    tech = next(tech for tech in index["technologies"] if tech["dir"] == "12_ASP.NET_Core")
+    topics = [topic for topic in tech["topics"] if 30 <= topic["num"] <= 37]
+
+    assert [topic["num"] for topic in topics] == list(range(30, 38))
+    assert all(topic["group"] == "Part 5 · Advanced ASP.NET Core" for topic in topics[:7])
+    assert topics[7]["group"] == "Beyond the book"
+    assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in topics)
+
+
 def test_algorithmic_complexity_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(

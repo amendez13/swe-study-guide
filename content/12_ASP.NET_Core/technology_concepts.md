@@ -37,10 +37,10 @@ find Pages Views -name '*.cshtml' ! -name _ViewImports.cshtml -delete
 - [Part 2 · Complete applications](#12_ASP.NET_Core/08_Dependency_Injection), chapters 8–12
 - [Part 3 · Razor Pages and MVC](#12_ASP.NET_Core/13_Razor_Pages), chapters 13–22
 - [Part 4 · Security and deployment](#12_ASP.NET_Core/23_Identity), chapters 23–29
-- Part 5 · Advanced ASP.NET Core, chapters 30–36
-- Beyond the book · Blazor, SignalR, gRPC, Native AOT, HybridCache, output caching, and rate limiting
+- [Part 5 · Advanced ASP.NET Core](#12_ASP.NET_Core/30_Generic_Host_and_Startup), chapters 30–36
+- [Beyond the book](#12_ASP.NET_Core/37_Beyond_the_Book) · Blazor, SignalR, gRPC, rate limiting, output caching, HybridCache, Native AOT, and Aspire
 
-Start with [chapter 1](#12_ASP.NET_Core/01_Getting_Started). Chapters 1–29 are available now. The Notes tabs in chapters 11, 12, 23, 25, and 27 list the extra packages and tools their examples need.
+Start with [chapter 1](#12_ASP.NET_Core/01_Getting_Started). All chapters, 1–36, and the Beyond the book topic are available. The Notes tabs in chapters 11, 12, 23, 25, 27, and 31–37 list the extra packages and tools their examples need.
 
 ## Changes since .NET 7
 
@@ -61,3 +61,10 @@ Start with [chapter 1](#12_ASP.NET_Core/01_Getting_Started). Chapters 1–29 are
 - Chapter 26 uses `[LoggerMessage]` source-generated logging and the JSON console formatter in place of a third-party structured logging setup. [Compile-time logging](https://learn.microsoft.com/en-us/dotnet/core/extensions/logger-message-generator)
 - Chapter 27 covers `dotnet publish` defaulting to Release (.NET 8), `ASPNETCORE_HTTP_PORTS` and SDK container publishing (.NET 8), Ubuntu-based images (.NET 10), and `KnownIPNetworks` replacing the obsolete `KnownNetworks` (.NET 10). [Breaking changes in ASP.NET Core 10](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/overview?view=aspnetcore-10.0)
 - Chapter 29 relies on the antiforgery middleware that Minimal API form endpoints use since .NET 8. [Antiforgery](https://learn.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-10.0)
+- Chapter 30 uses `Host.CreateApplicationBuilder`, added in .NET 7, for non-web hosts. ASP.NET Core 10 marks `WebHostBuilder`, `IWebHost`, and `WebHost` obsolete. [Breaking changes in ASP.NET Core 10](https://learn.microsoft.com/en-us/aspnet/core/breaking-changes/10/overview?view=aspnetcore-10.0)
+- Chapter 31 mentions the `[OptionsValidator]` source generator and built-in keyed services, both added in .NET 8. [Options validation](https://learn.microsoft.com/en-us/dotnet/core/extensions/options#options-validation)
+- Chapter 32 notes that custom validation attributes also work in Minimal APIs through the .NET 10 `AddValidation`, and calls FluentValidation validators explicitly instead of through its automatic MVC integration. [Model validation](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-10.0)
+- Chapter 33 uses `Microsoft.Extensions.Http.Resilience` (.NET 8) in place of `Microsoft.Extensions.Http.Polly`, and `ConfigureHttpClientDefaults` (.NET 8). [HTTP resilience](https://learn.microsoft.com/en-us/dotnet/core/resilience/http-resilience)
+- Chapter 34 notes that in .NET 10 the host runs all of `BackgroundService.ExecuteAsync` in the background. [.NET 10 breaking changes](https://learn.microsoft.com/en-us/dotnet/core/compatibility/10)
+- Chapters 35 and 36 note the .NET 10 `.slnx` default for `dotnet new sln`, xUnit v3, Microsoft.Testing.Platform support in `dotnet test`, and the generated public `Program` class that `WebApplicationFactory<Program>` needs. [ASP.NET Core 10 changes](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0?view=aspnetcore-10.0)
+- Beyond the book covers features the book doesn't: Blazor render modes (.NET 8), rate limiting and output caching (.NET 7), HybridCache (.NET 9), Native AOT for ASP.NET Core (.NET 8), Server-Sent Events results (.NET 10), and Aspire. [What's new in ASP.NET Core 10](https://learn.microsoft.com/en-us/aspnet/core/release-notes/aspnetcore-10.0?view=aspnetcore-10.0)
