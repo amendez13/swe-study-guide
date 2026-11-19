@@ -34,6 +34,10 @@ print([s.pop() for _ in range(3)])      # [6, 4, 3]
 print([q.popleft() for _ in range(3)])  # [2, 3, 4]
 ```
 
+![Trace it: LIFO vs. FIFO](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-1-lifo-fifo.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 1.*
+
 ## The list.pop(0) trap
 
 This BFS is correct but slow on a graph with a million nodes. Why, and what is the one-line fix?
@@ -70,6 +74,10 @@ def bfs(graph, start):
 g = {0: [1, 2], 1: [3], 2: [3], 3: []}
 print(bfs(g, 0))  # [0, 1, 2, 3]
 ```
+
+![The list.pop(0) trap](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-2-pop0-trap.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 2.*
 
 ## Empty peek: why returning None is a bug
 
@@ -109,6 +117,10 @@ try:
 except IndexError as e:
     print("error:", e)          # error: peek at empty stack
 ```
+
+![Empty peek: why returning None is a bug](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-3-empty-peek.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 3.*
 
 ## Postfix evaluation: the operand-order bug
 
@@ -153,6 +165,10 @@ print(eval_postfix("3 4 + 2 *"))      # 14
 print(eval_postfix("7 2 /"))          # 3
 ```
 
+![Postfix evaluation: the operand-order bug](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-4-postfix-order.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 4.*
+
 ## Collapse adjacent duplicate pairs
 
 Repeatedly delete any two equal adjacent characters until none remain. `"abbaca"` → `"ca"` (remove `bb`, then the new neighbors `aa`). Do it in one left-to-right pass.
@@ -173,6 +189,10 @@ print(collapse_pairs("abbaca"))   # ca
 print(repr(collapse_pairs("aabbcc")))  # ''
 print(repr(collapse_pairs("abba")))  # ''
 ```
+
+![Collapse adjacent duplicate pairs](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-5-collapse-pairs.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 5.*
 
 ## Simplify a Unix path
 
@@ -197,6 +217,10 @@ print(simplify("/home//alex/./docs/../notes/"))  # /home/alex/notes
 print(simplify("/../.."))                         # /
 print(simplify("/a/b/../../c"))                   # /c
 ```
+
+![Simplify a Unix path](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-6-unix-path.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 6.*
 
 ## Decode nested repeats
 
@@ -225,6 +249,10 @@ print(decode("10[x]"))       # xxxxxxxxxx
 print(decode("a2[b]c"))      # abbc
 ```
 
+![Decode nested repeats](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-7-decode-repeats.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 7.*
+
 ## Next greater element
 
 For each value, find the next value to its right that is strictly larger, or `-1`. `[4, 1, 2, 6, 3]` → `[6, 2, 6, -1, -1]`. The double loop is O(N²); do it in O(N).
@@ -244,6 +272,10 @@ def next_greater(nums):
 print(next_greater([4, 1, 2, 6, 3]))   # [6, 2, 6, -1, -1]
 print(next_greater([5, 4, 3]))         # [-1, -1, -1]
 ```
+
+![Next greater element](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-8-next-greater.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 8.*
 
 ## Largest rectangle in a histogram
 
@@ -265,6 +297,10 @@ def largest_rectangle(heights):
 print(largest_rectangle([2, 1, 5, 6, 2, 3]))  # 10
 print(largest_rectangle([3, 3, 3]))           # 9
 ```
+
+![Largest rectangle in a histogram](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-9-histogram.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 9.*
 
 ## Sliding window maximum
 
@@ -290,6 +326,10 @@ def window_max(nums, k):
 print(window_max([9, 2, 4, 1, 7, 3], 3))   # [9, 4, 7, 7]
 print(window_max([1, 2, 3], 1))            # [1, 2, 3]
 ```
+
+![Sliding window maximum](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-10-window-max.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 10.*
 
 ## Ring buffer: is it empty or full?
 
@@ -336,6 +376,10 @@ print(r.is_empty(), r.is_full())   # False True
 print(r.dequeue(), r.dequeue())    # x y
 ```
 
+![Ring buffer: is it empty or full?](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-11-ring-empty-full.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 11.*
+
 ## Keep only the last N log lines
 
 A service wants the most recent 3 log lines in memory at all times, discarding older ones automatically. Write an O(1)-per-line version two ways: with the standard library and with a hand-rolled overwrite-oldest ring.
@@ -369,6 +413,10 @@ for line in lines:
 print(ln.items())    # ['ready', 'req 1', 'req 2']
 ```
 
+![Keep only the last N log lines](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-12-last-n-lines.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 12.*
+
 ## Swap the frontier: what order now?
 
 Traverse this graph from `A`, marking nodes seen when they are added. What order comes out with a queue, and what order with a stack?
@@ -399,6 +447,10 @@ print(order("A", use_stack=False))  # A B C D E F
 print(order("A", use_stack=True))   # A C F E B D
 ```
 
+![Swap the frontier: what order now?](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-13-swap-frontier.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 13.*
+
 ## BFS one level at a time
 
 Return a tree's values grouped by depth: for the tree below, `[[1], [2, 3], [4, 5, 6]]`. How do you know where one level ends without storing depths?
@@ -427,6 +479,10 @@ def levels(root):
 
 print(levels(1))   # [[1], [2, 3], [4, 5, 6]]
 ```
+
+![BFS one level at a time](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-14-bfs-levels.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 14.*
 
 ## In-order traversal without recursion
 
@@ -465,6 +521,10 @@ for v in [5, 3, 8, 1, 4, 9]:
 print(inorder(root))   # [1, 3, 4, 5, 8, 9]
 ```
 
+![In-order traversal without recursion](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-15-inorder-stack.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 15.*
+
 ## Count requests in the last 3 seconds
 
 `ping(t)` is called with non-decreasing timestamps in milliseconds and returns how many pings happened in `[t - 3000, t]`. For pings at 1, 100, 3001, 3002 the returns are 1, 2, 3, 3.
@@ -486,3 +546,7 @@ class RecentCounter:
 rc = RecentCounter()
 print([rc.ping(t) for t in [1, 100, 3001, 3002]])  # [1, 2, 3, 3]
 ```
+
+![Count requests in the last 3 seconds](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills-16-recent-requests.png)
+
+*Source: [`diagrams/stacks-and-queues-drills.drawio`](/content/07_Data_Structures_and_Algorithms/04_Stacks_and_Queues/diagrams/stacks-and-queues-drills.drawio), page 16.*

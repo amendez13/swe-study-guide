@@ -4,16 +4,28 @@ Bit manipulation operates directly on the binary representation of integers, usi
 
 ## Key Points
 
-- **Integers are sequences of bits where each position is a power of 2** — The rightmost bit (bit 0) is 2^0, and each position to the left doubles the value; `bin()` and `int(s, 2)` convert between decimal and binary in Python.
-- **Two's complement represents signed integers with a negative MSB weight** — For N bits, the MSB carries -2^(N-1); negation is bitwise NOT plus one; 8-bit range is -128 to +127.
-- **AND masks and checks, OR sets, XOR toggles, NOT inverts** — `n & mask` isolates bits, `n | mask` turns bits on, `n ^ mask` flips bits, and `~n` inverts all bits.
-- **Left shift multiplies by 2^k, right shift divides by 2^k** — `x << k` is `x * 2^k`; Python's `>>` is arithmetic (sign-preserving); `1 << i` creates a mask for bit position `i`.
-- **getBit, setBit, clearBit compose every bit-level task** — `(n >> i) & 1` reads bit `i`, `n | (1 << i)` sets it, and `n & ~(1 << i)` clears it.
-- **n & (n-1) clears the lowest set bit** — If the result is 0 and n > 0, then n is a power of two; this is the basis of Brian Kernighan's popcount algorithm.
-- **n & (-n) isolates the lowest set bit** — Returns a value with only the lowest 1-bit of n turned on, useful in Fenwick trees and bitmask enumeration.
-- **XOR cancels duplicates: x ^ x = 0, x ^ 0 = x** — XOR all elements to find the single unique value in an array of pairs; also enables swap without a temporary variable.
-- **Brian Kernighan's algorithm counts set bits in O(k) time** — Repeatedly apply `n &= (n - 1)` to clear one set bit per iteration; the loop runs exactly k times where k is the popcount.
-- **Bitmasks enumerate subsets: iterate 0 to 2^n - 1** — Each integer encodes which elements are included; bit i is set means item i is in the subset.
+- **Binary representation** — bit `i` is worth `2^i`; `bin()`, `int(s, 2)`, and `f"{n:08b}"` convert; one hex digit is four bits.
+- **Binary arithmetic by hand** — add right to left with carries (`1+1 = 10`); subtract by adding the two's complement; `n - 1` flips the lowest 1 and the zeros below it.
+- **Two's complement** — the MSB weighs `-2^(N-1)`; negate with flip-and-add-1; the N-bit pattern of `-k` is `2^N - k`; 8-bit range is -128..127.
+- **Bitwise AND, OR, XOR, NOT** — AND reads or clears, OR sets, XOR toggles and cancels; Python's `~x` is `-x - 1`.
+- **Left and right shift** — `x << k` multiplies by `2^k`, `x >> k` floor-divides by `2^k`; `1 << i` builds a single-bit mask.
+- **Arithmetic vs logical right shift** — arithmetic copies the sign bit, logical fills zeros (`>>>` in Java/JS); Python's `>>` is arithmetic, so mask to N bits first for logical.
+- **Get bit** — `(n >> i) & 1`; never compare `n & (1 << i)` to 1.
+- **Set bit** — `n | (1 << i)`; idempotent.
+- **Clear bit** — `n & ~(1 << i)`; XOR is not a clear.
+- **Toggle bit** — `n ^ (1 << i)`; toggling twice restores the value.
+- **Update bit** — clear first, then OR in `v << i`: `(n & ~(1 << i)) | (v << i)`.
+- **Clear bits MSB through i** — `n & ((1 << i) - 1)` keeps the low `i` bits; equals `n % 2^i` for `n >= 0`.
+- **Clear bits i through 0** — `n & (-1 << (i + 1))`; rounds down to a multiple of `2^(i+1)` (alignment).
+- **Bit-range update** — build a field mask, clear with `& ~mask`, OR in `(value << lo) & mask`.
+- **Isolate lowest set bit** — `n & -n`; its `bit_length() - 1` is the trailing-zero count; Fenwick trees step with `i & -i`.
+- **Turn off lowest set bit** — `n & (n - 1)`; loop it to visit or count set bits; `n | (n + 1)` turns on the lowest 0.
+- **Power-of-two tests** — `n > 0 and n & (n - 1) == 0`; next power of two is `1 << (n - 1).bit_length()`.
+- **Counting set bits** — Kernighan's loop runs once per 1 bit; `int.bit_count()`; table `c[i] = c[i >> 1] + (i & 1)`.
+- **Parity** — XOR of all bits; fold `x ^= x >> 16, 8, 4, 2, 1` for O(log width).
+- **XOR properties** — `x ^ x = 0`, `x ^ 0 = x`, order-free; pairs cancel; XOR swap fails on the same location.
+- **Sign bit and branchless abs** — `mask = x >> 31`, `abs = (x ^ mask) - mask`; `x ^ y < 0` means opposite signs; the 32-bit minimum has no positive abs.
+- **Flags and bitmask subsets** — `|` union, `&` intersection, `a & ~b` difference; `enum.Flag` for names; count `0..2^n - 1` for all subsets, `sub = (sub - 1) & mask` for submasks.
 
 ## Example
 
@@ -91,3 +103,7 @@ print(f"swap(10, 25) = ({x}, {y})")  # (25, 10)
 ```
 
 Every function above runs in O(1) or O(k) time where k is the number of set bits, and uses O(1) extra space. The get/set/clear operations are the fundamental building blocks, the power-of-two check and popcount use the `n & (n-1)` trick, and the unique finder exploits XOR self-cancellation. These patterns cover the core of what interviews and systems code demand from bit manipulation.
+
+## More practice
+
+Work the original exercises on the **Drills** tab: read each prompt, commit to an answer, then open the card to check it. For background reading, open CTCI Chapter 5 on the private reader under `#chapter-5-bit-manipulation`, with `#bit-manipulation-by-hand`, `#bit-facts-and-tricks`, `#twos-complement-and-negative-numbers`, `#arithmetic-vs-logical-right-shift`, and `#common-bit-tasks-getting-and-setting`. Do not copy book text or solutions into these study files.

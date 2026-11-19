@@ -67,6 +67,18 @@
 
   // ── Sidebar ────────────────────────────────────────
 
+  function renderGroupedTopics(topics, renderTopic, renderHeading) {
+    let previousGroup;
+    return topics
+      .map((topic) => {
+        const heading =
+          topic.group && topic.group !== previousGroup ? renderHeading(esc(topic.group)) : "";
+        previousGroup = topic.group;
+        return heading + renderTopic(topic);
+      })
+      .join("");
+  }
+
   function renderSidebar() {
     const nav = $("#chapter-nav");
     nav.innerHTML = studyData.technologies
@@ -79,8 +91,8 @@
           <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
         <div class="nav-lessons">
-          ${tech.topics
-            .map(
+          ${renderGroupedTopics(
+              tech.topics,
               (topic) => `
             <button class="nav-lesson-btn" data-ch="${tech.dir}" data-ls="${topic.dir}">
               <span class="nav-lesson-num">${topic.num}.</span>
@@ -91,9 +103,9 @@
                 ${topic.hasDrills ? '<span class="nav-indicator has-drills" title="Drills"></span>' : ""}
               </span>
             </button>
-          `
-            )
-            .join("")}
+          `,
+              (title) => `<p class="nav-topic-group">${title}</p>`
+            )}
         </div>
       </div>
     `
@@ -226,9 +238,9 @@
 
     $("#chapter-meta").innerHTML = metaHtml;
 
-    $("#lesson-grid").innerHTML = tech.topics
-      .map(
-        (topic) => `
+    $("#lesson-grid").innerHTML = renderGroupedTopics(
+      tech.topics,
+      (topic) => `
       <div class="lesson-card" onclick="location.hash='${tech.dir}/${topic.dir}'">
         <div class="lesson-card-header">
           <span class="lesson-card-num">${topic.num}</span>
@@ -240,9 +252,9 @@
           ${topic.hasDrills ? '<span class="lesson-badge drills">Drills</span>' : ""}
         </div>
       </div>
-    `
-      )
-      .join("");
+    `,
+      (title) => `<h2 class="lesson-group-heading">${title}</h2>`
+    );
 
     $("#main").scrollTop = 0;
   }
@@ -431,6 +443,10 @@
 
         const techMatch = tech.title.toLowerCase().includes(q);
         const matchingTopics = tech.topics.filter((t) => t.title.toLowerCase().includes(q));
+        const matchingGroups = new Set(matchingTopics.map((topic) => topic.group));
+        el.querySelectorAll(".nav-topic-group").forEach((heading) => {
+          heading.hidden = Boolean(q && !techMatch && !matchingGroups.has(heading.textContent));
+        });
 
         if (!q) {
           el.style.display = "";

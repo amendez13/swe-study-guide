@@ -1,0 +1,28 @@
+<mxfile host="drawio">
+  <diagram id="mbd1" name="Diagnose two bad requests">
+    <mxGraphModel dx="900" dy="344" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="344" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="mbd1-1" value="Diagnose two bad requests" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="mbd1-2" value="Binding runs before validation; neither failure reaches the handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="mbd1-3" value="binding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260.0" y="100" width="170" height="50" as="geometry"/></mxCell>
+<mxCell id="mbd1-4" value="validation&lt;br&gt;[Range(1, 50)]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="475.0" y="100" width="170" height="50" as="geometry"/></mxCell>
+<mxCell id="mbd1-5" value="handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="690.0" y="100" width="170" height="50" as="geometry"/></mxCell>
+<mxCell id="mbd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mbd1-3" target="mbd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mbd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mbd1-4" target="mbd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mbd1-8" value="{&quot;copies&quot;:0}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-9" value="{&quot;copies&quot;:" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-10" value="binds: Copies = 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="190" width="170" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-11" value="fails the range rule" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="475" y="190" width="170" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-12" value="malformed JSON fails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="280" width="170" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-13" value="never checked" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="475" y="280" width="170" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-14" value="not invoked" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="690" y="190" width="170" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-15" value="not invoked" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="690" y="280" width="170" height="44" as="geometry"/></mxCell>
+<mxCell id="mbd1-16" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mbd1-8" target="mbd1-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mbd1-17" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mbd1-10" target="mbd1-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mbd1-18" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mbd1-9" target="mbd1-12"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
