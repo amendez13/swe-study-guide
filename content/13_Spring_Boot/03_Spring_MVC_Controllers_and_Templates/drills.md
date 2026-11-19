@@ -41,6 +41,10 @@ class TextController {
 
 `/a` renders the template as HTML because a `@Controller` return value is a view name. `/b` returns the five characters `index` as the body because `@RestController` adds `@ResponseBody`. Compare [a controller that renders a view](#13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/concepts/a-controller-that-renders-a-view).
 
+![Predict the response body](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-drills-1-predict-the-response-body.png)
+
+*Source: [`diagrams/spring-mvc-drills.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-drills.drawio), page 1.*
+
 ## Stop a duplicate submission
 
 After adding a book, the user presses refresh and the browser offers to resubmit the form. A second copy of the book appears. What should the handler return instead?
@@ -67,3 +71,7 @@ class NewBookController {
 **Answer**
 
 Return `"redirect:/"` after saving. The browser then issues a GET for `/`, and refreshing repeats the GET instead of the POST. Use flash attributes (`RedirectAttributes`) when the next page must show a confirmation. See [change data through an HTML form](#13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/concepts/change-data-through-an-html-form).
+
+![Stop a duplicate submission](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-drills-2-stop-a-duplicate-submission.png)
+
+*Source: [`diagrams/spring-mvc-drills.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-drills.drawio), page 2.*

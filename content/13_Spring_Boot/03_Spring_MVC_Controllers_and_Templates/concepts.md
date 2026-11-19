@@ -15,6 +15,10 @@ unzip study.zip -d study && cd study && ./mvnw spring-boot:run
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/tutorial/first-application/index.html)
 
+![Generate a project with start.spring.io](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-1-generate-a-project-with-start-spring-io.png)
+
+*Source: [`diagrams/spring-mvc.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc.drawio), page 1.*
+
 ## A controller that renders a view
 
 A `@Controller` method handles a request and returns a view name. The method adds attributes to the `Model`. Thymeleaf resolves the view name `index` to `src/main/resources/templates/index.html` and renders the attributes into HTML. Use `@RestController` instead when the method's return value is the response body.
@@ -55,6 +59,10 @@ class HomeController {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html)
+
+![A controller that renders a view](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-2-a-controller-that-renders-a-view.png)
+
+*Source: [`diagrams/spring-mvc.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc.drawio), page 2.*
 
 ## Render a list of demo data
 
@@ -101,6 +109,10 @@ class HomeController {
 ```
 
 [Thymeleaf docs](https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#iteration)
+
+![Render a list of demo data](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-3-render-a-list-of-demo-data.png)
+
+*Source: [`diagrams/spring-mvc.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc.drawio), page 3.*
 
 ## Constructor injection
 
@@ -158,6 +170,10 @@ class HomeController {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html#beans-constructor-injection)
+
+![Constructor injection](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-4-constructor-injection.png)
+
+*Source: [`diagrams/spring-mvc.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc.drawio), page 4.*
 
 ## Change data through an HTML form
 
@@ -226,6 +242,10 @@ class HomeController {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/modelattrib-method-args.html)
 
+![Change data through an HTML form](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-5-change-data-through-an-html-form.png)
+
+*Source: [`diagrams/spring-mvc.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc.drawio), page 5.*
+
 ## Bundle a JavaScript front end
 
 Boot serves files from `classpath:/static`, so anything the build copies to `target/classes/static` is available at the site root. A JavaScript front end such as a React app can live in `src/main/frontend` and be built by Node into that folder. The Spring app then serves the bundle and its JSON API from the same origin, which avoids cross-origin configuration.
@@ -261,3 +281,7 @@ The `frontend-maven-plugin` downloads a pinned Node version into the project and
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/web/servlet.html#web.servlet.spring-mvc.static-content)
+
+![Bundle a JavaScript front end](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc-6-bundle-a-javascript-front-end.png)
+
+*Source: [`diagrams/spring-mvc.drawio`](/content/13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/diagrams/spring-mvc.drawio), page 6.*
