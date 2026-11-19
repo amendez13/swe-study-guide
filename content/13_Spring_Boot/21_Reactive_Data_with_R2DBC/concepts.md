@@ -16,6 +16,10 @@ Flux<Book> stream = template.select(Book.class).all();
 
 [Spring Data R2DBC docs](https://docs.spring.io/spring-data/relational/reference/r2dbc.html)
 
+![What fetching data reactively means](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc-1-what-fetching-data-reactively-means.png)
+
+*Source: [`diagrams/r2dbc.drawio`](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc.drawio), page 1.*
+
 ## Pick a reactive data store
 
 A reactive stack needs a reactive driver. For relational databases that is R2DBC (Reactive Relational Database Connectivity), with drivers for PostgreSQL, MySQL, MariaDB, SQL Server, Oracle, and H2. MongoDB, Redis, Cassandra, Couchbase, and Elasticsearch have their own reactive Spring Data modules.
@@ -35,6 +39,10 @@ R2DBC is not an ORM. Spring Data R2DBC maps rows to simple entities but has no l
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.r2dbc)
+
+![Pick a reactive data store](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc-2-pick-a-reactive-data-store.png)
+
+*Source: [`diagrams/r2dbc.drawio`](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc.drawio), page 2.*
 
 ## Create a reactive repository
 
@@ -69,6 +77,10 @@ spring.sql.init.mode=always
 
 [Spring Data R2DBC docs](https://docs.spring.io/spring-data/relational/reference/r2dbc/repositories.html)
 
+![Create a reactive repository](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc-3-create-a-reactive-repository.png)
+
+*Source: [`diagrams/r2dbc.drawio`](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc.drawio), page 3.*
+
 ## Load data with R2dbcEntityTemplate
 
 `R2dbcEntityTemplate` is the lower-level API behind the repositories. Its fluent methods build queries in Java: `select(Book.class).matching(query(where("author").is(name)))`. It suits dynamic filters, partial updates, and work that does not fit a repository method. Boot autoconfigures it.
@@ -99,6 +111,10 @@ CommandLineRunner seed(R2dbcEntityTemplate template) {
 ```
 
 [Spring Data R2DBC docs](https://docs.spring.io/spring-data/relational/reference/r2dbc/entity-persistence.html)
+
+![Load data with R2dbcEntityTemplate](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc-4-load-data-with-r2dbcentitytemplate.png)
+
+*Source: [`diagrams/r2dbc.drawio`](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc.drawio), page 4.*
 
 ## Return data reactively from an API
 
@@ -142,6 +158,10 @@ class BookApi {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/programmatic.html#tx-prog-operator)
 
+![Return data reactively from an API](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc-5-return-data-reactively-from-an-api.png)
+
+*Source: [`diagrams/r2dbc.drawio`](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc.drawio), page 5.*
+
 ## Show reactive data in a template
 
 A page controller can put a repository's `Flux` straight into the model. WebFlux collects it before Thymeleaf renders, so the template is the same as in Spring MVC. For a long list, wrap the flux in `ReactiveDataDriverContextVariable` to stream the page in batches as rows arrive from the database.
@@ -179,3 +199,7 @@ class BookPages {
 ```
 
 [Thymeleaf docs](https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html)
+
+![Show reactive data in a template](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc-6-show-reactive-data-in-a-template.png)
+
+*Source: [`diagrams/r2dbc.drawio`](/content/13_Spring_Boot/21_Reactive_Data_with_R2DBC/diagrams/r2dbc.drawio), page 6.*

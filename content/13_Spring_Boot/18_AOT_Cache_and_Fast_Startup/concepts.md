@@ -13,6 +13,10 @@ java -XX:AOTCache=app.aot -jar app.jar
 
 [OpenJDK JEP 514](https://openjdk.org/jeps/514)
 
+![The Java AOT cache](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache-1-the-java-aot-cache.png)
+
+*Source: [`diagrams/aot-cache.drawio`](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache.drawio), page 1.*
+
 ## Enable the AOT cache for a Boot app
 
 A training run must exercise startup without becoming a real deployment. `spring.context.exit=onRefresh` makes Spring start the application context and exit as soon as it is refreshed. That loads every class that startup needs without serving traffic. Then start the extracted application with the cache file.
@@ -27,6 +31,10 @@ java -XX:AOTCache=app.aot -jar study-0.0.1-SNAPSHOT.jar
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/efficient.html)
+
+![Enable the AOT cache for a Boot app](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache-2-enable-the-aot-cache-for-a-boot-app.png)
+
+*Source: [`diagrams/aot-cache.drawio`](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache.drawio), page 2.*
 
 ## The AOT cache in a container image
 
@@ -50,6 +58,10 @@ With buildpacks, the Paketo Java buildpack can run the training step during the 
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/container-images/cloud-native-buildpacks.html)
+
+![The AOT cache in a container image](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache-3-the-aot-cache-in-a-container-image.png)
+
+*Source: [`diagrams/aot-cache.drawio`](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache.drawio), page 3.*
 
 ## Spring AOT on the JVM
 
@@ -78,6 +90,10 @@ java -Dspring.aot.enabled=true -jar target/study-0.0.1-SNAPSHOT.jar
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/aot.html)
 
+![Spring AOT on the JVM](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache-4-spring-aot-on-the-jvm.png)
+
+*Source: [`diagrams/aot-cache.drawio`](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache.drawio), page 4.*
+
 ## Checkpoint and restore with CRaC
 
 Coordinated Restore at Checkpoint (CRaC) snapshots a running JVM to disk and later restores it, already started and warmed up, in milliseconds. It needs a JDK build with CRaC support, such as some Azul or BellSoft builds, and it runs on Linux. Spring manages the lifecycle around the checkpoint: it closes sockets and pools before the snapshot and reopens them on restore. Add the `org.crac:crac` dependency.
@@ -90,6 +106,10 @@ java -XX:CRaCRestoreFrom=./checkpoint
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/integration/checkpoint-restore.html)
+
+![Checkpoint and restore with CRaC](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache-5-checkpoint-and-restore-with-crac.png)
+
+*Source: [`diagrams/aot-cache.drawio`](/content/13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/diagrams/aot-cache.drawio), page 5.*
 
 ## Choose a startup strategy
 
