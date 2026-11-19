@@ -22,6 +22,10 @@ public class StudyApplication {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/using/using-the-springbootapplication-annotation.html)
 
+![The application context](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration-1-the-application-context.png)
+
+*Source: [`diagrams/autoconfiguration.drawio`](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration.drawio), page 1.*
+
 ## Beans from scanning and @Bean methods
 
 There are two common ways to define a bean. Component scanning registers a class annotated with a stereotype such as `@Component` or `@Service`. A `@Bean` method in a `@Configuration` class returns an object that you build yourself, which suits third-party types and objects that need setup code.
@@ -69,6 +73,10 @@ class ShelfReport {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/java/basic-concepts.html)
 
+![Beans from scanning and @Bean methods](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration-2-beans-from-scanning-and-bean-methods.png)
+
+*Source: [`diagrams/autoconfiguration.drawio`](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration.drawio), page 2.*
+
 ## Autoconfiguration backs off
 
 Autoconfiguration classes contribute beans based on the classpath, existing beans, and properties. Most beans they register are guarded by `@ConditionalOnMissingBean`. If you declare a bean of the same type, Boot uses yours and skips its default. This is why Boot can supply defaults without preventing you from replacing them.
@@ -108,6 +116,10 @@ class BookController {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/using/auto-configuration.html)
 
+![Autoconfiguration backs off](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration-3-autoconfiguration-backs-off.png)
+
+*Source: [`diagrams/autoconfiguration.drawio`](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration.drawio), page 3.*
+
 ## Conditions in your own autoconfiguration
 
 An autoconfiguration is an ordinary configuration class annotated with `@AutoConfiguration` and listed in `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`. Boot does not find it through component scanning. It loads it after user configuration, so conditions such as `@ConditionalOnMissingBean` can see the beans that the application declared.
@@ -137,6 +149,10 @@ interface Greeting {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html)
 
+![Conditions in your own autoconfiguration](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration-4-conditions-in-your-own-autoconfiguration.png)
+
+*Source: [`diagrams/autoconfiguration.drawio`](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration.drawio), page 4.*
+
 ## Starters
 
 A starter is a dependency that brings in a coherent set of libraries for one feature, together with the autoconfiguration that uses them. Add `spring-boot-starter-webmvc` and Boot provides Spring MVC, an embedded Tomcat server, and Jackson. The starter does not declare a version in your build; Boot's dependency management supplies it.
@@ -158,3 +174,7 @@ Changed in Boot 4: the codebase is split into smaller modules, and starters foll
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/using/build-systems.html#using.build-systems.starters)
+
+![Starters](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration-5-starters.png)
+
+*Source: [`diagrams/autoconfiguration.drawio`](/content/13_Spring_Boot/01_Core_Features_and_Autoconfiguration/diagrams/autoconfiguration.drawio), page 5.*
