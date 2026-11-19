@@ -15,6 +15,10 @@ commit;   -- or rollback; if anything failed
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/motivation.html)
 
+![What a transaction guarantees](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-1-what-a-transaction-guarantees.png)
+
+*Source: [`diagrams/transactions-basics.drawio`](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics.drawio), page 1.*
+
 ## @Transactional
 
 Annotate a public service method with `@Transactional` and Spring runs it in a transaction. The [transaction proxy](#13_Spring_Boot/39_Proxies_and_AOP/concepts/how-spring-proxies-work) begins a transaction before the method, binds the connection to the current thread so every repository call in the method uses it, and commits when the method returns. Boot configures the transaction manager for JDBC or JPA automatically.
@@ -46,6 +50,10 @@ class LendingService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/annotations.html)
 
+![@Transactional](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-2-transactional.png)
+
+*Source: [`diagrams/transactions-basics.drawio`](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics.drawio), page 2.*
+
 ## When a transaction rolls back
 
 By default, Spring rolls back when the method throws an unchecked exception (`RuntimeException` or `Error`) and commits when it returns normally or throws a checked exception. That default surprises people who use checked exceptions for business failures: the changes made before the exception are committed.
@@ -66,6 +74,10 @@ void lendWithDeposit(long bookId, long memberId) throws PaymentDeclinedException
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html)
+
+![When a transaction rolls back](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-3-when-a-transaction-rolls-back.png)
+
+*Source: [`diagrams/transactions-basics.drawio`](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics.drawio), page 3.*
 
 ## Read-only transactions and propagation
 
@@ -101,6 +113,10 @@ class AuditService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/tx-propagation.html)
+
+![Read-only transactions and propagation](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-4-read-only-transactions-and-propagation.png)
+
+*Source: [`diagrams/transactions-basics.drawio`](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics.drawio), page 4.*
 
 ## Common transaction pitfalls
 

@@ -18,6 +18,10 @@ void lendWithDeposit(long bookId, long memberId) throws PaymentDeclinedException
 
 Yes. By default Spring rolls back only on unchecked exceptions, so the transaction commits the loan even though the method threw. Add `rollbackFor = PaymentDeclinedException.class`, or make the exception extend `RuntimeException`. See [when a transaction rolls back](#13_Spring_Boot/40_Transactions_Basics/concepts/when-a-transaction-rolls-back).
 
+![Predict what is committed](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-drills-1-predict-what-is-committed.png)
+
+*Source: [`diagrams/transactions-basics-drills.drawio`](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-drills.drawio), page 1.*
+
 ## Fix the missing transaction
 
 The import below should be all or nothing, but when the third book fails validation, the first two stay in the database. Why, and how do you fix it?
@@ -42,3 +46,7 @@ class ImportService {
 **Answer**
 
 The controller calls `importAll`, which has no annotation, and it calls `saveAll` on the same object, so the proxy never starts a transaction. Each `repository.save` then commits on its own. Annotate the public entry point instead, `@Transactional void importAll(...)`, or move `saveAll` into another bean and call it through that bean. See [common transaction pitfalls](#13_Spring_Boot/40_Transactions_Basics/concepts/common-transaction-pitfalls).
+
+![Fix the missing transaction](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-drills-2-fix-the-missing-transaction.png)
+
+*Source: [`diagrams/transactions-basics-drills.drawio`](/content/13_Spring_Boot/40_Transactions_Basics/diagrams/transactions-basics-drills.drawio), page 2.*
