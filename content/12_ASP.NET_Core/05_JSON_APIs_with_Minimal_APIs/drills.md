@@ -35,3 +35,7 @@ app.Run();
 **Answer**
 
 Only `/v1/books` gets the header. The group supplies a prefix and endpoint conventions; a request with that prefix must still select a group endpoint.
+
+![Predict a group filter’s scope](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-drills-1-predict-a-group-filter-s-scope.png)
+
+*Source: [`diagrams/minimal-apis-drills.drawio`](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-drills.drawio), page 1.*

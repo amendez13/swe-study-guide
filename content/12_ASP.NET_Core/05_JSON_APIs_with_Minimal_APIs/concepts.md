@@ -20,6 +20,10 @@ record ReadingItem(string Title);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-10.0)
 
+![HTTP methods and route handlers](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-1-http-methods-and-route-handlers.png)
+
+*Source: [`diagrams/minimal-apis.drawio`](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis.drawio), page 1.*
+
 ## Typed HTTP results and other response bodies
 
 A string return value produces plain text. An ordinary object is serialized as JSON. `IResult` represents an HTTP result that can set status, headers, or media type. The `Results` helpers return `IResult`. `TypedResults` returns concrete result types that expose response metadata and are straightforward to assert in tests.
@@ -41,6 +45,10 @@ record Loan(int Id);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses?view=aspnetcore-10.0)
 
+![Typed HTTP results and other response bodies](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-2-typed-http-results-and-other-response-bodies.png)
+
+*Source: [`diagrams/minimal-apis.drawio`](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis.drawio), page 2.*
+
 ## Problem Details for API errors
 
 Problem Details gives clients a JSON error envelope with fields such as `type`, `title`, `status`, and `detail`. Use `TypedResults.Problem` to describe an expected failure. Here an archive request conflicts with the reading list’s state.
@@ -58,6 +66,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling-api?view=aspnetcore-10.0)
+
+![Problem Details for API errors](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-3-problem-details-for-api-errors.png)
+
+*Source: [`diagrams/minimal-apis.drawio`](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis.drawio), page 3.*
 
 ## Endpoint filter order and scope
 
@@ -80,6 +92,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/min-api-filters?view=aspnetcore-10.0)
+
+![Endpoint filter order and scope](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-4-endpoint-filter-order-and-scope.png)
+
+*Source: [`diagrams/minimal-apis.drawio`](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis.drawio), page 4.*
 
 ## Reusable endpoint filters and route groups
 
@@ -106,3 +122,7 @@ sealed class RevisionFilter : IEndpointFilter
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-10.0)
+
+![Reusable endpoint filters and route groups](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis-5-reusable-endpoint-filters-and-route-groups.png)
+
+*Source: [`diagrams/minimal-apis.drawio`](/content/12_ASP.NET_Core/05_JSON_APIs_with_Minimal_APIs/diagrams/minimal-apis.drawio), page 5.*
