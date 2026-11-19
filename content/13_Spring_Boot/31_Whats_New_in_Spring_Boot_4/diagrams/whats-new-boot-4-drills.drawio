@@ -1,0 +1,19 @@
+<mxfile host="drawio">
+  <diagram id="wnb4d1" name="Predict the missing migrations">
+    <mxGraphModel dx="900" dy="280" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="280" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="wnb4d1-1" value="Predict the missing migrations" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="wnb4d1-2" value="In Boot 4 the library alone doesn&#x27;t bring Flyway&#x27;s autoconfiguration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="wnb4d1-3" value="org.flywaydb:flyway-core&lt;br&gt;only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="wnb4d1-4" value="nothing runs migrations&lt;br&gt;V7__add_isbn.sql skipped" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="wnb4d1-5" value="Hibernate validation fails&lt;br&gt;(schema lacks the change)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="110" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="wnb4d1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="wnb4d1-3" target="wnb4d1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wnb4d1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="wnb4d1-4" target="wnb4d1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="wnb4d1-8" value="add spring-boot-starter-flyway" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="wnb4d1-9" value="or spring-boot-starter-classic while migrating" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="210" width="400" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

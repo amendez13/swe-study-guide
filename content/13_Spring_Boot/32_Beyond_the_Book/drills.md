@@ -24,6 +24,10 @@ class LoanNotifications {
 
 The test fails with a violation: `notifications` depends on a non-exposed type in the `loans` module's internal package. Publish an event type from the `loans` module's top-level package, such as `LoanCreated`, and listen for that. The internal record stays private. See [modular monoliths with Spring Modulith](#13_Spring_Boot/32_Beyond_the_Book/concepts/modular-monoliths-with-spring-modulith).
 
+![Predict the Modulith verification](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-drills-1-predict-the-modulith-verification.png)
+
+*Source: [`diagrams/beyond-the-book-drills.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-drills.drawio), page 1.*
+
 ## Fix the N+1 query
 
 A GraphQL query returns 100 books with their authors, and the logs show 101 database queries. The author is resolved with the method below. Rewrite it to load all authors at once.
@@ -48,3 +52,7 @@ Map<Book, Author> author(List<Book> books) {
 ```
 
 Spring for GraphQL calls the batch method once with every book in the response, so one query loads all the authors. See [GraphQL APIs with Spring for GraphQL](#13_Spring_Boot/32_Beyond_the_Book/concepts/graphql-apis-with-spring-for-graphql).
+
+![Fix the N+1 query](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-drills-2-fix-the-nplus1-query.png)
+
+*Source: [`diagrams/beyond-the-book-drills.drawio`](/content/13_Spring_Boot/32_Beyond_the_Book/diagrams/beyond-the-book-drills.drawio), page 2.*
