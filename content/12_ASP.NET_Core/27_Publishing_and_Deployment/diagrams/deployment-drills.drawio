@@ -1,0 +1,43 @@
+<mxfile host="drawio">
+  <diagram id="dd1" name="Find the client address behind nginx">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dd1-1" value="Find the client address behind nginx" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dd1-2" value="Forwarded headers count only from trusted proxies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dd1-3" value="nginx on loopback · no UseForwardedHeaders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="dd1-4" value="loopback address via http" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="dd1-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd1-3" target="dd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd1-6" value="nginx on loopback · UseForwardedHeaders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="168" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="dd1-7" value="client&#x27;s real address via https" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="168" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="dd1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd1-6" target="dd1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd1-9" value="nginx at 10.0.0.5 · UseForwardedHeaders" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="226" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="dd1-10" value="headers ignored: proxy not trusted" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="226" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="dd1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd1-9" target="dd1-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd1-12" value="Fix the third: add 10.0.0.5 via KnownProxies or a KnownIPNetworks entry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dd2" name="Which port does the container use?">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dd2-1" value="Which port does the container use?" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dd2-2" value="--urls overrides ASPNETCORE_HTTP_PORTS from the base image" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dd2-3" value="host :5080" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="160" height="50" as="geometry"/></mxCell>
+<mxCell id="dd2-4" value="app on 8080&lt;br&gt;ASPNETCORE_HTTP_PORTS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="dd2-5" value="-p 5080:8080" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd2-3" target="dd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd2-6" value="works" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="dd2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd2-4" target="dd2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd2-8" value="host :5080" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="160" height="50" as="geometry"/></mxCell>
+<mxCell id="dd2-9" value="--urls http://+:9000&lt;br&gt;app on 9000 · nothing on 8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="210" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="dd2-10" value="-p 5080:8080" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd2-8" target="dd2-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd2-11" value="requests fail" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="210" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="dd2-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dd2-9" target="dd2-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dd2-13" value="Map -p 5080:9000 or drop the argument · Kestrel logs that --urls overrides the port settings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

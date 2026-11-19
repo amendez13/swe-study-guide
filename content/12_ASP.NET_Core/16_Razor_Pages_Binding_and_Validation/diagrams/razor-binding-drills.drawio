@@ -1,0 +1,43 @@
+<mxfile host="drawio">
+  <diagram id="rbd1" name="Resolve a name that appears twice">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="rbd1-1" value="Resolve a name that appears twice" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="rbd1-2" value="Form fields come before route values, which come before the query string" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="rbd1-3" value="form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260.0" y="100" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="rbd1-4" value="route" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470.0" y="100" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="rbd1-5" value="query" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="680.0" y="100" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="rbd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="rbd1-3" target="rbd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="rbd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="rbd1-4" target="rbd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="rbd1-8" value="GET /Item/5?id=9" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="170" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-9" value="no form field" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="260" y="170" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-10" value="id = 5 ✔" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="470" y="170" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-11" value="id = 9" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="680" y="170" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-12" value="POST /Item/5?id=9&lt;br&gt;form id=7" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-13" value="id = 7 ✔" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="240" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-14" value="id = 5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="470" y="240" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-15" value="id = 9" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=12;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="680" y="240" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="rbd1-16" value="&lt;font face=&quot;Courier New&quot;&gt;[FromRoute]&lt;/font&gt; on the parameter always uses the path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="rbd2" name="Fix a search box that ignores input">
+    <mxGraphModel dx="900" dy="284" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="284" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="rbd2-1" value="Fix a search box that ignores input" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="rbd2-2" value="[BindProperty] skips GET requests by default" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="rbd2-3" value="GET /Lookup?Term=atlas" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="rbd2-4" value="[BindProperty] string? Term&lt;br&gt;not bound on GET" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="rbd2-5" value="&quot;nothing&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="rbd2-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="rbd2-3" target="rbd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="rbd2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="rbd2-4" target="rbd2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="rbd2-8" value="[BindProperty(SupportsGet = true)]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="rbd2-9" value="or take term as an OnGet parameter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="210" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

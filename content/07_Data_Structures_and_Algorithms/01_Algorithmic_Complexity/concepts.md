@@ -14,6 +14,10 @@ def find_max(items: list[int]) -> int:
     return result
 ```
 
+![Big O notation: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-1-big-o.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 1.*
+
 ## Big Theta and Big Omega
 
 Big O is an upper bound: it says the algorithm grows "at most this fast." Big Omega is the lower bound: "at least this fast." Big Theta is the tight bound, meaning the algorithm grows at exactly that rate asymptotically.
@@ -27,6 +31,10 @@ Theta(N) -->  grows exactly proportional to N   (tight bound)
 
 If O and Omega match, Theta = that rate.
 ```
+
+![Big Theta and Big Omega: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-2-theta-omega.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 2.*
 
 ## Best, worst, and expected case
 
@@ -50,6 +58,10 @@ def quicksort(arr: list[int]) -> list[int]:
 # Worst case (bad pivots): O(N^2)
 ```
 
+![Best, worst, and expected case: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-3-cases.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 3.*
+
 ## Space complexity
 
 Space complexity measures how much additional memory an algorithm needs beyond the input itself. It is tracked separately from time complexity because an algorithm can be fast but memory-hungry, or slow but lean.
@@ -66,6 +78,10 @@ def double_values_inplace(items: list[int]) -> None:
     for i in range(len(items)):
         items[i] *= 2
 ```
+
+![Space complexity: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-4-space.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 4.*
 
 ## Dropping constants and non-dominant terms
 
@@ -89,23 +105,19 @@ def example(items: list[int]) -> int:
     return total
 ```
 
+![Dropping constants and non-dominant terms: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-5-constants.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 5.*
+
 ## Multi-part algorithms: add vs. multiply
 
 When an algorithm performs two independent steps in sequence, you add their complexities. When one step is nested inside another, you multiply. Confusing the two is a common source of wrong complexity estimates.
 
 The rule: "do this, then do that" means add. "For each time you do this, do that" means multiply.
 
-```mermaid
-flowchart TD
-    Q{"Are the steps<br/>independent or nested?"}
-    Q -- "Sequential: do A then B" --> ADD["Add: O(A + B)"]
-    Q -- "Nested: for each A do B" --> MUL["Multiply: O(A * B)"]
+![Multi-part algorithms: add vs. multiply: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-6-add-multiply.png)
 
-    ADD --> EX1["for x in A: ...
-    for y in B: ..."]
-    MUL --> EX2["for x in A:
-        for y in B: ..."]
-```
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 6.*
 
 ```python
 # ADD: O(A + B) -- two independent loops
@@ -155,6 +167,10 @@ for i in range(17):
 # Output shows resizes at 1, 2, 4, 8, 16 -- exponentially rarer
 ```
 
+![Amortized time: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-7-amortized.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 7.*
+
 ## Log N runtimes
 
 O(log N) appears whenever an algorithm halves the remaining problem space on each step. Binary search is the canonical example: each comparison eliminates half the candidates, so searching a sorted array of one million elements takes at most about 20 steps.
@@ -179,29 +195,19 @@ def binary_search(arr: list[int], target: int) -> int:
 print(binary_search(list(range(1_000_000)), 742_831))
 ```
 
+![Log N runtimes: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-8-log-n.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 8.*
+
 ## Recursive runtimes
 
 The runtime of a recursive algorithm is often O(branches^depth), where branches is the number of recursive calls each invocation makes and depth is how deep the recursion goes before hitting a base case.
 
 A naive recursive Fibonacci implementation makes 2 calls per invocation and recurses to depth N, producing O(2^N) time. But the space complexity is only O(N) because at any moment only one branch is on the call stack; the other branches have already returned. This mismatch between time and space is a common interview topic.
 
-```mermaid
-graph TD
-    F5["fib(5)"] --> F4["fib(4)"]
-    F5 --> F3a["fib(3)"]
-    F4 --> F3b["fib(3)"]
-    F4 --> F2a["fib(2)"]
-    F3a --> F2b["fib(2)"]
-    F3a --> F1a["fib(1)"]
-    F3b --> F2c["fib(2)"]
-    F3b --> F1b["fib(1)"]
+![Recursive runtimes: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-9-recursive.png)
 
-    style F3a fill:#f9d,stroke:#333
-    style F3b fill:#f9d,stroke:#333
-    style F2a fill:#fda,stroke:#333
-    style F2b fill:#fda,stroke:#333
-    style F2c fill:#fda,stroke:#333
-```
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 9.*
 
 The tree above shows the redundant work: `fib(3)` is computed twice, `fib(2)` three times. This explosion is what drives the exponential runtime.
 
@@ -221,21 +227,9 @@ Memoization caches the results of expensive function calls so they are computed 
 
 This reduces Fibonacci from O(2^N) time to O(N) time and O(N) space. The technique generalizes to any recursive problem with overlapping subproblems, which is the foundation of dynamic programming.
 
-```mermaid
-graph TD
-    F5["fib(5)"] --> F4["fib(4)"]
-    F5 -.->|cached| F3r["fib(3) "]
-    F4 --> F3["fib(3)"]
-    F4 -.->|cached| F2r["fib(2) "]
-    F3 --> F2["fib(2)"]
-    F3 -.->|cached| F1r["fib(1) "]
-    F2 --> F1["fib(1)"]
-    F2 --> F0["fib(0)"]
+![Memoization reducing complexity: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-10-memoization.png)
 
-    style F3r fill:#bfb,stroke:#333
-    style F2r fill:#bfb,stroke:#333
-    style F1r fill:#bfb,stroke:#333
-```
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 10.*
 
 Each green node is a cache hit that returns in O(1) instead of spawning a full subtree.
 
@@ -303,3 +297,101 @@ def all_pairs(items: list[int]) -> list[tuple[int, int]]:
 print(all_pairs([1, 2, 3, 4]))
 # [(1,2), (1,3), (1,4), (2,3), (2,4), (3,4)]
 ```
+
+![Common runtime classes: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-11-runtime-classes.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 11.*
+
+## Two input sizes (A and B)
+
+When an algorithm takes two independent collections, name both sizes. If you force everything into a single N, you hide whether the cost tracks the first input, the second, or both. Interview answers and production estimates should say O(A + B) or O(A * B), not a fake O(N) that pretends the arrays are the same length.
+
+A practical test: if doubling only the first input changes the runtime, that size belongs in the Big O expression.
+
+```python
+def merge_sorted(a: list[int], b: list[int]) -> list[int]:
+    """Linear merge. Time O(A + B), not O(N)."""
+    i = j = 0
+    out: list[int] = []
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            out.append(a[i]); i += 1
+        else:
+            out.append(b[j]); j += 1
+    out.extend(a[i:])
+    out.extend(b[j:])
+    return out
+```
+
+![Two input sizes (A and B): diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-12-two-inputs.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 12.*
+
+## Summing a recursion tree
+
+`branches^depth` is a starting guess, not the final answer. Many recursive algorithms do a constant amount of work per call, and the total cost is the sum of work across every level of the call tree. If each level does O(N) work and there are O(log N) levels, the total is O(N log N). If successive levels shrink geometrically (N + N/2 + N/4 + …), the infinite sum is still O(N).
+
+Always sketch one or two levels, write the work per level, then sum. That habit catches both underestimated exponential trees and overestimated balanced ones.
+
+```text
+Balanced divide-and-conquer with O(N) work per level:
+
+  Level 0:  N
+  Level 1:  N
+  Level 2:  N
+  ...
+  Level log N: N
+  -----------------
+  Total ≈ N * log N  →  O(N log N)
+
+Geometrically shrinking work:
+
+  N + N/2 + N/4 + … < 2N  →  O(N)
+```
+
+![Summing a recursion tree: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-13-recursion-tree.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 13.*
+
+## Loop bounds that aren’t N
+
+A loop that looks nested is not automatically O(N²). Read the actual bounds. Iterating to N/2 is still O(N). A loop whose index jumps by doubling (`i *= 2`) is O(log N). Outer `i` from 1..N with inner work proportional to `i` is often O(N²) via the triangular sum 1+2+…+N. Checking factors up to √N is O(√N).
+
+Rewrite the loops in terms of how many times the body runs before you name a complexity class.
+
+```python
+def is_prime(n: int) -> bool:
+    """Trial division up to sqrt(n). Time O(√N), not O(N)."""
+    if n < 2:
+        return False
+    d = 2
+    while d * d <= n:          # about √N iterations
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+
+
+def triangular_pairs(n: int) -> int:
+    """Inner loop runs i times for i = 1..n → ~ N(N+1)/2 → O(N²)."""
+    count = 0
+    for i in range(1, n + 1):
+        for _ in range(i):
+            count += 1
+    return count
+```
+
+![Loop bounds that aren’t N: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-14-loop-bounds.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 14.*
+
+## Stating complexity in interviews
+
+A complete answer names **time**, **space**, and **which case** (best / worst / expected) when they differ, then gives a one-line justification tied to the code (“one pass over N”, “N levels each doing N work”, “halves each step”). If there are two inputs, use both sizes. If you dropped constants, say so only if asked—interviewers usually want the simplified tight bound.
+
+Bad: “It’s basically fine, like O(N)ish.”
+Good: “Worst-case time O(N²) from the nested loops; O(1) extra space; expected case same as worst here.”
+
+![Stating complexity in interviews: diagram](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity-15-interviews.png)
+
+*Source: [`diagrams/algorithmic-complexity.drawio`](/content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/diagrams/algorithmic-complexity.drawio), page 15.*

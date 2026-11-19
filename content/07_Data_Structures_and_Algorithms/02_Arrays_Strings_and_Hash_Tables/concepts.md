@@ -14,30 +14,19 @@ print(buf[3])        # O(1) indexed read -> 42
 # buf[8] = 1         # IndexError: size is fixed at 8
 ```
 
+![Fixed-size arrays](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-1-fixed-array.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 1.*
+
 ## Dynamic arrays and amortized doubling
 
 A dynamic array (Python's `list`, Java's `ArrayList`) wraps a fixed-size array and handles resizing automatically. When an append would exceed the current capacity, it allocates a new array (typically 2x the old size), copies existing elements over, and discards the old storage.
 
 Most appends just write into the next open slot and cost O(1). The occasional resize costs O(N), but because the capacity doubles each time, the resize cost is spread across all the cheap appends that came before it. This gives an amortized O(1) cost per append. The diagram below shows how capacity jumps in powers of two while used size grows linearly.
 
-```mermaid
-flowchart LR
-    subgraph "cap=2"
-        A1["[A, B]"]
-    end
-    A1 -- "append C → resize to 4" --> B1
-    subgraph "cap=4"
-        B1["[A, B, C, _]"]
-    end
-    B1 -- "append D (no resize)" --> C1
-    subgraph "cap=4 (full)"
-        C1["[A, B, C, D]"]
-    end
-    C1 -- "append E → resize to 8" --> D1
-    subgraph "cap=8"
-        D1["[A, B, C, D, E, _, _, _]"]
-    end
-```
+![Dynamic arrays and amortized doubling](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-2-dynamic-array.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 2.*
 
 ```python
 import sys
@@ -59,18 +48,9 @@ The two-pointer technique places two indices into an array and moves them accord
 
 This pattern appears in pair-sum problems, partitioning, removing duplicates, and container problems. The key insight is that each pointer movement eliminates a class of candidate pairs, so you never need to revisit them.
 
-```mermaid
-flowchart LR
-    subgraph "sorted array: [1, 3, 5, 7, 9, 11]"
-        direction LR
-        L["L=0 → 1"] ~~~ M1["3"] ~~~ M2["5"] ~~~ M3["7"] ~~~ M4["9"] ~~~ R["R=5 → 11"]
-    end
-    L -- "sum=12 > target=10 → move R left" --> Step2
-    subgraph Step2 ["step 2"]
-        L2["L=0 → 1"] ~~~ M5["3"] ~~~ M6["5"] ~~~ M7["7"] ~~~ R2["R=4 → 9"]
-    end
-    Step2 -- "sum=10 == target → found!" --> Done["return (0, 4)"]
-```
+![Two-pointer technique](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-3-two-pointers.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 3.*
 
 ```python
 def two_sum_sorted(nums: list[int], target: int) -> tuple[int, int] | None:
@@ -112,6 +92,10 @@ new_len = remove_duplicates_sorted(data)
 print(data[:new_len])  # [1, 2, 3, 4]
 ```
 
+![In-place array manipulation](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-4-in-place.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 4.*
+
 ## Matrix as 2D array
 
 A matrix is an array of arrays where element `(r, c)` lives at row `r`, column `c`. The challenge is not the data structure itself but the coordinate reasoning: rotating 90 degrees means mapping `(r, c)` to `(c, N-1-r)`, zeroing a row or column requires marking before mutating, and spiral traversal needs four boundary variables.
@@ -141,6 +125,10 @@ for row in m:
 # [9, 6, 3]
 ```
 
+![Matrix as 2D array](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-5-matrix-rotate.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 5.*
+
 ## Strings as character arrays
 
 Most string interview problems are array problems in disguise. Reversing, searching, comparing, and transforming strings use the same index manipulation, sliding windows, and two-pointer techniques as integer arrays.
@@ -162,6 +150,10 @@ def reverse_words(s: str) -> str:
 
 print(reverse_words("the sky is blue"))  # "blue is sky the"
 ```
+
+![Strings as character arrays](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-6-strings-as-arrays.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 6.*
 
 ## String immutability and the builder pattern
 
@@ -190,6 +182,10 @@ t0 = time.perf_counter(); build_slow(n); t1 = time.perf_counter()
 t2 = time.perf_counter(); build_fast(n); t3 = time.perf_counter()
 print(f"slow: {t1-t0:.3f}s  fast: {t3-t2:.5f}s")
 ```
+
+![String immutability and the builder pattern](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-7-builder.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 7.*
 
 ## Frequency map and character counting
 
@@ -224,32 +220,19 @@ def is_anagram_manual(s: str, t: str) -> bool:
     return True
 ```
 
+![Frequency map and character counting](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-8-frequency-map.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 8.*
+
 ## Hash table fundamentals
 
 A hash table maps keys to values by computing a hash of the key, reducing it to a bucket index, and storing the key-value pair in that bucket. With a good hash function and enough buckets, lookup, insert, and delete are all O(1) on average.
 
 Python's `dict` is a hash table. Understanding the mechanics matters because it explains why keys must be hashable (immutable), why iteration order tracks insertion order (since Python 3.7), and why worst-case lookup is O(N) if every key collides into the same bucket.
 
-```mermaid
-flowchart TD
-    K1["key: 'alice'"] --> H["hash('alice') % 4 = 1"]
-    K2["key: 'bob'"]   --> H2["hash('bob') % 4 = 1"]
-    K3["key: 'carol'"] --> H3["hash('carol') % 4 = 3"]
+![Hash table fundamentals](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-9-hash-table.png)
 
-    subgraph buckets ["Bucket Array (size 4)"]
-        B0["[0] empty"]
-        B1["[1]"]
-        B2["[2] empty"]
-        B3["[3]"]
-    end
-
-    H  --> B1
-    H2 --> B1
-    H3 --> B3
-
-    B1 --> Chain["'alice'→A1 → 'bob'→B2"]
-    B3 --> Single["'carol'→C3"]
-```
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 9.*
 
 ```python
 # Python dict IS a hash table
@@ -313,6 +296,10 @@ print(ht.get("alice"))   # 100
 print(ht.get("carol"))   # None
 ```
 
+![Hash collisions and resolution strategies](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-10-collisions.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 10.*
+
 ## Balanced BST as a map alternative
 
 When you need ordered keys, range queries, or a guaranteed O(log N) worst case, a balanced binary search tree (Red-Black tree, AVL tree) replaces or supplements a hash table. Java's `TreeMap` and C++'s `std::map` use this internally. Python's standard library does not ship one, but the `sortedcontainers` package provides `SortedDict`.
@@ -347,3 +334,132 @@ for name, score in [("dave", 80), ("alice", 95), ("carol", 88), ("bob", 72)]:
 print(om.range_query("b", "c"))
 # [('bob', 72), ('carol', 88)]  — ordered iteration between 'b' and 'c'
 ```
+
+![Balanced BST as a map alternative](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-11-bst-map.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 11.*
+
+## Sliding window
+
+A sliding window tracks a contiguous range `[left, right]` of an array or string and updates a running summary (a sum, a count, a set of characters) as the edges move. Instead of recomputing the summary for every possible subarray, which costs O(N^2) or worse, you add the element that enters on the right and remove the element that leaves on the left. Each index enters and leaves at most once, so the whole scan is O(N).
+
+Windows come in two flavors. A **fixed** window keeps a constant width `k` and slides one step at a time. A **variable** window grows the right edge until a condition breaks, then shrinks the left edge until the condition holds again. Variable windows are the go-to for "longest/shortest substring such that..." questions.
+
+```python
+def longest_run_without_repeat(s: str) -> int:
+    """Length of the longest substring with no repeated character."""
+    last_seen: dict[str, int] = {}
+    left = best = 0
+    for right, ch in enumerate(s):
+        if ch in last_seen and last_seen[ch] >= left:
+            left = last_seen[ch] + 1        # shrink past the old copy
+        last_seen[ch] = right
+        best = max(best, right - left + 1)
+    return best
+
+print(longest_run_without_repeat("streets"))   # 4 -> "stre"
+```
+
+![Sliding window](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-12-sliding-window.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 12.*
+
+## Unsorted pair-sum with a hash set
+
+Two pointers need sorted input. When the array is unsorted and you only need to know whether some pair hits a target, sorting first costs O(N log N). A hash set does it in one O(N) pass: for each value `x`, ask whether its complement `target - x` was already seen; if not, record `x` and move on.
+
+The order of "check, then insert" matters. Checking before inserting stops a single element from pairing with itself (for example `5 + 5 = 10` when only one `5` exists). Swap the set for a dict of `value -> index` when you need the positions rather than a yes/no answer.
+
+```python
+def pair_with_sum(nums: list[int], target: int) -> tuple[int, int] | None:
+    """Return indices (i, j), i < j, with nums[i] + nums[j] == target."""
+    seen: dict[int, int] = {}            # value -> index
+    for j, x in enumerate(nums):
+        need = target - x
+        if need in seen:                 # check first ...
+            return (seen[need], j)
+        seen[x] = j                      # ... then record
+    return None
+
+print(pair_with_sum([8, 2, 6, 3, 5], 9))   # (2, 3) -> 6 + 3
+print(pair_with_sum([5, 1], 10))           # None: one 5 can't pair with itself
+```
+
+![Unsorted pair-sum with a hash set](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-13-pair-sum.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 13.*
+
+## Load factor and rehashing
+
+The **load factor** of a hash table is `entries / buckets`. As it climbs, chains get longer (chaining) or probe sequences get longer (open addressing), and the O(1) average quietly drifts toward O(N). Implementations pick a threshold, commonly around 0.75 for chaining and lower for open addressing, and **rehash** when it is crossed: allocate a bucket array about twice as large and reinsert every entry, because each key's bucket index depends on the array size.
+
+A single rehash is O(N), but it is the same accounting trick as dynamic-array doubling: doubling means each rehash is paid for by the many cheap inserts since the last one, so inserts stay amortized O(1).
+
+```python
+class TinyTable:
+    """Chaining table that doubles when load factor exceeds 0.75."""
+    MAX_LOAD = 0.75
+
+    def __init__(self) -> None:
+        self.buckets: list[list[tuple[str, int]]] = [[] for _ in range(4)]
+        self.count = 0
+
+    def put(self, key: str, value: int) -> None:
+        if (self.count + 1) / len(self.buckets) > self.MAX_LOAD:
+            self._rehash(2 * len(self.buckets))
+        bucket = self.buckets[hash(key) % len(self.buckets)]
+        for i, (k, _) in enumerate(bucket):
+            if k == key:
+                bucket[i] = (key, value)
+                return
+        bucket.append((key, value))
+        self.count += 1
+
+    def _rehash(self, new_size: int) -> None:
+        old = [pair for bucket in self.buckets for pair in bucket]
+        self.buckets = [[] for _ in range(new_size)]
+        for k, v in old:                 # every key gets a new index
+            self.buckets[hash(k) % new_size].append((k, v))
+
+t = TinyTable()
+for i, name in enumerate(["ana", "ben", "cy", "dee", "eli"]):
+    t.put(name, i)
+print(len(t.buckets), t.count)   # 8 5 -> grew from 4 when the 4th key arrived
+```
+
+![Load factor and rehashing](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-14-rehashing.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 14.*
+
+## Rolling hash for substrings
+
+Checking whether a pattern of length `m` appears in a text of length `n` by comparing every window character by character costs O(n·m). A **rolling hash** gives each window a numeric fingerprint that can be updated in O(1) as the window slides: subtract the contribution of the character leaving on the left, shift, and add the character entering on the right. Only windows whose fingerprint equals the pattern's fingerprint get a real character comparison.
+
+This is the idea behind Rabin-Karp substring search. Expected time is O(n + m); the worst case is still O(n·m) if many windows collide, which is why a confirming comparison is always done and why a large prime modulus is used to keep collisions rare.
+
+```python
+def find_all(text: str, pat: str, base: int = 256, mod: int = 1_000_003) -> list[int]:
+    """Start indices where pat occurs in text, using a rolling hash."""
+    n, m = len(text), len(pat)
+    if m == 0 or m > n:
+        return []
+    high = pow(base, m - 1, mod)                # weight of the leftmost char
+    p_hash = w_hash = 0
+    for i in range(m):
+        p_hash = (p_hash * base + ord(pat[i])) % mod
+        w_hash = (w_hash * base + ord(text[i])) % mod
+    hits = []
+    for start in range(n - m + 1):
+        if w_hash == p_hash and text[start:start + m] == pat:   # confirm
+            hits.append(start)
+        if start + m < n:                       # roll: drop left, add right
+            w_hash = (w_hash - ord(text[start]) * high) % mod
+            w_hash = (w_hash * base + ord(text[start + m])) % mod
+    return hits
+
+print(find_all("banana bandana", "ana"))   # [1, 3, 11]
+```
+
+![Rolling hash for substrings](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables-15-rolling-hash.png)
+
+*Source: [`diagrams/arrays-strings-and-hash-tables.drawio`](/content/07_Data_Structures_and_Algorithms/02_Arrays_Strings_and_Hash_Tables/diagrams/arrays-strings-and-hash-tables.drawio), page 15.*
