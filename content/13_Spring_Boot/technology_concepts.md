@@ -26,10 +26,10 @@ The app listens on `http://localhost:8080`. Call the sample URLs with a browser 
 - [Part 4 · Scaling](#13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor), chapters 9–12: reactive web and data, virtual threads and HTTP service clients, messaging with Kafka
 - [Part 5 · Observability](#13_Spring_Boot/26_Structured_Logging_and_Metrics), chapter 13: structured logs, metrics, and tracing
 - [Part 6 · Spring AI](#13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools), chapter 14: ChatClient, tools, RAG, MCP, and AI security
-- Part 7 · What's new in Spring Boot 4, chapter 15
+- [Part 7 · What's new in Spring Boot 4](#13_Spring_Boot/31_Whats_New_in_Spring_Boot_4), chapter 15: every change since Boot 3 and how to migrate
 - Beyond the book · Spring Modulith, Spring Batch, GraphQL, WebSocket, Spring Cloud basics, and CRaC
 
-Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 6 (topics 1–30) are available now. Chapters 2 to 5, 7 to 9, and 11 to 14 are split into several topics each.
+Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 7 (topics 1–31) are available now. Chapters 2 to 5, 7 to 9, and 11 to 14 are split into several topics each.
 
 ## Changes since Spring Boot 3
 
