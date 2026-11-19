@@ -1,0 +1,121 @@
+<mxfile host="drawio">
+  <diagram id="r1" name="Retrieval-augmented generation">
+    <mxGraphModel dx="900" dy="384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="384" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="r1-1" value="Retrieval-augmented generation" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="r1-2" value="Search your own documents at request time and answer from them" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="r1-3" value="question" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="150" height="60" as="geometry"/></mxCell>
+<mxCell id="r1-4" value="embed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="207.5" y="110" width="150" height="60" as="geometry"/></mxCell>
+<mxCell id="r1-5" value="vector search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="110" width="150" height="60" as="geometry"/></mxCell>
+<mxCell id="r1-6" value="top passages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="542.5" y="110" width="150" height="60" as="geometry"/></mxCell>
+<mxCell id="r1-7" value="prompt: rules +&lt;br&gt;passages + question" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710.0" y="110" width="150" height="60" as="geometry"/></mxCell>
+<mxCell id="r1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r1-3" target="r1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r1-4" target="r1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r1-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r1-5" target="r1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r1-6" target="r1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r1-12" value="model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="680" y="220" width="180" height="50" as="geometry"/></mxCell>
+<mxCell id="r1-13" value="answer (can cite sources)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="220" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="r1-14" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r1-7" target="r1-12"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r1-15" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r1-12" target="r1-13"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r1-16" value="update a document → the next answer reflects it&lt;br&gt;no retraining" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="310" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="r1-17" value="wrong passages → answer from wrong facts&lt;br&gt;retrieval quality is most of the work" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="310" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="r2" name="Embeddings">
+    <mxGraphModel dx="900" dy="350" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="r2-1" value="Embeddings" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="r2-2" value="Similar meaning → vectors pointing in similar directions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="r2-3" value="&quot;How do I renew a loan?&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="r2-4" value="&quot;extend my borrowing period&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="r2-5" value="EmbeddingModel&lt;br&gt;(e.g. Ollama&lt;br&gt;nomic-embed-text)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="390" y="140" width="180" height="70" as="geometry"/></mxCell>
+<mxCell id="r2-6" value="vectors close together&lt;br&gt;(cosine similarity)&lt;br&gt;though no words are shared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="120" width="240" height="110" as="geometry"/></mxCell>
+<mxCell id="r2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r2-3" target="r2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r2-4" target="r2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r2-5" target="r2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r2-10" value="spring.ai.model.chat=anthropic&lt;br&gt;spring.ai.model.embedding=ollama" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="r2-11" value="Embed documents and questions with the same model: vectors from different models aren&#x27;t comparable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="460" y="270" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="r3" name="Vector stores">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="r3-1" value="Vector stores" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="r3-2" value="add embeds and stores; similaritySearch embeds the query and returns the nearest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="r3-3" value="Document(&quot;Loans last 21 days and can be&lt;br&gt;renewed twice online.&quot;, source = loans.md)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="r3-4" value="VectorStore (PGVector · Redis · Elasticsearch&lt;br&gt;Qdrant · Chroma · SimpleVectorStore)&lt;br&gt;text + metadata + embedding" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="120" as="geometry"/></mxCell>
+<mxCell id="r3-5" value="add" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3-3" target="r3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r3-6" value="query &quot;how long can I keep a book&quot;&lt;br&gt;topK 3 · similarityThreshold 0.5&lt;br&gt;filterExpression &quot;source == &#x27;loans.md&#x27;&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="380" height="80" as="geometry"/></mxCell>
+<mxCell id="r3-7" value="similaritySearch" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;" edge="1" parent="1" source="r3-6" target="r3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r3-8" value="Metadata filters narrow a search, e.g. to one tenant: use them for access control so users never retrieve another customer&#x27;s documents" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="r4" name="Ingest documents with an ETL pipeline">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="r4-1" value="Ingest documents with an ETL pipeline" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="r4-2" value="Extract, transform into chunks, load into the vector store" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="r4-3" value="classpath:docs/&lt;br&gt;library-policy.md" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="r4-4" value="extract&lt;br&gt;TextReader&lt;br&gt;(Tika: PDF, Word)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="r4-5" value="transform&lt;br&gt;TokenTextSplitter&lt;br&gt;→ chunks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="r4-6" value="load&lt;br&gt;vectorStore.add(chunks)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="70" as="geometry"/></mxCell>
+<mxCell id="r4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r4-3" target="r4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r4-4" target="r4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r4-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r4-5" target="r4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r4-10" value="too large: diluted match&lt;br&gt;wasted prompt tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="230" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="r4-11" value="too small: lost context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="230" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="r4-12" value="keep source metadata&lt;br&gt;on every chunk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="230" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="r4-13" value="Document changed: delete its old chunks, then re-ingest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="r5" name="Answer questions with RetrievalAugmentationAdvisor">
+    <mxGraphModel dx="900" dy="376" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="376" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="r5-1" value="Answer questions with RetrievalAugmentationAdvisor" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="r5-2" value="Retrieval wired into ChatClient as an advisor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="r5-3" value="&quot;Can I renew a loan&lt;br&gt;three times?&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="200" height="60" as="geometry"/></mxCell>
+<mxCell id="r5-4" value="RetrievalAugmentationAdvisor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="280" y="95" width="400" height="200" as="geometry"/></mxCell>
+<mxCell id="r5-5" value="query transformers (optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="130" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="r5-6" value="VectorStoreDocumentRetriever&lt;br&gt;threshold 0.5 · topK 4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="180" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="r5-7" value="query augmenter: answer only from context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="240" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="r5-8" value="model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="160" width="140" height="70" as="geometry"/></mxCell>
+<mxCell id="r5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r5-3" target="r5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r5-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r5-4" target="r5-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r5-11" value="Keep the default rule to answer only from the context and say when it doesn&#x27;t contain the answer · QuestionAnswerAdvisor is the simple form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="r6" name="Improve retrieval quality">
+    <mxGraphModel dx="900" dy="366" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="366" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="r6-1" value="Improve retrieval quality" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="r6-2" value="Transform vague or follow-up questions before searching" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="r6-3" value="&quot;and for DVDs?&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="r6-4" value="CompressionQueryTransformer&lt;br&gt;folds chat history into a&lt;br&gt;standalone question" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="290" y="100" width="260" height="70" as="geometry"/></mxCell>
+<mxCell id="r6-5" value="RewriteQueryTransformer&lt;br&gt;rephrases for search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="290" y="190" width="260" height="60" as="geometry"/></mxCell>
+<mxCell id="r6-6" value="retriever finds&lt;br&gt;matching passages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="130" width="260" height="70" as="geometry"/></mxCell>
+<mxCell id="r6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r6-3" target="r6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r6-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r6-4" target="r6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="r6-5" target="r6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="r6-10" value="each costs an extra model call" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="290" y="255" width="260" height="20" as="geometry"/></mxCell>
+<mxCell id="r6-11" value="Measure first: test questions with the passages that should be found · tune chunk size, topK, threshold · add chat memory for a conversational assistant" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

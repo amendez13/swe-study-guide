@@ -1,0 +1,124 @@
+<mxfile host="drawio">
+  <diagram id="k1" name="Synchronous and asynchronous communication">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="k1-1" value="Synchronous and asynchronous communication" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="k1-2" value="A broker in the middle decouples the services in time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="k1-3" value="synchronous" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="180" as="geometry"/></mxCell>
+<mxCell id="k1-4" value="employee&lt;br&gt;service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="135" width="140" height="50" as="geometry"/></mxCell>
+<mxCell id="k1-5" value="notification&lt;br&gt;service (down)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="135" width="140" height="50" as="geometry"/></mxCell>
+<mxCell id="k1-6" value="sendWelcome" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k1-4" target="k1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k1-7" value="the caller waits; if notifications are down, the request fails" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="200" width="360" height="60" as="geometry"/></mxCell>
+<mxCell id="k1-8" value="asynchronous" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="460" y="95" width="400" height="180" as="geometry"/></mxCell>
+<mxCell id="k1-9" value="employee&lt;br&gt;service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="475" y="135" width="110" height="50" as="geometry"/></mxCell>
+<mxCell id="k1-10" value="Kafka&lt;br&gt;employee-events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="605" y="135" width="110" height="50" as="geometry"/></mxCell>
+<mxCell id="k1-11" value="notification&lt;br&gt;service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="735" y="135" width="110" height="50" as="geometry"/></mxCell>
+<mxCell id="k1-12" value="send" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k1-9" target="k1-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k1-13" value="later" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k1-10" target="k1-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k1-14" value="the request succeeds; notifications catch up · new consumers join without changing the sender" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="475" y="200" width="370" height="60" as="geometry"/></mxCell>
+<mxCell id="k1-15" value="The price: eventual consistency and a broker to run and monitor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="k2" name="Events and messages">
+    <mxGraphModel dx="900" dy="404" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="404" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="k2-1" value="Events and messages" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="k2-2" value="Events record facts; commands ask one receiver to act" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="k2-3" value="event · past tense: EmployeeHired&lt;br&gt;producer doesn&#x27;t know who reacts → loose coupling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="100" width="400" height="70" as="geometry"/></mxCell>
+<mxCell id="k2-4" value="command · SendWelcomeEmail&lt;br&gt;asks one receiver → direct dependency over a broker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="100" width="400" height="70" as="geometry"/></mxCell>
+<mxCell id="k2-5" value="record EmployeeHired (a stable, versioned contract)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="820" height="110" as="geometry"/></mxCell>
+<mxCell id="k2-6" value="UUID eventId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60.0" y="245" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="k2-7" value="Instant occurredAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="217.5" y="245" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="k2-8" value="long employeeId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="245" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="k2-9" value="String name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="532.5" y="245" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="k2-10" value="String email" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="690.0" y="245" width="150" height="50" as="geometry"/></mxCell>
+<mxCell id="k2-11" value="safe: add optional fields" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="340" width="400" height="44" as="geometry"/></mxCell>
+<mxCell id="k2-12" value="breaking: rename or remove fields" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="340" width="400" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="k3" name="Delivery semantics">
+    <mxGraphModel dx="900" dy="456" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="456" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="k3-1" value="Delivery semantics" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="k3-2" value="Aim for at-least-once delivery with idempotent consumers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="k3-3" value="consumer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="140" height="270" as="geometry"/></mxCell>
+<mxCell id="k3-4" value="Kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="100" width="140" height="270" as="geometry"/></mxCell>
+<mxCell id="k3-5" value="message (offset n)" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="720" y="140" as="sourcePoint"/><mxPoint x="180" y="140" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="k3-6" value="process: e.g. send an email" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="160" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="k3-7" value="crash before committing the offset" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#b85450;" vertex="1" parent="1"><mxGeometry x="190" y="195" width="300" height="30" as="geometry"/></mxCell>
+<mxCell id="k3-8" value="same message again after restart" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="720" y="250" as="sourcePoint"/><mxPoint x="180" y="250" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="k3-9" value="commit offset after processing" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="180" y="310" as="sourcePoint"/><mxPoint x="720" y="310" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="k3-10" value="→ duplicate: the consumer must be idempotent" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontStyle=1;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="330" width="520" height="34" as="geometry"/></mxCell>
+<mxCell id="k3-11" value="Producers: acks=all (default) · Spring Kafka commits after the listener returns, so a failed listener leaves the offset uncommitted for a retry" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="390" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="k4" name="Kafka fundamentals">
+    <mxGraphModel dx="900" dy="394" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="394" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="k4-1" value="Kafka fundamentals" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="k4-2" value="Topics split into partitions; the key picks the partition; groups share partitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="k4-3" value="producer&lt;br&gt;key = employee id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="140" height="80" as="geometry"/></mxCell>
+<mxCell id="k4-4" value="topic employee-events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="230" y="95" width="300" height="210" as="geometry"/></mxCell>
+<mxCell id="k4-5" value="partition 0 · append-only log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250" y="130" width="260" height="44" as="geometry"/></mxCell>
+<mxCell id="k4-6" value="partition 1 · append-only log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250" y="188" width="260" height="44" as="geometry"/></mxCell>
+<mxCell id="k4-7" value="partition 2 · append-only log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250" y="246" width="260" height="44" as="geometry"/></mxCell>
+<mxCell id="k4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k4-3" target="k4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k4-9" value="group &quot;notification-service&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="580" y="95" width="280" height="100" as="geometry"/></mxCell>
+<mxCell id="k4-10" value="group &quot;audit-service&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="580" y="205" width="280" height="100" as="geometry"/></mxCell>
+<mxCell id="k4-11" value="each partition → one consumer in the group" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="595" y="130" width="250" height="50" as="geometry"/></mxCell>
+<mxCell id="k4-12" value="own offsets: reads every event independently" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="595" y="240" width="250" height="50" as="geometry"/></mxCell>
+<mxCell id="k4-13" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k4-4" target="k4-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k4-14" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k4-4" target="k4-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k4-15" value="Same key → same partition → in order · kept for a retention period, so new consumers can replay · partition count caps a group&#x27;s parallelism · Kafka 4 uses KRaft, no ZooKeeper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="k5" name="Produce events with KafkaTemplate">
+    <mxGraphModel dx="900" dy="356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="356" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="k5-1" value="Produce events with KafkaTemplate" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="k5-2" value="Send with the entity id as the key and check the asynchronous result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="k5-3" value="EmployeeEvents.hired(event)&lt;br&gt;KafkaTemplate&amp;lt;String, EmployeeHired&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="60" as="geometry"/></mxCell>
+<mxCell id="k5-4" value="send(&quot;employee-events&quot;,&lt;br&gt;String.valueOf(event.employeeId()),&lt;br&gt;event) → CompletableFuture" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="100" width="260" height="80" as="geometry"/></mxCell>
+<mxCell id="k5-5" value="topic&lt;br&gt;3 partitions&lt;br&gt;(NewTopic bean)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="110" width="140" height="60" as="geometry"/></mxCell>
+<mxCell id="k5-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k5-3" target="k5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k5-4" target="k5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k5-8" value="whenComplete: ex != null →&lt;br&gt;&quot;Publish failed: ...&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="210" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="k5-9" value="JacksonJsonSerializer (Jackson 3)&lt;br&gt;spring.kafka.bootstrap-servers" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="k5-10" value="Boot 4: spring-boot-starter-kafka · publishing after a database commit can lose the event on a crash in between: the transactional outbox closes that gap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="k6" name="Consume events with a Kafka listener">
+    <mxGraphModel dx="900" dy="350" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="k6-1" value="Consume events with a Kafka listener" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="k6-2" value="The listener container polls, deserializes, calls the method, and commits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="k6-3" value="topic&lt;br&gt;employee-events&lt;br&gt;3 partitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="160" height="100" as="geometry"/></mxCell>
+<mxCell id="k6-4" value="listener container&lt;br&gt;poll → JacksonJsonDeserializer&lt;br&gt;(trusted packages:&lt;br&gt;com.example.study)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240.0" y="110" width="190" height="120" as="geometry"/></mxCell>
+<mxCell id="k6-5" value="@KafkaListener&lt;br&gt;groupId = &quot;notification-service&quot;&lt;br&gt;concurrency = &quot;3&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="455.0" y="110" width="190" height="120" as="geometry"/></mxCell>
+<mxCell id="k6-6" value="commit offsets&lt;br&gt;after the method&lt;br&gt;returns" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670.0" y="110" width="190" height="120" as="geometry"/></mxCell>
+<mxCell id="k6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k6-4" target="k6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k6-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k6-5" target="k6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="k6-3" target="k6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="k6-10" value="onHired(event) prints &quot;Welcome email to &quot; + event.email()" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="240" y="240" width="620" height="22" as="geometry"/></mxCell>
+<mxCell id="k6-11" value="Different group ids each get every event · concurrency up to the partition count · listener containers use virtual threads when enabled · auto-offset-reset=earliest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
