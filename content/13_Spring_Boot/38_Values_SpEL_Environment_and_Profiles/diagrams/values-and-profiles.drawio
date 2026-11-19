@@ -1,0 +1,105 @@
+<mxfile host="drawio">
+  <diagram id="vap1" name="Inject a setting with @Value">
+    <mxGraphModel dx="900" dy="360" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="360" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vap1-1" value="Inject a setting with @Value" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vap1-2" value="Read from the Environment and converted to the parameter&#x27;s type" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vap1-3" value="library.loan-days=21" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-4" value="@Value(&quot;${library.loan-days}&quot;) int" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="300" y="100" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-5" value="21" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="100" width="140" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap1-3" target="vap1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap1-4" target="vap1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap1-8" value="library.reminder-delay=2d" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="160" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-9" value="@Value(&quot;${library.reminder-delay}&quot;) Duration" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="300" y="160" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-10" value="2 days" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="160" width="140" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap1-8" target="vap1-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap1-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap1-9" target="vap1-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap1-13" value="(missing)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-14" value="@Value(&quot;${library.max-renewals:2}&quot;) int" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="300" y="220" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-15" value="2 (default)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="220" width="140" height="44" as="geometry"/></mxCell>
+<mxCell id="vap1-16" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap1-13" target="vap1-14"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap1-17" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap1-14" target="vap1-15"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap1-18" value="missing property without a default:&lt;br&gt;startup fails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="vap1-19" value="a group of related settings:&lt;br&gt;@ConfigurationProperties record" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="290" width="400" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vap2" name="Property placeholders and SpEL">
+    <mxGraphModel dx="900" dy="434" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="434" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vap2-1" value="Property placeholders and SpEL" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vap2-2" value="${...} is replaced by text; #{...} is evaluated when the bean is created" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vap2-3" value="${...} property placeholder&lt;br&gt;replaced by the property&#x27;s text&lt;br&gt;also in @Scheduled(cron = &quot;${reports.cron}&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="400" height="90" as="geometry"/></mxCell>
+<mxCell id="vap2-4" value="#{...} SpEL expression&lt;br&gt;arithmetic · method calls ·&lt;br&gt;other beans by name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="100" width="400" height="90" as="geometry"/></mxCell>
+<mxCell id="vap2-5" value="#{${library.loan-days} * 24}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="600" height="38" as="geometry"/></mxCell>
+<mxCell id="vap2-6" value="loanHours" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="220" width="160" height="38" as="geometry"/></mxCell>
+<mxCell id="vap2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap2-5" target="vap2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap2-8" value="#{&#x27;${library.branches:north,south}&#x27;.split(&#x27;,&#x27;)}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="600" height="38" as="geometry"/></mxCell>
+<mxCell id="vap2-9" value="branches" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="270" width="160" height="38" as="geometry"/></mxCell>
+<mxCell id="vap2-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap2-8" target="vap2-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap2-11" value="#{T(java.lang.Runtime).getRuntime().availableProcessors()}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="600" height="38" as="geometry"/></mxCell>
+<mxCell id="vap2-12" value="cpus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="320" width="160" height="38" as="geometry"/></mxCell>
+<mxCell id="vap2-13" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap2-11" target="vap2-12"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap2-14" value="Keep expressions short: annotation strings aren&#x27;t checked by the compiler · move growing logic into Java" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="380" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vap3" name="The Environment">
+    <mxGraphModel dx="900" dy="365" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="365" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vap3-1" value="The Environment" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vap3-2" value="Property sources merged in a fixed priority order" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vap3-3" value="highest priority first" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="30" y="95" width="460" height="250" as="geometry"/></mxCell>
+<mxCell id="vap3-4" value="command-line arguments" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="50" y="135" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="vap3-5" value="environment variables · system properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="50" y="189" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="vap3-6" value="profile-specific application-{profile}.properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="50" y="243" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="vap3-7" value="application.properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="50" y="297" width="420" height="44" as="geometry"/></mxCell>
+<mxCell id="vap3-8" value="Environment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="110" width="300" height="80" as="geometry"/></mxCell>
+<mxCell id="vap3-9" value="merged" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vap3-3" target="vap3-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap3-10" value="read by @Value and&lt;br&gt;@ConfigurationProperties&lt;br&gt;env.getProperty(&quot;features.&quot; + f,&lt;br&gt;Boolean.class, false)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="220" width="300" height="86" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vap4" name="Profiles">
+    <mxGraphModel dx="900" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="330" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vap4-1" value="Profiles" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vap4-2" value="@Profile registers a bean only when the profile matches" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vap4-3" value="SPRING_PROFILES_ACTIVE=prod" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="300" height="60" as="geometry"/></mxCell>
+<mxCell id="vap4-4" value="@Profile(&quot;prod&quot;) SmtpMailSender: registered" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="100" width="440" height="50" as="geometry"/></mxCell>
+<mxCell id="vap4-5" value="@Profile(&quot;!prod&quot;) ConsoleMailSender: skipped" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="420" y="170" width="440" height="50" as="geometry"/></mxCell>
+<mxCell id="vap4-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vap4-3" target="vap4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vap4-3" target="vap4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap4-8" value="application-dev.properties overrides&lt;br&gt;the default file while dev is active" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="vap4-9" value="feature switches within one environment:&lt;br&gt;@ConditionalOnProperty instead" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="250" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vap5" name="Keep secrets out of the code">
+    <mxGraphModel dx="900" dy="314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="314" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vap5-1" value="Keep secrets out of the code" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vap5-2" value="Committed files hold placeholders; values arrive at run time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vap5-3" value="spring.datasource.password=${DATABASE_PASSWORD}&lt;br&gt;library.isbn-api.key=${ISBN_API_KEY}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="360" height="70" as="geometry"/></mxCell>
+<mxCell id="vap5-4" value="environment variables" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="95" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="vap5-5" value="mounted config tree" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="141" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="vap5-6" value="secret manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="187" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="vap5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vap5-4" target="vap5-3"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap5-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vap5-5" target="vap5-3"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="vap5-6" target="vap5-3"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vap5-10" value="value missing → placeholder fails startup&lt;br&gt;(better than an empty password)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="vap5-11" value="never log the whole Environment or expose&lt;br&gt;env / configprops endpoints publicly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="240" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
