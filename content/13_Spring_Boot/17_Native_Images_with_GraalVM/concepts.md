@@ -14,6 +14,10 @@ ls -lh target/study
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/native-image/introducing-graalvm-native-images.html)
 
+![What a native image is](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images-1-what-a-native-image-is.png)
+
+*Source: [`diagrams/native-images.drawio`](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images.drawio), page 1.*
+
 ## Spring AOT processing
 
 Spring normally discovers configuration at startup: it scans classes, evaluates conditions, and creates proxies with reflection. For a native image, Spring Boot runs that work during the build instead. The AOT engine starts the application context, evaluates `@Conditional` and `@Profile` decisions, and generates Java source that registers the resulting bean definitions directly. It also writes GraalVM hints for the reflection and resources it knows about.
@@ -38,6 +42,10 @@ class ExportConfig {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/native-image/introducing-graalvm-native-images.html#packaging.native-image.introducing-graalvm-native-images.understanding-aot-processing)
 
+![Spring AOT processing](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images-2-spring-aot-processing.png)
+
+*Source: [`diagrams/native-images.drawio`](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images.drawio), page 2.*
+
 ## Build a native executable
 
 Install a GraalVM distribution for Java 25 and make it the active JDK. Add GraalVM's Native Build Tools plugin, `native-maven-plugin`, to the POM. Boot's parent configures the plugin's version and the `native` profile. That profile runs Spring AOT processing during `package`, and `native:compile` then runs the native image builder on the result.
@@ -61,6 +69,10 @@ The executable lands in `target/` under the artifact name. It is specific to the
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/how-to/native-image/developing-your-first-application.html#howto.native-image.developing-your-first-application.native-build-tools)
 
+![Build a native executable](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images-3-build-a-native-executable.png)
+
+*Source: [`diagrams/native-images.drawio`](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images.drawio), page 3.*
+
 ## A native container image with buildpacks
 
 `spring-boot:build-image` with the `native` profile builds a native image inside the Paketo builder, so the build machine needs Docker but not GraalVM. The resulting container holds only the executable on a minimal base image, with no JVM. Images are small and start almost instantly.
@@ -74,6 +86,10 @@ docker images study
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/how-to/native-image/developing-your-first-application.html#howto.native-image.developing-your-first-application.buildpacks)
+
+![A native container image with buildpacks](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images-4-a-native-container-image-with-buildpacks.png)
+
+*Source: [`diagrams/native-images.drawio`](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images.drawio), page 4.*
 
 ## Runtime hints for reflection and resources
 
@@ -114,6 +130,10 @@ class PluginFormatter {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/aot.html#aot.hints)
 
+![Runtime hints for reflection and resources](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images-5-runtime-hints-for-reflection-and-resources.png)
+
+*Source: [`diagrams/native-images.drawio`](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images.drawio), page 5.*
+
 ## Libraries and native tests
 
 Many libraries need native configuration of their own. GraalVM's reachability metadata repository supplies it for popular libraries, and the Native Build Tools plugin downloads it automatically. Libraries can also ship metadata in their jars. Check that each dependency supports native images before you rely on it, especially anything that uses dynamic class loading or bytecode generation at run time.
@@ -139,3 +159,7 @@ class MockHeavyTests {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/native-image/testing-native-applications.html)
+
+![Libraries and native tests](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images-6-libraries-and-native-tests.png)
+
+*Source: [`diagrams/native-images.drawio`](/content/13_Spring_Boot/17_Native_Images_with_GraalVM/diagrams/native-images.drawio), page 6.*
