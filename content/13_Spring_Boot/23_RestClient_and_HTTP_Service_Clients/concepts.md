@@ -28,6 +28,10 @@ class PricingClient {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-restclient)
 
+![Call services with RestClient](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-1-call-services-with-restclient.png)
+
+*Source: [`diagrams/http-clients.drawio`](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients.drawio), page 1.*
+
 ## Handle HTTP errors and timeouts
 
 By default `retrieve()` throws `HttpClientErrorException` for 4xx and `HttpServerErrorException` for 5xx responses. `onStatus` maps a status to your own exception, such as turning a 404 into `Optional.empty()` or a domain exception. Use `exchange` when you need full control over the response.
@@ -53,6 +57,10 @@ Price priceOrThrow(String isbn) {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/io/rest-client.html)
+
+![Handle HTTP errors and timeouts](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-2-handle-http-errors-and-timeouts.png)
+
+*Source: [`diagrams/http-clients.drawio`](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients.drawio), page 2.*
 
 ## Declare an HTTP service interface
 
@@ -83,6 +91,10 @@ interface ReviewClient {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html#rest-http-interface)
 
+![Declare an HTTP service interface](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-3-declare-an-http-service-interface.png)
+
+*Source: [`diagrams/http-clients.drawio`](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients.drawio), page 3.*
+
 ## Register HTTP service clients in Boot 4
 
 Changed in Boot 4: you no longer build proxies by hand with `HttpServiceProxyFactory`. Spring Framework 7's `@ImportHttpServices` registers interfaces as beans in a named group, and Boot configures each group's client from properties such as the base URL and timeouts. Inject the interface wherever it is needed.
@@ -105,6 +117,10 @@ spring.http.serviceclient.reviews.read-timeout=3s
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/io/rest-client.html#io.rest-client.httpservice)
+
+![Register HTTP service clients in Boot 4](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-4-register-http-service-clients-in-boot-4.png)
+
+*Source: [`diagrams/http-clients.drawio`](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients.drawio), page 4.*
 
 ## Retry and limit calls with Spring Framework 7
 
@@ -138,3 +154,7 @@ class ReviewService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/resilience.html)
+
+![Retry and limit calls with Spring Framework 7](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-5-retry-and-limit-calls-with-spring-framework-7.png)
+
+*Source: [`diagrams/http-clients.drawio`](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients.drawio), page 5.*
