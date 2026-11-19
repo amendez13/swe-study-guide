@@ -22,6 +22,10 @@ You choose a render mode per component or per app, so mostly static sites can ad
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/blazor/?view=aspnetcore-10.0)
 
+![Blazor](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-1-blazor.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 1.*
+
 ## SignalR
 
 SignalR pushes messages from server to clients in real time. A hub is a class whose public methods clients call. The hub calls methods on clients through `Clients.All`, `Clients.Group`, or `Clients.User`. SignalR picks the best transport the client supports: WebSockets, then Server-Sent Events, then long polling. It handles reconnection and serialization for you.
@@ -50,6 +54,10 @@ public class LoanHub : Hub
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-10.0)
 
+![SignalR](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-2-signalr.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 2.*
+
 ## gRPC
 
 gRPC is a contract-first RPC framework. You describe services and messages in a `.proto` file, and tooling generates a C# base class for the server and a typed client. Messages travel as compact Protocol Buffers over HTTP/2, with streaming in both directions. That makes gRPC a good fit for service-to-service calls where both sides are under your control.
@@ -75,6 +83,10 @@ public class GreeterService : Greeter.GreeterBase
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/grpc/?view=aspnetcore-10.0)
+
+![gRPC](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-3-grpc.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 3.*
 
 ## Rate limiting
 
@@ -104,6 +116,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit?view=aspnetcore-10.0)
 
+![Rate limiting](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-4-rate-limiting.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 4.*
+
 ## Output caching
 
 Output caching, added in .NET 7, stores whole responses on the server and serves them without running the endpoint again. Unlike response caching, it doesn't depend on client cache headers, and you control it in code. Add `AddOutputCache` and `UseOutputCache`, then mark endpoints with `CacheOutput()` or `[OutputCache]`.
@@ -127,6 +143,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/output?view=aspnetcore-10.0)
+
+![Output caching](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-5-output-caching.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 5.*
 
 ## HybridCache
 
@@ -154,6 +174,10 @@ public record Book(int Id, string Title, DateTime LoadedAt);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/hybrid?view=aspnetcore-10.0)
 
+![HybridCache](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-6-hybridcache.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 6.*
+
 ## Native AOT
 
 Native AOT, supported for ASP.NET Core since .NET 8, compiles the app ahead of time into a single native executable. It starts in milliseconds, uses less memory, and needs no .NET runtime on the machine, which suits containers and serverless functions. The trade-off is that runtime code generation and unrestricted reflection aren't available.
@@ -178,6 +202,10 @@ internal partial class AppJsonContext : JsonSerializerContext;
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/native-aot?view=aspnetcore-10.0)
 
+![Native AOT](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-7-native-aot.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 7.*
+
 ## Aspire
 
 Aspire is an opinionated stack for building and running distributed .NET apps locally and in the cloud. An AppHost project describes the app model in C#: your projects, databases, caches, and how they reference each other. `dotnet run` on the AppHost starts everything, injects connection strings and service URLs, and opens a dashboard with logs, traces, and metrics.
@@ -195,3 +223,7 @@ builder.Build().Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
+
+![Aspire](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book-8-aspire.png)
+
+*Source: [`diagrams/beyond-the-book.drawio`](/content/12_ASP.NET_Core/37_Beyond_the_Book/diagrams/beyond-the-book.drawio), page 8.*

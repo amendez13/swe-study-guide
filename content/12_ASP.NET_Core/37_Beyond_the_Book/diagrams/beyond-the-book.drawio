@@ -1,0 +1,155 @@
+<mxfile host="drawio">
+  <diagram id="btb1" name="Blazor">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb1-1" value="Blazor" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb1-2" value="C# components with a render mode per component or per app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb1-3" value="Static server&lt;br&gt;rendering&lt;br&gt;plain HTML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="190" height="90" as="geometry"/></mxCell>
+<mxCell id="btb1-4" value="Interactive Server&lt;br&gt;state on the server ·&lt;br&gt;updates over SignalR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250.0" y="110" width="190" height="90" as="geometry"/></mxCell>
+<mxCell id="btb1-5" value="Interactive WebAssembly&lt;br&gt;.NET in the browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="110" width="190" height="90" as="geometry"/></mxCell>
+<mxCell id="btb1-6" value="Interactive Auto&lt;br&gt;server first, then&lt;br&gt;WebAssembly once&lt;br&gt;downloaded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670.0" y="110" width="190" height="90" as="geometry"/></mxCell>
+<mxCell id="btb1-7" value="@page &quot;/loans&quot;&lt;br&gt;@rendermode InteractiveServer&lt;br&gt;Books on loan: @count&lt;br&gt;&amp;lt;button @onclick=&quot;() =&amp;gt; count++&quot;&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="400" height="110" as="geometry"/></mxCell>
+<mxCell id="btb1-8" value="mostly static sites add interactivity only where needed · .NET 9 and 10: reconnection, state persistence across prerendering, form validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="460" y="240" width="400" height="110" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb2" name="SignalR">
+    <mxGraphModel dx="900" dy="326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="326" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb2-1" value="SignalR" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb2-2" value="A hub pushes messages from server to clients in real time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb2-3" value="POST /returns/{title}&lt;br&gt;IHubContext&amp;lt;LoanHub&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="btb2-4" value="LoanHub at /hubs/loans&lt;br&gt;Clients.All.SendAsync(&lt;br&gt;&quot;bookReturned&quot;, title)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="240" height="80" as="geometry"/></mxCell>
+<mxCell id="btb2-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb2-3" target="btb2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb2-6" value="client (JavaScript)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="90" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="btb2-7" value="client (.NET)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="134" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="btb2-8" value="client (Java)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="178" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="btb2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb2-4" target="btb2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb2-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb2-4" target="btb2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb2-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb2-4" target="btb2-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb2-12" value="transport: WebSockets → Server-Sent Events&lt;br&gt;→ long polling · reconnection handled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="btb2-13" value="scale out: Redis or Azure SignalR Service&lt;br&gt;backplane reaches clients on other servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="220" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="btb2-14" value=".NET 10: TypedResults.ServerSentEvents for one-way server-to-browser streams" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="284" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb3" name="gRPC">
+    <mxGraphModel dx="900" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="330" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb3-1" value="gRPC" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb3-2" value="Contract-first RPC: Protocol Buffers over HTTP/2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb3-3" value="Protos/greet.proto&lt;br&gt;services + messages" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="80" as="geometry"/></mxCell>
+<mxCell id="btb3-4" value="GreeterService : Greeter.GreeterBase&lt;br&gt;SayHello → HelloReply &quot;Hello {Name}&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="95" width="300" height="60" as="geometry"/></mxCell>
+<mxCell id="btb3-5" value="typed client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="175" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="btb3-6" value="generates" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb3-3" target="btb3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb3-3" target="btb3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;startArrow=block;startSize=6;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb3-5" target="btb3-4"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="680" y="200"/><mxPoint x="680" y="125"/></Array></mxGeometry></mxCell>
+<mxCell id="btb3-9" value="HTTP/2 · streaming&lt;br&gt;in both directions" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="700" y="130" width="160" height="60" as="geometry"/></mxCell>
+<mxCell id="btb3-10" value="browsers can&#x27;t call gRPC directly: gRPC-Web or JSON transcoding · good for service-to-service calls you control" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb4" name="Rate limiting">
+    <mxGraphModel dx="900" dy="356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="356" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb4-1" value="Rate limiting" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb4-2" value="Fixed window &quot;search&quot;: PermitLimit 2 per 10 s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb4-3" value="GET /search #1 → 200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="250" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-4" value="GET /search #2 → 200" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="110" width="250" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-5" value="GET /search #3 → 429" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="110" width="250" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-6" value="within ten seconds · RejectionStatusCode = 429 (default is 503)" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="165" width="820" height="22" as="geometry"/></mxCell>
+<mxCell id="btb4-7" value="fixed window" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="190" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-8" value="sliding window" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250.0" y="210" width="190" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-9" value="token bucket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="210" width="190" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-10" value="concurrency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670.0" y="210" width="190" height="50" as="geometry"/></mxCell>
+<mxCell id="btb4-11" value="AddRateLimiter + UseRateLimiter + RequireRateLimiting · partitioned limiters per user, API key, or IP · protects against overload, not a WAF replacement" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb5" name="Output caching">
+    <mxGraphModel dx="900" dy="356" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="356" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb5-1" value="Output caching" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb5-2" value="Whole responses stored on the server, controlled in code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb5-3" value="GET /time" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="btb5-4" value="output cache&lt;br&gt;Tag(&quot;clock&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="100" width="260" height="64" as="geometry"/></mxCell>
+<mxCell id="btb5-5" value="endpoint runs&lt;br&gt;DateTime.UtcNow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="100" width="240" height="64" as="geometry"/></mxCell>
+<mxCell id="btb5-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb5-3" target="btb5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb5-7" value="miss" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb5-4" target="btb5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb5-8" value="hit: same response" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb5-4" target="btb5-3"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="430" y="190"/><mxPoint x="140" y="190"/></Array></mxGeometry></mxCell>
+<mxCell id="btb5-9" value="POST /time/reset&lt;br&gt;EvictByTagAsync(&quot;clock&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="300" y="220" width="260" height="44" as="geometry"/></mxCell>
+<mxCell id="btb5-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="btb5-9" target="btb5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb5-11" value="Default: 200 responses to GET/HEAD for 60 s · skips authenticated requests and responses that set cookies · vary by query or header · Redis for multiple servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb6" name="HybridCache">
+    <mxGraphModel dx="900" dy="326" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="326" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb6-1" value="HybridCache" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb6-2" value="One API over memory + optional distributed cache, with stampede protection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb6-3" value="request book:1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="btb6-4" value="request book:1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="146" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="btb6-5" value="request book:1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="192" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="btb6-6" value="GetOrCreateAsync(&quot;book:1&quot;)&lt;br&gt;in-process memory cache&lt;br&gt;+ optional Redis" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="280" y="100" width="250" height="128" as="geometry"/></mxCell>
+<mxCell id="btb6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb6-3" target="btb6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb6-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb6-4" target="btb6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb6-5" target="btb6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb6-10" value="factory: one call&lt;br&gt;Task.Delay(1000) → new Book&lt;br&gt;concurrent misses wait for it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="100" width="260" height="128" as="geometry"/></mxCell>
+<mxCell id="btb6-11" value="miss" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb6-6" target="btb6-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb6-12" value="Second /books/1 request comes from the cache with no delay · Expiration 5 min · tags for eviction · replaces IMemoryCache + IDistributedCache code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb7" name="Native AOT">
+    <mxGraphModel dx="900" dy="342" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="342" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb7-1" value="Native AOT" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb7-2" value="Ahead-of-time compiled into one native executable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb7-3" value="dotnet new webapiaot&lt;br&gt;PublishAot · CreateSlimBuilder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="btb7-4" value="dotnet publish" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="btb7-5" value="native executable&lt;br&gt;ms startup · less memory&lt;br&gt;no .NET runtime needed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="110" width="250" height="70" as="geometry"/></mxCell>
+<mxCell id="btb7-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb7-3" target="btb7-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb7-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb7-4" target="btb7-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb7-8" value="supported: Minimal APIs · gRPC&lt;br&gt;JWT bearer handler" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="400" height="70" as="geometry"/></mxCell>
+<mxCell id="btb7-9" value="not supported: MVC · Razor Pages · Blazor Server&lt;br&gt;no runtime codegen or unrestricted reflection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="220" width="400" height="70" as="geometry"/></mxCell>
+<mxCell id="btb7-10" value="JSON via a source-generated JsonSerializerContext (AppJsonContext)" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="btb8" name="Aspire">
+    <mxGraphModel dx="900" dy="350" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="btb8-1" value="Aspire" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="btb8-2" value="An AppHost describes the app model and runs it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="btb8-3" value="LibraryApp.AppHost&lt;br&gt;dotnet run" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="240" height="80" as="geometry"/></mxCell>
+<mxCell id="btb8-4" value="dashboard&lt;br&gt;logs · traces · metrics" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="btb8-5" value="opens" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="btb8-3" target="btb8-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb8-6" value="AddRedis(&quot;cache&quot;)" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="90" width="180" height="70" as="geometry"/></mxCell>
+<mxCell id="btb8-7" value="StudyApi &quot;api&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="210" width="180" height="60" as="geometry"/></mxCell>
+<mxCell id="btb8-8" value="starts" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb8-3" target="btb8-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb8-9" value="starts" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.7;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb8-3" target="btb8-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb8-10" value="WithReference · WaitFor" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="btb8-7" target="btb8-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb8-11" value="ServiceDefaults: AddServiceDefaults()&lt;br&gt;OpenTelemetry · health checks ·&lt;br&gt;discovery · HTTP resilience" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="200" width="220" height="80" as="geometry"/></mxCell>
+<mxCell id="btb8-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="btb8-7" target="btb8-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="btb8-13" value="Injects connection strings and service URLs · the same app model can generate deployment artifacts · dotnet new aspire-starter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
