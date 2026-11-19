@@ -1,0 +1,134 @@
+<mxfile host="drawio">
+  <diagram id="xt1" name="Kinds of tests">
+    <mxGraphModel dx="900" dy="410" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="410" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt1-1" value="Kinds of tests" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt1-2" value="Many fast unit tests, fewer integration tests, a handful of end-to-end tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt1-3" value="end-to-end&lt;br&gt;deployed app, often a browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="260" height="60" as="geometry"/></mxCell>
+<mxCell id="xt1-4" value="integration&lt;br&gt;real components together: in-memory pipeline, real database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="170" width="460" height="60" as="geometry"/></mxCell>
+<mxCell id="xt1-5" value="unit&lt;br&gt;one class or method · collaborators faked · fast and precise" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="100" y="240" width="700" height="60" as="geometry"/></mxCell>
+<mxCell id="xt1-6" value="" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="820" y="100" width="40" height="200" as="geometry"/></mxCell>
+<mxCell id="xt1-7" value="most realistic · slowest · most fragile" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="260" height="60" as="geometry"/></mxCell>
+<mxCell id="xt1-8" value="catch wiring mistakes" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="700" y="170" width="160" height="60" as="geometry"/></mxCell>
+<mxCell id="xt1-9" value="LateFees.For(daysLate) = Math.Min(daysLate * 0.25m, 10m) · negative days throw" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="xt1-10" value="test behavior through public methods, not private details, so refactoring doesn&#x27;t break tests" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="368" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xt2" name="Create a test project">
+    <mxGraphModel dx="900" dy="376" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="376" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt2-1" value="Create a test project" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt2-2" value="Tests live in a separate project in the same solution" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt2-3" value="solution (.slnx by default in .NET 10)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="820" height="200" as="geometry"/></mxCell>
+<mxCell id="xt2-4" value="StudyApi&lt;br&gt;(the app)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="70" y="140" width="300" height="120" as="geometry"/></mxCell>
+<mxCell id="xt2-5" value="StudyApi.Tests&lt;br&gt;dotnet new xunit&lt;br&gt;xUnit · VS runner&lt;br&gt;Microsoft.NET.Test.Sdk&lt;br&gt;UnitTest1 [Fact] Test1()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="520" y="130" width="310" height="140" as="geometry"/></mxCell>
+<mxCell id="xt2-6" value="tests" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt2-5" target="xt2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt2-7" value="xUnit v3 (package xunit.v3): tests are standalone executables · TestContext.Current with a cancellation token · same [Fact] / [Theory] model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xt3" name="Run tests with dotnet test">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt3-1" value="Run tests with dotnet test" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt3-2" value="Build, discover, run, summarize; a non-zero exit code fails CI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt3-3" value="dotnet test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="xt3-4" value="build projects" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="207.5" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="xt3-5" value="discover tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="xt3-6" value="run" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="542.5" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="xt3-7" value="summary +&lt;br&gt;failures · exit code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710.0" y="110" width="150" height="64" as="geometry"/></mxCell>
+<mxCell id="xt3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt3-3" target="xt3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt3-4" target="xt3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt3-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt3-5" target="xt3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt3-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt3-6" target="xt3-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt3-12" value="--filter: by name, class, or trait" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="220" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="xt3-13" value="--logger &quot;console;verbosity=detailed&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="220" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="xt3-14" value="tests in one class run sequentially&lt;br&gt;classes run in parallel: no shared mutable state" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="xt3-15" value=".NET 10: opt into Microsoft.Testing.Platform&lt;br&gt;instead of VSTest in global.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="300" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xt4" name="Reference the app from the test project">
+    <mxGraphModel dx="900" dy="320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="320" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt4-1" value="Reference the app from the test project" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt4-2" value="A project reference exposes the app&#x27;s public types to the tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt4-3" value="StudyApi.Tests&lt;br&gt;LateFeeTests&lt;br&gt;LateFees.For(daysLate: 4) → 1.00m" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="90" as="geometry"/></mxCell>
+<mxCell id="xt4-4" value="StudyApi&lt;br&gt;Program.cs declares&lt;br&gt;public static class LateFees" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="560" y="110" width="300" height="90" as="geometry"/></mxCell>
+<mxCell id="xt4-5" value="dotnet add StudyApi.Tests&lt;br&gt;reference StudyApi" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt4-3" target="xt4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt4-6" value="internal types: &amp;lt;InternalsVisibleTo&lt;br&gt;Include=&quot;StudyApi.Tests&quot; /&amp;gt; in the app&#x27;s project" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="xt4-7" value="keep testable logic in named classes,&lt;br&gt;not Program.cs lambdas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="240" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xt5" name="Facts">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt5-1" value="Facts" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt5-2" value="xUnit creates a new test class instance for every test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt5-3" value="new LateFeeFacts() · Fee_is_capped_at_ten" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="200" as="geometry"/></mxCell>
+<mxCell id="xt5-4" value="constructor: fresh _fees list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="135" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="xt5-5" value="arrange/act: _fees.Add(LateFees.For(100))" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="181" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="xt5-6" value="assert: Assert.Single(_fees) == 10m" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="227" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="xt5-7" value="new LateFeeFacts() · No_fee_when_on_time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="460" y="95" width="400" height="200" as="geometry"/></mxCell>
+<mxCell id="xt5-8" value="constructor: fresh _fees list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="135" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="xt5-9" value="arrange/act: _fees.Add(LateFees.For(0))" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="181" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="xt5-10" value="assert: Assert.Single(_fees) == 0m" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="227" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="xt5-11" value="Arrange, act, assert · name the test after the behavior · one logical assertion per test · cleanup in Dispose" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xt6" name="Theories">
+    <mxGraphModel dx="900" dy="372" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="372" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt6-1" value="Theories" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt6-2" value="Each data row runs as its own test case with its own result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-3" value="[Theory]&lt;br&gt;Fee_for_days_late(&lt;br&gt;daysLate, expected)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="xt6-4" value="[InlineData] (0, 0) → 0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="340" y="95" width="220" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xt6-3" target="xt6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt6-6" value="[InlineData] (1, 0.25) → 0.25" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="340" y="135" width="220" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xt6-3" target="xt6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt6-8" value="[InlineData] (40, 10) → 10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="340" y="175" width="220" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xt6-3" target="xt6-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt6-10" value="[InlineData] (41, 10) → 10" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="340" y="215" width="220" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xt6-3" target="xt6-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt6-12" value="[MemberData(nameof(Caps))]&lt;br&gt;TheoryData&amp;lt;int, decimal&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="xt6-13" value="(39, 9.75m)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="340" y="280" width="220" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-14" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xt6-12" target="xt6-13"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt6-15" value="(400, 10m)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="340" y="320" width="220" height="32" as="geometry"/></mxCell>
+<mxCell id="xt6-16" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="xt6-12" target="xt6-15"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt6-17" value="one failing row doesn&#x27;t hide the others · MemberData / ClassData for values that aren&#x27;t constants (decimal, objects)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="600" y="110" width="260" height="140" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="xt7" name="Test failure conditions">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="xt7-1" value="Test failure conditions" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="xt7-2" value="Throws requires the exact type; ThrowsAny accepts derived types" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="xt7-3" value="LateFees.For(-1)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="xt7-4" value="Assert.Throws&amp;lt;ArgumentOutOfRangeException&amp;gt;&lt;br&gt;returns the exception →&lt;br&gt;Assert.Equal(&quot;daysLate&quot;, error.ParamName)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="400" y="100" width="460" height="70" as="geometry"/></mxCell>
+<mxCell id="xt7-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="xt7-3" target="xt7-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="xt7-6" value="Assert.Throws&amp;lt;T&amp;gt;&lt;br&gt;exactly T" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="xt7-7" value="Assert.ThrowsAny&amp;lt;T&amp;gt;&lt;br&gt;T or derived" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="210" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="xt7-8" value="await Assert.ThrowsAsync&amp;lt;T&amp;gt;&lt;br&gt;async code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="210" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="xt7-9" value="Check what callers rely on (parameter name, key details), not the full message text" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
