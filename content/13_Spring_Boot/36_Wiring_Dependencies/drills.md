@@ -23,6 +23,10 @@ class OverdueService {
 
 Startup fails: `OverdueService` needs one `Notifier` and two beans match. Mark the usual one `@Primary`, or name the choice at the injection point with `@Qualifier("emailNotifier")`. If the service should notify through every channel, inject `List<Notifier>` instead. See [several candidates: @Primary and @Qualifier](#13_Spring_Boot/36_Wiring_Dependencies/concepts/several-candidates-primary-and-qualifier).
 
+![Predict the ambiguous bean](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-drills-1-predict-the-ambiguous-bean.png)
+
+*Source: [`diagrams/wiring-dependencies-drills.drawio`](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-drills.drawio), page 1.*
+
 ## Make an integration optional
 
 `ShelfService` should publish an event to `AuditLog` when one is configured, and work normally when no `AuditLog` bean exists. Write the constructor and the method without a null check on a field injected with `@Autowired(required = false)`.

@@ -23,6 +23,10 @@ class LoanService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html#beans-constructor-injection)
 
+![Constructor injection](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-1-constructor-injection.png)
+
+*Source: [`diagrams/wiring-dependencies.drawio`](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies.drawio), page 1.*
+
 ## @Autowired, field and setter injection
 
 `@Autowired` marks an injection point. It is needed on a constructor only when a class has several constructors, to tell Spring which one to use. It can also go on fields and setter methods, which Spring fills after creating the object.
@@ -48,6 +52,10 @@ class ReminderService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired.html)
+
+![@Autowired, field and setter injection](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-2-autowired-field-and-setter-injection.png)
+
+*Source: [`diagrams/wiring-dependencies.drawio`](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies.drawio), page 2.*
 
 ## Several candidates: @Primary and @Qualifier
 
@@ -85,6 +93,10 @@ class OverdueService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-qualifiers.html)
+
+![Several candidates: @Primary and @Qualifier](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-3-several-candidates-primary-and-qualifier.png)
+
+*Source: [`diagrams/wiring-dependencies.drawio`](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies.drawio), page 3.*
 
 ## Inject every candidate
 
@@ -128,6 +140,10 @@ class LoanChecker {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired.html)
 
+![Inject every candidate](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-4-inject-every-candidate.png)
+
+*Source: [`diagrams/wiring-dependencies.drawio`](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies.drawio), page 4.*
+
 ## Optional and lazy dependencies with ObjectProvider
 
 `ObjectProvider<T>` injects a handle instead of the bean. Its methods fetch the bean when you call them: `getIfAvailable()` returns null or a default when no bean exists, `getIfUnique()` returns one only when it is unambiguous, and `stream()` iterates over all candidates. Nothing is created until you ask.
@@ -154,3 +170,7 @@ class CheckoutService {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-method-injection.html)
+
+![Optional and lazy dependencies with ObjectProvider](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies-5-optional-and-lazy-dependencies-with-objectprovider.png)
+
+*Source: [`diagrams/wiring-dependencies.drawio`](/content/13_Spring_Boot/36_Wiring_Dependencies/diagrams/wiring-dependencies.drawio), page 5.*
