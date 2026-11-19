@@ -25,11 +25,11 @@ The app listens on `http://localhost:8080`. Call the sample URLs with a browser 
 - [Part 3 · Releasing](#13_Spring_Boot/14_Profiles_YAML_and_Property_Overrides), chapters 6–8: configuration profiles, containers, native images and the AOT cache
 - [Part 4 · Scaling](#13_Spring_Boot/19_Reactive_Programming_with_Project_Reactor), chapters 9–12: reactive web and data, virtual threads and HTTP service clients, messaging with Kafka
 - [Part 5 · Observability](#13_Spring_Boot/26_Structured_Logging_and_Metrics), chapter 13: structured logs, metrics, and tracing
-- Part 6 · Spring AI, chapter 14
+- [Part 6 · Spring AI](#13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools), chapter 14: ChatClient, tools, RAG, MCP, and AI security
 - Part 7 · What's new in Spring Boot 4, chapter 15
 - Beyond the book · Spring Modulith, Spring Batch, GraphQL, WebSocket, Spring Cloud basics, and CRaC
 
-Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 5 (topics 1–27) are available now. Chapters 2 to 5, 7 to 9, and 11 to 13 are split into several topics each.
+Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Parts 1 to 6 (topics 1–30) are available now. Chapters 2 to 5, 7 to 9, and 11 to 14 are split into several topics each.
 
 ## Changes since Spring Boot 3
 
@@ -45,3 +45,4 @@ Start with [topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration). Pa
 - Topic 23: `@ImportHttpServices` registers HTTP service clients configured under `spring.http.serviceclient.*`, and Spring Framework 7 adds `@Retryable` and `@ConcurrencyLimit` to the core. [HTTP service clients](https://docs.spring.io/spring-boot/reference/io/rest-client.html#io.rest-client.httpservice) · [Resilience](https://docs.spring.io/spring-framework/reference/core/resilience.html)
 - Topics 24–25: Kafka needs `spring-boot-starter-kafka`, and Spring Kafka 4 serializes JSON with Jackson 3. [Kafka](https://docs.spring.io/spring-boot/reference/messaging/kafka.html)
 - Topics 26–27: `spring-boot-starter-opentelemetry` bundles the OpenTelemetry bridge and OTLP exporters, and the AOP starter is now `spring-boot-starter-aspectj`. [Tracing](https://docs.spring.io/spring-boot/reference/actuator/tracing.html)
+- Topics 28–30: Spring AI 2.0 is the line built for Spring Boot 4. [Spring AI](https://docs.spring.io/spring-ai/reference/)

@@ -108,7 +108,7 @@ class EmployeeEvents {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/messaging/kafka.html)
 
-## Consume events with @KafkaListener
+## Consume events with a Kafka listener
 
 A `@KafkaListener` method receives each message from its topics. Boot creates the listener container, which polls Kafka, deserializes values, calls the method, and commits offsets. The `groupId` names the consumer group; two services with different group ids each get every event.
 

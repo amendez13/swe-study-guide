@@ -12,7 +12,7 @@ Keep messages flowing when consumers fail: retries, dead-letter topics, idempote
 
 ## Example
 
-Make the [notifier](#13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/concepts/consume-events-with-kafkalistener) fail for one address, register the [dead-letter error handler](#13_Spring_Boot/25_Reliable_Messaging_Patterns/concepts/send-poison-messages-to-a-dead-letter-topic), and watch the record arrive in the DLT.
+Make the [notifier](#13_Spring_Boot/24_Event_Driven_Messaging_with_Kafka/concepts/consume-events-with-a-kafka-listener) fail for one address, register the [dead-letter error handler](#13_Spring_Boot/25_Reliable_Messaging_Patterns/concepts/send-poison-messages-to-a-dead-letter-topic), and watch the record arrive in the DLT.
 
 ```java
 @KafkaListener(topics = "employee-events", groupId = "notification-service")
