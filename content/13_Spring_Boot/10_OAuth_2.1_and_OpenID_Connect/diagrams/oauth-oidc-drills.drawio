@@ -1,0 +1,33 @@
+<mxfile host="drawio">
+  <diagram id="ood1" name="Pick the right principal type">
+    <mxGraphModel dx="900" dy="284" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="284" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ood1-1" value="Pick the right principal type" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ood1-2" value="No openid scope means no ID token and no OidcUser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ood1-3" value="scope = profile, email&lt;br&gt;(no openid)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="ood1-4" value="plain OAuth 2.0 login&lt;br&gt;principal: DefaultOAuth2User" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="ood1-5" value="OidcUser parameter → null&lt;br&gt;NullPointerException" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="ood1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ood1-3" target="ood1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ood1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ood1-4" target="ood1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ood1-8" value="add openid to the scopes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="ood1-9" value="accept OAuth2User&lt;br&gt;getAttribute(&quot;sub&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="210" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ood2" name="Diagnose a redirect mismatch">
+    <mxGraphModel dx="900" dy="274" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="274" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ood2-1" value="Diagnose a redirect mismatch" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ood2-2" value="Providers compare redirect URIs exactly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ood2-3" value="registered at Google&lt;br&gt;http://localhost:8080/login/oauth2/code/google" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="ood2-4" value="sent now (server.port=9090)&lt;br&gt;http://localhost:9090/login/oauth2/code/google" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="ood2-5" value="≠ → redirect_uri_mismatch" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ood2-4" target="ood2-3"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ood2-6" value="fix: add the 9090 URI to the Google client&#x27;s authorized redirect URIs · no wildcards or loosened matching" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

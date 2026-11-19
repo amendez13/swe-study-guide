@@ -1,0 +1,35 @@
+<mxfile host="drawio">
+  <diagram id="jbd1" name="Predict whether the change is saved">
+    <mxGraphModel dx="900" dy="270" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="270" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="jbd1-1" value="Predict whether the change is saved" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="jbd1-2" value="Only a managed entity has its changes flushed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="jbd1-3" value="@Transactional&lt;br&gt;fixInTransaction(id)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd1-4" value="entity managed until the method&#x27;s&lt;br&gt;transaction commits → flushed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="280" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd1-5" value="pages = 300 saved" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="660" y="110" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="jbd1-3" target="jbd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="jbd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="jbd1-4" target="jbd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="jbd1-8" value="fixWithoutTransaction(id)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd1-9" value="findById&#x27;s own transaction ends&lt;br&gt;entity detached" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="200" width="280" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd1-10" value="pages = 400 lost" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="660" y="200" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="jbd1-8" target="jbd1-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="jbd1-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="jbd1-9" target="jbd1-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="jbd2" name="Stop leaking a column">
+    <mxGraphModel dx="900" dy="180" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="180" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="jbd2-1" value="Stop leaking a column" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="jbd2-2" value="Return a DTO so only declared fields reach the JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="jbd2-3" value="List&amp;lt;Book&amp;gt; all()&lt;br&gt;→ every entity field, incl. internalNotes" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd2-4" value="List&amp;lt;BookView&amp;gt; all()&lt;br&gt;BookView(long id, String title)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="110" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="jbd2-5" value="map each entity" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="jbd2-3" target="jbd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

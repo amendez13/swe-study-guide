@@ -12,6 +12,12 @@ Linked lists store data in nodes connected by pointers rather than in contiguous
 - **Floyd's algorithm detects and locates cycles** - If fast and slow pointers meet, a cycle exists; resetting one pointer to the head and advancing both by one finds the cycle start.
 - **Recursive solutions are elegant but stack-limited** - Reversing, merging, and checking palindromes decompose recursively, but O(N) stack depth hits Python's recursion limit on long lists.
 - **Arrays usually win unless insertion dominates** - Contiguous memory gives arrays superior cache performance; prefer linked lists only when frequent splicing at arbitrary positions is the bottleneck.
+- **A sentinel node removes head special cases** - Put a dummy node before the head so every real node has a predecessor; return `dummy.next` at the end.
+- **Iterative reversal is save, flip, advance** - Keep `prev`, `cur`, and a saved `nxt`; it runs in O(1) extra space and is the base for sublist and group reversals.
+- **Merging sorted lists is a tail-append loop** - Attach the smaller front node to a sentinel-backed tail, then attach whatever is left in one step.
+- **Split, transform, and weave** - Find the middle, cut with `slow.next = None`, reverse or process one half, then walk both halves together.
+- **Doubly linked list plus sentinels gives O(1) unlink** - Paired with a hash map, this is the core of an LRU cache.
+- **Test the tiny cases first** - Empty, one node, two nodes, odd and even length, and changes at the head or tail catch most pointer bugs.
 
 ## Example
 
@@ -66,3 +72,7 @@ print("After deleting 3:", list(ll))  # [1, 2, 4, 5]
 ```
 
 The example builds a singly linked list, finds the middle node with the two-pointer technique, and deletes a node by pointer surgery. These three operations cover the core mechanics that more complex linked list problems build on.
+
+## More practice
+
+Work the original exercises on the **Drills** tab: read each prompt and snippet, commit to an answer, then open the card to check it. For more linked list practice, open CTCI Chapter 2 on the private reader (`#chapter-2-linked-lists`, with background under `#creating-a-linked-list`, `#deleting-a-node-from-a-singly-linked-list`, `#the-runner-technique`, and `#recursive-problems`); the chapter's interview questions live under `#interview-questions_2`. Work the problems there; do not copy book text or solutions into these study files.

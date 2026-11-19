@@ -1,0 +1,20 @@
+<mxfile host="drawio">
+  <diagram id="gsd1" name="Identify the response">
+    <mxGraphModel dx="900" dy="270" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="270" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="gsd1-1" value="Identify the response" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="gsd1-2" value="Predict the status, media type, and JSON property names for GET /desks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="gsd1-3" value="GET /desks" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="180" height="50" as="geometry"/></mxCell>
+<mxCell id="gsd1-4" value="() =&amp;gt; new { FreeDesks = 3 }" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="gsd1-5" value="200 · JSON media type" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="110" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="gsd1-6" value="MapGet" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="gsd1-3" target="gsd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="gsd1-7" value="serialize" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="gsd1-4" target="gsd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="gsd1-8" value="C# property: FreeDesks" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="gsd1-9" value="body: {&quot;freeDesks&quot;:3}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="560" y="200" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="gsd1-10" value="default web JSON settings" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="gsd1-8" target="gsd1-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,45 @@
+<mxfile host="drawio">
+  <diagram id="erd1" name="Explain three outcomes">
+    <mxGraphModel dx="900" dy="314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="314" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="erd1-1" value="Explain three outcomes" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="erd1-2" value="Constraints filter candidates; HTTP method matching is a separate policy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="erd1-3" value="GET /items/latest" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-4" value="literal &quot;/items/latest&quot; matches" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="110" width="340" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-5" value="200 · &quot;Latest&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="700" y="110" width="160" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd1-3" target="erd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd1-4" target="erd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd1-8" value="GET /items/x" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-9" value="&quot;x&quot; fails {id:int} · no candidate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="180" width="340" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-10" value="404" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="700" y="180" width="160" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd1-8" target="erd1-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd1-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd1-9" target="erd1-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd1-13" value="DELETE /items/1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="200" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-14" value="path fits {id:int} · endpoint only accepts GET" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="250" width="340" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-15" value="405" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="700" y="250" width="160" height="44" as="geometry"/></mxCell>
+<mxCell id="erd1-16" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd1-13" target="erd1-14"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd1-17" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd1-14" target="erd1-15"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="erd2" name="Change a URL without hard-coding callers">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="erd2-1" value="Change a URL without hard-coding callers" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="erd2-2" value="CreatedAtRoute follows the route name, not a hard-coded path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="erd2-3" value="MapGet(&quot;/rooms/{id:int}&quot;).WithName(&quot;Room&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="erd2-4" value="MapGet(&quot;/spaces/{id:int}&quot;).WithName(&quot;Room&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="110" width="360" height="44" as="geometry"/></mxCell>
+<mxCell id="erd2-5" value="move" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd2-3" target="erd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd2-6" value="POST /rooms&lt;br&gt;CreatedAtRoute(..., &quot;Room&quot;, new { id = 4 })" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="360" height="64" as="geometry"/></mxCell>
+<mxCell id="erd2-7" value="Location header now ends in&lt;br&gt;/spaces/4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="500" y="210" width="360" height="64" as="geometry"/></mxCell>
+<mxCell id="erd2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="erd2-6" target="erd2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd2-9" value="name lookup" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="erd2-4" target="erd2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="erd2-10" value="Unchanged: the route name and the &lt;font face=&quot;Courier New&quot;&gt;id&lt;/font&gt; value. Callers that saved the previous read URL still need a migration path." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

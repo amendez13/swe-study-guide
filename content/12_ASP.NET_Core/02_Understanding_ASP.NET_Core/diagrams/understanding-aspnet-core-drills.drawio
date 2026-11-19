@@ -1,0 +1,37 @@
+<mxfile host="drawio">
+  <diagram id="uad1" name="Find the server boundary">
+    <mxGraphModel dx="900" dy="220" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="220" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="uad1-1" value="Find the server boundary" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="uad1-2" value="Startup code runs once; the endpoint runs for every request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="uad1-3" value="Console.WriteLine(&quot;Starting report service&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="44" as="geometry"/></mxCell>
+<mxCell id="uad1-4" value="once per process startup" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="160" width="260" height="20" as="geometry"/></mxCell>
+<mxCell id="uad1-5" value="GET /report" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="360" y="100" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="uad1-6" value="GET /report?day=mon" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="360" y="160" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="uad1-7" value="Path /report · Query empty" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="100" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="uad1-8" value="Path /report · Query ?day=mon" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="160" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="uad1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="uad1-5" target="uad1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="uad1-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="uad1-6" target="uad1-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="uad2" name="Preserve the legacy contract">
+    <mxGraphModel dx="900" dy="304" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="304" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="uad2-1" value="Preserve the legacy contract" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="uad2-2" value="Default camel-case JSON policy: the C# member name decides the field name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="uad2-3" value="new { OpenBranches = 2 }" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="uad2-4" value="{&quot;openBranches&quot;:2}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="560" y="110" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="uad2-5" value="camel case" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="uad2-3" target="uad2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="uad2-6" value="new { Open = 2 }" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="uad2-7" value="{&quot;open&quot;:2}  matches the old GET /branches" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="560" y="180" width="300" height="44" as="geometry"/></mxCell>
+<mxCell id="uad2-8" value="camel case" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="uad2-6" target="uad2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="uad2-9" value="Also check the existing clients&#x27; expectations for status and media type" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="250" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

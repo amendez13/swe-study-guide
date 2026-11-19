@@ -1,0 +1,116 @@
+<mxfile host="drawio">
+  <diagram id="sm1" name="Generate a project with start.spring.io">
+    <mxGraphModel dx="900" dy="440" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="440" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sm1-1" value="Generate a project with start.spring.io" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sm1-2" value="Spring Initializr turns a few choices into a buildable project" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sm1-3" value="choices&lt;br&gt;build tool · Java 25&lt;br&gt;Boot version&lt;br&gt;dependencies: web, thymeleaf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="110" as="geometry"/></mxCell>
+<mxCell id="sm1-4" value="start.spring.io&lt;br&gt;web UI or HTTP API&lt;br&gt;(same archive)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="120" width="220" height="90" as="geometry"/></mxCell>
+<mxCell id="sm1-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm1-3" target="sm1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm1-6" value="study.zip" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="600" y="100" width="260" height="200" as="geometry"/></mxCell>
+<mxCell id="sm1-7" value="Maven wrapper (mvnw)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="130" width="230" height="34" as="geometry"/></mxCell>
+<mxCell id="sm1-8" value="main class" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="170" width="230" height="34" as="geometry"/></mxCell>
+<mxCell id="sm1-9" value="test class that loads the context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="210" width="230" height="34" as="geometry"/></mxCell>
+<mxCell id="sm1-10" value="POM inheriting Boot&#x27;s&lt;br&gt;dependency management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="615" y="250" width="230" height="34" as="geometry"/></mxCell>
+<mxCell id="sm1-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm1-4" target="sm1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm1-12" value="./mvnw spring-boot:run" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="sm1-13" value="Existing project: same coordinates + the new dependency → Explore → copy only the new entries · Boot 4 web → spring-boot-starter-webmvc + -webmvc-test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="380" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sm2" name="A controller that renders a view">
+    <mxGraphModel dx="900" dy="310" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="310" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sm2-1" value="A controller that renders a view" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sm2-2" value="A @Controller method returns a view name; Thymeleaf renders the model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sm2-3" value="GET /" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="sm2-4" value="HomeController.index(Model)&lt;br&gt;addAttribute(&quot;branch&quot;,&lt;br&gt;&quot;West Branch&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="sm2-5" value="returns &quot;index&quot;&lt;br&gt;→ templates/index.html" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="sm2-6" value="&amp;lt;h1 th:text=&quot;${branch}&quot;&amp;gt;&lt;br&gt;→ &amp;lt;h1&amp;gt;West Branch&amp;lt;/h1&amp;gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="sm2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm2-3" target="sm2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm2-4" target="sm2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm2-5" target="sm2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm2-10" value="th:text replaces content with an escaped value&lt;br&gt;the template stays valid static HTML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="sm2-11" value="@RestController instead:&lt;br&gt;the return value is the response body" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="460" y="230" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sm3" name="Render a list of demo data">
+    <mxGraphModel dx="900" dy="362" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="362" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sm3-1" value="Render a list of demo data" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sm3-2" value="th:each repeats an element once per item" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sm3-3" value="model &quot;books&quot; = List.of(&lt;br&gt; new Book(&quot;Refactoring&quot;, 448),&lt;br&gt; new Book(&quot;Release It!&quot;, 376))" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="340" height="70" as="geometry"/></mxCell>
+<mxCell id="sm3-4" value="&amp;lt;tr th:each=&quot;book : ${books}&quot;&amp;gt;&lt;br&gt;${book.title} · ${book.pages}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="440" y="100" width="420" height="50" as="geometry"/></mxCell>
+<mxCell id="sm3-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm3-3" target="sm3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm3-6" value="rendered rows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="440" y="170" width="420" height="90" as="geometry"/></mxCell>
+<mxCell id="sm3-7" value="Refactoring | 448" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="460" y="195" width="380" height="26" as="geometry"/></mxCell>
+<mxCell id="sm3-8" value="Release It! | 376" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="460" y="226" width="380" height="26" as="geometry"/></mxCell>
+<mxCell id="sm3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm3-4" target="sm3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm3-10" value="&amp;lt;p th:unless=&quot;${books.size() &amp;gt; 0}&quot;&amp;gt;No books yet.&amp;lt;/p&amp;gt; is removed because the list is not empty" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="sm3-11" value="&lt;font face=&quot;Courier New&quot;&gt;${book.title}&lt;/font&gt; calls the record&#x27;s &lt;font face=&quot;Courier New&quot;&gt;title()&lt;/font&gt; accessor · hard-coded records before a database" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sm4" name="Constructor injection">
+    <mxGraphModel dx="900" dy="374" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="374" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sm4-1" value="Constructor injection" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sm4-2" value="The controller asks for BookService through its only constructor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sm4-3" value="@Service BookService&lt;br&gt;all() · add(Book)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="sm4-4" value="@Controller HomeController&lt;br&gt;private final BookService books;&lt;br&gt;HomeController(BookService books)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="380" y="100" width="480" height="90" as="geometry"/></mxCell>
+<mxCell id="sm4-5" value="Spring supplies&lt;br&gt;the bean" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm4-3" target="sm4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm4-6" value="test: new HomeController(a fake service)&lt;br&gt;no container needed" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="380" y="220" width="480" height="50" as="geometry"/></mxCell>
+<mxCell id="sm4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="sm4-6" target="sm4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm4-8" value="avoid @Autowired field injection: hides required dependencies · needs reflection or a container in tests · no final fields&lt;br&gt;many constructor arguments → probably too many responsibilities" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sm5" name="Change data through an HTML form">
+    <mxGraphModel dx="900" dy="410" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="410" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sm5-1" value="Change data through an HTML form" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sm5-2" value="Post/Redirect/Get: refreshing repeats the GET, not the POST" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sm5-3" value="browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="150" height="290" as="geometry"/></mxCell>
+<mxCell id="sm5-4" value="HomeController&lt;br&gt;+ BookService" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710" y="100" width="150" height="290" as="geometry"/></mxCell>
+<mxCell id="sm5-5" value="POST /books · application/x-www-form-urlencoded · title, pages" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=10;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="190" y="140" as="sourcePoint"/><mxPoint x="710" y="140" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sm5-6" value="@ModelAttribute Book book (bound through the record constructor) → books.add(book)" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="200" y="155" width="500" height="40" as="geometry"/></mxCell>
+<mxCell id="sm5-7" value="return &quot;redirect:/&quot;" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="710" y="210" as="sourcePoint"/><mxPoint x="190" y="210" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sm5-8" value="GET /" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="190" y="270" as="sourcePoint"/><mxPoint x="710" y="270" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sm5-9" value="index with the new book" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="710" y="320" as="sourcePoint"/><mxPoint x="190" y="320" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sm5-10" value="th:action=&quot;@{/books}&quot; writes the context-relative URL (and the CSRF token once Spring Security is added)" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="200" y="340" width="500" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sm6" name="Bundle a JavaScript front end">
+    <mxGraphModel dx="900" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="370" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sm6-1" value="Bundle a JavaScript front end" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sm6-2" value="One jar serves the bundle and the JSON API from the same origin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sm6-3" value="src/main/frontend&lt;br&gt;(e.g. React + Vite)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="60" as="geometry"/></mxCell>
+<mxCell id="sm6-4" value="frontend-maven-plugin · generate-resources" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="290" y="95" width="300" height="180" as="geometry"/></mxCell>
+<mxCell id="sm6-5" value="install-node-and-npm (v24.12.0)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="305" y="130" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="sm6-6" value="npm install" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="305" y="174" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="sm6-7" value="npm run build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="305" y="218" width="270" height="34" as="geometry"/></mxCell>
+<mxCell id="sm6-8" value="target/classes/static&lt;br&gt;(Vite build.outDir)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="sm6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm6-3" target="sm6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm6-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm6-4" target="sm6-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm6-11" value="./mvnw package → one jar&lt;br&gt;bundle at the site root" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="220" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="sm6-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sm6-8" target="sm6-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sm6-13" value="Same origin avoids cross-origin configuration · during development run the bundler&#x27;s dev server with a proxy to the Spring app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="310" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

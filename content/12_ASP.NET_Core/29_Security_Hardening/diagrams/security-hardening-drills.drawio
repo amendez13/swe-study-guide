@@ -1,0 +1,43 @@
+<mxfile host="drawio">
+  <diagram id="shd1" name="Review a CORS policy">
+    <mxGraphModel dx="900" dy="284" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="284" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="shd1-1" value="Review a CORS policy" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="shd1-2" value="AllowAnyOrigin cannot be combined with AllowCredentials" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="shd1-3" value="AllowAnyOrigin().AllowAnyHeader()&lt;br&gt;.AllowAnyMethod().AllowCredentials()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="420" height="50" as="geometry"/></mxCell>
+<mxCell id="shd1-4" value="InvalidOperationException&lt;br&gt;when the policy is built" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="520" y="110" width="340" height="50" as="geometry"/></mxCell>
+<mxCell id="shd1-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd1-3" target="shd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd1-6" value="WithOrigins(&quot;&amp;lt;real front-end origins&amp;gt;&quot;)&lt;br&gt;+ AllowCredentials()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="210" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="shd1-7" value="or drop cookies and use bearer tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="210" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="shd2" name="Spot the injection">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="shd2-1" value="Spot the injection" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="shd2-2" value="Only an interpolated string handed to FromSqlRaw is injectable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="shd2-3" value="/a · Where(b =&amp;gt; b.Title == title)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-4" value="LINQ parameter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="100" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-5" value="safe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="740" y="100" width="120" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd2-3" target="shd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd2-4" target="shd2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd2-8" value="/b · FromSql($&quot;... {title}&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="164" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-9" value="FromSql parameter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="164" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-10" value="safe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="740" y="164" width="120" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd2-8" target="shd2-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd2-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd2-9" target="shd2-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd2-13" value="/c · FromSqlRaw($&quot;... ORDER BY {sort}&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="228" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-14" value="string built before FromSqlRaw&lt;br&gt;column name can&#x27;t be a parameter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="440" y="228" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-15" value="injectable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="740" y="228" width="120" height="50" as="geometry"/></mxCell>
+<mxCell id="shd2-16" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd2-13" target="shd2-14"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd2-17" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="shd2-14" target="shd2-15"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="shd2-18" value="Fix /c: map sort to fixed LINQ orderings (&quot;title&quot; =&amp;gt; OrderBy(b =&amp;gt; b.Title)) and reject anything else" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
