@@ -1,0 +1,111 @@
+<mxfile host="drawio">
+  <diagram id="dt1" name="Traces and spans">
+    <mxGraphModel dx="900" dy="430" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="430" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dt1-1" value="Traces and spans" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dt1-2" value="One trace id, a tree of spans, each with a parent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dt1-3" value="trace 4bf92f3577b34da6a3ce929d0e0e4736 · bar length ∝ duration (182 ms total)" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="820" height="22" as="geometry"/></mxCell>
+<mxCell id="dt1-4" value="POST /api/employees · employee-service · 182 ms" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="130" width="330" height="36" as="geometry"/></mxCell>
+<mxCell id="dt1-5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380.0" y="134" width="473.2" height="28" as="geometry"/></mxCell>
+<mxCell id="dt1-6" value="INSERT employee · 12 ms" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="176" width="330" height="36" as="geometry"/></mxCell>
+<mxCell id="dt1-7" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="393.0" y="180" width="31.200000000000003" height="28" as="geometry"/></mxCell>
+<mxCell id="dt1-8" value="send employee-events · 4 ms" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="222" width="330" height="36" as="geometry"/></mxCell>
+<mxCell id="dt1-9" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="432.0" y="226" width="14" height="28" as="geometry"/></mxCell>
+<mxCell id="dt1-10" value="receive employee-events · notification-service · 140 ms" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="268" width="330" height="36" as="geometry"/></mxCell>
+<mxCell id="dt1-11" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="484.0" y="272" width="364.0" height="28" as="geometry"/></mxCell>
+<mxCell id="dt1-12" value="POST /send · mail-gateway · 131 ms" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=9;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="314" width="330" height="36" as="geometry"/></mxCell>
+<mxCell id="dt1-13" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=8;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="504.8" y="318" width="340.6" height="28" as="geometry"/></mxCell>
+<mxCell id="dt1-14" value="Sampling records a fraction of traces and keeps the decision consistent across services, so a sampled trace is complete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="370" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dt2" name="Export traces to Grafana Tempo">
+    <mxGraphModel dx="900" dy="314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="314" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dt2-1" value="Export traces to Grafana Tempo" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dt2-2" value="spring-boot-starter-opentelemetry exports spans over OTLP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dt2-3" value="employee-service&lt;br&gt;spring.application.name&lt;br&gt;→ service name on spans" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="240" height="90" as="geometry"/></mxCell>
+<mxCell id="dt2-4" value="OTLP endpoint&lt;br&gt;Grafana Alloy or otel-lgtm&lt;br&gt;http://localhost:4318/v1/traces" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="220" height="90" as="geometry"/></mxCell>
+<mxCell id="dt2-5" value="Tempo&lt;br&gt;trace storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="110" width="240" height="90" as="geometry"/></mxCell>
+<mxCell id="dt2-6" value="spans" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt2-3" target="dt2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt2-4" target="dt2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt2-8" value="management.tracing.sampling.probability&lt;br&gt;default 10 % · 1.0 locally" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="240" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="dt2-9" value="Boot 3: micrometer-tracing-bridge-otel +&lt;br&gt;opentelemetry-exporter-otlp separately" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="460.0" y="240" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dt3" name="Propagate context across HTTP calls">
+    <mxGraphModel dx="900" dy="392" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="392" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dt3-1" value="Propagate context across HTTP calls" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dt3-2" value="Instrumented clients add traceparent; the server continues the same trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dt3-3" value="employee-service&lt;br&gt;MailGateway built from&lt;br&gt;RestClient.Builder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="dt3-4" value="mail-gateway&lt;br&gt;continues the trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="dt3-5" value="POST /send · traceparent header" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt3-3" target="dt3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt3-6" value="traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="dt3-7" value="RestClient.create()&lt;br&gt;no instrumentation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="dt3-8" value="starts a new,&lt;br&gt;unconnected trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="280" width="220" height="60" as="geometry"/></mxCell>
+<mxCell id="dt3-9" value="no traceparent" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt3-7" target="dt3-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt3-10" value="Boot&#x27;s builders (RestClient, WebClient, HTTP service clients) carry the observation registry · W3C format by default" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="350" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dt4" name="Propagate context through Kafka">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dt4-1" value="Propagate context through Kafka" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dt4-2" value="The trace context travels in the record headers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dt4-3" value="employee-service&lt;br&gt;KafkaTemplate&lt;br&gt;template.observation-enabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="dt4-4" value="employee-events&lt;br&gt;record headers:&lt;br&gt;traceparent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="200" height="70" as="geometry"/></mxCell>
+<mxCell id="dt4-5" value="notification-service&lt;br&gt;@KafkaListener&lt;br&gt;listener.observation-enabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="650" y="110" width="210" height="70" as="geometry"/></mxCell>
+<mxCell id="dt4-6" value="publish" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt4-3" target="dt4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt4-7" value="consume&lt;br&gt;(even minutes later)" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt4-4" target="dt4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt4-8" value="trace shows publish and consumption as linked spans, including the time waiting in the topic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="820" height="50" as="geometry"/></mxCell>
+<mxCell id="dt4-9" value="Retries and dead-letter records keep the headers, so a failed message points back to its request" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dt5" name="Correlate logs, metrics, and traces">
+    <mxGraphModel dx="900" dy="344" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="344" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dt5-1" value="Correlate logs, metrics, and traces" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dt5-2" value="traceId everywhere lets you jump from an alert to the explanation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dt5-3" value="alert" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="160" height="70" as="geometry"/></mxCell>
+<mxCell id="dt5-4" value="metric&lt;br&gt;latency spike" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="250" y="110" width="180" height="70" as="geometry"/></mxCell>
+<mxCell id="dt5-5" value="trace in Tempo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="170" height="70" as="geometry"/></mxCell>
+<mxCell id="dt5-6" value="logs in Loki" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="110" width="160" height="70" as="geometry"/></mxCell>
+<mxCell id="dt5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt5-3" target="dt5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt5-8" value="exemplar" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt5-4" target="dt5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt5-9" value="trace.id" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt5-5" target="dt5-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt5-10" value="{&quot;message&quot;:&quot;Employee hired&quot;,&quot;service.name&quot;:&quot;employee-service&quot;,&lt;br&gt;&quot;trace.id&quot;:&quot;4bf92f3577b34da6a3ce929d0e0e4736&quot;,&quot;span.id&quot;:&quot;00f067aa0ba902b7&quot;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="820" height="60" as="geometry"/></mxCell>
+<mxCell id="dt5-11" value="Boot puts traceId and spanId in the MDC · exemplars: Prometheus stores a sample trace id with histogram buckets" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dt6" name="Add custom spans and attributes">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dt6-1" value="Add custom spans and attributes" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dt6-2" value="An observation around your own block becomes a child span (and a metric)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dt6-3" value="request span · POST ... (automatic)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="dt6-4" value="Observation &quot;onboarding.checklist&quot; → child span&lt;br&gt;lowCardinality step=accounts · highCardinality employee.id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="120" y="170" width="520" height="60" as="geometry"/></mxCell>
+<mxCell id="dt6-5" value="createAccounts(employeeId)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="200" y="250" width="360" height="40" as="geometry"/></mxCell>
+<mxCell id="dt6-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0.1;exitY=1;exitDx=0;exitDy=0;entryX=0.1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="dt6-3" target="dt6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dt6-4" target="dt6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dt6-8" value="employee.id makes one trace easy to find without new metric series · Tracer can tag or create spans, but Observation also yields a metric" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

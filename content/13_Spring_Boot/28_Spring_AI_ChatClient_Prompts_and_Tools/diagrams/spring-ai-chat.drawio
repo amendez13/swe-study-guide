@@ -1,0 +1,114 @@
+<mxfile host="drawio">
+  <diagram id="sac1" name="LLMs and Spring AI">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sac1-1" value="LLMs and Spring AI" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sac1-2" value="A portable ChatClient over a provider-specific ChatModel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sac1-3" value="your code&lt;br&gt;ChatClient" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="200" height="80" as="geometry"/></mxCell>
+<mxCell id="sac1-4" value="ChatModel&lt;br&gt;autoconfigured by&lt;br&gt;spring-ai-starter-model-anthropic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="300" y="110" width="220" height="80" as="geometry"/></mxCell>
+<mxCell id="sac1-5" value="LLM HTTP API&lt;br&gt;in: messages + options (model, token limit)&lt;br&gt;out: generated text + token usage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="100" width="280" height="100" as="geometry"/></mxCell>
+<mxCell id="sac1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac1-3" target="sac1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac1-7" value="HTTPS" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac1-4" target="sac1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac1-8" value="no memory between calls" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="230" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="sac1-9" value="knows nothing about your data&lt;br&gt;unless the prompt includes it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="230" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="sac1-10" value="can be confidently wrong" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="230" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="sac1-11" value="Spring AI 2.0 for Boot 4 · import spring-ai-bom · providers: Anthropic, OpenAI, Ollama · API key from ANTHROPIC_API_KEY · model claude-sonnet-5-5" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sac2" name="Call a model with ChatClient">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sac2-1" value="Call a model with ChatClient" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sac2-2" value="System prompt from the app, user message from the user, kept apart" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sac2-3" value="builder.defaultSystem(&quot;You are a librarian.&lt;br&gt;Recommend at most three books ...&quot;).build()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="sac2-4" value="GET /api/recommend?topic=..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sac2-5" value="chat.prompt()&lt;br&gt;.user(&quot;I want to read about &quot; + topic)&lt;br&gt;.call().content()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="150" width="380" height="80" as="geometry"/></mxCell>
+<mxCell id="sac2-6" value="system prompt" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="sac2-3" target="sac2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac2-7" value="user message" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="sac2-4" target="sac2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac2-8" value="content() → text · chatResponse() → metadata, token usage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="260" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="sac2-9" value="Never paste user input into the system prompt: that separation is the first defense against prompt injection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sac3" name="Stream responses reactively">
+    <mxGraphModel dx="900" dy="440" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="440" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sac3-1" value="Stream responses reactively" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sac3-2" value="stream().content() returns a Flux of text chunks as the model writes them" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sac3-3" value="browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="160" height="260" as="geometry"/></mxCell>
+<mxCell id="sac3-4" value="controller&lt;br&gt;produces&lt;br&gt;text/event-stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="330" y="100" width="200" height="260" as="geometry"/></mxCell>
+<mxCell id="sac3-5" value="model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="690" y="100" width="170" height="260" as="geometry"/></mxCell>
+<mxCell id="sac3-6" value="GET /api/recommend/stream" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=8;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="200" y="140" as="sourcePoint"/><mxPoint x="330" y="140" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-7" value="prompt" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="530" y="160" as="sourcePoint"/><mxPoint x="690" y="160" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-8" value="chunk 1" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="690" y="210" as="sourcePoint"/><mxPoint x="530" y="210" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-9" value="SSE" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="330" y="220" as="sourcePoint"/><mxPoint x="200" y="220" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-10" value="chunk 2" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="690" y="250" as="sourcePoint"/><mxPoint x="530" y="250" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-11" value="SSE" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="330" y="260" as="sourcePoint"/><mxPoint x="200" y="260" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-12" value="chunk 3" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="690" y="290" as="sourcePoint"/><mxPoint x="530" y="290" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-13" value="SSE" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="330" y="300" as="sourcePoint"/><mxPoint x="200" y="300" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac3-14" value="First words appear almost at once · works in Spring MVC too when WebFlux is on the classpath" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="380" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sac4" name="Prompt templates and structured output">
+    <mxGraphModel dx="900" dy="340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="340" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sac4-1" value="Prompt templates and structured output" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sac4-2" value="Template parameters in, a parsed record out" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sac4-3" value="prompts/recommend.st&lt;br&gt;Recommend {count} books about {topic} ..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="360" height="60" as="geometry"/></mxCell>
+<mxCell id="sac4-4" value=".param(&quot;topic&quot;, topic).param(&quot;count&quot;, count)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="sac4-5" value="model + format&lt;br&gt;instructions with a&lt;br&gt;JSON schema" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="130" width="180" height="80" as="geometry"/></mxCell>
+<mxCell id="sac4-6" value="entity(Recommendations.class)&lt;br&gt;→ books: List&amp;lt;&lt;br&gt;Recommendation(title,&lt;br&gt;author, reason)&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="680" y="120" width="180" height="100" as="geometry"/></mxCell>
+<mxCell id="sac4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac4-3" target="sac4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac4-4" target="sac4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac4-9" value="parsed" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac4-5" target="sac4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac4-10" value="Still validate the result: a model can return values that break your rules · prompts in resource files are versioned and reviewed like code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sac5" name="Tool calling with the Tool annotation">
+    <mxGraphModel dx="900" dy="465" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="465" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sac5-1" value="Tool calling with the Tool annotation" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sac5-2" value="The model asks; Spring AI calls your method and returns the result" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sac5-3" value="app&lt;br&gt;ChatClient&lt;br&gt;.tools(catalogTools)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="140" height="290" as="geometry"/></mxCell>
+<mxCell id="sac5-4" value="model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="100" width="140" height="290" as="geometry"/></mxCell>
+<mxCell id="sac5-5" value="@Tool booksByAuthor(&quot;austen&quot;)&lt;br&gt;→ [&quot;Emma&quot;, &quot;Persuasion&quot;]" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="260" y="230" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sac5-6" value="&quot;Which Austen books do you have?&quot; + tool descriptions" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="180" y="140" as="sourcePoint"/><mxPoint x="720" y="140" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac5-7" value="tool request: booksByAuthor(author = &quot;austen&quot;)" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#d79b00;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="720" y="190" as="sourcePoint"/><mxPoint x="180" y="190" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac5-8" value="tool result" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="180" y="310" as="sourcePoint"/><mxPoint x="720" y="310" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac5-9" value="answer written from the result" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="720" y="350" as="sourcePoint"/><mxPoint x="180" y="350" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="sac5-10" value="Tools run with your app&#x27;s permissions: narrow tools, validate arguments, no unchecked data changes · clear descriptions drive the choice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="405" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sac6" name="Conversation memory with advisors">
+    <mxGraphModel dx="900" dy="340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="340" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sac6-1" value="Conversation memory with advisors" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sac6-2" value="MessageChatMemoryAdvisor re-sends earlier turns for a conversation id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sac6-3" value="reply(conversationId,&lt;br&gt;message)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="120" width="170" height="60" as="geometry"/></mxCell>
+<mxCell id="sac6-4" value="MessageChatMemoryAdvisor&lt;br&gt;1 · load earlier messages&lt;br&gt;2 · add them to the prompt&lt;br&gt;3 · store the new exchange" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="240" height="100" as="geometry"/></mxCell>
+<mxCell id="sac6-5" value="ChatMemory&lt;br&gt;window of recent messages&lt;br&gt;(in memory · or JDBC)" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="240" width="240" height="80" as="geometry"/></mxCell>
+<mxCell id="sac6-6" value="model sees the history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="120" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="sac6-7" value="CONVERSATION_ID" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac6-3" target="sac6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac6-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sac6-4" target="sac6-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac6-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;startArrow=block;startSize=6;" edge="1" parent="1" source="sac6-4" target="sac6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sac6-10" value="longer history costs more tokens on every call: keep the window small" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="620" y="240" width="240" height="80" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

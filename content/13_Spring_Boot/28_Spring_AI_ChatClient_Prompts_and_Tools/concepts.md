@@ -31,6 +31,10 @@ spring.ai.anthropic.chat.options.model=claude-sonnet-5-5
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/getting-started.html)
 
+![LLMs and Spring AI](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat-1-llms-and-spring-ai.png)
+
+*Source: [`diagrams/spring-ai-chat.drawio`](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat.drawio), page 1.*
+
 ## Call a model with ChatClient
 
 Boot provides a `ChatClient.Builder`. Build a client once, optionally with a default system prompt that sets the assistant's role and rules. Each call chains `prompt()`, the user message, `call()`, and a result method: `content()` for text or `chatResponse()` for metadata such as token usage.
@@ -62,6 +66,10 @@ class LibrarianController {
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/chatclient.html)
 
+![Call a model with ChatClient](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat-2-call-a-model-with-chatclient.png)
+
+*Source: [`diagrams/spring-ai-chat.drawio`](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat.drawio), page 2.*
+
 ## Stream responses reactively
 
 A long answer can take many seconds to generate. Streaming sends tokens to the user as the model produces them, so the first words appear almost at once. Replace `call()` with `stream()`, and `content()` returns a `Flux<String>` of text chunks.
@@ -81,6 +89,10 @@ Flux<String> stream(@RequestParam String topic) {
 ```
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/chatclient.html#_streaming_responses)
+
+![Stream responses reactively](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat-3-stream-responses-reactively.png)
+
+*Source: [`diagrams/spring-ai-chat.drawio`](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat.drawio), page 3.*
 
 ## Prompt templates and structured output
 
@@ -115,6 +127,10 @@ Prefer books still in print.
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/structured-output-converter.html)
 
+![Prompt templates and structured output](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat-4-prompt-templates-and-structured-output.png)
+
+*Source: [`diagrams/spring-ai-chat.drawio`](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat.drawio), page 4.*
+
 ## Tool calling with the Tool annotation
 
 A model cannot look anything up by itself. With tool calling, the application describes methods the model may use. When the model decides it needs one, it returns a tool request with arguments; Spring AI calls your method and sends the result back, and the model writes its answer from it.
@@ -145,6 +161,10 @@ class CatalogTools {
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/tools.html)
 
+![Tool calling with the Tool annotation](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat-5-tool-calling-with-the-tool-annotation.png)
+
+*Source: [`diagrams/spring-ai-chat.drawio`](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat.drawio), page 5.*
+
 ## Conversation memory with advisors
 
 Each model call is stateless, so a chat that remembers earlier turns must send them again. Advisors are interceptors around a `ChatClient` call. `MessageChatMemoryAdvisor` loads earlier messages for a conversation id from a `ChatMemory`, adds them to the prompt, and stores the new exchange afterwards.
@@ -170,3 +190,7 @@ String reply(String conversationId, String message) {
 ```
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/chat-memory.html)
+
+![Conversation memory with advisors](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat-6-conversation-memory-with-advisors.png)
+
+*Source: [`diagrams/spring-ai-chat.drawio`](/content/13_Spring_Boot/28_Spring_AI_ChatClient_Prompts_and_Tools/diagrams/spring-ai-chat.drawio), page 6.*
