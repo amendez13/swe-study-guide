@@ -1,0 +1,48 @@
+<mxfile host="drawio">
+  <diagram id="mcd1" name="Route conventional URLs">
+    <mxGraphModel dx="900" dy="384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="384" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="mcd1-1" value="Route conventional URLs" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="mcd1-2" value="Defaults fill missing segments; {id?} is optional" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="mcd1-3" value="/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-4" value="Home.Index" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-5" value="both defaults" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="640" y="100" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mcd1-3" target="mcd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mcd1-7" value="/Loans" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="154" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-8" value="Loans.Index" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="154" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-9" value="action default" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="640" y="154" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mcd1-7" target="mcd1-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mcd1-11" value="/Loans/Renew/7" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="208" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-12" value="Loans.Renew · id = 7" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="208" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-13" value="" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="640" y="208" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-14" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mcd1-11" target="mcd1-12"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mcd1-15" value="/Loans/Renew" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="262" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-16" value="Loans.Renew · id = 0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="262" width="300" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-17" value="int default" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="640" y="262" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="mcd1-18" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mcd1-15" target="mcd1-16"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mcd1-19" value="Use &lt;font face=&quot;Courier New&quot;&gt;int?&lt;/font&gt; or a &lt;font face=&quot;Courier New&quot;&gt;{id:int}&lt;/font&gt; constraint to tell /Loans/Renew from id 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="mcd2" name="Find the view">
+    <mxGraphModel dx="900" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="330" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="mcd2-1" value="Find the view" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="mcd2-2" value="The folder must match the controller name, Reports" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="mcd2-3" value="ReportsController&lt;br&gt;Summary() → View()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="mcd2-4" value="/Views/Reports/Summary.cshtml ✘" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="300" height="32" as="geometry"/></mxCell>
+<mxCell id="mcd2-5" value="/Views/Shared/Summary.cshtml ✘" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="140" width="300" height="32" as="geometry"/></mxCell>
+<mxCell id="mcd2-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mcd2-3" target="mcd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mcd2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="mcd2-3" target="mcd2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="mcd2-8" value="InvalidOperationException&lt;br&gt;lists both paths" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="660" y="110" width="200" height="50" as="geometry"/></mxCell>
+<mxCell id="mcd2-9" value="actual file: Views/Report/Summary.cshtml" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="320" y="200" width="300" height="32" as="geometry"/></mxCell>
+<mxCell id="mcd2-10" value="rename the folder to Views/Reports" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="260" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="mcd2-11" value="View(&quot;~/Views/Report/Summary.cshtml&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="260" width="400" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

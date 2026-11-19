@@ -12,8 +12,9 @@ Upload these text sources to NotebookLM:
 
 1. `sources/01_topic_concepts.md`
 2. `sources/02_topic_notes.md`
-3. `sources/03_research_concepts.md`
-4. `sources/04_course_outlines.md`
+3. `sources/03_topic_drills.md`
+4. `sources/04_research_concepts.md`
+5. `sources/05_course_outlines.md`
 
 Do not upload:
 
@@ -26,8 +27,9 @@ Do not upload:
 
 - `sources/01_topic_concepts.md` from `content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/concepts.md`: Primary topic concept cards rendered by the study site.
 - `sources/02_topic_notes.md` from `content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/notes.md`: Topic-level narrative notes and examples.
-- `sources/03_research_concepts.md` from `content/07_Data_Structures_and_Algorithms/research/concepts.md`: Upstream curriculum concepts that shaped the study topic.
-- `sources/04_course_outlines.md` from `content/07_Data_Structures_and_Algorithms/research/course_outlines.md`: Course-outline research used to scope the technology.
+- `sources/03_topic_drills.md` from `content/07_Data_Structures_and_Algorithms/01_Algorithmic_Complexity/drills.md`: Original drill cards rendered on the study site Drills tab.
+- `sources/04_research_concepts.md` from `content/07_Data_Structures_and_Algorithms/research/concepts.md`: Upstream curriculum concepts that shaped the study topic.
+- `sources/05_course_outlines.md` from `content/07_Data_Structures_and_Algorithms/research/course_outlines.md`: Course-outline research used to scope the technology.
 
 ## Suggested Notebook Name
 

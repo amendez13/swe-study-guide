@@ -14,12 +14,9 @@ class Node:
 head = Node(1, Node(2, Node(3)))
 ```
 
-```mermaid
-graph LR
-    A["1"] -->|next| B["2"]
-    B -->|next| C["3"]
-    C -->|next| D["None"]
-```
+![Singly linked list: nodes chained by next pointers](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-1-singly.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 1.*
 
 ## Doubly linked list: bidirectional traversal
 
@@ -35,13 +32,9 @@ class DNode:
         self.next = next
 ```
 
-```mermaid
-graph LR
-    N["None"] <-->|prev| A["1"]
-    A <-->|next/prev| B["2"]
-    B <-->|next/prev| C["3"]
-    C -->|next| M["None"]
-```
+![Doubly linked list: bidirectional traversal](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-2-doubly.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 2.*
 
 ## Head reference vs. wrapper class
 
@@ -64,6 +57,10 @@ class LinkedList:
             cur = cur.next
 ```
 
+![Head reference vs. wrapper class](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-3-wrapper.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 3.*
+
 ## Node deletion: pointer surgery around the target
 
 Deleting a node means making the previous node's `next` pointer skip over the target. The key edge case is deleting the head, where there is no previous node and the head reference itself must change. For a doubly linked list, you also update the `next` node's `prev` pointer.
@@ -83,15 +80,9 @@ def delete(self, target_data):
         cur = cur.next
 ```
 
-```mermaid
-graph LR
-    subgraph Before
-        A1["A"] -->|next| B1["B"] -->|next| C1["C"]
-    end
-    subgraph After
-        A2["A"] -->|next| C2["C"]
-    end
-```
+![Node deletion: pointer surgery around the target](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-4-deletion.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 4.*
 
 ## Inserting at head, tail, and middle
 
@@ -116,6 +107,10 @@ def append(self, data):
     cur.next = Node(data)
 ```
 
+![Inserting at head, tail, and middle](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-5-insertion.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 5.*
+
 ## Runner (two-pointer) technique
 
 The runner technique uses two pointers that move through the list at different speeds. The canonical use is finding the middle node: the slow pointer advances one step while the fast pointer advances two. When the fast pointer reaches the end, the slow pointer is at the midpoint.
@@ -136,18 +131,9 @@ def find_middle(head):
 # returns node with data=3
 ```
 
-```mermaid
-graph LR
-    A["1"] --> B["2"] --> C["3"] --> D["4"] --> E["5"] --> F["None"]
+![Runner (two-pointer) technique](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-6-runner.png)
 
-    S["slow"] -.->|"step 1"| A
-    S -.->|"step 2"| B
-    S -.->|"step 3"| C
-
-    FA["fast"] -.->|"step 1"| A
-    FA -.->|"step 2"| C
-    FA -.->|"step 3"| E
-```
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 6.*
 
 ## Cycle detection with Floyd's algorithm
 
@@ -171,15 +157,9 @@ def detect_cycle(head):
     return None  # no cycle
 ```
 
-```mermaid
-graph LR
-    A["1"] --> B["2"] --> C["3"] --> D["4"] --> E["5"]
-    E -->|"next (cycle)"| C
+![Cycle detection with Floyd's algorithm](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-7-floyd.png)
 
-    S["slow"] -.-> C
-    F["fast"] -.-> C
-    note["They meet inside the cycle"]
-```
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 7.*
 
 ## Recursive list processing
 
@@ -198,6 +178,10 @@ def reverse(head):
     return new_head
 ```
 
+![Recursive list processing](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-8-recursive.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 8.*
+
 ## Arrays vs. linked lists: choosing the right structure
 
 Arrays give you O(1) random access and excellent cache locality because elements sit in contiguous memory. Linked lists give you O(1) insertion and deletion at known positions without shifting elements. Neither is universally better.
@@ -213,3 +197,148 @@ Use arrays when you need fast indexed access, binary search, or when the data fi
 | Cache performance    | High   | Low         |
 
 \* Amortized for dynamic arrays. \** With a tail pointer.
+
+![Arrays vs. linked lists: choosing the right structure](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-9-array-vs-list.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 9.*
+
+## Sentinel (dummy) head node
+
+A sentinel is a throwaway node placed in front of the real head. Because every real node now has a predecessor, deleting or inserting at the front follows the same code path as anywhere else, and the special "is this the head?" branch disappears. When you are done, the real head is `dummy.next`.
+
+Reach for a sentinel whenever the head might change: removing matching values, merging, partitioning, or building a new list node by node. It costs one extra allocation and removes a whole class of off-by-one bugs.
+
+```python
+def remove_value(head, target):
+    dummy = Node(None, head)
+    prev = dummy
+    while prev.next:
+        if prev.next.data == target:
+            prev.next = prev.next.next  # same code even for the old head
+        else:
+            prev = prev.next
+    return dummy.next
+```
+
+![Sentinel (dummy) head node](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-10-sentinel.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 10.*
+
+## Iterative in-place reversal
+
+Reversing iteratively walks the list once with three references: `prev` (the already-reversed part), `cur` (the node being flipped), and `nxt` (a saved pointer to the rest). The order matters: save `cur.next` first, then point `cur` backward, then advance both. If you overwrite `cur.next` before saving it, the rest of the list is lost.
+
+This runs in O(N) time and O(1) extra space, so it is the version to use when the list can be long. It is also a building block: reversing a sublist, reversing the second half, and reversing in groups all reuse the same three-pointer loop.
+
+```python
+def reverse_iter(head):
+    prev, cur = None, head
+    while cur:
+        nxt = cur.next   # 1. save the rest
+        cur.next = prev  # 2. flip this pointer
+        prev = cur       # 3. grow the reversed part
+        cur = nxt        # 4. move on
+    return prev  # new head
+```
+
+![Iterative in-place reversal](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-11-reverse-iter.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 11.*
+
+## Merging two sorted lists
+
+Two sorted lists merge into one sorted list by repeatedly attaching the smaller front node to a growing tail. A sentinel gives the tail a starting point, so there is no special case for choosing the first node. When one list runs out, attach the rest of the other in one step, since it is already sorted.
+
+The merge reuses existing nodes, so it is O(A + B) time and O(1) extra space. It is the merge step of merge sort on linked lists, which is the usual way to sort a list in O(N log N) without random access.
+
+```python
+def merge_sorted(a, b):
+    dummy = tail = Node(None)
+    while a and b:
+        if a.data <= b.data:
+            tail.next, a = a, a.next
+        else:
+            tail.next, b = b, b.next
+        tail = tail.next
+    tail.next = a or b  # attach the leftover run
+    return dummy.next
+```
+
+![Merging two sorted lists](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-12-merge.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 12.*
+
+## Split, reverse, and weave
+
+Many medium list problems are three small steps chained together: find the middle with fast/slow pointers, cut the list into two halves, transform one half (often reverse it), then walk both halves together. Thinking in these steps keeps each loop short and testable on its own.
+
+The cut is the step people forget. After finding the middle, set the end of the first half's `next` to `None`, or the two halves stay joined and later loops run forever or revisit nodes.
+
+```python
+def split_half(head):
+    """Return (first, second). First gets the extra node on odd lengths."""
+    slow, fast = head, head.next
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+    second = slow.next
+    slow.next = None  # the cut
+    return head, second
+```
+
+![Split, reverse, and weave](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-13-split-weave.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 13.*
+
+## Doubly linked list with sentinels: O(1) unlink
+
+A doubly linked list with two sentinels, `head` and `tail`, never has `None` neighbours for a real node. Unlinking any node is always the same two assignments, and inserting after the head is always four. Together with a hash map from key to node, this gives O(1) "move to front" and "drop the oldest", which is how an LRU cache is built.
+
+The usual bug is updating pointers in the wrong order and losing a reference. Unlink first, then relink, and update both directions every time.
+
+```python
+class DList:
+    def __init__(self):
+        self.head, self.tail = DNode(None), DNode(None)
+        self.head.next, self.tail.prev = self.tail, self.head
+
+    def unlink(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+    def push_front(self, node):
+        node.prev, node.next = self.head, self.head.next
+        self.head.next.prev = node
+        self.head.next = node
+```
+
+![Doubly linked list with sentinels: O(1) unlink](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-14-dlist-sentinels.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 14.*
+
+## Edge cases and test helpers
+
+Most linked list bugs show up on the same short inputs: an empty list, one node, two nodes, an odd versus even length, and the operation touching the first or last node. Run every solution against these before trying a long example.
+
+Two small helpers make that cheap: one builds a list from a Python list, and one turns a list back into a Python list so you can compare with `==`. Python has no built-in linked list; `collections.deque` is a doubly linked block list and is the right choice in real code when you only need fast ends.
+
+```python
+def build(values):
+    head = None
+    for v in reversed(values):
+        head = Node(v, head)
+    return head
+
+def to_list(head):
+    out = []
+    while head:
+        out.append(head.data)
+        head = head.next
+    return out
+
+for case in ([], [1], [1, 2], [1, 2, 3]):
+    assert to_list(reverse_iter(build(case))) == case[::-1]
+```
+
+![Edge cases and test helpers](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists-15-edge-cases.png)
+
+*Source: [`diagrams/linked-lists.drawio`](/content/07_Data_Structures_and_Algorithms/03_Linked_Lists/diagrams/linked-lists.drawio), page 15.*

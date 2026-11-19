@@ -15,3 +15,5 @@ ai-skills/
 gitignored-sources/
 scripts/
 setup_template.py
+.local/
+node_modules/

@@ -15,6 +15,7 @@ Use local study-guide files only:
 
 - topic `concepts.md`
 - topic `notes.md` when present
+- topic `drills.md` when present
 - technology `technology_concepts.md` when present
 - technology `research/concepts.md` when present
 - technology `research/course_outlines.md` when present

@@ -1,0 +1,38 @@
+<mxfile host="drawio">
+  <diagram id="ecd1" name="Predict when the row exists">
+    <mxGraphModel dx="900" dy="280" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="280" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ecd1-1" value="Predict when the row exists" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ecd1-2" value="Add only marks the entity; SaveChangesAsync sends the insert" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ecd1-3" value="new StudyRow()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="64" as="geometry"/></mxCell>
+<mxCell id="ecd1-4" value="db.Rows.Add(row)&lt;br&gt;pending insertion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="64" as="geometry"/></mxCell>
+<mxCell id="ecd1-5" value="SaveChangesAsync(ct)&lt;br&gt;insert sent · key filled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="64" as="geometry"/></mxCell>
+<mxCell id="ecd1-6" value="Ok(row.Id)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="64" as="geometry"/></mxCell>
+<mxCell id="ecd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ecd1-3" target="ecd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ecd1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ecd1-4" target="ecd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ecd1-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ecd1-5" target="ecd1-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ecd1-10" value="Data Source=:memory: · the in-memory SQLite database disappears when its connection closes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="40" y="220" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ecd2" name="Apply a revised schema">
+    <mxGraphModel dx="900" dy="320" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="320" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="ecd2-1" value="Apply a revised schema" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="ecd2-2" value="Building changes the C# model, not the database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="ecd2-3" value="C# model&lt;br&gt;Id · Name · OpenCapacity" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="60" as="geometry"/></mxCell>
+<mxCell id="ecd2-4" value="database&lt;br&gt;Id · Name" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="580" y="100" width="280" height="80" as="geometry"/></mxCell>
+<mxCell id="ecd2-5" value="build: no column added" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="ecd2-3" target="ecd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ecd2-6" value="generate migration&lt;br&gt;adds the column" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="240" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="ecd2-7" value="review: set the desired value&lt;br&gt;for existing rows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="240" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="ecd2-8" value="apply it&lt;br&gt;/capacity query is valid" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="240" width="250" height="60" as="geometry"/></mxCell>
+<mxCell id="ecd2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ecd2-6" target="ecd2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="ecd2-10" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="ecd2-7" target="ecd2-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
