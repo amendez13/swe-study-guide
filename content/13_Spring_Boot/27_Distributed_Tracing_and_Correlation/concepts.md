@@ -17,6 +17,10 @@ trace 4bf92f3577b34da6a3ce929d0e0e4736
 
 [OpenTelemetry docs](https://opentelemetry.io/docs/concepts/signals/traces/)
 
+![Traces and spans](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing-1-traces-and-spans.png)
+
+*Source: [`diagrams/distributed-tracing.drawio`](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing.drawio), page 1.*
+
 ## Export traces to Grafana Tempo
 
 Changed in Boot 4: add `spring-boot-starter-opentelemetry`, which brings Micrometer Tracing's OpenTelemetry bridge and the OTLP exporter. Boot 3 apps listed `micrometer-tracing-bridge-otel` and `opentelemetry-exporter-otlp` separately. Point the exporter at an OTLP endpoint, such as Grafana Alloy or the `otel-lgtm` container, which forwards spans to Tempo.
@@ -30,6 +34,10 @@ management.opentelemetry.tracing.export.otlp.endpoint=http://localhost:4318/v1/t
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/tracing.html)
+
+![Export traces to Grafana Tempo](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing-2-export-traces-to-grafana-tempo.png)
+
+*Source: [`diagrams/distributed-tracing.drawio`](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing.drawio), page 2.*
 
 ## Propagate context across HTTP calls
 
@@ -62,6 +70,10 @@ traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/tracing.html#actuator.micrometer-tracing.propagating-traces)
 
+![Propagate context across HTTP calls](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing-3-propagate-context-across-http-calls.png)
+
+*Source: [`diagrams/distributed-tracing.drawio`](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing.drawio), page 3.*
+
 ## Propagate context through Kafka
 
 Messaging breaks the request chain unless the trace context travels in the message. Turn on observation for the Kafka template and listener containers. The producer then writes `traceparent` into the record headers, and the listener continues the trace when it consumes the record, even minutes later.
@@ -74,6 +86,10 @@ spring.kafka.listener.observation-enabled=true
 ```
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/kafka/micrometer.html#observation)
+
+![Propagate context through Kafka](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing-4-propagate-context-through-kafka.png)
+
+*Source: [`diagrams/distributed-tracing.drawio`](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing.drawio), page 4.*
 
 ## Correlate logs, metrics, and traces
 
@@ -92,6 +108,10 @@ management.metrics.distribution.percentiles-histogram.http.server.requests=true
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/tracing.html#actuator.micrometer-tracing.logging)
+
+![Correlate logs, metrics, and traces](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing-5-correlate-logs-metrics-and-traces.png)
+
+*Source: [`diagrams/distributed-tracing.drawio`](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing.drawio), page 5.*
 
 ## Add custom spans and attributes
 
@@ -125,3 +145,7 @@ class OnboardingService {
 ```
 
 [Micrometer docs](https://docs.micrometer.io/micrometer/reference/observation/introduction.html)
+
+![Add custom spans and attributes](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing-6-add-custom-spans-and-attributes.png)
+
+*Source: [`diagrams/distributed-tracing.drawio`](/content/13_Spring_Boot/27_Distributed_Tracing_and_Correlation/diagrams/distributed-tracing.drawio), page 6.*
