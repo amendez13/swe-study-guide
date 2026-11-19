@@ -3,3 +3,21 @@
 406191d018e99094af4bfd7af373993939751136:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
 406191d018e99094af4bfd7af373993939751136:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
 406191d018e99094af4bfd7af373993939751136:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
+
+# Exact historical duplicates from Dependabot merges of main into PRs #61-64 and #76.
+# The matched files are byte-identical to the in-memory fixture teaching commit above.
+807760d5da559a1b8a2bc35e9d5d61cef630fa00:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
+807760d5da559a1b8a2bc35e9d5d61cef630fa00:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
+807760d5da559a1b8a2bc35e9d5d61cef630fa00:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
+8eea1568b4133fc496b754393203126cf2d3d16c:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
+8eea1568b4133fc496b754393203126cf2d3d16c:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
+8eea1568b4133fc496b754393203126cf2d3d16c:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
+a039e6c59b2b7f111108787696d81c40bfc5e65e:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
+a039e6c59b2b7f111108787696d81c40bfc5e65e:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
+a039e6c59b2b7f111108787696d81c40bfc5e65e:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
+bfd512a7ffb3de39306d5d76b19ee6f807471ebd:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
+bfd512a7ffb3de39306d5d76b19ee6f807471ebd:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
+bfd512a7ffb3de39306d5d76b19ee6f807471ebd:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
+d10bed2c7798d0bc3e561205ecb4768e6fb40efb:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
+d10bed2c7798d0bc3e561205ecb4768e6fb40efb:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
+d10bed2c7798d0bc3e561205ecb4768e6fb40efb:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
