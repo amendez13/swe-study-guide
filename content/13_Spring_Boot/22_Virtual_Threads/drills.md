@@ -14,6 +14,10 @@ spring.threads.virtual.enabled=true
 
 About 100 per second: 10 connections, each free 10 times per second. Virtual threads remove the thread limit, so thousands of requests can now wait at the same time, but they all wait for one of 10 connections. The pool, or the database behind it, is the limit. Raise the pool only as far as the database can serve. See [virtual threads in a Spring Boot app](#13_Spring_Boot/22_Virtual_Threads/concepts/virtual-threads-in-a-spring-boot-app).
 
+![Predict the bottleneck](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-drills-1-predict-the-bottleneck.png)
+
+*Source: [`diagrams/virtual-threads-drills.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-drills.drawio), page 1.*
+
 ## Find the lost error
 
 Nightly exports sometimes fail, but the controller always returns 202 and nobody notices. Why, and how do you make the failure visible?
@@ -38,3 +42,7 @@ ResponseEntity<Void> start(@PathVariable String isbn) {
 **Answer**
 
 `export` runs on another thread after the controller has returned, so the `catch` never sees the exception. For a `void` `@Async` method, Spring passes it to the `AsyncUncaughtExceptionHandler`, which only logs it. Return `CompletableFuture<Void>` and record failures with `whenComplete`, or register a handler through `AsyncConfigurer` that stores the failure and raises an alert. See [handle errors in concurrent tasks](#13_Spring_Boot/22_Virtual_Threads/concepts/handle-errors-in-concurrent-tasks).
+
+![Find the lost error](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-drills-2-find-the-lost-error.png)
+
+*Source: [`diagrams/virtual-threads-drills.drawio`](/content/13_Spring_Boot/22_Virtual_Threads/diagrams/virtual-threads-drills.drawio), page 2.*

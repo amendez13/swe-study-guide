@@ -10,6 +10,10 @@ A team ingested its policy documents with an OpenAI embedding model. Later it sw
 
 They return irrelevant documents or none at all. Query vectors now come from a different model, so they cannot be compared with the stored ones, and if the dimensions differ the store may reject the query. Embed documents and queries with the same model, and re-ingest everything after changing it. See [embeddings](#13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/concepts/embeddings).
 
+![Predict the empty search](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-drills-1-predict-the-empty-search.png)
+
+*Source: [`diagrams/rag-drills.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-drills.drawio), page 1.*
+
 ## Keep tenants apart
 
 The assistant serves several libraries from one vector store. Each chunk has a `library` metadata field. Write the search request so that a question from library `north` retrieves only that library's documents.

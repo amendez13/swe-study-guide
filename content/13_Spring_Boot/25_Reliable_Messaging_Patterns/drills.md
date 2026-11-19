@@ -10,6 +10,10 @@ A listener receives a message whose JSON payload has `"email": null`, and the li
 
 They wait forever. The error handler seeks back to the failed record and retries it every 5 seconds without end, and later records in the partition cannot be processed before it. Retry a bounded number of times, mark validation errors as not retryable, and send the record to a [dead-letter topic](#13_Spring_Boot/25_Reliable_Messaging_Patterns/concepts/send-poison-messages-to-a-dead-letter-topic).
 
+![Predict the stuck partition](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-drills-1-predict-the-stuck-partition.png)
+
+*Source: [`diagrams/reliable-messaging-drills.drawio`](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-drills.drawio), page 1.*
+
 ## Make the consumer idempotent
 
 This consumer adds a signing bonus to an account. After a rebalance, some employees receive the bonus twice. Fix it.
