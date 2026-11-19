@@ -110,6 +110,18 @@ def test_aspnet_core_exposes_the_intro_and_part_one_in_chapter_order() -> None:
     assert all("group" not in topic for topic in ungrouped["topics"])
 
 
+def test_spring_boot_exposes_parts_one_and_two_in_chapter_order() -> None:
+    index = serve_module.build_content_index()
+    tech = next(tech for tech in index["technologies"] if tech["dir"] == "13_Spring_Boot")
+    topics = tech["topics"]
+
+    assert tech["title"] == "Spring Boot"
+    assert tech["hasTechnologyConcepts"] is True
+    assert [topic["num"] for topic in topics[:13]] == list(range(1, 14))
+    assert [topic["group"] for topic in topics[:13]] == ["Part 1 · Basics"] * 2 + ["Part 2 · Building an application"] * 11
+    assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in topics[:13])
+
+
 def test_algorithmic_complexity_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
