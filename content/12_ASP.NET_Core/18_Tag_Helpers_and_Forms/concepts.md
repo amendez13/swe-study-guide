@@ -29,6 +29,10 @@ public class CardModel : PageModel { public string Branch { get; set; } = "East"
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-10.0)
 
+![Tag Helpers in markup](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-1-tag-helpers-in-markup.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 1.*
+
 ## The Form Tag Helper
 
 The Form Tag Helper builds the `action` URL from routing attributes: `asp-page`, `asp-page-handler`, `asp-route-{name}`, or `asp-controller` and `asp-action`. On a form with `method="post"` it also adds a hidden `__RequestVerificationToken` field. Razor Pages checks that token on POST, so a cross-site form can't submit as the user. Without routing attributes, the form posts back to the current URL.
@@ -62,6 +66,10 @@ public class RenewModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-10.0#the-form-tag-helper)
+
+![The Form Tag Helper](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-2-the-form-tag-helper.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 2.*
 
 ## Label and Input Tag Helpers
 
@@ -98,6 +106,10 @@ public class ProfileModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-10.0#the-input-tag-helper)
+
+![Label and Input Tag Helpers](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-3-label-and-input-tag-helpers.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 3.*
 
 ## The Select Tag Helper
 
@@ -141,6 +153,10 @@ public class PickupModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-10.0#the-select-tag-helper)
 
+![The Select Tag Helper](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-4-the-select-tag-helper.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 4.*
+
 ## Validation Message and Summary Tag Helpers
 
 `<span asp-validation-for="Field">` shows the first `ModelState` error for one field, and is empty when the field is valid. `<div asp-validation-summary="...">` lists several errors at once. `All` lists every error, and `ModelOnly` lists only errors that aren't tied to a property, which you add with an empty key. Both write the `data-valmsg-*` hooks that client-side validation fills in.
@@ -182,6 +198,10 @@ public class ReserveModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-10.0#the-validation-tag-helpers)
 
+![Validation Message and Summary Tag Helpers](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-5-validation-message-and-summary-tag-helpers.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 5.*
+
 ## The Anchor Tag Helper
 
 The Anchor Tag Helper builds `href` from the same routing data as `Url.Page` and `Url.Action`. Use `asp-page`, `asp-page-handler`, and `asp-route-{name}` for pages, or `asp-controller` and `asp-action` for MVC. Add `asp-fragment` for a `#section` and `asp-all-route-data` to pass a dictionary. Values that don't match a route parameter become query string values.
@@ -209,6 +229,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-10.0)
+
+![The Anchor Tag Helper](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-6-the-anchor-tag-helper.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 6.*
 
 ## Cache busting for static assets
 
@@ -238,6 +262,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-10.0)
 
+![Cache busting for static assets](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-7-cache-busting-for-static-assets.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 7.*
+
 ## The Environment Tag Helper
 
 `<environment include="...">` renders its content only when the app's `IWebHostEnvironment.EnvironmentName` is in the comma-separated list. `exclude` does the opposite. The comparison ignores case. Typical uses are an unminified script in Development, a production analytics snippet, or a banner that marks a staging site.
@@ -260,3 +288,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/environment-tag-helper?view=aspnetcore-10.0)
+
+![The Environment Tag Helper](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers-8-the-environment-tag-helper.png)
+
+*Source: [`diagrams/tag-helpers.drawio`](/content/12_ASP.NET_Core/18_Tag_Helpers_and_Forms/diagrams/tag-helpers.drawio), page 8.*
