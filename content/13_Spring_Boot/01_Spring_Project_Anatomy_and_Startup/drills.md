@@ -59,3 +59,24 @@ A, then B, then C. Beans are created during the context refresh. Runners are cal
 ![Order the startup output](/content/13_Spring_Boot/01_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills-2-order-the-startup-output.png)
 
 *Source: [`diagrams/project-anatomy-drills.drawio`](/content/13_Spring_Boot/01_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills.drawio), page 2.*
+
+## Predict which version wins
+
+`pom.xml` declares two libraries. `report-kit` depends directly on `commons-text` 1.9. `export-kit` depends on `csv-kit`, which depends on `commons-text` 1.12. Which `commons-text` ends up in the jar, and what changes with Gradle?
+
+```text
+study
+├── report-kit 2.0
+│   └── commons-text 1.9
+└── export-kit 3.1
+    └── csv-kit 1.4
+        └── commons-text 1.12
+```
+
+**Answer**
+
+Maven picks 1.9, because it is nearer to the project: two levels down instead of three. Code in `csv-kit` that needs a 1.12 method then fails at runtime with `NoSuchMethodError`. Run `./mvnw dependency:tree -Dverbose` to see the omitted version, then pin the one you want under `<dependencyManagement>` or declare `commons-text` 1.12 directly. Gradle would pick 1.12, the highest version. See [Maven projects and dependencies](#13_Spring_Boot/01_Spring_Project_Anatomy_and_Startup/concepts/maven-projects-and-dependencies).
+
+![Predict which version wins](/content/13_Spring_Boot/01_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills-3-predict-which-version-wins.png)
+
+*Source: [`diagrams/project-anatomy-drills.drawio`](/content/13_Spring_Boot/01_Spring_Project_Anatomy_and_Startup/diagrams/project-anatomy-drills.drawio), page 3.*

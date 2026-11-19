@@ -86,4 +86,84 @@
       </root>
     </mxGraphModel>
   </diagram>
+<diagram id="pa6" name="Maven projects and dependencies">
+    <mxGraphModel dx="900" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="420" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa6-1" value="Maven projects and dependencies" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa6-2" value="pom.xml declares a few starters; Maven resolves the whole tree from Maven Central" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa6-3" value="pom.xml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="250" height="230" as="geometry"/></mxCell>
+<mxCell id="pa6-4" value="groupId:artifactId:version" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="130" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-5" value="parent: spring-boot-starter-parent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="180" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-6" value="spring-boot-starter-webmvc" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="230" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-7" value="h2 (scope runtime)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="280" width="220" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-8" value="Transitive dependencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="330" y="95" width="280" height="230" as="geometry"/></mxCell>
+<mxCell id="pa6-9" value="spring-webmvc" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="350" y="130" width="240" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-10" value="spring-core, spring-context" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="350" y="180" width="240" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-11" value="jackson, tomcat-embed ..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="350" y="230" width="240" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-12" value="./mvnw dependency:tree lists them all" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="350" y="280" width="240" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-13" value="Scopes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="650" y="95" width="210" height="230" as="geometry"/></mxCell>
+<mxCell id="pa6-14" value="compile: everywhere" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="665" y="130" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-15" value="runtime: run + test" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="665" y="180" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-16" value="test: tests only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="665" y="230" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-17" value="provided: runtime supplies" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="665" y="280" width="180" height="36" as="geometry"/></mxCell>
+<mxCell id="pa6-18" style="endArrow=classic;html=1;strokeColor=#666666;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="pa6-6" target="pa6-9"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa6-19" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa6-9" target="pa6-10"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa6-20" value="Downloads are cached in ~/.m2/repository · version conflicts: nearest in the tree wins, then first declared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="345" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+<diagram id="pa7" name="The Maven lifecycle and the Boot plugin">
+    <mxGraphModel dx="900" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="420" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa7-1" value="The Maven lifecycle and the Boot plugin" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa7-2" value="Running a phase runs every phase before it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa7-3" value="validate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="pa7-4" value="compile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="180" y="110" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="pa7-5" value="test" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="pa7-6" value="package" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="pa7-7" value="verify" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="110" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="pa7-8" value="install" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="740" y="110" width="120" height="44" as="geometry"/></mxCell>
+<mxCell id="pa7-9" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-3" target="pa7-4"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa7-10" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-4" target="pa7-5"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa7-11" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-5" target="pa7-6"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa7-12" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-6" target="pa7-7"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa7-13" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-7" target="pa7-8"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa7-14" value="spring-boot-maven-plugin: repackage (bound to package)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="340" y="180" width="520" height="140" as="geometry"/></mxCell>
+<mxCell id="pa7-15" value="study.jar.original (plain classes)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="360" y="220" width="220" height="40" as="geometry"/></mxCell>
+<mxCell id="pa7-16" value="study.jar: BOOT-INF/classes&lt;br&gt;+ BOOT-INF/lib · java -jar" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="620" y="215" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="pa7-17" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-15" target="pa7-16"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pa7-18" value="spring-boot:run starts the app from source" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="360" y="275" width="480" height="30" as="geometry"/></mxCell>
+<mxCell id="pa7-19" value="spring-boot-starter-parent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="270" height="140" as="geometry"/></mxCell>
+<mxCell id="pa7-20" value="inherits spring-boot-dependencies (BOM)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="215" width="240" height="40" as="geometry"/></mxCell>
+<mxCell id="pa7-21" value="java.version, encoding, plugin setup" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="265" width="240" height="40" as="geometry"/></mxCell>
+<mxCell id="pa7-22" value="Use ./mvnw, the wrapper, so every machine runs the same Maven · no parent? import the BOM with scope import" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="46" as="geometry"/></mxCell>
+<mxCell id="pa7-23" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pa7-6" target="pa7-14"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+<diagram id="pa8" name="Gradle as the alternative">
+    <mxGraphModel dx="900" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="420" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pa8-1" value="Gradle as the alternative" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pa8-2" value="Same Boot features, different build tool" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pa8-3" value="Maven" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="230" as="geometry"/></mxCell>
+<mxCell id="pa8-4" value="pom.xml (XML)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="130" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-5" value="fixed phases: compile → test → package" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="174" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-6" value="./mvnw spring-boot:run · ./mvnw package" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="218" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-7" value="versions from starter-parent (BOM)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="262" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-8" value="Gradle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="460" y="95" width="400" height="230" as="geometry"/></mxCell>
+<mxCell id="pa8-9" value="build.gradle(.kts) (Groovy or Kotlin)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="475" y="130" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-10" value="tasks, incremental, build cache" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="475" y="174" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-11" value="./gradlew bootRun · ./gradlew bootJar" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="475" y="218" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-12" value="versions from io.spring.dependency-management" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="475" y="262" width="370" height="34" as="geometry"/></mxCell>
+<mxCell id="pa8-13" value="Maven: declarative, the most common default · Gradle: faster large multi-module builds, custom logic · conflicts: Maven nearest, Gradle highest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="345" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 </mxfile>

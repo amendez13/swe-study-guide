@@ -30,4 +30,26 @@
       </root>
     </mxGraphModel>
   </diagram>
+<diagram id="pad3" name="Predict which version wins">
+    <mxGraphModel dx="900" dy="440" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="440" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="pad3-1" value="Predict which version wins" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="pad3-2" value="Maven: the nearest version wins · Gradle: the highest version wins" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="pad3-3" value="study (pom.xml)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="360" y="100" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="pad3-4" value="report-kit 2.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="150" y="170" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="pad3-5" value="export-kit 3.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="570" y="170" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="pad3-6" value="commons-text 1.9 (depth 2) ✓ Maven" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="110" y="250" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="pad3-7" value="csv-kit 1.4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="570" y="240" width="180" height="40" as="geometry"/></mxCell>
+<mxCell id="pad3-8" value="commons-text 1.12 (depth 3) omitted by Maven" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="530" y="310" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="pad3-9" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pad3-3" target="pad3-4"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pad3-10" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pad3-3" target="pad3-5"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pad3-11" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pad3-4" target="pad3-6"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pad3-12" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pad3-5" target="pad3-7"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pad3-13" style="endArrow=classic;html=1;strokeColor=#666666;" edge="1" parent="1" source="pad3-7" target="pad3-8"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell id="pad3-14" value="csv-kit calls a 1.12 method → NoSuchMethodError · check ./mvnw dependency:tree -Dverbose · pin 1.12 in dependencyManagement" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="375" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 </mxfile>

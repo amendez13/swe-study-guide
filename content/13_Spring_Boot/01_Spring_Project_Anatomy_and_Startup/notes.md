@@ -9,6 +9,8 @@ Know what is in a Spring Boot project and what happens between `main` and the fi
 - `@SpringBootApplication` combines configuration, autoconfiguration, and component scanning.
 - Startup prepares the environment, loads definitions, refreshes the context, calls runners, then publishes `ApplicationReadyEvent`.
 - Startup fails fast on wiring errors, before the app takes traffic.
+- Maven builds from `pom.xml` in phases; `spring-boot-starter-parent` manages versions, and the Boot plugin repackages an executable jar.
+- Gradle is the task-based alternative, with `bootRun` and `bootJar`; use the wrapper (`./mvnw`, `./gradlew`) either way.
 
 ## Example
 
