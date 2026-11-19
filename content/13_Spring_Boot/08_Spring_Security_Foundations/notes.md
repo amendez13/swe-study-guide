@@ -15,8 +15,10 @@ Put Spring Security in front of the app: understand the filter chain, define use
 
 Run the [route and verb rules](#13_Spring_Boot/08_Spring_Security_Foundations/concepts/secure-routes-and-http-verbs) with the [in-memory users](#13_Spring_Boot/08_Spring_Security_Foundations/concepts/users-and-password-encoding) and a small `/api/books` controller. Compare the status codes.
 
+Enter the password for the corresponding in-memory example user when curl prompts.
+
 ```sh
 curl -i http://localhost:8080/api/books/1
-curl -i -X DELETE http://localhost:8080/api/books/1 -u ada:reading-room
-curl -i -X DELETE http://localhost:8080/api/books/1 -u grace:front-desk
+curl -i -X DELETE http://localhost:8080/api/books/1 --user ada
+curl -i -X DELETE http://localhost:8080/api/books/1 --user grace
 ```

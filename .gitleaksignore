@@ -1,0 +1,5 @@
+# Historical curl examples used the in-memory users defined in the Spring Security lesson.
+# These fingerprints apply only to the original teaching commit. Current examples prompt at runtime.
+406191d018e99094af4bfd7af373993939751136:content/13_Spring_Boot/08_Spring_Security_Foundations/notes.md:curl-auth-user:19
+406191d018e99094af4bfd7af373993939751136:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:19
+406191d018e99094af4bfd7af373993939751136:content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/notes.md:curl-auth-user:20
