@@ -55,6 +55,8 @@ def build_content_index() -> dict:
         if groups_file.is_file():
             groups = json.loads(groups_file.read_text(encoding="utf-8"))
             topic_groups = {num: title for title, numbers in groups.items() for num in numbers}
+        # Topics follow the order of topic_groups.json, so a group added later can be listed first.
+        group_positions = {num: position for position, num in enumerate(topic_groups)}
 
         topics = []
         topic_dirs = sorted(
@@ -94,6 +96,7 @@ def build_content_index() -> dict:
                 topic["group"] = topic_groups[topic_num]
             topics.append(topic)
 
+        topics.sort(key=lambda t: (group_positions.get(t["num"], len(group_positions)), t["num"]))
         technologies.append(
             {
                 "num": tech_num,
