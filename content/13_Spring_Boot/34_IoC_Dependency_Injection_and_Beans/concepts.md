@@ -24,6 +24,10 @@ class BookService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/introduction.html)
 
+![Inversion of control](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans-1-inversion-of-control.png)
+
+*Source: [`diagrams/ioc-and-beans.drawio`](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans.drawio), page 1.*
+
 ## Dependency injection
 
 Dependency injection is the usual form of inversion of control: dependencies are passed in, preferably through the constructor. A constructor parameter makes the dependency required and visible, allows `final` fields, and lets a unit test build the object with `new` and a fake, with no container at all.
@@ -54,6 +58,10 @@ class BookService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html)
 
+![Dependency injection](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans-2-dependency-injection.png)
+
+*Source: [`diagrams/ioc-and-beans.drawio`](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans.drawio), page 2.*
+
 ## What a bean is
 
 A bean is an object that the Spring container creates, configures, and manages. You do not call `new` for it. The container reads a bean definition, which says which class to create, how, with which dependencies, and in which scope, then creates the instance and injects it wherever it is needed.
@@ -75,6 +83,10 @@ class BookService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/definition.html)
 
+![What a bean is](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans-3-what-a-bean-is.png)
+
+*Source: [`diagrams/ioc-and-beans.drawio`](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans.drawio), page 3.*
+
 ## The application context
 
 The container is the `ApplicationContext`. It holds the bean definitions, creates singleton beans at startup, resolves each constructor parameter to another bean, and keeps the instances for the app's lifetime. It also provides the `Environment`, event publishing, and resource loading. [Topic 1](#13_Spring_Boot/01_Core_Features_and_Autoconfiguration/concepts/the-application-context) shows how Boot fills it.
@@ -94,6 +106,10 @@ public static void main(String[] args) {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/basics.html)
 
+![The application context](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans-4-the-application-context.png)
+
+*Source: [`diagrams/ioc-and-beans.drawio`](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans.drawio), page 4.*
+
 ## How the container resolves dependencies
 
 For each bean, the container looks at its constructor parameters and finds a bean of a matching type. If exactly one matches, it is injected. If none match, startup fails with "required a bean of type ... that could not be found". If several match, startup fails unless one is preferred or named; [wiring](#13_Spring_Boot/36_Wiring_Dependencies) covers how to choose.
@@ -111,3 +127,7 @@ Parameter 0 of constructor in com.example.study.BookService required a bean of t
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-dependencies.html)
+
+![How the container resolves dependencies](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans-5-how-the-container-resolves-dependencies.png)
+
+*Source: [`diagrams/ioc-and-beans.drawio`](/content/13_Spring_Boot/34_IoC_Dependency_Injection_and_Beans/diagrams/ioc-and-beans.drawio), page 5.*
