@@ -15,6 +15,10 @@ java -jar target/study-0.0.1-SNAPSHOT.jar
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/maven-plugin/packaging.html)
 
+![The executable uber jar](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images-1-the-executable-uber-jar.png)
+
+*Source: [`diagrams/jars-and-images.drawio`](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images.drawio), page 1.*
+
 ## Extract the jar for production
 
 Reading classes from nested jars works but is slower than reading them from plain files. For production, extract the uber jar with Boot's `tools` jar mode. The result is an application jar plus a `lib` folder, and the application jar's manifest lists the dependencies. Start it with `java -jar` as before. Startup is faster, and the layout is what the [AOT cache](#13_Spring_Boot/18_AOT_Cache_and_Fast_Startup/concepts/the-java-aot-cache) needs.
@@ -28,6 +32,10 @@ java -Djarmode=tools -jar target/study-0.0.1-SNAPSHOT.jar list-layers
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/efficient.html)
+
+![Extract the jar for production](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images-2-extract-the-jar-for-production.png)
+
+*Source: [`diagrams/jars-and-images.drawio`](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images.drawio), page 2.*
 
 ## Write a Dockerfile
 
@@ -54,6 +62,10 @@ ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-jar", "application.jar"]
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html)
 
+![Write a Dockerfile](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images-3-write-a-dockerfile.png)
+
+*Source: [`diagrams/jars-and-images.drawio`](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images.drawio), page 3.*
+
 ## Build an image with buildpacks
 
 Cloud Native Buildpacks build an image without a Dockerfile. `./mvnw spring-boot:build-image` sends the application to the Paketo Java buildpacks through a local Docker daemon. They pick a JRE for the project's Java version, add the layered jar, and configure a memory calculator. A rebuild can then update the base image or JRE without changes to your code.
@@ -77,6 +89,10 @@ Configure the image name and buildpack options in the plugin or on the command l
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/packaging/container-images/cloud-native-buildpacks.html)
 
+![Build an image with buildpacks](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images-4-build-an-image-with-buildpacks.png)
+
+*Source: [`diagrams/jars-and-images.drawio`](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images.drawio), page 4.*
+
 ## Release an image to a registry
 
 A registry such as Docker Hub stores images so that servers and clusters can pull them. Tag each release with an immutable version, such as the project version or the commit SHA. A moving tag such as `latest` makes it unclear which code is running and makes rollbacks harder.
@@ -91,3 +107,7 @@ docker run --rm -p 8080:8080 -e SPRING_PROFILES_ACTIVE=prod docker.io/example/st
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/maven-plugin/build-image.html#build-image.examples.docker)
+
+![Release an image to a registry](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images-5-release-an-image-to-a-registry.png)
+
+*Source: [`diagrams/jars-and-images.drawio`](/content/13_Spring_Boot/15_Executable_Jars_and_Container_Images/diagrams/jars-and-images.drawio), page 5.*

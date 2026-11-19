@@ -1,0 +1,33 @@
+<mxfile host="drawio">
+  <diagram id="nid1" name="Predict a build-time decision">
+    <mxGraphModel dx="900" dy="330" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="330" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="nid1-1" value="Predict a build-time decision" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="nid1-2" value="Native: @Profile was decided during the build; JVM: at startup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="nid1-3" value="native image built without a profile&lt;br&gt;runs with SPRING_PROFILES_ACTIVE=prod" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="nid1-4" value="ProdOnly bean does not exist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="nid1-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="nid1-3" target="nid1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="nid1-6" value="JVM app&lt;br&gt;SPRING_PROFILES_ACTIVE=prod" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="nid1-7" value="bean exists · prints &quot;prod-only runner&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="190" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="nid1-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="nid1-6" target="nid1-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="nid1-9" value="Build the native image with the profile active, or read a property at run time instead of a profile-specific bean" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="nid2" name="Fix a missing resource">
+    <mxGraphModel dx="900" dy="270" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="270" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="nid2-1" value="Fix a missing resource" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="nid2-2" value="Native images include only resources registered at build time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="nid2-3" value="new ClassPathResource(&quot;catalog/seed.csv&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="nid2-4" value="native: &quot;resource not found&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="nid2-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="nid2-3" target="nid2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="nid2-6" value="RuntimeHintsRegistrar: hints.resources().registerPattern(&quot;catalog/*.csv&quot;)&lt;br&gt;+ @ImportRuntimeHints on a configuration class · rebuild the native image" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="820" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

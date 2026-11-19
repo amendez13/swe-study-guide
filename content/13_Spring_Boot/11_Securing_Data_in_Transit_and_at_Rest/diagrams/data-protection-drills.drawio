@@ -1,0 +1,36 @@
+<mxfile host="drawio">
+  <diagram id="dpd1" name="Predict the client failure">
+    <mxGraphModel dx="900" dy="274" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="274" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dpd1-1" value="Predict the client failure" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dpd1-2" value="The JVM&#x27;s default trust store doesn&#x27;t contain the private CA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dpd1-3" value="default RestClient.Builder" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="dpd1-4" value="TLS handshake&lt;br&gt;certificate path error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="dpd1-5" value="https://partner..." style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dpd1-3" target="dpd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dpd1-6" value="never a trust-all manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="dpd1-7" value="fix: bundle with truststore = the CA certificate · builder.apply(ssl.fromBundle(&quot;partner&quot;))" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="dpd2" name="Choose hashing or encryption">
+    <mxGraphModel dx="900" dy="286" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="286" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="dpd2-1" value="Choose hashing or encryption" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="dpd2-2" value="Compare only → hash · read back → encrypt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="dpd2-3" value="passwordHash" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="dpd2-4" value="password hash (PasswordEncoder): only compared" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="dpd2-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dpd2-3" target="dpd2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dpd2-6" value="phone" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="166" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="dpd2-7" value="column encryption: staff read it, dumps must not" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="166" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="dpd2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dpd2-6" target="dpd2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="dpd2-9" value="favoriteBookTitle" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="222" width="220" height="44" as="geometry"/></mxCell>
+<mxCell id="dpd2-10" value="neither: not sensitive, storage encryption covers it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="222" width="540" height="44" as="geometry"/></mxCell>
+<mxCell id="dpd2-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="dpd2-9" target="dpd2-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

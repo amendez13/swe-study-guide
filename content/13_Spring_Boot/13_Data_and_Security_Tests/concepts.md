@@ -71,6 +71,10 @@ class BookRepositoryTests {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.autoconfigured-spring-data-jpa)
 
+![Repository tests with @DataJpaTest](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-1-repository-tests-with-datajpatest.png)
+
+*Source: [`diagrams/data-and-security-tests.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests.drawio), page 1.*
+
 ## Testcontainers with a real database
 
 An embedded database does not behave exactly like production PostgreSQL. Native queries, JSON columns, and locking can differ. Testcontainers starts a real PostgreSQL in Docker for the test. `@ServiceConnection` tells Boot to point the data source at the container, so no URL properties are needed. `@AutoConfigureTestDatabase(replace = NONE)` stops `@DataJpaTest` from swapping in the embedded database.
@@ -109,6 +113,10 @@ class BookRepositoryPostgresTests {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/testing/testcontainers.html)
 
+![Testcontainers with a real database](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-2-testcontainers-with-a-real-database.png)
+
+*Source: [`diagrams/data-and-security-tests.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests.drawio), page 2.*
+
 ## Containers for local development
 
 The same container definitions can back the application while you develop. Declare containers as `@Bean` methods with `@ServiceConnection` in a test configuration class. Then add a test-side main class that starts the real application with that configuration. Run it with `./mvnw spring-boot:test-run`, and the app starts against a fresh PostgreSQL with no local installation.
@@ -139,6 +147,10 @@ public class TestStudyApplication {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/dev-services.html#features.dev-services.testcontainers.at-development-time)
+
+![Containers for local development](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-3-containers-for-local-development.png)
+
+*Source: [`diagrams/data-and-security-tests.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests.drawio), page 3.*
 
 ## Security rules in web tests
 
@@ -238,6 +250,10 @@ class BookApiSecurityTests {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/setup.html)
 
+![Security rules in web tests](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-4-security-rules-in-web-tests.png)
+
+*Source: [`diagrams/data-and-security-tests.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests.drawio), page 4.*
+
 ## Request post processors
 
 Annotations set one user for a whole test method. Request post processors from `SecurityMockMvcRequestPostProcessors` set the user, credentials, or tokens per request instead. `user("grace").roles("LIBRARIAN")` acts like `@WithMockUser`, `httpBasic(...)` sends real Basic credentials through your user store, and `csrf()` adds a valid CSRF token to a form post.
@@ -280,6 +296,10 @@ class PerRequestUserTests {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/test/mockmvc/request-post-processors.html)
 
+![Request post processors](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-5-request-post-processors.png)
+
+*Source: [`diagrams/data-and-security-tests.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests.drawio), page 5.*
+
 ## Test method security directly
 
 Method-level rules can be tested by calling the bean, without HTTP. Load a context that contains the secured bean and method security, set the user with `@WithMockUser`, and call the method. A denied call throws `AuthorizationDeniedException`, a subclass of `AccessDeniedException`.
@@ -315,3 +335,7 @@ class CatalogServiceSecurityTests {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/test/method.html)
+
+![Test method security directly](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-6-test-method-security-directly.png)
+
+*Source: [`diagrams/data-and-security-tests.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests.drawio), page 6.*
