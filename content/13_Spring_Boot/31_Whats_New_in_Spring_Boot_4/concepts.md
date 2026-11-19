@@ -16,6 +16,10 @@ Some starters were renamed: `spring-boot-starter-web` became `spring-boot-starte
 
 [Spring Boot 4.0 migration guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
 
+![Modular jars and renamed starters](/content/13_Spring_Boot/31_Whats_New_in_Spring_Boot_4/diagrams/whats-new-boot-4-1-modular-jars-and-renamed-starters.png)
+
+*Source: [`diagrams/whats-new-boot-4.drawio`](/content/13_Spring_Boot/31_Whats_New_in_Spring_Boot_4/diagrams/whats-new-boot-4.drawio), page 1.*
+
 ## Core: null safety and programmatic beans
 
 Spring Framework 7 annotates its APIs with JSpecify: packages are `@NullMarked`, so every type is non-null unless marked `@Nullable`. IDEs and tools such as NullAway can then warn when your code passes or dereferences a possible null. Kotlin reads the annotations as nullable and non-null types. See [null safety in topic 5](#13_Spring_Boot/05_API_Versioning_and_Null_Safety).
@@ -41,6 +45,10 @@ class ExporterRegistrar implements BeanRegistrar {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/java/programmatic-bean-registration.html)
+
+![Core: null safety and programmatic beans](/content/13_Spring_Boot/31_Whats_New_in_Spring_Boot_4/diagrams/whats-new-boot-4-2-core-null-safety-and-programmatic-beans.png)
+
+*Source: [`diagrams/whats-new-boot-4.drawio`](/content/13_Spring_Boot/31_Whats_New_in_Spring_Boot_4/diagrams/whats-new-boot-4.drawio), page 2.*
 
 ## Jackson 3
 
@@ -143,3 +151,7 @@ Watch for smaller changes: DevTools live reload is off by default, the embedded 
 ```
 
 [Spring Boot 4.0 migration guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
+
+![Migrate from Boot 3](/content/13_Spring_Boot/31_Whats_New_in_Spring_Boot_4/diagrams/whats-new-boot-4-3-migrate-from-boot-3.png)
+
+*Source: [`diagrams/whats-new-boot-4.drawio`](/content/13_Spring_Boot/31_Whats_New_in_Spring_Boot_4/diagrams/whats-new-boot-4.drawio), page 3.*

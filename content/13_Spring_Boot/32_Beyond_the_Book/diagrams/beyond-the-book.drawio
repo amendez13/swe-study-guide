@@ -1,0 +1,111 @@
+<mxfile host="drawio">
+  <diagram id="bb1" name="Modular monoliths with Spring Modulith">
+    <mxGraphModel dx="900" dy="400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="400" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bb1-1" value="Modular monoliths with Spring Modulith" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bb1-2" value="Each direct subpackage is a module; its internal subpackages are private" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bb1-3" value="com.example.study (one deployable application)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="560" height="230" as="geometry"/></mxCell>
+<mxCell id="bb1-4" value="catalog" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="60" y="130" width="160" height="170" as="geometry"/></mxCell>
+<mxCell id="bb1-5" value="catalog.internal&lt;br&gt;(private)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=9;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="75" y="230" width="130" height="50" as="geometry"/></mxCell>
+<mxCell id="bb1-6" value="loans" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="240" y="130" width="160" height="170" as="geometry"/></mxCell>
+<mxCell id="bb1-7" value="notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="420" y="130" width="160" height="170" as="geometry"/></mxCell>
+<mxCell id="bb1-8" value="ApplicationModules&lt;br&gt;.of(StudyApplication.class)&lt;br&gt;.verify()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="640" y="120" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="bb1-9" value="fails on:&lt;br&gt;use of another module&#x27;s&lt;br&gt;internal types&lt;br&gt;dependency cycles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="640" y="210" width="220" height="110" as="geometry"/></mxCell>
+<mxCell id="bb1-10" value="Run the test in CI so the architecture stays as designed · Modulith can generate module diagrams" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="340" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bb2" name="Events between Modulith modules">
+    <mxGraphModel dx="900" dy="340" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="340" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bb2-1" value="Events between Modulith modules" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bb2-2" value="Modules talk through events, delivered after the publishing transaction commits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bb2-3" value="loans · @Transactional lend(...)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="280" height="160" as="geometry"/></mxCell>
+<mxCell id="bb2-4" value="save the loan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="55" y="130" width="250" height="40" as="geometry"/></mxCell>
+<mxCell id="bb2-5" value="events.publishEvent(&lt;br&gt;new LoanCreated(loanId, email))" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="55" y="185" width="250" height="50" as="geometry"/></mxCell>
+<mxCell id="bb2-6" value="Event Publication&lt;br&gt;Registry&lt;br&gt;stored with listeners ·&lt;br&gt;marked complete" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="370" y="110" width="200" height="130" as="geometry"/></mxCell>
+<mxCell id="bb2-7" value="notifications&lt;br&gt;@ApplicationModuleListener&lt;br&gt;after commit · async&lt;br&gt;own transaction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="620" y="110" width="240" height="120" as="geometry"/></mxCell>
+<mxCell id="bb2-8" value="commit" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb2-3" target="bb2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb2-6" target="bb2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb2-10" value="crash: incomplete events can be resubmitted · externalize to Kafka = transactional outbox" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="370" y="270" width="490" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bb3" name="Batch jobs with Spring Batch">
+    <mxGraphModel dx="900" dy="396" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="396" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bb3-1" value="Batch jobs with Spring Batch" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bb3-2" value="Chunk-oriented steps commit one transaction per chunk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bb3-3" value="Job &quot;titleJob&quot; → Step &quot;uppercaseTitles&quot; · chunk(100)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="820" height="170" as="geometry"/></mxCell>
+<mxCell id="bb3-4" value="reader&lt;br&gt;ListItemReader(&quot;dune&quot;, &quot;emma&quot;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60.0" y="140" width="240" height="70" as="geometry"/></mxCell>
+<mxCell id="bb3-5" value="processor&lt;br&gt;String::toUpperCase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="330.0" y="140" width="240" height="70" as="geometry"/></mxCell>
+<mxCell id="bb3-6" value="writer&lt;br&gt;prints each item" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600.0" y="140" width="240" height="70" as="geometry"/></mxCell>
+<mxCell id="bb3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb3-4" target="bb3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb3-5" target="bb3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb3-9" value="one transaction per chunk · a restart continues from the last committed chunk" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="220" width="780" height="30" as="geometry"/></mxCell>
+<mxCell id="bb3-10" value="default job repository: in memory&lt;br&gt;(Spring Batch 6 with Boot 4)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="290" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="bb3-11" value="JDBC job repository: history&lt;br&gt;+ restarts of failed runs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="290" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="bb3-12" value="Boot runs jobs at startup unless spring.batch.job.enabled=false" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="354" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bb4" name="GraphQL APIs with Spring for GraphQL">
+    <mxGraphModel dx="900" dy="336" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="336" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bb4-1" value="GraphQL APIs with Spring for GraphQL" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bb4-2" value="Clients ask for exactly the fields they need; mappings resolve each field" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bb4-3" value="query {&lt;br&gt;&amp;nbsp;&amp;nbsp;bookByIsbn(isbn: &quot;...&quot;) {&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;title&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;author { name }&lt;br&gt;&amp;nbsp;&amp;nbsp;}&lt;br&gt;}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=left;fontStyle=1;fontFamily=Courier New;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="280" height="100" as="geometry"/></mxCell>
+<mxCell id="bb4-4" value="@QueryMapping&lt;br&gt;bookByIsbn(@Argument isbn)&lt;br&gt;→ Book" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="380" y="100" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="bb4-5" value="@SchemaMapping&lt;br&gt;author(Book book)&lt;br&gt;→ Author" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="380" y="180" width="240" height="60" as="geometry"/></mxCell>
+<mxCell id="bb4-6" value="response with only&lt;br&gt;title + author.name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="680" y="130" width="180" height="90" as="geometry"/></mxCell>
+<mxCell id="bb4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb4-3" target="bb4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb4-8" value="Book.author" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb4-4" target="bb4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb4-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb4-5" target="bb4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb4-10" value="Per-item field resolution causes N+1 queries: @BatchMapping loads the field for all items in one call · spring-boot-starter-graphql · schema in src/main/resources/graphql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="820" height="46" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bb5" name="WebSocket messaging with STOMP">
+    <mxGraphModel dx="900" dy="440" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="440" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bb5-1" value="WebSocket messaging with STOMP" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bb5-2" value="One open connection; the server pushes to topic subscribers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bb5-3" value="client A&lt;br&gt;subscribed to&lt;br&gt;/topic/availability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="160" height="260" as="geometry"/></mxCell>
+<mxCell id="bb5-4" value="/ws endpoint&lt;br&gt;@MessageMapping(&quot;/availability&quot;)&lt;br&gt;@SendTo(&quot;/topic/availability&quot;)&lt;br&gt;simple broker /topic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="380" y="100" width="220" height="260" as="geometry"/></mxCell>
+<mxCell id="bb5-5" value="client B&lt;br&gt;subscribed to&lt;br&gt;/topic/availability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="700" y="100" width="160" height="260" as="geometry"/></mxCell>
+<mxCell id="bb5-6" value="SEND /app/availability" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="200" y="150" as="sourcePoint"/><mxPoint x="380" y="150" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="bb5-7" value="Availability(isbn, copies)" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="380" y="230" as="sourcePoint"/><mxPoint x="200" y="230" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="bb5-8" value="broadcast" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#82b366;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="600" y="230" as="sourcePoint"/><mxPoint x="700" y="230" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="bb5-9" value="The simple in-memory broker serves one instance; with several instances relay to an external broker such as RabbitMQ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="380" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bb6" name="Spring Cloud basics">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="bb6-1" value="Spring Cloud basics" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="bb6-2" value="Building blocks for many services; on Kubernetes the platform covers much of it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="bb6-3" value="client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=12;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="150" width="120" height="60" as="geometry"/></mxCell>
+<mxCell id="bb6-4" value="Spring Cloud Gateway&lt;br&gt;route Path=/api/books/**&lt;br&gt;rate limiting · auth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="210" y="130" width="200" height="100" as="geometry"/></mxCell>
+<mxCell id="bb6-5" value="catalog&lt;br&gt;http://catalog:8080" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="150" width="160" height="60" as="geometry"/></mxCell>
+<mxCell id="bb6-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb6-3" target="bb6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="bb6-4" target="bb6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="bb6-8" value="Spring Cloud Config&lt;br&gt;configuration from Git" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670" y="100" width="190" height="70" as="geometry"/></mxCell>
+<mxCell id="bb6-9" value="discovery: Eureka&lt;br&gt;or the Kubernetes API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="670" y="190" width="190" height="70" as="geometry"/></mxCell>
+<mxCell id="bb6-10" value="Kubernetes equivalents: Services (discovery) · ConfigMaps and Secrets (configuration) · ingress or gateway (routing)&lt;br&gt;use Spring Cloud for what the platform lacks · match the release train to your Boot version" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
