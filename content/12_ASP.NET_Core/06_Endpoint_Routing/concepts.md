@@ -16,6 +16,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0)
 
+![Endpoint selection and route precedence](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing-1-endpoint-selection-and-route-precedence.png)
+
+*Source: [`diagrams/endpoint-routing.drawio`](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing.drawio), page 1.*
+
 ## Optional segments and route defaults
 
 A segment such as `{floor?}` can be omitted and leaves no value to bind; use a nullable handler parameter when the absence matters. A segment such as `{floor=1}` supplies a route value of `1` when omitted.
@@ -32,6 +36,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0)
 
+![Optional segments and route defaults](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing-2-optional-segments-and-route-defaults.png)
+
+*Source: [`diagrams/endpoint-routing.drawio`](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing.drawio), page 2.*
+
 ## Route constraints and binding errors
 
 A constraint such as `:int` narrows route selection. Use it to distinguish endpoints that share a path shape. A value that fails the constraint leaves that endpoint out of the candidate set.
@@ -47,6 +55,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0)
 
+![Route constraints and binding errors](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing-3-route-constraints-and-binding-errors.png)
+
+*Source: [`diagrams/endpoint-routing.drawio`](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing.drawio), page 3.*
+
 ## Catch-all route parameters
 
 A catch-all parameter matches the remainder of the path and belongs at the end of the template. Use `{**path}` when you also want generated paths to preserve slashes within the route value.
@@ -60,6 +72,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0)
+
+![Catch-all route parameters](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing-4-catch-all-route-parameters.png)
+
+*Source: [`diagrams/endpoint-routing.drawio`](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing.drawio), page 4.*
 
 ## Link generation and named results
 
@@ -82,3 +98,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0)
+
+![Link generation and named results](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing-5-link-generation-and-named-results.png)
+
+*Source: [`diagrams/endpoint-routing.drawio`](/content/12_ASP.NET_Core/06_Endpoint_Routing/diagrams/endpoint-routing.drawio), page 5.*
