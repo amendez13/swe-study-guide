@@ -18,6 +18,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/?view=aspnetcore-10.0)
 
+![The hosting model](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-1-the-hosting-model.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 1.*
+
 ## Run versus publish
 
 `dotnet run` builds and starts the app from source with development tooling, which suits a developer machine. `dotnet publish` produces a folder with everything needed to run the app without the source: the compiled app, its dependencies, content files, and the static asset manifest. Since .NET 8, `dotnet publish` uses the Release configuration by default. Start the published app with `dotnet <App>.dll` or the generated executable.
@@ -38,6 +42,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish)
+
+![Run versus publish](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-2-run-versus-publish.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 2.*
 
 ## Framework-dependent and self-contained deployments
 
@@ -61,6 +69,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/deploying/)
+
+![Framework-dependent and self-contained deployments](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-3-framework-dependent-and-self-contained-deployments.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 3.*
 
 ## Host on IIS
 
@@ -90,6 +102,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-10.0)
 
+![Host on IIS](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-4-host-on-iis.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 4.*
+
 ## Run behind a reverse proxy on Linux
 
 On Linux, a common setup runs Kestrel on a local port with nginx in front. nginx terminates TLS and passes requests on with `proxy_pass`. The app then sees the proxy's address as the client and `http` as the scheme. That breaks HTTPS redirection, absolute links, and client IP logging until the app trusts the `X-Forwarded-For` and `X-Forwarded-Proto` headers through the Forwarded Headers Middleware.
@@ -114,6 +130,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-10.0)
+
+![Run behind a reverse proxy on Linux](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-5-run-behind-a-reverse-proxy-on-linux.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 5.*
 
 ## Run as a Linux service
 
@@ -147,6 +167,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-10.0)
 
+![Run as a Linux service](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-6-run-as-a-linux-service.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 6.*
+
 ## Publish a container image
 
 Since .NET 8, the SDK can build a container image without a Dockerfile: `dotnet publish /t:PublishContainer` builds and loads it into the local Docker or Podman. MSBuild properties such as `ContainerRepository` and `ContainerImageTag` name the image. Official ASP.NET Core images listen on port 8080 by default through `ASPNETCORE_HTTP_PORTS`. They define a non-root `app` user, which SDK-built images run as. In .NET 10 the default images are based on Ubuntu.
@@ -166,6 +190,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/containers/sdk-publish)
+
+![Publish a container image](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-7-publish-a-container-image.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 7.*
 
 ## Configure the app's URLs
 
@@ -192,3 +220,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/endpoints?view=aspnetcore-10.0)
+
+![Configure the app's URLs](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment-8-configure-the-app-s-urls.png)
+
+*Source: [`diagrams/deployment.drawio`](/content/12_ASP.NET_Core/27_Publishing_and_Deployment/diagrams/deployment.drawio), page 8.*
