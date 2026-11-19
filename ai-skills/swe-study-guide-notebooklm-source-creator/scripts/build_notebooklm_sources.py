@@ -86,6 +86,17 @@ def collect_sources(topic_dir: Path) -> list[SourceEntry]:
         )
         prefix += 1
 
+    topic_drills = topic_dir / "drills.md"
+    if topic_drills.exists():
+        sources.append(
+            SourceEntry(
+                topic_drills,
+                target_name(prefix, "topic_drills", topic_drills),
+                "Original drill cards rendered on the study site Drills tab.",
+            )
+        )
+        prefix += 1
+
     technology_dir = topic_dir.parent
     technology_concepts = technology_dir / "technology_concepts.md"
     if technology_concepts.exists():

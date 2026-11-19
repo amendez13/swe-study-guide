@@ -1,0 +1,199 @@
+version: 1
+title: "Algorithmic Complexity: Analyse the Code"
+description: Read a snippet and name its time or space complexity.
+questions:
+  - id: code-two-sequential-loops
+    topic: 01_Algorithmic_Complexity
+    concept: Dropping constants and non-dominant terms
+    prompt: |
+      ```python
+      def example(items):
+          total = 0
+          for x in items:
+              total += x
+          for x in items:
+              total += x * 2
+          return total
+      ```
+      What is the time complexity?
+    choices:
+      - { id: a, text: "O(N²)" }
+      - { id: b, text: "O(2N), which is the simplest correct form" }
+      - { id: c, text: "O(N)" }
+      - { id: d, text: "O(log N)" }
+    answer: [c]
+    explanation: O(N) + O(N) = O(2N), which simplifies to O(N).
+
+  - id: code-nested-two-arrays
+    topic: 01_Algorithmic_Complexity
+    concept: "Multi-part algorithms: add vs. multiply"
+    prompt: |
+      ```python
+      def print_pairs(a, b):
+          for x in a:
+              for y in b:
+                  print(x, y)
+      ```
+      What is the time complexity?
+    choices:
+      - { id: a, text: "O(N²)" }
+      - { id: b, text: "O(A + B)" }
+      - { id: c, text: "O(A * B)" }
+      - { id: d, text: "O(A²)" }
+    answer: [c]
+    explanation: The loop over B runs once for every element of A, so multiply. Use both sizes, not N².
+
+  - id: code-sequential-two-arrays
+    topic: 01_Algorithmic_Complexity
+    concept: "Multi-part algorithms: add vs. multiply"
+    prompt: |
+      ```python
+      def print_both(a, b):
+          for x in a:
+              print(x)
+          for y in b:
+              print(y)
+      ```
+      What is the time complexity?
+    choices:
+      - { id: a, text: "O(A + B)" }
+      - { id: b, text: "O(A * B)" }
+      - { id: c, text: "O(N)" }
+      - { id: d, text: "O(max(A, B)²)" }
+    answer: [a]
+
+  - id: code-all-pairs
+    topic: 01_Algorithmic_Complexity
+    concept: Common runtime classes
+    prompt: |
+      ```python
+      def all_pairs(items):
+          pairs = []
+          for i in range(len(items)):
+              for j in range(i + 1, len(items)):
+                  pairs.append((items[i], items[j]))
+          return pairs
+      ```
+      Which statements are true? Select all that apply.
+    choices:
+      - { id: a, text: "Time is O(N²)" }
+      - { id: b, text: "Time is O(N log N) because the inner loop starts at i + 1" }
+      - { id: c, text: "The output list takes O(N²) space" }
+      - { id: d, text: "Space is O(1)" }
+    answer: [a, c]
+    explanation: Starting the inner loop at i + 1 halves the work (N(N-1)/2 pairs), which is still O(N²). The result holds that many tuples, so it needs O(N²) space too.
+
+  - id: code-find-max
+    topic: 01_Algorithmic_Complexity
+    concept: Big O notation
+    prompt: |
+      ```python
+      def find_max(items):
+          result = items[0]
+          for x in items:
+              if x > result:
+                  result = x
+          return result
+      ```
+      What are the time and extra space complexities?
+    choices:
+      - { id: a, text: "O(N) time, O(N) space" }
+      - { id: b, text: "O(N) time, O(1) space" }
+      - { id: c, text: "O(log N) time, O(1) space" }
+      - { id: d, text: "O(N²) time, O(1) space" }
+    answer: [b]
+
+  - id: code-binary-search
+    topic: 01_Algorithmic_Complexity
+    concept: Log N runtimes
+    prompt: |
+      ```python
+      lo, hi = 0, len(arr) - 1
+      while lo <= hi:
+          mid = (lo + hi) // 2
+          if arr[mid] == target:
+              return mid
+          elif arr[mid] < target:
+              lo = mid + 1
+          else:
+              hi = mid - 1
+      return -1
+      ```
+      What is the worst-case time complexity?
+    choices:
+      - { id: a, text: "O(1)" }
+      - { id: b, text: "O(log N)" }
+      - { id: c, text: "O(N)" }
+      - { id: d, text: "O(N log N)" }
+    answer: [b]
+
+  - id: code-recursive-sum-space
+    topic: 01_Algorithmic_Complexity
+    concept: Space complexity
+    prompt: |
+      ```python
+      def total(n):
+          if n == 0:
+              return 0
+          return n + total(n - 1)
+      ```
+      What is the extra space complexity?
+    choices:
+      - { id: a, text: "O(1)" }
+      - { id: b, text: "O(log N)" }
+      - { id: c, text: "O(N)" }
+      - { id: d, text: "O(2^N)" }
+    answer: [c]
+    explanation: Recursion goes n levels deep and each level keeps a stack frame alive until the base case returns.
+
+  - id: code-merge-sort
+    topic: 01_Algorithmic_Complexity
+    concept: Summing a recursion tree
+    prompt: |
+      Merge sort splits the array in half, sorts each half recursively, then merges them in linear time.
+      What are its time and extra space complexities?
+    choices:
+      - { id: a, text: "O(N log N) time, O(N) space" }
+      - { id: b, text: "O(N²) time, O(1) space" }
+      - { id: c, text: "O(N log N) time, O(1) space" }
+      - { id: d, text: "O(N) time, O(log N) space" }
+    answer: [a]
+    explanation: There are log N levels with O(N) merge work each. The temporary arrays need O(N), which dominates the O(log N) stack.
+
+  - id: code-triangular-count
+    topic: 01_Algorithmic_Complexity
+    concept: Loop bounds that aren’t N
+    prompt: |
+      ```python
+      count = 0
+      for i in range(1, n + 1):
+          for _ in range(i):
+              count += 1
+      ```
+      What is the time complexity?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(N log N)" }
+      - { id: c, text: "O(N²)" }
+      - { id: d, text: "O(N³)" }
+    answer: [c]
+    explanation: 1 + 2 + … + N = N(N+1)/2, which is O(N²).
+
+  - id: code-subsets-recursion
+    topic: 01_Algorithmic_Complexity
+    concept: Recursive runtimes
+    prompt: |
+      ```python
+      def subsets(items, i=0):
+          if i == len(items):
+              return 1
+          return subsets(items, i + 1) + subsets(items, i + 1)
+      ```
+      What is the time complexity?
+    choices:
+      - { id: a, text: "O(N)" }
+      - { id: b, text: "O(N²)" }
+      - { id: c, text: "O(2^N)" }
+      - { id: d, text: "O(N!)" }
+    answer: [c]
+    explanation: Two branches per call and depth N gives O(2^N) calls.

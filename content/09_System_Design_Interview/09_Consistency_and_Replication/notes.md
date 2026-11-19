@@ -1,49 +1,45 @@
 # Consistency and Replication
 
-The fundamental trade-off in distributed systems: how fresh does the data need to be, and what are you willing to pay for that freshness? Every system design interview touches this trade-off because any system with more than one database node must choose a consistency model.
+A value that lives on more than one node forces a choice on every read and every write: how fresh the copy must be, and how many copies answer before the client hears that the write succeeded. CAP and PACELC name the choice. The topology places the copies. The quorum, the version, and the repair say what a later reader can trust.
 
 ## Key Points
 
-- **CAP theorem** — during a partition, choose consistency or availability. Since partitions are inevitable, the real choice is CP or AP.
-- **PACELC** — extends CAP: even without a partition, trade off latency vs. consistency. More useful for everyday design decisions.
-- **Strong consistency** — all reads see the latest write. Requires synchronous replication. Use for financial transactions, locks, inventory.
-- **Eventual consistency** — replicas converge eventually, but reads may be stale. Use for feeds, view counts, recommendations.
-- **Read-after-write** — a user sees their own writes. Achieved by reading from the leader for recently-written data.
-- **Quorum (W + R > N)** — tunable consistency. More replicas in the quorum means stronger consistency but slower operations.
-- **Conflict resolution** — LWW (simple, lossy), vector clocks (detect conflicts), application-level merge (domain-specific), CRDTs (automatic merge).
-- **Linearizability** — strongest model. Operations appear instantaneous. Required for leader election and distributed locks. Implemented via consensus protocols.
+- **CAP theorem** — during a partition the live choice is CP or AP. A CA label assumes the network never splits. The same product can tune the choice per operation.
+- **PACELC theorem** — with no partition, each operation still chooses latency or consistency. That choice is the common case.
+- **Replication topologies** — single-leader, multi-leader, or leaderless. Sync waits for another copy. Async acknowledges first and lets the other copy apply later.
+- **Strong consistency** — an acknowledged write is what a later read of that key returns, including a read from another client.
+- **Eventual consistency** — once writes pause, replicas converge. A read before that can be older, and the model sets no deadline on the gap.
+- **Read-after-write consistency** — the writer's session sees its own write. A monotonic read keeps a later read in that session from moving backward.
+- **Linearizability** — operations take effect in one real-time order. Locks, a leader lease, and a single claim need it. Raft and Paxos produce the order.
+- **Quorum reads and writes** — W + R > N makes the read set share a replica with the write set. W = 1 and R = 1 can miss.
+- **Conflict resolution** — last-write-wins drops a value, and a wall clock is a weak stamp. A version vector keeps concurrent writes. A merge or a CRDT combines them.
+- **Read and write path** — the coordinator waits for W acknowledgements, asks R replicas, returns the newest version, and can repair an older answer.
+- **Replica failure handling** — a missed heartbeat ends the wait. A hint covers a short outage. A Merkle tree finds the ranges a long outage left behind.
 
 ## Example
 
-Choosing a consistency model for different features in a social media platform:
+A pottery studio keeps a lobby count of pots fired today and a shelf card for each pot. The count uses three replicas, with W = 1 and R = 1. The shelf card uses three replicas, with W = 2 and R = 2. Two glaze notes on one pot carry timestamps 11 and 12.
 
-```text
-Feature: Post "like" count
-  Model: Eventual consistency
-  Why: A like count that's 2 seconds stale is fine.
-       Prioritize low write latency — millions of likes/minute.
-  Config: N=3, W=1, R=1
+```python
+def overlaps(n: int, w: int, r: int) -> bool:
+    return w + r > n
 
-Feature: User profile update
-  Model: Read-after-write consistency
-  Why: User must see their own profile changes immediately.
-       Other users can see stale profile for a few seconds.
-  Config: N=3, W=2, R=2 for the user's own reads;
-          W=2, R=1 for other users' reads.
 
-Feature: Username uniqueness
-  Model: Linearizability
-  Why: Two users cannot claim the same username simultaneously.
-       This requires a global ordering of operations.
-  Implementation: Write to a linearizable store (PostgreSQL with
-  SERIALIZABLE isolation, or a distributed lock via ZooKeeper).
+def lww(stamps: list[tuple[int, str]]) -> str:
+    return max(stamps)[1]
 
-Feature: Direct message delivery
-  Model: Strong consistency (per-conversation)
-  Why: Messages must appear in order. A user sending "yes" then
-       "wait, no" must not have those delivered out of order.
-  Config: Partition messages by conversation_id, use a single
-          leader per partition for ordered writes.
+
+print(overlaps(3, 2, 2), overlaps(3, 1, 1), lww([(11, "matte"), (12, "gloss")]))
+# True False gloss
 ```
 
-The key insight: different features in the same system can use different consistency models. Match the model to the feature's tolerance for staleness.
+The lobby count can miss a firing that was just recorded, because the read set and the write set can be disjoint. The shelf card's sets share a replica, so a later read of that card sees the acknowledged note. Last-write-wins keeps gloss and drops matte. The dropped note can be the one a member wrote later on a clock that was behind. A shelf label that only one pot may claim is linearizable. The member who edits a display name needs the next reload in that session to show the new name. The copies sit on successive nodes of the ring. A second studio building is another site. A replica that is down for the afternoon catches up from a hint. A replica that stays gone leaves ranges a Merkle tree marks for copy.
+
+## See also
+
+- [Data Partitioning and Consistent Hashing](../08_Data_Partitioning_and_Consistent_Hashing/) — which nodes hold the copies. The ring walk and rebalancing stay there.
+- [Databases NoSQL and Specialized](../07_Databases_NoSQL_and_Specialized/) — the key-value API, and why a store leaves one machine.
+- [Databases Relational](../06_Databases_Relational/) — one primary, lag, read replicas, promotion, and fencing.
+- [High Availability and Reliability](../03_High_Availability_and_Reliability/) — nines, failover of a site, and a second data center.
+- [Distributed System Failure Modes](../15_Distributed_System_Failure_Modes/) — partial failure, unreliable clocks, and split brain as a mode.
+- [Transactions and Concurrency Control](../16_Transactions_and_Concurrency_Control/) — Raft, Paxos, and a commit that must prepare on two stores.

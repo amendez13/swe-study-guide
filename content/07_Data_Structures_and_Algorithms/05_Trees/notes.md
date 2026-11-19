@@ -18,6 +18,15 @@ Trees are recursive, acyclic, connected structures used to represent hierarchica
 - **Level-order traversal (BFS)** -- uses a queue to visit nodes level by level; the `for _ in range(len(queue))` pattern processes one level per iteration.
 - **Height vs. depth** -- height is longest path down to a leaf (leaves have height 0); depth is distance from root to node (root has depth 0); tree height determines BST operation cost.
 
+- **None as the base case** -- treat the empty tree as valid input and return the identity for your combining step (0 for counts and sums, -1 for height, True for "every node" checks); leaf special cases then disappear.
+- **Top-down vs. bottom-up recursion** -- pass ancestor information down as arguments (depth, running max, allowed range) or return subtree facts up (height, size); return several facts in one pass to keep the work O(N).
+- **BST property is a range** -- every node must lie inside the open interval set by all of its ancestors, not just compare correctly with its parent; going left lowers the upper bound, going right raises the lower bound.
+- **Ordered BST queries** -- floor, ceiling, and next-key lookups are one O(h) root-to-leaf walk that remembers the best candidate; this is what sorted maps offer that hash maps cannot.
+- **Rotations** -- an O(1) re-hang of a parent and child that changes height but never in-order order; AVL and Red-Black trees use rotations to keep height O(log N).
+- **Recursive vs. iterative DFS** -- any recursive traversal can use an explicit stack instead; do so for deep or skewed trees, since CPython's default recursion limit is about 1000 frames.
+- **Serialization** -- pre-order with a marker for every empty child encodes exactly one tree (2N + 1 tokens) and rebuilds recursively in the same order; plain value lists are ambiguous for general binary trees.
+- **N-ary trees** -- store a `children` list; pre-order, post-order, and level-order carry over directly, in-order has no natural meaning, and post-order fits aggregates such as directory sizes.
+
 ## Example
 
 A complete binary search tree with insert, search, all four traversals, and height calculation:
@@ -116,3 +125,7 @@ print("Height:", height(root))              # 3
 ```
 
 The in-order output is sorted because the BST invariant guarantees left values come before the node and right values come after. Level-order shows the tree's shape layer by layer, which is useful for debugging and for problems that operate on entire levels at once.
+
+## More practice
+
+Work the original exercises on the **Drills** tab: read each prompt and snippet, commit to an answer, then open the card to check it. For more tree practice, open CTCI Chapter 4 on the private reader (`#chapter-4-trees-and-graphs`), with background under `#types-of-trees` (including `#balanced-vs-unbalanced` and `#complete-binary-trees`) and `#binary-tree-traversal`; the chapter's interview questions live under `#interview-questions_4`. Heaps, tries, and graphs from that chapter belong to the Heaps and Tries and Graphs topics. Work the problems there; do not copy book text or solutions into these study files.

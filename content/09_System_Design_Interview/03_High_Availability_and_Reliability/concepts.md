@@ -14,6 +14,10 @@ Composite availability for components in series is the product: two services at 
 
 In an interview, always clarify the availability requirement — it determines how much redundancy and failover complexity the design needs.
 
+![Availability and the Nines](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-1-availability-and-nines.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 1.*
+
 ## MTBF and MTTR
 
 Mean Time Between Failures (MTBF) measures how often a component fails. Mean Time To Repair (MTTR) measures how quickly it's restored. Together they define availability:
@@ -35,21 +39,19 @@ Health check alerts   MTTR
 Chaos engineering     Both (finds weak spots)
 ```
 
+![MTBF and MTTR](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-2-mtbf-and-mttr.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 2.*
+
 ## Redundancy and Replication
 
 Running multiple copies of a component so that failure of one does not bring down the system. This is the foundational technique for all high-availability designs.
 
-```mermaid
-flowchart LR
-    C[Client] --> LB[Load Balancer]
-    LB --> A1[App Server 1]
-    LB --> A2[App Server 2]
-    A1 --> DB1[(Primary DB)]
-    A2 --> DB1
-    DB1 -->|replication| DB2[(Replica DB)]
-```
+![Redundancy and Replication](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-3-redundancy-and-replication.png)
 
-Redundancy applies at every layer: multiple app servers, database replicas, redundant network paths, and multi-region deployments. The cost of redundancy scales linearly — 3× replicas means roughly 3× the infrastructure cost — so the availability target determines how much redundancy to invest in.
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 3.*
+
+Redundancy applies at every layer inside one site: multiple app servers, database replicas, and redundant network paths. The cost scales roughly with the number of copies — 3× replicas means roughly 3× the infrastructure cost — so the availability target decides how many to run. A second data center is a separate site decision, covered in Multi-DC and Geo Routing.
 
 ## Failover Strategies
 
@@ -75,7 +77,11 @@ Hot standby:
   Cost: high (full duplicate infrastructure).
 ```
 
-For most interview designs, warm standby with automated failover is the sweet spot. Hot standby (active-active) is justified for systems requiring 99.99%+ availability.
+For most interview designs, warm standby with automated failover is the sweet spot inside one site. Hot standby is already running and already serving, which is why recovery is near-instant and the bill is a full extra copy. Which site is serving, and what a whole site going dark does, is Multi-DC and Geo Routing.
+
+![Failover Strategies](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-4-failover-strategies.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 4.*
 
 ## Active-Active vs. Active-Passive
 
@@ -97,7 +103,64 @@ Active-Active:
   - More complex operational model.
 ```
 
-Active-passive is the default for databases (leader-follower). Active-active is the default for stateless application servers. For multi-region databases, active-active provides lower latency for global users but requires conflict resolution (e.g., CRDTs or last-write-wins).
+Active-passive is the default for databases (leader-follower). Active-active is the default for stateless application servers. The same choice across data centers — one region serving, or every region serving — is Multi-DC and Geo Routing. Reconciling two writers stays in Consistency and Replication.
+
+![Active-Active vs. Active-Passive](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-5-active-active-vs-passive.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 5.*
+
+## Multi-DC and Geo Routing
+
+A second data center is another failure domain in another place. Add one for a reason you can point at: users far enough away that the round trip dominates, a whole site that must be allowed to go dark, or rows that have to remain inside a jurisdiction. Shared public bytes can move to a CDN instead; that design lives in Content Distribution. The zero-to-millions list only names this stage. The site design is this card.
+
+```text
+Why a second site:
+  Latency     users far from the only site
+  Disaster    the whole site can go dark
+  Residency   some rows must stay in a country
+
+Who receives the user:
+  Geo DNS      the name resolves to a site near the resolver
+               a cached answer keeps the old site until the TTL ends
+  Traffic mgr  health-checks sites and stops offering a dead one
+               new lookups move; cached lookups wait out the TTL
+
+How the sites share work:
+  Active-passive   one site serves; the other is the spare
+                   failover is a cutover, and writes have one home
+  Active-active    each site serves the users near it
+                   losing a site drops that site's share of traffic
+                   writes on both sites bring conflicts and lag
+
+What a write costs across sites:
+  Sync    the commit waits for the other site
+          local time plus the cross-site round trip
+  Async   the commit returns after the local disk
+          promoting the other site can lose the lag window
+
+When the other site cannot be reached:
+  Fail closed   refuse the call: charge, reserve, transfer
+  Degraded      answer from the local copy: catalog, recommendations
+```
+
+Cold, warm, and hot spares, and active-active versus active-passive inside one site, are the cards above. Per-request balancing inside the chosen site stays in Load Balancing. Across sites, name which site takes the write, whether that write waits for the other site, and which calls return an error instead of a stale answer. Quorum and conflict rules stay in Consistency and Replication. One build, shipped to every site, is Observability.
+
+```python
+LOCAL_COMMIT_MS = 5
+CROSS_SITE_RTT_MS = 80
+
+
+def commit_ms(wait_for_other_site: bool) -> int:
+    if wait_for_other_site:
+        return LOCAL_COMMIT_MS + CROSS_SITE_RTT_MS
+    return LOCAL_COMMIT_MS
+```
+
+Waiting for the other site turns a 5 ms local commit into 85 ms. Skipping the wait keeps the 5 ms commit, and a failover can lose the writes still inside the lag window.
+
+![Multi-DC and Geo Routing](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-6-multi-dc-and-geo-routing.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 6.*
 
 ## SLA, SLO, and SLI
 
@@ -118,9 +181,13 @@ SLA (Service Level Agreement):
   customer receives a 10% service credit."
 ```
 
-SLOs drive architecture decisions. If your SLO is 99.99% availability, you need automated failover, multi-region redundancy, and no single points of failure. If it's 99.9%, a single-region warm standby may be enough.
+SLOs drive architecture decisions. A 99.9% target with users in one region can be a warm spare in that region. A 99.99% target, or a requirement to survive that region going dark, is Multi-DC and Geo Routing: two sites, and an explicit choice about whether a write waits for the other site.
 
-In interviews, tie your design decisions back to the SLO: "Given the 99.99% availability requirement, we need at least two replicas in separate availability zones with automated failover."
+In interviews, tie the design back to the SLO: "Given 99.99% and a region-level failure, we need two sites, automated traffic shift, and a written rule for which calls fail closed during the shift."
+
+![SLA, SLO, and SLI](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-7-sla-slo-sli.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 7.*
 
 ## Graceful Degradation
 
@@ -140,6 +207,10 @@ Examples:
 
 Graceful degradation requires identifying which features are critical (must work) vs. nice-to-have (can be skipped), and coding fallback paths for non-critical dependencies. Circuit breakers are the standard implementation pattern.
 
+![Graceful Degradation](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-8-graceful-degradation.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 8.*
+
 ## Circuit Breaker Pattern
 
 A resilience pattern that prevents a failing service from taking down its callers. It works like an electrical circuit breaker: when failures cross a threshold, the circuit "opens" and short-circuits requests instead of waiting for timeouts.
@@ -153,13 +224,8 @@ States:
               to test recovery. Success → CLOSED. Failure → OPEN.
 ```
 
-```mermaid
-stateDiagram-v2
-    [*] --> Closed
-    Closed --> Open: failure threshold exceeded
-    Open --> HalfOpen: timeout expires
-    HalfOpen --> Closed: test requests succeed
-    HalfOpen --> Open: test requests fail
-```
+![Circuit Breaker Pattern](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability-9-circuit-breaker.png)
+
+*Source: [`diagrams/high-availability.drawio`](/content/09_System_Design_Interview/03_High_Availability_and_Reliability/diagrams/high-availability.drawio), page 9.*
 
 Without a circuit breaker, a slow downstream service causes cascading timeouts that exhaust thread pools and take down the entire call chain.

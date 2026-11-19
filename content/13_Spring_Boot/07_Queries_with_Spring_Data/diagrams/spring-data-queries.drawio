@@ -1,0 +1,140 @@
+<mxfile host="drawio">
+  <diagram id="sdq1" name="Derived query methods">
+    <mxGraphModel dx="900" dy="390" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="390" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq1-1" value="Derived query methods" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq1-2" value="Spring Data builds the query from the method name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq1-3" value="findBy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="160" y="110" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq1-4" value="subject" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="160" y="156" width="180" height="20" as="geometry"/></mxCell>
+<mxCell id="sdq1-5" value="Author" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="360" y="110" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq1-6" value="property" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="360" y="156" width="180" height="20" as="geometry"/></mxCell>
+<mxCell id="sdq1-7" value="IgnoreCase" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="560" y="110" width="180" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq1-8" value="keyword" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="560" y="156" width="180" height="20" as="geometry"/></mxCell>
+<mxCell id="sdq1-9" value="List&amp;lt;Book&amp;gt;" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="110" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq1-10" value="(String&lt;br&gt;author)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="760" y="110" width="100" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq1-11" value="findBy · existsBy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="200" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-12" value="countBy · deleteBy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="207.5" y="200" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-13" value="And · Or" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="375.0" y="200" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-14" value="Between · GreaterThan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="542.5" y="200" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-15" value="Containing · IgnoreCase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="710.0" y="200" width="150" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-16" value="findByAuthorIgnoreCase(&quot;fowler&quot;).size() → 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="270" width="400" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-17" value="existsByTitleContaining(&quot;Release&quot;) → true" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="460" y="270" width="400" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq1-18" value="Names are checked at startup: a misspelled property such as findByAuthr stops the application instead of failing at query time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sdq2" name="Sorting results">
+    <mxGraphModel dx="900" dy="392" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="392" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq2-1" value="Sorting results" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq2-2" value="OrderBy in the name for a fixed order; a Sort parameter when the caller chooses" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq2-3" value="findByAuthorOrderByPagesDesc(author)&lt;br&gt;fixed order" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq2-4" value="findByAuthor(String author, Sort sort)&lt;br&gt;caller&#x27;s order" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq2-5" value="GET /api/authors/{author}/books&lt;br&gt;?order=..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq2-6" value="order equals&lt;br&gt;&quot;longest&quot;?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="175" width="200" height="80" as="geometry"/></mxCell>
+<mxCell id="sdq2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq2-5" target="sdq2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq2-8" value="Sort.by(&quot;pages&quot;).descending()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="600" y="170" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq2-9" value="Sort.by(&quot;title&quot;) (default)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="600" y="225" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq2-10" value="yes" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq2-6" target="sdq2-8"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq2-11" value="no" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq2-6" target="sdq2-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq2-12" value="Spring Data checks each sort property exists · map known choices instead of passing a raw request parameter to Sort.by" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="40" as="geometry"/></mxCell>
+<mxCell id="sdq2-13" value="combine: Sort.by(&quot;pages&quot;).descending().and(Sort.by(&quot;title&quot;))" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="350" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sdq3" name="Limiting results">
+    <mxGraphModel dx="900" dy="344" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="344" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq3-1" value="Limiting results" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq3-2" value="The database applies the limit, so discarded rows are never loaded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq3-3" value="findFirst3ByOrderByPagesDesc()&lt;br&gt;at most three books" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq3-4" value="findByPagesGreaterThanOrderByPagesDesc(&lt;br&gt;int pages, Limit limit)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq3-5" value="GET /api/books/longest?count=2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="200" width="300" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq3-6" value="Limit.of(Math.min(count, 50))&lt;br&gt;→ Limit.of(2)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="400" y="200" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq3-7" value="database&lt;br&gt;returns 2 rows" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="680" y="185" width="180" height="80" as="geometry"/></mxCell>
+<mxCell id="sdq3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq3-5" target="sdq3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq3-6" target="sdq3-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq3-10" value="&lt;font face=&quot;Courier New&quot;&gt;Limit.unlimited()&lt;/font&gt; removes the cap · single result: &lt;font face=&quot;Courier New&quot;&gt;findFirstByOrderByPagesAsc&lt;/font&gt; can return &lt;font face=&quot;Courier New&quot;&gt;Optional&amp;lt;Book&amp;gt;&lt;/font&gt;" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sdq4" name="Paging through results">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq4-1" value="Paging through results" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq4-2" value="Pageable asks for one page; Page adds a count query, Slice does not" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq4-3" value="GET /api/books?page=0&amp;amp;size=2&amp;amp;sort=title,desc" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="330" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq4-4" value="Pageable: page 0 · size 2 · sort title desc" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="44" as="geometry"/></mxCell>
+<mxCell id="sdq4-5" value="web support" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq4-3" target="sdq4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq4-6" value="Page&amp;lt;Book&amp;gt; findAll(Pageable)&lt;br&gt;data query + count query" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="180" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq4-7" value="Slice&amp;lt;Book&amp;gt; instead&lt;br&gt;only whether a next page exists · no count" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="180" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq4-4" target="sdq4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq4-9" value="PagedModel&amp;lt;BookTitle&amp;gt; JSON&lt;br&gt;{ &quot;content&quot;: [ ... ],&lt;br&gt;  &quot;page&quot;: { size, number,&lt;br&gt;            totalElements, totalPages } }" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=left;fontStyle=1;fontFamily=Courier New;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="480" y="270" width="380" height="90" as="geometry"/></mxCell>
+<mxCell id="sdq4-10" value=".map(b -&amp;gt; new BookTitle(...))" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq4-6" target="sdq4-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq4-11" value="cap the page size with spring.data.web.pageable.max-page-size" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="400" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sdq5" name="Query by Example">
+    <mxGraphModel dx="900" dy="350" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq5-1" value="Query by Example" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq5-2" value="A partly filled entity becomes the query; null fields are ignored" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq5-3" value="/api/books/search?author=..." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="280" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq5-4" value="probe = new Book(&lt;br&gt;title, author, 0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="380" y="100" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq5-5" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq5-3" target="sdq5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq5-6" value="ExampleMatcher&lt;br&gt;.withIgnoreCase()&lt;br&gt;CONTAINING&lt;br&gt;.withIgnorePaths(&quot;pages&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="660" y="90" width="200" height="80" as="geometry"/></mxCell>
+<mxCell id="sdq5-7" value="books.findAll(Example.of(probe, matcher))&lt;br&gt;JpaRepository includes QueryByExampleExecutor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="380" y="210" width="480" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq5-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq5-4" target="sdq5-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq5-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq5-6" target="sdq5-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq5-10" value="omitted parameter → null field → ignored&lt;br&gt;pages: int never null → ignore path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="280" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq5-11" value="Equality and string matching only · ranges or joins need @Query" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="290" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sdq6" name="Custom queries with @Query">
+    <mxGraphModel dx="900" dy="350" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="350" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq6-1" value="Custom queries with @Query" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq6-2" value="JPQL names entities and fields; a record return type is a DTO projection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq6-3" value="@Query(&quot;select b.author as author, sum(b.pages) as totalPages&lt;br&gt;from Book b group by b.author order by b.author&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="820" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq6-4" value="record AuthorPages(String author,&lt;br&gt;long totalPages)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq6-5" value="GET /api/stats/authors&lt;br&gt;List&amp;lt;AuthorPages&amp;gt; · only needed columns" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="190" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq6-6" value="each row → constructor" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq6-3" target="sdq6-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq6-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq6-4" target="sdq6-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq6-8" value="JPQL (default)&lt;br&gt;entity and field names · :author parameters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="280" width="400" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq6-9" value="nativeQuery = true&lt;br&gt;raw SQL · ties the method to one dialect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=10;align=center;fontStyle=1;fontColor=#aaaaaa;" vertex="1" parent="1"><mxGeometry x="460.0" y="280" width="400" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="sdq7" name="Custom JPA in a repository fragment">
+    <mxGraphModel dx="900" dy="354" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="354" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="sdq7-1" value="Custom JPA in a repository fragment" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="sdq7-2" value="Spring Data routes the fragment&#x27;s method to your Impl class" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="sdq7-3" value="interface FilteredBooks&lt;br&gt;extends Repository&amp;lt;Book, Long&amp;gt;, BookFilters" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="340" height="60" as="geometry"/></mxCell>
+<mxCell id="sdq7-4" value="interface BookFilters&lt;br&gt;List&amp;lt;Book&amp;gt; filter(String author, Integer minPages)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="sdq7-5" value="class BookFiltersImpl (name ends in Impl)&lt;br&gt;EntityManager em · Criteria API&lt;br&gt;adds a predicate only for supplied arguments" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="190" width="380" height="80" as="geometry"/></mxCell>
+<mxCell id="sdq7-6" value="extends" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq7-3" target="sdq7-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq7-7" value="implemented by" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sdq7-4" target="sdq7-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq7-8" value="callers: one repository with&lt;br&gt;derived and custom methods" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="210" width="340" height="60" as="geometry"/></mxCell>
+<mxCell id="sdq7-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="sdq7-8" target="sdq7-3"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="sdq7-10" value="Keep fragments for queries that @Query and derived methods cannot express" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
