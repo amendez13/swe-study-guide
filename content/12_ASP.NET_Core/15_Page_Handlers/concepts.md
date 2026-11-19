@@ -35,6 +35,10 @@ public class DeskModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0#write-a-basic-form)
 
+![Choose a handler by HTTP verb](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers-1-choose-a-handler-by-http-verb.png)
+
+*Source: [`diagrams/page-handlers.drawio`](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers.drawio), page 1.*
+
 ## Named handlers
 
 A page can offer several actions for the same verb by naming handlers: `OnPostRenew` and `OnPostReturn` are both POST handlers, named `Renew` and `Return`. The request selects one with a `handler` value, normally the query string `?handler=Renew`. The Form Tag Helper's `asp-page-handler` attribute adds it for you. Adding `{handler?}` to the `@page` template moves the name into the path.
@@ -69,6 +73,10 @@ public class LoansModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0#multiple-handlers-per-page)
+
+![Named handlers](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers-2-named-handlers.png)
+
+*Source: [`diagrams/page-handlers.drawio`](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers.drawio), page 2.*
 
 ## Handler parameters
 
@@ -108,6 +116,10 @@ public class SearchModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-10.0)
 
+![Handler parameters](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers-3-handler-parameters.png)
+
+*Source: [`diagrams/page-handlers.drawio`](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers.drawio), page 3.*
+
 ## Page and redirect results
 
 A handler that returns `void` or `Task` always renders its page. Return `IActionResult` or `Task<IActionResult>` when the handler must choose a response. `Page()` renders the current page and is the usual result after a failed validation. `RedirectToPage` sends a 302 to another page, or to this one when you pass no name, and takes route values for the target.
@@ -141,6 +153,10 @@ public class RenewModel : PageModel
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0)
+
+![Page and redirect results](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers-4-page-and-redirect-results.png)
+
+*Source: [`diagrams/page-handlers.drawio`](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers.drawio), page 4.*
 
 ## Not found and status code results
 
@@ -178,6 +194,10 @@ public class CopyModel : PageModel
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/actions?view=aspnetcore-10.0#actions-and-action-results)
 
+![Not found and status code results](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers-5-not-found-and-status-code-results.png)
+
+*Source: [`diagrams/page-handlers.drawio`](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers.drawio), page 5.*
+
 ## Status code pages for HTML apps
 
 Status code pages middleware gives an empty 400–599 response a body. `UseStatusCodePagesWithReExecute("/Status/{0}")` runs the pipeline again for the path, with `{0}` replaced by the status code. The client keeps the original status and URL. Re-execution renders a normal page, so the error page can share the site's layout and links. `UseStatusCodePagesWithRedirects` sends a 302 instead, which loses the original status.
@@ -201,3 +221,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/error-handling?view=aspnetcore-10.0#usestatuscodepageswithreexecute)
+
+![Status code pages for HTML apps](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers-6-status-code-pages-for-html-apps.png)
+
+*Source: [`diagrams/page-handlers.drawio`](/content/12_ASP.NET_Core/15_Page_Handlers/diagrams/page-handlers.drawio), page 6.*
