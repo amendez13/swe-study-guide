@@ -30,6 +30,10 @@ class CounterConfig {
 
 Three. Without the configuration proxy, each direct `counter()` call creates a new object, so the bean and the two objects passed to `Reporter` and `Auditor` are all different, and none of them is shared. Take the counter as a parameter, `Reporter reporter(Counter counter)`, so the container injects the one singleton. See [calls between @Bean methods](#13_Spring_Boot/35_Defining_Beans/concepts/calls-between-bean-methods).
 
+![Predict the second counter](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans-drills-1-predict-the-second-counter.png)
+
+*Source: [`diagrams/defining-beans-drills.drawio`](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans-drills.drawio), page 1.*
+
 ## Define a library bean
 
 Your `LoanService` needs a `java.security.SecureRandom` to generate loan codes. Make it injectable as a bean, and inject it into the service.

@@ -27,6 +27,10 @@ class DueDateCalculator {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/classpath-scanning.html)
 
+![Component scanning and @Component](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans-1-component-scanning-and-component.png)
+
+*Source: [`diagrams/defining-beans.drawio`](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans.drawio), page 1.*
+
 ## Stereotype annotations
 
 `@Service`, `@Repository`, and `@Controller` are specializations of `@Component`. They register beans the same way, and they also state the class's role, which helps readers and tools. `@RestController` is `@Controller` plus `@ResponseBody`.
@@ -71,6 +75,10 @@ class InfrastructureConfig {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/java/bean-annotation.html)
 
+![@Configuration and @Bean methods](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans-2-configuration-and-bean-methods.png)
+
+*Source: [`diagrams/defining-beans.drawio`](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans.drawio), page 2.*
+
 ## Calls between @Bean methods
 
 Inside a `@Configuration` class, one `@Bean` method may call another. Spring subclasses the configuration class with a proxy, so the call returns the existing singleton instead of creating a second object. That is why `@Configuration` classes must not be `final`.
@@ -96,6 +104,10 @@ class LoanConfig {
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/java/configuration-annotation.html)
+
+![Calls between @Bean methods](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans-3-calls-between-bean-methods.png)
+
+*Source: [`diagrams/defining-beans.drawio`](/content/13_Spring_Boot/35_Defining_Beans/diagrams/defining-beans.drawio), page 3.*
 
 ## Choose how to define a bean
 
