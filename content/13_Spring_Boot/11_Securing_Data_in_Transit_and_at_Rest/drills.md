@@ -28,6 +28,10 @@ class PartnerStatus {
 
 The TLS handshake fails with a certificate path error, because the JVM's default trust store does not contain the private CA. Define a bundle whose trust store is the CA certificate and apply it with `RestClientSsl.fromBundle`, as in [trust a private certificate authority](#13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/concepts/trust-a-private-certificate-authority). Never install a trust-all manager.
 
+![Predict the client failure](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-drills-1-predict-the-client-failure.png)
+
+*Source: [`diagrams/data-protection-drills.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-drills.drawio), page 1.*
+
 ## Choose hashing or encryption
 
 For each field, choose a password hash, column encryption, or neither: a member's login password, a member's phone number that staff call, and a book's title. Explain the phone number choice.
@@ -49,3 +53,7 @@ class MemberRecord {
 **Answer**
 
 Hash the password with the delegating `PasswordEncoder`, because the app only needs to compare it. Encrypt the phone number with a converter such as [`EncryptedText`](#13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/concepts/encrypt-sensitive-columns), because staff must read it back while database dumps should not reveal it. The title is not sensitive; storage-level encryption covers it.
+
+![Choose hashing or encryption](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-drills-2-choose-hashing-or-encryption.png)
+
+*Source: [`diagrams/data-protection-drills.drawio`](/content/13_Spring_Boot/11_Securing_Data_in_Transit_and_at_Rest/diagrams/data-protection-drills.drawio), page 2.*
