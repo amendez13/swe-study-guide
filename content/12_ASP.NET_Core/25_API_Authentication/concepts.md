@@ -24,6 +24,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication?view=aspnetcore-10.0)
 
+![Identity providers and tokens](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-1-identity-providers-and-tokens.png)
+
+*Source: [`diagrams/api-authentication.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication.drawio), page 1.*
+
 ## Bearer tokens and JWTs
 
 A bearer token grants access to whoever holds it, so it must only travel over HTTPS and should expire quickly. Clients send it as `Authorization: Bearer <token>`. Many providers issue JSON Web Tokens (JWTs): three Base64Url parts, a header, a payload of claims, and a signature. The API validates the signature with the issuer's key. It also checks the issuer (`iss`), the audience (`aud`, which must name this API), and the expiry (`exp`).
@@ -45,6 +49,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/configure-jwt-bearer-authentication?view=aspnetcore-10.0)
+
+![Bearer tokens and JWTs](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-2-bearer-tokens-and-jwts.png)
+
+*Source: [`diagrams/api-authentication.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication.drawio), page 2.*
 
 ## JWT bearer authentication for Minimal APIs
 
@@ -77,6 +85,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn?view=aspnetcore-10.0)
 
+![JWT bearer authentication for Minimal APIs](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-3-jwt-bearer-authentication-for-minimal-apis.png)
+
+*Source: [`diagrams/api-authentication.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication.drawio), page 3.*
+
 ## Local tokens with dotnet user-jwts
 
 The `dotnet user-jwts` tool, added in .NET 7, issues test JWTs for local development without an identity provider. `create` generates a signing key and stores it in user secrets. It also adds the issuer and audience settings to `appsettings.Development.json` and prints a token. Options shape the token: `--name`, `--role`, `--claim name=value`, `--scope`, `--audience`, and `--expires-on`.
@@ -103,6 +115,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn?view=aspnetcore-10.0#use-dotnet-user-jwts-to-improve-development-time-testing)
 
+![Local tokens with dotnet user-jwts](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-4-local-tokens-with-dotnet-user-jwts.png)
+
+*Source: [`diagrams/api-authentication.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication.drawio), page 4.*
+
 ## Authorization policies for Minimal API endpoints
 
 Minimal API endpoints take the same policies as controllers. `RequireAuthorization("Librarian")` applies a named policy, and `RequireAuthorization(policy => ...)` builds an unnamed one inline. Put the call on a route group to protect a whole area of the API. A group policy and an endpoint policy combine, so a request must pass both.
@@ -125,6 +141,10 @@ public record NewBook(string Title);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/security?view=aspnetcore-10.0)
+
+![Authorization policies for Minimal API endpoints](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-5-authorization-policies-for-minimal-api-endpoints.png)
+
+*Source: [`diagrams/api-authentication.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication.drawio), page 5.*
 
 ## Describe authentication in OpenAPI
 
@@ -165,3 +185,7 @@ public class BearerSchemeTransformer(IAuthenticationSchemeProvider schemes) : IO
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/customize-openapi?view=aspnetcore-10.0)
+
+![Describe authentication in OpenAPI](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-6-describe-authentication-in-openapi.png)
+
+*Source: [`diagrams/api-authentication.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication.drawio), page 6.*

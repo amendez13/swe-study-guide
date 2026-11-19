@@ -19,6 +19,10 @@ app.Run();
 
 All three get 401 with a `WWW-Authenticate: Bearer` header. A has no error details, because no token was offered. B adds `error="invalid_token"` with a description of an invalid audience, and C adds `error="invalid_token"` with an expired-token description. The development log records the same reasons.
 
+![Diagnose three 401s](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-drills-1-diagnose-three-401s.png)
+
+*Source: [`diagrams/api-authentication-drills.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-drills.drawio), page 1.*
+
 ## Pick the status code
 
 Token 1 was created with `--role librarian` and token 2 with `--role reader`. Predict the status for each request: no token on `GET /catalog/books`, token 2 on `GET /catalog/books`, token 2 on `POST /catalog/books`, and token 1 on `POST /catalog/books`.
@@ -41,3 +45,7 @@ public record NewBook(string Title);
 **Answer**
 
 401, 200, 403, and 201. The group requires any authenticated user, and the POST also requires the librarian role. The reader is authenticated, so the failed role check is a 403, not a 401.
+
+![Pick the status code](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-drills-2-pick-the-status-code.png)
+
+*Source: [`diagrams/api-authentication-drills.drawio`](/content/12_ASP.NET_Core/25_API_Authentication/diagrams/api-authentication-drills.drawio), page 2.*
