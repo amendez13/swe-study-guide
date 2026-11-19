@@ -31,6 +31,10 @@ public class HomeController : Controller
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/overview?view=aspnetcore-10.0)
 
+![A first MVC application](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers-1-a-first-mvc-application.png)
+
+*Source: [`diagrams/mvc-controllers.drawio`](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers.drawio), page 1.*
+
 ## Controllers compared with page models
 
 A controller action and a page handler do the same job: bind input, call application services, and return an `IActionResult`. The difference is how they are organized. A page model serves one URL with a handler per verb, and its properties are the view model. A controller serves many URLs, one action each, and passes a separate view model to `View(model)`.
@@ -65,6 +69,10 @@ public class BooksController : Controller
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/actions?view=aspnetcore-10.0)
+
+![Controllers compared with page models](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers-2-controllers-compared-with-page-models.png)
+
+*Source: [`diagrams/mvc-controllers.drawio`](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers.drawio), page 2.*
 
 ## Selecting a view
 
@@ -101,6 +109,10 @@ public class BooksController : Controller
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/mvc/views/overview?view=aspnetcore-10.0#view-discovery)
 
+![Selecting a view](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers-3-selecting-a-view.png)
+
+*Source: [`diagrams/mvc-controllers.drawio`](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers.drawio), page 3.*
+
 ## Choosing Razor Pages or MVC
 
 Razor Pages suits page-focused UI. Each URL has one file for markup and one class for its logic, and adding a page doesn't touch a shared controller. Microsoft's docs describe it as easier and more productive for those scenarios. MVC controllers suit an existing MVC codebase. They also fit a set of actions that share a lot of setup, or a team that prefers grouping by resource over grouping by page. For new interactive UI, look at Blazor.
@@ -135,3 +147,7 @@ public class CatalogController(Catalog catalog) : Controller
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-10.0)
+
+![Choosing Razor Pages or MVC](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers-4-choosing-razor-pages-or-mvc.png)
+
+*Source: [`diagrams/mvc-controllers.drawio`](/content/12_ASP.NET_Core/19_MVC_Controllers/diagrams/mvc-controllers.drawio), page 4.*
