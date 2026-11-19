@@ -1,0 +1,139 @@
+<mxfile host="drawio">
+  <diagram id="crc1" name="A custom Tag Helper">
+    <mxGraphModel dx="900" dy="294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="294" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc1-1" value="A custom Tag Helper" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc1-2" value="A class that rewrites matching elements while Razor renders" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc1-3" value="&amp;lt;system-info&lt;br&gt;include-machine=&quot;false&quot;&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="crc1-4" value="SystemInfoTagHelper.Process&lt;br&gt;[HtmlTargetElement(&quot;system-info&quot;)]&lt;br&gt;IncludeMachine = false" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="260" height="70" as="geometry"/></mxCell>
+<mxCell id="crc1-5" value="&amp;lt;div class=&quot;system-info&quot;&amp;gt;&lt;br&gt;{EnvironmentName},&lt;br&gt;.NET {Version}&amp;lt;/div&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="620" y="110" width="240" height="70" as="geometry"/></mxCell>
+<mxCell id="crc1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc1-3" target="crc1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc1-4" target="crc1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc1-8" value="IncludeMachine ↔ include-machine&lt;br&gt;(Pascal case → kebab case)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="220" width="250" height="54" as="geometry"/></mxCell>
+<mxCell id="crc1-9" value="constructor services via DI&lt;br&gt;(IWebHostEnvironment env)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="325.0" y="220" width="250" height="54" as="geometry"/></mxCell>
+<mxCell id="crc1-10" value="@addTagHelper *, StudyApi&lt;br&gt;in Pages/_ViewImports.cshtml" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610.0" y="220" width="250" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="crc2" name="Hide elements conditionally">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc2-1" value="Hide elements conditionally" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc2-2" value="Target an attribute; SuppressOutput removes the element and its content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc2-3" value="[HtmlTargetElement(Attributes = &quot;if&quot;)] · [HtmlAttributeName(&quot;if&quot;)] bool Show" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="820" height="36" as="geometry"/></mxCell>
+<mxCell id="crc2-4" value="&amp;lt;a href=&quot;/admin&quot; if=&quot;isAdmin&quot;&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="170" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="crc2-5" value="?admin=true → Show = true" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="170" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="crc2-6" value="link rendered, no if attribute" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="620" y="170" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="crc2-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc2-4" target="crc2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc2-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc2-5" target="crc2-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc2-9" value="&amp;lt;p if=&quot;!isAdmin&quot;&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="240" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="crc2-10" value="?admin=true → Show = false" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="240" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="crc2-11" value="SuppressOutput: removed" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="620" y="240" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="crc2-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc2-9" target="crc2-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc2-13" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc2-10" target="crc2-11"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc2-14" value="Child content renders lazily, so suppressed content isn&#x27;t executed · Order sequences several Tag Helpers on one element" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="320" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="crc3" name="Render Markdown with a Tag Helper">
+    <mxGraphModel dx="900" dy="300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="300" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc3-1" value="Render Markdown with a Tag Helper" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc3-2" value="Read child content, transform it, and replace the element" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc3-3" value="&amp;lt;markdown&amp;gt;&lt;br&gt;## Opening hours&lt;br&gt;- **Weekdays:** 9–18" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc3-4" value="GetChildContentAsync()&lt;br&gt;.GetContent()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc3-5" value="Markdown.ToHtml(...)&lt;br&gt;Markdig pipeline&lt;br&gt;.DisableHtml()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc3-6" value="TagName = null&lt;br&gt;SetHtmlContent(html)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc3-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc3-3" target="crc3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc3-4" target="crc3-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc3-5" target="crc3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc3-10" value="DisableHtml() turns raw HTML in the Markdown into escaped text: without it, user-written text opens an XSS hole" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="820" height="50" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="crc4" name="View components">
+    <mxGraphModel dx="900" dy="310" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="310" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc4-1" value="View components" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc4-2" value="A partial view with its own logic and services" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc4-3" value="&amp;lt;vc:recent-loans count=&quot;2&quot; /&amp;gt;&lt;br&gt;or Component.InvokeAsync(...)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="60" as="geometry"/></mxCell>
+<mxCell id="crc4-4" value="RecentLoansViewComponent&lt;br&gt;(LoanStore store)&lt;br&gt;Invoke(int count)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="100" width="240" height="80" as="geometry"/></mxCell>
+<mxCell id="crc4-5" value="LoanStore.Latest(2)&lt;br&gt;[&quot;Atlas&quot;, &quot;Primer&quot;]" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="340" y="220" width="240" height="70" as="geometry"/></mxCell>
+<mxCell id="crc4-6" value="Pages/Shared/Components/&lt;br&gt;RecentLoans/Default.cshtml&lt;br&gt;&amp;lt;aside&amp;gt; list &amp;lt;/aside&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="650" y="100" width="210" height="80" as="geometry"/></mxCell>
+<mxCell id="crc4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc4-3" target="crc4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;startArrow=block;startSize=6;" edge="1" parent="1" source="crc4-4" target="crc4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc4-9" value="View(...)" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc4-4" target="crc4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc4-10" value="sidebars, cart summaries, login panels: load their own data on many pages" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;spacingLeft=10;" vertex="1" parent="1"><mxGeometry x="620" y="220" width="240" height="70" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="crc5" name="A custom validation attribute">
+    <mxGraphModel dx="900" dy="364" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="364" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc5-1" value="A custom validation attribute" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc5-2" value="Override IsValid; treat null as valid and leave presence to [Required]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc5-3" value="POST /returns&lt;br&gt;ReturnedOn = tomorrow" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="crc5-4" value="[NotInFuture] IsValid(value, context)&lt;br&gt;date &amp;gt; today" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="crc5-5" value="400 · &quot;ReturnedOn can&#x27;t be&lt;br&gt;in the future.&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="620" y="110" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="crc5-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc5-3" target="crc5-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc5-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc5-4" target="crc5-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc5-8" value="ReturnedOn = today" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="190" width="220" height="50" as="geometry"/></mxCell>
+<mxCell id="crc5-9" value="ValidationResult.Success" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="190" width="260" height="50" as="geometry"/></mxCell>
+<mxCell id="crc5-10" value="200 Ok(item)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="620" y="190" width="240" height="50" as="geometry"/></mxCell>
+<mxCell id="crc5-11" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc5-8" target="crc5-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc5-12" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc5-9" target="crc5-10"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc5-13" value="the context gives DisplayName, MemberName, the whole object, and GetService" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="820" height="22" as="geometry"/></mxCell>
+<mxCell id="crc5-14" value="works in Razor Pages · MVC · [ApiController] APIs · Minimal APIs with AddValidation (.NET 10)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="300" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="crc6" name="DataAnnotations or FluentValidation">
+    <mxGraphModel dx="900" dy="397" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="397" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc6-1" value="DataAnnotations or FluentValidation" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc6-2" value="Same rules, two styles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc6-3" value="DataAnnotations: attributes on the model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="400" height="250" as="geometry"/></mxCell>
+<mxCell id="crc6-4" value="[Required, StringLength(13, MinimumLength = 13)] Isbn&lt;br&gt;[Range(1, 28)] Days" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=8;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="130" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="crc6-5" value="built in" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="195" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="crc6-6" value="client-side validation + OpenAPI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="239" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="crc6-7" value="awkward: cross-property, services, conditions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="283" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="crc6-8" value="FluentValidation: separate validator class" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="460" y="95" width="400" height="250" as="geometry"/></mxCell>
+<mxCell id="crc6-9" value="RuleFor(l =&amp;gt; l.Isbn).NotEmpty().Length(13)&lt;br&gt;RuleFor(l =&amp;gt; l.Days).InclusiveBetween(1, 28)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=8;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="130" width="360" height="50" as="geometry"/></mxCell>
+<mxCell id="crc6-10" value="cross-property · When · async · easy unit tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="195" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="crc6-11" value="no client-side validation or OpenAPI schemas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="239" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="crc6-12" value="call validators explicitly (no auto MVC integration)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="283" width="360" height="36" as="geometry"/></mxCell>
+<mxCell id="crc6-13" value="GET / returns both error lists for Isbn &quot;123&quot;, Days 40" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="355" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="crc7" name="Add FluentValidation to an app">
+    <mxGraphModel dx="900" dy="290" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="290" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="crc7-1" value="Add FluentValidation to an app" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="crc7-2" value="Register validators, inject, validate, return a validation problem" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="crc7-3" value="AddValidatorsFrom&lt;br&gt;AssemblyContaining&lt;br&gt;&amp;lt;NewLoanValidator&amp;gt;()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc7-4" value="POST /loans&lt;br&gt;(NewLoan loan,&lt;br&gt;IValidator&amp;lt;NewLoan&amp;gt;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="251.66666666666666" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc7-5" value="ValidateAsync(loan)&lt;br&gt;DueOn &amp;gt; StartOn?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="463.3333333333333" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc7-6" value="valid → 201 Created&lt;br&gt;invalid → Results.&lt;br&gt;ValidationProblem(&lt;br&gt;result.ToDictionary())" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="675.0" y="110" width="185" height="74" as="geometry"/></mxCell>
+<mxCell id="crc7-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc7-3" target="crc7-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc7-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc7-4" target="crc7-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc7-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="crc7-5" target="crc7-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="crc7-10" value="Same shape as built-in validation · move the call into an endpoint filter or MVC action filter to avoid repeating it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="820" height="40" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
