@@ -64,6 +64,10 @@ interface BookRepository extends ListCrudRepository<Book, Long> {
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html)
 
+![Derived query methods](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-1-derived-query-methods.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 1.*
+
 ## Sorting results
 
 Add `OrderBy` to a method name for a fixed order, such as `findByAuthorOrderByPagesDesc`. When the caller chooses the order, add a `Sort` parameter instead. `Sort.by("pages").descending().and(Sort.by("title"))` sorts by pages and then by title. Spring Data checks that each sort property exists on the entity.
@@ -100,6 +104,10 @@ class SortedBookApi {
 ```
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html#repositories.special-parameters)
+
+![Sorting results](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-2-sorting-results.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 2.*
 
 ## Limiting results
 
@@ -138,6 +146,10 @@ class RankedBookApi {
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html#repositories.limit-query-result)
 
+![Limiting results](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-3-limiting-results.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 3.*
+
 ## Paging through results
 
 A `Pageable` parameter asks for one page: a page number, a page size, and an optional sort. A method that returns `Page<Book>` also runs a count query so the result knows the total number of elements and pages. Return `Slice<Book>` instead when the client only needs to know whether a next page exists, which avoids the count query.
@@ -175,6 +187,10 @@ class PagedBookApi {
 ```
 
 [Spring Data docs](https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.basic)
+
+![Paging through results](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-4-paging-through-results.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 4.*
 
 ## Query by Example
 
@@ -217,6 +233,10 @@ class BookSearchApi {
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/repositories/query-by-example.html)
 
+![Query by Example](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-5-query-by-example.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 5.*
+
 ## Custom queries with @Query
 
 When a method name would become unreadable, or the query needs aggregation or a join, write it with `@Query`. The query is JPQL by default and refers to entity and field names, not tables. Bind parameters by name with `:author`. `nativeQuery = true` sends SQL directly to the database, which ties the method to one database's dialect.
@@ -254,6 +274,10 @@ class StatsApi {
 ```
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html#jpa.query-methods.at-query)
+
+![Custom queries with @Query](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-6-custom-queries-with-query.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 6.*
 
 ## Custom JPA in a repository fragment
 
@@ -297,3 +321,7 @@ interface FilteredBooks extends Repository<Book, Long>, BookFilters {
 ```
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/repositories/custom-implementations.html)
+
+![Custom JPA in a repository fragment](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries-7-custom-jpa-in-a-repository-fragment.png)
+
+*Source: [`diagrams/spring-data-queries.drawio`](/content/13_Spring_Boot/07_Queries_with_Spring_Data/diagrams/spring-data-queries.drawio), page 7.*
