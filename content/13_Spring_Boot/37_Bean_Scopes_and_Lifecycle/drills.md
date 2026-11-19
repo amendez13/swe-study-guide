@@ -30,6 +30,10 @@ reportService.report("Loans: 15");
 
 `"Loans: 12\nLoans: 15\n"`. The prototype was injected once, when the singleton service was created, so both calls share one builder and its text accumulates. Inject `ObjectProvider<ReportBuilder>` and call `getObject()` per report to get a new builder each time.
 
+![Predict the shared builder](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-drills-1-predict-the-shared-builder.png)
+
+*Source: [`diagrams/scopes-and-lifecycle-drills.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-drills.drawio), page 1.*
+
 ## Find the null in the constructor
 
 This bean fails at startup with a `NullPointerException`. Why, and how do you fix it?
@@ -49,3 +53,7 @@ class CatalogWarmup {
 **Answer**
 
 Field injection happens after the constructor runs, so `books` is still null inside it. Use constructor injection, `CatalogWarmup(BookRepository books)`, or move the warm-up into a `@PostConstruct` method, which runs after injection. See [the bean lifecycle](#13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/concepts/the-bean-lifecycle).
+
+![Find the null in the constructor](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-drills-2-find-the-null-in-the-constructor.png)
+
+*Source: [`diagrams/scopes-and-lifecycle-drills.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-drills.drawio), page 2.*

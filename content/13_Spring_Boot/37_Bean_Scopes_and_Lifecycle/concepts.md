@@ -43,6 +43,10 @@ class ReportService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html)
 
+![Singleton and prototype](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-1-singleton-and-prototype.png)
+
+*Source: [`diagrams/scopes-and-lifecycle.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle.drawio), page 1.*
+
 ## Singletons must be thread-safe
 
 A web server handles many requests at once on different threads, and they all use the same singleton instances. A mutable field in a singleton is therefore shared by every request. If one request writes it while another reads it, results mix between users.
@@ -70,6 +74,10 @@ class FeeService {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html#beans-factory-scopes-singleton)
 
+![Singletons must be thread-safe](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-2-singletons-must-be-thread-safe.png)
+
+*Source: [`diagrams/scopes-and-lifecycle.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle.drawio), page 2.*
+
 ## Web scopes
 
 Web applications add scopes tied to HTTP. A `@RequestScope` bean lives for one request, and a `@SessionScope` bean for one user's HTTP session. They suit per-request context, such as a correlation id or a request-level cache.
@@ -96,6 +104,10 @@ class RequestInfo {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html#beans-factory-scopes-other-injection)
 
+![Web scopes](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-3-web-scopes.png)
+
+*Source: [`diagrams/scopes-and-lifecycle.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle.drawio), page 3.*
+
 ## The bean lifecycle
 
 For each singleton, the container runs the same steps at startup. It calls the constructor with the dependencies, injects any field or setter dependencies, then calls initialization callbacks. Next, post-processors may wrap the bean in a [proxy](#13_Spring_Boot/39_Proxies_and_AOP) for features such as transactions. Only then is the bean handed to others.
@@ -113,6 +125,10 @@ startup                                  shutdown
 ```
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html)
+
+![The bean lifecycle](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-4-the-bean-lifecycle.png)
+
+*Source: [`diagrams/scopes-and-lifecycle.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle.drawio), page 4.*
 
 ## @PostConstruct and @PreDestroy
 
@@ -151,6 +167,10 @@ class GenreCache {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/postconstruct-and-predestroy-annotations.html)
 
+![@PostConstruct and @PreDestroy](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-5-postconstruct-and-predestroy.png)
+
+*Source: [`diagrams/scopes-and-lifecycle.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle.drawio), page 5.*
+
 ## Lazy initialization
 
 Singletons are created eagerly at startup by default, which surfaces wiring errors early. `@Lazy` on a bean delays creation until first use. `spring.main.lazy-initialization=true` makes every bean lazy, which shortens startup in development.
@@ -163,3 +183,7 @@ spring.main.lazy-initialization=true
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/spring-application.html#features.spring-application.lazy-initialization)
+
+![Lazy initialization](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle-6-lazy-initialization.png)
+
+*Source: [`diagrams/scopes-and-lifecycle.drawio`](/content/13_Spring_Boot/37_Bean_Scopes_and_Lifecycle/diagrams/scopes-and-lifecycle.drawio), page 6.*
