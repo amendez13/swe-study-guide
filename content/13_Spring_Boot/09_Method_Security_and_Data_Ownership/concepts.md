@@ -28,6 +28,10 @@ class CatalogService {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
 
+![Enable method security](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-1-enable-method-security.png)
+
+*Source: [`diagrams/method-security.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security.drawio), page 1.*
+
 ## Record the owner of data
 
 To restrict data to its owner, the data must record who owns it. Add an `owner` column and set it on the server from the authenticated user, never from the request body. `@AuthenticationPrincipal` injects the current principal into a controller method; with username and password login it is a `UserDetails`.
@@ -106,6 +110,10 @@ class NoteApi {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/integrations/mvc.html#mvc-authentication-principal)
 
+![Record the owner of data](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-2-record-the-owner-of-data.png)
+
+*Source: [`diagrams/method-security.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security.drawio), page 2.*
+
 ## Scope queries to the owner
 
 The most reliable ownership check is a query that cannot return another member's rows. Include the owner in the repository method, such as `findByIdAndOwner`, and treat an empty result as not found. A request for someone else's note then gets the same 404 as a note that does not exist, which also hides which identifiers are in use.
@@ -136,6 +144,10 @@ class OneNoteApi {
 ```
 
 [Spring Data JPA docs](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html)
+
+![Scope queries to the owner](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-3-scope-queries-to-the-owner.png)
+
+*Source: [`diagrams/method-security.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security.drawio), page 3.*
 
 ## Ownership rules on methods
 
@@ -186,6 +198,10 @@ class NoteService {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html#using_method_parameters)
 
+![Ownership rules on methods](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-4-ownership-rules-on-methods.png)
+
+*Source: [`diagrams/method-security.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security.drawio), page 4.*
+
 ## A delete button for the owner
 
 The page should offer a delete button only to someone allowed to use it. Add the Thymeleaf Spring Security dialect, `thymeleaf-extras-springsecurity6`, which Boot manages and autoconfigures. Templates can then read the current authentication as `#authentication` and test rules with `sec:authorize`.
@@ -225,6 +241,10 @@ class NotePages {
 
 [Thymeleaf Spring Security docs](https://github.com/thymeleaf/thymeleaf-extras-springsecurity)
 
+![A delete button for the owner](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-5-a-delete-button-for-the-owner.png)
+
+*Source: [`diagrams/method-security.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security.drawio), page 5.*
+
 ## Show who is signed in
 
 Templates and controllers can both show details of the signed-in user. In a template, `sec:authentication="name"` prints the username and `sec:authorize` renders an element only when an expression passes. In a controller, `@AuthenticationPrincipal` provides the principal for building a model.
@@ -262,3 +282,7 @@ class AccountPage {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/integrations/mvc.html)
+
+![Show who is signed in](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-6-show-who-is-signed-in.png)
+
+*Source: [`diagrams/method-security.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security.drawio), page 6.*

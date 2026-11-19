@@ -37,6 +37,10 @@ class LeakyNoteApi {
 
 Grace can read Ada's note, and the PUT saves whatever the body contains, including an `id` and `owner` of Grace's choosing. Look up the note with `findByIdAndOwner(id, user.getUsername())` and return 404 when it is empty. Accept a `NewNote`-style record instead of the entity and copy only the text onto the loaded note. See [scope queries to the owner](#13_Spring_Boot/09_Method_Security_and_Data_Ownership/concepts/scope-queries-to-the-owner).
 
+![Find the ownership hole](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-drills-1-find-the-ownership-hole.png)
+
+*Source: [`diagrams/method-security-drills.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-drills.drawio), page 1.*
+
 ## Predict an annotation that does nothing
 
 A librarian-only rule is on the service, but members can still retire books. Method security is enabled. Why is the rule skipped?
@@ -61,3 +65,7 @@ class ShelfService {
 **Answer**
 
 `retireAll` calls `retire` on `this`, not through the Spring proxy, so the authorization interceptor never runs. Put the annotation on `retireAll` (the method other beans call) or move `retire` to another bean. The same proxy rule applies to `@Transactional`; see [enable method security](#13_Spring_Boot/09_Method_Security_and_Data_Ownership/concepts/enable-method-security).
+
+![Predict an annotation that does nothing](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-drills-2-predict-an-annotation-that-does-nothing.png)
+
+*Source: [`diagrams/method-security-drills.drawio`](/content/13_Spring_Boot/09_Method_Security_and_Data_Ownership/diagrams/method-security-drills.drawio), page 2.*
