@@ -33,6 +33,10 @@ class OrderedRules {
 
 The first rule matches both requests, so the member's GET gets the controller's response, and the librarian's DELETE gets 403 unless the librarian also has the `MEMBER` role. The DELETE rule is never consulted. Move the specific DELETE rule above the general `/api/**` rule; see [secure routes and HTTP verbs](#13_Spring_Boot/08_Spring_Security_Foundations/concepts/secure-routes-and-http-verbs).
 
+![Predict the rule that applies](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-drills-1-predict-the-rule-that-applies.png)
+
+*Source: [`diagrams/spring-security-drills.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-drills.drawio), page 1.*
+
 ## Explain the rejected form post
 
 Security is added to an app whose form was written in plain HTML with `action="/books"`. Logged-in users now get 403 when they submit it. What is missing, and what are two ways to fix it?
@@ -47,3 +51,7 @@ Security is added to an app whose form was written in plain HTML with `action="/
 **Answer**
 
 The POST has no CSRF token, so the CSRF filter rejects it with 403. Use `th:action="@{/books}"` so Thymeleaf adds the hidden `_csrf` field, or add the field yourself with `th:name="${_csrf.parameterName}"` and `th:value="${_csrf.token}"`. Do not disable CSRF for a cookie-authenticated form. See [CSRF protection](#13_Spring_Boot/08_Spring_Security_Foundations/concepts/csrf-protection).
+
+![Explain the rejected form post](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-drills-2-explain-the-rejected-form-post.png)
+
+*Source: [`diagrams/spring-security-drills.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-drills.drawio), page 2.*

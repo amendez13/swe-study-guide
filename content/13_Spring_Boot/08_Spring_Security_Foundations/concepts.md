@@ -30,6 +30,10 @@ class HelloApi {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/architecture.html)
 
+![The security filter chain](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-1-the-security-filter-chain.png)
+
+*Source: [`diagrams/spring-security.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security.drawio), page 1.*
+
 ## Define a security policy
 
 Declare a `SecurityFilterChain` bean to replace Boot's default policy. The `HttpSecurity` builder configures each concern with a lambda. `authorizeHttpRequests` lists rules that are checked in order, and the first matching rule decides. End with `anyRequest()` so every request falls under some rule.
@@ -58,6 +62,10 @@ class SecurityConfig {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html)
+
+![Define a security policy](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-2-define-a-security-policy.png)
+
+*Source: [`diagrams/spring-security.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security.drawio), page 2.*
 
 ## Users and password encoding
 
@@ -91,6 +99,10 @@ class UserConfig {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html)
+
+![Users and password encoding](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-3-users-and-password-encoding.png)
+
+*Source: [`diagrams/spring-security.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security.drawio), page 3.*
 
 ## Users stored with Spring Data
 
@@ -144,6 +156,10 @@ class AccountSecurity {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/user-details-service.html)
 
+![Users stored with Spring Data](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-4-users-stored-with-spring-data.png)
+
+*Source: [`diagrams/spring-security.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security.drawio), page 4.*
+
 ## Secure routes and HTTP verbs
 
 Rules can match on the HTTP method as well as the path. A common API policy lets anyone read the catalog, lets members borrow, and lets only librarians add or remove books. `hasRole("LIBRARIAN")` checks for the authority `ROLE_LIBRARIAN`, which the `roles(...)` builder adds for you.
@@ -177,6 +193,10 @@ class ApiSecurity {
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html#match-by-httpmethod)
 
+![Secure routes and HTTP verbs](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-5-secure-routes-and-http-verbs.png)
+
+*Source: [`diagrams/spring-security.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security.drawio), page 5.*
+
 ## CSRF protection
 
 Cross-site request forgery tricks a logged-in browser into sending a state-changing request that carries its session cookie. Spring Security therefore requires a CSRF token on POST, PUT, PATCH, and DELETE requests by default. Thymeleaf forms rendered with `th:action` include the token automatically, so the [form example](#13_Spring_Boot/03_Spring_MVC_Controllers_and_Templates/concepts/change-data-through-an-html-form) keeps working once security is added.
@@ -203,3 +223,7 @@ class CsrfConfig {
 ```
 
 [Spring Security docs](https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html)
+
+![CSRF protection](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security-6-csrf-protection.png)
+
+*Source: [`diagrams/spring-security.drawio`](/content/13_Spring_Boot/08_Spring_Security_Foundations/diagrams/spring-security.drawio), page 6.*
