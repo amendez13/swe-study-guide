@@ -20,6 +20,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-10.0)
 
+![Why every app needs HTTPS](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https-1-why-every-app-needs-https.png)
+
+*Source: [`diagrams/https.drawio`](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https.drawio), page 1.*
+
 ## The development certificate
 
 The .NET SDK creates a self-signed localhost certificate for development, and Kestrel uses it automatically for `https://localhost` endpoints. `dotnet dev-certs https --trust` adds it to the trusted store so browsers accept it on Windows and macOS. On Linux, trust depends on the distribution and browser. `--check` reports its state, and `--clean` removes it so you can create a fresh one.
@@ -40,6 +44,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-dev-certs)
+
+![The development certificate](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https-2-the-development-certificate.png)
+
+*Source: [`diagrams/https.drawio`](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https.drawio), page 2.*
 
 ## A production certificate in Kestrel
 
@@ -72,6 +80,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel/endpoints?view=aspnetcore-10.0#configure-https)
 
+![A production certificate in Kestrel](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https-3-a-production-certificate-in-kestrel.png)
+
+*Source: [`diagrams/https.drawio`](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https.drawio), page 3.*
+
 ## HTTP Strict Transport Security
 
 HSTS is a response header, `Strict-Transport-Security`, that tells a browser to use only HTTPS for the site for a set time. After the first secure visit, the browser upgrades `http://` links itself and refuses to bypass certificate errors. That closes the gap where an attacker intercepts an initial plain-HTTP request. `UseHsts()` adds the header to HTTPS responses.
@@ -94,6 +106,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-10.0#http-strict-transport-security-protocol-hsts)
 
+![HTTP Strict Transport Security](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https-4-http-strict-transport-security.png)
+
+*Source: [`diagrams/https.drawio`](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https.drawio), page 4.*
+
 ## HTTPS redirection
 
 `UseHttpsRedirection()` answers plain HTTP requests with a redirect (307 by default) to the same URL over HTTPS. It must know the HTTPS port. It reads that from `HttpsRedirectionOptions.HttpsPort`, the `ASPNETCORE_HTTPS_PORT` or `ASPNETCORE_HTTPS_PORTS` settings, or the server's single HTTPS endpoint. If it can't find one, it logs a warning and doesn't redirect.
@@ -114,6 +130,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-10.0#require-https)
+
+![HTTPS redirection](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https-5-https-redirection.png)
+
+*Source: [`diagrams/https.drawio`](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https.drawio), page 5.*
 
 ## Reject HTTP in APIs
 
@@ -140,3 +160,7 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-10.0#api-projects)
+
+![Reject HTTP in APIs](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https-6-reject-http-in-apis.png)
+
+*Source: [`diagrams/https.drawio`](/content/12_ASP.NET_Core/28_HTTPS/diagrams/https.drawio), page 6.*
