@@ -14,6 +14,10 @@ registry.counter("logins", "user", user.email()).increment();
 
 Each distinct email creates a new time series, so the series count grows with the user base. Prometheus keeps every active series in memory. Remove the `user` tag or replace it with a value from a small fixed set, such as the login method. Find individual users in logs or traces instead. See [custom business metrics](#13_Spring_Boot/26_Structured_Logging_and_Metrics/concepts/custom-business-metrics).
 
+![Predict the metrics explosion](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-drills-1-predict-the-metrics-explosion.png)
+
+*Source: [`diagrams/logging-and-metrics-drills.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-drills.drawio), page 1.*
+
 ## Turn a log line into a structured event
 
 Rewrite this log statement so that Loki can filter by order id and amount without parsing the message, and configure ECS output.
