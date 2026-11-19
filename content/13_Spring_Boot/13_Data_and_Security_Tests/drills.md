@@ -34,6 +34,10 @@ class WhichDatabaseTests {
 
 It uses an embedded database such as H2, because `@DataJpaTest` replaces the configured data source by default. Both tests pass: each test method runs in a transaction that is rolled back, so the row from `saves` is gone in `startsEmpty`. To test against PostgreSQL, use the [Testcontainers setup](#13_Spring_Boot/13_Data_and_Security_Tests/concepts/testcontainers-with-a-real-database) with `replace = NONE`.
 
+![Predict which database the test uses](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-drills-1-predict-which-database-the-test-uses.png)
+
+*Source: [`diagrams/data-and-security-tests-drills.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-drills.drawio), page 1.*
+
 ## Find the untested side of a rule
 
 This class tests that librarians may delete books. A refactoring later changes the rule to `authenticated()` by mistake, and the suite stays green. Which tests are missing?
@@ -65,3 +69,7 @@ class HappyPathOnlyTests {
 **Answer**
 
 There is no test for the denied side: a `MEMBER` should get 403 and an anonymous caller 401. With only the allowed case, any rule that admits librarians passes. Add the two denial tests from [security rules in web tests](#13_Spring_Boot/13_Data_and_Security_Tests/concepts/security-rules-in-web-tests).
+
+![Find the untested side of a rule](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-drills-2-find-the-untested-side-of-a-rule.png)
+
+*Source: [`diagrams/data-and-security-tests-drills.drawio`](/content/13_Spring_Boot/13_Data_and_Security_Tests/diagrams/data-and-security-tests-drills.drawio), page 2.*

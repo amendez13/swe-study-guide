@@ -29,6 +29,10 @@ class BrokenBookApiTests {
 
 `@WebMvcTest` scans only web components such as controllers and advice; regular `@Service` beans are left out. Declare `@MockitoBean BookService books;` and stub it, which keeps the test about the web layer. Use `@Import(BookService.class)` only when you want the real service in the slice.
 
+![Predict why the slice fails to start](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-drills-1-predict-why-the-slice-fails-to-start.png)
+
+*Source: [`diagrams/unit-and-web-tests-drills.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-drills.drawio), page 1.*
+
 ## Write a test for a fine cap
 
 The library now caps fines at 500 cents. Write the test cases first, then change `fineCents` so they pass. Which dates make good boundary cases for a loan due on 2026-12-01?
@@ -48,3 +52,7 @@ record Loan(String title, LocalDate due) {
 **Answer**
 
 Add `@CsvSource` rows for 2026-12-20 (19 days, 475), 2026-12-21 (20 days, exactly 500) and 2026-12-22 (21 days, still 500), keeping the on-time rows. Then return `Math.min(500, Math.max(0, daysLate) * 25)`. Rows on each side of the cap catch off-by-one mistakes; see [test domain objects without Spring](#13_Spring_Boot/12_Unit_and_Web_Layer_Tests/concepts/test-domain-objects-without-spring).
+
+![Write a test for a fine cap](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-drills-2-write-a-test-for-a-fine-cap.png)
+
+*Source: [`diagrams/unit-and-web-tests-drills.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-drills.drawio), page 2.*

@@ -20,6 +20,10 @@ class StudyApplicationTests {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/testing/index.html)
 
+![JUnit 6 and the Boot test starters](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-1-junit-6-and-the-boot-test-starters.png)
+
+*Source: [`diagrams/unit-and-web-tests.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests.drawio), page 1.*
+
 ## Test domain objects without Spring
 
 Domain logic such as due dates and fines needs no application context. Test it with plain JUnit and AssertJ: construct the object, call the method, and assert the result. These tests run in milliseconds, so they can cover every edge case. Use `@ParameterizedTest` to run one test method over a table of inputs.
@@ -57,6 +61,10 @@ class LoanTests {
 ```
 
 [JUnit docs](https://docs.junit.org/current/user-guide/#writing-tests-parameterized-tests)
+
+![Test domain objects without Spring](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-2-test-domain-objects-without-spring.png)
+
+*Source: [`diagrams/unit-and-web-tests.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests.drawio), page 2.*
 
 ## Web layer tests with MockMvcTester
 
@@ -141,6 +149,10 @@ class BookApiTests {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.spring-mvc-tests)
 
+![Web layer tests with MockMvcTester](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-3-web-layer-tests-with-mockmvctester.png)
+
+*Source: [`diagrams/unit-and-web-tests.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests.drawio), page 3.*
+
 ## Test request validation
 
 A web layer test is the right place to check the HTTP contract for bad input: the status code, the error body, and that the service was never called. Send JSON with `content` and a content type, then assert on the response. `then(mock).shouldHaveNoInteractions()` from BDDMockito proves that the controller rejected the request before reaching the service.
@@ -213,6 +225,10 @@ class NewBookApiTests {
 
 [Spring Framework docs](https://docs.spring.io/spring-framework/reference/testing/mockmvc/assertj.html)
 
+![Test request validation](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-4-test-request-validation.png)
+
+*Source: [`diagrams/unit-and-web-tests.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests.drawio), page 4.*
+
 ## Unit tests with mocked repositories
 
 A service that applies rules around a repository can be tested without a database. Mockito's `@Mock` creates a stand-in repository, and you construct the service with it, which constructor injection makes easy. Stub what the repository returns with `given`, then check the result and the calls the service made with `then`.
@@ -276,6 +292,10 @@ class LoanDeskTests {
 
 [Mockito docs](https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html)
 
+![Unit tests with mocked repositories](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-5-unit-tests-with-mocked-repositories.png)
+
+*Source: [`diagrams/unit-and-web-tests.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests.drawio), page 5.*
+
 ## End-to-end tests with RestTestClient
 
 `@SpringBootTest(webEnvironment = RANDOM_PORT)` starts the full application on a free port, including security, data, and the real web server. Changed in Boot 4: `@AutoConfigureRestTestClient` supplies a `RestTestClient`, Spring Framework 7's fluent test client for HTTP calls, as the recommended replacement for `TestRestTemplate`. `@SpringBootTest` also no longer adds MockMvc or `TestRestTemplate` unless you ask for them with an `@AutoConfigure...` annotation.
@@ -307,3 +327,7 @@ class BookApiEndToEndTests {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.with-running-server)
+
+![End-to-end tests with RestTestClient](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests-6-end-to-end-tests-with-resttestclient.png)
+
+*Source: [`diagrams/unit-and-web-tests.drawio`](/content/13_Spring_Boot/12_Unit_and_Web_Layer_Tests/diagrams/unit-and-web-tests.drawio), page 6.*

@@ -1,0 +1,38 @@
+<mxfile host="drawio">
+  <diagram id="utd1" name="Predict why the slice fails to start">
+    <mxGraphModel dx="900" dy="334" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="334" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="utd1-1" value="Predict why the slice fails to start" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="utd1-2" value="@WebMvcTest scans web components only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="utd1-3" value="@WebMvcTest(BookApi.class)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="380" height="130" as="geometry"/></mxCell>
+<mxCell id="utd1-4" value="BookApi (controller)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="135" width="340" height="36" as="geometry"/></mxCell>
+<mxCell id="utd1-5" value="BookService (@Service) · not created" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="60" y="180" width="340" height="36" as="geometry"/></mxCell>
+<mxCell id="utd1-6" value="No qualifying bean of type BookService" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="480" y="110" width="380" height="50" as="geometry"/></mxCell>
+<mxCell id="utd1-7" value="@MockitoBean BookService books&lt;br&gt;+ stub it (usual fix)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40.0" y="260" width="400" height="54" as="geometry"/></mxCell>
+<mxCell id="utd1-8" value="@Import(BookService.class)&lt;br&gt;when you want the real service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460.0" y="260" width="400" height="54" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="utd2" name="Write a test for a fine cap">
+    <mxGraphModel dx="900" dy="344" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="344" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="utd2-1" value="Write a test for a fine cap" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="utd2-2" value="Test rows on each side of the 500-cent cap; due 2026-12-01" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="utd2-3" value="2026-12-20" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="utd2-4" value="19 days" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="160" width="260" height="34" as="geometry"/></mxCell>
+<mxCell id="utd2-5" value="475" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="204" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="utd2-6" value="2026-12-21" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="110" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="utd2-7" value="20 days" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="160" width="260" height="34" as="geometry"/></mxCell>
+<mxCell id="utd2-8" value="500" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="320" y="204" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="utd2-9" value="2026-12-22" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="600" y="110" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="utd2-10" value="21 days" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="160" width="260" height="34" as="geometry"/></mxCell>
+<mxCell id="utd2-11" value="500 (capped)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="600" y="204" width="260" height="40" as="geometry"/></mxCell>
+<mxCell id="utd2-12" value="return Math.min(500, Math.max(0, daysLate) * 25);" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
