@@ -122,6 +122,16 @@ def test_spring_boot_exposes_parts_one_and_two_in_chapter_order() -> None:
     assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in topics[:13])
 
 
+def test_aspnet_core_exposes_part_three_in_chapter_order() -> None:
+    index = serve_module.build_content_index()
+    tech = next(tech for tech in index["technologies"] if tech["dir"] == "12_ASP.NET_Core")
+    topics = [topic for topic in tech["topics"] if 13 <= topic["num"] <= 22]
+
+    assert [topic["num"] for topic in topics] == list(range(13, 23))
+    assert all(topic["group"] == "Part 3 · Razor Pages and MVC" for topic in topics)
+    assert all(topic["notesFile"] == "notes.md" and topic["hasConcepts"] and topic["hasDrills"] for topic in topics)
+
+
 def test_algorithmic_complexity_topic_exposes_drills() -> None:
     index = serve_module.build_content_index()
     topic = next(
