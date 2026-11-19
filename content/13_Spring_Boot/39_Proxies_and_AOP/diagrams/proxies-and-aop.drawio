@@ -1,0 +1,78 @@
+<mxfile host="drawio">
+  <diagram id="paa1" name="Cross-cutting concerns">
+    <mxGraphModel dx="900" dy="345" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="345" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="paa1-1" value="Cross-cutting concerns" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="paa1-2" value="AOP puts shared behavior in one place and applies it from outside" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="paa1-3" value="without AOP: lend(id)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="40" y="95" width="380" height="230" as="geometry"/></mxCell>
+<mxCell id="paa1-4" value="start = System.nanoTime()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="135" width="340" height="36" as="geometry"/></mxCell>
+<mxCell id="paa1-5" value="doLend(id)  ← business logic" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="181" width="340" height="36" as="geometry"/></mxCell>
+<mxCell id="paa1-6" value="println(&quot;lend took ... ms&quot;)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="60" y="227" width="340" height="36" as="geometry"/></mxCell>
+<mxCell id="paa1-7" value="repeated in every method" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="60" y="275" width="340" height="30" as="geometry"/></mxCell>
+<mxCell id="paa1-8" value="@Transactional · @PreAuthorize ·&lt;br&gt;@Cacheable · @Async ·&lt;br&gt;@Retryable · @Observed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="100" width="380" height="110" as="geometry"/></mxCell>
+<mxCell id="paa1-9" value="annotated method: business logic only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="480" y="255" width="380" height="60" as="geometry"/></mxCell>
+<mxCell id="paa1-10" value="Spring adds the behavior around it" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="paa1-8" target="paa1-9"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="paa2" name="How Spring proxies work">
+    <mxGraphModel dx="900" dy="360" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="360" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="paa2-1" value="How Spring proxies work" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="paa2-2" value="Other beans receive a proxy that wraps your object" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="paa2-3" value="caller" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=11;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="140" width="140" height="60" as="geometry"/></mxCell>
+<mxCell id="paa2-4" value="LoanService$$SpringCGLIB&lt;br&gt;(proxy, generated subclass)&lt;br&gt;&lt;br&gt;before: begin transaction ·&lt;br&gt;check security · start timer&lt;br&gt;after: commit or roll back ·&lt;br&gt;stop timer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="100" width="300" height="140" as="geometry"/></mxCell>
+<mxCell id="paa2-5" value="LoanService&lt;br&gt;(your object) .lend()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="660" y="140" width="200" height="60" as="geometry"/></mxCell>
+<mxCell id="paa2-6" value="call" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="paa2-3" target="paa2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa2-7" value="return" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.7;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;" edge="1" parent="1" source="paa2-4" target="paa2-3"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa2-8" value="forward" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" parent="1" source="paa2-4" target="paa2-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa2-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.7;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;" edge="1" parent="1" source="paa2-5" target="paa2-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa2-10" value="a subclass cannot override final or private&lt;br&gt;methods · a final class can&#x27;t be proxied" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="280" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="paa2-11" value="alternative: interface-based JDK proxies&lt;br&gt;when the bean implements interfaces" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="280" width="400" height="60" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="paa3" name="The self-invocation trap">
+    <mxGraphModel dx="900" dy="379" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="379" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="paa3-1" value="The self-invocation trap" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="paa3-2" value="Calls through this reach the real object and skip the proxy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="paa3-3" value="other bean" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="140" width="160" height="60" as="geometry"/></mxCell>
+<mxCell id="paa3-4" value="CatalogService&lt;br&gt;proxy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="260" y="130" width="160" height="80" as="geometry"/></mxCell>
+<mxCell id="paa3-5" value="real CatalogService object" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=2;fontSize=11;fontStyle=1;fontColor=#555555;arcSize=4;" vertex="1" parent="1"><mxGeometry x="480" y="95" width="380" height="200" as="geometry"/></mxCell>
+<mxCell id="paa3-6" value="page(isbn)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="135" width="340" height="40" as="geometry"/></mxCell>
+<mxCell id="paa3-7" value="@Cacheable(&quot;books&quot;) find(isbn)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="500" y="240" width="340" height="40" as="geometry"/></mxCell>
+<mxCell id="paa3-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="paa3-3" target="paa3-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa3-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="paa3-4" target="paa3-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa3-10" value="this.find(): cache ignored,&lt;br&gt;database hit every time" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="paa3-6" target="paa3-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa3-11" value="fix: move find() into a BookLookup bean, inject it, call bookLookup.find(isbn): the call goes through its proxy" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="315" width="820" height="44" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="paa4" name="Write an aspect">
+    <mxGraphModel dx="900" dy="372" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="372" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="paa4-1" value="Write an aspect" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="paa4-2" value="A pointcut selects join points; @Around advice wraps them" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="paa4-3" value="@Aspect @Component TimingAspect&lt;br&gt;@Around(&quot;@annotation(&lt;br&gt;com.example.study.LogTime)&quot;)&lt;br&gt;time(ProceedingJoinPoint call)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=center;fontStyle=1;fontFamily=Courier New;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="360" height="110" as="geometry"/></mxCell>
+<mxCell id="paa4-4" value="start&lt;br&gt;timer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="110" width="120" height="110" as="geometry"/></mxCell>
+<mxCell id="paa4-5" value="call.&lt;br&gt;proceed()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="610" y="110" width="120" height="110" as="geometry"/></mxCell>
+<mxCell id="paa4-6" value="print&lt;br&gt;&quot;... took&lt;br&gt;N ms&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="760" y="110" width="120" height="110" as="geometry"/></mxCell>
+<mxCell id="paa4-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="paa4-4" target="paa4-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa4-8" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="paa4-5" target="paa4-6"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa4-9" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="paa4-3" target="paa4-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="paa4-10" value="join points in Spring: method calls on beans&lt;br&gt;(@LogTime methods, public methods in a package)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="260" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="paa4-11" value="spring-boot-starter-aspectj&lt;br&gt;(Boot 4 name for spring-boot-starter-aop)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="460" y="260" width="400" height="60" as="geometry"/></mxCell>
+<mxCell id="paa4-12" value="prefer existing annotations such as @Observed and @Transactional when they fit" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="40" y="330" width="820" height="22" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
