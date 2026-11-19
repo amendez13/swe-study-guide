@@ -23,6 +23,10 @@ DefaultErrorHandler errorHandler() {
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/kafka/annotation-error-handling.html#default-eh)
 
+![Retry failed messages](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-1-retry-failed-messages.png)
+
+*Source: [`diagrams/reliable-messaging.drawio`](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging.drawio), page 1.*
+
 ## Send poison messages to a dead-letter topic
 
 A message that fails every retry must not block the partition or vanish. A dead-letter topic (DLT) keeps it for inspection and replay. Give the error handler a `DeadLetterPublishingRecoverer`, and after the last retry it publishes the record to `<topic>-dlt`, adding headers with the exception, the original topic, partition, and offset.
@@ -44,6 +48,10 @@ DefaultErrorHandler errorHandler(KafkaTemplate<Object, Object> template) {
 ```
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/kafka/annotation-error-handling.html#dead-letters)
+
+![Send poison messages to a dead-letter topic](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-2-send-poison-messages-to-a-dead-letter-topic.png)
+
+*Source: [`diagrams/reliable-messaging.drawio`](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging.drawio), page 2.*
 
 ## Non-blocking retries with retry topics
 
@@ -76,6 +84,10 @@ class WelcomeNotifier {
 ```
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/retrytopic.html)
+
+![Non-blocking retries with retry topics](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-3-non-blocking-retries-with-retry-topics.png)
+
+*Source: [`diagrams/reliable-messaging.drawio`](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging.drawio), page 3.*
 
 ## Idempotent consumers
 
@@ -113,6 +125,10 @@ class PayrollConsumer {
 
 [Spring Kafka docs](https://docs.spring.io/spring-kafka/reference/kafka/transactions.html)
 
+![Idempotent consumers](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-4-idempotent-consumers.png)
+
+*Source: [`diagrams/reliable-messaging.drawio`](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging.drawio), page 4.*
+
 ## The transactional outbox
 
 A service that writes to its database and then publishes to Kafka has two separate systems to update. If it crashes between the commit and the send, the event is lost; if it publishes first and the commit fails, consumers hear about a change that never happened. Kafka transactions do not cover the database.
@@ -146,6 +162,10 @@ class HiringService {
 ```
 
 [Spring Modulith docs](https://docs.spring.io/spring-modulith/reference/events.html)
+
+![The transactional outbox](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging-5-the-transactional-outbox.png)
+
+*Source: [`diagrams/reliable-messaging.drawio`](/content/13_Spring_Boot/25_Reliable_Messaging_Patterns/diagrams/reliable-messaging.drawio), page 5.*
 
 ## Choose between REST and messaging
 

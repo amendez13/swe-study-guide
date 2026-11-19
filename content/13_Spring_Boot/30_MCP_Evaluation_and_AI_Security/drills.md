@@ -10,6 +10,10 @@ A support assistant has RAG over customer emails and a tool `refund(orderId, amo
 
 When a user asks about order 991, retrieval puts that email into the prompt, and the model may follow it and call `refund`. This is indirect prompt injection; better prompt wording does not reliably stop it. Enforce the rule in code: the refund tool checks that the authenticated user owns the order and that the amount is allowed, and refunds above a limit need human approval. Treat retrieved text as data. See [secure an AI application](#13_Spring_Boot/30_MCP_Evaluation_and_AI_Security/concepts/secure-an-ai-application).
 
+![Find the injection path](/content/13_Spring_Boot/30_MCP_Evaluation_and_AI_Security/diagrams/mcp-and-ai-security-drills-1-find-the-injection-path.png)
+
+*Source: [`diagrams/mcp-and-ai-security-drills.drawio`](/content/13_Spring_Boot/30_MCP_Evaluation_and_AI_Security/diagrams/mcp-and-ai-security-drills.drawio), page 1.*
+
 ## Write an evaluation test
 
 Write a test that asks the policy assistant "Can I renew a loan online?" and fails if the answer is not supported by the retrieved policy passages.

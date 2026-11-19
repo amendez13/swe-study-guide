@@ -14,6 +14,10 @@ Each signal answers a different question. A metric alert tells you error rates r
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/observability.html)
 
+![The three pillars of observability](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-1-the-three-pillars-of-observability.png)
+
+*Source: [`diagrams/logging-and-metrics.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics.drawio), page 1.*
+
 ## Observability architecture with Spring Boot 4
 
 Spring Boot instruments applications through Micrometer. Its Observation API records one observation per operation, such as an HTTP request, a JDBC query, or a Kafka send, and turns each into a timer metric and a trace span. Spring MVC, WebFlux, `RestClient`, Spring Data, and Spring Kafka are instrumented out of the box.
@@ -32,6 +36,10 @@ services:
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/observability.html)
+
+![Observability architecture with Spring Boot 4](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-2-observability-architecture-with-spring-boot-4.png)
+
+*Source: [`diagrams/logging-and-metrics.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics.drawio), page 2.*
 
 ## Structured logging
 
@@ -62,6 +70,10 @@ class Hiring {
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/features/logging.html#features.logging.structured)
 
+![Structured logging](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-3-structured-logging.png)
+
+*Source: [`diagrams/logging-and-metrics.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics.drawio), page 3.*
+
 ## Metrics with Micrometer and Prometheus
 
 Add `micrometer-registry-prometheus` and expose the `prometheus` actuator endpoint. Prometheus then scrapes `/actuator/prometheus` on an interval and stores every metric as a time series. Boot already records JVM memory and GC, CPU, connection pools, and `http.server.requests` with tags for method, URI template, status, and outcome.
@@ -79,6 +91,10 @@ histogram_quantile(0.95, sum by (le, uri) (rate(http_server_requests_seconds_buc
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/metrics.html#actuator.metrics.export.prometheus)
+
+![Metrics with Micrometer and Prometheus](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-4-metrics-with-micrometer-and-prometheus.png)
+
+*Source: [`diagrams/logging-and-metrics.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics.drawio), page 4.*
 
 ## Custom business metrics
 
@@ -111,6 +127,10 @@ class HiringMetrics {
 
 [Micrometer docs](https://docs.micrometer.io/micrometer/reference/concepts/counters.html)
 
+![Custom business metrics](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-5-custom-business-metrics.png)
+
+*Source: [`diagrams/logging-and-metrics.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics.drawio), page 5.*
+
 ## Observe your own code
 
 To time a business operation and give it a span in traces, wrap it in an `Observation`, or annotate the method with `@Observed`. One observation produces both a timer metric and a span, with the same name and low-cardinality tags. Turn on annotation support with `management.observations.annotations.enabled=true` and add `spring-boot-starter-aspectj`, which Boot 4 renamed from `spring-boot-starter-aop`.
@@ -136,3 +156,7 @@ class PayrollService {
 ```
 
 [Spring Boot docs](https://docs.spring.io/spring-boot/reference/actuator/observability.html#actuator.observability.annotations)
+
+![Observe your own code](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics-6-observe-your-own-code.png)
+
+*Source: [`diagrams/logging-and-metrics.drawio`](/content/13_Spring_Boot/26_Structured_Logging_and_Metrics/diagrams/logging-and-metrics.drawio), page 6.*

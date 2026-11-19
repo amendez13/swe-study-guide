@@ -14,6 +14,10 @@ question ──► embed ──► vector search ──► top passages
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/concepts.html#concept-rag)
 
+![Retrieval-augmented generation](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-1-retrieval-augmented-generation.png)
+
+*Source: [`diagrams/rag.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag.drawio), page 1.*
+
 ## Embeddings
 
 An embedding model turns text into a vector, a list of hundreds of numbers, so that texts with similar meaning have vectors that point in similar directions. "How do I renew a loan?" and "extend my borrowing period" end up close together, though they share no words. Similarity search compares vectors, usually by cosine similarity.
@@ -32,6 +36,10 @@ System.out.println(vector.length + " dimensions");
 ```
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/embeddings.html)
+
+![Embeddings](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-2-embeddings.png)
+
+*Source: [`diagrams/rag.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag.drawio), page 2.*
 
 ## Vector stores
 
@@ -64,6 +72,10 @@ List<Document> hits = vectorStore.similaritySearch(SearchRequest.builder()
 ```
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/vectordbs.html)
+
+![Vector stores](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-3-vector-stores.png)
+
+*Source: [`diagrams/rag.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag.drawio), page 3.*
 
 ## Ingest documents with an ETL pipeline
 
@@ -101,6 +113,10 @@ class PolicyIngestion {
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/etl-pipeline.html)
 
+![Ingest documents with an ETL pipeline](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-4-ingest-documents-with-an-etl-pipeline.png)
+
+*Source: [`diagrams/rag.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag.drawio), page 4.*
+
 ## Answer questions with RetrievalAugmentationAdvisor
 
 Spring AI wires retrieval into `ChatClient` as an advisor. `QuestionAnswerAdvisor` is the simple form: it searches the vector store with the user's question and appends the hits to the prompt. `RetrievalAugmentationAdvisor` is the modular form: a pipeline of query transformers, a document retriever, and a query augmenter that you configure piece by piece.
@@ -127,6 +143,10 @@ String answer = policyChat.prompt().user("Can I renew a loan three times?").call
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html)
 
+![Answer questions with RetrievalAugmentationAdvisor](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-5-answer-questions-with-retrievalaugmentationadvisor.png)
+
+*Source: [`diagrams/rag.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag.drawio), page 5.*
+
 ## Improve retrieval quality
 
 Most RAG failures are retrieval failures. Users ask short, vague, or follow-up questions such as "and for DVDs?" that match nothing on their own. Query transformers fix that before the search: `CompressionQueryTransformer` folds the chat history into a standalone question, and `RewriteQueryTransformer` rephrases a query for search. Each one costs an extra model call.
@@ -145,3 +165,7 @@ RetrievalAugmentationAdvisor advisor = RetrievalAugmentationAdvisor.builder()
 ```
 
 [Spring AI docs](https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html#_pre_retrieval)
+
+![Improve retrieval quality](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag-6-improve-retrieval-quality.png)
+
+*Source: [`diagrams/rag.drawio`](/content/13_Spring_Boot/29_Embeddings_Vector_Stores_and_RAG/diagrams/rag.drawio), page 6.*

@@ -1,0 +1,35 @@
+<mxfile host="drawio">
+  <diagram id="vtd1" name="Predict the bottleneck">
+    <mxGraphModel dx="900" dy="284" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="284" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vtd1-1" value="Predict the bottleneck" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vtd1-2" value="Virtual threads remove the thread limit; the 10-connection pool remains" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vtd1-3" value="thousands of requests&lt;br&gt;waiting at once" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="110" width="220" height="70" as="geometry"/></mxCell>
+<mxCell id="vtd1-4" value="Hikari pool&lt;br&gt;10 connections" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=8;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="320" y="100" width="220" height="90" as="geometry"/></mxCell>
+<mxCell id="vtd1-5" value="100 ms per query&lt;br&gt;→ each connection 10×/s&lt;br&gt;→ about 100 requests/s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="600" y="110" width="260" height="70" as="geometry"/></mxCell>
+<mxCell id="vtd1-6" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vtd1-3" target="vtd1-4"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vtd1-7" value="" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="vtd1-4" target="vtd1-5"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vtd1-8" value="Raise the pool only as far as the database can serve" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" vertex="1" parent="1"><mxGeometry x="40" y="230" width="820" height="34" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="vtd2" name="Find the lost error">
+    <mxGraphModel dx="900" dy="380" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="380" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+<mxCell id="vtd2-1" value="Find the lost error" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="10" width="820" height="30" as="geometry"/></mxCell>
+<mxCell id="vtd2-2" value="The @Async method fails after the controller has returned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="50" width="820" height="32" as="geometry"/></mxCell>
+<mxCell id="vtd2-3" value="controller&lt;br&gt;thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="40" y="100" width="140" height="260" as="geometry"/></mxCell>
+<mxCell id="vtd2-4" value="async&lt;br&gt;thread" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="720" y="100" width="140" height="260" as="geometry"/></mxCell>
+<mxCell id="vtd2-5" value="exportService.export(isbn) · starts async work" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#555555;fontSize=9;labelBackgroundColor=#ffffff;rounded=0;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="180" y="140" as="sourcePoint"/><mxPoint x="720" y="140" as="targetPoint"/></mxGeometry></mxCell>
+<mxCell id="vtd2-6" value="catch (RuntimeException) sees nothing · returns 202 Accepted" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="160" width="520" height="30" as="geometry"/></mxCell>
+<mxCell id="vtd2-7" value="AsyncUncaughtExceptionHandler&lt;br&gt;only logs it" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;align=center;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="220" y="210" width="260" height="44" as="geometry"/></mxCell>
+<mxCell id="vtd2-8" value="UncheckedIOException" style="endArrow=block;endSize=6;html=1;strokeWidth=1.5;strokeColor=#b85450;fontSize=11;labelBackgroundColor=#ffffff;rounded=0;edgeStyle=orthogonalEdgeStyle;dashed=1;" edge="1" parent="1" source="vtd2-4" target="vtd2-7"><mxGeometry relative="1" as="geometry"></mxGeometry></mxCell>
+<mxCell id="vtd2-9" value="fix: return CompletableFuture&amp;lt;Void&amp;gt; and record failures with whenComplete, or register a handler via AsyncConfigurer that stores the failure and raises an alert" style="text;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fontSize=10;fontColor=#333333;" vertex="1" parent="1"><mxGeometry x="190" y="260" width="520" height="90" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -17,6 +17,10 @@ Payment charge(ChargeRequest request) {
 
 The customer can be charged more than once. A timeout does not mean the request failed: the payment service may finish the first charge, and each retry sends a new one. Retry only idempotent calls, or make the call idempotent by sending an idempotency key that the payment service uses to ignore duplicates. See [retry and limit calls with Spring Framework 7](#13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/concepts/retry-and-limit-calls-with-spring-framework-7).
 
+![Predict the duplicate orders](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-drills-1-predict-the-duplicate-orders.png)
+
+*Source: [`diagrams/http-clients-drills.drawio`](/content/13_Spring_Boot/23_RestClient_and_HTTP_Service_Clients/diagrams/http-clients-drills.drawio), page 1.*
+
 ## Write a service interface
 
 The inventory service has `GET /stock/{isbn}` returning `{"isbn":"1","count":3}` and `PUT /stock/{isbn}` taking the same JSON. Write an HTTP service interface for it and register it in a group named `inventory` with base URL `http://localhost:8083`.

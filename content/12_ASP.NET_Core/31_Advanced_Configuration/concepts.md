@@ -17,6 +17,10 @@ app.Run();
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-10.0#create-a-middleware-pipeline-with-webapplication)
 
+![Terminal middleware with Run](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-1-terminal-middleware-with-run.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 1.*
+
 ## Branch the pipeline with Map
 
 `Map` splits the pipeline by path prefix. Requests whose path starts with the prefix go into a separate branch with its own middleware, and never return to the main pipeline. Inside the branch, the matched prefix moves from `Request.Path` to `Request.PathBase`. The branch therefore sees `/status` for a request to `/admin/status`.
@@ -38,6 +42,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-10.0#branch-the-middleware-pipeline)
+
+![Branch the pipeline with Map](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-2-branch-the-pipeline-with-map.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 2.*
 
 ## Inline middleware with Use
 
@@ -65,6 +73,10 @@ app.Run();
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-10.0#create-a-middleware-pipeline-with-webapplication)
+
+![Inline middleware with Use](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-3-inline-middleware-with-use.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 3.*
 
 ## A custom middleware class
 
@@ -101,6 +113,10 @@ public static class LibraryHeaderExtensions
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-10.0)
 
+![A custom middleware class](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-4-a-custom-middleware-class.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 4.*
+
 ## Turn middleware into an endpoint
 
 Middleware that answers one path, such as a version or ping handler, is invisible to routing. It can't take authorization policies, CORS, or other endpoint metadata. To fix that, build a small pipeline from the middleware and map it as an endpoint. `CreateApplicationBuilder` on the endpoint route builder gives you a fresh `IApplicationBuilder`, and `Build()` turns it into a `RequestDelegate`.
@@ -124,6 +140,10 @@ public class VersionMiddleware(RequestDelegate next)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-10.0#endpoints)
+
+![Turn middleware into an endpoint](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-5-turn-middleware-into-an-endpoint.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 5.*
 
 ## OptionsBuilder
 
@@ -155,6 +175,10 @@ public class SmtpOptions
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/options#options-validation)
+
+![OptionsBuilder](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-6-optionsbuilder.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 6.*
 
 ## Configure options with IConfigureOptions
 
@@ -190,6 +214,10 @@ public class ConfigureFeedOptions(IHostEnvironment env, TimeProvider time) : ICo
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/options#use-di-services-to-configure-options)
 
+![Configure options with IConfigureOptions](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-7-configure-options-with-iconfigureoptions.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 7.*
+
 ## Use a third-party DI container
 
 The built-in container covers constructor injection, the three lifetimes, open generics, and, since .NET 8, keyed services. Third-party containers such as Autofac add features like convention-based assembly scanning, decorators, property injection, and child containers. To use one, plug in its `IServiceProviderFactory` through `builder.Host`.
@@ -213,3 +241,7 @@ public class ConsoleNotifier : INotifier { public string Send(string message) =>
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-10.0#default-service-container-replacement)
+
+![Use a third-party DI container](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration-8-use-a-third-party-di-container.png)
+
+*Source: [`diagrams/advanced-configuration.drawio`](/content/12_ASP.NET_Core/31_Advanced_Configuration/diagrams/advanced-configuration.drawio), page 8.*

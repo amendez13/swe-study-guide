@@ -36,6 +36,10 @@ public class TodayTagHelper : TagHelper
 
 The browser receives `<today></today>` unchanged and shows nothing after "Today is". Razor applies only Tag Helpers from assemblies registered with `@addTagHelper`, and the setup registers only `Microsoft.AspNetCore.Mvc.TagHelpers`. Add `@addTagHelper *, StudyApi` to `_ViewImports.cshtml`, and the element becomes a `time` element with the date.
 
+![The Tag Helper that does nothing](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-drills-1-the-tag-helper-that-does-nothing.png)
+
+*Source: [`diagrams/custom-razor-components-drills.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-drills.drawio), page 1.*
+
 ## A missing value passes custom validation
 
 Which of these requests return 200, and which return 400?
@@ -74,3 +78,7 @@ curl -i -H 'Content-Type: application/json' -d '{}' http://127.0.0.1:5080/shelve
 **Answer**
 
 `4` returns 200 and `3` returns 400 with "Must be even." The empty object also returns 200 with `copies: null`, because the attribute treats any value that isn't an `int` as valid. That's the convention: a custom attribute validates only values that are present. Add `[Required]` when the value must be supplied.
+
+![A missing value passes custom validation](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-drills-2-a-missing-value-passes-custom-validation.png)
+
+*Source: [`diagrams/custom-razor-components-drills.drawio`](/content/12_ASP.NET_Core/32_Custom_Razor_Components/diagrams/custom-razor-components-drills.drawio), page 2.*
