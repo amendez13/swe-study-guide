@@ -25,6 +25,10 @@ public class Startup
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-10.0)
 
+![Two hosting models](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-1-two-hosting-models.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 1.*
+
 ## The Program class builds the host
 
 In the generic host model, `Program` only builds and runs the host. `Host.CreateDefaultBuilder` sets the content root, loads `appsettings.json`, `appsettings.{Environment}.json`, user secrets in Development, environment variables, and command-line arguments. It also adds the console, debug, and event source loggers and turns on scope validation in Development.
@@ -51,6 +55,10 @@ public class Startup(IConfiguration configuration)
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-10.0#default-builder-settings)
+
+![The Program class builds the host](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-2-the-program-class-builds-the-host.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 2.*
 
 ## The Startup class configures the app
 
@@ -85,6 +93,10 @@ public record Greeting(string Text);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-10.0)
 
+![The Startup class configures the app](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-3-the-startup-class-configures-the-app.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 3.*
+
 ## Customize the host builder
 
 The generic host builder has hooks for every part of the host. `ConfigureAppConfiguration` adds or reorders configuration providers. `ConfigureLogging` replaces or filters loggers. `ConfigureServices` on the host builder registers services before `Startup.ConfigureServices` runs. `UseDefaultServiceProvider` turns on scope and build validation outside Development.
@@ -118,6 +130,10 @@ public class Startup(IConfiguration configuration)
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-10.0#host-configuration)
 
+![Customize the host builder](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-4-customize-the-host-builder.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 4.*
+
 ## Non-web hosts with HostApplicationBuilder
 
 `Host.CreateApplicationBuilder`, added in .NET 7, brings the minimal hosting style to apps without HTTP. It returns a `HostApplicationBuilder` with the same `Services`, `Configuration`, `Logging`, and `Environment` properties as `WebApplicationBuilder`, but no Kestrel and no middleware. The `dotnet new worker` template uses it, as covered in [background services](#12_ASP.NET_Core/34_Background_Services/concepts/worker-services).
@@ -138,6 +154,10 @@ public class Catalog { public string[] Titles { get; } = ["Atlas", "Primer"]; }
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host)
+
+![Non-web hosts with HostApplicationBuilder](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-5-non-web-hosts-with-hostapplicationbuilder.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 5.*
 
 ## Keep a Startup class with minimal hosting
 
@@ -171,6 +191,10 @@ public record Banner(string Text);
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/migration/50-to-60?view=aspnetcore-10.0)
 
+![Keep a Startup class with minimal hosting](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-6-keep-a-startup-class-with-minimal-hosting.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 6.*
+
 ## Why the generic host felt complex
 
 The generic host has several builders and two configuration stages. Host configuration (environment, content root) loads first, then app configuration. The `IHostBuilder` callbacks, the `IWebHostBuilder` callbacks, and the `Startup` methods all run at different times. A value read too early, such as the environment inside a `ConfigureServices` callback that runs before host configuration, can surprise you. Services can't be injected into `Startup`'s constructor because the container doesn't exist yet.
@@ -189,6 +213,10 @@ public record LoanRules(int MaxLoans);
 ```
 
 [Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/webapplication?view=aspnetcore-10.0)
+
+![Why the generic host felt complex](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host-7-why-the-generic-host-felt-complex.png)
+
+*Source: [`diagrams/generic-host.drawio`](/content/12_ASP.NET_Core/30_Generic_Host_and_Startup/diagrams/generic-host.drawio), page 7.*
 
 ## Choosing between the models
 
