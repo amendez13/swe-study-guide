@@ -653,6 +653,7 @@ CODING_PROBLEMS_TOPICS = (
     "21_Graphs",
     "22_Backtracking",
     "23_Dynamic_Programming",
+    "24_Greedy",
 )
 
 
@@ -691,6 +692,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Graphs",
         "Backtracking",
         "Dynamic Programming",
+        "Greedy",
     ]
 
 
@@ -1417,6 +1419,39 @@ def test_dynamic_programming_topic_exposes_drills() -> None:
     assert "fewest_tickets" in notes
 
 
+def test_greedy_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "24_Greedy")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Greedy"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "24_Greedy"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Spotting a greedy problem",
+        "## Greedy choice and optimal substructure",
+        "## The exchange argument",
+        "## The stays-ahead argument",
+        "## Fractional and 0/1 knapsack",
+        "## Greedy or dynamic programming",
+        "## Merging the cheapest pair first",
+        "## Jump to the end",
+        "## Gas stations around a loop",
+        "## Candies by rating",
+        "## Greedy in an interview",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "fewest_taps" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1443,11 +1478,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "21_Graphs",
         "22_Backtracking",
         "23_Dynamic_Programming",
+        "24_Greedy",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[22:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[23:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
