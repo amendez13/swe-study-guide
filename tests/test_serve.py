@@ -652,6 +652,7 @@ CODING_PROBLEMS_TOPICS = (
     "20_Tries",
     "21_Graphs",
     "22_Backtracking",
+    "23_Dynamic_Programming",
 )
 
 
@@ -689,6 +690,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Tries",
         "Graphs",
         "Backtracking",
+        "Dynamic Programming",
     ]
 
 
@@ -1382,6 +1384,39 @@ def test_backtracking_topic_exposes_drills() -> None:
     assert "topping_groups" in notes
 
 
+def test_dynamic_programming_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "23_Dynamic_Programming")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Dynamic Programming"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "23_Dynamic_Programming"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## State, recurrence, and base cases",
+        "## Top-down and bottom-up",
+        "## Keeping only the rows you read",
+        "## Climbing stairs",
+        "## Fewest coins for a target",
+        "## Counting grid paths",
+        "## Longest common subsequence",
+        "## Longest palindromic substring",
+        "## Maximum subarray sum",
+        "## 0/1 knapsack",
+        "## Largest square of ones",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "fewest_tickets" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1407,11 +1442,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "20_Tries",
         "21_Graphs",
         "22_Backtracking",
+        "23_Dynamic_Programming",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[21:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[22:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
