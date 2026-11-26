@@ -648,6 +648,7 @@ CODING_PROBLEMS_TOPICS = (
     "16_Heaps",
     "17_Intervals",
     "18_Prefix_Sums",
+    "19_Trees",
 )
 
 
@@ -681,6 +682,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Heaps",
         "Intervals",
         "Prefix Sums",
+        "Trees",
     ]
 
 
@@ -1248,6 +1250,37 @@ def test_prefix_sums_topic_exposes_drills() -> None:
     assert "count_sum_k" in notes
 
 
+def test_trees_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "19_Trees")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Trees"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "19_Trees"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Return up or carry down",
+        "## Level-order with the level-size loop",
+        "## Balanced tree check",
+        "## Widest level",
+        "## Validate a BST",
+        "## Lowest common ancestor",
+        "## Rebuild a tree from traversals",
+        "## Maximum path sum",
+        "## Vertical columns",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "level_order" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1269,11 +1302,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "16_Heaps",
         "17_Intervals",
         "18_Prefix_Sums",
+        "19_Trees",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[17:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[18:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
