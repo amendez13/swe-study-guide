@@ -656,6 +656,7 @@ CODING_PROBLEMS_TOPICS = (
     "24_Greedy",
     "25_Sort_and_Search",
     "26_Bit_Manipulation",
+    "27_Math_and_Geometry",
 )
 
 
@@ -697,6 +698,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Greedy",
         "Sort and Search",
         "Bit Manipulation",
+        "Math and Geometry",
     ]
 
 
@@ -1525,6 +1527,43 @@ def test_bit_manipulation_topic_exposes_drills() -> None:
     assert "best_disjoint_pair" in notes
 
 
+def test_math_and_geometry_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "27_Math_and_Geometry")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Math and Geometry"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "27_Math_and_Geometry"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Spotting a math and geometry problem",
+        "## Floats and exact answers",
+        "## Overflow checks before the operation",
+        "## Digits with truncating division",
+        "## Reduced fractions as keys",
+        "## Modular answers for huge counts",
+        "## Walking shrinking boundaries",
+        "## Patterns from small cases",
+        "## Recurrences that shrink the problem",
+        "## Spiral order of a matrix",
+        "## Reverse a 32-bit integer",
+        "## Most points on one line",
+        "## The last survivor in a circle",
+        "## First even number in a sum triangle",
+        "## Formula, simulation, or search",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "fence_posts" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1554,11 +1593,12 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "24_Greedy",
         "25_Sort_and_Search",
         "26_Bit_Manipulation",
+        "27_Math_and_Geometry",
     }
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[25:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[26:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
