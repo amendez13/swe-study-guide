@@ -638,6 +638,7 @@ CODING_PROBLEMS_TOPICS = (
     "05_Threads_and_Locks",
     "06_Moderate_Problems",
     "07_Hard_Problems",
+    "08_Approaching_a_Coding_Problem",
     "09_Two_Pointers",
     "10_Hash_Maps_and_Sets",
     "11_Linked_Lists",
@@ -680,6 +681,7 @@ def test_coding_problems_section_is_indexed_in_order() -> None:
         "Threads and Locks",
         "Moderate Problems",
         "Hard Problems",
+        "Approaching a Coding Problem",
         "Two Pointers",
         "Hash Maps and Sets",
         "Linked Lists",
@@ -1564,6 +1566,42 @@ def test_math_and_geometry_topic_exposes_drills() -> None:
     assert "fence_posts" in notes
 
 
+def test_approaching_a_coding_problem_topic_exposes_drills() -> None:
+    tech = _coding_problems_tech()
+    topic = next(item for item in tech["topics"] if item["dir"] == "08_Approaching_a_Coding_Problem")
+
+    assert topic["hasDrills"] is True
+    assert topic["hasConcepts"] is True
+    assert topic["notesFile"] == "notes.md"
+    assert topic["title"] == "Approaching a Coding Problem"
+
+    topic_dir = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems" / "08_Approaching_a_Coding_Problem"
+    concepts = (topic_dir / "concepts.md").read_text(encoding="utf-8")
+    drills = (topic_dir / "drills.md").read_text(encoding="utf-8")
+    notes = (topic_dir / "notes.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Coding interview formats",
+        "## What interviewers score",
+        "## The six-step answer",
+        "## Clarifying questions that change the algorithm",
+        "## Constraints set the target complexity",
+        "## Brute force, then name the waste",
+        "## Restate the complexity after coding",
+        "## Ask before built-ins and in-place changes",
+        "## Testing out loud",
+        "## Talking through the problem",
+        "## Getting unstuck",
+        "## The pattern recognition map",
+        "## When two patterns fit",
+        "## Practising pattern recognition",
+    ):
+        assert heading in concepts
+    answers = drills.split("**Answer:**")[1:]
+    assert len(answers) >= 8
+    assert all("```python" in answer for answer in answers)
+    assert "plan_for" in notes
+
+
 def test_coding_problems_scaffolds_render_without_drills() -> None:
     tech = _coding_problems_tech()
     root = Path(__file__).resolve().parent.parent / "content" / "11_Coding_Problems"
@@ -1575,6 +1613,7 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
         "05_Threads_and_Locks",
         "06_Moderate_Problems",
         "07_Hard_Problems",
+        "08_Approaching_a_Coding_Problem",
         "09_Two_Pointers",
         "10_Hash_Maps_and_Sets",
         "11_Linked_Lists",
@@ -1598,7 +1637,7 @@ def test_coding_problems_scaffolds_render_without_drills() -> None:
     scaffolds = [item for item in tech["topics"] if item["dir"] not in finished]
 
     assert scaffolds == []
-    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[26:])
+    assert [item["dir"] for item in scaffolds] == list(CODING_PROBLEMS_TOPICS[27:])
     for topic in scaffolds:
         assert topic["hasDrills"] is False
         assert topic["hasConcepts"] is True
